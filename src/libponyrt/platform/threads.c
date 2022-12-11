@@ -47,12 +47,17 @@ static int (*_numa_bitmask_isbitset)(const struct bitmask*, unsigned int);
 
 static bool use_numa = false;
 
+#if PRESERVE_FUNCTION_MACROS
+#define LOAD_SYMBOL(sym) macro__LOAD_SYMBOL(#sym)
+void macro__LOAD_SYMBOL(char const*);
+#else
 #define LOAD_SYMBOL(sym) \
 { \
   typedef typeof(_##sym) f; \
   _##sym = (f)dlsym(lib, #sym); \
   err += (_##sym == NULL); \
 }
+#endif
 
 bool ponyint_numa_init()
 {
