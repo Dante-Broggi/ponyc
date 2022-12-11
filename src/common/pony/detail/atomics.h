@@ -243,7 +243,8 @@ namespace ponyint_atomics
       })
 
 #    define atomic_thread_fence(MO) \
-      __atomic_thread_fence(MO)
+      f__atomic_thread_fence(#MO)
+void f__atomic_thread_fence(char const*);
 
 #    undef PONY_ATOMIC_BUILTINS
 #  endif
