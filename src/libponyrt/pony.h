@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include <pony/detail/atomics.h>
+#include "../common/pony/detail/atomics.h"
 
 #if defined(__cplusplus)
 extern "C" {
