@@ -552,7 +552,7 @@ pub mod ast_h {
     use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -1116,7 +1116,7 @@ pub use self::reify_h::{
     check_constraints, deferred_reification_t, deferred_reify_free, deferred_reify_method_def,
     reify_defaults,
 };
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{
     is_literal, is_machine_word, is_nullable_pointer, is_pointer, is_sub_provides, is_subtype,
 };

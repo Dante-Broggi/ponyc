@@ -483,7 +483,7 @@ pub mod ast_h {
     use super::_size_t_h::size_t;
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -777,7 +777,7 @@ pub use self::ast_h::{
     AST_ERROR, AST_FATAL, AST_IGNORE, AST_OK,
 };
 use self::cap_h::{cap_fetch, cap_single};
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::pass_h::{
     magic_package_t, pass_id, pass_opt_t, plugins_t, verbosity_level, PASS_ALL, PASS_ASM,
@@ -787,7 +787,7 @@ pub use self::pass_h::{
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
 use self::ponyassert_h::ponyint_assert_fail;
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_nullable_pointer, is_pointer};
 use self::symtab_h::ast_t;
 pub use self::token_h::{

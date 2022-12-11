@@ -613,7 +613,7 @@ pub mod ast_h {
     use super::_size_t_h::size_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
@@ -993,7 +993,7 @@ pub use self::printbuf_h::{printbuf, printbuf_free, printbuf_new, printbuf_t};
 pub use self::source_h::source_t;
 use self::stdio_h::{__stderrp, fclose, fopen, fprintf, fwrite, printf, remove};
 use self::string_h::{memcpy, strcat, strcmp, strcpy, strlen};
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::sys__types_h::__darwin_off_t;
 pub use self::sys_dirent_h::dirent;

@@ -465,7 +465,7 @@ pub mod ast_h {
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -585,7 +585,7 @@ pub use self::ast_h::{
     ast_get_children, ast_id, ast_inheritflags, ast_print, ast_ptr_t, ast_setid, ast_sibling,
 };
 pub use self::cap_h::{cap_mutation, direction, EXTRACT, WRITE};
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::ponyassert_h::ponyint_assert_fail;
 use self::symtab_h::ast_t;

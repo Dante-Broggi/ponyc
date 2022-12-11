@@ -114,7 +114,7 @@ pub mod pthread_h {
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_mutex_t_h::pthread_mutex_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_pthread_types_h::_opaque_pthread_t;
+    
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "229:1"]

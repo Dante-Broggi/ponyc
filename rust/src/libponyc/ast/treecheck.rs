@@ -7228,14 +7228,14 @@ pub mod treecheckdef_h {
     use super::treecheck_h::ast_t;
     use super::{
         check_children, check_extras, check_fn_t, check_from_list, check_res_t, check_state_t,
-        is_id_in_list, scope_kind_t, CHK_ERROR, CHK_NOT_FOUND, SCOPE_MAYBE, SCOPE_NO, SCOPE_YES,
+        is_id_in_list, CHK_ERROR, CHK_NOT_FOUND, SCOPE_MAYBE, SCOPE_NO, SCOPE_YES,
     };
 }
 pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
 use self::ast_h::{
-    ast_child, ast_childidx, ast_data, ast_error, ast_fprint, ast_get_print, ast_has_scope, ast_id,
+    ast_data, ast_error, ast_fprint, ast_get_print, ast_has_scope, ast_id,
     ast_sibling, ast_type,
 };
 use self::error_h::errors_t;
@@ -7249,7 +7249,7 @@ pub use self::pass_h::{
 };
 use self::ponyassert_h::ponyint_assert_fail;
 use self::stdio_h::{__stderrp, fprintf};
-use self::stringtab_h::strlist_t;
+
 pub use self::sys__types_h::__darwin_off_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

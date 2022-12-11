@@ -257,7 +257,7 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::genopt_h::{
     target_is_arm, target_is_bigendian, target_is_bsd, target_is_dragonfly, target_is_freebsd,
@@ -274,8 +274,8 @@ pub use self::pass_h::{
 };
 use self::ponyassert_h::ponyint_assert_fail;
 use self::string_h::strcmp;
-use self::stringtab_h::strlist_t;
-use self::symtab_h::ast_t;
+
+
 #[no_mangle]
 #[c2rust::src_loc = "8:1"]
 pub unsafe extern "C" fn os_is_target(

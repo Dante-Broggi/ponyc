@@ -510,7 +510,7 @@ pub mod ast_h {
     use super::error_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -938,7 +938,7 @@ pub use self::ast_h::{
     ast_setdata, ast_setid, ast_sibling, ast_source, ast_swap, AST_ERROR, AST_FATAL, AST_IGNORE,
     AST_OK,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::id_h::{check_id_param, is_name_dontcare, is_name_internal_test};
 use self::ifdef_h::ifdef_cond_normalise;
@@ -958,7 +958,7 @@ use self::sanitise_h::collect_type_params;
 pub use self::source_h::source_t;
 use self::stdio_h::snprintf;
 use self::string_h::{memchr, memcpy, strcmp};
-use self::stringtab_h::{stringtab, stringtab_consume, strlist_t};
+use self::stringtab_h::{stringtab, stringtab_consume};
 use self::subtype_h::is_none;
 use self::symtab_h::ast_t;
 pub use self::token_h::{

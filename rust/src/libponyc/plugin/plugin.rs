@@ -350,7 +350,7 @@ pub use self::_size_t_h::size_t;
 pub use self::_ssize_t_h::ssize_t;
 pub use self::_types_h::{__darwin_size_t, __darwin_ssize_t};
 use self::dlfcn_h::{dlclose, dlopen, dlsym};
-use self::error_h::{errorf, errors_t};
+use self::error_h::{errorf};
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::fun_h::{cmp_fn, free_fn, map_fn};
 pub use self::list_h::{
@@ -371,7 +371,7 @@ use self::plugin_h::{compile_t, reach_t};
 use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_free};
 use self::stdio_h::printf;
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::symtab_h::ast_t;
 #[derive(Copy, Clone)]
 #[repr(C)]

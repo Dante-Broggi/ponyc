@@ -815,7 +815,7 @@ pub use self::pass_h::{
 };
 use self::ponyassert_h::ponyint_assert_fail;
 use self::string_h::strncmp;
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_literal, is_none, is_nullable_pointer, is_pointer, is_subtype};
 use self::symtab_h::ast_t;
 pub use self::token_h::{

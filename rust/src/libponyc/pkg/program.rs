@@ -913,7 +913,7 @@ pub mod stdio_h {
 pub mod ast_h {
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
@@ -1007,7 +1007,7 @@ use self::ast_h::{ast_child, ast_data, ast_error, ast_id, ast_nearest};
 pub use self::blake2_h::{
     blake2b_final, blake2b_init, blake2b_state, blake2b_state__, blake2b_update,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::package_h::{
     is_path_absolute, package_dependency_groups, package_group_dump, package_group_list_data,

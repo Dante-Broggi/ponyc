@@ -573,8 +573,8 @@ pub mod ast_h {
     use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::lexint_h::lexint_t;
-    use super::symtab_h::{ast_t, sym_status_t, SYM_NONE};
-    use super::token_h::{token_id, TK_EOF};
+    use super::symtab_h::{ast_t, sym_status_t};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -932,7 +932,7 @@ pub use self::ast_h::{
     AST_FLAG_MAY_BREAK, AST_FLAG_MIGHT_SEND, AST_FLAG_MISSING_SEMI, AST_FLAG_PASS_MASK,
     AST_FLAG_PRESERVE, AST_FLAG_RECURSE_1, AST_FLAG_RECURSE_2, AST_IGNORE, AST_OK,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::id_h::is_name_dontcare;
 pub use self::lexint_h::{lexint_cmp, lexint_t};
@@ -947,7 +947,7 @@ pub use self::pass_h::{
 use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_free};
 use self::reify_h::{reify, reify_defaults};
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::sugar_h::has_member;
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

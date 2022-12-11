@@ -704,7 +704,7 @@ pub mod matchtype_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.h:2"]
 pub mod cap_h {
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn is_cap_sub_cap(
@@ -792,7 +792,7 @@ pub use self::pass_h::{
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
 use self::ponyassert_h::ponyint_assert_fail;
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_subtype_ignore_cap, is_top_type};
 use self::symtab_h::ast_t;
 pub use self::token_h::{

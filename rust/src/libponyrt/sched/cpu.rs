@@ -403,7 +403,7 @@ pub mod thread_act_h {
     use super::mach_types_h::thread_act_t;
     use super::message_h::mach_msg_type_number_t;
     use super::thread_policy_h::{thread_policy_flavor_t, thread_policy_t};
-    use super::vm_types_h::integer_t;
+    
     extern "C" {
         #[c2rust::src_loc = "320:1"]
         pub fn thread_policy_set(
@@ -451,7 +451,7 @@ pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actormap_h::actormap_t;
 use self::dtrace_h::macro__DTRACE;
-use self::gc_h::gcstack_t;
+
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
 pub use self::internal::__int128_t;
 pub use self::kern_return_h::kern_return_t;

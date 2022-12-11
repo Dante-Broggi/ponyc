@@ -757,7 +757,7 @@ pub use self::ast_h::{
     ast_error, ast_get_children, ast_id, ast_name, ast_ptr_t, ast_result_t, AST_ERROR, AST_FATAL,
     AST_IGNORE, AST_OK,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::ifdef_h::{ifdef_cond_eval, ifdef_cond_normalise};
 pub use self::pass_h::{
@@ -771,7 +771,7 @@ use self::ponyassert_h::ponyint_assert_fail;
 use self::program_h::{use_library, use_path};
 use self::scope_h::use_package;
 use self::string_h::{strchr, strcmp, strncmp};
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

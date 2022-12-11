@@ -277,8 +277,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "304:3"]
     pub const LLVMRealPredicateFalse: LLVMRealPredicate = 0;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMModuleRef, LLVMOpaqueBasicBlock,
-        LLVMOpaqueBuilder, LLVMOpaqueModule, LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMModuleRef, LLVMTypeRef,
         LLVMValueRef,
     };
     extern "C" {
@@ -429,7 +428,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMOpaqueType, LLVMTypeRef};
+    use super::Types_h::{LLVMTypeRef};
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -1262,7 +1261,7 @@ pub mod reach_h {
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
@@ -1454,7 +1453,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBuilder, LLVMOpaqueMetadata, LLVMOpaqueType, LLVMOpaqueValue,
+        LLVMModuleRef,
         LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
@@ -1589,7 +1588,7 @@ pub mod genfun_h {
 pub mod genbox_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "19:1"]
         pub fn gen_unbox(
@@ -1617,7 +1616,7 @@ pub mod gencall_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:4"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
     extern "C" {
@@ -1665,7 +1664,7 @@ pub mod gendesc_h {
 pub mod genexpr_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gen_expr(c: *mut compile_t, ast: *mut ast_t) -> LLVMValueRef;
@@ -1759,7 +1758,7 @@ pub use self::reach_h::{
     reach_type_cache_next, reach_type_cache_t, reach_type_t, reach_types_next, reach_types_t,
 };
 pub use self::reify_h::{deferred_reification_t, deferred_reify};
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 pub use self::subtype_h::{
     subtype_kind_overlap, subtype_kind_t, SUBTYPE_KIND_ALL, SUBTYPE_KIND_BOXED, SUBTYPE_KIND_NONE,
     SUBTYPE_KIND_NUMERIC, SUBTYPE_KIND_TUPLE, SUBTYPE_KIND_UNBOXED,

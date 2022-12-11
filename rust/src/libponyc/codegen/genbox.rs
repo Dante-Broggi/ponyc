@@ -219,7 +219,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
     use super::Types_h::{
-        LLVMBuilderRef, LLVMOpaqueBuilder, LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef,
+        LLVMBuilderRef, LLVMTypeRef,
         LLVMValueRef,
     };
     extern "C" {
@@ -1200,7 +1200,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBuilder, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
     extern "C" {
@@ -1267,7 +1267,7 @@ pub mod gencall_h {
 pub mod genexpr_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "16:1"]
         pub fn gen_assign_cast(
@@ -1298,7 +1298,7 @@ pub use self::codegen_h::{
     compile_frame_t, compile_locals_t, compile_t, ffi_decls_t, genned_strings_t, LLVMBuildLoad_P,
     LLVMBuildStructGEP_P,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::gencall_h::gencall_allocstruct;
 use self::genexpr_h::gen_assign_cast;
@@ -1318,7 +1318,7 @@ pub use self::reach_h::{
     reach_type_t, reach_types_t,
 };
 pub use self::reify_h::deferred_reification_t;
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

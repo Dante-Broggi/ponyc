@@ -41,7 +41,7 @@ pub mod threads_h {
     #[c2rust::src_loc = "19:1"]
     pub type thread_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> *mut libc::c_void>;
     use super::_pthread_t_h::pthread_t;
-    use super::_pthread_types_h::_opaque_pthread_t;
+    
     use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]

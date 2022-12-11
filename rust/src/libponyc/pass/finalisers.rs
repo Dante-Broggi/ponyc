@@ -799,7 +799,7 @@ pub use self::ast_h::{
     AST_FLAG_JUMPS_AWAY, AST_FLAG_MAY_BREAK, AST_FLAG_MIGHT_SEND, AST_FLAG_MISSING_SEMI,
     AST_FLAG_PASS_MASK, AST_FLAG_PRESERVE, AST_FLAG_RECURSE_1, AST_FLAG_RECURSE_2,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::pass_h::{
     magic_package_t, pass_id, pass_opt_t, plugins_t, verbosity_level, PASS_ALL, PASS_ASM,
@@ -809,7 +809,7 @@ pub use self::pass_h::{
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
 use self::ponyassert_h::ponyint_assert_fail;
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::subtype_h::is_known;
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

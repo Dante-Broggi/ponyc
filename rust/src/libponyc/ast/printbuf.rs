@@ -77,7 +77,7 @@ pub mod ponyassert_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h:5"]
 pub mod stdio_h {
-    use super::internal::__va_list_tag;
+    
     extern "C" {
         #[c2rust::src_loc = "347:6"]
         pub fn vsnprintf(

@@ -548,7 +548,7 @@ pub mod ast_h {
     use super::error_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::{ast_t, symtab_t};
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -845,7 +845,7 @@ use self::buildflagset_h::{
     buildflagset_get, buildflagset_next, buildflagset_print, buildflagset_startenum,
     buildflagset_t, is_build_flag_defined,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
 pub use self::pass_h::{
@@ -860,7 +860,7 @@ use self::ponyassert_h::ponyint_assert_fail;
 pub use self::source_h::source_t;
 use self::stdio_h::printf;
 use self::string_h::strcmp;
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 pub use self::symtab_h::{
     ast_t, sym_status_t, symtab_add, symtab_find, symtab_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR,
     SYM_DEFINED, SYM_ERROR, SYM_FFIDECL, SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,

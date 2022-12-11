@@ -36,7 +36,7 @@ pub mod string_h {
         pub fn strlen(_: *const libc::c_char) -> libc::c_ulong;
     }
 }
-use self::pony_h::{pony_alloc, pony_ctx, pony_ctx_t};
+use self::pony_h::{pony_alloc, pony_ctx};
 pub use self::stddef_h::size_t;
 use self::stdlib_h::realpath;
 use self::string_h::{memcpy, strlen};

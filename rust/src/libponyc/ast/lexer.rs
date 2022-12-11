@@ -63,7 +63,7 @@ pub mod stdarg_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
 pub mod error_h {
     use super::_size_t_h::size_t;
-    use super::internal::__va_list_tag;
+    
     use super::source_h::source_t;
     extern "C" {
         #[c2rust::src_loc = "36:16"]
@@ -740,7 +740,7 @@ pub mod _ctype_h {
     pub unsafe extern "C" fn isspace(mut _c: libc::c_int) -> libc::c_int {
         return __istype(_c, 0x4000 as libc::c_long as libc::c_ulong);
     }
-    use super::_types_h::{__darwin_ct_rune_t, __uint32_t};
+    use super::_types_h::{__darwin_ct_rune_t};
     use super::runetype_h::_DefaultRuneLocale;
     extern "C" {
         #[c2rust::src_loc = "148:1"]

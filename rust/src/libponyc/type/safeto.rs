@@ -487,7 +487,7 @@ pub mod cap_h {
     #[c2rust::src_loc = "77:3"]
     pub const WRITE: direction = 0;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "62:1"]
         pub fn cap_single(type_0: *mut ast_t) -> token_id;

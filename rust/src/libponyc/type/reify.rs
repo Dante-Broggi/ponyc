@@ -608,7 +608,7 @@ pub mod ast_h {
     use super::error_h::{errorframe_t, errors_t};
     use super::source_h::pony_type_t;
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -987,7 +987,7 @@ use self::pool_h::{ponyint_pool_alloc, ponyint_pool_free};
 pub use self::reify_h::deferred_reification_t;
 use self::serialise_h::{pony_deserialise_offset, pony_serialise_offset};
 pub use self::source_h::pony_type_t;
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_bare, is_concrete, is_constructable, is_subtype_constraint};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

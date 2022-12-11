@@ -221,8 +221,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef, LLVMOpaqueBasicBlock,
-        LLVMOpaqueBuilder, LLVMOpaqueContext, LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef, LLVMTypeRef,
         LLVMValueRef,
     };
     extern "C" {
@@ -1382,7 +1381,7 @@ pub mod codegen_h {
     use super::hash_h::hashmap_t;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBasicBlock, LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
     use super::pass_h::pass_opt_t;
@@ -1462,7 +1461,7 @@ pub mod gencall_h {
 pub mod genexpr_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gen_expr(c: *mut compile_t, ast: *mut ast_t) -> LLVMValueRef;
@@ -1560,7 +1559,7 @@ pub use self::reach_h::{
     reach_type_t, reach_types_t,
 };
 pub use self::reify_h::{deferred_reification_t, deferred_reify};
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::is_subtype_constraint;
 use self::symtab_h::ast_t;
 pub use self::token_h::{

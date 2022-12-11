@@ -1018,7 +1018,7 @@ use self::reference_h::{
     expr_tuple, expr_typeref,
 };
 pub use self::reify_h::{deferred_reification_t, deferred_reify_free, deferred_reify_method_def};
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::subtype_h::is_subtype;
 pub use self::symtab_h::{ast_t, symtab_check_all_defined, symtab_t};
 pub use self::token_h::{

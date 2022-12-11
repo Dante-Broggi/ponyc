@@ -572,7 +572,7 @@ pub mod ast_h {
     use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "54:23"]
         pub type astlist_t;
@@ -1104,7 +1104,7 @@ pub use self::printbuf_h::{printbuf, printbuf_free, printbuf_new, printbuf_t};
 use self::refer_h::def_before_use;
 use self::reify_h::reify_method_def;
 use self::sanitise_h::{collect_type_params, sanitise_type};
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::subtype_h::is_subtype;
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

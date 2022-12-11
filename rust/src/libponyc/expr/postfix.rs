@@ -491,7 +491,7 @@ pub mod ast_h {
     use super::error_h::errors_t;
     use super::lexint_h::lexint_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -880,7 +880,7 @@ pub use self::ast_h::{
     ast_sibling, ast_swap, ast_type,
 };
 use self::call_h::expr_call;
-use self::error_h::errors_t;
+
 use self::expr_h::is_typecheck_error;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::id_h::is_name_private;
@@ -902,7 +902,7 @@ pub use self::reify_h::{
 };
 use self::stdlib_h::strtol;
 use self::string_h::strcmp;
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,
