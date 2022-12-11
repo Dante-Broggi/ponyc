@@ -678,7 +678,7 @@ pub mod ast_h {
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
 use self::ast_h::{ast_child, ast_error, ast_get, ast_id, ast_sibling};
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::pass_h::{
     magic_package_t, pass_id, pass_opt_t, plugins_t, verbosity_level, PASS_ALL, PASS_ASM,
@@ -687,7 +687,7 @@ pub use self::pass_h::{
     PASS_REFER, PASS_SCOPE, PASS_SERIALISER, PASS_SUGAR, PASS_SYNTAX, PASS_TRAITS, PASS_VERIFY,
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
     SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,

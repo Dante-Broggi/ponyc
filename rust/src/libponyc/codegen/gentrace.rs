@@ -243,8 +243,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "291:3"]
     pub const LLVMIntEQ: LLVMIntPredicate = 32;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMOpaqueBasicBlock, LLVMOpaqueBuilder,
-        LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
     };
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
@@ -1286,7 +1285,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueType, LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
     extern "C" {
@@ -1364,7 +1363,7 @@ pub mod matchtype_h {
 pub mod ast_h {
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -1410,7 +1409,7 @@ pub mod gencall_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:3"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
     extern "C" {
@@ -1546,7 +1545,7 @@ pub use self::reach_h::{
     reach_type_t, reach_types_t,
 };
 pub use self::reify_h::deferred_reification_t;
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_bare, is_known, is_machine_word, is_nullable_pointer, is_subtype};
 use self::symtab_h::ast_t;
 pub use self::token_h::{

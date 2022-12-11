@@ -581,7 +581,7 @@ pub mod parserapi_h {
     use super::lexer_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, token_t, TK_EOF};
+    use super::token_h::{token_id, token_t};
     extern "C" {
         #[c2rust::src_loc = "75:16"]
         pub type parser_t;

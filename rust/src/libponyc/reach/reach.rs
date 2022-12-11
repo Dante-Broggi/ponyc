@@ -1226,7 +1226,7 @@ pub mod stdio_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genname.h:4"]
 pub mod genname_h {
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn genname_type(ast: *mut ast_t) -> *const libc::c_char;
@@ -1456,7 +1456,7 @@ pub use self::source_h::{pony_type_t, source_t};
 pub use self::stack_h::{ponyint_stack_pop, ponyint_stack_push, Stack};
 use self::stdio_h::printf;
 use self::string_h::{memcpy, memset, strcmp};
-use self::stringtab_h::{string_deserialise_offset, string_trace, stringtab, strlist_t};
+use self::stringtab_h::{string_deserialise_offset, string_trace, stringtab};
 use self::subtype_h::{
     contains_dontcare, is_bare, is_eqtype, is_machine_word, is_subtype, is_subtype_constraint,
 };

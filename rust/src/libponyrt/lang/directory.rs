@@ -121,7 +121,7 @@ pub use self::_types_h::{__uint16_t, __uint64_t, __uint8_t};
 use self::atomics_h::f__atomic_thread_fence;
 pub use self::dirent_h::dirent;
 pub use self::include_dirent_h::{_telldir, readdir, DIR};
-use self::pony_h::{pony_alloc, pony_ctx, pony_ctx_t};
+use self::pony_h::{pony_alloc, pony_ctx};
 pub use self::stddef_h::size_t;
 use self::string_h::{memcpy, strdup, strlen};
 use self::unistd_h::getcwd;

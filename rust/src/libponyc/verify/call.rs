@@ -751,7 +751,7 @@ pub use self::ast_h::{
     ast_inheritflags, ast_name, ast_parent, ast_ptr_t, ast_seterror, ast_setmightsend, ast_setsend,
     ast_type,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::id_h::is_name_internal_test;
 use self::lookup_h::lookup_try;
@@ -765,7 +765,7 @@ pub use self::pass_h::{
 };
 use self::ponyassert_h::ponyint_assert_fail;
 pub use self::reify_h::{deferred_reification_t, deferred_reify_free};
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

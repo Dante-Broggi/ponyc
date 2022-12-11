@@ -221,8 +221,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMOpaqueBasicBlock, LLVMOpaqueBuilder,
-        LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
     };
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
@@ -1322,7 +1321,7 @@ pub mod ast_h {
 pub mod genbox_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "13:1"]
         pub fn gen_box(c: *mut compile_t, type_0: *mut ast_t, value: LLVMValueRef) -> LLVMValueRef;
@@ -1381,7 +1380,7 @@ pub mod gencontrol_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:5"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn gendesc_fetch(c: *mut compile_t, object: LLVMValueRef) -> LLVMValueRef;
@@ -1489,7 +1488,7 @@ pub use self::codegen_h::{
     codegen_scope_lifetime_end, compile_frame_t, compile_locals_t, compile_t, ffi_decls_t,
     genned_strings_t,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::genbox_h::{gen_box, gen_unbox};
 use self::gencall_h::{gen_call, gen_ffi};
@@ -1521,7 +1520,7 @@ pub use self::reach_h::{
     reach_type_cache_next, reach_type_cache_t, reach_type_t, reach_types_t,
 };
 pub use self::reify_h::deferred_reification_t;
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

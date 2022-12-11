@@ -90,7 +90,7 @@ pub use self::_uintptr_t_h::uintptr_t;
 pub use self::lsda_h::exception_context_t;
 use self::stdlib_h::abort;
 use self::unwind_h::{
-    _Unwind_Context, _Unwind_GetIP, _Unwind_GetLanguageSpecificData, _Unwind_GetRegionStart,
+    _Unwind_GetIP, _Unwind_GetLanguageSpecificData, _Unwind_GetRegionStart,
 };
 #[derive(Copy, Clone)]
 #[repr(C)]

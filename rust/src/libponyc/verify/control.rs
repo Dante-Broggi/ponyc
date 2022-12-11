@@ -685,7 +685,7 @@ pub use self::ast_h::{
     ast_canerror, ast_cansend, ast_error, ast_get_children, ast_id, ast_mightsend, ast_ptr_t,
     ast_seterror, ast_setmightsend, ast_setsend,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::pass_h::{
     magic_package_t, pass_id, pass_opt_t, plugins_t, verbosity_level, PASS_ALL, PASS_ASM,
@@ -695,7 +695,7 @@ pub use self::pass_h::{
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
 use self::ponyassert_h::ponyint_assert_fail;
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

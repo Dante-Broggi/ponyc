@@ -576,7 +576,7 @@ pub mod string_h {
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
 pub use self::ast_h::{ast_child, ast_childidx, ast_get_children, ast_id, ast_parent, ast_ptr_t};
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_free};

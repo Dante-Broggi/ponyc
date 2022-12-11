@@ -282,8 +282,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "304:3"]
     pub const LLVMRealPredicateFalse: LLVMRealPredicate = 0;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMOpaqueBasicBlock, LLVMOpaqueBuilder,
-        LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
     };
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
@@ -1623,7 +1622,7 @@ pub mod codegen_h {
     use super::hash_h::hashmap_t;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBuilder, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
     use super::pass_h::pass_opt_t;
@@ -1696,7 +1695,7 @@ pub mod gentype_h {
 pub mod genexpr_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gen_expr(c: *mut compile_t, ast: *mut ast_t) -> LLVMValueRef;
@@ -1759,7 +1758,7 @@ pub use self::codegen_h::{
     compile_frame_t, compile_locals_t, compile_t, ffi_decls_t, genned_strings_t, LLVMBuildLoad_P,
     LLVMSetIsExact, LLVMSetNoSignedWrap, LLVMSetNoUnsignedWrap, LLVMSetUnsafeAlgebra,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::genexpr_h::{gen_assign_cast, gen_expr};
 use self::genreference_h::{gen_fieldptr, gen_localdecl, gen_tupleelemptr};
@@ -1779,7 +1778,7 @@ pub use self::reach_h::{
     reach_type_t, reach_types_t,
 };
 pub use self::reify_h::{deferred_reification_t, deferred_reify};
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_bool, is_signed};
 use self::symtab_h::ast_t;
 pub use self::token_h::{

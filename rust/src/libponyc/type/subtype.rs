@@ -556,7 +556,7 @@ pub mod ast_h {
     use super::_uint32_t_h::uint32_t;
     use super::error_h::errorframe_t;
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -945,7 +945,7 @@ pub use self::pass_h::{
 use self::ponyassert_h::ponyint_assert_fail;
 use self::reify_h::{reify, reify_method_def};
 use self::string_h::strcmp;
-use self::stringtab_h::strlist_t;
+
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
     SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,

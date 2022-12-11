@@ -470,7 +470,7 @@ pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actormap_h::actormap_t;
 pub use self::fun_h::{cmp_fn, free_fn, ponyint_hash_size};
 use self::gc_h::{
-    gcstack_t, ponyint_gc_discardstack, ponyint_gc_handlestack, ponyint_gcstack_push,
+    ponyint_gc_discardstack, ponyint_gc_handlestack, ponyint_gcstack_push,
 };
 pub use self::hash_h::{
     bitmap_t, hashmap_entry_t, hashmap_t, ponyint_hashmap_alloc_size, ponyint_hashmap_clearindex,

@@ -301,8 +301,7 @@ pub mod Core_h {
     pub type LLVMAttributeIndex = libc::c_uint;
     use super::Types_h::{
         LLVMAttributeRef, LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef,
-        LLVMModuleRef, LLVMOpaqueAttributeRef, LLVMOpaqueBasicBlock, LLVMOpaqueBuilder,
-        LLVMOpaqueContext, LLVMOpaqueModule, LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef,
+        LLVMModuleRef, LLVMTypeRef,
         LLVMValueRef,
     };
     use super::_size_t_h::size_t;
@@ -621,7 +620,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMOpaqueType, LLVMTypeRef};
+    use super::Types_h::{LLVMTypeRef};
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -1159,7 +1158,7 @@ pub mod ast_h {
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "70:1"]
         pub fn ast_setid(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -1704,7 +1703,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBuilder, LLVMOpaqueMetadata, LLVMOpaqueType, LLVMOpaqueValue,
+        LLVMModuleRef,
         LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
@@ -1822,7 +1821,7 @@ pub mod genfun_h {
     }
     use super::codegen_h::compile_t;
     use super::reach_h::{compile_opaque_free_fn, reach_method_t, reach_type_t};
-    use super::Types_h::{LLVMMetadataRef, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMMetadataRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "22:1"]
         pub fn genfun_param_attrs(
@@ -1836,7 +1835,7 @@ pub mod genfun_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gencall.h:2"]
 pub mod gencall_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "21:1"]
         pub fn gencall_runtime(
@@ -1868,7 +1867,7 @@ pub mod gencall_h {
 pub mod genexpr_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "16:1"]
         pub fn gen_assign_cast(
@@ -1930,7 +1929,7 @@ pub mod genserialise_h {
     use super::codegen_h::compile_t;
     use super::gentype_h::compile_type_t;
     use super::reach_h::reach_type_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "11:1"]
         pub fn genserialise_element(
@@ -1963,7 +1962,7 @@ pub mod genserialise_h {
 pub mod gentrace_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gentrace_needed(
@@ -2031,7 +2030,7 @@ pub use self::codegen_h::{
     LLVMBuildInBoundsGEP_P, LLVMBuildLoad_P, LLVMBuildStructGEP_P, LLVMConstInBoundsGEP_P,
     LLVMConstInf, LLVMConstNaN,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::gencall_h::{gencall_error, gencall_memcpy, gencall_memmove, gencall_runtime};
 use self::genexpr_h::gen_assign_cast;
@@ -2069,7 +2068,7 @@ pub use self::reach_h::{
     reach_type_cache_t, reach_type_name, reach_type_t, reach_types_t,
 };
 pub use self::reify_h::deferred_reification_t;
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
     SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,

@@ -192,9 +192,7 @@ pub mod Core_h {
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef, LLVMModuleRef,
-        LLVMOpaqueBasicBlock, LLVMOpaqueBuilder, LLVMOpaqueContext, LLVMOpaqueModule,
-        LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef, LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     extern "C" {
         #[c2rust::src_loc = "1316:1"]
@@ -257,7 +255,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMOpaqueType, LLVMTypeRef};
+    use super::Types_h::{LLVMTypeRef};
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -411,7 +409,7 @@ pub mod DebugInfo_h {
     #[c2rust::src_loc = "179:1"]
     pub type LLVMDWARFTypeEncoding = libc::c_uint;
     use super::Types_h::{
-        LLVMDIBuilderRef, LLVMMetadataRef, LLVMOpaqueDIBuilder, LLVMOpaqueMetadata,
+        LLVMDIBuilderRef, LLVMMetadataRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint32_t_h::uint32_t;
@@ -497,7 +495,7 @@ pub mod gendebug_h {
     #[c2rust::src_loc = "12:3"]
     pub const DW_ATE_boolean: C2RustUnnamed = 2;
     use super::Types_h::{
-        LLVMDIBuilderRef, LLVMMetadataRef, LLVMOpaqueDIBuilder, LLVMOpaqueMetadata,
+        LLVMDIBuilderRef, LLVMMetadataRef,
     };
     extern "C" {
         #[c2rust::src_loc = "69:1"]
@@ -1523,7 +1521,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBuilder, LLVMOpaqueMetadata, LLVMOpaqueType, LLVMOpaqueValue,
+        LLVMModuleRef,
         LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
@@ -1639,7 +1637,7 @@ pub mod gendesc_h {
 pub mod genexpr_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMOpaqueValue, LLVMTypeRef, LLVMValueRef};
+    use super::Types_h::{LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "16:1"]
         pub fn gen_assign_cast(
@@ -1747,7 +1745,7 @@ pub mod gentrace_h {
     use super::codegen_h::compile_t;
     use super::reach_h::reach_type_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "11:1"]
         pub fn gentrace_prototype(c: *mut compile_t, t: *mut reach_type_t);
@@ -1829,7 +1827,7 @@ pub use self::codegen_h::{
     compile_locals_t, compile_t, ffi_decls_t, genned_strings_t, LLVMBuildCall_P, LLVMBuildLoad_P,
     LLVMBuildStructGEP_P,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::gendebug_h::{
     C2RustUnnamed, DW_ATE_boolean, DW_ATE_float, DW_ATE_signed, DW_ATE_unsigned,
@@ -1877,7 +1875,7 @@ pub use self::reify_h::deferred_reification_t;
 pub use self::source_h::source_t;
 use self::stdio_h::{__stderrp, fprintf, snprintf};
 use self::string_h::{memset, strlen};
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_bool, is_float, is_signed};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

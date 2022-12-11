@@ -727,7 +727,7 @@ pub mod reify_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.h:2"]
 pub mod alias_h {
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "13:1"]
         pub fn consume_type(
@@ -794,7 +794,7 @@ pub use self::ast_h::{
     ast_get, ast_get_children, ast_id, ast_name, ast_parent, ast_pos, ast_ptr_t, ast_sibling,
     ast_type,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::lookup_h::lookup;
 pub use self::pass_h::{
@@ -807,7 +807,7 @@ pub use self::pass_h::{
 use self::ponyassert_h::ponyint_assert_fail;
 pub use self::reify_h::{deferred_reification_t, deferred_reify_free};
 use self::string_h::strcmp;
-use self::stringtab_h::strlist_t;
+
 use self::subtype_h::{is_env, is_literal, is_none, is_runtime_options};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

@@ -524,7 +524,7 @@ pub mod ast_h {
     use super::_size_t_h::size_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -909,7 +909,7 @@ use self::ponyassert_h::ponyint_assert_fail;
 pub use self::reify_h::{
     deferred_reification_t, deferred_reify_free, deferred_reify_method_def, deferred_reify_new,
 };
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::subtype_h::is_subtype_fun;
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,

@@ -1545,8 +1545,8 @@ pub mod ast_h {
     use super::error_h::errors_t;
     use super::package_h::ast_t;
     use super::pony_h::pony_type_t;
-    use super::symtab_h::{sym_status_t, SYM_NONE};
-    use super::token_h::{token_id, TK_EOF};
+    use super::symtab_h::{sym_status_t};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "223:1"]
         pub fn ast_pony_type() -> *const pony_type_t;

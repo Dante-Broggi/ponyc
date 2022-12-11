@@ -186,7 +186,7 @@ pub mod Core_h {
     pub const LLVMFastCallConv: LLVMCallConv = 8;
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
-    use super::Types_h::{LLVMBool, LLVMModuleRef, LLVMOpaqueModule};
+    use super::Types_h::{LLVMBool, LLVMModuleRef};
     extern "C" {
         #[c2rust::src_loc = "479:1"]
         pub fn LLVMDisposeMessage(Message: *mut libc::c_char);
@@ -217,7 +217,7 @@ pub mod TargetMachine_h {
     pub const LLVMObjectFile: LLVMCodeGenFileType = 1;
     #[c2rust::src_loc = "65:5"]
     pub const LLVMAssemblyFile: LLVMCodeGenFileType = 0;
-    use super::Types_h::{LLVMBool, LLVMModuleRef, LLVMOpaqueModule};
+    use super::Types_h::{LLVMBool, LLVMModuleRef};
     extern "C" {
         #[c2rust::src_loc = "34:16"]
         pub type LLVMOpaqueTargetMachine;
@@ -738,7 +738,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/BitWriter.h:2"]
 pub mod BitWriter_h {
-    use super::Types_h::{LLVMModuleRef, LLVMOpaqueModule};
+    use super::Types_h::{LLVMModuleRef};
     extern "C" {
         #[c2rust::src_loc = "37:1"]
         pub fn LLVMWriteBitcodeToFile(M: LLVMModuleRef, Path: *const libc::c_char) -> libc::c_int;
@@ -795,8 +795,8 @@ pub use self::pass_h::{
 pub use self::reach_h::{reach_method_stack_t, reach_t, reach_types_t};
 pub use self::reify_h::deferred_reification_t;
 use self::stdio_h::{__stderrp, fprintf};
-use self::stringtab_h::strlist_t;
-use self::symtab_h::ast_t;
+
+
 use self::BitWriter_h::LLVMWriteBitcodeToFile;
 #[no_mangle]
 #[c2rust::src_loc = "4:1"]

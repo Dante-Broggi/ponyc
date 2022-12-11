@@ -864,7 +864,7 @@ pub use self::ast_h::{
     AST_FLAG_PASS_MASK, AST_FLAG_PRESERVE, AST_FLAG_RECURSE_1, AST_FLAG_RECURSE_2, AST_IGNORE,
     AST_OK,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::id_h::{
     check_id_field, check_id_local, check_id_method, check_id_package, check_id_type,
@@ -882,7 +882,7 @@ use self::platformfuns_h::os_is_target;
 use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc_size, ponyint_pool_free_size};
 use self::string_h::{strcmp, strlen, strncmp};
-use self::stringtab_h::{stringtab, strlist_t};
+use self::stringtab_h::{stringtab};
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

@@ -388,9 +388,7 @@ pub mod Core_h {
     pub type LLVMAttributeIndex = libc::c_uint;
     use super::Types_h::{
         LLVMAttributeRef, LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef,
-        LLVMMetadataRef, LLVMModuleRef, LLVMOpaqueAttributeRef, LLVMOpaqueBasicBlock,
-        LLVMOpaqueBuilder, LLVMOpaqueContext, LLVMOpaqueMetadata, LLVMOpaqueModule,
-        LLVMOpaquePassRegistry, LLVMOpaqueType, LLVMOpaqueValue, LLVMPassRegistryRef, LLVMTypeRef,
+        LLVMMetadataRef, LLVMModuleRef, LLVMPassRegistryRef, LLVMTypeRef,
         LLVMValueRef,
     };
     use super::_size_t_h::size_t;
@@ -638,7 +636,7 @@ pub mod Target_h {
         LLVMInitializeX86Target, LLVMInitializeX86TargetInfo, LLVMInitializeX86TargetMC,
     };
     use super::Types_h::{
-        LLVMBool, LLVMContextRef, LLVMOpaqueContext, LLVMOpaqueType, LLVMTypeRef,
+        LLVMBool, LLVMContextRef, LLVMTypeRef,
     };
     extern "C" {
         #[c2rust::src_loc = "37:16"]
@@ -829,8 +827,7 @@ pub mod DebugInfo_h {
     #[c2rust::src_loc = "129:5"]
     pub const LLVMDWARFEmissionNone: LLVMDWARFEmissionKind = 0;
     use super::Types_h::{
-        LLVMBool, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef, LLVMOpaqueContext,
-        LLVMOpaqueDIBuilder, LLVMOpaqueMetadata,
+        LLVMBool, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
     };
     use super::_size_t_h::size_t;
     extern "C" {
@@ -1426,11 +1423,11 @@ pub mod codegen_h {
     use super::reach_h::reach_t;
     use super::reify_h::deferred_reification_t;
     use super::Core_h::{LLVMCallConv, LLVMLinkage};
-    use super::TargetMachine_h::{LLVMTarget, LLVMTargetMachineRef, LLVMTargetRef};
+    use super::TargetMachine_h::{LLVMTargetMachineRef, LLVMTargetRef};
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMOpaqueBuilder, LLVMOpaqueContext, LLVMOpaqueValue, LLVMTypeRef,
+        LLVMModuleRef, LLVMTypeRef,
         LLVMValueRef,
     };
     use super::_size_t_h::size_t;
@@ -1574,7 +1571,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendebug.h:1"]
 pub mod gendebug_h {
-    use super::Types_h::{LLVMDIBuilderRef, LLVMModuleRef, LLVMOpaqueDIBuilder, LLVMOpaqueModule};
+    use super::Types_h::{LLVMDIBuilderRef, LLVMModuleRef};
     extern "C" {
         #[c2rust::src_loc = "46:1"]
         pub fn LLVMNewDIBuilder(m: LLVMModuleRef) -> LLVMDIBuilderRef;
@@ -1641,7 +1638,7 @@ pub mod genname_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:5"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMOpaqueType, LLVMTypeRef};
+    use super::Types_h::{LLVMTypeRef};
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gendesc_basetype(c: *mut compile_t, desc_type: LLVMTypeRef);
@@ -1650,7 +1647,7 @@ pub mod gendesc_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gencall.h:6"]
 pub mod gencall_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMOpaqueValue, LLVMValueRef};
+    use super::Types_h::{LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "21:1"]
         pub fn gencall_runtime(
@@ -1741,7 +1738,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Initialization.h:20"]
 pub mod Initialization_h {
-    use super::Types_h::{LLVMOpaquePassRegistry, LLVMPassRegistryRef};
+    use super::Types_h::{LLVMPassRegistryRef};
     extern "C" {
         #[c2rust::src_loc = "34:1"]
         pub fn LLVMInitializeTransformUtils(R: LLVMPassRegistryRef);
@@ -1769,7 +1766,7 @@ pub mod Initialization_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Linker.h:21"]
 pub mod Linker_h {
-    use super::Types_h::{LLVMBool, LLVMModuleRef, LLVMOpaqueModule};
+    use super::Types_h::{LLVMBool, LLVMModuleRef};
     extern "C" {
         #[c2rust::src_loc = "41:1"]
         pub fn LLVMLinkModules2(Dest: LLVMModuleRef, Src: LLVMModuleRef) -> LLVMBool;
@@ -1844,10 +1841,7 @@ pub use self::sys__types_h::{
     __darwin_blkcnt_t, __darwin_blksize_t, __darwin_dev_t, __darwin_gid_t, __darwin_ino64_t,
     __darwin_mode_t, __darwin_off_t, __darwin_uid_t,
 };
-use self::AsmParsers_def::{
-    LLVMInitializeAArch64AsmParser, LLVMInitializeARMAsmParser, LLVMInitializeRISCVAsmParser,
-    LLVMInitializeWebAssemblyAsmParser, LLVMInitializeX86AsmParser,
-};
+
 pub use self::Core_h::{
     C2RustUnnamed, LLVMAMDGPUCSCallConv, LLVMAMDGPUESCallConv, LLVMAMDGPUGSCallConv,
     LLVMAMDGPUHSCallConv, LLVMAMDGPUKERNELCallConv, LLVMAMDGPULSCallConv, LLVMAMDGPUPSCallConv,
@@ -1950,10 +1944,7 @@ pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
     SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,
 };
-use self::AsmPrinters_def::{
-    LLVMInitializeAArch64AsmPrinter, LLVMInitializeARMAsmPrinter, LLVMInitializeRISCVAsmPrinter,
-    LLVMInitializeWebAssemblyAsmPrinter, LLVMInitializeX86AsmPrinter,
-};
+
 pub use self::DebugInfo_h::{
     LLVMDIBuilderCreateCompileUnit, LLVMDIBuilderCreateDebugLocation, LLVMDIBuilderCreateFile,
     LLVMDIBuilderCreateLexicalBlock, LLVMDWARFEmissionFull, LLVMDWARFEmissionKind,
@@ -1975,14 +1966,7 @@ pub use self::DebugInfo_h::{
     LLVMDWARFSourceLanguagePython, LLVMDWARFSourceLanguageRenderScript,
     LLVMDWARFSourceLanguageRust, LLVMDWARFSourceLanguageSwift, LLVMDWARFSourceLanguageUPC,
 };
-use self::Targets_def::{
-    LLVMInitializeAArch64Target, LLVMInitializeAArch64TargetInfo, LLVMInitializeAArch64TargetMC,
-    LLVMInitializeARMTarget, LLVMInitializeARMTargetInfo, LLVMInitializeARMTargetMC,
-    LLVMInitializeRISCVTarget, LLVMInitializeRISCVTargetInfo, LLVMInitializeRISCVTargetMC,
-    LLVMInitializeWebAssemblyTarget, LLVMInitializeWebAssemblyTargetInfo,
-    LLVMInitializeWebAssemblyTargetMC, LLVMInitializeX86Target, LLVMInitializeX86TargetInfo,
-    LLVMInitializeX86TargetMC,
-};
+
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "25:8"]

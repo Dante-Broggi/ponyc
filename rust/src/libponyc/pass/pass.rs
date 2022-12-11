@@ -605,7 +605,7 @@ pub mod ast_h {
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed = 31;
     use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id, TK_EOF};
+    use super::token_h::{token_id};
     extern "C" {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
@@ -1002,7 +1002,7 @@ pub mod program_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/plugin/plugin.h:21"]
 pub mod plugin_h {
-    use super::pass_h::{pass_id, pass_opt_t, PASS_PARSE};
+    use super::pass_h::{pass_id, pass_opt_t};
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "76:1"]
@@ -1074,7 +1074,7 @@ use self::serialisers_h::pass_serialisers;
 pub use self::source_h::source_t;
 use self::stdio_h::{__stderrp, fprintf};
 use self::string_h::{memset, strcmp};
-use self::stringtab_h::strlist_t;
+
 use self::sugar_h::pass_sugar;
 use self::symtab_h::ast_t;
 use self::syntax_h::pass_syntax;

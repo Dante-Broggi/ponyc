@@ -838,7 +838,7 @@ pub use self::ast_h::{
     AST_FLAG_MAY_BREAK, AST_FLAG_MIGHT_SEND, AST_FLAG_MISSING_SEMI, AST_FLAG_PASS_MASK,
     AST_FLAG_PRESERVE, AST_FLAG_RECURSE_1, AST_FLAG_RECURSE_2, AST_IGNORE, AST_OK,
 };
-use self::error_h::errors_t;
+
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
 use self::id_h::{is_name_ffi, is_name_private};
@@ -851,7 +851,7 @@ pub use self::pass_h::{
 };
 use self::ponyassert_h::ponyint_assert_fail;
 use self::string_h::strcmp;
-use self::stringtab_h::strlist_t;
+
 pub use self::symtab_h::{
     ast_t, sym_status_t, symbol_t, symtab_add, symtab_find_case, symtab_next, symtab_t,
     SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL, SYM_NOCASE,

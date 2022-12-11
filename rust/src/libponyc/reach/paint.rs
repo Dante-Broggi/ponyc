@@ -767,7 +767,7 @@ pub use self::reach_h::{
 pub use self::reify_h::deferred_reification_t;
 use self::stdio_h::printf;
 use self::string_h::memset;
-use self::symtab_h::ast_t;
+
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,
     TK_ASSIGN, TK_AT, TK_AT_LBRACE, TK_BACKSLASH, TK_BARELAMBDA, TK_BARELAMBDATYPE, TK_BE,

@@ -1397,7 +1397,7 @@ pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
 pub use self::_uint32_t_h::uint32_t;
-use self::error_h::{errorf, errors_t};
+use self::error_h::{errorf};
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
 pub use self::pass_h::{
@@ -1407,7 +1407,7 @@ pub use self::pass_h::{
     PASS_REFER, PASS_SCOPE, PASS_SERIALISER, PASS_SUGAR, PASS_SYNTAX, PASS_TRAITS, PASS_VERIFY,
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
-use self::stringtab_h::strlist_t;
+
 use self::symtab_h::ast_t;
 pub use self::sys__types_h::__darwin_off_t;
 pub use self::token_h::{
