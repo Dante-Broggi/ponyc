@@ -631,7 +631,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
                     &mut opt,
                     print_program_ast,
                     print_package_ast,
-                ) as libc::c_int) as bool;
+                ) as libc::c_int) != 0;
         } else {
             let mut i_1: libc::c_int = 1 as libc::c_int;
             while i_1 < argc {
@@ -641,7 +641,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
                         &mut opt,
                         print_program_ast,
                         print_package_ast,
-                    ) as libc::c_int) as bool;
+                    ) as libc::c_int) != 0;
                 i_1 += 1;
             }
         }

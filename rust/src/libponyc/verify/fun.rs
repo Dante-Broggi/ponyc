@@ -1576,7 +1576,7 @@ unsafe extern "C" fn show_partiality(mut opt: *mut pass_opt_t, mut ast: *mut ast
     }
     while !child.is_null() {
         if ast_canerror(child) {
-            found = (found as libc::c_int | show_partiality(opt, child) as libc::c_int) as bool;
+            found = (found as libc::c_int | show_partiality(opt, child) as libc::c_int) != 0;
         }
         child = ast_sibling(child);
     }

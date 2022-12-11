@@ -2709,8 +2709,7 @@ unsafe extern "C" fn parse_files_in_dir(
         let mut fullpath: [libc::c_char; 1024] = [0; 1024];
         path_cat(dir_path, *entries.offset(i as isize), fullpath.as_mut_ptr());
         r = (r as libc::c_int
-            & parse_source_file(package, fullpath.as_mut_ptr(), opt) as libc::c_int)
-            as bool;
+            & parse_source_file(package, fullpath.as_mut_ptr(), opt) as libc::c_int) != 0;
         i = i.wrapping_add(1);
     }
     ponyint_pool_free_size(buf_size, entries as *mut libc::c_void);
