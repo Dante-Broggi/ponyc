@@ -85,11 +85,11 @@ unsafe extern "C" fn node_alloc(mut data: *mut libc::c_void) -> *mut mpmcq_node_
         ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut mpmcq_node_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*node).next, 0 as *mut mpmcq_node_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*node).data, data);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     return node;
 }
@@ -117,7 +117,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_init(mut q: *mut mpmcq_t) {
     let mut node: *mut mpmcq_node_t = node_alloc(0 as *mut libc::c_void);
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, node);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     let ref mut fresh0 = (*q).tail.c2rust_unnamed.object;
     *fresh0 = node;
@@ -129,7 +129,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_init(mut q: *mut mpmcq_t) {
 pub unsafe extern "C" fn ponyint_mpmcq_destroy(mut q: *mut mpmcq_t) {
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, 0 as *mut mpmcq_node_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     node_free((*q).tail.c2rust_unnamed.object);
     let ref mut fresh1 = (*q).tail.c2rust_unnamed.object;
@@ -144,7 +144,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_push(mut q: *mut mpmcq_t, mut data: *mut 
         ({ ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, node) });
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, node);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[no_mangle]
@@ -157,11 +157,11 @@ pub unsafe extern "C" fn ponyint_mpmcq_push_single(
     let mut prev: *mut mpmcq_node_t = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*q).head) });
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, node);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, node);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[no_mangle]
@@ -208,7 +208,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_pop(mut q: *mut mpmcq_t) -> *mut libc::c_
     let mut data: *mut libc::c_void = ({ ::core::intrinsics::atomic_load_acq(&mut (*next).data) });
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*next).data, 0 as *mut libc::c_void);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     while !({ ::core::intrinsics::atomic_load_acq(&mut (*tail).data as *mut *mut libc::c_void) })
         .is_null()

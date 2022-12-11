@@ -103,7 +103,7 @@ unsafe extern "C" fn messageq_push(
 ) -> bool {
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*last).next, 0 as *mut pony_msg_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     f__atomic_thread_fence(b"memory_order_release\0" as *const u8 as *const libc::c_char);
     let mut prev: *mut pony_msg_t =
@@ -113,7 +113,7 @@ unsafe extern "C" fn messageq_push(
     prev = (prev as uintptr_t & !(1 as libc::c_int as uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, first);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     return was_empty;
 }
@@ -125,19 +125,19 @@ unsafe extern "C" fn messageq_push_single(
 ) -> bool {
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*last).next, 0 as *mut pony_msg_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     let mut prev: *mut pony_msg_t = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*q).head) });
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, last);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     let mut was_empty: bool =
         prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 as libc::c_int as libc::c_ulong;
     prev = (prev as uintptr_t & !(1 as libc::c_int as uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, first);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     return was_empty;
 }
@@ -149,14 +149,14 @@ pub unsafe extern "C" fn ponyint_messageq_init(mut q: *mut messageq_t) {
     (*stub).index = 0 as libc::c_int as uint32_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*stub).next, 0 as *mut pony_msg_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     ({
         ::core::intrinsics::atomic_store_relaxed(
             &mut (*q).head,
             (stub as uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t,
         );
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     let ref mut fresh0 = (*q).tail;
     *fresh0 = stub;
@@ -192,7 +192,7 @@ pub unsafe extern "C" fn ponyint_messageq_destroy(
     ponyint_pool_free((*tail).index as size_t, tail as *mut libc::c_void);
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, 0 as *mut pony_msg_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     let ref mut fresh1 = (*q).tail;
     *fresh1 = 0 as *mut pony_msg_t;

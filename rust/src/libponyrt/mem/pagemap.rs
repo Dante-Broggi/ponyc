@@ -120,7 +120,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
     }
     ({
         ::core::intrinsics::atomic_store_rel(next_node, chunk as pagemap_node_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[no_mangle]
@@ -170,7 +170,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
         loop {
             ({
                 ::core::intrinsics::atomic_store_rel(next_node, chunk as pagemap_node_t);
-                compile_error!("Builtin is not supposed to be used")
+                // compile_error!("Builtin is not supposed to be used")
             });
             addr_ptr = (addr_ptr as libc::c_ulong)
                 .wrapping_add(((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong)

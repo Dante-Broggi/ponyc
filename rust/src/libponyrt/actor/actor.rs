@@ -723,7 +723,7 @@ unsafe extern "C" fn set_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8
             &mut (*actor).sync_flags,
             (flags as libc::c_int | flag as libc::c_int) as uint8_t,
         );
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[c2rust::src_loc = "105:1"]
@@ -734,7 +734,7 @@ unsafe extern "C" fn unset_sync_flag(mut actor: *mut pony_actor_t, mut flag: uin
             &mut (*actor).sync_flags,
             (flags as libc::c_int & !(flag as libc::c_int) as uint8_t as libc::c_int) as uint8_t,
         );
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[c2rust::src_loc = "114:1"]
@@ -1485,7 +1485,7 @@ pub unsafe extern "C" fn pony_alloc_msg(mut index: uint32_t, mut id: uint32_t) -
     (*msg).id = id;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*msg).next, 0 as *mut pony_msg_t);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
     return msg;
 }
@@ -1637,7 +1637,7 @@ pub unsafe extern "C" fn pony_chain(mut prev: *mut pony_msg_t, mut next: *mut po
     };
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, next);
-        compile_error!("Builtin is not supposed to be used")
+        // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[no_mangle]
