@@ -4,7 +4,7 @@
 #include "id.h"
 #include "../../libponyrt/gc/serialise.h"
 #include "../../libponyrt/mem/pool.h"
-#include "ponyassert.h"
+#include "../../common/ponyassert.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

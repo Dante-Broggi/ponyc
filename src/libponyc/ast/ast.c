@@ -10,7 +10,7 @@
 #include "../pkg/package.h"
 #include "../../libponyrt/gc/serialise.h"
 #include "../../libponyrt/mem/pool.h"
-#include "ponyassert.h"
+#include "../../common/ponyassert.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>

@@ -6,7 +6,7 @@
 #include "lexer.h"
 #include "ast.h"
 #include "token.h"
-#include "ponyassert.h"
+#include "../../common/ponyassert.h"
 #include <stdbool.h>
 #include <limits.h>
 #include <stdio.h>

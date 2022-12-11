@@ -1,7 +1,7 @@
 #include "treecheck.h"
 #include "ast.h"
 #include "../pass/pass.h"
-#include "ponyassert.h"
+#include "../../common/ponyassert.h"
 #include <stdbool.h>
 #include <stdio.h>
 

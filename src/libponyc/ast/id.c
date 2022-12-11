@@ -1,4 +1,4 @@
-#include "ponyassert.h"
+#include "../../common/ponyassert.h"
 #include "id.h"
 #include "id_internal.h"
 

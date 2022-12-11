@@ -4,7 +4,7 @@
 #include "token.h"
 #include "stringtab.h"
 #include "../../libponyrt/mem/pool.h"
-#include "ponyassert.h"
+#include "../../common/ponyassert.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
