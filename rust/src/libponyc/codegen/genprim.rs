@@ -6402,7 +6402,7 @@ unsafe extern "C" fn number_conversions(mut c: *mut compile_t) {
         );
     };
     let mut data: [*mut libc::c_void; 3] = [0 as *mut libc::c_void; 3];
-    data[2 as libc::c_int as usize] = target_is_native128((*(*c).opt).triple) as *mut libc::c_void;
+    data[2 as libc::c_int as usize] = if target_is_native128((*(*c).opt).triple) {1} else {0} as *mut libc::c_void;
     let mut from: *mut num_conv_t = conv;
     while !((*from).type_name).is_null() {
         box_function(
