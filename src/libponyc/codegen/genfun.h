@@ -1,7 +1,7 @@
 #ifndef CODEGEN_GENFUN_H
 #define CODEGEN_GENFUN_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "codegen.h"
 #include "gentype.h"
 

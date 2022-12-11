@@ -1,7 +1,7 @@
 #ifndef PACKAGE_H
 #define PACKAGE_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../../libponyrt/ds/list.h"
 
 #include <stdio.h>

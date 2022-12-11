@@ -10,7 +10,7 @@
 #ifndef __cplusplus
 #  include <stdalign.h>
 #endif
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

@@ -2,7 +2,7 @@
 #define sched_mutemap_h
 
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../ds/hash.h"
 
 PONY_EXTERN_C_BEGIN

@@ -1,7 +1,7 @@
 #ifndef sched_systematic_testing_h
 #define sched_systematic_testing_h
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "scheduler.h"
 
 #if defined(USE_SYSTEMATIC_TESTING)

@@ -1,7 +1,7 @@
 #ifndef SYMTAB_H
 #define SYMTAB_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../../libponyrt/ds/hash.h"
 
 PONY_EXTERN_C_BEGIN

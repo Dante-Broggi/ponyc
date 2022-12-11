@@ -1,7 +1,7 @@
 #ifdef __linux__
 #define _GNU_SOURCE
 #endif
-#include <platform.h>
+#include "../../common/platform.h"
 
 #if defined(PLATFORM_IS_LINUX) || defined(PLATFORM_IS_BSD) || defined(PLATFORM_IS_EMSCRIPTEN)
 #include <sched.h>

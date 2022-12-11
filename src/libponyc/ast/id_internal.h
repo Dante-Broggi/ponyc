@@ -3,7 +3,7 @@
 
 // This file exists purely to make the id checker visible to unit tests
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "ast.h"
 #include "../pass/pass.h"
 

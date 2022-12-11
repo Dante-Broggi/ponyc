@@ -12,7 +12,7 @@ typedef struct scheduler_t scheduler_t;
 #include "../gc/gc.h"
 #include "../gc/serialise.h"
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 #include "mutemap.h"
 
 #define SPECIAL_THREADID_KQUEUE   -10

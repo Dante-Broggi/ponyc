@@ -1,7 +1,7 @@
 #ifndef AST_LEXINT_H
 #define AST_LEXINT_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

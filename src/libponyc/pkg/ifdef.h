@@ -1,7 +1,7 @@
 #ifndef IFDEF_H
 #define IFDEF_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../ast/ast.h"
 #include "../pass/pass.h"
 

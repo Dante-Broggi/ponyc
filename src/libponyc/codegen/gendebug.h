@@ -1,7 +1,7 @@
 #ifndef CODEGEN_GENDEBUG_H
 #define CODEGEN_GENDEBUG_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include <llvm-c/Core.h>
 #include <llvm-c/DebugInfo.h>
 

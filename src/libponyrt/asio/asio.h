@@ -2,7 +2,7 @@
 #define asio_asio_h
 
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 #include <stdbool.h>
 
 #if defined(PLATFORM_IS_LINUX)

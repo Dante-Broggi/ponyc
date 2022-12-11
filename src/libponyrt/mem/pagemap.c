@@ -5,7 +5,7 @@
 #include "pool.h"
 #include <string.h>
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include <pony/detail/atomics.h>
 
 #ifdef USE_VALGRIND

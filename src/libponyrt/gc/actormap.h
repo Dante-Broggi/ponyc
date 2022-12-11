@@ -1,7 +1,7 @@
 #ifndef gc_actormap_h
 #define gc_actormap_h
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 #include "objectmap.h"
 #include "delta.h"

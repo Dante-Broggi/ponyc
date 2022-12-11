@@ -1,4 +1,4 @@
-#include <platform.h>
+#include "../../common/platform.h"
 #include "errno.h"
 
 PONY_EXTERN_C_BEGIN

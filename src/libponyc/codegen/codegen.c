@@ -15,7 +15,7 @@
 #include "../../libponyrt/mem/pool.h"
 #include "ponyassert.h"
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include <llvm-c/DebugInfo.h>
 #include <llvm-c/Initialization.h>
 #include <llvm-c/Linker.h>

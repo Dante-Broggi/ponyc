@@ -1,7 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 #include "lexint.h"
 #include "source.h"

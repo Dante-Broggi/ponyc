@@ -7,7 +7,7 @@
 #include "../mem/heap.h"
 #include "../ds/stack.h"
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 
 #define GC_INC_MORE 256
 

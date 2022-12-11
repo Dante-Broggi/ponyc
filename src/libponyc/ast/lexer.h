@@ -1,7 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 #include "source.h"
 #include "token.h"

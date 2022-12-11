@@ -1,7 +1,7 @@
 #ifndef CODEGEN_GENCONTROL_H
 #define CODEGEN_GENCONTROL_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "codegen.h"
 
 PONY_EXTERN_C_BEGIN

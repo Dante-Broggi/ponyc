@@ -1,7 +1,7 @@
 #ifndef CODEGEN_GENPRIM_H
 #define CODEGEN_GENPRIM_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "codegen.h"
 #include "gentype.h"
 

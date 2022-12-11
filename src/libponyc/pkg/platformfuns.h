@@ -1,7 +1,7 @@
 #ifndef PLATFORMFUNS_H
 #define PLATFORMFUNS_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../pass/pass.h"
 
 PONY_EXTERN_C_BEGIN

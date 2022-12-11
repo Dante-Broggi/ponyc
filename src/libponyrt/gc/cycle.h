@@ -3,7 +3,7 @@
 
 #include "gc.h"
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 #include <stdint.h>
 #include <stdbool.h>
 

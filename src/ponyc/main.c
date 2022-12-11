@@ -7,7 +7,7 @@
 #include "../libponyc/options/options.h"
 #include "../libponyc/ast/stringtab.h"
 #include "../libponyc/ast/treecheck.h"
-#include <platform.h>
+#include "../common/platform.h"
 #include "../libponyrt/mem/pool.h"
 
 #include <stdlib.h>

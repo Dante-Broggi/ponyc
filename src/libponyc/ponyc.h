@@ -1,7 +1,7 @@
 #ifndef PONYC_H
 #define PONYC_H
 
-#include <platform.h>
+#include "../common/platform.h"
 #include "pass/pass.h"
 
 PONY_EXTERN_C_BEGIN

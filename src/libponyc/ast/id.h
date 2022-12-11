@@ -1,7 +1,7 @@
 #ifndef ID_H
 #define ID_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "ast.h"
 #include "../pass/pass.h"
 

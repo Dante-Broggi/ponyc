@@ -1,4 +1,4 @@
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../mem/pool.h"
 
 #if defined(PLATFORM_IS_WINDOWS)

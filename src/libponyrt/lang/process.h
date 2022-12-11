@@ -1,7 +1,7 @@
 #ifndef lang_process_h
 #define lang_process_h
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

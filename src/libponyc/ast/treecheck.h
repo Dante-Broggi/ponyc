@@ -1,7 +1,7 @@
 #ifndef TREE_CHECK_H
 #define TREE_CHECK_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

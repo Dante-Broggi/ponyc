@@ -10,7 +10,7 @@
 #include "source.h"
 #include "stringtab.h"
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 #if defined(PLATFORM_IS_POSIX_BASED) && defined(__cplusplus)
 extern "C" {

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 static bool ptr_cmp(const char* a, const char* b)
 {

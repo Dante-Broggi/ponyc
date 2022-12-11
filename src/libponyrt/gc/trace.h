@@ -2,7 +2,7 @@
 #define gc_trace_h
 
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

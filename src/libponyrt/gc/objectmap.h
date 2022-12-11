@@ -2,7 +2,7 @@
 #define gc_objectmap_h
 
 #include "../ds/hash.h"
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

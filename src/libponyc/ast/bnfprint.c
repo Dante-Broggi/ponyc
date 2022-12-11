@@ -1,4 +1,4 @@
-#include <platform.h>
+#include "../../common/platform.h"
 #include "bnfprint.h"
 #include "lexer.h"
 #include "ast.h"

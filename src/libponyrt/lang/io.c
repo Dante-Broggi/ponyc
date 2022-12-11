@@ -1,7 +1,7 @@
 #ifdef __linux__
 #define _GNU_SOURCE
 #endif
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

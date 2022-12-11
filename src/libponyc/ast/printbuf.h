@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 #include <stdarg.h>
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

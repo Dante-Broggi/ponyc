@@ -1,7 +1,7 @@
 #ifndef lang_lsda_h
 #define lang_lsda_h
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 #if defined(PLATFORM_IS_CLANG_OR_GCC)
 #include <unwind.h>

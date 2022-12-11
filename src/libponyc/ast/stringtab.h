@@ -1,7 +1,7 @@
 #ifndef STRINGTAB_H
 #define STRINGTAB_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../../libponyrt/ds/list.h"
 
 PONY_EXTERN_C_BEGIN

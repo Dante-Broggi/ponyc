@@ -1,7 +1,7 @@
 #ifndef ds_stack_h
 #define ds_stack_h
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

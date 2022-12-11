@@ -3,7 +3,7 @@
 
 #include "pool.h"
 #include "../pony.h"
-#include <platform.h>
+#include "../../common/platform.h"
 #include <stdlib.h>
 #include <stdbool.h>
 

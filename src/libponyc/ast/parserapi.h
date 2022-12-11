@@ -1,7 +1,7 @@
 #ifndef PARSERAPI_H
 #define PARSERAPI_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 
 #include "lexer.h"
 #include "ast.h"

@@ -10,7 +10,7 @@ typedef struct messageq_t
 } messageq_t;
 
 #include "../sched/scheduler.h"
-#include <platform.h>
+#include "../../common/platform.h"
 
 #define UNKNOWN_SCHEDULER -1
 

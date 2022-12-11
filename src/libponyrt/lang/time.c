@@ -1,4 +1,4 @@
-#include <platform.h>
+#include "../../common/platform.h"
 #include <pony.h>
 #include <time.h>
 #include <string.h>

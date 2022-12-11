@@ -1,6 +1,6 @@
 #define PONY_WANT_ATOMIC_DEFS
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include <pony.h>
 #include <string.h>
 

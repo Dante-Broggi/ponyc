@@ -1,7 +1,7 @@
 #ifdef __linux__
 #define _GNU_SOURCE
 #endif
-#include <platform.h>
+#include "../../common/platform.h"
 
 #include "../asio/asio.h"
 #include "../asio/event.h"

@@ -1,7 +1,7 @@
 #ifndef PASS_H
 #define PASS_H
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include "../ast/ast.h"
 #include "../ast/frame.h"
 #include "../ast/source.h"

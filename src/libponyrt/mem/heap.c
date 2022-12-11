@@ -5,7 +5,7 @@
 #include "ponyassert.h"
 #include <string.h>
 
-#include <platform.h>
+#include "../../common/platform.h"
 #include <dtrace.h>
 
 typedef struct chunk_t

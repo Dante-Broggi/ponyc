@@ -4,7 +4,7 @@
 #include "scheduler.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include <platform.h>
+#include "../../common/platform.h"
 
 PONY_EXTERN_C_BEGIN
 

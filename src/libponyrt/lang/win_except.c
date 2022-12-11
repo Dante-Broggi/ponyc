@@ -1,4 +1,4 @@
-#include <platform.h>
+#include "../../common/platform.h"
 #include <stdio.h>
 #include "lsda.h"
 
