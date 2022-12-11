@@ -434,7 +434,8 @@ uint64_t ponyint_cpu_tick()
 #elif defined PLATFORM_IS_X86
 # if defined(PLATFORM_IS_CLANG_OR_GCC)
 #   ifdef __clang__
-  return __builtin_readcyclecounter();
+//   return __builtin_readcyclecounter();
+  return 0;
 #   else
   return __builtin_ia32_rdtsc();
 #   endif
