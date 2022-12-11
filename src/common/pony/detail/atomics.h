@@ -61,14 +61,14 @@ using std::atomic_thread_fence;
 #    error "Please use GCC >= 4.7"
 #  endif
 #elif defined(__clang__)
-#  if __clang_major__ >= 4 || (__clang_major__ == 3 && __clang_minor__ >= 6)
+#  if 0 && (__clang_major__ >= 4 || (__clang_major__ == 3 && __clang_minor__ >= 6))
 #    ifdef PONY_WANT_ATOMIC_DEFS
 #      include <stdatomic.h>
 #    endif
 #    define PONY_ATOMIC(T) T _Atomic
 #    define PONY_ATOMIC_RVALUE(T) T _Atomic
 #    define PONY_ATOMIC_INIT(T, N, V) T _Atomic N = V
-#  elif __clang_major__ >= 3 && __clang_minor__ >= 4
+#  elif 1 || (__clang_major__ >= 3 && __clang_minor__ >= 4)
 #    define PONY_ATOMIC(T) alignas(sizeof(T)) T
 #    define PONY_ATOMIC_RVALUE(T) T
 #    define PONY_ATOMIC_INIT(T, N, V) T N = V
