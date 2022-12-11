@@ -128,7 +128,7 @@ asio_backend_t* ponyint_asio_backend_init()
   // as the default for those signals is termination
   struct sigaction new_action;
   new_action.sa_handler = empty_signal_handler;
-  sigemptyset (&new_action.sa_mask);
+  sigemptyset(&new_action.sa_mask);
 
   // ask to restart interrupted syscalls to match `signal` behavior
   new_action.sa_flags = SA_RESTART;
@@ -403,7 +403,7 @@ PONY_API void pony_asio_event_subscribe(asio_event_t* ev)
     {
       struct sigaction new_action;
       new_action.sa_handler = signal_handler;
-      sigemptyset (&new_action.sa_mask);
+      sigemptyset(&new_action.sa_mask);
 
       // ask to restart interrupted syscalls to match `signal` behavior
       new_action.sa_flags = SA_RESTART;
@@ -516,7 +516,7 @@ PONY_API void pony_asio_event_unsubscribe(asio_event_t* ev)
 #endif
         new_action.sa_handler = SIG_DFL;
 
-      sigemptyset (&new_action.sa_mask);
+      sigemptyset(&new_action.sa_mask);
 
       // ask to restart interrupted syscalls to match `signal` behavior
       new_action.sa_flags = SA_RESTART;
