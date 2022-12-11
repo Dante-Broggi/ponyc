@@ -618,6 +618,8 @@ static bool is_isect_sub_isect(ast_t* sub, ast_t* super, check_cap_t check_cap,
   return true;
 }
 
+static void todo() {}
+
 static bool is_isect_sub_x(ast_t* sub, ast_t* super, check_cap_t check_cap,
   errorframe_t* errorf, pass_opt_t* opt)
 {
@@ -636,6 +638,7 @@ static bool is_isect_sub_x(ast_t* sub, ast_t* super, check_cap_t check_cap,
       if(ast_id(super_def) == TK_INTERFACE)
       {
         // return is_isect_sub_interface(sub, super, errorf);
+        todo();
       }
       break;
     }

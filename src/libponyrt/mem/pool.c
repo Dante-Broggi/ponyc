@@ -673,11 +673,14 @@ static void* pool_alloc_pages(size_t size)
   return (char*)block + rem;
 }
 
+static void todo() {}
+
 static void pool_free_pages(void* p, size_t size)
 {
   if(pool_block_header.total_size >= POOL_MMAP)
   {
     // TODO: ???
+    todo();
   }
 
   pool_block_t* block = (pool_block_t*)p;
