@@ -2,7 +2,7 @@
 #define PACKAGE_H
 
 #include <platform.h>
-#include "../libponyrt/ds/list.h"
+#include "../../libponyrt/ds/list.h"
 
 #include <stdio.h>
 

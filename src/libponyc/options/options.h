@@ -1,8 +1,8 @@
 #ifndef PONYC_OPTIONS_H
 #define PONYC_OPTIONS_H
 
-#include "../libponyc/pass/pass.h"
-#include "../libponyrt/options/options.h"
+#include "../../libponyc/pass/pass.h"
+#include "../../libponyrt/options/options.h"
 
 #include <stdint.h>
 #include <stdbool.h>

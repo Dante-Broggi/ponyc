@@ -5,7 +5,7 @@
 
 #include "lexint.h"
 #include "source.h"
-#include "../libponyrt/pony.h"
+#include "../../libponyrt/pony.h"
 #include <stdbool.h>
 #include <stddef.h>
 
