@@ -42,10 +42,13 @@ PONY_API void pony_error()
 static void set_registers(struct _Unwind_Exception* exception,
   struct _Unwind_Context* context)
 {
-  _Unwind_SetGR(context, __builtin_eh_return_data_regno(0),
-    (uintptr_t)exception);
-  _Unwind_SetGR(context, __builtin_eh_return_data_regno(1), 0);
-  _Unwind_SetIP(context, landing_pad);
+  (void)exception;
+  (void)context;
+  abort();
+//   _Unwind_SetGR(context, __builtin_eh_return_data_regno(0),
+//     (uintptr_t)exception);
+//   _Unwind_SetGR(context, __builtin_eh_return_data_regno(1), 0);
+//   _Unwind_SetIP(context, landing_pad);
 }
 
 // Switch to ARM EHABI for ARM32 devices.
