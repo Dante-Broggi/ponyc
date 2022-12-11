@@ -1180,7 +1180,7 @@ unsafe extern "C" fn make_iftype_typeparam(
         }
         let mut parent_0: *mut ast_t = node;
         let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         if parent_0.is_null() {
             parent_0 = ast_dup(current_constraint);
         } else if last_sibling_0.is_null() {
@@ -1214,7 +1214,7 @@ unsafe extern "C" fn make_iftype_typeparam(
     }
     let mut parent_2: *mut ast_t = node_1;
     let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     if parent_2.is_null() {
         parent_2 = ast_from_string(basis_ast_0, name);
     } else if last_sibling_2.is_null() {

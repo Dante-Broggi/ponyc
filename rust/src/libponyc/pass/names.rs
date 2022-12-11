@@ -1271,7 +1271,7 @@ unsafe extern "C" fn names_typeparam(
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = id;
     } else if last_sibling_0.is_null() {

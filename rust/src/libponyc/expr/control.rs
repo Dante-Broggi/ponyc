@@ -1045,8 +1045,8 @@ unsafe extern "C" fn resolve_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
     }
     let mut parent_1: *mut ast_t = node_0;
-    let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_1);
     ast_inheritflags(parent_0);
     ast_replace(&mut cond, parent);

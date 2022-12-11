@@ -937,7 +937,7 @@ unsafe extern "C" fn pop_global(mut sched: *mut scheduler_t) -> *mut pony_actor_
 }
 #[c2rust::src_loc = "199:1"]
 unsafe extern "C" fn send_msg(
-    mut from: uint32_t,
+    mut _from: uint32_t,
     mut to: uint32_t,
     mut msg: sched_msg_t,
     mut arg: intptr_t,
@@ -1619,7 +1619,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
     mut pinasio: bool,
     mut min_threads: uint32_t,
     mut thread_suspend_threshold: uint32_t,
-    mut stats_interval: uint32_t,
+    mut _stats_interval: uint32_t,
 ) -> *mut pony_ctx_t {
     pony_register_thread();
     use_yield = !noyield;

@@ -362,9 +362,9 @@ unsafe extern "C" fn unix_symlink(mut r: libc::c_int, mut p: *mut pony_stat_t, m
 #[no_mangle]
 #[c2rust::src_loc = "174:1"]
 pub unsafe extern "C" fn pony_os_fstatat(
-    mut fd: libc::c_int,
-    mut path: *const libc::c_char,
-    mut p: *mut pony_stat_t,
+    mut _fd: libc::c_int,
+    mut _path: *const libc::c_char,
+    mut _p: *mut pony_stat_t,
 ) -> bool {
     return 0 as libc::c_int != 0;
 }
@@ -372,7 +372,7 @@ pub unsafe extern "C" fn pony_os_fstatat(
 #[c2rust::src_loc = "197:1"]
 pub unsafe extern "C" fn pony_os_fstat(
     mut fd: libc::c_int,
-    mut path: *const libc::c_char,
+    mut _path: *const libc::c_char,
     mut p: *mut pony_stat_t,
 ) -> bool {
     let mut st: stat = stat {

@@ -1777,8 +1777,8 @@ unsafe extern "C" fn add_as_type(
                 last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
             }
             let mut parent_1: *mut ast_t = node_0;
-            let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-            let mut node_1: *mut ast_t = 0 as *mut ast_t;
+            let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_1: *mut ast_t = 0 as *mut ast_t;
             ast_inheritflags(parent_1);
             ast_inheritflags(parent_0);
             tuple_pattern = parent;
@@ -1809,8 +1809,8 @@ unsafe extern "C" fn add_as_type(
                 last_sibling_3 = ast_add_sibling(last_sibling_3, node_3);
             }
             let mut parent_4: *mut ast_t = node_3;
-            let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-            let mut node_4: *mut ast_t = 0 as *mut ast_t;
+            let mut _last_sibling_4: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_4: *mut ast_t = 0 as *mut ast_t;
             ast_inheritflags(parent_4);
             ast_inheritflags(parent_3);
             tuple_body = parent_2;
@@ -1856,7 +1856,7 @@ unsafe extern "C" fn add_as_type(
             }
             let mut parent_7: *mut ast_t = node_6;
             let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-            let mut node_7: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_7: *mut ast_t = 0 as *mut ast_t;
             if parent_7.is_null() {
                 parent_7 = ast_from_string(basis_ast_1, b"_\0" as *const u8 as *const libc::c_char);
             } else if last_sibling_7.is_null() {
@@ -1959,7 +1959,7 @@ unsafe extern "C" fn add_as_type(
             }
             let mut parent_10: *mut ast_t = node_9;
             let mut last_sibling_10: *mut ast_t = 0 as *mut ast_t;
-            let mut node_10: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_10: *mut ast_t = 0 as *mut ast_t;
             if parent_10.is_null() {
                 parent_10 = ast_from_string(basis_ast_2, name);
             } else if last_sibling_10.is_null() {
@@ -2014,8 +2014,8 @@ unsafe extern "C" fn add_as_type(
                 last_sibling_13 = ast_add_sibling(last_sibling_13, node_13);
             }
             let mut parent_14: *mut ast_t = node_13;
-            let mut last_sibling_14: *mut ast_t = 0 as *mut ast_t;
-            let mut node_14: *mut ast_t = 0 as *mut ast_t;
+            let mut _last_sibling_14: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_14: *mut ast_t = 0 as *mut ast_t;
             ast_inheritflags(parent_14);
             node_13 = ast_from(basis_ast_3, TK_REFERENCE);
             if parent_13.is_null() {
@@ -2027,7 +2027,7 @@ unsafe extern "C" fn add_as_type(
             }
             let mut parent_15: *mut ast_t = node_13;
             let mut last_sibling_15: *mut ast_t = 0 as *mut ast_t;
-            let mut node_15: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_15: *mut ast_t = 0 as *mut ast_t;
             if parent_15.is_null() {
                 parent_15 = ast_from_string(basis_ast_3, name);
             } else if last_sibling_15.is_null() {
@@ -2187,7 +2187,7 @@ pub unsafe extern "C" fn expr_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut a
     }
     let mut parent_1: *mut ast_t = node_0;
     let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     if parent_1.is_null() {
         parent_1 = expr;
     } else if last_sibling_1.is_null() {
@@ -2218,7 +2218,7 @@ pub unsafe extern "C" fn expr_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut a
     }
     let mut parent_3: *mut ast_t = node_2;
     let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_scope(parent_3);
     if parent_3.is_null() {
         parent_3 = pattern;
@@ -2265,7 +2265,7 @@ pub unsafe extern "C" fn expr_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut a
     }
     let mut parent_5: *mut ast_t = node_4;
     let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     if parent_5.is_null() {
         parent_5 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_5.is_null() {

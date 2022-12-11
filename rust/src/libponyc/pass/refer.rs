@@ -1839,7 +1839,7 @@ pub unsafe extern "C" fn refer_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "681:1"]
-unsafe extern "C" fn qualify_typeref(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn qualify_typeref(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     let mut typeref: *mut ast_t = ast_child(ast);
     if ast_id(ast_childidx(typeref, 2 as libc::c_int as size_t)) as libc::c_uint
         == TK_TYPEARGS as libc::c_int as libc::c_uint
@@ -2531,7 +2531,7 @@ unsafe extern "C" fn refer_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1233:1"]
-unsafe extern "C" fn refer_pre_new(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_pre_new(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
@@ -2638,7 +2638,7 @@ unsafe extern "C" fn refer_local(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1301:1"]
-unsafe extern "C" fn refer_seq(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_seq(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_SEQ as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
@@ -2731,7 +2731,7 @@ unsafe extern "C" fn refer_seq(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1374:1"]
-unsafe extern "C" fn refer_if(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_if(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_IF as libc::c_int as libc::c_uint
         || ast_id(ast) as libc::c_uint == TK_IFDEF as libc::c_int as libc::c_uint
     {
@@ -2774,7 +2774,7 @@ unsafe extern "C" fn refer_if(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> 
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1406:1"]
-unsafe extern "C" fn refer_iftype(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_iftype(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_IFTYPE_SET as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
@@ -2916,7 +2916,7 @@ unsafe extern "C" fn refer_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1530:1"]
-unsafe extern "C" fn refer_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_match(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_MATCH as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
@@ -3099,7 +3099,7 @@ unsafe extern "C" fn refer_disposing_block(mut ast: *mut ast_t) -> bool {
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1663:1"]
-unsafe extern "C" fn refer_recover(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_recover(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_RECOVER as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
@@ -3243,7 +3243,7 @@ unsafe extern "C" fn refer_return(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1747:1"]
-unsafe extern "C" fn refer_error(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_error(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if (ast_sibling(ast)).is_null() {
     } else {
         ponyint_assert_fail(
@@ -3258,7 +3258,7 @@ unsafe extern "C" fn refer_error(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1757:1"]
-unsafe extern "C" fn refer_compile_error(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn refer_compile_error(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if (ast_sibling(ast)).is_null() {
     } else {
         ponyint_assert_fail(

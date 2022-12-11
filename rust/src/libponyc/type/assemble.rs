@@ -991,7 +991,7 @@ unsafe extern "C" fn type_base(
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = ast_from_string(basis_ast, package);
     } else if last_sibling_0.is_null() {
@@ -1113,7 +1113,7 @@ pub unsafe extern "C" fn type_pointer_to(
     }
     let mut parent_1: *mut ast_t = node_0;
     let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     if parent_1.is_null() {
         parent_1 = to;
     } else if last_sibling_1.is_null() {
@@ -1290,8 +1290,8 @@ pub unsafe extern "C" fn type_for_class(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_0: *mut ast_t = node;
-    let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_0);
     typeargs = parent;
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
@@ -1319,8 +1319,8 @@ pub unsafe extern "C" fn type_for_class(
         last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
     }
     let mut parent_3: *mut ast_t = node_2;
-    let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_3);
     if parent_2.is_null() {
         parent_2 = id;
@@ -1345,8 +1345,8 @@ pub unsafe extern "C" fn type_for_class(
         last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
     }
     let mut parent_4: *mut ast_t = node_2;
-    let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-    let mut node_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_4: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_4);
     node_2 = ast_from(basis_ast_0, ephemeral);
     if parent_2.is_null() {
@@ -1357,8 +1357,8 @@ pub unsafe extern "C" fn type_for_class(
         last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
     }
     let mut parent_5: *mut ast_t = node_2;
-    let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_5);
     ast_inheritflags(parent_2);
     type_0 = parent_1;
@@ -1461,8 +1461,8 @@ pub unsafe extern "C" fn type_for_fun(mut ast: *mut ast_t) -> *mut ast_t {
         last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
     }
     let mut parent_1: *mut ast_t = node_0;
-    let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_1);
     if parent_0.is_null() {
         parent_0 = typeparams;
@@ -1589,8 +1589,8 @@ pub unsafe extern "C" fn type_isect_fun(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_0: *mut ast_t = node;
-    let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_0);
     if parent.is_null() {
         parent = a_id;
@@ -1608,8 +1608,8 @@ pub unsafe extern "C" fn type_isect_fun(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_1: *mut ast_t = node;
-    let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_1);
     node = ast_from(basis_ast, TK_PARAMS);
     if parent.is_null() {
@@ -1620,8 +1620,8 @@ pub unsafe extern "C" fn type_isect_fun(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_2: *mut ast_t = node;
-    let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_2);
     if parent.is_null() {
         parent = result;
@@ -1639,8 +1639,8 @@ pub unsafe extern "C" fn type_isect_fun(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_3: *mut ast_t = node;
-    let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_3);
     fun = parent;
     return fun;

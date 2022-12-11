@@ -782,11 +782,11 @@ pub unsafe extern "C" fn stringtab_done() {
 }
 #[c2rust::src_loc = "120:1"]
 unsafe extern "C" fn string_serialise(
-    mut ctx: *mut pony_ctx_t,
+    mut _ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut string: *const libc::c_char = object as *const libc::c_char;
     memcpy(
@@ -910,7 +910,7 @@ unsafe extern "C" fn strlist_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut list: *mut strlist_t = object as *mut strlist_t;
     let mut dst: *mut strlist_t = (buf as uintptr_t).wrapping_add(offset) as *mut strlist_t;

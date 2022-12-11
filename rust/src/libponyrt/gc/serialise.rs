@@ -792,7 +792,7 @@ pub unsafe extern "C" fn ponyint_serialise_object(
 #[c2rust::src_loc = "139:1"]
 pub unsafe extern "C" fn ponyint_serialise_actor(
     mut ctx: *mut pony_ctx_t,
-    mut actor: *mut pony_actor_t,
+    mut _actor: *mut pony_actor_t,
 ) {
     serialise_cleanup(ctx);
     ::core::mem::transmute::<_, fn()>(((*ctx).serialise_throw).expect("non-null function pointer"))(

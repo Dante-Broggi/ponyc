@@ -2283,7 +2283,7 @@ unsafe extern "C" fn pointer_create(mut c: *mut compile_t, mut t: *mut reach_typ
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -2724,7 +2724,7 @@ unsafe extern "C" fn pointer_element_size(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -3157,7 +3157,7 @@ unsafe extern "C" fn nullable_pointer_none(mut c: *mut compile_t, mut t: *mut re
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -3393,7 +3393,7 @@ unsafe extern "C" fn donotoptimise_observe(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     let mut t_result: *mut compile_type_t = (*(*m).result).c_type as *mut compile_type_t;
     start_function(
         c,
@@ -4354,7 +4354,7 @@ unsafe extern "C" fn platform_freebsd(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4385,7 +4385,7 @@ unsafe extern "C" fn platform_dragonfly(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4416,7 +4416,7 @@ unsafe extern "C" fn platform_openbsd(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4447,7 +4447,7 @@ unsafe extern "C" fn platform_linux(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4478,7 +4478,7 @@ unsafe extern "C" fn platform_osx(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4509,7 +4509,7 @@ unsafe extern "C" fn platform_windows(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4540,7 +4540,7 @@ unsafe extern "C" fn platform_x86(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4571,7 +4571,7 @@ unsafe extern "C" fn platform_arm(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4602,7 +4602,7 @@ unsafe extern "C" fn platform_lp64(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4633,7 +4633,7 @@ unsafe extern "C" fn platform_llp64(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4664,7 +4664,7 @@ unsafe extern "C" fn platform_ilp32(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4695,7 +4695,7 @@ unsafe extern "C" fn platform_bigendian(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4726,7 +4726,7 @@ unsafe extern "C" fn platform_littleendian(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4757,7 +4757,7 @@ unsafe extern "C" fn platform_native128(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4788,7 +4788,7 @@ unsafe extern "C" fn platform_debug(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4819,7 +4819,7 @@ unsafe extern "C" fn platform_runtimestats(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -4851,7 +4851,7 @@ unsafe extern "C" fn platform_runtimestatsmessages(
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -5074,7 +5074,7 @@ unsafe extern "C" fn number_value(
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
@@ -5608,7 +5608,7 @@ unsafe extern "C" fn number_conversion(
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
@@ -5722,7 +5722,7 @@ unsafe extern "C" fn unsafe_number_conversion(
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
@@ -6476,8 +6476,8 @@ unsafe extern "C" fn f32__nan(mut c: *mut compile_t, mut t: *mut reach_type_t) {
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -6499,7 +6499,7 @@ unsafe extern "C" fn f32__inf(mut c: *mut compile_t, mut t: *mut reach_type_t) {
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     let mut params: [LLVMTypeRef; 2] = [0 as *mut LLVMOpaqueType; 2];
     params[0 as libc::c_int as usize] = (*c).f32_0;
@@ -6532,7 +6532,7 @@ unsafe extern "C" fn f32_from_bits(mut c: *mut compile_t, mut t: *mut reach_type
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     let mut params: [LLVMTypeRef; 2] = [0 as *mut LLVMOpaqueType; 2];
     params[0 as libc::c_int as usize] = (*c).f32_0;
@@ -6563,7 +6563,7 @@ unsafe extern "C" fn f32_bits(mut c: *mut compile_t, mut t: *mut reach_type_t, m
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
@@ -6591,8 +6591,8 @@ unsafe extern "C" fn f64__nan(mut c: *mut compile_t, mut t: *mut reach_type_t) {
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,
         t,
@@ -6614,7 +6614,7 @@ unsafe extern "C" fn f64__inf(mut c: *mut compile_t, mut t: *mut reach_type_t) {
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     let mut params: [LLVMTypeRef; 2] = [0 as *mut LLVMOpaqueType; 2];
     params[0 as libc::c_int as usize] = (*c).f64_0;
@@ -6647,7 +6647,7 @@ unsafe extern "C" fn f64_from_bits(mut c: *mut compile_t, mut t: *mut reach_type
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     let mut params: [LLVMTypeRef; 2] = [0 as *mut LLVMOpaqueType; 2];
     params[0 as libc::c_int as usize] = (*c).f64_0;
@@ -6678,7 +6678,7 @@ unsafe extern "C" fn f64_bits(mut c: *mut compile_t, mut t: *mut reach_type_t, m
         return;
     }
     (*m).intrinsic = 1 as libc::c_int != 0;
-    let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
+    let mut _c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     start_function(
         c,

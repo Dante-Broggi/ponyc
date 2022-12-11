@@ -858,7 +858,7 @@ pub unsafe extern "C" fn alias(mut type_0: *mut ast_t) -> *mut ast_t {
             }
             let mut parent_0: *mut ast_t = node;
             let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-            let mut node_0: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_0: *mut ast_t = 0 as *mut ast_t;
             if parent_0.is_null() {
                 parent_0 = left;
             } else if last_sibling_0.is_null() {
@@ -956,7 +956,7 @@ pub unsafe extern "C" fn consume_type(
                 }
                 let mut parent_0: *mut ast_t = node;
                 let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-                let mut node_0: *mut ast_t = 0 as *mut ast_t;
+                let mut _node_0: *mut ast_t = 0 as *mut ast_t;
                 if parent_0.is_null() {
                     parent_0 = left;
                 } else if last_sibling_0.is_null() {

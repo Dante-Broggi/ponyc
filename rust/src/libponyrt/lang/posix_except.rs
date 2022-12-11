@@ -108,8 +108,8 @@ static mut exception: _Unwind_Exception = _Unwind_Exception {
 static mut landing_pad: uintptr_t = 0;
 #[c2rust::src_loc = "22:1"]
 unsafe extern "C" fn exception_cleanup(
-    mut reason: _Unwind_Reason_Code,
-    mut exception_0: *mut _Unwind_Exception,
+    mut _reason: _Unwind_Reason_Code,
+    mut _exception_0: *mut _Unwind_Exception,
 ) {
 }
 #[no_mangle]
@@ -125,8 +125,8 @@ pub unsafe extern "C" fn pony_error() {
 }
 #[c2rust::src_loc = "42:1"]
 unsafe extern "C" fn set_registers(
-    mut exception_0: *mut _Unwind_Exception,
-    mut context: *mut _Unwind_Context,
+    mut _exception_0: *mut _Unwind_Exception,
+    mut _context: *mut _Unwind_Context,
 ) {
     abort();
 }

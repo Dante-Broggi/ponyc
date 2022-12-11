@@ -1194,8 +1194,8 @@ pub unsafe extern "C" fn method_check_type_params(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_0: *mut ast_t = node;
-    let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_0);
     typeargs = parent;
     if !reify_defaults(typeparams, typeargs, 1 as libc::c_int != 0, opt) {
@@ -1223,7 +1223,7 @@ pub unsafe extern "C" fn method_check_type_params(
     }
     let mut parent_2: *mut ast_t = node_1;
     let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     if parent_2.is_null() {
         parent_2 = lhs;
     } else if last_sibling_2.is_null() {
@@ -2372,7 +2372,7 @@ unsafe extern "C" fn partial_application(
             }
             let mut parent_2: *mut ast_t = node_1;
             let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-            let mut node_2: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_2: *mut ast_t = 0 as *mut ast_t;
             if parent_2.is_null() {
                 parent_2 = ast_from_string(basis_ast, pkg_alias);
             } else if last_sibling_2.is_null() {
@@ -2426,7 +2426,7 @@ unsafe extern "C" fn partial_application(
             }
             let mut parent_5: *mut ast_t = node_4;
             let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-            let mut node_5: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_5: *mut ast_t = 0 as *mut ast_t;
             if parent_5.is_null() {
                 parent_5 = ast_from_string(basis_ast_0, recv_name_str);
             } else if last_sibling_5.is_null() {
@@ -2472,7 +2472,7 @@ unsafe extern "C" fn partial_application(
         }
         let mut parent_8: *mut ast_t = node_7;
         let mut last_sibling_8: *mut ast_t = 0 as *mut ast_t;
-        let mut node_8: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_8: *mut ast_t = 0 as *mut ast_t;
         if parent_8.is_null() {
             parent_8 = ast_from_string(basis_ast_1, recv_name);
         } else if last_sibling_8.is_null() {
@@ -2521,7 +2521,7 @@ unsafe extern "C" fn partial_application(
         }
         let mut parent_11: *mut ast_t = node_10;
         let mut last_sibling_11: *mut ast_t = 0 as *mut ast_t;
-        let mut node_11: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_11: *mut ast_t = 0 as *mut ast_t;
         if parent_11.is_null() {
             parent_11 = ast_from_string(basis_ast_2, recv_name);
         } else if last_sibling_11.is_null() {
@@ -2595,7 +2595,7 @@ unsafe extern "C" fn partial_application(
             }
             let mut parent_13: *mut ast_t = node_12;
             let mut last_sibling_13: *mut ast_t = 0 as *mut ast_t;
-            let mut node_13: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_13: *mut ast_t = 0 as *mut ast_t;
             if parent_13.is_null() {
                 parent_13 = p_id;
             } else if last_sibling_13.is_null() {
@@ -2665,7 +2665,7 @@ unsafe extern "C" fn partial_application(
             }
             let mut parent_17: *mut ast_t = node_16;
             let mut last_sibling_17: *mut ast_t = 0 as *mut ast_t;
-            let mut node_17: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_17: *mut ast_t = 0 as *mut ast_t;
             if parent_17.is_null() {
                 parent_17 = ast_from_string(basis_ast_4, target_p_name);
             } else if last_sibling_17.is_null() {
@@ -2696,7 +2696,7 @@ unsafe extern "C" fn partial_application(
             }
             let mut parent_19: *mut ast_t = node_18;
             let mut last_sibling_19: *mut ast_t = 0 as *mut ast_t;
-            let mut node_19: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_19: *mut ast_t = 0 as *mut ast_t;
             if parent_19.is_null() {
                 parent_19 = ast_from_string(basis_ast_5, target_p_name);
             } else if last_sibling_19.is_null() {
@@ -2748,7 +2748,7 @@ unsafe extern "C" fn partial_application(
             }
             let mut parent_22: *mut ast_t = node_21;
             let mut last_sibling_22: *mut ast_t = 0 as *mut ast_t;
-            let mut node_22: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_22: *mut ast_t = 0 as *mut ast_t;
             if parent_22.is_null() {
                 parent_22 = ast_from_string(basis_ast_6, target_p_name);
             } else if last_sibling_22.is_null() {
@@ -2793,7 +2793,7 @@ unsafe extern "C" fn partial_application(
         }
         let mut parent_24: *mut ast_t = node_23;
         let mut last_sibling_24: *mut ast_t = 0 as *mut ast_t;
-        let mut node_24: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_24: *mut ast_t = 0 as *mut ast_t;
         if parent_24.is_null() {
             parent_24 = call_receiver;
         } else if last_sibling_24.is_null() {
@@ -2843,8 +2843,8 @@ unsafe extern "C" fn partial_application(
         last_sibling_26 = ast_add_sibling(last_sibling_26, node_26);
     }
     let mut parent_27: *mut ast_t = node_26;
-    let mut last_sibling_27: *mut ast_t = 0 as *mut ast_t;
-    let mut node_27: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_27: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_27: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_27);
     if parent_26.is_null() {
         parent_26 = ast_from(basis_ast_8, TK_NONE);
@@ -2890,8 +2890,8 @@ unsafe extern "C" fn partial_application(
         last_sibling_26 = ast_add_sibling(last_sibling_26, node_26);
     }
     let mut parent_28: *mut ast_t = node_26;
-    let mut last_sibling_28: *mut ast_t = 0 as *mut ast_t;
-    let mut node_28: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_28: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_28: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_28);
     node_26 = ast_from(basis_ast_8, TK_SEQ);
     if parent_26.is_null() {
@@ -2945,8 +2945,8 @@ unsafe extern "C" fn partial_application(
         last_sibling_30 = ast_add_sibling(last_sibling_30, node_30);
     }
     let mut parent_31: *mut ast_t = node_30;
-    let mut last_sibling_31: *mut ast_t = 0 as *mut ast_t;
-    let mut node_31: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_31: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_31: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_31);
     ast_inheritflags(parent_30);
     ast_inheritflags(parent_29);

@@ -1671,7 +1671,7 @@ pub unsafe extern "C" fn reach_methods_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
@@ -1815,7 +1815,7 @@ pub unsafe extern "C" fn reach_mangled_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
@@ -2111,7 +2111,7 @@ pub unsafe extern "C" fn reach_method_names_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
@@ -2349,7 +2349,7 @@ pub unsafe extern "C" fn reach_types_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
@@ -2495,7 +2495,7 @@ pub unsafe extern "C" fn reach_type_cache_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
@@ -4547,7 +4547,7 @@ unsafe extern "C" fn reach_param_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut p: *mut reach_param_t = object as *mut reach_param_t;
     let mut dst: *mut reach_param_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_param_t;
@@ -4683,7 +4683,7 @@ unsafe extern "C" fn reach_method_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut m: *mut reach_method_t = object as *mut reach_method_t;
     let mut dst: *mut reach_method_t =
@@ -4851,7 +4851,7 @@ unsafe extern "C" fn reach_method_name_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut n: *mut reach_method_name_t = object as *mut reach_method_name_t;
     let mut dst: *mut reach_method_name_t =
@@ -4964,7 +4964,7 @@ unsafe extern "C" fn reach_field_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut f: *mut reach_field_t = object as *mut reach_field_t;
     let mut dst: *mut reach_field_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_field_t;
@@ -5090,7 +5090,7 @@ unsafe extern "C" fn reach_type_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut t: *mut reach_type_t = object as *mut reach_type_t;
     let mut dst: *mut reach_type_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_type_t;
@@ -5259,7 +5259,7 @@ unsafe extern "C" fn reach_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut r: *mut reach_t = object as *mut reach_t;
     let mut dst: *mut reach_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_t;

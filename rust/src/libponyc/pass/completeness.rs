@@ -793,7 +793,7 @@ pub use self::token_h::{
     TK_VALUEFORMALARG, TK_VALUEFORMALPARAM, TK_VAR, TK_VARREF, TK_WHERE, TK_WHILE, TK_WITH, TK_XOR,
 };
 #[c2rust::src_loc = "4:1"]
-unsafe extern "C" fn completeness_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+unsafe extern "C" fn completeness_match(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if ast_id(ast) as libc::c_uint == TK_MATCH as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(

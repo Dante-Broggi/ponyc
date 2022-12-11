@@ -1852,7 +1852,7 @@ unsafe extern "C" fn deferred_reification_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut d: *mut deferred_reification_t = object as *mut deferred_reification_t;
     let mut dst: *mut deferred_reification_t =

@@ -1473,7 +1473,7 @@ pub unsafe extern "C" fn pony_create(
 }
 #[no_mangle]
 #[c2rust::src_loc = "928:1"]
-pub unsafe extern "C" fn ponyint_destroy(mut ctx: *mut pony_ctx_t, mut actor: *mut pony_actor_t) {
+pub unsafe extern "C" fn ponyint_destroy(mut _ctx: *mut pony_ctx_t, mut actor: *mut pony_actor_t) {
     ponyint_actor_setpendingdestroy(actor);
     ponyint_actor_destroy(actor);
 }

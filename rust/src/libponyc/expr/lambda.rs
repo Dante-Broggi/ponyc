@@ -1244,7 +1244,7 @@ unsafe extern "C" fn make_capture_field(
         }
         let mut parent_0: *mut ast_t = node;
         let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         if parent_0.is_null() {
             parent_0 = ast_from_string(basis_ast, name);
         } else if last_sibling_0.is_null() {
@@ -1333,7 +1333,7 @@ unsafe extern "C" fn make_capture_field(
     }
     let mut parent_2: *mut ast_t = node_1;
     let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     if parent_2.is_null() {
         parent_2 = id_node;
     } else if last_sibling_2.is_null() {
@@ -1707,7 +1707,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     ast_scope(parent_0);
     ast_setannotation(parent_0, annotation);
     if parent_0.is_null() {
@@ -1820,7 +1820,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
     }
     let mut parent_2: *mut ast_t = node_1;
     let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     ast_setdata(parent_2, stringtab((*buf).m) as *mut libc::c_void);
     if parent_2.is_null() {
         parent_2 = obj_cap;
@@ -1862,7 +1862,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
         }
         let mut parent_4: *mut ast_t = node_3;
         let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-        let mut node_4: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_4: *mut ast_t = 0 as *mut ast_t;
         if parent_4.is_null() {
             parent_4 = ast_from_string(
                 basis_ast_1,
@@ -2007,7 +2007,7 @@ unsafe extern "C" fn capture_from_reference(
     }
     let mut parent_1: *mut ast_t = node_0;
     let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     if parent_1.is_null() {
         parent_1 = ast_from_string(basis_ast, name);
     } else if last_sibling_1.is_null() {
@@ -2123,7 +2123,7 @@ unsafe extern "C" fn add_field_to_object(
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = p_id;
     } else if last_sibling_0.is_null() {
@@ -2162,7 +2162,7 @@ unsafe extern "C" fn add_field_to_object(
     }
     let mut parent_2: *mut ast_t = node_1;
     let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     if parent_2.is_null() {
         parent_2 = init;
     } else if last_sibling_2.is_null() {
@@ -2198,7 +2198,7 @@ unsafe extern "C" fn add_field_to_object(
     }
     let mut parent_5: *mut ast_t = node_4;
     let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     if parent_5.is_null() {
         parent_5 = id;
     } else if last_sibling_5.is_null() {
@@ -2227,8 +2227,8 @@ unsafe extern "C" fn add_field_to_object(
         last_sibling_6 = ast_add_sibling(last_sibling_6, node_6);
     }
     let mut parent_7: *mut ast_t = node_6;
-    let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-    let mut node_7: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_7: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_7: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_7);
     node_6 = ast_from(basis_ast_1, TK_REFERENCE);
     if parent_6.is_null() {
@@ -2240,7 +2240,7 @@ unsafe extern "C" fn add_field_to_object(
     }
     let mut parent_8: *mut ast_t = node_6;
     let mut last_sibling_8: *mut ast_t = 0 as *mut ast_t;
-    let mut node_8: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_8: *mut ast_t = 0 as *mut ast_t;
     if parent_8.is_null() {
         parent_8 = p_id;
     } else if last_sibling_8.is_null() {
@@ -2372,8 +2372,8 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
         last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
     }
     let mut parent_1: *mut ast_t = node_0;
-    let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_1);
     if parent_0.is_null() {
         parent_0 = ast_from(basis_ast, TK_NONE);
@@ -2444,8 +2444,8 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
         last_sibling_3 = ast_add_sibling(last_sibling_3, node_3);
     }
     let mut parent_4: *mut ast_t = node_3;
-    let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-    let mut node_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_4: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_4);
     if parent_3.is_null() {
         parent_3 = ast_from(basis_ast_0, TK_NONE);
@@ -2481,8 +2481,8 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
         last_sibling_5 = ast_add_sibling(last_sibling_5, node_5);
     }
     let mut parent_6: *mut ast_t = node_5;
-    let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-    let mut node_6: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_6: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_6: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_6);
     ast_inheritflags(parent_5);
     if parent_3.is_null() {
@@ -2509,7 +2509,7 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
     }
     let mut parent_8: *mut ast_t = node_7;
     let mut last_sibling_8: *mut ast_t = 0 as *mut ast_t;
-    let mut node_8: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_8: *mut ast_t = 0 as *mut ast_t;
     if parent_8.is_null() {
         parent_8 = ast_from_string(basis_ast_1, c_id);
     } else if last_sibling_8.is_null() {
@@ -2535,7 +2535,7 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
         }
         let mut parent_10: *mut ast_t = node_9;
         let mut last_sibling_10: *mut ast_t = 0 as *mut ast_t;
-        let mut node_10: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_10: *mut ast_t = 0 as *mut ast_t;
         if parent_10.is_null() {
             parent_10 = type_ref;
         } else if last_sibling_10.is_null() {
@@ -2581,7 +2581,7 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
     }
     let mut parent_13: *mut ast_t = node_12;
     let mut last_sibling_13: *mut ast_t = 0 as *mut ast_t;
-    let mut node_13: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_13: *mut ast_t = 0 as *mut ast_t;
     if parent_13.is_null() {
         parent_13 = type_ref;
     } else if last_sibling_13.is_null() {
@@ -2612,8 +2612,8 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
         last_sibling_12 = ast_add_sibling(last_sibling_12, node_12);
     }
     let mut parent_14: *mut ast_t = node_12;
-    let mut last_sibling_14: *mut ast_t = 0 as *mut ast_t;
-    let mut node_14: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_14: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_14: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_14);
     if parent_12.is_null() {
         parent_12 = ast_from(basis_ast_3, TK_NONE);
