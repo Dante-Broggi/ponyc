@@ -224,6 +224,8 @@ pub unsafe extern "C" fn ponyint_thread_suspend(
 ) {
     let mut ret: libc::c_int = 0;
     ret = pthread_cond_wait(signal, mut_0);
+    // TODO: What to do if `ret` is an unrecoverable error?
+    let _ = ret;
 }
 #[no_mangle]
 #[c2rust::src_loc = "277:1"]
