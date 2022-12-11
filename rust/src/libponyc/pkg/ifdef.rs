@@ -1024,7 +1024,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
             }
             let mut parent_0: *mut ast_t = node;
             let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-            let mut node_0: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_0: *mut ast_t = 0 as *mut ast_t;
             if parent_0.is_null() {
                 parent_0 = *astp;
             } else if last_sibling_0.is_null() {
@@ -1074,7 +1074,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 }
                 let mut parent_4: *mut ast_t = node_3;
                 let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-                let mut node_4: *mut ast_t = 0 as *mut ast_t;
+                let mut _node_4: *mut ast_t = 0 as *mut ast_t;
                 if parent_4.is_null() {
                     parent_4 = ast_from_string(
                         basis_ast_0,
@@ -1108,7 +1108,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 }
                 let mut parent_5: *mut ast_t = node_3;
                 let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-                let mut node_5: *mut ast_t = 0 as *mut ast_t;
+                let mut _node_5: *mut ast_t = 0 as *mut ast_t;
                 if parent_5.is_null() {
                     parent_5 =
                         ast_from_string(basis_ast_0, b"osx\0" as *const u8 as *const libc::c_char);
@@ -1135,7 +1135,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 }
                 let mut parent_6: *mut ast_t = node_2;
                 let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-                let mut node_6: *mut ast_t = 0 as *mut ast_t;
+                let mut _node_6: *mut ast_t = 0 as *mut ast_t;
                 if parent_6.is_null() {
                     parent_6 =
                         ast_from_string(basis_ast_0, b"bsd\0" as *const u8 as *const libc::c_char);

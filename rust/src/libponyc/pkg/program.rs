@@ -1278,7 +1278,7 @@ unsafe extern "C" fn quoted_locator(
 pub unsafe extern "C" fn use_library(
     mut use_0: *mut ast_t,
     mut locator: *const libc::c_char,
-    mut name: *mut ast_t,
+    mut _name: *mut ast_t,
     mut options: *mut pass_opt_t,
 ) -> bool {
     let mut libname: *const libc::c_char = quoted_locator(options, use_0, locator);
@@ -1309,7 +1309,7 @@ pub unsafe extern "C" fn use_library(
 pub unsafe extern "C" fn use_path(
     mut use_0: *mut ast_t,
     mut locator: *const libc::c_char,
-    mut name: *mut ast_t,
+    mut _name: *mut ast_t,
     mut options: *mut pass_opt_t,
 ) -> bool {
     let mut absolute: [libc::c_char; 1024] = [0; 1024];
@@ -1790,7 +1790,7 @@ unsafe extern "C" fn program_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut program: *mut program_t = object as *mut program_t;
     let mut dst: *mut program_t = (buf as uintptr_t).wrapping_add(offset) as *mut program_t;

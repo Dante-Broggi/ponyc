@@ -689,7 +689,7 @@ unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_m
     }
 }
 #[c2rust::src_loc = "204:1"]
-unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut mark: uint32_t) {
+unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut _mark: uint32_t) {
     if (*chunk).finalisers == 1 as libc::c_int as libc::c_uint {
         if ((**((*chunk).m as *mut *const pony_type_t)).final_0).is_some() {
         } else {
@@ -709,7 +709,7 @@ unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut mark: uint32_t) {
     }
 }
 #[c2rust::src_loc = "216:1"]
-unsafe extern "C" fn destroy_small(mut chunk: *mut chunk_t, mut mark: uint32_t) {
+unsafe extern "C" fn destroy_small(mut chunk: *mut chunk_t, mut _mark: uint32_t) {
     final_small(chunk, FORCE_ALL_FINALISERS as libc::c_uint);
     ponyint_pagemap_set((*chunk).m as *const libc::c_void, 0 as *mut chunk_t);
     ponyint_pool_free(5 as libc::c_int as size_t, (*chunk).m as *mut libc::c_void);

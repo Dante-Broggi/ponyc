@@ -165,7 +165,7 @@ pub use self::threads_h::thread_fn;
 pub unsafe extern "C" fn ponyint_thread_create(
     mut thread: *mut pthread_t,
     mut start: thread_fn,
-    mut cpu: uint32_t,
+    mut _cpu: uint32_t,
     mut arg: *mut libc::c_void,
 ) -> bool {
     let mut ret: bool = 1 as libc::c_int != 0;
@@ -228,7 +228,7 @@ pub unsafe extern "C" fn ponyint_thread_suspend(
 #[no_mangle]
 #[c2rust::src_loc = "277:1"]
 pub unsafe extern "C" fn ponyint_thread_wake(
-    mut thread: pthread_t,
+    mut _thread: pthread_t,
     mut signal: *mut pthread_cond_t,
 ) -> libc::c_int {
     let mut ret: libc::c_int = 0;

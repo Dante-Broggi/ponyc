@@ -1363,7 +1363,7 @@ pub unsafe extern "C" fn modified_cap(
                 }
                 let mut parent_0: *mut ast_t = node;
                 let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-                let mut node_0: *mut ast_t = 0 as *mut ast_t;
+                let mut _node_0: *mut ast_t = 0 as *mut ast_t;
                 if parent_0.is_null() {
                     parent_0 = new_left;
                 } else if last_sibling_0.is_null() {

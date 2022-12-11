@@ -1034,8 +1034,8 @@ unsafe extern "C" fn make_runtime_override_defaults(mut ast: *mut ast_t) -> *mut
         last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
     }
     let mut parent_1: *mut ast_t = node_0;
-    let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_1);
     if parent_0.is_null() {
         parent_0 = ast_from_string(
@@ -1111,7 +1111,7 @@ unsafe extern "C" fn make_runtime_override_defaults(mut ast: *mut ast_t) -> *mut
     }
     let mut parent_4: *mut ast_t = node_3;
     let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-    let mut node_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_4: *mut ast_t = 0 as *mut ast_t;
     if parent_4.is_null() {
         parent_4 = ast_from_string(basis_ast, b"$0\0" as *const u8 as *const libc::c_char);
     } else if last_sibling_4.is_null() {
@@ -1212,8 +1212,8 @@ unsafe extern "C" fn make_runtime_override_defaults(mut ast: *mut ast_t) -> *mut
         last_sibling_5 = ast_add_sibling(last_sibling_5, node_5);
     }
     let mut parent_6: *mut ast_t = node_5;
-    let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-    let mut node_6: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_6: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_6: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_6);
     ast_inheritflags(parent_5);
     if parent_0.is_null() {
@@ -1272,8 +1272,8 @@ unsafe extern "C" fn make_create(mut ast: *mut ast_t) -> *mut ast_t {
         last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
     }
     let mut parent_1: *mut ast_t = node_0;
-    let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_1);
     if parent_0.is_null() {
         parent_0 = ast_from_string(basis_ast, b"create\0" as *const u8 as *const libc::c_char);
@@ -1336,8 +1336,8 @@ unsafe extern "C" fn make_create(mut ast: *mut ast_t) -> *mut ast_t {
         last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
     }
     let mut parent_3: *mut ast_t = node_2;
-    let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_3);
     ast_inheritflags(parent_2);
     if parent_0.is_null() {
@@ -1463,7 +1463,7 @@ unsafe extern "C" fn sugar_module(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         }
         let mut parent_0: *mut ast_t = node;
         let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         if parent_0.is_null() {
             parent_0 = ast_from(basis_ast, TK_NONE);
         } else if last_sibling_0.is_null() {
@@ -1588,7 +1588,7 @@ unsafe extern "C" fn sugar_docstring(mut ast: *mut ast_t) {
 }
 #[c2rust::src_loc = "213:1"]
 unsafe extern "C" fn sugar_entity(
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
     mut ast: *mut ast_t,
     mut add_create: bool,
     mut def_def_cap: token_id,
@@ -1636,8 +1636,8 @@ unsafe extern "C" fn sugar_entity(
         last_sibling = ast_add_sibling(last_sibling, node);
     }
     let mut parent_0: *mut ast_t = node;
-    let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_0);
     init_seq = parent;
     let mut member: *mut ast_t = ast_child(members);
@@ -1684,7 +1684,7 @@ unsafe extern "C" fn sugar_entity(
                     }
                     let mut parent_3: *mut ast_t = node_2;
                     let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-                    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+                    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
                     if parent_3.is_null() {
                         parent_3 = f_id;
                     } else if last_sibling_3.is_null() {
@@ -1795,7 +1795,7 @@ unsafe extern "C" fn sugar_typeparam(mut ast: *mut ast_t) -> ast_result_t {
         }
         let mut parent_0: *mut ast_t = node;
         let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         if parent_0.is_null() {
             parent_0 = ast_from(basis_ast, TK_NONE);
         } else if last_sibling_0.is_null() {
@@ -2063,7 +2063,7 @@ pub unsafe extern "C" fn fun_defaults(mut ast: *mut ast_t) {
             }
             let mut parent_0: *mut ast_t = node;
             let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-            let mut node_0: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_0: *mut ast_t = 0 as *mut ast_t;
             if parent_0.is_null() {
                 parent_0 =
                     ast_from_string(basis_ast, b"None\0" as *const u8 as *const libc::c_char);
@@ -2114,7 +2114,7 @@ unsafe extern "C" fn expand_none(mut ast: *mut ast_t, mut is_scope: bool) {
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = ast_from_string(basis_ast, b"None\0" as *const u8 as *const libc::c_char);
     } else if last_sibling_0.is_null() {
@@ -2275,7 +2275,7 @@ unsafe extern "C" fn sugar_for(
     }
     let mut parent_4: *mut ast_t = node_3;
     let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-    let mut node_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_4: *mut ast_t = 0 as *mut ast_t;
     if parent_4.is_null() {
         parent_4 = ast_from_string(basis_ast, iter_name);
     } else if last_sibling_4.is_null() {
@@ -2321,8 +2321,8 @@ unsafe extern "C" fn sugar_for(
         last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
     }
     let mut parent_5: *mut ast_t = node_2;
-    let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_5);
     ast_inheritflags(parent_2);
     ast_inheritflags(parent_1);
@@ -2348,7 +2348,7 @@ unsafe extern "C" fn sugar_for(
     }
     let mut parent_7: *mut ast_t = node_6;
     let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-    let mut node_7: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_7: *mut ast_t = 0 as *mut ast_t;
     if parent_7.is_null() {
         parent_7 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_7.is_null() {
@@ -2404,7 +2404,7 @@ unsafe extern "C" fn sugar_for(
     }
     let mut parent_11: *mut ast_t = node_10;
     let mut last_sibling_11: *mut ast_t = 0 as *mut ast_t;
-    let mut node_11: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_11: *mut ast_t = 0 as *mut ast_t;
     if parent_11.is_null() {
         parent_11 = ast_setdata(
             ast_from_string(basis_ast_0, iter_name),
@@ -2502,7 +2502,7 @@ unsafe extern "C" fn sugar_for(
     }
     let mut parent_16: *mut ast_t = node_15;
     let mut last_sibling_16: *mut ast_t = 0 as *mut ast_t;
-    let mut node_16: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_16: *mut ast_t = 0 as *mut ast_t;
     if parent_16.is_null() {
         parent_16 = ast_from_string(basis_ast_0, iter_name);
     } else if last_sibling_16.is_null() {
@@ -2579,7 +2579,7 @@ unsafe extern "C" fn sugar_for(
     }
     let mut parent_18: *mut ast_t = node_17;
     let mut last_sibling_18: *mut ast_t = 0 as *mut ast_t;
-    let mut node_18: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_18: *mut ast_t = 0 as *mut ast_t;
     if parent_18.is_null() {
         parent_18 = for_idseq;
     } else if last_sibling_18.is_null() {
@@ -2694,7 +2694,7 @@ unsafe extern "C" fn build_with_dispose(mut dispose_clause: *mut ast_t, mut idse
         }
         let mut parent_2: *mut ast_t = node_1;
         let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-        let mut node_2: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_2: *mut ast_t = 0 as *mut ast_t;
         if parent_2.is_null() {
             parent_2 = id;
         } else if last_sibling_2.is_null() {
@@ -2828,7 +2828,7 @@ unsafe extern "C" fn sugar_with(
     }
     let mut parent_2: *mut ast_t = node_1;
     let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     ast_scope(parent_2);
     if parent_2.is_null() {
         parent_2 = body;
@@ -2847,8 +2847,8 @@ unsafe extern "C" fn sugar_with(
         last_sibling_1 = ast_add_sibling(last_sibling_1, node_1);
     }
     let mut parent_3: *mut ast_t = node_1;
-    let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_scope(parent_3);
     ast_inheritflags(parent_3);
     ast_inheritflags(parent_1);
@@ -2915,7 +2915,7 @@ unsafe extern "C" fn sugar_with(
         }
         let mut parent_6: *mut ast_t = node_5;
         let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-        let mut node_6: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_6: *mut ast_t = 0 as *mut ast_t;
         if parent_6.is_null() {
             parent_6 = ast_from_string(basis_ast_0, init_name);
         } else if last_sibling_6.is_null() {
@@ -2974,7 +2974,7 @@ unsafe extern "C" fn sugar_with(
         }
         let mut parent_9: *mut ast_t = node_8;
         let mut last_sibling_9: *mut ast_t = 0 as *mut ast_t;
-        let mut node_9: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_9: *mut ast_t = 0 as *mut ast_t;
         if parent_9.is_null() {
             parent_9 = ast_from_string(basis_ast_1, init_name);
         } else if last_sibling_9.is_null() {
@@ -3200,7 +3200,7 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
     }
     let mut parent_1: *mut ast_t = node_0;
     let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     if parent_1.is_null() {
         parent_1 = value;
     } else if last_sibling_1.is_null() {
@@ -3237,7 +3237,7 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
     }
     let mut parent_4: *mut ast_t = node_3;
     let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-    let mut node_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_4: *mut ast_t = 0 as *mut ast_t;
     if parent_4.is_null() {
         parent_4 = expr;
     } else if last_sibling_4.is_null() {
@@ -3285,7 +3285,7 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
     return AST_OK;
 }
 #[c2rust::src_loc = "776:1"]
-unsafe extern "C" fn sugar_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut ast_t) -> ast_result_t {
+unsafe extern "C" fn sugar_as(mut _opt: *mut pass_opt_t, mut astp: *mut *mut ast_t) -> ast_result_t {
     let mut ast: *mut ast_t = *astp;
     if ast_id(ast) as libc::c_uint == TK_AS as libc::c_int as libc::c_uint {
     } else {
@@ -3322,8 +3322,8 @@ unsafe extern "C" fn sugar_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut ast_
             last_sibling = ast_add_sibling(last_sibling, node);
         }
         let mut parent_0: *mut ast_t = node;
-        let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_0);
         new_type = parent;
         let mut p: *mut ast_t = ast_child(type_0);
@@ -3347,8 +3347,8 @@ unsafe extern "C" fn sugar_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut ast_
                     last_sibling_1 = ast_add_sibling(last_sibling_1, node_1);
                 }
                 let mut parent_2: *mut ast_t = node_1;
-                let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-                let mut node_2: *mut ast_t = 0 as *mut ast_t;
+                let mut _last_sibling_2: *mut ast_t = 0 as *mut ast_t;
+                let mut _node_2: *mut ast_t = 0 as *mut ast_t;
                 ast_inheritflags(parent_2);
                 dontcare = parent_1;
                 ast_append(new_type, dontcare);
@@ -3371,7 +3371,7 @@ unsafe extern "C" fn sugar_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut ast_
         }
         let mut parent_4: *mut ast_t = node_3;
         let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-        let mut node_4: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_4: *mut ast_t = 0 as *mut ast_t;
         if parent_4.is_null() {
             parent_4 = expr;
         } else if last_sibling_4.is_null() {
@@ -3428,7 +3428,7 @@ unsafe extern "C" fn sugar_binop(
             }
             let mut parent_0: *mut ast_t = node;
             let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-            let mut node_0: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_0: *mut ast_t = 0 as *mut ast_t;
             if parent_0.is_null() {
                 parent_0 = value;
             } else if last_sibling_0.is_null() {
@@ -3457,7 +3457,7 @@ unsafe extern "C" fn sugar_binop(
         }
         let mut parent_2: *mut ast_t = node_1;
         let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-        let mut node_2: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_2: *mut ast_t = 0 as *mut ast_t;
         if parent_2.is_null() {
             parent_2 = right;
         } else if last_sibling_2.is_null() {
@@ -3500,7 +3500,7 @@ unsafe extern "C" fn sugar_binop(
     }
     let mut parent_5: *mut ast_t = node_4;
     let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     if parent_5.is_null() {
         parent_5 = left;
     } else if last_sibling_5.is_null() {
@@ -3580,7 +3580,7 @@ unsafe extern "C" fn sugar_unop(
     }
     let mut parent_1: *mut ast_t = node_0;
     let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-    let mut node_1: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_1: *mut ast_t = 0 as *mut ast_t;
     if parent_1.is_null() {
         parent_1 = expr;
     } else if last_sibling_1.is_null() {
@@ -3761,7 +3761,7 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         }
         let mut parent_1: *mut ast_t = node_0;
         let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-        let mut node_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_1: *mut ast_t = 0 as *mut ast_t;
         if parent_1.is_null() {
             parent_1 = cond;
         } else if last_sibling_1.is_null() {
@@ -3779,8 +3779,8 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
         }
         let mut parent_2: *mut ast_t = node_0;
-        let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-        let mut node_2: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_2: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_2: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_2);
         ast_inheritflags(parent_0);
         ast_replace(&mut else_cond, parent);
@@ -3822,8 +3822,8 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             last_sibling_4 = ast_add_sibling(last_sibling_4, node_4);
         }
         let mut parent_5: *mut ast_t = node_4;
-        let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-        let mut node_5: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_5: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_5: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_5);
         ast_inheritflags(parent_4);
         ast_replace(&mut cond, parent_3);
@@ -3842,7 +3842,7 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         }
         let mut parent_7: *mut ast_t = node_6;
         let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-        let mut node_7: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_7: *mut ast_t = 0 as *mut ast_t;
         if parent_7.is_null() {
             parent_7 = cond;
         } else if last_sibling_7.is_null() {
@@ -4002,7 +4002,7 @@ unsafe extern "C" fn sugar_lambdatype(
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_0.is_null() {
@@ -4086,7 +4086,7 @@ unsafe extern "C" fn sugar_lambdatype(
         }
         let mut parent_2: *mut ast_t = node_1;
         let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-        let mut node_2: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_2: *mut ast_t = 0 as *mut ast_t;
         if parent_2.is_null() {
             parent_2 = ast_from_string(basis_ast_0, name.as_mut_ptr());
         } else if last_sibling_2.is_null() {
@@ -4217,7 +4217,7 @@ unsafe extern "C" fn sugar_lambdatype(
     }
     let mut parent_6: *mut ast_t = node_5;
     let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-    let mut node_6: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_6: *mut ast_t = 0 as *mut ast_t;
     ast_scope(parent_6);
     if parent_6.is_null() {
         parent_6 = apply_cap;
@@ -4310,7 +4310,7 @@ unsafe extern "C" fn sugar_lambdatype(
         }
         let mut parent_8: *mut ast_t = node_7;
         let mut last_sibling_8: *mut ast_t = 0 as *mut ast_t;
-        let mut node_8: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_8: *mut ast_t = 0 as *mut ast_t;
         if parent_8.is_null() {
             parent_8 = ast_from_string(
                 basis_ast_2,
@@ -4350,7 +4350,7 @@ unsafe extern "C" fn sugar_lambdatype(
 }
 #[c2rust::src_loc = "1107:1"]
 unsafe extern "C" fn sugar_barelambda(
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
     mut ast: *mut ast_t,
 ) -> ast_result_t {
     if !ast.is_null() {
@@ -4511,8 +4511,8 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
         last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
     }
     let mut parent_3: *mut ast_t = node_2;
-    let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_3);
     if parent_2.is_null() {
         parent_2 = ast_from_string(basis_ast, b"file\0" as *const u8 as *const libc::c_char);
@@ -4551,7 +4551,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_4: *mut ast_t = node_2;
     let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-    let mut node_4: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_4: *mut ast_t = 0 as *mut ast_t;
     if parent_4.is_null() {
         parent_4 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_4.is_null() {
@@ -4611,7 +4611,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_5: *mut ast_t = node_2;
     let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     if parent_5.is_null() {
         parent_5 = ast_setid(ast_from_string(basis_ast, file_name), TK_STRING);
     } else if last_sibling_5.is_null() {
@@ -4655,8 +4655,8 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
         last_sibling_6 = ast_add_sibling(last_sibling_6, node_6);
     }
     let mut parent_7: *mut ast_t = node_6;
-    let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-    let mut node_7: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_7: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_7: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_7);
     if parent_6.is_null() {
         parent_6 = ast_from_string(
@@ -4704,7 +4704,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_8: *mut ast_t = node_6;
     let mut last_sibling_8: *mut ast_t = 0 as *mut ast_t;
-    let mut node_8: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_8: *mut ast_t = 0 as *mut ast_t;
     if parent_8.is_null() {
         parent_8 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_8.is_null() {
@@ -4764,7 +4764,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_9: *mut ast_t = node_6;
     let mut last_sibling_9: *mut ast_t = 0 as *mut ast_t;
-    let mut node_9: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_9: *mut ast_t = 0 as *mut ast_t;
     if parent_9.is_null() {
         parent_9 = ast_setid(ast_from_string(basis_ast, type_name), TK_STRING);
     } else if last_sibling_9.is_null() {
@@ -4808,8 +4808,8 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
         last_sibling_10 = ast_add_sibling(last_sibling_10, node_10);
     }
     let mut parent_11: *mut ast_t = node_10;
-    let mut last_sibling_11: *mut ast_t = 0 as *mut ast_t;
-    let mut node_11: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_11: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_11: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_11);
     if parent_10.is_null() {
         parent_10 = ast_from_string(
@@ -4857,7 +4857,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_12: *mut ast_t = node_10;
     let mut last_sibling_12: *mut ast_t = 0 as *mut ast_t;
-    let mut node_12: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_12: *mut ast_t = 0 as *mut ast_t;
     if parent_12.is_null() {
         parent_12 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_12.is_null() {
@@ -4917,7 +4917,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_13: *mut ast_t = node_10;
     let mut last_sibling_13: *mut ast_t = 0 as *mut ast_t;
-    let mut node_13: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_13: *mut ast_t = 0 as *mut ast_t;
     if parent_13.is_null() {
         parent_13 = ast_setid(ast_from_string(basis_ast, method_name), TK_STRING);
     } else if last_sibling_13.is_null() {
@@ -4961,8 +4961,8 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
         last_sibling_14 = ast_add_sibling(last_sibling_14, node_14);
     }
     let mut parent_15: *mut ast_t = node_14;
-    let mut last_sibling_15: *mut ast_t = 0 as *mut ast_t;
-    let mut node_15: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_15: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_15: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_15);
     if parent_14.is_null() {
         parent_14 = ast_from_string(basis_ast, b"line\0" as *const u8 as *const libc::c_char);
@@ -5001,7 +5001,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_16: *mut ast_t = node_14;
     let mut last_sibling_16: *mut ast_t = 0 as *mut ast_t;
-    let mut node_16: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_16: *mut ast_t = 0 as *mut ast_t;
     if parent_16.is_null() {
         parent_16 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_16.is_null() {
@@ -5061,7 +5061,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_17: *mut ast_t = node_14;
     let mut last_sibling_17: *mut ast_t = 0 as *mut ast_t;
-    let mut node_17: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_17: *mut ast_t = 0 as *mut ast_t;
     if parent_17.is_null() {
         parent_17 = ast_from_int(basis_ast, ast_line(location) as uint64_t);
     } else if last_sibling_17.is_null() {
@@ -5105,8 +5105,8 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
         last_sibling_18 = ast_add_sibling(last_sibling_18, node_18);
     }
     let mut parent_19: *mut ast_t = node_18;
-    let mut last_sibling_19: *mut ast_t = 0 as *mut ast_t;
-    let mut node_19: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_19: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_19: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_19);
     if parent_18.is_null() {
         parent_18 = ast_from_string(basis_ast, b"pos\0" as *const u8 as *const libc::c_char);
@@ -5145,7 +5145,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_20: *mut ast_t = node_18;
     let mut last_sibling_20: *mut ast_t = 0 as *mut ast_t;
-    let mut node_20: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_20: *mut ast_t = 0 as *mut ast_t;
     if parent_20.is_null() {
         parent_20 = ast_from(basis_ast, TK_NONE);
     } else if last_sibling_20.is_null() {
@@ -5205,7 +5205,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     }
     let mut parent_21: *mut ast_t = node_18;
     let mut last_sibling_21: *mut ast_t = 0 as *mut ast_t;
-    let mut node_21: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_21: *mut ast_t = 0 as *mut ast_t;
     if parent_21.is_null() {
         parent_21 = ast_from_int(basis_ast, ast_pos(location) as uint64_t);
     } else if last_sibling_21.is_null() {

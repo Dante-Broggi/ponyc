@@ -841,7 +841,7 @@ unsafe extern "C" fn flatten_typeexpr_element(
     ast_free_unattached(elem);
 }
 #[c2rust::src_loc = "30:1"]
-unsafe extern "C" fn flatten_union(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
+unsafe extern "C" fn flatten_union(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
     if ast_childcount(ast) > 2 as libc::c_int as libc::c_ulong {
         return AST_OK;
     }
@@ -860,7 +860,7 @@ unsafe extern "C" fn flatten_union(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     return AST_OK;
 }
 #[c2rust::src_loc = "47:1"]
-unsafe extern "C" fn flatten_isect(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
+unsafe extern "C" fn flatten_isect(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
     if ast_childcount(ast) > 2 as libc::c_int as libc::c_ulong {
         return AST_OK;
     }

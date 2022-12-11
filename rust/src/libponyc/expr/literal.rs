@@ -1691,8 +1691,8 @@ unsafe extern "C" fn uifset_formal_param(
         last_sibling_1 = ast_add_sibling(last_sibling_1, node_1);
     }
     let mut parent_2: *mut ast_t = node_1;
-    let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-    let mut node_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _last_sibling_2: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_2: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_2);
     if parent_1.is_null() {
         parent_1 = ast_from(basis_ast, TK_NONE);
@@ -1742,7 +1742,7 @@ unsafe extern "C" fn uifset_formal_param(
         }
         let mut parent_4: *mut ast_t = node_3;
         let mut last_sibling_4: *mut ast_t = 0 as *mut ast_t;
-        let mut node_4: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_4: *mut ast_t = 0 as *mut ast_t;
         if parent_4.is_null() {
             parent_4 = ast_dup(type_param);
         } else if last_sibling_4.is_null() {
@@ -1767,7 +1767,7 @@ unsafe extern "C" fn uifset_formal_param(
         }
         let mut parent_6: *mut ast_t = node_5;
         let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-        let mut node_6: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_6: *mut ast_t = 0 as *mut ast_t;
         if parent_6.is_null() {
             parent_6 = uif;
         } else if last_sibling_6.is_null() {
@@ -2143,8 +2143,8 @@ unsafe extern "C" fn uif_type(
             last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
         }
         let mut parent_1: *mut ast_t = node_0;
-        let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-        let mut node_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_1: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_1);
         if parent_0.is_null() {
             parent_0 = ast_from(basis_ast, TK_NONE);

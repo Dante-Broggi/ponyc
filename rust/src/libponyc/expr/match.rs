@@ -1313,7 +1313,7 @@ pub unsafe extern "C" fn expr_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             }
             let mut parent_0: *mut ast_t = node;
             let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-            let mut node_0: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_0: *mut ast_t = 0 as *mut ast_t;
             if parent_0.is_null() {
                 parent_0 = ast_from(basis_ast, TK_NONE);
             } else if last_sibling_0.is_null() {
@@ -1841,7 +1841,7 @@ pub unsafe extern "C" fn expr_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "585:1"]
-pub unsafe extern "C" fn expr_match_capture(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+pub unsafe extern "C" fn expr_match_capture(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(

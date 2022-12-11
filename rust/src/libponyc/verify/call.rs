@@ -1100,7 +1100,7 @@ pub unsafe extern "C" fn verify_function_call(
 #[no_mangle]
 #[c2rust::src_loc = "141:1"]
 pub unsafe extern "C" fn verify_behaviour_call(
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
     mut ast: *mut ast_t,
 ) -> bool {
     if ast_id(ast) as libc::c_uint == TK_BEREF as libc::c_int as libc::c_uint

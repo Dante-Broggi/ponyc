@@ -1314,7 +1314,7 @@ unsafe extern "C" fn is_typeparam_match_typeparam(
     mut pattern: *mut ast_t,
     mut errorf: *mut errorframe_t,
     mut report_reject: bool,
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
 ) -> matchtype_t {
     let mut operand_def: *mut ast_t = ast_data(operand) as *mut ast_t;
     let mut pattern_def: *mut ast_t = ast_data(pattern) as *mut ast_t;
@@ -1686,8 +1686,8 @@ unsafe extern "C" fn is_trait_match_trait(
     mut operand: *mut ast_t,
     mut pattern: *mut ast_t,
     mut errorf: *mut errorframe_t,
-    mut report_reject: bool,
-    mut opt: *mut pass_opt_t,
+    mut _report_reject: bool,
+    mut _opt: *mut pass_opt_t,
 ) -> matchtype_t {
     let mut o_pkg: ast_ptr_t = 0 as *mut ast_t;
     let mut o_id: ast_ptr_t = 0 as *mut ast_t;
@@ -1823,7 +1823,7 @@ unsafe extern "C" fn is_tuple_match_nominal(
     mut pattern: *mut ast_t,
     mut errorf: *mut errorframe_t,
     mut report_reject: bool,
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
 ) -> matchtype_t {
     if !errorf.is_null() && report_reject as libc::c_int != 0 {
         ast_error_frame(

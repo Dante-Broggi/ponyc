@@ -1510,7 +1510,7 @@ unsafe extern "C" fn add_method(
 #[c2rust::src_loc = "405:1"]
 unsafe extern "C" fn rescope(
     mut astp: *mut *mut ast_t,
-    mut options: *mut pass_opt_t,
+    mut _options: *mut pass_opt_t,
 ) -> ast_result_t {
     let mut ast: *mut ast_t = *astp;
     if ast_has_scope(ast) {
@@ -2216,7 +2216,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_0: *mut ast_t = node;
         let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         if parent_0.is_null() {
             parent_0 = ast_from(basis_ast, TK_NONE);
         } else if last_sibling_0.is_null() {
@@ -2285,8 +2285,8 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
             last_sibling_2 = ast_add_sibling(last_sibling_2, node_2);
         }
         let mut parent_3: *mut ast_t = node_2;
-        let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-        let mut node_3: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_3: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_3: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_3);
         if parent_2.is_null() {
             parent_2 = ast_from_string(basis_ast_0, b"eq\0" as *const u8 as *const libc::c_char);
@@ -2353,7 +2353,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_6: *mut ast_t = node_5;
         let mut last_sibling_6: *mut ast_t = 0 as *mut ast_t;
-        let mut node_6: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_6: *mut ast_t = 0 as *mut ast_t;
         if parent_6.is_null() {
             parent_6 = ast_from(basis_ast_0, TK_NONE);
         } else if last_sibling_6.is_null() {
@@ -2409,7 +2409,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_7: *mut ast_t = node_2;
         let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-        let mut node_7: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_7: *mut ast_t = 0 as *mut ast_t;
         if parent_7.is_null() {
             parent_7 = ast_from(basis_ast_0, TK_NONE);
         } else if last_sibling_7.is_null() {
@@ -2490,8 +2490,8 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
             last_sibling_9 = ast_add_sibling(last_sibling_9, node_9);
         }
         let mut parent_10: *mut ast_t = node_9;
-        let mut last_sibling_10: *mut ast_t = 0 as *mut ast_t;
-        let mut node_10: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_10: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_10: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_10);
         node_9 = ast_from(basis_ast_0, TK_REFERENCE);
         if parent_9.is_null() {
@@ -2503,7 +2503,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_11: *mut ast_t = node_9;
         let mut last_sibling_11: *mut ast_t = 0 as *mut ast_t;
-        let mut node_11: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_11: *mut ast_t = 0 as *mut ast_t;
         if parent_11.is_null() {
             parent_11 = ast_from_string(basis_ast_0, b"that\0" as *const u8 as *const libc::c_char);
         } else if last_sibling_11.is_null() {
@@ -2569,8 +2569,8 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
             last_sibling_13 = ast_add_sibling(last_sibling_13, node_13);
         }
         let mut parent_14: *mut ast_t = node_13;
-        let mut last_sibling_14: *mut ast_t = 0 as *mut ast_t;
-        let mut node_14: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_14: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_14: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_14);
         if parent_13.is_null() {
             parent_13 = ast_from_string(basis_ast_1, b"ne\0" as *const u8 as *const libc::c_char);
@@ -2637,7 +2637,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_17: *mut ast_t = node_16;
         let mut last_sibling_17: *mut ast_t = 0 as *mut ast_t;
-        let mut node_17: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_17: *mut ast_t = 0 as *mut ast_t;
         if parent_17.is_null() {
             parent_17 = ast_from(basis_ast_1, TK_NONE);
         } else if last_sibling_17.is_null() {
@@ -2693,7 +2693,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_18: *mut ast_t = node_13;
         let mut last_sibling_18: *mut ast_t = 0 as *mut ast_t;
-        let mut node_18: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_18: *mut ast_t = 0 as *mut ast_t;
         if parent_18.is_null() {
             parent_18 = ast_from(basis_ast_1, TK_NONE);
         } else if last_sibling_18.is_null() {
@@ -2774,8 +2774,8 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
             last_sibling_20 = ast_add_sibling(last_sibling_20, node_20);
         }
         let mut parent_21: *mut ast_t = node_20;
-        let mut last_sibling_21: *mut ast_t = 0 as *mut ast_t;
-        let mut node_21: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_21: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_21: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_21);
         node_20 = ast_from(basis_ast_1, TK_REFERENCE);
         if parent_20.is_null() {
@@ -2787,7 +2787,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
         let mut parent_22: *mut ast_t = node_20;
         let mut last_sibling_22: *mut ast_t = 0 as *mut ast_t;
-        let mut node_22: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_22: *mut ast_t = 0 as *mut ast_t;
         if parent_22.is_null() {
             parent_22 = ast_from_string(basis_ast_1, b"that\0" as *const u8 as *const libc::c_char);
         } else if last_sibling_22.is_null() {

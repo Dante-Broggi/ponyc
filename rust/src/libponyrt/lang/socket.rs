@@ -768,7 +768,7 @@ unsafe extern "C" fn os_listen(
     mut owner: *mut pony_actor_t,
     mut fd: libc::c_int,
     mut p: *mut addrinfo,
-    mut proto: libc::c_int,
+    mut _proto: libc::c_int,
 ) -> *mut asio_event_t {
     if bind(
         fd,

@@ -257,11 +257,11 @@ pub unsafe extern "C" fn ponyint_gmtime(
 #[no_mangle]
 #[c2rust::src_loc = "86:1"]
 pub unsafe extern "C" fn format_invalid_parameter_handler(
-    mut expression: *const wchar_t,
-    mut function: *const wchar_t,
-    mut file: *const wchar_t,
-    mut line: libc::c_uint,
-    mut p_reserved: uintptr_t,
+    mut _expression: *const wchar_t,
+    mut _function: *const wchar_t,
+    mut _file: *const wchar_t,
+    mut _line: libc::c_uint,
+    mut _p_reserved: uintptr_t,
 ) {
     pony_error();
 }

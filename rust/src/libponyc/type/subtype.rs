@@ -1127,7 +1127,7 @@ unsafe extern "C" fn push_assume(
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = ast_dup(sub);
     } else if last_sibling_0.is_null() {
@@ -1162,7 +1162,7 @@ unsafe extern "C" fn is_sub_cap_and_eph(
     mut super_0: *mut ast_t,
     mut check_cap: check_cap_t,
     mut errorf: *mut errorframe_t,
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
 ) -> bool {
     let mut sub_cap: *mut ast_t = cap_fetch(sub);
     let mut sub_eph: *mut ast_t = ast_sibling(sub_cap);
@@ -1703,8 +1703,8 @@ unsafe extern "C" fn is_fun_sub_fun(
             last_sibling = ast_add_sibling(last_sibling, node);
         }
         let mut parent_0: *mut ast_t = node;
-        let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-        let mut node_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_0: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_0: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_0);
         typeargs = parent;
         let mut super_typeparam: *mut ast_t = ast_child(super_typeparams);
@@ -1735,7 +1735,7 @@ unsafe extern "C" fn is_fun_sub_fun(
             }
             let mut parent_2: *mut ast_t = node_1;
             let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-            let mut node_2: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_2: *mut ast_t = 0 as *mut ast_t;
             if parent_2.is_null() {
                 parent_2 = super_id_0;
             } else if last_sibling_2.is_null() {
@@ -1964,9 +1964,9 @@ unsafe extern "C" fn is_tuple_sub_tuple(
 unsafe extern "C" fn is_single_sub_tuple(
     mut sub: *mut ast_t,
     mut super_0: *mut ast_t,
-    mut check_cap: check_cap_t,
+    mut _check_cap: check_cap_t,
     mut errorf: *mut errorframe_t,
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
 ) -> bool {
     if !errorf.is_null() {
         ast_error_frame(
@@ -2439,7 +2439,7 @@ unsafe extern "C" fn is_trait_sub_trait(
 unsafe extern "C" fn is_interface_sub_trait(
     mut sub: *mut ast_t,
     mut super_0: *mut ast_t,
-    mut check_cap: check_cap_t,
+    mut _check_cap: check_cap_t,
     mut errorf: *mut errorframe_t,
 ) -> bool {
     if !errorf.is_null() {

@@ -1384,7 +1384,7 @@ pub unsafe extern "C" fn expr_param(mut opt: *mut pass_opt_t, mut ast: *mut ast_
 }
 #[no_mangle]
 #[c2rust::src_loc = "201:1"]
-pub unsafe extern "C" fn expr_field(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+pub unsafe extern "C" fn expr_field(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     let mut id: ast_ptr_t = 0 as *mut ast_t;
     let mut type_0: ast_ptr_t = 0 as *mut ast_t;
     let mut init: ast_ptr_t = 0 as *mut ast_t;
@@ -1731,7 +1731,7 @@ pub unsafe extern "C" fn expr_dontcareref(mut opt: *mut pass_opt_t, mut ast: *mu
 }
 #[no_mangle]
 #[c2rust::src_loc = "478:1"]
-pub unsafe extern "C" fn expr_local(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+pub unsafe extern "C" fn expr_local(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     if !(ast_type(ast)).is_null() {
     } else {
         ponyint_assert_fail(
@@ -2100,8 +2100,8 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
                 last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
             }
             let mut parent_2: *mut ast_t = node_0;
-            let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-            let mut node_1: *mut ast_t = 0 as *mut ast_t;
+            let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+            let mut _node_1: *mut ast_t = 0 as *mut ast_t;
             ast_inheritflags(parent_2);
             if parent_1.is_null() {
                 parent_1 = ast_from(basis_ast, TK_NONE);
@@ -2208,8 +2208,8 @@ pub unsafe extern "C" fn expr_this(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
         }
         let mut parent_2: *mut ast_t = node_0;
-        let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-        let mut node_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_1: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_2);
         if parent_1.is_null() {
             parent_1 = type_0;
@@ -2547,7 +2547,7 @@ pub unsafe extern "C" fn expr_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
 #[no_mangle]
 #[c2rust::src_loc = "1078:1"]
 pub unsafe extern "C" fn expr_compile_intrinsic(
-    mut opt: *mut pass_opt_t,
+    mut _opt: *mut pass_opt_t,
     mut ast: *mut ast_t,
 ) -> bool {
     ast_settype(ast, ast_from(ast, TK_COMPILE_INTRINSIC));

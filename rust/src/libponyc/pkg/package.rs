@@ -2098,7 +2098,7 @@ pub unsafe extern "C" fn package_group_list_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_list_serialise(ctx, object, buf, offset);
 }
@@ -2370,7 +2370,7 @@ pub unsafe extern "C" fn package_set_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
@@ -4213,7 +4213,7 @@ unsafe extern "C" fn package_signature_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut package: *mut package_t = object as *mut package_t;
     let mut dst: *mut package_signature_t =
@@ -4377,7 +4377,7 @@ unsafe extern "C" fn package_group_signature_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut group: *mut package_group_t = object as *mut package_group_t;
     let mut dst: *mut package_group_t =
@@ -4484,7 +4484,7 @@ pub unsafe extern "C" fn package_group_signature_pony_type() -> *const pony_type
     return &package_group_signature_pony;
 }
 #[c2rust::src_loc = "1588:1"]
-unsafe extern "C" fn s_alloc_fn(mut ctx: *mut pony_ctx_t, mut size: size_t) -> *mut libc::c_void {
+unsafe extern "C" fn s_alloc_fn(mut _ctx: *mut pony_ctx_t, mut size: size_t) -> *mut libc::c_void {
     return ponyint_pool_alloc_size(size);
 }
 #[c2rust::src_loc = "1595:1"]
@@ -4639,7 +4639,7 @@ unsafe extern "C" fn package_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut package: *mut package_t = object as *mut package_t;
     let mut dst: *mut package_t = (buf as uintptr_t).wrapping_add(offset) as *mut package_t;
@@ -4780,7 +4780,7 @@ unsafe extern "C" fn package_group_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut group: *mut package_group_t = object as *mut package_group_t;
     let mut dst: *mut package_group_t =

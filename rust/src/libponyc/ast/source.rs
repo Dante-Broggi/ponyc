@@ -357,7 +357,7 @@ unsafe extern "C" fn source_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut source: *mut source_t = object as *mut source_t;
     let mut dst: *mut source_t = (buf as uintptr_t).wrapping_add(offset) as *mut source_t;

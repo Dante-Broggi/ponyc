@@ -696,7 +696,7 @@ pub use self::token_h::{
 #[c2rust::src_loc = "66:1"]
 unsafe extern "C" fn provides(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -746,7 +746,7 @@ unsafe extern "C" fn provides(
 #[c2rust::src_loc = "73:1"]
 unsafe extern "C" fn defaultarg(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -797,7 +797,7 @@ unsafe extern "C" fn defaultarg(
 #[c2rust::src_loc = "81:1"]
 unsafe extern "C" fn param(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -914,7 +914,7 @@ unsafe extern "C" fn param(
 #[c2rust::src_loc = "90:1"]
 unsafe extern "C" fn ellipsis(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -952,7 +952,7 @@ unsafe extern "C" fn ellipsis(
 #[c2rust::src_loc = "95:1"]
 unsafe extern "C" fn literal(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -990,7 +990,7 @@ unsafe extern "C" fn literal(
 #[c2rust::src_loc = "100:1"]
 unsafe extern "C" fn const_expr(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1052,7 +1052,7 @@ unsafe extern "C" fn const_expr(
 #[c2rust::src_loc = "107:1"]
 unsafe extern "C" fn typeargliteral(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1102,7 +1102,7 @@ unsafe extern "C" fn typeargliteral(
 #[c2rust::src_loc = "114:1"]
 unsafe extern "C" fn typeargconst(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1152,7 +1152,7 @@ unsafe extern "C" fn typeargconst(
 #[c2rust::src_loc = "121:1"]
 unsafe extern "C" fn typearg(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1217,7 +1217,7 @@ unsafe extern "C" fn typearg(
 #[c2rust::src_loc = "126:1"]
 unsafe extern "C" fn typeparam(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1338,7 +1338,7 @@ unsafe extern "C" fn typeparam(
 #[c2rust::src_loc = "134:1"]
 unsafe extern "C" fn params(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1448,7 +1448,7 @@ unsafe extern "C" fn params(
 #[c2rust::src_loc = "141:1"]
 unsafe extern "C" fn typeparams(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1568,7 +1568,7 @@ unsafe extern "C" fn typeparams(
 #[c2rust::src_loc = "150:1"]
 unsafe extern "C" fn typeargs(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1688,7 +1688,7 @@ unsafe extern "C" fn typeargs(
 #[c2rust::src_loc = "159:1"]
 unsafe extern "C" fn cap(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1726,7 +1726,7 @@ unsafe extern "C" fn cap(
 #[c2rust::src_loc = "164:1"]
 unsafe extern "C" fn gencap(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1771,7 +1771,7 @@ unsafe extern "C" fn gencap(
 #[c2rust::src_loc = "170:1"]
 unsafe extern "C" fn bare(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -1809,7 +1809,7 @@ unsafe extern "C" fn bare(
 #[c2rust::src_loc = "175:1"]
 unsafe extern "C" fn nominal(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -2096,7 +2096,7 @@ unsafe extern "C" fn isecttype(
 #[c2rust::src_loc = "204:1"]
 unsafe extern "C" fn infixtype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -2291,7 +2291,7 @@ unsafe extern "C" fn tupletype(
 #[c2rust::src_loc = "219:1"]
 unsafe extern "C" fn groupedtype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -2392,7 +2392,7 @@ unsafe extern "C" fn groupedtype(
 #[c2rust::src_loc = "229:1"]
 unsafe extern "C" fn thistype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -2431,7 +2431,7 @@ unsafe extern "C" fn thistype(
 #[c2rust::src_loc = "236:1"]
 unsafe extern "C" fn typelist(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -2525,7 +2525,7 @@ unsafe extern "C" fn typelist(
 #[c2rust::src_loc = "245:1"]
 unsafe extern "C" fn lambdatype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -2792,7 +2792,7 @@ unsafe extern "C" fn lambdatype(
 #[c2rust::src_loc = "263:1"]
 unsafe extern "C" fn barelambdatype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3059,7 +3059,7 @@ unsafe extern "C" fn barelambdatype(
 #[c2rust::src_loc = "280:1"]
 unsafe extern "C" fn atomtype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3210,7 +3210,7 @@ unsafe extern "C" fn viewpoint(
 #[c2rust::src_loc = "293:1"]
 unsafe extern "C" fn type_0(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3284,7 +3284,7 @@ unsafe extern "C" fn type_0(
 #[c2rust::src_loc = "299:1"]
 unsafe extern "C" fn namedarg(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3380,7 +3380,7 @@ unsafe extern "C" fn namedarg(
 #[c2rust::src_loc = "311:1"]
 unsafe extern "C" fn named(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3487,7 +3487,7 @@ unsafe extern "C" fn named(
 #[c2rust::src_loc = "319:1"]
 unsafe extern "C" fn positional(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3581,7 +3581,7 @@ unsafe extern "C" fn positional(
 #[c2rust::src_loc = "326:1"]
 unsafe extern "C" fn annotations(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3681,7 +3681,7 @@ unsafe extern "C" fn annotations(
 #[c2rust::src_loc = "336:1"]
 unsafe extern "C" fn object(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3858,7 +3858,7 @@ unsafe extern "C" fn object(
 #[c2rust::src_loc = "350:1"]
 unsafe extern "C" fn lambdaparam(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -3979,7 +3979,7 @@ unsafe extern "C" fn lambdaparam(
 #[c2rust::src_loc = "358:1"]
 unsafe extern "C" fn lambdaparams(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -4073,7 +4073,7 @@ unsafe extern "C" fn lambdaparams(
 #[c2rust::src_loc = "365:1"]
 unsafe extern "C" fn lambdacapture(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -4194,7 +4194,7 @@ unsafe extern "C" fn lambdacapture(
 #[c2rust::src_loc = "374:1"]
 unsafe extern "C" fn lambdacaptures(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -4330,7 +4330,7 @@ unsafe extern "C" fn lambdacaptures(
 #[c2rust::src_loc = "385:1"]
 unsafe extern "C" fn lambda(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -4678,7 +4678,7 @@ unsafe extern "C" fn lambda(
 #[c2rust::src_loc = "412:1"]
 unsafe extern "C" fn barelambda(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5026,7 +5026,7 @@ unsafe extern "C" fn barelambda(
 #[c2rust::src_loc = "437:1"]
 unsafe extern "C" fn arraytype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5101,7 +5101,7 @@ unsafe extern "C" fn arraytype(
 #[c2rust::src_loc = "445:1"]
 unsafe extern "C" fn array(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5203,7 +5203,7 @@ unsafe extern "C" fn array(
 #[c2rust::src_loc = "455:1"]
 unsafe extern "C" fn nextarray(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5415,7 +5415,7 @@ unsafe extern "C" fn tuple(
 #[c2rust::src_loc = "474:1"]
 unsafe extern "C" fn groupedexpr(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5516,7 +5516,7 @@ unsafe extern "C" fn groupedexpr(
 #[c2rust::src_loc = "484:1"]
 unsafe extern "C" fn nextgroupedexpr(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5617,7 +5617,7 @@ unsafe extern "C" fn nextgroupedexpr(
 #[c2rust::src_loc = "494:1"]
 unsafe extern "C" fn thisliteral(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5655,7 +5655,7 @@ unsafe extern "C" fn thisliteral(
 #[c2rust::src_loc = "499:1"]
 unsafe extern "C" fn ref_0(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5694,7 +5694,7 @@ unsafe extern "C" fn ref_0(
 #[c2rust::src_loc = "506:1"]
 unsafe extern "C" fn location(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5732,7 +5732,7 @@ unsafe extern "C" fn location(
 #[c2rust::src_loc = "513:1"]
 unsafe extern "C" fn ffi(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -5901,7 +5901,7 @@ unsafe extern "C" fn ffi(
 #[c2rust::src_loc = "529:1"]
 unsafe extern "C" fn atom(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -6044,7 +6044,7 @@ unsafe extern "C" fn atom(
 #[c2rust::src_loc = "537:1"]
 unsafe extern "C" fn caseatom(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -6180,7 +6180,7 @@ unsafe extern "C" fn caseatom(
 #[c2rust::src_loc = "544:1"]
 unsafe extern "C" fn nextatom(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -6647,7 +6647,7 @@ unsafe extern "C" fn call(
 #[c2rust::src_loc = "589:1"]
 unsafe extern "C" fn postfix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -6753,7 +6753,7 @@ unsafe extern "C" fn postfix(
 #[c2rust::src_loc = "595:1"]
 unsafe extern "C" fn casepostfix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -6860,7 +6860,7 @@ unsafe extern "C" fn casepostfix(
 #[c2rust::src_loc = "601:1"]
 unsafe extern "C" fn nextpostfix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -6967,7 +6967,7 @@ unsafe extern "C" fn nextpostfix(
 #[c2rust::src_loc = "607:1"]
 unsafe extern "C" fn local(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7059,7 +7059,7 @@ unsafe extern "C" fn local(
 #[c2rust::src_loc = "616:1"]
 unsafe extern "C" fn prefix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7142,7 +7142,7 @@ unsafe extern "C" fn prefix(
 #[c2rust::src_loc = "629:1"]
 unsafe extern "C" fn caseprefix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7225,7 +7225,7 @@ unsafe extern "C" fn caseprefix(
 #[c2rust::src_loc = "641:1"]
 unsafe extern "C" fn nextprefix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7300,7 +7300,7 @@ unsafe extern "C" fn nextprefix(
 #[c2rust::src_loc = "651:1"]
 unsafe extern "C" fn parampattern(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7357,7 +7357,7 @@ unsafe extern "C" fn parampattern(
 #[c2rust::src_loc = "656:1"]
 unsafe extern "C" fn caseparampattern(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7414,7 +7414,7 @@ unsafe extern "C" fn caseparampattern(
 #[c2rust::src_loc = "661:1"]
 unsafe extern "C" fn nextparampattern(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7471,7 +7471,7 @@ unsafe extern "C" fn nextparampattern(
 #[c2rust::src_loc = "666:1"]
 unsafe extern "C" fn pattern(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7528,7 +7528,7 @@ unsafe extern "C" fn pattern(
 #[c2rust::src_loc = "671:1"]
 unsafe extern "C" fn casepattern(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7585,7 +7585,7 @@ unsafe extern "C" fn casepattern(
 #[c2rust::src_loc = "676:1"]
 unsafe extern "C" fn nextpattern(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7642,7 +7642,7 @@ unsafe extern "C" fn nextpattern(
 #[c2rust::src_loc = "681:1"]
 unsafe extern "C" fn idseqmulti(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7762,7 +7762,7 @@ unsafe extern "C" fn idseqmulti(
 #[c2rust::src_loc = "691:1"]
 unsafe extern "C" fn idseqsingle(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7802,7 +7802,7 @@ unsafe extern "C" fn idseqsingle(
 #[c2rust::src_loc = "699:1"]
 unsafe extern "C" fn idseq_in_seq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7860,7 +7860,7 @@ unsafe extern "C" fn idseq_in_seq(
 #[c2rust::src_loc = "705:1"]
 unsafe extern "C" fn idseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7917,7 +7917,7 @@ unsafe extern "C" fn idseq(
 #[c2rust::src_loc = "710:1"]
 unsafe extern "C" fn elseclause(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -7979,7 +7979,7 @@ unsafe extern "C" fn elseclause(
 #[c2rust::src_loc = "717:1"]
 unsafe extern "C" fn elseif(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -8137,7 +8137,7 @@ unsafe extern "C" fn elseif(
 #[c2rust::src_loc = "729:1"]
 unsafe extern "C" fn cond(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -8307,7 +8307,7 @@ unsafe extern "C" fn cond(
 #[c2rust::src_loc = "742:1"]
 unsafe extern "C" fn elseifdef(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -8529,7 +8529,7 @@ unsafe extern "C" fn elseifdef(
 #[c2rust::src_loc = "759:1"]
 unsafe extern "C" fn ifdef(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -8763,7 +8763,7 @@ unsafe extern "C" fn ifdef(
 #[c2rust::src_loc = "776:1"]
 unsafe extern "C" fn iftype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -8888,7 +8888,7 @@ unsafe extern "C" fn iftype(
 #[c2rust::src_loc = "788:1"]
 unsafe extern "C" fn elseiftype(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9010,7 +9010,7 @@ unsafe extern "C" fn elseiftype(
 #[c2rust::src_loc = "798:1"]
 unsafe extern "C" fn iftypeset(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9144,7 +9144,7 @@ unsafe extern "C" fn iftypeset(
 #[c2rust::src_loc = "809:1"]
 unsafe extern "C" fn caseexpr(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9316,7 +9316,7 @@ unsafe extern "C" fn caseexpr(
 #[c2rust::src_loc = "820:1"]
 unsafe extern "C" fn cases(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9371,7 +9371,7 @@ unsafe extern "C" fn cases(
 #[c2rust::src_loc = "828:1"]
 unsafe extern "C" fn match_0(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9537,7 +9537,7 @@ unsafe extern "C" fn match_0(
 #[c2rust::src_loc = "840:1"]
 unsafe extern "C" fn whileloop(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9715,7 +9715,7 @@ unsafe extern "C" fn whileloop(
 #[c2rust::src_loc = "853:1"]
 unsafe extern "C" fn repeat(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -9893,7 +9893,7 @@ unsafe extern "C" fn repeat(
 #[c2rust::src_loc = "872:1"]
 unsafe extern "C" fn forloop(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10108,7 +10108,7 @@ unsafe extern "C" fn forloop(
 #[c2rust::src_loc = "886:1"]
 unsafe extern "C" fn withelem(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10195,7 +10195,7 @@ unsafe extern "C" fn withelem(
 #[c2rust::src_loc = "894:1"]
 unsafe extern "C" fn withexpr(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10289,7 +10289,7 @@ unsafe extern "C" fn withexpr(
 #[c2rust::src_loc = "902:1"]
 unsafe extern "C" fn with(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10426,7 +10426,7 @@ unsafe extern "C" fn with(
 #[c2rust::src_loc = "913:1"]
 unsafe extern "C" fn try_block(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10607,7 +10607,7 @@ unsafe extern "C" fn try_block(
 #[c2rust::src_loc = "924:1"]
 unsafe extern "C" fn test_try_block(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10791,7 +10791,7 @@ unsafe extern "C" fn test_try_block(
 #[c2rust::src_loc = "936:1"]
 unsafe extern "C" fn recover(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10914,7 +10914,7 @@ unsafe extern "C" fn recover(
 #[c2rust::src_loc = "946:1"]
 unsafe extern "C" fn test_aliased(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -10955,7 +10955,7 @@ unsafe extern "C" fn test_aliased(
 #[c2rust::src_loc = "953:1"]
 unsafe extern "C" fn consume(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -11048,7 +11048,7 @@ unsafe extern "C" fn consume(
 #[c2rust::src_loc = "961:1"]
 unsafe extern "C" fn test_prefix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -11109,7 +11109,7 @@ unsafe extern "C" fn test_prefix(
 #[c2rust::src_loc = "969:1"]
 unsafe extern "C" fn test_noseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -11197,7 +11197,7 @@ unsafe extern "C" fn test_noseq(
 #[c2rust::src_loc = "979:1"]
 unsafe extern "C" fn test_seq_scope(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -11286,7 +11286,7 @@ unsafe extern "C" fn test_seq_scope(
 #[c2rust::src_loc = "990:1"]
 unsafe extern "C" fn test_ifdef_flag(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -11337,7 +11337,7 @@ unsafe extern "C" fn test_ifdef_flag(
 #[c2rust::src_loc = "998:1"]
 unsafe extern "C" fn term(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -11520,7 +11520,7 @@ unsafe extern "C" fn term(
 #[c2rust::src_loc = "1006:1"]
 unsafe extern "C" fn nextterm(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12017,7 +12017,7 @@ unsafe extern "C" fn test_binop(
 #[c2rust::src_loc = "1062:1"]
 unsafe extern "C" fn infix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12115,7 +12115,7 @@ unsafe extern "C" fn infix(
 #[c2rust::src_loc = "1068:1"]
 unsafe extern "C" fn nextinfix(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12277,7 +12277,7 @@ unsafe extern "C" fn assignop(
 #[c2rust::src_loc = "1082:1"]
 unsafe extern "C" fn assignment(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12351,7 +12351,7 @@ unsafe extern "C" fn assignment(
 #[c2rust::src_loc = "1088:1"]
 unsafe extern "C" fn nextassignment(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12425,7 +12425,7 @@ unsafe extern "C" fn nextassignment(
 #[c2rust::src_loc = "1094:1"]
 unsafe extern "C" fn jump(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12496,7 +12496,7 @@ unsafe extern "C" fn jump(
 #[c2rust::src_loc = "1101:1"]
 unsafe extern "C" fn semi(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12572,7 +12572,7 @@ unsafe extern "C" fn semi(
 #[c2rust::src_loc = "1108:1"]
 unsafe extern "C" fn semiexpr(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12652,7 +12652,7 @@ unsafe extern "C" fn semiexpr(
 #[c2rust::src_loc = "1115:1"]
 unsafe extern "C" fn nosemi(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12728,7 +12728,7 @@ unsafe extern "C" fn nosemi(
 #[c2rust::src_loc = "1121:1"]
 unsafe extern "C" fn nextexprseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12812,7 +12812,7 @@ unsafe extern "C" fn nextexprseq(
 #[c2rust::src_loc = "1129:1"]
 unsafe extern "C" fn exprseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12896,7 +12896,7 @@ unsafe extern "C" fn exprseq(
 #[c2rust::src_loc = "1137:1"]
 unsafe extern "C" fn rawseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -12953,7 +12953,7 @@ unsafe extern "C" fn rawseq(
 #[c2rust::src_loc = "1143:1"]
 unsafe extern "C" fn seq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13003,7 +13003,7 @@ unsafe extern "C" fn seq(
 #[c2rust::src_loc = "1149:1"]
 unsafe extern "C" fn annotatedrawseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13085,7 +13085,7 @@ unsafe extern "C" fn annotatedrawseq(
 #[c2rust::src_loc = "1156:1"]
 unsafe extern "C" fn annotatedseq(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13135,7 +13135,7 @@ unsafe extern "C" fn annotatedseq(
 #[c2rust::src_loc = "1163:1"]
 unsafe extern "C" fn method(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13456,7 +13456,7 @@ unsafe extern "C" fn method(
 #[c2rust::src_loc = "1183:1"]
 unsafe extern "C" fn field(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13605,7 +13605,7 @@ unsafe extern "C" fn field(
 #[c2rust::src_loc = "1195:1"]
 unsafe extern "C" fn members(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13687,7 +13687,7 @@ unsafe extern "C" fn members(
 #[c2rust::src_loc = "1203:1"]
 unsafe extern "C" fn class_def(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13953,7 +13953,7 @@ unsafe extern "C" fn class_def(
 #[c2rust::src_loc = "1223:1"]
 unsafe extern "C" fn use_uri(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -13991,7 +13991,7 @@ unsafe extern "C" fn use_uri(
 #[c2rust::src_loc = "1229:1"]
 unsafe extern "C" fn use_ffi(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -14136,7 +14136,7 @@ unsafe extern "C" fn use_ffi(
 #[c2rust::src_loc = "1243:1"]
 unsafe extern "C" fn use_name(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -14187,7 +14187,7 @@ unsafe extern "C" fn use_name(
 #[c2rust::src_loc = "1250:1"]
 unsafe extern "C" fn use_0(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {
@@ -14336,7 +14336,7 @@ unsafe extern "C" fn use_0(
 #[c2rust::src_loc = "1260:1"]
 unsafe extern "C" fn module(
     mut parser: *mut parser_t,
-    mut out_builder: *mut builder_fn_t,
+    mut _out_builder: *mut builder_fn_t,
     mut rule_desc: *const libc::c_char,
 ) -> *mut ast_t {
     let mut state: rule_state_t = {

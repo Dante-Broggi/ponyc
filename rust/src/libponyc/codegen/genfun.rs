@@ -3262,7 +3262,7 @@ pub unsafe extern "C" fn genfun_param_attrs(
 #[no_mangle]
 #[c2rust::src_loc = "860:1"]
 pub unsafe extern "C" fn genfun_allocate_compile_methods(
-    mut c: *mut compile_t,
+    mut _c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) {
     let mut i: size_t = -(1 as libc::c_int) as size_t;

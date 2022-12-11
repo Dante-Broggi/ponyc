@@ -1128,7 +1128,7 @@ unsafe extern "C" fn build_array_type(
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = elem_type;
     } else if last_sibling_0.is_null() {
@@ -1653,8 +1653,8 @@ pub unsafe extern "C" fn expr_pre_array(
             last_sibling_0 = ast_add_sibling(last_sibling_0, node_0);
         }
         let mut parent_1: *mut ast_t = node_0;
-        let mut last_sibling_1: *mut ast_t = 0 as *mut ast_t;
-        let mut node_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _last_sibling_1: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_1: *mut ast_t = 0 as *mut ast_t;
         ast_inheritflags(parent_1);
         node_0 = ast_from(basis_ast, TK_SEQ);
         if parent_0.is_null() {
@@ -1666,7 +1666,7 @@ pub unsafe extern "C" fn expr_pre_array(
         }
         let mut parent_2: *mut ast_t = node_0;
         let mut last_sibling_2: *mut ast_t = 0 as *mut ast_t;
-        let mut node_2: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_2: *mut ast_t = 0 as *mut ast_t;
         ast_scope(parent_2);
         if parent_2.is_null() {
             parent_2 = ast;
@@ -1831,7 +1831,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     let mut parent_0: *mut ast_t = node;
     let mut last_sibling_0: *mut ast_t = 0 as *mut ast_t;
-    let mut node_0: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_0: *mut ast_t = 0 as *mut ast_t;
     if parent_0.is_null() {
         parent_0 = ast_from_string(basis_ast, b"Array\0" as *const u8 as *const libc::c_char);
     } else if last_sibling_0.is_null() {
@@ -1880,7 +1880,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     let mut parent_3: *mut ast_t = node_2;
     let mut last_sibling_3: *mut ast_t = 0 as *mut ast_t;
-    let mut node_3: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     if parent_3.is_null() {
         parent_3 = type_0;
     } else if last_sibling_3.is_null() {
@@ -1906,7 +1906,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     let mut parent_5: *mut ast_t = node_4;
     let mut last_sibling_5: *mut ast_t = 0 as *mut ast_t;
-    let mut node_5: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_5: *mut ast_t = 0 as *mut ast_t;
     if parent_5.is_null() {
         parent_5 = qualify;
     } else if last_sibling_5.is_null() {
@@ -1945,7 +1945,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     let mut parent_7: *mut ast_t = node_6;
     let mut last_sibling_7: *mut ast_t = 0 as *mut ast_t;
-    let mut node_7: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_7: *mut ast_t = 0 as *mut ast_t;
     if parent_7.is_null() {
         parent_7 = size_arg;
     } else if last_sibling_7.is_null() {
@@ -1996,7 +1996,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     let mut parent_10: *mut ast_t = node_9;
     let mut last_sibling_10: *mut ast_t = 0 as *mut ast_t;
-    let mut node_10: *mut ast_t = 0 as *mut ast_t;
+    let mut _node_10: *mut ast_t = 0 as *mut ast_t;
     if parent_10.is_null() {
         parent_10 = size_arg_seq;
     } else if last_sibling_10.is_null() {
@@ -2049,7 +2049,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
         }
         let mut parent_12: *mut ast_t = node_11;
         let mut last_sibling_12: *mut ast_t = 0 as *mut ast_t;
-        let mut node_12: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_12: *mut ast_t = 0 as *mut ast_t;
         if parent_12.is_null() {
             parent_12 = *astp;
         } else if last_sibling_12.is_null() {
@@ -2087,7 +2087,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
         }
         let mut parent_14: *mut ast_t = node_13;
         let mut last_sibling_14: *mut ast_t = 0 as *mut ast_t;
-        let mut node_14: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_14: *mut ast_t = 0 as *mut ast_t;
         if parent_14.is_null() {
             parent_14 = ele_0;
         } else if last_sibling_14.is_null() {
@@ -2130,7 +2130,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
         }
         let mut parent_17: *mut ast_t = node_16;
         let mut last_sibling_17: *mut ast_t = 0 as *mut ast_t;
-        let mut node_17: *mut ast_t = 0 as *mut ast_t;
+        let mut _node_17: *mut ast_t = 0 as *mut ast_t;
         if parent_17.is_null() {
             parent_17 = ele_seq;
         } else if last_sibling_17.is_null() {

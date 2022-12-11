@@ -1406,7 +1406,7 @@ unsafe extern "C" fn token_signature_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut token: *mut token_t = object as *mut token_t;
     let mut dst: *mut token_signature_t =
@@ -1481,7 +1481,7 @@ pub unsafe extern "C" fn token_signature_pony_type() -> *const pony_type_t {
 }
 #[c2rust::src_loc = "429:1"]
 unsafe extern "C" fn token_docstring_signature_serialise_trace(
-    mut ctx: *mut pony_ctx_t,
+    mut _ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
 ) {
     let mut token: *mut token_t = object as *mut token_t;
@@ -1501,11 +1501,11 @@ unsafe extern "C" fn token_docstring_signature_serialise_trace(
 }
 #[c2rust::src_loc = "440:1"]
 unsafe extern "C" fn token_docstring_signature_serialise(
-    mut ctx: *mut pony_ctx_t,
-    mut object: *mut libc::c_void,
+    mut _ctx: *mut pony_ctx_t,
+    mut _object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut dst: *mut token_signature_t =
         (buf as uintptr_t).wrapping_add(offset) as *mut token_signature_t;
@@ -1588,7 +1588,7 @@ unsafe extern "C" fn token_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut token: *mut token_t = object as *mut token_t;
     let mut dst: *mut token_t = (buf as uintptr_t).wrapping_add(offset) as *mut token_t;

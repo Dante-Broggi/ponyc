@@ -82,8 +82,8 @@ static mut locks: *mut pthread_mutex_t = 0 as *const pthread_mutex_t as *mut pth
 unsafe extern "C" fn locking_callback(
     mut mode: libc::c_int,
     mut type_0: libc::c_int,
-    mut file: *const libc::c_char,
-    mut line: libc::c_int,
+    mut _file: *const libc::c_char,
+    mut _line: libc::c_int,
 ) {
     if mode & 1 as libc::c_int != 0 {
         pthread_mutex_lock(&mut *locks.offset(type_0 as isize));

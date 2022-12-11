@@ -2229,7 +2229,7 @@ pub unsafe extern "C" fn genned_strings_put(
 }
 #[no_mangle]
 #[c2rust::src_loc = "43:1"]
-pub unsafe extern "C" fn gen_this(mut c: *mut compile_t, mut ast: *mut ast_t) -> LLVMValueRef {
+pub unsafe extern "C" fn gen_this(mut c: *mut compile_t, mut _ast: *mut ast_t) -> LLVMValueRef {
     return LLVMGetParam(codegen_fun(c), 0 as libc::c_int as libc::c_uint);
 }
 #[no_mangle]

@@ -5101,7 +5101,7 @@ unsafe extern "C" fn ast_signature_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut ast: *mut ast_t = object as *mut ast_t;
     let mut dst: *mut ast_signature_t =
@@ -5250,7 +5250,7 @@ unsafe extern "C" fn ast_nominal_pkg_id_signature_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut ast: *mut ast_t = object as *mut ast_t;
     let mut dst: *mut ast_signature_t =
@@ -5493,7 +5493,7 @@ unsafe extern "C" fn ast_serialise(
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
     mut offset: size_t,
-    mut mutability: libc::c_int,
+    mut _mutability: libc::c_int,
 ) {
     let mut ast: *mut ast_t = object as *mut ast_t;
     let mut dst: *mut ast_t = (buf as uintptr_t).wrapping_add(offset) as *mut ast_t;
