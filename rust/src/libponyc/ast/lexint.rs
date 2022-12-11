@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
-    pub type __uint128_t = bf16;
+    pub type __uint128_t = u128;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:1"]
 pub mod _uint8_t_h {
@@ -184,8 +184,8 @@ pub unsafe extern "C" fn lexint_mul64(
     mut a: *mut lexint_t,
     mut b: uint64_t,
 ) {
-    let mut v1: __uint128_t = ((*a).high as __uint128_t) << 64 as libc::c_int | (*a).low as bf16;
-    let mut v2: __uint128_t = v1.wrapping_mul(b as bf16);
+    let mut v1: __uint128_t = ((*a).high as __uint128_t) << 64 as libc::c_int | (*a).low as u128;
+    let mut v2: __uint128_t = v1.wrapping_mul(b as u128);
     (*dst).low = v2 as uint64_t;
     (*dst).high = (v2 >> 64 as libc::c_int) as uint64_t;
 }
@@ -196,8 +196,8 @@ pub unsafe extern "C" fn lexint_div64(
     mut a: *mut lexint_t,
     mut b: uint64_t,
 ) {
-    let mut v1: __uint128_t = ((*a).high as __uint128_t) << 64 as libc::c_int | (*a).low as bf16;
-    let mut v2: __uint128_t = v1.wrapping_div(b as bf16);
+    let mut v1: __uint128_t = ((*a).high as __uint128_t) << 64 as libc::c_int | (*a).low as u128;
+    let mut v2: __uint128_t = v1.wrapping_div(b as u128);
     (*dst).low = v2 as uint64_t;
     (*dst).high = (v2 >> 64 as libc::c_int) as uint64_t;
 }
@@ -214,12 +214,12 @@ pub unsafe extern "C" fn lexint_accum(
     mut digit: uint64_t,
     mut base: uint64_t,
 ) -> bool {
-    let mut v1: __uint128_t = ((*i).high as __uint128_t) << 64 as libc::c_int | (*i).low as bf16;
-    let mut v2: __uint128_t = v1.wrapping_mul(base as bf16);
-    if v2.wrapping_div(base as bf16) != v1 {
+    let mut v1: __uint128_t = ((*i).high as __uint128_t) << 64 as libc::c_int | (*i).low as u128;
+    let mut v2: __uint128_t = v1.wrapping_mul(base as u128);
+    if v2.wrapping_div(base as u128) != v1 {
         return 0 as libc::c_int != 0;
     }
-    v2 = (v2 as bf16).wrapping_add(digit as bf16) as __uint128_t as __uint128_t;
+    v2 = (v2 as u128).wrapping_add(digit as u128) as __uint128_t as __uint128_t;
     if v2 < v1 {
         return 0 as libc::c_int != 0;
     }
