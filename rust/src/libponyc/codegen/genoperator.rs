@@ -281,9 +281,7 @@ pub mod Core_h {
     pub const LLVMRealOEQ: LLVMRealPredicate = 1;
     #[c2rust::src_loc = "304:3"]
     pub const LLVMRealPredicateFalse: LLVMRealPredicate = 0;
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
         pub fn LLVMGetTypeKind(Ty: LLVMTypeRef) -> LLVMTypeKind;

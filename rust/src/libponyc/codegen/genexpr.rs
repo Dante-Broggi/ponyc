@@ -220,9 +220,7 @@ pub mod Core_h {
     pub const LLVMFastCallConv: LLVMCallConv = 8;
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
         pub fn LLVMGetTypeKind(Ty: LLVMTypeRef) -> LLVMTypeKind;
@@ -1321,7 +1319,7 @@ pub mod ast_h {
 pub mod genbox_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "13:1"]
         pub fn gen_box(c: *mut compile_t, type_0: *mut ast_t, value: LLVMValueRef) -> LLVMValueRef;
@@ -1380,7 +1378,7 @@ pub mod gencontrol_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:5"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn gendesc_fetch(c: *mut compile_t, object: LLVMValueRef) -> LLVMValueRef;

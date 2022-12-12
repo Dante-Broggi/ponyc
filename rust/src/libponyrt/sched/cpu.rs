@@ -403,7 +403,7 @@ pub mod thread_act_h {
     use super::mach_types_h::thread_act_t;
     use super::message_h::mach_msg_type_number_t;
     use super::thread_policy_h::{thread_policy_flavor_t, thread_policy_t};
-    
+
     extern "C" {
         #[c2rust::src_loc = "320:1"]
         pub fn thread_policy_set(

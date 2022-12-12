@@ -242,9 +242,7 @@ pub mod Core_h {
     pub const LLVMIntNE: LLVMIntPredicate = 33;
     #[c2rust::src_loc = "291:3"]
     pub const LLVMIntEQ: LLVMIntPredicate = 32;
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
         pub fn LLVMGetTypeKind(Ty: LLVMTypeRef) -> LLVMTypeKind;
@@ -1468,7 +1466,7 @@ pub mod matchtype_h {
 pub mod gencall_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "16:1"]
         pub fn gen_pattern_eq(
@@ -1501,7 +1499,7 @@ pub mod gencontrol_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:4"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
     extern "C" {
@@ -1564,7 +1562,7 @@ pub mod genexpr_h {
 pub mod genoperator_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "58:1"]
         pub fn gen_assign_value(

@@ -1,7 +1,6 @@
 use ::libc;
 use core::sync::atomic::{
-    AtomicBool,
-    AtomicU32,
+    AtomicBool, AtomicU32,
     Ordering::{Relaxed, Release},
 };
 #[c2rust::header_src = "internal:0"]
@@ -164,7 +163,7 @@ pub mod threads_h {
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_mutex_t_h::pthread_mutex_t;
     use super::_pthread_t_h::pthread_t;
-    
+
     use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
@@ -1932,8 +1931,7 @@ pub unsafe extern "C" fn ponyint_actorstack_pop(
     mut stack: *mut actorstack_t,
     mut data: *mut *mut pony_actor_t,
 ) -> *mut actorstack_t {
-    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut actorstack_t
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void) as *mut actorstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "1600:34"]

@@ -151,8 +151,7 @@ unsafe extern "C" fn skip_entry(mut entry: *const libc::c_char, mut len: size_t)
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
 pub unsafe extern "C" fn pony_os_cwd() -> *mut libc::c_char {
-    let mut cwd: *const libc::c_char =
-        { ::core::intrinsics::atomic_load_relaxed(&mut cwd_cache) };
+    let mut cwd: *const libc::c_char = { ::core::intrinsics::atomic_load_relaxed(&mut cwd_cache) };
     if cwd.is_null() {
         let mut cwd_alloc: *mut libc::c_char = 0 as *mut libc::c_char;
         cwd_alloc = getcwd(0 as *mut libc::c_char, 0 as libc::c_int as size_t);

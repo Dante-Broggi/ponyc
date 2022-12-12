@@ -235,7 +235,7 @@ pub mod error_h {
     #[c2rust::src_loc = "49:1"]
     pub type errorframe_t = *mut errormsg_t;
     use super::_size_t_h::size_t;
-    
+
     use super::source_h::source_t;
     extern "C" {
         #[c2rust::src_loc = "36:16"]

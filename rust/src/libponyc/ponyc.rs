@@ -231,7 +231,7 @@ pub use self::_types_h::__darwin_size_t;
 use self::codegen_h::{
     codegen_llvm_init, codegen_llvm_shutdown, codegen_pass_cleanup, codegen_pass_init,
 };
-use self::error_h::{errors_print};
+use self::error_h::errors_print;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::package_h::{package_done, package_init};
 pub use self::pass_h::{
@@ -241,7 +241,7 @@ pub use self::pass_h::{
     PASS_REFER, PASS_SCOPE, PASS_SERIALISER, PASS_SUGAR, PASS_SYNTAX, PASS_TRAITS, PASS_VERIFY,
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
-use self::stringtab_h::{stringtab_done};
+use self::stringtab_h::stringtab_done;
 
 #[no_mangle]
 #[c2rust::src_loc = "6:1"]

@@ -192,7 +192,8 @@ pub mod Core_h {
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
     use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef, LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
+        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef, LLVMModuleRef, LLVMTypeRef,
+        LLVMValueRef,
     };
     extern "C" {
         #[c2rust::src_loc = "1316:1"]
@@ -255,7 +256,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMTypeRef};
+    use super::Types_h::LLVMTypeRef;
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -408,9 +409,7 @@ pub mod DebugInfo_h {
     pub const LLVMDIFlagZero: LLVMDIFlags = 0;
     #[c2rust::src_loc = "179:1"]
     pub type LLVMDWARFTypeEncoding = libc::c_uint;
-    use super::Types_h::{
-        LLVMDIBuilderRef, LLVMMetadataRef,
-    };
+    use super::Types_h::{LLVMDIBuilderRef, LLVMMetadataRef};
     use super::_size_t_h::size_t;
     use super::_uint32_t_h::uint32_t;
     use super::_uint64_t_h::uint64_t;
@@ -494,9 +493,7 @@ pub mod gendebug_h {
     pub const DW_ATE_float: C2RustUnnamed = 4;
     #[c2rust::src_loc = "12:3"]
     pub const DW_ATE_boolean: C2RustUnnamed = 2;
-    use super::Types_h::{
-        LLVMDIBuilderRef, LLVMMetadataRef,
-    };
+    use super::Types_h::{LLVMDIBuilderRef, LLVMMetadataRef};
     extern "C" {
         #[c2rust::src_loc = "69:1"]
         pub fn LLVMDIBuilderCreateReplaceableStruct(
@@ -1521,8 +1518,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef,
-        LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
     extern "C" {
@@ -1745,7 +1741,7 @@ pub mod gentrace_h {
     use super::codegen_h::compile_t;
     use super::reach_h::reach_type_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "11:1"]
         pub fn gentrace_prototype(c: *mut compile_t, t: *mut reach_type_t);

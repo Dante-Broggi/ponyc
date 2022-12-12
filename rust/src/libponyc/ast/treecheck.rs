@@ -7235,8 +7235,7 @@ pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
 use self::ast_h::{
-    ast_data, ast_error, ast_fprint, ast_get_print, ast_has_scope, ast_id,
-    ast_sibling, ast_type,
+    ast_data, ast_error, ast_fprint, ast_get_print, ast_has_scope, ast_id, ast_sibling, ast_type,
 };
 use self::error_h::errors_t;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};

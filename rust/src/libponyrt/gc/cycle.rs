@@ -842,8 +842,7 @@ pub unsafe extern "C" fn ponyint_viewrefstack_pop(
     mut stack: *mut viewrefstack_t,
     mut data: *mut *mut viewref_t,
 ) -> *mut viewrefstack_t {
-    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut viewrefstack_t
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void) as *mut viewrefstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "176:36"]
@@ -851,8 +850,7 @@ pub unsafe extern "C" fn ponyint_viewrefstack_push(
     mut stack: *mut viewrefstack_t,
     mut data: *mut viewref_t,
 ) -> *mut viewrefstack_t {
-    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut viewrefstack_t
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void) as *mut viewrefstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
@@ -986,8 +984,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_next(
     mut i: *mut size_t,
 ) -> *mut viewref_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut viewref_t
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut viewref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "201:3"]
@@ -1134,8 +1131,7 @@ pub unsafe extern "C" fn ponyint_viewmap_next(
     mut i: *mut size_t,
 ) -> *mut view_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut view_t
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut view_t
 }
 #[c2rust::src_loc = "255:1"]
 unsafe extern "C" fn perceived_hash(mut per: *mut perceived_t) -> size_t {
@@ -1293,8 +1289,7 @@ pub unsafe extern "C" fn ponyint_pendingdestroystack_push(
     mut stack: *mut pendingdestroystack_t,
     mut data: *mut pony_actor_t,
 ) -> *mut pendingdestroystack_t {
-    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut pendingdestroystack_t
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void) as *mut pendingdestroystack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "283:43"]

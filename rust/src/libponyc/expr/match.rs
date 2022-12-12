@@ -562,7 +562,7 @@ pub mod ast_h {
     use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -1014,7 +1014,7 @@ pub use self::pass_h::{
 use self::ponyassert_h::ponyint_assert_fail;
 use self::reference_h::expr_typeref;
 pub use self::reify_h::{deferred_reification_t, deferred_reify_free, deferred_reify_method_def};
-use self::stringtab_h::{stringtab};
+use self::stringtab_h::stringtab;
 use self::subtype_h::{is_bare, is_bool, is_machine_word, is_subtype};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
@@ -1841,7 +1841,10 @@ pub unsafe extern "C" fn expr_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "585:1"]
-pub unsafe extern "C" fn expr_match_capture(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
+pub unsafe extern "C" fn expr_match_capture(
+    mut _opt: *mut pass_opt_t,
+    mut ast: *mut ast_t,
+) -> bool {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(

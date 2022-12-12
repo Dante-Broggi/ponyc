@@ -434,8 +434,7 @@ pub unsafe extern "C" fn ponyint_mutemap_next(
     mut i: *mut size_t,
 ) -> *mut muteref_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut muteref_t
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut muteref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "45:44"]

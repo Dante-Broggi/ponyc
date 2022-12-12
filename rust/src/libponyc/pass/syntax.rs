@@ -842,7 +842,6 @@ pub mod _ctype_h {
         pub fn __tolower(_: __darwin_ct_rune_t) -> __darwin_ct_rune_t;
     }
 }
-pub use libc::tolower;
 pub use self::_ctype_h::__tolower;
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{__darwin_ct_rune_t, __darwin_size_t};
@@ -858,6 +857,7 @@ pub use self::ast_h::{
     AST_FLAG_PASS_MASK, AST_FLAG_PRESERVE, AST_FLAG_RECURSE_1, AST_FLAG_RECURSE_2, AST_IGNORE,
     AST_OK,
 };
+pub use libc::tolower;
 
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::id_h::{
@@ -876,7 +876,7 @@ use self::platformfuns_h::os_is_target;
 use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc_size, ponyint_pool_free_size};
 use self::string_h::{strcmp, strlen, strncmp};
-use self::stringtab_h::{stringtab};
+use self::stringtab_h::stringtab;
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,

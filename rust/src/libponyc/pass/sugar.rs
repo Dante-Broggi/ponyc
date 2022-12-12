@@ -510,7 +510,7 @@ pub mod ast_h {
     use super::error_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -3285,7 +3285,10 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
     return AST_OK;
 }
 #[c2rust::src_loc = "776:1"]
-unsafe extern "C" fn sugar_as(mut _opt: *mut pass_opt_t, mut astp: *mut *mut ast_t) -> ast_result_t {
+unsafe extern "C" fn sugar_as(
+    mut _opt: *mut pass_opt_t,
+    mut astp: *mut *mut ast_t,
+) -> ast_result_t {
     let mut ast: *mut ast_t = *astp;
     if ast_id(ast) as libc::c_uint == TK_AS as libc::c_int as libc::c_uint {
     } else {

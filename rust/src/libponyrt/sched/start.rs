@@ -1,6 +1,9 @@
 use ::libc;
-use core::sync::atomic::{AtomicBool, AtomicI32, Ordering::{Acquire, Relaxed, Release}};
 use atomic_enum::atomic_enum;
+use core::sync::atomic::{
+    AtomicBool, AtomicI32,
+    Ordering::{Acquire, Relaxed, Release},
+};
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]

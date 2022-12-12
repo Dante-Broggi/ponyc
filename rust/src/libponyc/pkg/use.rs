@@ -771,7 +771,7 @@ use self::ponyassert_h::ponyint_assert_fail;
 use self::program_h::{use_library, use_path};
 use self::scope_h::use_package;
 use self::string_h::{strchr, strcmp, strncmp};
-use self::stringtab_h::{stringtab};
+use self::stringtab_h::stringtab;
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,
@@ -1062,9 +1062,7 @@ unsafe extern "C" fn uri_command(
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"uri_command\0")).as_ptr(),
         );
     };
-    (handlers[index as usize].handler).expect("non-null function pointer")(
-        ast, locator, alias, opt,
-    )
+    (handlers[index as usize].handler).expect("non-null function pointer")(ast, locator, alias, opt)
 }
 #[c2rust::src_loc = "147:1"]
 unsafe extern "C" fn ffi_command(mut opt: *mut pass_opt_t, mut alias: *mut ast_t) -> bool {

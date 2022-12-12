@@ -605,7 +605,7 @@ pub mod ast_h {
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed = 31;
     use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;

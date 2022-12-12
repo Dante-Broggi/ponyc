@@ -578,7 +578,7 @@ pub mod ast_h {
     use super::_uint64_t_h::uint64_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "54:23"]
         pub type astlist_t;
@@ -1067,7 +1067,7 @@ use self::postfix_h::{expr_chain, expr_dot};
 use self::refer_h::{refer_qualify, refer_reference};
 use self::reference_h::expr_typeref;
 use self::reify_h::reify;
-use self::stringtab_h::{stringtab};
+use self::stringtab_h::stringtab;
 use self::subtype_h::{is_eqtype, is_subtype, is_subtype_ignore_cap};
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
@@ -1342,11 +1342,9 @@ unsafe extern "C" fn find_possible_element_types(
             }
             ast_free_unattached(array_type);
             *list = astlist_push(*list, elem_type);
-            
         }
         17 => {
             find_possible_element_types(opt, ast_childidx(ast, 1_i32 as size_t), list);
-            
         }
         187 => {
             let mut def_0: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1364,7 +1362,6 @@ unsafe extern "C" fn find_possible_element_types(
                 );
             };
             find_possible_element_types(opt, ast_childidx(def_0, 1_i32 as size_t), list);
-            
         }
         149 | 56 => {
             let mut c: *mut ast_t = ast_child(ast);
@@ -1372,7 +1369,6 @@ unsafe extern "C" fn find_possible_element_types(
                 find_possible_element_types(opt, c, list);
                 c = ast_sibling(c);
             }
-            
         }
         _ => {}
     };
@@ -1408,7 +1404,6 @@ unsafe extern "C" fn find_possible_iterator_element_types(
             if stringtab(b"Iterator\0" as *const u8 as *const libc::c_char) == ast_name(name) {
                 *list = astlist_push(*list, ast_child(typeargs));
             }
-            
         }
         17 => {
             find_possible_iterator_element_types(
@@ -1416,7 +1411,6 @@ unsafe extern "C" fn find_possible_iterator_element_types(
                 ast_childidx(ast, 1 as libc::c_int as size_t),
                 list,
             );
-            
         }
         187 => {
             let mut def: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1438,7 +1432,6 @@ unsafe extern "C" fn find_possible_iterator_element_types(
                 ast_childidx(def, 1 as libc::c_int as size_t),
                 list,
             );
-            
         }
         149 | 56 => {
             let mut c: *mut ast_t = ast_child(ast);

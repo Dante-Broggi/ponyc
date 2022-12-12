@@ -242,9 +242,7 @@ pub mod Core_h {
     pub const LLVMIntNE: LLVMIntPredicate = 33;
     #[c2rust::src_loc = "291:3"]
     pub const LLVMIntEQ: LLVMIntPredicate = 32;
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
         pub fn LLVMGetTypeKind(Ty: LLVMTypeRef) -> LLVMTypeKind;
@@ -1363,7 +1361,7 @@ pub mod matchtype_h {
 pub mod ast_h {
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -1409,7 +1407,7 @@ pub mod gencall_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:3"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
     extern "C" {
@@ -2606,7 +2604,6 @@ pub unsafe extern "C" fn gentrace(
                         .as_ptr(),
                 );
             };
-            
         }
         2 => {
             let mut boxed: bool = 1 as libc::c_int != 0;
@@ -2625,12 +2622,10 @@ pub unsafe extern "C" fn gentrace(
                     PONY_TRACE_IMMUTABLE as libc::c_int,
                 );
             }
-            
         }
-        3 => {},
+        3 => {}
         1 => {
             trace_nullable_pointer(c, ctx, dst_value, src_type);
-            
         }
         4 => {
             trace_known(
@@ -2640,11 +2635,9 @@ pub unsafe extern "C" fn gentrace(
                 src_type,
                 PONY_TRACE_IMMUTABLE as libc::c_int,
             );
-            
         }
         5 => {
             trace_unknown(c, ctx, dst_value, PONY_TRACE_IMMUTABLE as libc::c_int);
-            
         }
         6 => {
             trace_known(
@@ -2654,11 +2647,9 @@ pub unsafe extern "C" fn gentrace(
                 src_type,
                 PONY_TRACE_MUTABLE as libc::c_int,
             );
-            
         }
         7 => {
             trace_unknown(c, ctx, dst_value, PONY_TRACE_MUTABLE as libc::c_int);
-            
         }
         8 => {
             trace_known(
@@ -2668,15 +2659,12 @@ pub unsafe extern "C" fn gentrace(
                 src_type,
                 PONY_TRACE_OPAQUE as libc::c_int,
             );
-            
         }
         9 => {
             trace_unknown(c, ctx, dst_value, PONY_TRACE_OPAQUE as libc::c_int);
-            
         }
         10 => {
             trace_static(c, ctx, dst_value, src_type, dst_type);
-            
         }
         11 => {
             let mut next_block: LLVMBasicBlockRef =
@@ -2693,11 +2681,9 @@ pub unsafe extern "C" fn gentrace(
             LLVMBuildBr((*c).builder, next_block);
             LLVMMoveBasicBlockAfter(next_block, LLVMGetInsertBlock((*c).builder));
             LLVMPositionBuilderAtEnd((*c).builder, next_block);
-            
         }
         12 => {
             trace_tuple(c, ctx, src_value, dst_value, src_type, dst_type);
-            
         }
         _ => {}
     };

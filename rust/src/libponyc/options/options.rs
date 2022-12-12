@@ -319,7 +319,7 @@ pub use self::_types_h::__darwin_size_t;
 pub use self::_uint32_t_h::uint32_t;
 use self::bnfprint_h::print_grammar;
 use self::buildflagset_h::define_build_flag;
-use self::error_h::{errors_set_immediate};
+use self::error_h::errors_set_immediate;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::options_h::{opt_arg_t, opt_state_t, ponyint_opt_next};
 pub use self::options_options_h::{ponyc_opt_process_t, CONTINUE, EXIT_0, EXIT_255};
@@ -336,7 +336,6 @@ use self::plugin_h::{plugin_load, plugin_parse_options, plugin_print_help};
 use self::stdio_h::printf;
 use self::stdlib_h::atoi;
 use self::string_h::strlen;
-
 
 #[c2rust::src_loc = "66:3"]
 pub const OPT_ANTLRRAW: C2RustUnnamed = 39;

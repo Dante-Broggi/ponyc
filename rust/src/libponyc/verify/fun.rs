@@ -727,7 +727,7 @@ pub mod reify_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.h:2"]
 pub mod alias_h {
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "13:1"]
         pub fn consume_type(

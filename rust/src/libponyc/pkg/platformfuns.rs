@@ -275,7 +275,6 @@ pub use self::pass_h::{
 use self::ponyassert_h::ponyint_assert_fail;
 use self::string_h::strcmp;
 
-
 #[no_mangle]
 #[c2rust::src_loc = "8:1"]
 pub unsafe extern "C" fn os_is_target(

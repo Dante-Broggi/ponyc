@@ -613,7 +613,7 @@ pub mod ast_h {
     use super::_size_t_h::size_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(

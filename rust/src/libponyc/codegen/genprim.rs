@@ -301,8 +301,7 @@ pub mod Core_h {
     pub type LLVMAttributeIndex = libc::c_uint;
     use super::Types_h::{
         LLVMAttributeRef, LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef,
-        LLVMModuleRef, LLVMTypeRef,
-        LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint64_t_h::uint64_t;
@@ -620,7 +619,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMTypeRef};
+    use super::Types_h::LLVMTypeRef;
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -1158,7 +1157,7 @@ pub mod ast_h {
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "70:1"]
         pub fn ast_setid(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -1703,8 +1702,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef,
-        LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_uint32_t_h::uint32_t;
     extern "C" {
@@ -1835,7 +1833,7 @@ pub mod genfun_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gencall.h:2"]
 pub mod gencall_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "21:1"]
         pub fn gencall_runtime(
@@ -1929,7 +1927,7 @@ pub mod genserialise_h {
     use super::codegen_h::compile_t;
     use super::gentype_h::compile_type_t;
     use super::reach_h::reach_type_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "11:1"]
         pub fn genserialise_element(
@@ -1962,7 +1960,7 @@ pub mod genserialise_h {
 pub mod gentrace_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gentrace_needed(
@@ -2068,7 +2066,7 @@ pub use self::reach_h::{
     reach_type_cache_t, reach_type_name, reach_type_t, reach_types_t,
 };
 pub use self::reify_h::deferred_reification_t;
-use self::stringtab_h::{stringtab};
+use self::stringtab_h::stringtab;
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
     SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,
@@ -6402,7 +6400,11 @@ unsafe extern "C" fn number_conversions(mut c: *mut compile_t) {
         );
     };
     let mut data: [*mut libc::c_void; 3] = [0 as *mut libc::c_void; 3];
-    data[2 as libc::c_int as usize] = if target_is_native128((*(*c).opt).triple) {1} else {0} as *mut libc::c_void;
+    data[2 as libc::c_int as usize] = if target_is_native128((*(*c).opt).triple) {
+        1
+    } else {
+        0
+    } as *mut libc::c_void;
     let mut from: *mut num_conv_t = conv;
     while !((*from).type_name).is_null() {
         box_function(

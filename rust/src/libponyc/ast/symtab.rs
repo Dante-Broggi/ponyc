@@ -368,7 +368,6 @@ pub mod _ctype_h {
         pub fn __tolower(_: __darwin_ct_rune_t) -> __darwin_ct_rune_t;
     }
 }
-pub use libc::tolower;
 pub use self::_ctype_h::{__tolower, __toupper, toupper};
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{__darwin_ct_rune_t, __darwin_size_t};
@@ -400,6 +399,7 @@ pub use self::symtab_h::{
     ast_t, errors_t, sym_status_t, symbol_t, symtab_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR,
     SYM_DEFINED, SYM_ERROR, SYM_FFIDECL, SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,
 };
+pub use libc::tolower;
 #[c2rust::src_loc = "35:1"]
 pub type symtab_free_fn = Option<unsafe extern "C" fn(*mut symbol_t) -> ()>;
 #[c2rust::src_loc = "35:1"]
@@ -605,8 +605,7 @@ pub unsafe extern "C" fn symtab_remove(
 #[c2rust::src_loc = "35:44"]
 pub unsafe extern "C" fn symtab_next(mut map: *mut symtab_t, mut i: *mut size_t) -> *mut symbol_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut symbol_t
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut symbol_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:44"]
