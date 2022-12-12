@@ -708,7 +708,7 @@ unsafe extern "C" fn has_sync_flag_any(
     mut actor: *mut pony_actor_t,
     mut check_flags: uint8_t,
 ) -> bool {
-    let mut flags: uint8_t = ({ ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) });
+    let mut flags: uint8_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     return flags as libc::c_int & check_flags as libc::c_int != 0 as libc::c_int;
 }
 #[c2rust::src_loc = "94:1"]
@@ -717,7 +717,7 @@ unsafe extern "C" fn has_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8
 }
 #[c2rust::src_loc = "99:1"]
 unsafe extern "C" fn set_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {
-    let mut flags: uint8_t = ({ ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) });
+    let mut flags: uint8_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     ({
         ::core::intrinsics::atomic_store_rel(
             &mut (*actor).sync_flags,
@@ -728,7 +728,7 @@ unsafe extern "C" fn set_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8
 }
 #[c2rust::src_loc = "105:1"]
 unsafe extern "C" fn unset_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {
-    let mut flags: uint8_t = ({ ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) });
+    let mut flags: uint8_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     ({
         ::core::intrinsics::atomic_store_rel(
             &mut (*actor).sync_flags,
@@ -846,15 +846,15 @@ unsafe extern "C" fn well_formed_msg_chain(
         if m2 == last {
             return 1 as libc::c_int != 0;
         }
-        m2 = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*m2).next) });
+        m2 = ::core::intrinsics::atomic_load_relaxed(&mut (*m2).next);
         if m2 == last {
             return 1 as libc::c_int != 0;
         }
         if m2.is_null() {
             return 0 as libc::c_int != 0;
         }
-        m1 = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*m1).next) });
-        m2 = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*m2).next) });
+        m1 = ::core::intrinsics::atomic_load_relaxed(&mut (*m1).next);
+        m2 = ::core::intrinsics::atomic_load_relaxed(&mut (*m2).next);
         if m1 == m2 {
             return 0 as libc::c_int != 0;
         }
@@ -1212,7 +1212,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
     if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
         set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as uint8_t);
     }
-    let mut head: *mut pony_msg_t = ({ ::core::intrinsics::atomic_load_acq(&mut (*actor).q.head) });
+    let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).q.head) };
     loop {
         msg = ponyint_actor_messageq_pop(&mut (*actor).q);
         if msg.is_null() {
@@ -1353,7 +1353,7 @@ pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
     };
     let mut head: *mut pony_msg_t = 0 as *mut pony_msg_t;
     loop {
-        head = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*actor).q.head) });
+        head = ::core::intrinsics::atomic_load_relaxed(&mut (*actor).q.head);
         if !(head as uintptr_t & 1 as libc::c_int as uintptr_t != 1 as libc::c_int as uintptr_t) {
             break;
         }
@@ -1537,7 +1537,7 @@ pub unsafe extern "C" fn pony_sendv(
                 b"(uintptr_t)ctx->current\0" as *const u8 as *const libc::c_char,
                 b"(uintptr_t)to\0" as *const u8 as *const libc::c_char,
             );
-            m = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*m).next) });
+            m = ::core::intrinsics::atomic_load_relaxed(&mut (*m).next);
         }
         macro__DTRACE(
             b"ACTOR_MSG_SEND\0" as *const u8 as *const libc::c_char,
@@ -1599,7 +1599,7 @@ pub unsafe extern "C" fn pony_sendv_single(
                 b"(uintptr_t)ctx->current\0" as *const u8 as *const libc::c_char,
                 b"(uintptr_t)to\0" as *const u8 as *const libc::c_char,
             );
-            m = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*m).next) });
+            m = ::core::intrinsics::atomic_load_relaxed(&mut (*m).next);
         }
         macro__DTRACE(
             b"ACTOR_MSG_SEND\0" as *const u8 as *const libc::c_char,
@@ -1986,7 +1986,7 @@ pub unsafe extern "C" fn ponyint_acquire_cycle_detector_critical(
     mut actor: *mut pony_actor_t,
 ) -> bool {
     let mut expected: uint8_t = 0 as libc::c_int as uint8_t;
-    return ({
+    return {
         let fresh6 = ::core::intrinsics::atomic_cxchg_acqrel(
             &mut (*actor).cycle_detector_critical,
             *&mut expected,
@@ -1994,7 +1994,7 @@ pub unsafe extern "C" fn ponyint_acquire_cycle_detector_critical(
         );
         *&mut expected = fresh6.0;
         fresh6.1
-    });
+    };
 }
 #[no_mangle]
 #[c2rust::src_loc = "1263:1"]

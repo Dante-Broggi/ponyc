@@ -70,7 +70,7 @@ static mut root: pagemap_node_t = 0 as *const libc::c_void as *mut libc::c_void;
 #[c2rust::src_loc = "90:1"]
 pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *mut chunk_t {
     let mut next_node: *mut pagemap_node_t = &mut root;
-    let mut node: pagemap_node_t = ({ ::core::intrinsics::atomic_load_acq(next_node) });
+    let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_acq(next_node) };
     let mut i: size_t = 0;
     while i < 3 as libc::c_int as libc::c_ulong {
         if node.is_null() {
@@ -79,7 +79,7 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
         let mut ix: uintptr_t =
             addr as uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
         next_node = &mut *(node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
-        node = ({ ::core::intrinsics::atomic_load_acq(next_node) });
+        node = ::core::intrinsics::atomic_load_acq(next_node);
         i = i.wrapping_add(1);
     }
     node as *mut chunk_t
@@ -93,7 +93,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
     let mut next_node: *mut pagemap_node_t = &mut root;
     let mut i: size_t = 0;
     while i < 3 as libc::c_int as libc::c_ulong {
-        let mut node: pagemap_node_t = ({ ::core::intrinsics::atomic_load_relaxed(next_node) });
+        let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_relaxed(next_node) };
         if node.is_null() {
             let mut new_node: pagemap_node_t = ponyint_pool_alloc(level[i as usize].size_index);
             memset(new_node, 0 as libc::c_int, level[i as usize].size);
@@ -139,7 +139,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
         next_node = &mut root;
         let mut i: size_t = 0;
         while i < 3 as libc::c_int as libc::c_ulong {
-            node = ({ ::core::intrinsics::atomic_load_relaxed(next_node) });
+            node = ::core::intrinsics::atomic_load_relaxed(next_node);
             if node.is_null() {
                 let mut new_node: *mut libc::c_void =
                     ponyint_pool_alloc(level[i as usize].size_index);

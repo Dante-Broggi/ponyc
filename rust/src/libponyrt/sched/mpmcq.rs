@@ -107,7 +107,7 @@ unsafe extern "C" fn mpmcq_size_debug(mut q: *mut mpmcq_t) -> size_t {
     .is_null()
     {
         count = count.wrapping_add(1);
-        tail = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next) });
+        tail = ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next);
     }
     count
 }
@@ -141,7 +141,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_push(mut q: *mut mpmcq_t, mut data: *mut 
     let mut node: *mut mpmcq_node_t = node_alloc(data);
     f__atomic_thread_fence(b"memory_order_release\0" as *const u8 as *const libc::c_char);
     let mut prev: *mut mpmcq_node_t =
-        ({ ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, node) });
+        { ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, node) };
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, node);
         // compile_error!("Builtin is not supposed to be used")
@@ -154,7 +154,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_push_single(
     mut data: *mut libc::c_void,
 ) {
     let mut node: *mut mpmcq_node_t = node_alloc(data);
-    let mut prev: *mut mpmcq_node_t = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*q).head) });
+    let mut prev: *mut mpmcq_node_t = { ::core::intrinsics::atomic_load_relaxed(&mut (*q).head) };
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, node);
         // compile_error!("Builtin is not supposed to be used")
@@ -185,7 +185,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_pop(mut q: *mut mpmcq_t) -> *mut libc::c_
     let mut next: *mut mpmcq_node_t = 0 as *mut mpmcq_node_t;
     loop {
         tail = cmp.c2rust_unnamed.object;
-        next = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next) });
+        next = ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next);
         if next.is_null() {
             return 0 as *mut libc::c_void;
         }
@@ -205,7 +205,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_pop(mut q: *mut mpmcq_t) -> *mut libc::c_
         }
     }
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
-    let mut data: *mut libc::c_void = ({ ::core::intrinsics::atomic_load_acq(&mut (*next).data) });
+    let mut data: *mut libc::c_void = { ::core::intrinsics::atomic_load_acq(&mut (*next).data) };
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*next).data, 0 as *mut libc::c_void);
         // compile_error!("Builtin is not supposed to be used")
