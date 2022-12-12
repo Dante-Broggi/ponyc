@@ -1144,7 +1144,7 @@ pub unsafe extern "C" fn pony_start(
     mut exit_code: *mut libc::c_int,
     mut language_features: *const pony_language_features_init_t,
 ) -> bool {
-    if ({ (&mut initialised).load(Relaxed) }) {
+    if (&mut initialised).load(Relaxed) {
     } else {
         ponyint_assert_fail(
             b"atomic_load_explicit(&initialised, memory_order_relaxed)\0" as *const u8
