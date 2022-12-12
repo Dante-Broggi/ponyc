@@ -904,7 +904,7 @@ unsafe extern "C" fn is_union_match_x(
             );
         }
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "77:1"]
 unsafe extern "C" fn is_isect_match_x(
@@ -982,7 +982,7 @@ unsafe extern "C" fn is_isect_match_x(
             );
         }
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "142:1"]
 unsafe extern "C" fn is_x_match_union(
@@ -1060,7 +1060,7 @@ unsafe extern "C" fn is_x_match_union(
             );
         }
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "207:1"]
 unsafe extern "C" fn is_x_match_isect(
@@ -1138,7 +1138,7 @@ unsafe extern "C" fn is_x_match_isect(
             );
         }
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "272:1"]
 unsafe extern "C" fn is_tuple_match_tuple(
@@ -1231,7 +1231,7 @@ unsafe extern "C" fn is_tuple_match_tuple(
             );
         }
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "353:1"]
 unsafe extern "C" fn is_nominal_match_tuple(
@@ -1306,7 +1306,7 @@ unsafe extern "C" fn is_nominal_match_tuple(
         }
         child = ast_sibling(child);
     }
-    return MATCHTYPE_ACCEPT;
+    MATCHTYPE_ACCEPT
 }
 #[c2rust::src_loc = "406:1"]
 unsafe extern "C" fn is_typeparam_match_typeparam(
@@ -1373,7 +1373,7 @@ unsafe extern "C" fn is_typeparam_match_typeparam(
             );
         }
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "457:1"]
 unsafe extern "C" fn is_typeparam_match_x(
@@ -1396,7 +1396,7 @@ unsafe extern "C" fn is_typeparam_match_x(
     }
     let mut ok_0: matchtype_t = is_x_match_x(operand_upper, pattern, errorf, report_reject, opt);
     ast_free_unattached(operand_upper);
-    return ok_0;
+    ok_0
 }
 #[c2rust::src_loc = "482:1"]
 unsafe extern "C" fn is_arrow_match_x(
@@ -1450,7 +1450,7 @@ unsafe extern "C" fn is_arrow_match_x(
     }
     let mut ok: matchtype_t = is_x_match_x(operand_view, pattern, errorf, report_reject, opt);
     ast_free_unattached(operand_view);
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "524:1"]
 unsafe extern "C" fn is_x_match_tuple(
@@ -1482,7 +1482,7 @@ unsafe extern "C" fn is_x_match_tuple(
                 .as_ptr(),
         );
     };
-    return MATCHTYPE_DENY_CAP;
+    MATCHTYPE_DENY_CAP
 }
 #[c2rust::src_loc = "555:1"]
 unsafe extern "C" fn is_nominal_match_entity(
@@ -1565,7 +1565,7 @@ unsafe extern "C" fn is_nominal_match_entity(
         }
         return MATCHTYPE_DENY_CAP;
     }
-    return MATCHTYPE_ACCEPT;
+    MATCHTYPE_ACCEPT
 }
 #[c2rust::src_loc = "601:1"]
 unsafe extern "C" fn is_nominal_match_struct(
@@ -1679,7 +1679,7 @@ unsafe extern "C" fn is_entity_match_trait(
         }
         return MATCHTYPE_DENY_CAP;
     }
-    return MATCHTYPE_ACCEPT;
+    MATCHTYPE_ACCEPT
 }
 #[c2rust::src_loc = "675:1"]
 unsafe extern "C" fn is_trait_match_trait(
@@ -1746,7 +1746,7 @@ unsafe extern "C" fn is_trait_match_trait(
         }
         return MATCHTYPE_DENY_CAP;
     }
-    return MATCHTYPE_ACCEPT;
+    MATCHTYPE_ACCEPT
 }
 #[c2rust::src_loc = "704:1"]
 unsafe extern "C" fn is_nominal_match_trait(
@@ -1779,7 +1779,7 @@ unsafe extern "C" fn is_nominal_match_trait(
             .as_ptr(),
         );
     };
-    return MATCHTYPE_DENY_CAP;
+    MATCHTYPE_DENY_CAP
 }
 #[c2rust::src_loc = "730:1"]
 unsafe extern "C" fn is_nominal_match_nominal(
@@ -1815,7 +1815,7 @@ unsafe extern "C" fn is_nominal_match_nominal(
             .as_ptr(),
         );
     };
-    return MATCHTYPE_DENY_CAP;
+    MATCHTYPE_DENY_CAP
 }
 #[c2rust::src_loc = "759:1"]
 unsafe extern "C" fn is_tuple_match_nominal(
@@ -1834,7 +1834,7 @@ unsafe extern "C" fn is_tuple_match_nominal(
             ast_print_type(pattern),
         );
     }
-    return MATCHTYPE_REJECT;
+    MATCHTYPE_REJECT
 }
 #[c2rust::src_loc = "774:1"]
 unsafe extern "C" fn is_x_match_nominal(
@@ -1869,7 +1869,7 @@ unsafe extern "C" fn is_x_match_nominal(
                 .as_ptr(),
         );
     };
-    return MATCHTYPE_DENY_CAP;
+    MATCHTYPE_DENY_CAP
 }
 #[c2rust::src_loc = "809:1"]
 unsafe extern "C" fn is_x_match_base_typeparam(
@@ -1909,7 +1909,7 @@ unsafe extern "C" fn is_x_match_base_typeparam(
             .as_ptr(),
         );
     };
-    return MATCHTYPE_DENY_CAP;
+    MATCHTYPE_DENY_CAP
 }
 #[c2rust::src_loc = "840:1"]
 unsafe extern "C" fn is_x_match_typeparam(
@@ -1930,7 +1930,7 @@ unsafe extern "C" fn is_x_match_typeparam(
     }
     ok = is_x_match_x(operand, pattern_upper, errorf, report_reject, opt);
     ast_free_unattached(pattern_upper);
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "861:1"]
 unsafe extern "C" fn is_x_match_arrow(
@@ -1956,7 +1956,7 @@ unsafe extern "C" fn is_x_match_arrow(
     }
     let mut ok: matchtype_t = is_x_match_x(operand, pattern_upper, errorf, report_reject, opt);
     ast_free_unattached(pattern_upper);
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "887:1"]
 unsafe extern "C" fn is_x_match_x(
@@ -1989,7 +1989,7 @@ unsafe extern "C" fn is_x_match_x(
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"is_x_match_x\0")).as_ptr(),
         );
     };
-    return MATCHTYPE_DENY_CAP;
+    MATCHTYPE_DENY_CAP
 }
 #[no_mangle]
 #[c2rust::src_loc = "923:1"]

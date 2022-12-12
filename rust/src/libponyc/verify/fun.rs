@@ -1007,7 +1007,7 @@ unsafe extern "C" fn verify_main_runtime_override_defaults(
     if !verify_calls_runtime_override(opt, body) {
         ok = 0 as libc::c_int != 0;
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "138:1"]
 unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {

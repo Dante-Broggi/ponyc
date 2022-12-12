@@ -713,7 +713,7 @@ pub unsafe extern "C" fn subtype_kind(mut type_0: *mut reach_type_t) -> libc::c_
             return subtypes;
         }
     }
-    return subtypes;
+    subtypes
 }
 #[no_mangle]
 #[c2rust::src_loc = "32:1"]
@@ -832,5 +832,5 @@ pub unsafe extern "C" fn subtype_kind_overlap(
             }
         }
     }
-    return subtypes;
+    subtypes
 }

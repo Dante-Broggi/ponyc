@@ -302,5 +302,5 @@ pub unsafe extern "C" fn ponyint_formattime(
         r = strftime(buffer, len, fmt, &mut tm);
         len <<= 1 as libc::c_int;
     }
-    return buffer;
+    buffer
 }

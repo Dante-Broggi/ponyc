@@ -1648,7 +1648,7 @@ pub unsafe extern "C" fn gen_seq(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
         }
         child = ast_sibling(child);
     }
-    return value;
+    value
 }
 #[no_mangle]
 #[c2rust::src_loc = "32:1"]

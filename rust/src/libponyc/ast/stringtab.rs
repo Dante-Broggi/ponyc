@@ -392,23 +392,23 @@ pub type strtable_cmp_fn =
 pub type strtable_free_fn = Option<unsafe extern "C" fn(*mut stringtab_entry_t) -> ()>;
 #[c2rust::src_loc = "11:1"]
 unsafe extern "C" fn ptr_cmp(mut a: *const libc::c_char, mut b: *const libc::c_char) -> bool {
-    return a == b;
+    a == b
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]
 pub unsafe extern "C" fn strlist_subset(mut a: *mut strlist_t, mut b: *mut strlist_t) -> bool {
     let mut cmp: strlist_cmp_fn =
         Some(ptr_cmp as unsafe extern "C" fn(*const libc::c_char, *const libc::c_char) -> bool);
-    return ponyint_list_subset(
+    ponyint_list_subset(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<strlist_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]
 pub unsafe extern "C" fn strlist_length(mut list: *mut strlist_t) -> size_t {
-    return ponyint_list_length(list as *mut list_t);
+    ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]
@@ -427,22 +427,22 @@ pub unsafe extern "C" fn strlist_findindex(
 ) -> ssize_t {
     let mut cmp: strlist_cmp_fn =
         Some(ptr_cmp as unsafe extern "C" fn(*const libc::c_char, *const libc::c_char) -> bool);
-    return ponyint_list_findindex(
+    ponyint_list_findindex(
         list as *mut list_t,
         ::core::mem::transmute::<strlist_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]
 pub unsafe extern "C" fn strlist_equals(mut a: *mut strlist_t, mut b: *mut strlist_t) -> bool {
     let mut cmp: strlist_cmp_fn =
         Some(ptr_cmp as unsafe extern "C" fn(*const libc::c_char, *const libc::c_char) -> bool);
-    return ponyint_list_equals(
+    ponyint_list_equals(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<strlist_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
@@ -450,12 +450,12 @@ pub unsafe extern "C" fn strlist_index(
     mut list: *mut strlist_t,
     mut index: ssize_t,
 ) -> *mut strlist_t {
-    return ponyint_list_index(list as *mut list_t, index) as *mut strlist_t;
+    ponyint_list_index(list as *mut list_t, index) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
 pub unsafe extern "C" fn strlist_next(mut list: *mut strlist_t) -> *mut strlist_t {
-    return ponyint_list_next(list as *mut list_t) as *mut strlist_t;
+    ponyint_list_next(list as *mut list_t) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
@@ -463,7 +463,7 @@ pub unsafe extern "C" fn strlist_append(
     mut list: *mut strlist_t,
     mut data: *const libc::c_char,
 ) -> *mut strlist_t {
-    return ponyint_list_append(list as *mut list_t, data as *mut libc::c_void) as *mut strlist_t;
+    ponyint_list_append(list as *mut list_t, data as *mut libc::c_void) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
@@ -472,16 +472,16 @@ pub unsafe extern "C" fn strlist_map(
     mut f: strlist_map_fn,
     mut arg: *mut libc::c_void,
 ) -> *mut strlist_t {
-    return ponyint_list_map(
+    ponyint_list_map(
         list as *mut list_t,
         ::core::mem::transmute::<strlist_map_fn, map_fn>(f),
         arg,
-    ) as *mut strlist_t;
+    ) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
 pub unsafe extern "C" fn strlist_reverse(mut list: *mut strlist_t) -> *mut strlist_t {
-    return ponyint_list_reverse(list as *mut list_t) as *mut strlist_t;
+    ponyint_list_reverse(list as *mut list_t) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
@@ -489,7 +489,7 @@ pub unsafe extern "C" fn strlist_pop(
     mut list: *mut strlist_t,
     mut data: *mut *const libc::c_char,
 ) -> *mut strlist_t {
-    return ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void) as *mut strlist_t;
+    ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:22"]
@@ -497,12 +497,12 @@ pub unsafe extern "C" fn strlist_push(
     mut list: *mut strlist_t,
     mut data: *const libc::c_char,
 ) -> *mut strlist_t {
-    return ponyint_list_push(list as *mut list_t, data as *mut libc::c_void) as *mut strlist_t;
+    ponyint_list_push(list as *mut list_t, data as *mut libc::c_void) as *mut strlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:33"]
 pub unsafe extern "C" fn strlist_data(mut list: *mut strlist_t) -> *const libc::c_char {
-    return ponyint_list_data(list as *mut list_t) as *const libc::c_char;
+    ponyint_list_data(list as *mut list_t) as *const libc::c_char
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:33"]
@@ -512,15 +512,15 @@ pub unsafe extern "C" fn strlist_find(
 ) -> *const libc::c_char {
     let mut cmp: strlist_cmp_fn =
         Some(ptr_cmp as unsafe extern "C" fn(*const libc::c_char, *const libc::c_char) -> bool);
-    return ponyint_list_find(
+    ponyint_list_find(
         list as *mut list_t,
         ::core::mem::transmute::<strlist_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    ) as *const libc::c_char;
+    ) as *const libc::c_char
 }
 #[c2rust::src_loc = "25:1"]
 unsafe extern "C" fn stringtab_hash(mut a: *mut stringtab_entry_t) -> size_t {
-    return ponyint_hash_block((*a).str_0 as *const libc::c_void, (*a).len);
+    ponyint_hash_block((*a).str_0 as *const libc::c_void, (*a).len)
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn stringtab_cmp(
@@ -570,12 +570,12 @@ pub unsafe extern "C" fn strtable_clearindex(mut map: *mut strtable_t, mut index
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
 pub unsafe extern "C" fn strtable_size(mut map: *mut strtable_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
 pub unsafe extern "C" fn strtable_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
@@ -584,15 +584,15 @@ pub unsafe extern "C" fn strtable_optimize(mut map: *mut strtable_t) {
         stringtab_cmp
             as unsafe extern "C" fn(*mut stringtab_entry_t, *mut stringtab_entry_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<strtable_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
 pub unsafe extern "C" fn strtable_alloc_size(mut map: *mut strtable_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
@@ -616,7 +616,7 @@ pub unsafe extern "C" fn strtable_putindex(
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
 pub unsafe extern "C" fn strtable_mem_size(mut map: *mut strtable_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:38"]
@@ -625,8 +625,8 @@ pub unsafe extern "C" fn strtable_next(
     mut i: *mut size_t,
 ) -> *mut stringtab_entry_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut stringtab_entry_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut stringtab_entry_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:38"]
@@ -638,12 +638,12 @@ pub unsafe extern "C" fn strtable_remove(
         stringtab_cmp
             as unsafe extern "C" fn(*mut stringtab_entry_t, *mut stringtab_entry_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         stringtab_hash(entry),
         ::core::mem::transmute::<strtable_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut stringtab_entry_t;
+    ) as *mut stringtab_entry_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:38"]
@@ -656,13 +656,13 @@ pub unsafe extern "C" fn strtable_get(
         stringtab_cmp
             as unsafe extern "C" fn(*mut stringtab_entry_t, *mut stringtab_entry_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         stringtab_hash(key),
         ::core::mem::transmute::<strtable_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut stringtab_entry_t;
+    ) as *mut stringtab_entry_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:38"]
@@ -674,12 +674,12 @@ pub unsafe extern "C" fn strtable_put(
         stringtab_cmp
             as unsafe extern "C" fn(*mut stringtab_entry_t, *mut stringtab_entry_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         stringtab_hash(entry),
         ::core::mem::transmute::<strtable_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut stringtab_entry_t;
+    ) as *mut stringtab_entry_t
 }
 #[c2rust::src_loc = "45:19"]
 static mut table: strtable_t = strtable_t {
@@ -701,7 +701,7 @@ pub unsafe extern "C" fn stringtab(mut string: *const libc::c_char) -> *const li
     if string.is_null() {
         return 0 as *const libc::c_char;
     }
-    return stringtab_len(string, strlen(string));
+    stringtab_len(string, strlen(string))
 }
 #[no_mangle]
 #[c2rust::src_loc = "60:1"]
@@ -736,7 +736,7 @@ pub unsafe extern "C" fn stringtab_len(
     (*n).len = len;
     (*n).buf_size = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     strtable_putindex(&mut table, n, index);
-    return (*n).str_0;
+    (*n).str_0
 }
 #[no_mangle]
 #[c2rust::src_loc = "87:1"]
@@ -768,7 +768,7 @@ pub unsafe extern "C" fn stringtab_consume(
     (*n).len = len;
     (*n).buf_size = buf_size;
     strtable_putindex(&mut table, n, index);
-    return (*n).str_0;
+    (*n).str_0
 }
 #[no_mangle]
 #[c2rust::src_loc = "114:1"]
@@ -972,5 +972,5 @@ static mut strlist_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "237:1"]
 pub unsafe extern "C" fn strlist_pony_type() -> *const pony_type_t {
-    return &strlist_pony;
+    &strlist_pony
 }

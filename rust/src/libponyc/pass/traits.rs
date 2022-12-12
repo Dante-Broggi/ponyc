@@ -1006,9 +1006,9 @@ unsafe extern "C" fn is_method(mut ast: *mut ast_t) -> bool {
         );
     };
     let mut variety: token_id = ast_id(ast);
-    return variety as libc::c_uint == TK_BE as libc::c_int as libc::c_uint
+    variety as libc::c_uint == TK_BE as libc::c_int as libc::c_uint
         || variety as libc::c_uint == TK_FUN as libc::c_int as libc::c_uint
-        || variety as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint;
+        || variety as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint
 }
 #[c2rust::src_loc = "77:1"]
 unsafe extern "C" fn attach_method_t(mut method: *mut ast_t) -> *mut method_t {
@@ -1031,7 +1031,7 @@ unsafe extern "C" fn attach_method_t(mut method: *mut ast_t) -> *mut method_t {
     (*p).local_define = 0 as libc::c_int != 0;
     (*p).failed = 0 as libc::c_int != 0;
     ast_setdata(method, p as *mut libc::c_void);
-    return p;
+    p
 }
 #[c2rust::src_loc = "93:1"]
 unsafe extern "C" fn setup_local_methods(mut ast: *mut ast_t) {
@@ -1599,7 +1599,7 @@ unsafe extern "C" fn rescope(
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "469:1"]
 unsafe extern "C" fn add_method_from_trait(
@@ -1957,7 +1957,7 @@ unsafe extern "C" fn check_concrete_bodies(
         }
         p = ast_sibling(p);
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "662:1"]
 unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt_t) -> bool {
@@ -2014,7 +2014,7 @@ unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt
     tidy_up(entity);
     ast_clearflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t);
     ast_setflag(entity, AST_FLAG_DONE_1 as libc::c_int as uint32_t);
-    return r;
+    r
 }
 #[c2rust::src_loc = "710:1"]
 unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt_t) -> bool {
@@ -2827,7 +2827,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         }
     }
     ast_free_unattached(typeargs);
-    return r;
+    r
 }
 #[no_mangle]
 #[c2rust::src_loc = "877:1"]
@@ -2863,5 +2863,5 @@ pub unsafe extern "C" fn pass_traits(
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }

@@ -98,17 +98,17 @@ static mut asio_cpu: uint32_t = 0;
 #[no_mangle]
 #[c2rust::src_loc = "56:1"]
 pub unsafe extern "C" fn ponyint_asio_get_backend() -> *mut asio_backend_t {
-    return running_base.backend;
+    running_base.backend
 }
 #[no_mangle]
 #[c2rust::src_loc = "61:1"]
 pub unsafe extern "C" fn ponyint_asio_get_backend_tid() -> pthread_t {
-    return running_base.tid;
+    running_base.tid
 }
 #[no_mangle]
 #[c2rust::src_loc = "73:1"]
 pub unsafe extern "C" fn ponyint_asio_get_cpu() -> uint32_t {
-    return asio_cpu;
+    asio_cpu
 }
 #[no_mangle]
 #[c2rust::src_loc = "78:1"]

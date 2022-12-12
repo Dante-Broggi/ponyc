@@ -820,7 +820,7 @@ static mut args: [opt_arg_t; 15] = [
 ];
 #[c2rust::src_loc = "110:1"]
 unsafe extern "C" fn arg_name(id: libc::c_int) -> *const libc::c_char {
-    return args[id as usize].long_opt;
+    args[id as usize].long_opt
 }
 #[c2rust::src_loc = "114:1"]
 unsafe extern "C" fn err_out(mut id: libc::c_int, mut msg: *const libc::c_char) {
@@ -1135,7 +1135,7 @@ pub unsafe extern "C" fn pony_init(
         opt.stats_interval,
     );
     ponyint_cycle_create(ctx, opt.cd_detect_interval);
-    return argc;
+    argc
 }
 #[no_mangle]
 #[c2rust::src_loc = "308:1"]
@@ -1245,7 +1245,7 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
     &mut initialised.store(false, Relaxed);
     running.store(NOT_RUNNING, Relaxed);
-    return ec;
+    ec
 }
 #[no_mangle]
 #[c2rust::src_loc = "403:1"]
@@ -1255,5 +1255,5 @@ pub unsafe extern "C" fn pony_exitcode(mut code: libc::c_int) {
 #[no_mangle]
 #[c2rust::src_loc = "408:1"]
 pub unsafe extern "C" fn pony_get_exitcode() -> libc::c_int {
-    return (&mut rt_exit_code).load(Acquire);
+    (&mut rt_exit_code).load(Acquire)
 }

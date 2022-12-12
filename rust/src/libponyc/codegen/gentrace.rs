@@ -1667,7 +1667,7 @@ unsafe extern "C" fn trace_union_machine_word(mut a: trace_t) -> trace_t {
             .as_ptr(),
         );
     };
-    return TRACE_NONE;
+    TRACE_NONE
 }
 #[c2rust::src_loc = "75:1"]
 unsafe extern "C" fn trace_union_primitive(mut a: trace_t) -> trace_t {
@@ -1690,7 +1690,7 @@ unsafe extern "C" fn trace_union_primitive(mut a: trace_t) -> trace_t {
                 .as_ptr(),
         );
     };
-    return TRACE_NONE;
+    TRACE_NONE
 }
 #[c2rust::src_loc = "106:1"]
 unsafe extern "C" fn trace_union_val(mut a: trace_t) -> trace_t {
@@ -1710,7 +1710,7 @@ unsafe extern "C" fn trace_union_val(mut a: trace_t) -> trace_t {
                 .as_ptr(),
         );
     };
-    return TRACE_NONE;
+    TRACE_NONE
 }
 #[c2rust::src_loc = "131:1"]
 unsafe extern "C" fn trace_union_mut(mut a: trace_t) -> trace_t {
@@ -1730,7 +1730,7 @@ unsafe extern "C" fn trace_union_mut(mut a: trace_t) -> trace_t {
                 .as_ptr(),
         );
     };
-    return TRACE_NONE;
+    TRACE_NONE
 }
 #[c2rust::src_loc = "156:1"]
 unsafe extern "C" fn trace_union_tag(mut a: trace_t) -> trace_t {
@@ -1750,7 +1750,7 @@ unsafe extern "C" fn trace_union_tag(mut a: trace_t) -> trace_t {
                 .as_ptr(),
         );
     };
-    return TRACE_NONE;
+    TRACE_NONE
 }
 #[c2rust::src_loc = "181:1"]
 unsafe extern "C" fn trace_type_union(mut type_0: *mut ast_t) -> trace_t {
@@ -1816,7 +1816,7 @@ unsafe extern "C" fn trace_type_union(mut type_0: *mut ast_t) -> trace_t {
         }
         child = ast_sibling(child);
     }
-    return trace;
+    trace
 }
 #[c2rust::src_loc = "239:1"]
 unsafe extern "C" fn trace_type_isect(mut type_0: *mut ast_t) -> trace_t {
@@ -1878,7 +1878,7 @@ unsafe extern "C" fn trace_type_isect(mut type_0: *mut ast_t) -> trace_t {
         }
         child = ast_sibling(child);
     }
-    return trace;
+    trace
 }
 #[c2rust::src_loc = "292:1"]
 unsafe extern "C" fn trace_type_nominal(mut type_0: *mut ast_t) -> trace_t {
@@ -1926,7 +1926,7 @@ unsafe extern "C" fn trace_type_nominal(mut type_0: *mut ast_t) -> trace_t {
                 .as_ptr(),
         );
     };
-    return TRACE_NONE;
+    TRACE_NONE
 }
 #[c2rust::src_loc = "351:1"]
 unsafe extern "C" fn trace_type(mut type_0: *mut ast_t) -> trace_t {
@@ -1947,7 +1947,7 @@ unsafe extern "C" fn trace_type(mut type_0: *mut ast_t) -> trace_t {
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"trace_type\0")).as_ptr(),
         );
     };
-    return TRACE_DYNAMIC;
+    TRACE_DYNAMIC
 }
 #[c2rust::src_loc = "374:1"]
 unsafe extern "C" fn trace_type_dst_cap(
@@ -1961,7 +1961,7 @@ unsafe extern "C" fn trace_type_dst_cap(
             if dst_trace as libc::c_uint == TRACE_TUPLE as libc::c_int as libc::c_uint {
                 return TRACE_TUPLE;
             }
-            return TRACE_DYNAMIC;
+            TRACE_DYNAMIC
         }
         4 => match dst_trace as libc::c_uint {
             11 => return TRACE_STATIC,
@@ -1973,27 +1973,27 @@ unsafe extern "C" fn trace_type_dst_cap(
                 if ast_id(src_type) as libc::c_uint == TK_NOMINAL as libc::c_int as libc::c_uint {
                     return TRACE_STATIC;
                 }
-                return TRACE_DYNAMIC;
+                TRACE_DYNAMIC
             }
-            9 => return TRACE_TAG_UNKNOWN,
-            _ => return TRACE_VAL_UNKNOWN,
+            9 => TRACE_TAG_UNKNOWN,
+            _ => TRACE_VAL_UNKNOWN,
         },
         6 => match dst_trace as libc::c_uint {
-            11 => return TRACE_STATIC,
-            8 | 9 => return TRACE_TAG_KNOWN,
-            4 | 5 => return TRACE_VAL_KNOWN,
-            _ => return TRACE_MUT_KNOWN,
+            11 => TRACE_STATIC,
+            8 | 9 => TRACE_TAG_KNOWN,
+            4 | 5 => TRACE_VAL_KNOWN,
+            _ => TRACE_MUT_KNOWN,
         },
         7 => match dst_trace as libc::c_uint {
             11 => {
                 if ast_id(src_type) as libc::c_uint == TK_NOMINAL as libc::c_int as libc::c_uint {
                     return TRACE_STATIC;
                 }
-                return TRACE_DYNAMIC;
+                TRACE_DYNAMIC
             }
-            9 => return TRACE_TAG_UNKNOWN,
-            5 => return TRACE_VAL_UNKNOWN,
-            _ => return TRACE_MUT_UNKNOWN,
+            9 => TRACE_TAG_UNKNOWN,
+            5 => TRACE_VAL_UNKNOWN,
+            _ => TRACE_MUT_UNKNOWN,
         },
         10 => {
             if 0 as libc::c_int != 0 {
@@ -2009,7 +2009,7 @@ unsafe extern "C" fn trace_type_dst_cap(
                     .as_ptr(),
                 );
             };
-            return src_trace;
+            src_trace
         }
         _ => {
             if 0 as libc::c_int != 0 {
@@ -2025,9 +2025,9 @@ unsafe extern "C" fn trace_type_dst_cap(
                     .as_ptr(),
                 );
             };
-            return src_trace;
+            src_trace
         }
-    };
+    }
 }
 #[c2rust::src_loc = "470:1"]
 unsafe extern "C" fn trace_nullable_pointer(
@@ -2606,7 +2606,7 @@ pub unsafe extern "C" fn gentrace(
                         .as_ptr(),
                 );
             };
-            return;
+            
         }
         2 => {
             let mut boxed: bool = 1 as libc::c_int != 0;
@@ -2625,12 +2625,12 @@ pub unsafe extern "C" fn gentrace(
                     PONY_TRACE_IMMUTABLE as libc::c_int,
                 );
             }
-            return;
+            
         }
-        3 => return,
+        3 => {},
         1 => {
             trace_nullable_pointer(c, ctx, dst_value, src_type);
-            return;
+            
         }
         4 => {
             trace_known(
@@ -2640,11 +2640,11 @@ pub unsafe extern "C" fn gentrace(
                 src_type,
                 PONY_TRACE_IMMUTABLE as libc::c_int,
             );
-            return;
+            
         }
         5 => {
             trace_unknown(c, ctx, dst_value, PONY_TRACE_IMMUTABLE as libc::c_int);
-            return;
+            
         }
         6 => {
             trace_known(
@@ -2654,11 +2654,11 @@ pub unsafe extern "C" fn gentrace(
                 src_type,
                 PONY_TRACE_MUTABLE as libc::c_int,
             );
-            return;
+            
         }
         7 => {
             trace_unknown(c, ctx, dst_value, PONY_TRACE_MUTABLE as libc::c_int);
-            return;
+            
         }
         8 => {
             trace_known(
@@ -2668,15 +2668,15 @@ pub unsafe extern "C" fn gentrace(
                 src_type,
                 PONY_TRACE_OPAQUE as libc::c_int,
             );
-            return;
+            
         }
         9 => {
             trace_unknown(c, ctx, dst_value, PONY_TRACE_OPAQUE as libc::c_int);
-            return;
+            
         }
         10 => {
             trace_static(c, ctx, dst_value, src_type, dst_type);
-            return;
+            
         }
         11 => {
             let mut next_block: LLVMBasicBlockRef =
@@ -2693,11 +2693,11 @@ pub unsafe extern "C" fn gentrace(
             LLVMBuildBr((*c).builder, next_block);
             LLVMMoveBasicBlockAfter(next_block, LLVMGetInsertBlock((*c).builder));
             LLVMPositionBuilderAtEnd((*c).builder, next_block);
-            return;
+            
         }
         12 => {
             trace_tuple(c, ctx, src_value, dst_value, src_type, dst_type);
-            return;
+            
         }
         _ => {}
     };

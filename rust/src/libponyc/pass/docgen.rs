@@ -1351,7 +1351,7 @@ unsafe extern "C" fn doc_cat(
         );
     };
     *out_buf_size = buf_len;
-    return buffer;
+    buffer
 }
 #[c2rust::src_loc = "226:1"]
 unsafe extern "C" fn write_tqfn(
@@ -1429,7 +1429,7 @@ unsafe extern "C" fn write_tqfn(
         }
         p = p.offset(1);
     }
-    return buffer;
+    buffer
 }
 #[c2rust::src_loc = "259:1"]
 unsafe extern "C" fn doc_open_file_(

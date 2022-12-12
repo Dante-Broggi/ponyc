@@ -2069,14 +2069,14 @@ pub type genned_strings_cmp_fn =
     Option<unsafe extern "C" fn(*mut genned_string_t, *mut genned_string_t) -> bool>;
 #[c2rust::src_loc = "25:1"]
 unsafe extern "C" fn genned_string_hash(mut s: *mut genned_string_t) -> size_t {
-    return ponyint_hash_ptr((*s).string as *const libc::c_void);
+    ponyint_hash_ptr((*s).string as *const libc::c_void)
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn genned_string_cmp(
     mut a: *mut genned_string_t,
     mut b: *mut genned_string_t,
 ) -> bool {
-    return (*a).string == (*b).string;
+    (*a).string == (*b).string
 }
 #[c2rust::src_loc = "35:1"]
 unsafe extern "C" fn genned_string_free(mut s: *mut genned_string_t) {
@@ -2090,17 +2090,17 @@ pub unsafe extern "C" fn genned_strings_init(mut map: *mut genned_strings_t, mut
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn genned_strings_mem_size(mut map: *mut genned_strings_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn genned_strings_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn genned_strings_size(mut map: *mut genned_strings_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -2121,7 +2121,7 @@ pub unsafe extern "C" fn genned_strings_removeindex(
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn genned_strings_alloc_size(mut map: *mut genned_strings_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -2149,10 +2149,10 @@ pub unsafe extern "C" fn genned_strings_optimize(mut map: *mut genned_strings_t)
         genned_string_cmp
             as unsafe extern "C" fn(*mut genned_string_t, *mut genned_string_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<genned_strings_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -2175,13 +2175,13 @@ pub unsafe extern "C" fn genned_strings_get(
         genned_string_cmp
             as unsafe extern "C" fn(*mut genned_string_t, *mut genned_string_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         genned_string_hash(key),
         ::core::mem::transmute::<genned_strings_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut genned_string_t;
+    ) as *mut genned_string_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:50"]
@@ -2193,12 +2193,12 @@ pub unsafe extern "C" fn genned_strings_remove(
         genned_string_cmp
             as unsafe extern "C" fn(*mut genned_string_t, *mut genned_string_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         genned_string_hash(entry),
         ::core::mem::transmute::<genned_strings_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut genned_string_t;
+    ) as *mut genned_string_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:50"]
@@ -2207,8 +2207,8 @@ pub unsafe extern "C" fn genned_strings_next(
     mut i: *mut size_t,
 ) -> *mut genned_string_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut genned_string_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut genned_string_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:50"]
@@ -2220,12 +2220,12 @@ pub unsafe extern "C" fn genned_strings_put(
         genned_string_cmp
             as unsafe extern "C" fn(*mut genned_string_t, *mut genned_string_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         genned_string_hash(entry),
         ::core::mem::transmute::<genned_strings_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut genned_string_t;
+    ) as *mut genned_string_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "43:1"]
@@ -2250,7 +2250,7 @@ pub unsafe extern "C" fn gen_param(mut c: *mut compile_t, mut ast: *mut ast_t) -
     if !(*(*c).frame).bare_function {
         index += 1;
     }
-    return LLVMGetParam(codegen_fun(c), index as libc::c_uint);
+    LLVMGetParam(codegen_fun(c), index as libc::c_uint)
 }
 #[c2rust::src_loc = "61:1"]
 unsafe extern "C" fn make_fieldptr(
@@ -2291,12 +2291,12 @@ unsafe extern "C" fn make_fieldptr(
     if ast_id(def) as libc::c_uint == TK_ACTOR as libc::c_int as libc::c_uint {
         index = index.wrapping_add(1);
     }
-    return LLVMBuildStructGEP_P(
+    LLVMBuildStructGEP_P(
         (*c).builder,
         l_value,
         index,
         b"\0" as *const u8 as *const libc::c_char,
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "81:1"]
@@ -2318,7 +2318,7 @@ pub unsafe extern "C" fn gen_fieldptr(mut c: *mut compile_t, mut ast: *mut ast_t
     let mut l_type: *mut ast_t = deferred_reify((*(*c).frame).reify, ast_type(left), (*c).opt);
     let mut ret: LLVMValueRef = make_fieldptr(c, l_value, l_type, right);
     ast_free_unattached(l_type);
-    return ret;
+    ret
 }
 #[no_mangle]
 #[c2rust::src_loc = "96:1"]
@@ -2358,7 +2358,7 @@ pub unsafe extern "C" fn gen_fieldload(mut c: *mut compile_t, mut ast: *mut ast_
         field,
         b"\0" as *const u8 as *const libc::c_char,
     );
-    return gen_assign_cast(c, (*c_t).use_type, field, (*t).ast_cap);
+    gen_assign_cast(c, (*c_t).use_type, field, (*t).ast_cap)
 }
 #[no_mangle]
 #[c2rust::src_loc = "119:1"]
@@ -2370,7 +2370,7 @@ pub unsafe extern "C" fn gen_fieldembed(
     if field.is_null() {
         return 0 as LLVMValueRef;
     }
-    return field;
+    field
 }
 #[c2rust::src_loc = "129:1"]
 unsafe extern "C" fn make_tupleelemptr(
@@ -2391,12 +2391,12 @@ unsafe extern "C" fn make_tupleelemptr(
         );
     };
     let mut index: libc::c_int = (*ast_int(right)).low as libc::c_int;
-    return LLVMBuildExtractValue(
+    LLVMBuildExtractValue(
         (*c).builder,
         l_value,
         index as libc::c_uint,
         b"\0" as *const u8 as *const libc::c_char,
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "139:1"]
@@ -2437,7 +2437,7 @@ pub unsafe extern "C" fn gen_tupleelemptr(
     let mut l_type: *mut ast_t = deferred_reify(reify, ast_type(left), (*c).opt);
     let mut value: LLVMValueRef = make_tupleelemptr(c, l_value, l_type, right);
     ast_free_unattached(l_type);
-    return gen_assign_cast(c, (*c_t).use_type, value, (*t).ast_cap);
+    gen_assign_cast(c, (*c_t).use_type, value, (*t).ast_cap)
 }
 #[no_mangle]
 #[c2rust::src_loc = "162:1"]
@@ -2486,7 +2486,7 @@ pub unsafe extern "C" fn gen_tuple(mut c: *mut compile_t, mut ast: *mut ast_t) -
         child = ast_sibling(child);
     }
     ponyint_pool_free_size(buf_size, elements as *mut libc::c_void);
-    return tuple;
+    tuple
 }
 #[no_mangle]
 #[c2rust::src_loc = "220:1"]

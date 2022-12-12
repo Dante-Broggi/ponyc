@@ -512,7 +512,7 @@ pub mod _OSByteOrder_h {
     #[inline]
     #[c2rust::src_loc = "53:1"]
     pub unsafe extern "C" fn _OSSwapInt32(mut _data: __uint32_t) -> __uint32_t {
-        return _data.swap_bytes();
+        _data.swap_bytes()
     }
     use super::_types_h::__uint32_t;
 }
@@ -732,7 +732,7 @@ unsafe extern "C" fn os_addrinfo_intern(
     if getaddrinfo(host, service, &mut hints, &mut result) != 0 as libc::c_int {
         return 0 as *mut addrinfo;
     }
-    return result;
+    result
 }
 #[c2rust::src_loc = "173:1"]
 unsafe extern "C" fn set_nonblocking(mut s: libc::c_int) -> libc::c_int {
@@ -1092,7 +1092,7 @@ pub unsafe extern "C" fn pony_os_accept(mut ev: *mut asio_event_t) -> libc::c_in
     } else if *__error() == 35 as libc::c_int || *__error() == 35 as libc::c_int {
         ns = 0 as libc::c_int;
     }
-    return ns;
+    ns
 }
 #[no_mangle]
 #[c2rust::src_loc = "767:1"]
@@ -1247,7 +1247,7 @@ pub unsafe extern "C" fn pony_os_ip_string(
         dst.as_mut_ptr() as *const libc::c_void,
         dstlen.wrapping_add(1 as libc::c_int as libc::c_ulong),
     );
-    return result;
+    result
 }
 #[no_mangle]
 #[c2rust::src_loc = "873:1"]
@@ -1335,7 +1335,7 @@ pub unsafe extern "C" fn pony_os_writev(
         }
         pony_error();
     }
-    return sent as size_t;
+    sent as size_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "958:1"]
@@ -1351,7 +1351,7 @@ pub unsafe extern "C" fn pony_os_send(
         }
         pony_error();
     }
-    return sent as size_t;
+    sent as size_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "1000:1"]
@@ -1397,7 +1397,7 @@ pub unsafe extern "C" fn pony_os_sendto(
         }
         pony_error();
     }
-    return sent as size_t;
+    sent as size_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "1053:1"]
@@ -1425,7 +1425,7 @@ pub unsafe extern "C" fn pony_os_recvfrom(
     } else if recvd == 0 as libc::c_int as libc::c_long {
         pony_error();
     }
-    return recvd as size_t;
+    recvd as size_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "1081:1"]

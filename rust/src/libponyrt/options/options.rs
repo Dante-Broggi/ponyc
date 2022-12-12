@@ -143,7 +143,7 @@ unsafe extern "C" fn find_match(mut s: *mut opt_state_t) -> *const opt_arg_t {
         }
         p = p.offset(1);
     }
-    return match_0;
+    match_0
 }
 #[c2rust::src_loc = "82:1"]
 unsafe extern "C" fn is_positional(mut s: *const opt_state_t) -> bool {
@@ -353,5 +353,5 @@ pub unsafe extern "C" fn ponyint_opt_next(mut s: *mut opt_state_t) -> libc::c_in
         }
     }
     strip_accepted_opts(s);
-    return (*m).id as libc::c_int;
+    (*m).id as libc::c_int
 }

@@ -196,7 +196,7 @@ pub unsafe extern "C" fn ponyint_thread_create(
         ret = 0 as libc::c_int != 0;
     }
     pthread_attr_destroy(&mut attr);
-    return ret;
+    ret
 }
 #[no_mangle]
 #[c2rust::src_loc = "222:1"]
@@ -214,7 +214,7 @@ pub unsafe extern "C" fn ponyint_thread_detach(mut thread: pthread_t) {
 #[no_mangle]
 #[c2rust::src_loc = "242:1"]
 pub unsafe extern "C" fn ponyint_thread_self() -> pthread_t {
-    return pthread_self();
+    pthread_self()
 }
 #[no_mangle]
 #[c2rust::src_loc = "252:1"]
@@ -235,5 +235,5 @@ pub unsafe extern "C" fn ponyint_thread_wake(
 ) -> libc::c_int {
     let mut ret: libc::c_int = 0;
     ret = pthread_cond_signal(signal);
-    return ret;
+    ret
 }

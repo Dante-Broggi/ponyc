@@ -24,12 +24,12 @@ pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "270:1"]
     pub unsafe extern "C" fn __pony_clzll(mut x: uint64_t) -> uint32_t {
-        return x.leading_zeros() as i32 as uint32_t;
+        x.leading_zeros() as i32 as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
     pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> uint32_t {
-        return __pony_clzll(x as uint64_t);
+        __pony_clzll(x as uint64_t)
     }
     use super::_uint32_t_h::uint32_t;
     use super::_uint64_t_h::uint64_t;

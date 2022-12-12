@@ -602,7 +602,7 @@ unsafe extern "C" fn is_nominal_compat_nominal(mut a: *mut ast_t, mut b: *mut as
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children_0.as_mut_ptr(),
     );
-    return is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph));
+    is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph))
 }
 #[c2rust::src_loc = "18:1"]
 unsafe extern "C" fn is_nominal_compat_typeparam(mut a: *mut ast_t, mut b: *mut ast_t) -> bool {
@@ -638,7 +638,7 @@ unsafe extern "C" fn is_nominal_compat_typeparam(mut a: *mut ast_t, mut b: *mut 
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children_0.as_mut_ptr(),
     );
-    return is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph));
+    is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph))
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn is_typeparam_compat_typeparam(mut a: *mut ast_t, mut b: *mut ast_t) -> bool {
@@ -676,7 +676,7 @@ unsafe extern "C" fn is_arrow_compat_nominal(mut a: *mut ast_t, mut b: *mut ast_
     }
     let mut ok: bool = is_compat_type(a_lower, b);
     ast_free_unattached(a_lower);
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "57:1"]
 unsafe extern "C" fn is_arrow_compat_typeparam(mut a: *mut ast_t, mut b: *mut ast_t) -> bool {
@@ -712,7 +712,7 @@ unsafe extern "C" fn is_arrow_compat_arrow(mut a: *mut ast_t, mut b: *mut ast_t)
     let mut ok_0: bool = is_compat_type(r_a, r_b);
     ast_free_unattached(r_a);
     ast_free_unattached(r_b);
-    return ok_0;
+    ok_0
 }
 #[c2rust::src_loc = "124:1"]
 unsafe extern "C" fn is_union_compat_x(mut a: *mut ast_t, mut b: *mut ast_t) -> bool {

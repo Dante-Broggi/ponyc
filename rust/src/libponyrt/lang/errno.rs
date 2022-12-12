@@ -15,5 +15,5 @@ pub unsafe extern "C" fn pony_os_clear_errno() {
 #[no_mangle]
 #[c2rust::src_loc = "11:1"]
 pub unsafe extern "C" fn pony_os_errno() -> libc::c_int {
-    return *__error();
+    *__error()
 }

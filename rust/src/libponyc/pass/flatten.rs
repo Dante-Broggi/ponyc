@@ -857,7 +857,7 @@ unsafe extern "C" fn flatten_union(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
     );
     flatten_typeexpr_element(ast, left, TK_UNIONTYPE);
     flatten_typeexpr_element(ast, right, TK_UNIONTYPE);
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "47:1"]
 unsafe extern "C" fn flatten_isect(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -876,7 +876,7 @@ unsafe extern "C" fn flatten_isect(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
     );
     flatten_typeexpr_element(ast, left, TK_ISECTTYPE);
     flatten_typeexpr_element(ast, right, TK_ISECTTYPE);
-    return AST_OK;
+    AST_OK
 }
 #[no_mangle]
 #[c2rust::src_loc = "63:1"]
@@ -964,7 +964,7 @@ pub unsafe extern "C" fn flatten_typeparamref(
         }
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "160:1"]
 unsafe extern "C" fn flatten_sendable_params(
@@ -997,7 +997,7 @@ unsafe extern "C" fn flatten_sendable_params(
         }
         param = ast_sibling(param);
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "182:1"]
 unsafe extern "C" fn flatten_constructor(
@@ -1034,7 +1034,7 @@ unsafe extern "C" fn flatten_constructor(
         91 | 92 | 94 => return flatten_sendable_params(opt, params),
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "200:1"]
 unsafe extern "C" fn flatten_async(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -1239,7 +1239,7 @@ unsafe extern "C" fn flatten_provides_list(
         return AST_ERROR;
     }
     ast_replace(&mut provides, list);
-    return AST_OK;
+    AST_OK
 }
 #[no_mangle]
 #[c2rust::src_loc = "313:1"]

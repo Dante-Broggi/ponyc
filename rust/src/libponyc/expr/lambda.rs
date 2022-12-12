@@ -1901,7 +1901,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
     {
         return 0 as libc::c_int != 0;
     }
-    return ast_passes_subtree(astp, opt, PASS_EXPR);
+    ast_passes_subtree(astp, opt, PASS_EXPR)
 }
 #[c2rust::src_loc = "470:1"]
 unsafe extern "C" fn capture_from_reference(
@@ -2053,7 +2053,7 @@ unsafe extern "C" fn capture_from_expr(
             p = ast_sibling(p);
         }
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "567:1"]
 unsafe extern "C" fn capture_from_type(
@@ -2084,7 +2084,7 @@ unsafe extern "C" fn capture_from_type(
         p = ast_sibling(p);
     }
     ast_clear(*def);
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "605:1"]
 unsafe extern "C" fn add_field_to_object(
@@ -2748,5 +2748,5 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
     if !ast_passes_subtree(astp, opt, PASS_EXPR) {
         return 0 as libc::c_int != 0;
     }
-    return ok;
+    ok
 }

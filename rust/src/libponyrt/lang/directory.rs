@@ -182,7 +182,7 @@ pub unsafe extern "C" fn pony_os_cwd() -> *mut libc::c_char {
         cwd as *const libc::c_void,
         len,
     );
-    return cstring;
+    cstring
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]

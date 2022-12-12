@@ -583,7 +583,7 @@ unsafe extern "C" fn bnf_create(mut id: bnf_id) -> *mut bnf_t {
         ::core::mem::size_of::<bnf_t>() as libc::c_ulong,
     );
     (*b).id = id;
-    return b;
+    b
 }
 #[c2rust::src_loc = "210:1"]
 unsafe extern "C" fn bnf_free(mut bnf: *mut bnf_t) {

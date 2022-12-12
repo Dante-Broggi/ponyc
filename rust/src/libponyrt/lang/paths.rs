@@ -55,5 +55,5 @@ pub unsafe extern "C" fn pony_os_realpath(mut path: *const libc::c_char) -> *mut
         resolved.as_mut_ptr() as *const libc::c_void,
         len,
     );
-    return cstring;
+    cstring
 }

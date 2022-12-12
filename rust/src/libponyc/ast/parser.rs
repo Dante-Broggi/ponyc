@@ -741,7 +741,7 @@ unsafe extern "C" fn provides(
     if r != 1 as libc::c_int as *mut ast_t {
         return r;
     }
-    return parse_rule_complete(parser, &mut state);
+    parse_rule_complete(parser, &mut state)
 }
 #[c2rust::src_loc = "73:1"]
 unsafe extern "C" fn defaultarg(
@@ -985,7 +985,7 @@ unsafe extern "C" fn literal(
     if r != 1 as libc::c_int as *mut ast_t {
         return r;
     }
-    return parse_rule_complete(parser, &mut state);
+    parse_rule_complete(parser, &mut state)
 }
 #[c2rust::src_loc = "100:1"]
 unsafe extern "C" fn const_expr(
@@ -1964,7 +1964,7 @@ unsafe extern "C" fn nominal(
     if r_4 != 1 as libc::c_int as *mut ast_t {
         return r_4;
     }
-    return parse_rule_complete(parser, &mut state);
+    parse_rule_complete(parser, &mut state)
 }
 #[c2rust::src_loc = "189:1"]
 unsafe extern "C" fn uniontype(
@@ -2091,7 +2091,7 @@ unsafe extern "C" fn isecttype(
     if r_0 != 1 as libc::c_int as *mut ast_t {
         return r_0;
     }
-    return parse_rule_complete(parser, &mut state);
+    parse_rule_complete(parser, &mut state)
 }
 #[c2rust::src_loc = "204:1"]
 unsafe extern "C" fn infixtype(
@@ -2176,7 +2176,7 @@ unsafe extern "C" fn infixtype(
             return r_0;
         }
     }
-    return parse_rule_complete(parser, &mut state);
+    parse_rule_complete(parser, &mut state)
 }
 #[c2rust::src_loc = "210:1"]
 unsafe extern "C" fn tupletype(

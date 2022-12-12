@@ -358,14 +358,14 @@ pub mod _ctype_h {
     #[linkage = "external"]
     #[c2rust::src_loc = "291:1"]
     pub unsafe extern "C" fn tolower(mut _c: libc::c_int) -> libc::c_int {
-        return __tolower(_c);
+        __tolower(_c)
     }
     #[no_mangle]
     #[inline]
     #[linkage = "external"]
     #[c2rust::src_loc = "297:1"]
     pub unsafe extern "C" fn toupper(mut _c: libc::c_int) -> libc::c_int {
-        return __toupper(_c);
+        __toupper(_c)
     }
     use super::_types_h::__darwin_ct_rune_t;
     extern "C" {
@@ -412,11 +412,11 @@ pub type symtab_free_fn = Option<unsafe extern "C" fn(*mut symbol_t) -> ()>;
 pub type symtab_cmp_fn = Option<unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool>;
 #[c2rust::src_loc = "13:1"]
 unsafe extern "C" fn sym_hash(mut sym: *mut symbol_t) -> size_t {
-    return ponyint_hash_ptr((*sym).name as *const libc::c_void);
+    ponyint_hash_ptr((*sym).name as *const libc::c_void)
 }
 #[c2rust::src_loc = "18:1"]
 unsafe extern "C" fn sym_cmp(mut a: *mut symbol_t, mut b: *mut symbol_t) -> bool {
-    return (*a).name == (*b).name;
+    (*a).name == (*b).name
 }
 #[c2rust::src_loc = "23:1"]
 unsafe extern "C" fn sym_dup(mut sym: *mut symbol_t) -> *mut symbol_t {
@@ -426,7 +426,7 @@ unsafe extern "C" fn sym_dup(mut sym: *mut symbol_t) -> *mut symbol_t {
         sym as *const libc::c_void,
         ::core::mem::size_of::<symbol_t>() as libc::c_ulong,
     );
-    return s;
+    s
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn sym_free(mut sym: *mut symbol_t) {
@@ -491,7 +491,7 @@ static mut symtab_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn symtab_pony_type() -> *const pony_type_t {
-    return &symtab_pony;
+    &symtab_pony
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -507,10 +507,10 @@ pub unsafe extern "C" fn symtab_destroy(mut map: *mut symtab_t) {
 pub unsafe extern "C" fn symtab_optimize(mut map: *mut symtab_t) {
     let mut cmpf: symtab_cmp_fn =
         Some(sym_cmp as unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<symtab_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -547,12 +547,12 @@ pub unsafe extern "C" fn symtab_clearindex(mut map: *mut symtab_t, mut index: si
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn symtab_size(mut map: *mut symtab_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn symtab_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -565,7 +565,7 @@ pub unsafe extern "C" fn symtab_deserialise(
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn symtab_mem_size(mut map: *mut symtab_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -584,13 +584,13 @@ pub unsafe extern "C" fn symtab_get(
 ) -> *mut symbol_t {
     let mut cmpf: symtab_cmp_fn =
         Some(sym_cmp as unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         sym_hash(key),
         ::core::mem::transmute::<symtab_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut symbol_t;
+    ) as *mut symbol_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:44"]
@@ -600,19 +600,19 @@ pub unsafe extern "C" fn symtab_remove(
 ) -> *mut symbol_t {
     let mut cmpf: symtab_cmp_fn =
         Some(sym_cmp as unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         sym_hash(entry),
         ::core::mem::transmute::<symtab_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut symbol_t;
+    ) as *mut symbol_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:44"]
 pub unsafe extern "C" fn symtab_next(mut map: *mut symtab_t, mut i: *mut size_t) -> *mut symbol_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut symbol_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut symbol_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:44"]
@@ -622,12 +622,12 @@ pub unsafe extern "C" fn symtab_put(
 ) -> *mut symbol_t {
     let mut cmpf: symtab_cmp_fn =
         Some(sym_cmp as unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         sym_hash(entry),
         ::core::mem::transmute::<symtab_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut symbol_t;
+    ) as *mut symbol_t
 }
 #[c2rust::src_loc = "38:1"]
 unsafe extern "C" fn name_without_case(mut name: *const libc::c_char) -> *const libc::c_char {
@@ -648,7 +648,7 @@ unsafe extern "C" fn name_without_case(mut name: *const libc::c_char) -> *const 
             i_0 = i_0.wrapping_add(1);
         }
     }
-    return stringtab_consume(buf, len);
+    stringtab_consume(buf, len)
 }
 #[no_mangle]
 #[c2rust::src_loc = "55:1"]
@@ -671,7 +671,7 @@ pub unsafe extern "C" fn symtab_dup(mut symtab: *mut symtab_t) -> *mut symtab_t 
         }
         symtab_put(n, sym_dup(sym));
     }
-    return n;
+    n
 }
 #[no_mangle]
 #[c2rust::src_loc = "76:1"]
@@ -953,7 +953,7 @@ pub unsafe extern "C" fn symtab_check_all_defined(
             r = 0 as libc::c_int != 0;
         }
     }
-    return r;
+    r
 }
 #[no_mangle]
 #[c2rust::src_loc = "318:1"]
@@ -1070,5 +1070,5 @@ static mut symbol_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "407:1"]
 pub unsafe extern "C" fn symbol_pony_type() -> *const pony_type_t {
-    return &symbol_pony;
+    &symbol_pony
 }

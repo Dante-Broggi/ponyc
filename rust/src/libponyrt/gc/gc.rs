@@ -602,7 +602,7 @@ pub unsafe extern "C" fn ponyint_gcstack_pop(
     mut stack: *mut gcstack_t,
     mut data: *mut *mut libc::c_void,
 ) -> *mut gcstack_t {
-    return ponyint_stack_pop(stack as *mut Stack, data) as *mut gcstack_t;
+    ponyint_stack_pop(stack as *mut Stack, data) as *mut gcstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "11:31"]
@@ -610,7 +610,7 @@ pub unsafe extern "C" fn ponyint_gcstack_push(
     mut stack: *mut gcstack_t,
     mut data: *mut libc::c_void,
 ) -> *mut gcstack_t {
-    return ponyint_stack_push(stack as *mut Stack, data) as *mut gcstack_t;
+    ponyint_stack_push(stack as *mut Stack, data) as *mut gcstack_t
 }
 #[c2rust::src_loc = "13:1"]
 unsafe extern "C" fn acquire_actor(mut ctx: *mut pony_ctx_t, mut actor: *mut pony_actor_t) {

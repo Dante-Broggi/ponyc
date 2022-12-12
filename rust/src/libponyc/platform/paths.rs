@@ -174,7 +174,7 @@ pub unsafe extern "C" fn pony_opendir(
         *err = *__error() as uint32_t;
         return 0 as *mut DIR;
     }
-    return dir;
+    dir
 }
 #[no_mangle]
 #[c2rust::src_loc = "66:1"]
@@ -182,12 +182,12 @@ pub unsafe extern "C" fn pony_realpath(
     mut path: *const libc::c_char,
     mut resolved: *mut libc::c_char,
 ) -> *mut libc::c_char {
-    return realpath(path, resolved);
+    realpath(path, resolved)
 }
 #[no_mangle]
 #[c2rust::src_loc = "83:1"]
 pub unsafe extern "C" fn pony_dir_info_name(mut info: *mut dirent) -> *mut libc::c_char {
-    return ((*info).d_name).as_mut_ptr();
+    ((*info).d_name).as_mut_ptr()
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -197,7 +197,7 @@ pub unsafe extern "C" fn pony_closedir(mut dir: *mut DIR) {
 #[no_mangle]
 #[c2rust::src_loc = "102:1"]
 pub unsafe extern "C" fn pony_dir_entry_next(mut dir: *mut DIR) -> *mut dirent {
-    return readdir(dir);
+    readdir(dir)
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
@@ -225,7 +225,7 @@ pub unsafe extern "C" fn pony_mkdir(mut path: *const libc::c_char) {
 #[no_mangle]
 #[c2rust::src_loc = "162:1"]
 pub unsafe extern "C" fn get_file_name(mut filename: *mut libc::c_char) -> *mut libc::c_char {
-    return basename(filename);
+    basename(filename)
 }
 #[no_mangle]
 #[c2rust::src_loc = "182:1"]
@@ -259,7 +259,7 @@ pub unsafe extern "C" fn remove_ext(
             *lastdot = '\0' as i32 as libc::c_char;
         }
     }
-    return retstr;
+    retstr
 }
 #[no_mangle]
 #[c2rust::src_loc = "216:1"]
@@ -281,7 +281,7 @@ pub unsafe extern "C" fn get_compiler_exe_path(
     if success {
         pony_realpath(exec_path.as_mut_ptr(), output_path);
     }
-    return success;
+    success
 }
 #[no_mangle]
 #[c2rust::src_loc = "294:1"]

@@ -1903,5 +1903,5 @@ static mut program_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "444:1"]
 pub unsafe extern "C" fn program_pony_type() -> *const pony_type_t {
-    return &program_pony;
+    &program_pony
 }

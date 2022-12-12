@@ -775,7 +775,7 @@ pub struct parser_t {
 }
 #[c2rust::src_loc = "23:1"]
 unsafe extern "C" fn current_token_id(mut parser: *mut parser_t) -> token_id {
-    return token_get_id((*parser).token);
+    token_get_id((*parser).token)
 }
 #[c2rust::src_loc = "29:1"]
 unsafe extern "C" fn fetch_next_lexer_token(mut parser: *mut parser_t, mut free_last_token: bool) {

@@ -826,11 +826,11 @@ pub struct pendingdestroystack_t {}
 pub type C2RustUnnamed_0 = libc::c_uint;
 #[c2rust::src_loc = "160:1"]
 unsafe extern "C" fn viewref_hash(mut vref: *mut viewref_t) -> size_t {
-    return ponyint_hash_ptr((*vref).view as *const libc::c_void);
+    ponyint_hash_ptr((*vref).view as *const libc::c_void)
 }
 #[c2rust::src_loc = "165:1"]
 unsafe extern "C" fn viewref_cmp(mut a: *mut viewref_t, mut b: *mut viewref_t) -> bool {
-    return (*a).view == (*b).view;
+    (*a).view == (*b).view
 }
 #[c2rust::src_loc = "170:1"]
 unsafe extern "C" fn viewref_free(mut vref: *mut viewref_t) {
@@ -842,8 +842,8 @@ pub unsafe extern "C" fn ponyint_viewrefstack_pop(
     mut stack: *mut viewrefstack_t,
     mut data: *mut *mut viewref_t,
 ) -> *mut viewrefstack_t {
-    return ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut viewrefstack_t;
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
+        as *mut viewrefstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "176:36"]
@@ -851,13 +851,13 @@ pub unsafe extern "C" fn ponyint_viewrefstack_push(
     mut stack: *mut viewrefstack_t,
     mut data: *mut viewref_t,
 ) -> *mut viewrefstack_t {
-    return ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut viewrefstack_t;
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
+        as *mut viewrefstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
 pub unsafe extern "C" fn ponyint_viewrefmap_alloc_size(mut map: *mut viewrefmap_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
@@ -872,15 +872,15 @@ pub unsafe extern "C" fn ponyint_viewrefmap_removeindex(
 pub unsafe extern "C" fn ponyint_viewrefmap_optimize(mut map: *mut viewrefmap_t) {
     let mut cmpf: ponyint_viewrefmap_cmp_fn =
         Some(viewref_cmp as unsafe extern "C" fn(*mut viewref_t, *mut viewref_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<ponyint_viewrefmap_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
 pub unsafe extern "C" fn ponyint_viewrefmap_size(mut map: *mut viewrefmap_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
@@ -907,12 +907,12 @@ pub unsafe extern "C" fn ponyint_viewrefmap_putindex(
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
 pub unsafe extern "C" fn ponyint_viewrefmap_mem_size(mut map: *mut viewrefmap_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
 pub unsafe extern "C" fn ponyint_viewrefmap_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
@@ -940,12 +940,12 @@ pub unsafe extern "C" fn ponyint_viewrefmap_remove(
 ) -> *mut viewref_t {
     let mut cmpf: ponyint_viewrefmap_cmp_fn =
         Some(viewref_cmp as unsafe extern "C" fn(*mut viewref_t, *mut viewref_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         viewref_hash(entry),
         ::core::mem::transmute::<ponyint_viewrefmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut viewref_t;
+    ) as *mut viewref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:50"]
@@ -956,13 +956,13 @@ pub unsafe extern "C" fn ponyint_viewrefmap_get(
 ) -> *mut viewref_t {
     let mut cmpf: ponyint_viewrefmap_cmp_fn =
         Some(viewref_cmp as unsafe extern "C" fn(*mut viewref_t, *mut viewref_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         viewref_hash(key),
         ::core::mem::transmute::<ponyint_viewrefmap_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut viewref_t;
+    ) as *mut viewref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:50"]
@@ -972,12 +972,12 @@ pub unsafe extern "C" fn ponyint_viewrefmap_put(
 ) -> *mut viewref_t {
     let mut cmpf: ponyint_viewrefmap_cmp_fn =
         Some(viewref_cmp as unsafe extern "C" fn(*mut viewref_t, *mut viewref_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         viewref_hash(entry),
         ::core::mem::transmute::<ponyint_viewrefmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut viewref_t;
+    ) as *mut viewref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:50"]
@@ -986,19 +986,19 @@ pub unsafe extern "C" fn ponyint_viewrefmap_next(
     mut i: *mut size_t,
 ) -> *mut viewref_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut viewref_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut viewref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "201:3"]
 pub static mut ponyint_color_t: C2RustUnnamed_0 = COLOR_BLACK;
 #[c2rust::src_loc = "215:1"]
 unsafe extern "C" fn view_hash(mut view: *mut view_t) -> size_t {
-    return ponyint_hash_ptr((*view).actor as *const libc::c_void);
+    ponyint_hash_ptr((*view).actor as *const libc::c_void)
 }
 #[c2rust::src_loc = "220:1"]
 unsafe extern "C" fn view_cmp(mut a: *mut view_t, mut b: *mut view_t) -> bool {
-    return (*a).actor == (*b).actor;
+    (*a).actor == (*b).actor
 }
 #[c2rust::src_loc = "229:1"]
 unsafe extern "C" fn view_free(mut view: *mut view_t) {
@@ -1012,7 +1012,7 @@ unsafe extern "C" fn view_free(mut view: *mut view_t) {
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
 pub unsafe extern "C" fn ponyint_viewmap_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
@@ -1041,15 +1041,15 @@ pub unsafe extern "C" fn ponyint_viewmap_clearindex(mut map: *mut viewmap_t, mut
 pub unsafe extern "C" fn ponyint_viewmap_optimize(mut map: *mut viewmap_t) {
     let mut cmpf: ponyint_viewmap_cmp_fn =
         Some(view_cmp as unsafe extern "C" fn(*mut view_t, *mut view_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<ponyint_viewmap_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
 pub unsafe extern "C" fn ponyint_viewmap_size(mut map: *mut viewmap_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
@@ -1063,12 +1063,12 @@ pub unsafe extern "C" fn ponyint_viewmap_destroy(mut map: *mut viewmap_t) {
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
 pub unsafe extern "C" fn ponyint_viewmap_mem_size(mut map: *mut viewmap_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
 pub unsafe extern "C" fn ponyint_viewmap_alloc_size(mut map: *mut viewmap_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
@@ -1089,13 +1089,13 @@ pub unsafe extern "C" fn ponyint_viewmap_get(
 ) -> *mut view_t {
     let mut cmpf: ponyint_viewmap_cmp_fn =
         Some(view_cmp as unsafe extern "C" fn(*mut view_t, *mut view_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         view_hash(key),
         ::core::mem::transmute::<ponyint_viewmap_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut view_t;
+    ) as *mut view_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:44"]
@@ -1105,12 +1105,12 @@ pub unsafe extern "C" fn ponyint_viewmap_put(
 ) -> *mut view_t {
     let mut cmpf: ponyint_viewmap_cmp_fn =
         Some(view_cmp as unsafe extern "C" fn(*mut view_t, *mut view_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         view_hash(entry),
         ::core::mem::transmute::<ponyint_viewmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut view_t;
+    ) as *mut view_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:44"]
@@ -1120,12 +1120,12 @@ pub unsafe extern "C" fn ponyint_viewmap_remove(
 ) -> *mut view_t {
     let mut cmpf: ponyint_viewmap_cmp_fn =
         Some(view_cmp as unsafe extern "C" fn(*mut view_t, *mut view_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         view_hash(entry),
         ::core::mem::transmute::<ponyint_viewmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut view_t;
+    ) as *mut view_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:44"]
@@ -1134,16 +1134,16 @@ pub unsafe extern "C" fn ponyint_viewmap_next(
     mut i: *mut size_t,
 ) -> *mut view_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut view_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut view_t
 }
 #[c2rust::src_loc = "255:1"]
 unsafe extern "C" fn perceived_hash(mut per: *mut perceived_t) -> size_t {
-    return ponyint_hash_size((*per).token);
+    ponyint_hash_size((*per).token)
 }
 #[c2rust::src_loc = "260:1"]
 unsafe extern "C" fn perceived_cmp(mut a: *mut perceived_t, mut b: *mut perceived_t) -> bool {
-    return (*a).token == (*b).token;
+    (*a).token == (*b).token
 }
 #[c2rust::src_loc = "269:1"]
 unsafe extern "C" fn perceived_free(mut per: *mut perceived_t) {
@@ -1155,32 +1155,32 @@ unsafe extern "C" fn perceived_free(mut per: *mut perceived_t) {
 pub unsafe extern "C" fn ponyint_perceivedmap_optimize(mut map: *mut perceivedmap_t) {
     let mut cmpf: ponyint_perceivedmap_cmp_fn =
         Some(perceived_cmp as unsafe extern "C" fn(*mut perceived_t, *mut perceived_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<ponyint_perceivedmap_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
 pub unsafe extern "C" fn ponyint_perceivedmap_alloc_size(mut map: *mut perceivedmap_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
 pub unsafe extern "C" fn ponyint_perceivedmap_mem_size(mut map: *mut perceivedmap_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
 pub unsafe extern "C" fn ponyint_perceivedmap_fill_ratio(
     mut map: *mut hashmap_t,
 ) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
 pub unsafe extern "C" fn ponyint_perceivedmap_size(mut map: *mut perceivedmap_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
@@ -1238,12 +1238,12 @@ pub unsafe extern "C" fn ponyint_perceivedmap_put(
 ) -> *mut perceived_t {
     let mut cmpf: ponyint_perceivedmap_cmp_fn =
         Some(perceived_cmp as unsafe extern "C" fn(*mut perceived_t, *mut perceived_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         perceived_hash(entry),
         ::core::mem::transmute::<ponyint_perceivedmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut perceived_t;
+    ) as *mut perceived_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:54"]
@@ -1254,13 +1254,13 @@ pub unsafe extern "C" fn ponyint_perceivedmap_get(
 ) -> *mut perceived_t {
     let mut cmpf: ponyint_perceivedmap_cmp_fn =
         Some(perceived_cmp as unsafe extern "C" fn(*mut perceived_t, *mut perceived_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         perceived_hash(key),
         ::core::mem::transmute::<ponyint_perceivedmap_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut perceived_t;
+    ) as *mut perceived_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:54"]
@@ -1269,8 +1269,8 @@ pub unsafe extern "C" fn ponyint_perceivedmap_next(
     mut i: *mut size_t,
 ) -> *mut perceived_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut perceived_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut perceived_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:54"]
@@ -1280,12 +1280,12 @@ pub unsafe extern "C" fn ponyint_perceivedmap_remove(
 ) -> *mut perceived_t {
     let mut cmpf: ponyint_perceivedmap_cmp_fn =
         Some(perceived_cmp as unsafe extern "C" fn(*mut perceived_t, *mut perceived_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         perceived_hash(entry),
         ::core::mem::transmute::<ponyint_perceivedmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut perceived_t;
+    ) as *mut perceived_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "283:43"]
@@ -1293,8 +1293,8 @@ pub unsafe extern "C" fn ponyint_pendingdestroystack_push(
     mut stack: *mut pendingdestroystack_t,
     mut data: *mut pony_actor_t,
 ) -> *mut pendingdestroystack_t {
-    return ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut pendingdestroystack_t;
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
+        as *mut pendingdestroystack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "283:43"]
@@ -1302,8 +1302,8 @@ pub unsafe extern "C" fn ponyint_pendingdestroystack_pop(
     mut stack: *mut pendingdestroystack_t,
     mut data: *mut *mut pony_actor_t,
 ) -> *mut pendingdestroystack_t {
-    return ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut pendingdestroystack_t;
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
+        as *mut pendingdestroystack_t
 }
 #[c2rust::src_loc = "310:22"]
 static mut cycle_detector: *mut pony_actor_t = 0 as *const pony_actor_t as *mut pony_actor_t;
@@ -1357,7 +1357,7 @@ unsafe extern "C" fn get_view(
         let ref mut fresh2 = (*d).created;
         *fresh2 = (*fresh2).wrapping_add(1);
     }
-    return view;
+    view
 }
 #[c2rust::src_loc = "370:1"]
 unsafe extern "C" fn apply_delta(

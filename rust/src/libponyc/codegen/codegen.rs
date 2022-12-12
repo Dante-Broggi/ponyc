@@ -1982,14 +1982,14 @@ pub type compile_locals_cmp_fn =
     Option<unsafe extern "C" fn(*mut compile_local_t, *mut compile_local_t) -> bool>;
 #[c2rust::src_loc = "32:1"]
 unsafe extern "C" fn compile_local_hash(mut p: *mut compile_local_t) -> size_t {
-    return ponyint_hash_ptr((*p).name as *const libc::c_void);
+    ponyint_hash_ptr((*p).name as *const libc::c_void)
 }
 #[c2rust::src_loc = "37:1"]
 unsafe extern "C" fn compile_local_cmp(
     mut a: *mut compile_local_t,
     mut b: *mut compile_local_t,
 ) -> bool {
-    return (*a).name == (*b).name;
+    (*a).name == (*b).name
 }
 #[c2rust::src_loc = "42:1"]
 unsafe extern "C" fn compile_local_free(mut p: *mut compile_local_t) {
@@ -2021,12 +2021,12 @@ pub unsafe extern "C" fn compile_locals_removeindex(
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn compile_locals_alloc_size(mut map: *mut compile_locals_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn compile_locals_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
@@ -2062,20 +2062,20 @@ pub unsafe extern "C" fn compile_locals_optimize(mut map: *mut compile_locals_t)
         compile_local_cmp
             as unsafe extern "C" fn(*mut compile_local_t, *mut compile_local_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<compile_locals_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn compile_locals_mem_size(mut map: *mut compile_locals_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn compile_locals_size(mut map: *mut compile_locals_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:50"]
@@ -2087,12 +2087,12 @@ pub unsafe extern "C" fn compile_locals_remove(
         compile_local_cmp
             as unsafe extern "C" fn(*mut compile_local_t, *mut compile_local_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         compile_local_hash(entry),
         ::core::mem::transmute::<compile_locals_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut compile_local_t;
+    ) as *mut compile_local_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:50"]
@@ -2101,8 +2101,8 @@ pub unsafe extern "C" fn compile_locals_next(
     mut i: *mut size_t,
 ) -> *mut compile_local_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut compile_local_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut compile_local_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:50"]
@@ -2114,12 +2114,12 @@ pub unsafe extern "C" fn compile_locals_put(
         compile_local_cmp
             as unsafe extern "C" fn(*mut compile_local_t, *mut compile_local_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         compile_local_hash(entry),
         ::core::mem::transmute::<compile_locals_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut compile_local_t;
+    ) as *mut compile_local_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:50"]
@@ -2132,13 +2132,13 @@ pub unsafe extern "C" fn compile_locals_get(
         compile_local_cmp
             as unsafe extern "C" fn(*mut compile_local_t, *mut compile_local_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         compile_local_hash(key),
         ::core::mem::transmute::<compile_locals_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut compile_local_t;
+    ) as *mut compile_local_t
 }
 #[c2rust::src_loc = "50:1"]
 unsafe extern "C" fn fatal_error(mut reason: *const libc::c_char) {
@@ -2163,7 +2163,7 @@ unsafe extern "C" fn push_frame(mut c: *mut compile_t) -> *mut compile_frame_t {
     }
     let ref mut fresh1 = (*c).frame;
     *fresh1 = frame;
-    return frame;
+    frame
 }
 #[c2rust::src_loc = "68:1"]
 unsafe extern "C" fn pop_frame(mut c: *mut compile_t) {
@@ -2196,7 +2196,7 @@ unsafe extern "C" fn make_machine(mut opt: *mut pass_opt_t) -> LLVMTargetMachine
         );
         return 0 as LLVMTargetMachineRef;
     }
-    return machine;
+    machine
 }
 #[c2rust::src_loc = "100:1"]
 unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {

@@ -158,5 +158,5 @@ pub unsafe extern "C" fn ponyint_personality_v0(
         set_registers(exception_0, context);
         return _URC_INSTALL_CONTEXT;
     }
-    return _URC_FATAL_PHASE1_ERROR;
+    _URC_FATAL_PHASE1_ERROR
 }

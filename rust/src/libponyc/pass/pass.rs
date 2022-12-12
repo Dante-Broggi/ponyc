@@ -1135,30 +1135,30 @@ pub unsafe extern "C" fn limit_passes(
 #[c2rust::src_loc = "49:1"]
 pub unsafe extern "C" fn pass_name(mut pass: pass_id) -> *const libc::c_char {
     match pass as libc::c_uint {
-        0 => return b"parse\0" as *const u8 as *const libc::c_char,
-        1 => return b"syntax\0" as *const u8 as *const libc::c_char,
-        2 => return b"sugar\0" as *const u8 as *const libc::c_char,
-        3 => return b"scope\0" as *const u8 as *const libc::c_char,
-        4 => return b"import\0" as *const u8 as *const libc::c_char,
-        5 => return b"name\0" as *const u8 as *const libc::c_char,
-        6 => return b"flatten\0" as *const u8 as *const libc::c_char,
-        7 => return b"traits\0" as *const u8 as *const libc::c_char,
-        8 => return b"docs\0" as *const u8 as *const libc::c_char,
-        9 => return b"refer\0" as *const u8 as *const libc::c_char,
-        10 => return b"expr\0" as *const u8 as *const libc::c_char,
-        11 => return b"completeness\0" as *const u8 as *const libc::c_char,
-        12 => return b"verify\0" as *const u8 as *const libc::c_char,
-        13 => return b"final\0" as *const u8 as *const libc::c_char,
-        14 => return b"serialise\0" as *const u8 as *const libc::c_char,
-        15 => return b"reach\0" as *const u8 as *const libc::c_char,
-        16 => return b"paint\0" as *const u8 as *const libc::c_char,
-        17 => return b"ir\0" as *const u8 as *const libc::c_char,
-        18 => return b"bitcode\0" as *const u8 as *const libc::c_char,
-        19 => return b"asm\0" as *const u8 as *const libc::c_char,
-        20 => return b"obj\0" as *const u8 as *const libc::c_char,
-        21 => return b"all\0" as *const u8 as *const libc::c_char,
-        _ => return b"error\0" as *const u8 as *const libc::c_char,
-    };
+        0 => b"parse\0" as *const u8 as *const libc::c_char,
+        1 => b"syntax\0" as *const u8 as *const libc::c_char,
+        2 => b"sugar\0" as *const u8 as *const libc::c_char,
+        3 => b"scope\0" as *const u8 as *const libc::c_char,
+        4 => b"import\0" as *const u8 as *const libc::c_char,
+        5 => b"name\0" as *const u8 as *const libc::c_char,
+        6 => b"flatten\0" as *const u8 as *const libc::c_char,
+        7 => b"traits\0" as *const u8 as *const libc::c_char,
+        8 => b"docs\0" as *const u8 as *const libc::c_char,
+        9 => b"refer\0" as *const u8 as *const libc::c_char,
+        10 => b"expr\0" as *const u8 as *const libc::c_char,
+        11 => b"completeness\0" as *const u8 as *const libc::c_char,
+        12 => b"verify\0" as *const u8 as *const libc::c_char,
+        13 => b"final\0" as *const u8 as *const libc::c_char,
+        14 => b"serialise\0" as *const u8 as *const libc::c_char,
+        15 => b"reach\0" as *const u8 as *const libc::c_char,
+        16 => b"paint\0" as *const u8 as *const libc::c_char,
+        17 => b"ir\0" as *const u8 as *const libc::c_char,
+        18 => b"bitcode\0" as *const u8 as *const libc::c_char,
+        19 => b"asm\0" as *const u8 as *const libc::c_char,
+        20 => b"obj\0" as *const u8 as *const libc::c_char,
+        21 => b"all\0" as *const u8 as *const libc::c_char,
+        _ => b"error\0" as *const u8 as *const libc::c_char,
+    }
 }
 #[no_mangle]
 #[c2rust::src_loc = "80:1"]
@@ -1556,7 +1556,7 @@ pub unsafe extern "C" fn ast_passes_program(
     mut ast: *mut ast_t,
     mut options: *mut pass_opt_t,
 ) -> bool {
-    return ast_passes(&mut ast, options, PASS_ALL);
+    ast_passes(&mut ast, options, PASS_ALL)
 }
 #[no_mangle]
 #[c2rust::src_loc = "331:1"]
@@ -1596,7 +1596,7 @@ pub unsafe extern "C" fn ast_passes_type(
     frame_pop(&mut (*options).check);
     frame_pop(&mut (*options).check);
     frame_pop(&mut (*options).check);
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "358:1"]
@@ -1605,7 +1605,7 @@ pub unsafe extern "C" fn ast_passes_subtree(
     mut options: *mut pass_opt_t,
     mut last_pass: pass_id,
 ) -> bool {
-    return ast_passes(astp, options, last_pass);
+    ast_passes(astp, options, last_pass)
 }
 #[no_mangle]
 #[c2rust::src_loc = "364:1"]
@@ -1616,7 +1616,7 @@ pub unsafe extern "C" fn generate_passes(
     if ((*options).limit as libc::c_uint) < PASS_REACH as libc::c_int as libc::c_uint {
         return 1 as libc::c_int != 0;
     }
-    return codegen(program, options);
+    codegen(program, options)
 }
 #[no_mangle]
 #[c2rust::src_loc = "373:1"]

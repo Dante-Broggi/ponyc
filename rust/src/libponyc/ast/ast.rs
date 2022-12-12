@@ -1269,23 +1269,23 @@ pub struct ast_signature_t {
 pub type C2RustUnnamed_1 = libc::c_uint;
 #[c2rust::src_loc = "93:1"]
 unsafe extern "C" fn ast_cmp(mut a: *mut ast_t, mut b: *mut ast_t) -> bool {
-    return a == b;
+    a == b
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:1"]
 pub unsafe extern "C" fn astlist_length(mut list: *mut astlist_t) -> size_t {
-    return ponyint_list_length(list as *mut list_t);
+    ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:1"]
 pub unsafe extern "C" fn astlist_subset(mut a: *mut astlist_t, mut b: *mut astlist_t) -> bool {
     let mut cmp: astlist_cmp_fn =
         Some(ast_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_list_subset(
+    ponyint_list_subset(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<astlist_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:1"]
@@ -1304,22 +1304,22 @@ pub unsafe extern "C" fn astlist_findindex(
 ) -> ssize_t {
     let mut cmp: astlist_cmp_fn =
         Some(ast_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_list_findindex(
+    ponyint_list_findindex(
         list as *mut list_t,
         ::core::mem::transmute::<astlist_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:1"]
 pub unsafe extern "C" fn astlist_equals(mut a: *mut astlist_t, mut b: *mut astlist_t) -> bool {
     let mut cmp: astlist_cmp_fn =
         Some(ast_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_list_equals(
+    ponyint_list_equals(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<astlist_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
@@ -1327,7 +1327,7 @@ pub unsafe extern "C" fn astlist_push(
     mut list: *mut astlist_t,
     mut data: *mut ast_t,
 ) -> *mut astlist_t {
-    return ponyint_list_push(list as *mut list_t, data as *mut libc::c_void) as *mut astlist_t;
+    ponyint_list_push(list as *mut list_t, data as *mut libc::c_void) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
@@ -1335,7 +1335,7 @@ pub unsafe extern "C" fn astlist_pop(
     mut list: *mut astlist_t,
     mut data: *mut *mut ast_t,
 ) -> *mut astlist_t {
-    return ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void) as *mut astlist_t;
+    ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
@@ -1343,12 +1343,12 @@ pub unsafe extern "C" fn astlist_append(
     mut list: *mut astlist_t,
     mut data: *mut ast_t,
 ) -> *mut astlist_t {
-    return ponyint_list_append(list as *mut list_t, data as *mut libc::c_void) as *mut astlist_t;
+    ponyint_list_append(list as *mut list_t, data as *mut libc::c_void) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
 pub unsafe extern "C" fn astlist_next(mut list: *mut astlist_t) -> *mut astlist_t {
-    return ponyint_list_next(list as *mut list_t) as *mut astlist_t;
+    ponyint_list_next(list as *mut list_t) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
@@ -1357,16 +1357,16 @@ pub unsafe extern "C" fn astlist_map(
     mut f: astlist_map_fn,
     mut arg: *mut libc::c_void,
 ) -> *mut astlist_t {
-    return ponyint_list_map(
+    ponyint_list_map(
         list as *mut list_t,
         ::core::mem::transmute::<astlist_map_fn, map_fn>(f),
         arg,
-    ) as *mut astlist_t;
+    ) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
 pub unsafe extern "C" fn astlist_reverse(mut list: *mut astlist_t) -> *mut astlist_t {
-    return ponyint_list_reverse(list as *mut list_t) as *mut astlist_t;
+    ponyint_list_reverse(list as *mut list_t) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:22"]
@@ -1374,12 +1374,12 @@ pub unsafe extern "C" fn astlist_index(
     mut list: *mut astlist_t,
     mut index: ssize_t,
 ) -> *mut astlist_t {
-    return ponyint_list_index(list as *mut list_t, index) as *mut astlist_t;
+    ponyint_list_index(list as *mut list_t, index) as *mut astlist_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:33"]
 pub unsafe extern "C" fn astlist_data(mut list: *mut astlist_t) -> *mut ast_t {
-    return ponyint_list_data(list as *mut list_t) as *mut ast_t;
+    ponyint_list_data(list as *mut list_t) as *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "98:33"]
@@ -1389,11 +1389,11 @@ pub unsafe extern "C" fn astlist_find(
 ) -> *mut ast_t {
     let mut cmp: astlist_cmp_fn =
         Some(ast_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_list_find(
+    ponyint_list_find(
         list as *mut list_t,
         ::core::mem::transmute::<astlist_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    ) as *mut ast_t;
+    ) as *mut ast_t
 }
 #[c2rust::src_loc = "100:19"]
 static mut in_0: [libc::c_char; 3] =
@@ -1490,7 +1490,7 @@ unsafe extern "C" fn length(
             ),
         )) as size_t as size_t;
     }
-    return len;
+    len
 }
 #[c2rust::src_loc = "172:1"]
 unsafe extern "C" fn print_compact(
@@ -1870,7 +1870,7 @@ unsafe extern "C" fn duplicate(mut parent: *mut ast_t, mut ast: *mut ast_t) -> *
         let ref mut fresh5 = (*n).sibling;
         *fresh5 = duplicate(parent, (*ast).sibling);
     }
-    return n;
+    n
 }
 #[no_mangle]
 #[c2rust::src_loc = "390:1"]
@@ -1917,7 +1917,7 @@ pub unsafe extern "C" fn ast_from(mut ast: *mut ast_t, mut id: token_id) -> *mut
     };
     let mut new_ast: *mut ast_t = ast_token(token_dup_new_id((*ast).t, id));
     set_scope_no_parent(new_ast, (*ast).parent);
-    return new_ast;
+    new_ast
 }
 #[no_mangle]
 #[c2rust::src_loc = "427:1"]
@@ -1933,7 +1933,7 @@ pub unsafe extern "C" fn ast_from_string(
     token_set_string(t, name, 0 as libc::c_int as size_t);
     let mut new_ast: *mut ast_t = ast_token(t);
     set_scope_no_parent(new_ast, (*ast).parent);
-    return new_ast;
+    new_ast
 }
 #[no_mangle]
 #[c2rust::src_loc = "441:1"]
@@ -1960,7 +1960,7 @@ pub unsafe extern "C" fn ast_from_int(mut ast: *mut ast_t, mut value: uint64_t) 
     token_set_int(t, &mut lexint);
     let mut new_ast: *mut ast_t = ast_token(t);
     set_scope_no_parent(new_ast, (*ast).parent);
-    return new_ast;
+    new_ast
 }
 #[no_mangle]
 #[c2rust::src_loc = "455:1"]
@@ -1984,7 +1984,7 @@ pub unsafe extern "C" fn ast_from_float(
     token_set_float(t, value);
     let mut new_ast: *mut ast_t = ast_token(t);
     set_scope_no_parent(new_ast, (*ast).parent);
-    return new_ast;
+    new_ast
 }
 #[no_mangle]
 #[c2rust::src_loc = "467:1"]

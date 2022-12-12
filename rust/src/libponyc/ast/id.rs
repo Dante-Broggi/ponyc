@@ -1003,7 +1003,7 @@ pub unsafe extern "C" fn is_name_type(mut name: *const libc::c_char) -> bool {
     if *name as libc::c_int == '_' as i32 {
         name = name.offset(1);
     }
-    return *name as libc::c_int >= 'A' as i32 && *name as libc::c_int <= 'Z' as i32;
+    *name as libc::c_int >= 'A' as i32 && *name as libc::c_int <= 'Z' as i32
 }
 #[no_mangle]
 #[c2rust::src_loc = "198:1"]

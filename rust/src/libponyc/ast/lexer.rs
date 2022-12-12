@@ -696,11 +696,11 @@ pub mod _ctype_h {
         mut _c: __darwin_ct_rune_t,
         mut _f: libc::c_ulong,
     ) -> libc::c_int {
-        return if isascii(_c) != 0 {
+        if isascii(_c) != 0 {
             (_DefaultRuneLocale.__runetype[_c as usize] as libc::c_ulong & _f != 0) as libc::c_int
         } else {
             (__maskrune(_c, _f) != 0) as libc::c_int
-        };
+        }
     }
     #[inline]
     #[c2rust::src_loc = "134:1"]

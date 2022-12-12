@@ -91,7 +91,7 @@ unsafe extern "C" fn node_alloc(mut data: *mut libc::c_void) -> *mut mpmcq_node_
         ::core::intrinsics::atomic_store_relaxed(&mut (*node).data, data);
         // compile_error!("Builtin is not supposed to be used")
     });
-    return node;
+    node
 }
 #[c2rust::src_loc = "28:1"]
 unsafe extern "C" fn node_free(mut node: *mut mpmcq_node_t) {
@@ -109,7 +109,7 @@ unsafe extern "C" fn mpmcq_size_debug(mut q: *mut mpmcq_t) -> size_t {
         count = count.wrapping_add(1);
         tail = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next) });
     }
-    return count;
+    count
 }
 #[no_mangle]
 #[c2rust::src_loc = "56:1"]
@@ -217,5 +217,5 @@ pub unsafe extern "C" fn ponyint_mpmcq_pop(mut q: *mut mpmcq_t) -> *mut libc::c_
     }
     f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
     node_free(tail);
-    return data;
+    data
 }

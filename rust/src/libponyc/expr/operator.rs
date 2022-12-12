@@ -1049,7 +1049,7 @@ pub unsafe extern "C" fn expr_identity(mut opt: *mut pass_opt_t, mut ast: *mut a
         ast,
         type_builtin(opt, ast, b"Bool\0" as *const u8 as *const libc::c_char),
     );
-    return literal_is(ast, opt);
+    literal_is(ast, opt)
 }
 #[c2rust::src_loc = "40:1"]
 unsafe extern "C" fn find_infer_type(
@@ -1076,7 +1076,7 @@ unsafe extern "C" fn find_infer_type(
             if (*path).index >= ast_childcount(type_0) {
                 return 0 as *mut ast_t;
             }
-            return find_infer_type(opt, ast_childidx(type_0, (*path).index), (*path).next);
+            find_infer_type(opt, ast_childidx(type_0, (*path).index), (*path).next)
         }
         149 => {
             let mut u_type: *mut ast_t = 0 as *mut ast_t;
@@ -1090,7 +1090,7 @@ unsafe extern "C" fn find_infer_type(
                 u_type = type_union(opt, u_type, t);
                 p = ast_sibling(p);
             }
-            return u_type;
+            u_type
         }
         56 => {
             let mut i_type: *mut ast_t = 0 as *mut ast_t;
@@ -1104,15 +1104,15 @@ unsafe extern "C" fn find_infer_type(
                 i_type = type_isect(opt, i_type, t_0);
                 p_0 = ast_sibling(p_0);
             }
-            return i_type;
+            i_type
         }
         _ => {
             if !path.is_null() {
                 return 0 as *mut ast_t;
             }
-            return type_0;
+            type_0
         }
-    };
+    }
 }
 #[c2rust::src_loc = "108:1"]
 unsafe extern "C" fn infer_local_inner(
@@ -1185,7 +1185,7 @@ unsafe extern "C" fn infer_local_inner(
             if r as libc::c_uint == INFER_OK as libc::c_int as libc::c_uint {
                 ast_settype(left, ast_type(ast_child(left)));
             }
-            return r;
+            r
         }
         178 => {
             let mut path_node: infer_path_t = {
@@ -1263,10 +1263,10 @@ unsafe extern "C" fn infer_local_inner(
             };
             ast_replace(&mut speced_type, a_type);
             ast_free_unattached(infer_type);
-            return INFER_OK;
+            INFER_OK
         }
-        _ => return INFER_NOP,
-    };
+        _ => INFER_NOP,
+    }
 }
 #[c2rust::src_loc = "199:1"]
 unsafe extern "C" fn infer_locals(
@@ -1483,7 +1483,7 @@ unsafe extern "C" fn check_embed_construction(
             );
         }
     }
-    return result;
+    result
 }
 #[no_mangle]
 #[c2rust::src_loc = "321:1"]

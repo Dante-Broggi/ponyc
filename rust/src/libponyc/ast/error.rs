@@ -213,7 +213,7 @@ pub unsafe extern "C" fn error_alloc() -> *mut errormsg_t {
         0 as libc::c_int,
         ::core::mem::size_of::<errormsg_t>() as libc::c_ulong,
     );
-    return e;
+    e
 }
 #[c2rust::src_loc = "29:1"]
 unsafe extern "C" fn error_free(mut e: *mut errormsg_t) {

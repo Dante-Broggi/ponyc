@@ -82,7 +82,7 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
         node = ({ ::core::intrinsics::atomic_load_acq(next_node) });
         i = i.wrapping_add(1);
     }
-    return node as *mut chunk_t;
+    node as *mut chunk_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "108:1"]

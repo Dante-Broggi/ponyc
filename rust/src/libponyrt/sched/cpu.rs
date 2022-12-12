@@ -504,7 +504,7 @@ pub unsafe extern "C" fn ponyint_cpu_init() {
 #[no_mangle]
 #[c2rust::src_loc = "224:1"]
 pub unsafe extern "C" fn ponyint_cpu_count() -> uint32_t {
-    return hw_cpu_count;
+    hw_cpu_count
 }
 #[no_mangle]
 #[c2rust::src_loc = "229:1"]
@@ -533,7 +533,7 @@ pub unsafe extern "C" fn ponyint_cpu_assign(
     if pinasio {
         asio_cpu = count;
     }
-    return asio_cpu;
+    asio_cpu
 }
 #[no_mangle]
 #[c2rust::src_loc = "294:1"]
@@ -612,6 +612,6 @@ pub unsafe extern "C" fn ponyint_cpu_tick_diff(
             .wrapping_sub(supposedly_earlier)
             .wrapping_add(supposedly_later);
     } else {
-        return supposedly_later.wrapping_sub(supposedly_earlier);
-    };
+        supposedly_later.wrapping_sub(supposedly_earlier)
+    }
 }

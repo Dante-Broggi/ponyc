@@ -760,7 +760,7 @@ pub mod treecheckdef_h {
             Some(module as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
             None,
         ];
-        return check_from_list(ast, rules.as_ptr(), errors, print_width);
+        check_from_list(ast, rules.as_ptr(), errors, print_width)
     }
     #[c2rust::src_loc = "9:1"]
     pub unsafe extern "C" fn program(
@@ -1303,7 +1303,7 @@ pub mod treecheckdef_h {
         ) {
             return CHK_ERROR;
         }
-        return check_extras(ast, &mut state, errors, print_width);
+        check_extras(ast, &mut state, errors, print_width)
     }
     #[c2rust::src_loc = "60:1"]
     pub unsafe extern "C" fn members(

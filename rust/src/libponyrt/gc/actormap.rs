@@ -598,11 +598,11 @@ pub type ponyint_actormap_cmp_fn =
     Option<unsafe extern "C" fn(*mut actorref_t, *mut actorref_t) -> bool>;
 #[c2rust::src_loc = "11:1"]
 unsafe extern "C" fn actorref_hash(mut aref: *mut actorref_t) -> size_t {
-    return ponyint_hash_ptr((*aref).actor as *const libc::c_void);
+    ponyint_hash_ptr((*aref).actor as *const libc::c_void)
 }
 #[c2rust::src_loc = "16:1"]
 unsafe extern "C" fn actorref_cmp(mut a: *mut actorref_t, mut b: *mut actorref_t) -> bool {
-    return (*a).actor == (*b).actor;
+    (*a).actor == (*b).actor
 }
 #[c2rust::src_loc = "21:1"]
 unsafe extern "C" fn actorref_alloc(
@@ -638,7 +638,7 @@ pub unsafe extern "C" fn ponyint_actorref_getorput(
     mut type_0: *const pony_type_t,
     mut mark: uint32_t,
 ) -> *mut object_t {
-    return ponyint_objectmap_getorput(&mut (*aref).map, address, type_0, mark);
+    ponyint_objectmap_getorput(&mut (*aref).map, address, type_0, mark)
 }
 #[no_mangle]
 #[c2rust::src_loc = "44:1"]
@@ -649,7 +649,7 @@ pub unsafe extern "C" fn ponyint_actorref_free(mut aref: *mut actorref_t) {
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_actormap_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
@@ -669,27 +669,27 @@ pub unsafe extern "C" fn ponyint_actormap_init(mut map: *mut actormap_t, mut siz
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_actormap_alloc_size(mut map: *mut actormap_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_actormap_mem_size(mut map: *mut actormap_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_actormap_optimize(mut map: *mut actormap_t) {
     let mut cmpf: ponyint_actormap_cmp_fn =
         Some(actorref_cmp as unsafe extern "C" fn(*mut actorref_t, *mut actorref_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<ponyint_actormap_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_actormap_size(mut map: *mut actormap_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
@@ -726,12 +726,12 @@ pub unsafe extern "C" fn ponyint_actormap_remove(
 ) -> *mut actorref_t {
     let mut cmpf: ponyint_actormap_cmp_fn =
         Some(actorref_cmp as unsafe extern "C" fn(*mut actorref_t, *mut actorref_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         actorref_hash(entry),
         ::core::mem::transmute::<ponyint_actormap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut actorref_t;
+    ) as *mut actorref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:46"]
@@ -741,12 +741,12 @@ pub unsafe extern "C" fn ponyint_actormap_put(
 ) -> *mut actorref_t {
     let mut cmpf: ponyint_actormap_cmp_fn =
         Some(actorref_cmp as unsafe extern "C" fn(*mut actorref_t, *mut actorref_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         actorref_hash(entry),
         ::core::mem::transmute::<ponyint_actormap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut actorref_t;
+    ) as *mut actorref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:46"]
@@ -757,13 +757,13 @@ pub unsafe extern "C" fn ponyint_actormap_get(
 ) -> *mut actorref_t {
     let mut cmpf: ponyint_actormap_cmp_fn =
         Some(actorref_cmp as unsafe extern "C" fn(*mut actorref_t, *mut actorref_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         actorref_hash(key),
         ::core::mem::transmute::<ponyint_actormap_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut actorref_t;
+    ) as *mut actorref_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:46"]
@@ -772,8 +772,8 @@ pub unsafe extern "C" fn ponyint_actormap_next(
     mut i: *mut size_t,
 ) -> *mut actorref_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut actorref_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut actorref_t
 }
 #[c2rust::src_loc = "53:1"]
 unsafe extern "C" fn move_unmarked_objects(
@@ -807,7 +807,7 @@ unsafe extern "C" fn move_unmarked_objects(
     if needs_optimize {
         ponyint_objectmap_optimize(&mut (*from).map);
     }
-    return to;
+    to
 }
 #[c2rust::src_loc = "89:1"]
 unsafe extern "C" fn send_release(mut ctx: *mut pony_ctx_t, mut aref: *mut actorref_t) {
@@ -849,7 +849,7 @@ pub unsafe extern "C" fn ponyint_actormap_getactor(
         },
     };
     key.actor = actor;
-    return ponyint_actormap_get(map, &mut key, index);
+    ponyint_actormap_get(map, &mut key, index)
 }
 #[no_mangle]
 #[c2rust::src_loc = "113:1"]
@@ -865,7 +865,7 @@ pub unsafe extern "C" fn ponyint_actormap_getorput(
     }
     aref = actorref_alloc(actor, mark);
     ponyint_actormap_putindex(map, aref, index);
-    return aref;
+    aref
 }
 #[no_mangle]
 #[c2rust::src_loc = "127:1"]
@@ -898,5 +898,5 @@ pub unsafe extern "C" fn ponyint_actormap_sweep(
     if needs_optimize {
         ponyint_actormap_optimize(map);
     }
-    return delta;
+    delta
 }

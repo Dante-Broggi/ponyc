@@ -1156,7 +1156,7 @@ unsafe extern "C" fn method_access(
         }
     }
     ast_settype(ast, type_for_fun(method));
-    return is_method_called(opt, ast);
+    is_method_called(opt, ast)
 }
 #[c2rust::src_loc = "166:1"]
 unsafe extern "C" fn type_access(mut opt: *mut pass_opt_t, mut astp: *mut *mut ast_t) -> bool {

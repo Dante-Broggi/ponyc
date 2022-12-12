@@ -628,7 +628,7 @@ unsafe extern "C" fn get_next_index() -> uint32_t {
             break;
         }
     }
-    return next_index;
+    next_index
 }
 #[no_mangle]
 #[c2rust::src_loc = "156:1"]

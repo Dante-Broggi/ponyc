@@ -1334,7 +1334,7 @@ unsafe extern "C" fn is_eq_typeargs(
         }
         ret = 0 as libc::c_int != 0;
     }
-    return ret;
+    ret
 }
 #[c2rust::src_loc = "232:1"]
 unsafe extern "C" fn is_reified_fun_sub_fun(
@@ -2264,7 +2264,7 @@ unsafe extern "C" fn is_nominal_sub_interface(
     if !is_nominal_sub_structural(sub, super_0, errorf, opt) {
         ret = 0 as libc::c_int != 0;
     }
-    return ret;
+    ret
 }
 #[c2rust::src_loc = "973:1"]
 unsafe extern "C" fn nominal_provides_trait(

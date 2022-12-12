@@ -140,16 +140,16 @@ pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "258:1"]
     pub unsafe extern "C" fn __pony_ffsll(mut x: uint64_t) -> uint32_t {
-        return (if x as libc::c_longlong == 0 {
+        (if x as libc::c_longlong == 0 {
             0
         } else {
             (x as libc::c_longlong).trailing_zeros() as i32 + 1
-        }) as uint32_t;
+        }) as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "319:1"]
     pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> uint32_t {
-        return __pony_ffsll(x as uint64_t);
+        __pony_ffsll(x as uint64_t)
     }
     use super::_uint32_t_h::uint32_t;
     use super::_uint64_t_h::uint64_t;
@@ -243,7 +243,7 @@ unsafe extern "C" fn get_probe_length(
     mut current: size_t,
     mut mask: size_t,
 ) -> size_t {
-    return current.wrapping_add((*map).size).wrapping_sub(hash & mask) & mask;
+    current.wrapping_add((*map).size).wrapping_sub(hash & mask) & mask
 }
 #[c2rust::src_loc = "16:1"]
 unsafe extern "C" fn search(

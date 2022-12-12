@@ -465,36 +465,36 @@ pub unsafe extern "C" fn plugins_findindex(
     mut data: *mut plugin_t,
 ) -> ssize_t {
     let mut cmp: plugins_cmp_fn = None;
-    return ponyint_list_findindex(
+    ponyint_list_findindex(
         list as *mut list_t,
         ::core::mem::transmute::<plugins_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:1"]
 pub unsafe extern "C" fn plugins_subset(mut a: *mut plugins_t, mut b: *mut plugins_t) -> bool {
     let mut cmp: plugins_cmp_fn = None;
-    return ponyint_list_subset(
+    ponyint_list_subset(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<plugins_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:1"]
 pub unsafe extern "C" fn plugins_equals(mut a: *mut plugins_t, mut b: *mut plugins_t) -> bool {
     let mut cmp: plugins_cmp_fn = None;
-    return ponyint_list_equals(
+    ponyint_list_equals(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<plugins_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:1"]
 pub unsafe extern "C" fn plugins_length(mut list: *mut plugins_t) -> size_t {
-    return ponyint_list_length(list as *mut list_t);
+    ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
@@ -503,11 +503,11 @@ pub unsafe extern "C" fn plugins_map(
     mut f: plugins_map_fn,
     mut arg: *mut libc::c_void,
 ) -> *mut plugins_t {
-    return ponyint_list_map(
+    ponyint_list_map(
         list as *mut list_t,
         ::core::mem::transmute::<plugins_map_fn, map_fn>(f),
         arg,
-    ) as *mut plugins_t;
+    ) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
@@ -515,12 +515,12 @@ pub unsafe extern "C" fn plugins_append(
     mut list: *mut plugins_t,
     mut data: *mut plugin_t,
 ) -> *mut plugins_t {
-    return ponyint_list_append(list as *mut list_t, data as *mut libc::c_void) as *mut plugins_t;
+    ponyint_list_append(list as *mut list_t, data as *mut libc::c_void) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
 pub unsafe extern "C" fn plugins_reverse(mut list: *mut plugins_t) -> *mut plugins_t {
-    return ponyint_list_reverse(list as *mut list_t) as *mut plugins_t;
+    ponyint_list_reverse(list as *mut list_t) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
@@ -528,7 +528,7 @@ pub unsafe extern "C" fn plugins_pop(
     mut list: *mut plugins_t,
     mut data: *mut *mut plugin_t,
 ) -> *mut plugins_t {
-    return ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void) as *mut plugins_t;
+    ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
@@ -536,12 +536,12 @@ pub unsafe extern "C" fn plugins_index(
     mut list: *mut plugins_t,
     mut index: ssize_t,
 ) -> *mut plugins_t {
-    return ponyint_list_index(list as *mut list_t, index) as *mut plugins_t;
+    ponyint_list_index(list as *mut list_t, index) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
 pub unsafe extern "C" fn plugins_next(mut list: *mut plugins_t) -> *mut plugins_t {
-    return ponyint_list_next(list as *mut list_t) as *mut plugins_t;
+    ponyint_list_next(list as *mut list_t) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:22"]
@@ -549,7 +549,7 @@ pub unsafe extern "C" fn plugins_push(
     mut list: *mut plugins_t,
     mut data: *mut plugin_t,
 ) -> *mut plugins_t {
-    return ponyint_list_push(list as *mut list_t, data as *mut libc::c_void) as *mut plugins_t;
+    ponyint_list_push(list as *mut list_t, data as *mut libc::c_void) as *mut plugins_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:33"]
@@ -558,16 +558,16 @@ pub unsafe extern "C" fn plugins_find(
     mut data: *mut plugin_t,
 ) -> *mut plugin_t {
     let mut cmp: plugins_cmp_fn = None;
-    return ponyint_list_find(
+    ponyint_list_find(
         list as *mut list_t,
         ::core::mem::transmute::<plugins_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    ) as *mut plugin_t;
+    ) as *mut plugin_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:33"]
 pub unsafe extern "C" fn plugins_data(mut list: *mut plugins_t) -> *mut plugin_t {
-    return ponyint_list_data(list as *mut list_t) as *mut plugin_t;
+    ponyint_list_data(list as *mut list_t) as *mut plugin_t
 }
 #[c2rust::src_loc = "71:1"]
 unsafe extern "C" fn load_plugin(mut path: *const libc::c_char, mut opt: *mut pass_opt_t) -> bool {
@@ -692,7 +692,7 @@ pub unsafe extern "C" fn plugin_parse_options(
         }
         plugins = plugins_next(plugins);
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "156:1"]

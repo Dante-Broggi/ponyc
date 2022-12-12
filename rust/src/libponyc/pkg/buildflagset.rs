@@ -348,7 +348,7 @@ unsafe extern "C" fn flag_dup(mut flag: *mut flag_t) -> *mut flag_t {
         flag as *const libc::c_void,
         ::core::mem::size_of::<flag_t>() as libc::c_ulong,
     );
-    return f;
+    f
 }
 #[c2rust::src_loc = "109:1"]
 unsafe extern "C" fn flag_free(mut flag: *mut flag_t) {
@@ -383,10 +383,10 @@ pub unsafe extern "C" fn flagtab_destroy(mut map: *mut flagtab_t) {
 pub unsafe extern "C" fn flagtab_optimize(mut map: *mut flagtab_t) {
     let mut cmpf: flagtab_cmp_fn =
         Some(flag_cmp as unsafe extern "C" fn(*mut flag_t, *mut flag_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<flagtab_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
@@ -406,12 +406,12 @@ pub unsafe extern "C" fn flagtab_init(mut map: *mut flagtab_t, mut size: size_t)
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
 pub unsafe extern "C" fn flagtab_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
 pub unsafe extern "C" fn flagtab_mem_size(mut map: *mut flagtab_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
@@ -433,7 +433,7 @@ pub unsafe extern "C" fn flagtab_putindex(
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
 pub unsafe extern "C" fn flagtab_alloc_size(mut map: *mut flagtab_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:36"]
@@ -443,12 +443,12 @@ pub unsafe extern "C" fn flagtab_remove(
 ) -> *mut flag_t {
     let mut cmpf: flagtab_cmp_fn =
         Some(flag_cmp as unsafe extern "C" fn(*mut flag_t, *mut flag_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         flag_hash(entry),
         ::core::mem::transmute::<flagtab_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut flag_t;
+    ) as *mut flag_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:36"]
@@ -458,19 +458,19 @@ pub unsafe extern "C" fn flagtab_put(
 ) -> *mut flag_t {
     let mut cmpf: flagtab_cmp_fn =
         Some(flag_cmp as unsafe extern "C" fn(*mut flag_t, *mut flag_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         flag_hash(entry),
         ::core::mem::transmute::<flagtab_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut flag_t;
+    ) as *mut flag_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:36"]
 pub unsafe extern "C" fn flagtab_next(mut map: *mut flagtab_t, mut i: *mut size_t) -> *mut flag_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut flag_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut flag_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "116:36"]
@@ -481,13 +481,13 @@ pub unsafe extern "C" fn flagtab_get(
 ) -> *mut flag_t {
     let mut cmpf: flagtab_cmp_fn =
         Some(flag_cmp as unsafe extern "C" fn(*mut flag_t, *mut flag_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         flag_hash(key),
         ::core::mem::transmute::<flagtab_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut flag_t;
+    ) as *mut flag_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "137:1"]

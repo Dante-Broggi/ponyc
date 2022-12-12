@@ -1854,7 +1854,7 @@ unsafe extern "C" fn uifset_union(
         uif_set |= r;
         p = ast_sibling(p);
     }
-    return uif_set;
+    uif_set
 }
 #[c2rust::src_loc = "359:1"]
 unsafe extern "C" fn uifset_intersect(
@@ -1906,7 +1906,7 @@ unsafe extern "C" fn uifset_intersect(
         }
         return constraint;
     }
-    return uif_set;
+    uif_set
 }
 #[c2rust::src_loc = "402:1"]
 unsafe extern "C" fn uifset(
@@ -1928,12 +1928,12 @@ unsafe extern "C" fn uifset(
         return 0 as libc::c_int;
     }
     match ast_id(type_0) as libc::c_uint {
-        149 => return uifset_union(opt, type_0, chain),
-        56 => return uifset_intersect(opt, type_0, chain),
+        149 => uifset_union(opt, type_0, chain),
+        56 => uifset_intersect(opt, type_0, chain),
         17 => {
             let mut rhs: *mut ast_t = ast_childidx(type_0, 1 as libc::c_int as size_t);
             match ast_id(rhs) as libc::c_uint {
-                151 | 187 => return uifset(opt, rhs, chain),
+                151 | 187 => uifset(opt, rhs, chain),
                 _ => {
                     ast_error(
                         (*opt).check.errors,
@@ -1963,13 +1963,13 @@ unsafe extern "C" fn uifset(
             if (*chain).cardinality != 0 as libc::c_int as libc::c_ulong {
                 return 0 as libc::c_int;
             }
-            return uifset_formal_param(opt, type_0, chain);
+            uifset_formal_param(opt, type_0, chain)
         }
         150 => {
             if (*chain).cardinality != ast_childcount(type_0) {
                 return 0 as libc::c_int;
             }
-            return uifset(opt, ast_childidx(type_0, (*chain).index), (*chain).next);
+            uifset(opt, ast_childidx(type_0, (*chain).index), (*chain).next)
         }
         151 => {
             if strcmp(
@@ -2019,7 +2019,7 @@ unsafe extern "C" fn uifset(
             };
             return -(1 as libc::c_int);
         }
-    };
+    }
 }
 #[c2rust::src_loc = "476:1"]
 unsafe extern "C" fn uif_type(

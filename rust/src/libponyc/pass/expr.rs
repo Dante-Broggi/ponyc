@@ -1584,7 +1584,7 @@ pub unsafe extern "C" fn pass_pre_expr(
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }
 #[no_mangle]
 #[c2rust::src_loc = "548:1"]
@@ -1780,5 +1780,5 @@ pub unsafe extern "C" fn pass_expr(
     if !symtab.is_null() && !symtab_check_all_defined(symtab, (*options).check.errors) {
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }

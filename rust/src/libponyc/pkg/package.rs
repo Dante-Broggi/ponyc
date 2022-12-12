@@ -2008,8 +2008,8 @@ pub unsafe extern "C" fn package_stack_push(
     mut stack: *mut package_stack_t,
     mut data: *mut package_t,
 ) -> *mut package_stack_t {
-    return ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut package_stack_t;
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
+        as *mut package_stack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "90:29"]
@@ -2017,8 +2017,8 @@ pub unsafe extern "C" fn package_stack_pop(
     mut stack: *mut package_stack_t,
     mut data: *mut *mut package_t,
 ) -> *mut package_stack_t {
-    return ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut package_stack_t;
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
+        as *mut package_stack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2027,16 +2027,16 @@ pub unsafe extern "C" fn package_group_list_equals(
     mut b: *mut package_group_list_t,
 ) -> bool {
     let mut cmp: package_group_list_cmp_fn = None;
-    return ponyint_list_equals(
+    ponyint_list_equals(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<package_group_list_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn package_group_list_pony_type() -> *const pony_type_t {
-    return &package_group_list_pony;
+    &package_group_list_pony
 }
 #[c2rust::src_loc = "92:1"]
 static mut package_group_list_pony: pony_type_t = unsafe {
@@ -2128,7 +2128,7 @@ pub unsafe extern "C" fn package_group_list_free(mut list: *mut package_group_li
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn package_group_list_length(mut list: *mut package_group_list_t) -> size_t {
-    return ponyint_list_length(list as *mut list_t);
+    ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2137,11 +2137,11 @@ pub unsafe extern "C" fn package_group_list_findindex(
     mut data: *mut package_group_t,
 ) -> ssize_t {
     let mut cmp: package_group_list_cmp_fn = None;
-    return ponyint_list_findindex(
+    ponyint_list_findindex(
         list as *mut list_t,
         ::core::mem::transmute::<package_group_list_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2150,11 +2150,11 @@ pub unsafe extern "C" fn package_group_list_subset(
     mut b: *mut package_group_list_t,
 ) -> bool {
     let mut cmp: package_group_list_cmp_fn = None;
-    return ponyint_list_subset(
+    ponyint_list_subset(
         a as *mut list_t,
         b as *mut list_t,
         ::core::mem::transmute::<package_group_list_cmp_fn, cmp_fn>(cmp),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
@@ -2162,7 +2162,7 @@ pub unsafe extern "C" fn package_group_list_index(
     mut list: *mut package_group_list_t,
     mut index: ssize_t,
 ) -> *mut package_group_list_t {
-    return ponyint_list_index(list as *mut list_t, index) as *mut package_group_list_t;
+    ponyint_list_index(list as *mut list_t, index) as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
@@ -2171,25 +2171,25 @@ pub unsafe extern "C" fn package_group_list_map(
     mut f: package_group_list_map_fn,
     mut arg: *mut libc::c_void,
 ) -> *mut package_group_list_t {
-    return ponyint_list_map(
+    ponyint_list_map(
         list as *mut list_t,
         ::core::mem::transmute::<package_group_list_map_fn, map_fn>(f),
         arg,
-    ) as *mut package_group_list_t;
+    ) as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
 pub unsafe extern "C" fn package_group_list_reverse(
     mut list: *mut package_group_list_t,
 ) -> *mut package_group_list_t {
-    return ponyint_list_reverse(list as *mut list_t) as *mut package_group_list_t;
+    ponyint_list_reverse(list as *mut list_t) as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
 pub unsafe extern "C" fn package_group_list_next(
     mut list: *mut package_group_list_t,
 ) -> *mut package_group_list_t {
-    return ponyint_list_next(list as *mut list_t) as *mut package_group_list_t;
+    ponyint_list_next(list as *mut list_t) as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
@@ -2197,8 +2197,8 @@ pub unsafe extern "C" fn package_group_list_append(
     mut list: *mut package_group_list_t,
     mut data: *mut package_group_t,
 ) -> *mut package_group_list_t {
-    return ponyint_list_append(list as *mut list_t, data as *mut libc::c_void)
-        as *mut package_group_list_t;
+    ponyint_list_append(list as *mut list_t, data as *mut libc::c_void)
+        as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
@@ -2206,8 +2206,8 @@ pub unsafe extern "C" fn package_group_list_push(
     mut list: *mut package_group_list_t,
     mut data: *mut package_group_t,
 ) -> *mut package_group_list_t {
-    return ponyint_list_push(list as *mut list_t, data as *mut libc::c_void)
-        as *mut package_group_list_t;
+    ponyint_list_push(list as *mut list_t, data as *mut libc::c_void)
+        as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:43"]
@@ -2215,8 +2215,8 @@ pub unsafe extern "C" fn package_group_list_pop(
     mut list: *mut package_group_list_t,
     mut data: *mut *mut package_group_t,
 ) -> *mut package_group_list_t {
-    return ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void)
-        as *mut package_group_list_t;
+    ponyint_list_pop(list as *mut list_t, data as *mut *mut libc::c_void)
+        as *mut package_group_list_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:65"]
@@ -2225,31 +2225,31 @@ pub unsafe extern "C" fn package_group_list_find(
     mut data: *mut package_group_t,
 ) -> *mut package_group_t {
     let mut cmp: package_group_list_cmp_fn = None;
-    return ponyint_list_find(
+    ponyint_list_find(
         list as *mut list_t,
         ::core::mem::transmute::<package_group_list_cmp_fn, cmp_fn>(cmp),
         data as *mut libc::c_void,
-    ) as *mut package_group_t;
+    ) as *mut package_group_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:65"]
 pub unsafe extern "C" fn package_group_list_data(
     mut list: *mut package_group_list_t,
 ) -> *mut package_group_t {
-    return ponyint_list_data(list as *mut list_t) as *mut package_group_t;
+    ponyint_list_data(list as *mut list_t) as *mut package_group_t
 }
 #[c2rust::src_loc = "96:1"]
 unsafe extern "C" fn package_hash(mut pkg: *mut package_t) -> size_t {
-    return ponyint_hash_str((*pkg).qualified_name);
+    ponyint_hash_str((*pkg).qualified_name)
 }
 #[c2rust::src_loc = "105:1"]
 unsafe extern "C" fn package_cmp(mut a: *mut package_t, mut b: *mut package_t) -> bool {
-    return (*a).qualified_name == (*b).qualified_name;
+    (*a).qualified_name == (*b).qualified_name
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
 pub unsafe extern "C" fn package_set_alloc_size(mut map: *mut package_set_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
@@ -2303,7 +2303,7 @@ static mut package_set_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
 pub unsafe extern "C" fn package_set_pony_type() -> *const pony_type_t {
-    return &package_set_pony;
+    &package_set_pony
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
@@ -2316,7 +2316,7 @@ pub unsafe extern "C" fn package_set_deserialise(
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
 pub unsafe extern "C" fn package_set_mem_size(mut map: *mut package_set_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
@@ -2329,7 +2329,7 @@ pub unsafe extern "C" fn package_set_serialise_trace(
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
 pub unsafe extern "C" fn package_set_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
@@ -2351,7 +2351,7 @@ pub unsafe extern "C" fn package_set_putindex(
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
 pub unsafe extern "C" fn package_set_size(mut map: *mut package_set_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
@@ -2379,10 +2379,10 @@ pub unsafe extern "C" fn package_set_serialise(
 pub unsafe extern "C" fn package_set_optimize(mut map: *mut package_set_t) {
     let mut cmpf: package_set_cmp_fn =
         Some(package_cmp as unsafe extern "C" fn(*mut package_t, *mut package_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<package_set_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
@@ -2397,12 +2397,12 @@ pub unsafe extern "C" fn package_set_remove(
 ) -> *mut package_t {
     let mut cmpf: package_set_cmp_fn =
         Some(package_cmp as unsafe extern "C" fn(*mut package_t, *mut package_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         package_hash(entry),
         ::core::mem::transmute::<package_set_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut package_t;
+    ) as *mut package_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:54"]
@@ -2413,13 +2413,13 @@ pub unsafe extern "C" fn package_set_get(
 ) -> *mut package_t {
     let mut cmpf: package_set_cmp_fn =
         Some(package_cmp as unsafe extern "C" fn(*mut package_t, *mut package_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         package_hash(key),
         ::core::mem::transmute::<package_set_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut package_t;
+    ) as *mut package_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:54"]
@@ -2428,8 +2428,8 @@ pub unsafe extern "C" fn package_set_next(
     mut i: *mut size_t,
 ) -> *mut package_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut package_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut package_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:54"]
@@ -2439,12 +2439,12 @@ pub unsafe extern "C" fn package_set_put(
 ) -> *mut package_t {
     let mut cmpf: package_set_cmp_fn =
         Some(package_cmp as unsafe extern "C" fn(*mut package_t, *mut package_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         package_hash(entry),
         ::core::mem::transmute::<package_set_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut package_t;
+    ) as *mut package_t
 }
 #[c2rust::src_loc = "116:1"]
 unsafe extern "C" fn find_magic_package(
@@ -2520,7 +2520,7 @@ unsafe extern "C" fn parse_source_file(
         );
         return 0 as libc::c_int != 0;
     }
-    return module_passes(package, opt, source);
+    module_passes(package, opt, source)
 }
 #[c2rust::src_loc = "158:1"]
 unsafe extern "C" fn parse_source_code(
@@ -2565,7 +2565,7 @@ unsafe extern "C" fn parse_source_code(
                 .as_ptr(),
         );
     };
-    return module_passes(package, opt, source);
+    module_passes(package, opt, source)
 }
 #[no_mangle]
 #[c2rust::src_loc = "174:1"]
@@ -2611,10 +2611,10 @@ unsafe extern "C" fn string_compare(
     mut a: *const libc::c_void,
     mut b: *const libc::c_void,
 ) -> libc::c_int {
-    return strcmp(
+    strcmp(
         *(a as *mut *const libc::c_char),
         *(b as *mut *const libc::c_char),
-    );
+    )
 }
 #[c2rust::src_loc = "213:1"]
 unsafe extern "C" fn parse_files_in_dir(
@@ -2713,7 +2713,7 @@ unsafe extern "C" fn parse_files_in_dir(
         i = i.wrapping_add(1);
     }
     ponyint_pool_free_size(buf_size, entries as *mut libc::c_void);
-    return r;
+    r
 }
 #[c2rust::src_loc = "286:1"]
 unsafe extern "C" fn try_path(
@@ -2978,7 +2978,7 @@ unsafe extern "C" fn symbol_suffix(
         symbol,
         suffix,
     );
-    return stringtab_consume(buf, buf_size);
+    stringtab_consume(buf, buf_size)
 }
 #[c2rust::src_loc = "529:1"]
 unsafe extern "C" fn create_package_symbol(

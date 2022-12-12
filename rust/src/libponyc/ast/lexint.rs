@@ -309,5 +309,5 @@ pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
         << 52 as libc::c_int
         | mantissa & 0xfffffffffffff as libc::c_long as libc::c_ulonglong;
     let mut fp_bits: *mut libc::c_double = &mut raw_bits as *mut uint64_t as *mut libc::c_double;
-    return *fp_bits;
+    *fp_bits
 }

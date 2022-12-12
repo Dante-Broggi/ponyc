@@ -149,11 +149,11 @@ pub type ponyint_deltamap_free_fn = Option<unsafe extern "C" fn(*mut delta_t) ->
 pub type ponyint_deltamap_cmp_fn = Option<unsafe extern "C" fn(*mut delta_t, *mut delta_t) -> bool>;
 #[c2rust::src_loc = "10:1"]
 unsafe extern "C" fn delta_hash(mut delta: *mut delta_t) -> size_t {
-    return ponyint_hash_ptr((*delta).actor as *const libc::c_void);
+    ponyint_hash_ptr((*delta).actor as *const libc::c_void)
 }
 #[c2rust::src_loc = "15:1"]
 unsafe extern "C" fn delta_cmp(mut a: *mut delta_t, mut b: *mut delta_t) -> bool {
-    return (*a).actor == (*b).actor;
+    (*a).actor == (*b).actor
 }
 #[c2rust::src_loc = "20:1"]
 unsafe extern "C" fn delta_free(mut delta: *mut delta_t) {
@@ -162,17 +162,17 @@ unsafe extern "C" fn delta_free(mut delta: *mut delta_t) {
 #[no_mangle]
 #[c2rust::src_loc = "25:1"]
 pub unsafe extern "C" fn ponyint_delta_actor(mut delta: *mut delta_t) -> *mut pony_actor_t {
-    return (*delta).actor;
+    (*delta).actor
 }
 #[no_mangle]
 #[c2rust::src_loc = "30:1"]
 pub unsafe extern "C" fn ponyint_delta_rc(mut delta: *mut delta_t) -> size_t {
-    return (*delta).rc;
+    (*delta).rc
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn ponyint_deltamap_alloc_size(mut map: *mut deltamap_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -206,10 +206,10 @@ pub unsafe extern "C" fn ponyint_deltamap_destroy(mut map: *mut deltamap_t) {
 pub unsafe extern "C" fn ponyint_deltamap_optimize(mut map: *mut deltamap_t) {
     let mut cmpf: ponyint_deltamap_cmp_fn =
         Some(delta_cmp as unsafe extern "C" fn(*mut delta_t, *mut delta_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<ponyint_deltamap_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -219,17 +219,17 @@ pub unsafe extern "C" fn ponyint_deltamap_init(mut map: *mut deltamap_t, mut siz
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn ponyint_deltamap_mem_size(mut map: *mut deltamap_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn ponyint_deltamap_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
 pub unsafe extern "C" fn ponyint_deltamap_size(mut map: *mut deltamap_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -250,13 +250,13 @@ pub unsafe extern "C" fn ponyint_deltamap_get(
 ) -> *mut delta_t {
     let mut cmpf: ponyint_deltamap_cmp_fn =
         Some(delta_cmp as unsafe extern "C" fn(*mut delta_t, *mut delta_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         delta_hash(key),
         ::core::mem::transmute::<ponyint_deltamap_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut delta_t;
+    ) as *mut delta_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:46"]
@@ -266,12 +266,12 @@ pub unsafe extern "C" fn ponyint_deltamap_put(
 ) -> *mut delta_t {
     let mut cmpf: ponyint_deltamap_cmp_fn =
         Some(delta_cmp as unsafe extern "C" fn(*mut delta_t, *mut delta_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         delta_hash(entry),
         ::core::mem::transmute::<ponyint_deltamap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut delta_t;
+    ) as *mut delta_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:46"]
@@ -280,8 +280,8 @@ pub unsafe extern "C" fn ponyint_deltamap_next(
     mut i: *mut size_t,
 ) -> *mut delta_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut delta_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut delta_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:46"]
@@ -291,12 +291,12 @@ pub unsafe extern "C" fn ponyint_deltamap_remove(
 ) -> *mut delta_t {
     let mut cmpf: ponyint_deltamap_cmp_fn =
         Some(delta_cmp as unsafe extern "C" fn(*mut delta_t, *mut delta_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         delta_hash(entry),
         ::core::mem::transmute::<ponyint_deltamap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut delta_t;
+    ) as *mut delta_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "38:1"]
@@ -330,7 +330,7 @@ pub unsafe extern "C" fn ponyint_deltamap_update(
     } else {
         ponyint_deltamap_putindex(map, delta_0, index);
     }
-    return map;
+    map
 }
 #[no_mangle]
 #[c2rust::src_loc = "77:1"]

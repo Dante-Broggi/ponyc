@@ -1145,5 +1145,5 @@ pub unsafe extern "C" fn expr_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         );
         return 0 as libc::c_int != 0;
     }
-    return declared_ffi(opt, ast, decl);
+    declared_ffi(opt, ast, decl)
 }

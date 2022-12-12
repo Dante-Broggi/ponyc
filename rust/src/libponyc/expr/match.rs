@@ -1837,7 +1837,7 @@ pub unsafe extern "C" fn expr_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             );
         }
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "585:1"]

@@ -964,7 +964,7 @@ unsafe extern "C" fn type_typeexpr(
         ast_free_unattached(type_0);
         type_0 = child;
     }
-    return type_0;
+    type_0
 }
 #[c2rust::src_loc = "133:1"]
 unsafe extern "C" fn type_base(
@@ -1059,7 +1059,7 @@ pub unsafe extern "C" fn type_builtin_args(
         ast_free(ast);
         return 0 as *mut ast_t;
     }
-    return ast;
+    ast
 }
 #[no_mangle]
 #[c2rust::src_loc = "170:1"]
@@ -1148,7 +1148,7 @@ pub unsafe extern "C" fn type_pointer_to(
         ast_free(pointer);
         return 0 as *mut ast_t;
     }
-    return pointer;
+    pointer
 }
 #[no_mangle]
 #[c2rust::src_loc = "194:1"]
@@ -1236,7 +1236,7 @@ pub unsafe extern "C" fn control_type_add_branch(
         ast_settype(control_type, non_literal_type_0);
         return control_type;
     }
-    return type_union(opt, control_type, branch_type);
+    type_union(opt, control_type, branch_type)
 }
 #[no_mangle]
 #[c2rust::src_loc = "263:1"]
@@ -1245,7 +1245,7 @@ pub unsafe extern "C" fn type_union(
     mut l_type: *mut ast_t,
     mut r_type: *mut ast_t,
 ) -> *mut ast_t {
-    return type_typeexpr(opt, TK_UNIONTYPE, l_type, r_type);
+    type_typeexpr(opt, TK_UNIONTYPE, l_type, r_type)
 }
 #[no_mangle]
 #[c2rust::src_loc = "268:1"]
@@ -1254,7 +1254,7 @@ pub unsafe extern "C" fn type_isect(
     mut l_type: *mut ast_t,
     mut r_type: *mut ast_t,
 ) -> *mut ast_t {
-    return type_typeexpr(opt, TK_ISECTTYPE, l_type, r_type);
+    type_typeexpr(opt, TK_ISECTTYPE, l_type, r_type)
 }
 #[no_mangle]
 #[c2rust::src_loc = "273:1"]
@@ -1383,7 +1383,7 @@ pub unsafe extern "C" fn type_for_class(
     if expr {
         names_nominal(opt, ast, &mut type_0, 0 as libc::c_int != 0);
     }
-    return type_0;
+    type_0
 }
 #[no_mangle]
 #[c2rust::src_loc = "317:1"]
@@ -1487,7 +1487,7 @@ pub unsafe extern "C" fn type_for_fun(mut ast: *mut ast_t) -> *mut ast_t {
     }
     ast_inheritflags(parent_0);
     fun = parent;
-    return fun;
+    fun
 }
 #[no_mangle]
 #[c2rust::src_loc = "347:1"]
@@ -1643,7 +1643,7 @@ pub unsafe extern "C" fn type_isect_fun(
     let mut _node_3: *mut ast_t = 0 as *mut ast_t;
     ast_inheritflags(parent_3);
     fun = parent;
-    return fun;
+    fun
 }
 #[no_mangle]
 #[c2rust::src_loc = "404:1"]

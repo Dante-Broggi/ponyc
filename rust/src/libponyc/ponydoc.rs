@@ -319,5 +319,5 @@ pub unsafe extern "C" fn ponydoc_load(
     if program.is_null() {
         errors_print(opt.check.errors);
     }
-    return program;
+    program
 }
