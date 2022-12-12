@@ -836,20 +836,14 @@ pub mod string_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctype.h:12"]
 pub mod _ctype_h {
-    #[no_mangle]
-    #[inline]
-    #[linkage = "external"]
-    #[c2rust::src_loc = "291:1"]
-    pub unsafe extern "C" fn tolower(mut _c: libc::c_int) -> libc::c_int {
-        __tolower(_c)
-    }
     use super::_types_h::__darwin_ct_rune_t;
     extern "C" {
         #[c2rust::src_loc = "189:1"]
         pub fn __tolower(_: __darwin_ct_rune_t) -> __darwin_ct_rune_t;
     }
 }
-pub use self::_ctype_h::{__tolower, tolower};
+pub use libc::tolower;
+pub use self::_ctype_h::__tolower;
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{__darwin_ct_rune_t, __darwin_size_t};
 pub use self::_uint32_t_h::uint32_t;
