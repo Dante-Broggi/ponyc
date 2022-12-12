@@ -22,6 +22,17 @@ typedef u_short kevent_flag_t;
 typedef uint32_t kevent_flag_t;
 #endif
 
+#if PRESERVE_FUNCTION_MACROS
+#define PONY_EV_SET macro__EV_SET
+inline void macro__EV_SET(struct kevent *kevp,
+  uintptr_t ident, int16_t filter, uint16_t flags,
+  uint32_t fflags, intptr_t data, void *udata) {
+  EV_SET(kevp, ident, filter, flags, fflags, data, udata);
+}
+#else
+#define PONY_EV_SET EV_SET
+#endif
+
 struct asio_backend_t
 {
   int kq;
@@ -53,7 +64,7 @@ asio_backend_t* ponyint_asio_backend_init()
   pipe(b->wakeup);
 
   struct kevent new_event;
-  EV_SET(&new_event, b->wakeup[0], EVFILT_READ, EV_ADD, 0, 0, NULL);
+  PONY_EV_SET(&new_event, b->wakeup[0], EVFILT_READ, EV_ADD, 0, 0, NULL);
 
   struct timespec t = {0, 0};
   kevent(b->kq, &new_event, 1, NULL, 0, &t);
@@ -120,7 +131,7 @@ PONY_API void pony_asio_event_resubscribe_read(asio_event_t* ev)
   kevent_flag_t kqueue_flags = ev->flags & ASIO_ONESHOT ? EV_ONESHOT : EV_CLEAR;
   if((ev->flags & ASIO_READ) && !ev->readable)
   {
-    EV_SET(&event[i], ev->fd, EVFILT_READ, EV_ADD | kqueue_flags, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->fd, EVFILT_READ, (uint16_t)(EV_ADD | kqueue_flags), 0, 0, ev);
     i++;
   } else {
     return;
@@ -151,7 +162,7 @@ PONY_API void pony_asio_event_resubscribe_write(asio_event_t* ev)
   kevent_flag_t kqueue_flags = ev->flags & ASIO_ONESHOT ? EV_ONESHOT : EV_CLEAR;
   if((ev->flags & ASIO_WRITE) && !ev->writeable)
   {
-    EV_SET(&event[i], ev->fd, EVFILT_WRITE, EV_ADD | kqueue_flags, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->fd, EVFILT_WRITE, (uint16_t)(EV_ADD | kqueue_flags), 0, 0, ev);
     i++;
   } else {
     return;
@@ -309,23 +320,23 @@ PONY_API void pony_asio_event_subscribe(asio_event_t* ev)
   kevent_flag_t flags = ev->flags & ASIO_ONESHOT ? EV_ONESHOT : EV_CLEAR;
   if(ev->flags & ASIO_READ)
   {
-    EV_SET(&event[i], ev->fd, EVFILT_READ, EV_ADD | flags, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->fd, EVFILT_READ, (uint16_t)(EV_ADD | flags), 0, 0, ev);
     i++;
   }
 
   if(ev->flags & ASIO_WRITE)
   {
-    EV_SET(&event[i], ev->fd, EVFILT_WRITE, EV_ADD | flags, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->fd, EVFILT_WRITE, (uint16_t)(EV_ADD | flags), 0, 0, ev);
     i++;
   }
 
   if(ev->flags & ASIO_TIMER)
   {
 #ifdef PLATFORM_IS_BSD
-    EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
+    PONY_EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
       0, ev->nsec / 1000000, ev);
 #else
-    EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
+    PONY_EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
       NOTE_NSECONDS, ev->nsec, ev);
 #endif
     i++;
@@ -349,7 +360,7 @@ PONY_API void pony_asio_event_subscribe(asio_event_t* ev)
 
     sigaction((int)ev->nsec, &new_action, NULL);
 
-    EV_SET(&event[i], ev->nsec, EVFILT_SIGNAL, EV_ADD | EV_CLEAR, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->nsec, EVFILT_SIGNAL, EV_ADD | EV_CLEAR, 0, 0, ev);
     i++;
   }
 
@@ -381,10 +392,10 @@ PONY_API void pony_asio_event_setnsec(asio_event_t* ev, uint64_t nsec)
     ev->nsec = nsec;
 
 #ifdef PLATFORM_IS_BSD
-    EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
+    PONY_EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
       0, ev->nsec / 1000000, ev);
 #else
-    EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
+    PONY_EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_ADD | EV_ONESHOT,
       NOTE_NSECONDS, ev->nsec, ev);
 #endif
     i++;
@@ -428,19 +439,19 @@ PONY_API void pony_asio_event_unsubscribe(asio_event_t* ev)
 
   if(ev->flags & ASIO_READ)
   {
-    EV_SET(&event[i], ev->fd, EVFILT_READ, EV_DELETE, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->fd, EVFILT_READ, EV_DELETE, 0, 0, ev);
     i++;
   }
 
   if(ev->flags & ASIO_WRITE)
   {
-    EV_SET(&event[i], ev->fd, EVFILT_WRITE, EV_DELETE, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->fd, EVFILT_WRITE, EV_DELETE, 0, 0, ev);
     i++;
   }
 
   if(ev->flags & ASIO_TIMER)
   {
-    EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_DELETE, 0, 0, ev);
+    PONY_EV_SET(&event[i], (uintptr_t)ev, EVFILT_TIMER, EV_DELETE, 0, 0, ev);
     i++;
   }
 
@@ -462,7 +473,7 @@ PONY_API void pony_asio_event_unsubscribe(asio_event_t* ev)
 
     sigaction((int)ev->nsec, &new_action, NULL);
 
-    EV_SET(&event[i], ev->nsec, EVFILT_SIGNAL, EV_DELETE, 0, 0, ev);
+    PONY_EV_SET(&event[i], ev->nsec, EVFILT_SIGNAL, EV_DELETE, 0, 0, ev);
     i++;
   }
 
