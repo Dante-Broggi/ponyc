@@ -634,14 +634,14 @@ unsafe extern "C" fn name_without_case(mut name: *const libc::c_char) -> *const 
     let mut len: size_t = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     if is_name_type(name) {
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < len {
             *buf.offset(i as isize) =
                 toupper(*name.offset(i as isize) as libc::c_int) as libc::c_char;
             i = i.wrapping_add(1);
         }
     } else {
-        let mut i_0: size_t = 0 as libc::c_int as size_t;
+        let mut i_0: size_t = 0;
         while i_0 < len {
             *buf.offset(i_0 as isize) =
                 tolower(*name.offset(i_0 as isize) as libc::c_int) as libc::c_char;

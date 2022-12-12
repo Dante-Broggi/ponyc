@@ -2629,7 +2629,7 @@ unsafe extern "C" fn make_tuple_indices(
         && ast_id(parent) as libc::c_uint != TK_CALL as libc::c_int as libc::c_uint
     {
         if ast_id(parent) as libc::c_uint == TK_TUPLE as libc::c_int as libc::c_uint {
-            let mut index: size_t = 0 as libc::c_int as size_t;
+            let mut index: size_t = 0;
             let mut child: *mut ast_t = ast_child(parent);
             while current != child {
                 index = index.wrapping_add(1);
@@ -2850,7 +2850,7 @@ pub unsafe extern "C" fn gen_send_message(
         ponyint_pool_alloc_size(arg_types_buf_size) as *mut *mut ast_t;
     let mut arg_ast: *mut ast_t = ast_child(args_ast);
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*m).param_count {
         let ref mut fresh7 = *arg_types.offset(i as isize);
         *fresh7 = deferred_reify(reify, ast_type(arg_ast), (*c).opt);
@@ -2915,7 +2915,7 @@ pub unsafe extern "C" fn gen_send_message(
         i_0 = i_0.wrapping_add(1);
     }
     let mut need_trace: bool = 0 as libc::c_int != 0;
-    let mut i_1: size_t = 0 as libc::c_int as size_t;
+    let mut i_1: size_t = 0;
     while i_1 < (*m).param_count {
         if gentrace_needed(
             c,
@@ -2942,7 +2942,7 @@ pub unsafe extern "C" fn gen_send_message(
             b"pony.msgsend\0" as *const u8 as *const libc::c_char,
             md,
         );
-        let mut i_2: size_t = 0 as libc::c_int as size_t;
+        let mut i_2: size_t = 0;
         while i_2 < (*m).param_count {
             gentrace(
                 c,
@@ -3006,7 +3006,7 @@ pub unsafe extern "C" fn gen_send_message(
     );
     ponyint_pool_free_size(params_buf_size, param_types as *mut libc::c_void);
     ponyint_pool_free_size(args_buf_size, cast_args as *mut libc::c_void);
-    let mut i_3: size_t = 0 as libc::c_int as size_t;
+    let mut i_3: size_t = 0;
     while i_3 < (*m).param_count {
         ast_free_unattached(*arg_types.offset(i_3 as isize));
         i_3 = i_3.wrapping_add(1);
@@ -3107,7 +3107,7 @@ unsafe extern "C" fn can_inline_message_send(
                 .as_ptr(),
             );
         };
-        let mut i_0: size_t = 0 as libc::c_int as size_t;
+        let mut i_0: size_t = 0;
         while i_0 < (*m).param_count {
             let mut param: *mut reach_type_t = (*((*m).params).offset(i_0 as isize)).type_0;
             let mut sub_param: *mut reach_type_t = (*((*m_sub).params).offset(i_0 as isize)).type_0;
@@ -3484,7 +3484,7 @@ unsafe extern "C" fn ffi_return_type(
         let mut e_types: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         LLVMGetStructElementTypes((*c_t).use_type, e_types);
         let mut child: *mut ast_t = ast_child((*t).ast);
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while !child.is_null() {
             if is_bool(child) {
                 let ref mut fresh15 = *e_types.offset(i as isize);
@@ -3520,7 +3520,7 @@ unsafe extern "C" fn declare_ffi(
         is_varargs = 1 as libc::c_int != 0;
         param_count -= 1;
     }
-    let mut buf_size: size_t = 0 as libc::c_int as size_t;
+    let mut buf_size: size_t = 0;
     let mut f_params: *mut LLVMTypeRef = 0 as *mut LLVMTypeRef;
     if param_count != 0 as libc::c_int {
         buf_size = (param_count as libc::c_ulong)

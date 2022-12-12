@@ -99,7 +99,7 @@ unsafe extern "C" fn node_free(mut node: *mut mpmcq_node_t) {
 }
 #[c2rust::src_loc = "39:1"]
 unsafe extern "C" fn mpmcq_size_debug(mut q: *mut mpmcq_t) -> size_t {
-    let mut count: size_t = 0 as libc::c_int as size_t;
+    let mut count: size_t = 0;
     let mut tail: *mut mpmcq_node_t = (*q).tail.c2rust_unnamed.object;
     while !({
         ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next as *mut *mut mpmcq_node_t)

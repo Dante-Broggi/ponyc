@@ -2574,8 +2574,8 @@ pub unsafe extern "C" fn path_cat(
     mut part2: *const libc::c_char,
     mut result: *mut libc::c_char,
 ) {
-    let mut len1: size_t = 0 as libc::c_int as size_t;
-    let mut lensep: size_t = 0 as libc::c_int as size_t;
+    let mut len1: size_t = 0;
+    let mut lensep: size_t = 0;
     if !part1.is_null() {
         len1 = strlen(part1);
         lensep = 1 as libc::c_int as size_t;
@@ -2658,7 +2658,7 @@ unsafe extern "C" fn parse_files_in_dir(
         }
         return 0 as libc::c_int != 0;
     }
-    let mut count: size_t = 0 as libc::c_int as size_t;
+    let mut count: size_t = 0;
     let mut buf_size: size_t = (4 as libc::c_int as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong);
     let mut entries: *mut *const libc::c_char =
@@ -2704,7 +2704,7 @@ unsafe extern "C" fn parse_files_in_dir(
         ),
     );
     let mut r: bool = 1 as libc::c_int != 0;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < count {
         let mut fullpath: [libc::c_char; 1024] = [0; 1024];
         path_cat(dir_path, *entries.offset(i as isize), fullpath.as_mut_ptr());
@@ -3450,7 +3450,7 @@ pub unsafe extern "C" fn package_load(
             let mut parent_pkg: *mut package_t = ast_data(parent) as *mut package_t;
             if !parent_pkg.is_null() {
                 let mut package_path_0: *const libc::c_char = path;
-                let mut relatives: size_t = 0 as libc::c_int as size_t;
+                let mut relatives: size_t = 0;
                 loop {
                     if strncmp(
                         b"../\0" as *const u8 as *const libc::c_char,
@@ -4028,7 +4028,7 @@ unsafe extern "C" fn make_dependency_group(
     if (*package).group_index == (*package).low_index {
         let mut group: *mut package_group_t = package_group_new();
         let mut member: *mut package_t = 0 as *mut package_t;
-        let mut i_0: size_t = 0 as libc::c_int as size_t;
+        let mut i_0: size_t = 0;
         loop {
             *stack = package_stack_pop(*stack, &mut member);
             (*member).on_stack = 0 as libc::c_int != 0;
@@ -4052,7 +4052,7 @@ pub unsafe extern "C" fn package_dependency_groups(
 ) -> *mut package_group_list_t {
     let mut groups: *mut package_group_list_t = 0 as *mut package_group_list_t;
     let mut stack: *mut package_stack_t = 0 as *mut package_stack_t;
-    let mut index: size_t = 0 as libc::c_int as size_t;
+    let mut index: size_t = 0;
     while !first_package.is_null() {
         if ast_id(first_package) as libc::c_uint == TK_PACKAGE as libc::c_int as libc::c_uint {
         } else {
@@ -4090,7 +4090,7 @@ pub unsafe extern "C" fn package_dependency_groups(
 }
 #[c2rust::src_loc = "1315:1"]
 unsafe extern "C" fn print_signature(mut sig: *const libc::c_char) {
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < 64 as libc::c_int as libc::c_ulong {
         printf(
             b"%02hhX\0" as *const u8 as *const libc::c_char,

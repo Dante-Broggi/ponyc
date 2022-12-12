@@ -2315,7 +2315,7 @@ unsafe extern "C" fn trace_dynamic_tuple(
 ) {
     let mut cardinality: size_t = ast_childcount(type_0);
     let mut dontcare: *mut ast_t = ast_from(type_0, TK_TUPLETYPE);
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < cardinality {
         ast_append(dontcare, ast_from(type_0, TK_DONTCARETYPE));
         i = i.wrapping_add(1);
@@ -2349,7 +2349,7 @@ unsafe extern "C" fn trace_dynamic_tuple(
         LLVMBuildBr((*c).builder, is_true);
     }
     LLVMPositionBuilderAtEnd((*c).builder, is_true);
-    let mut index: size_t = 0 as libc::c_int as size_t;
+    let mut index: size_t = 0;
     let mut child: *mut ast_t = ast_child(type_0);
     let mut dc_child: *mut ast_t = ast_child(dontcare);
     while !child.is_null() {

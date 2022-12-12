@@ -1499,7 +1499,7 @@ unsafe extern "C" fn print_compact(
     mut indent: size_t,
     mut kind: print_special,
 ) {
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < indent {
         fprintf(fp, in_0.as_ptr());
         i = i.wrapping_add(1);
@@ -1557,7 +1557,7 @@ unsafe extern "C" fn print_extended(
     mut kind: print_special,
     mut width: size_t,
 ) {
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < indent {
         fprintf(fp, in_0.as_ptr());
         i = i.wrapping_add(1);
@@ -1609,7 +1609,7 @@ unsafe extern "C" fn print_extended(
         );
     }
     if parens {
-        let mut i_0: size_t = 0 as libc::c_int as size_t;
+        let mut i_0: size_t = 0;
         while i_0 < indent {
             fprintf(fp, in_0.as_ptr());
             i_0 = i_0.wrapping_add(1);
@@ -1630,7 +1630,7 @@ unsafe extern "C" fn print_verbose(
     mut indent: size_t,
     mut kind: print_special,
 ) {
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < indent {
         fprintf(fp, in_0.as_ptr());
         i = i.wrapping_add(1);
@@ -1708,7 +1708,7 @@ unsafe extern "C" fn print_verbose(
         );
     }
     if parens {
-        let mut i_1: size_t = 0 as libc::c_int as size_t;
+        let mut i_1: size_t = 0;
         while i_1 < indent {
             fprintf(fp, in_0.as_ptr());
             i_1 = i_1.wrapping_add(1);
@@ -3177,7 +3177,7 @@ pub unsafe extern "C" fn ast_childlast(mut ast: *mut ast_t) -> *mut ast_t {
 #[c2rust::src_loc = "1019:1"]
 pub unsafe extern "C" fn ast_childcount(mut ast: *mut ast_t) -> size_t {
     let mut child: *mut ast_t = (*ast).child;
-    let mut count: size_t = 0 as libc::c_int as size_t;
+    let mut count: size_t = 0;
     while !child.is_null() {
         count = count.wrapping_add(1);
         child = (*child).sibling;
@@ -3244,7 +3244,7 @@ pub unsafe extern "C" fn ast_index(mut ast: *mut ast_t) -> size_t {
         );
     };
     let mut child: *mut ast_t = (*(*ast).parent).child;
-    let mut idx: size_t = 0 as libc::c_int as size_t;
+    let mut idx: size_t = 0;
     while child != ast {
         child = (*child).sibling;
         idx = idx.wrapping_add(1);
@@ -4397,13 +4397,13 @@ pub unsafe extern "C" fn ast_reorder_children(
         );
     };
     let mut count: size_t = ast_childcount(ast);
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < count {
         let ref mut fresh41 = *shuffle_space.offset(i as isize);
         *fresh41 = ast_pop(ast);
         i = i.wrapping_add(1);
     }
-    let mut i_0: size_t = 0 as libc::c_int as size_t;
+    let mut i_0: size_t = 0;
     while i_0 < count {
         let mut index: size_t = *new_order.offset(i_0 as isize);
         if index < count {
@@ -4895,7 +4895,7 @@ pub unsafe extern "C" fn ast_get_children(
         );
     };
     let mut p: *mut ast_t = (*parent).child;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < child_count {
         if !p.is_null() {
         } else {
@@ -4958,7 +4958,7 @@ pub unsafe extern "C" fn ast_extract_children(
     };
     let mut p: *mut ast_t = (*parent).child;
     let mut last_remaining_sibling: *mut ast_t = 0 as *mut ast_t;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < child_count {
         if !p.is_null() {
         } else {

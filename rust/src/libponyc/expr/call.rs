@@ -1291,7 +1291,7 @@ unsafe extern "C" fn apply_named_args(
             children.as_mut_ptr(),
         );
         let mut param: *mut ast_t = ast_child(params);
-        let mut param_index: size_t = 0 as libc::c_int as size_t;
+        let mut param_index: size_t = 0;
         while !param.is_null() {
             let mut param_id: ast_ptr_t = 0 as *mut ast_t;
             let mut children_0: [*mut *mut ast_t; 2] = [&mut param_id, 0 as *mut *mut ast_t];

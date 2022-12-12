@@ -7361,7 +7361,7 @@ unsafe extern "C" fn is_id_in_list(mut id_0: token_id, mut list: *const token_id
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while *list.offset(i as isize) as libc::c_uint != TK_EOF as libc::c_int as libc::c_uint {
         if *list.offset(i as isize) as libc::c_uint == id_0 as libc::c_uint {
             return 1 as libc::c_int != 0;
@@ -7452,7 +7452,7 @@ unsafe extern "C" fn check_children(
                 .as_ptr(),
         );
     };
-    let mut found_count: size_t = 0 as libc::c_int as size_t;
+    let mut found_count: size_t = 0;
     while found_count < max_count && !((*state).child).is_null() {
         let mut r: check_res_t = check_from_list((*state).child, rules, errors, print_width);
         if r as libc::c_uint == CHK_ERROR as libc::c_int as libc::c_uint {

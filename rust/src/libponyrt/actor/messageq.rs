@@ -86,7 +86,7 @@ pub use self::stddef_h::size_t;
 #[c2rust::src_loc = "15:1"]
 unsafe extern "C" fn messageq_size_debug(mut q: *mut messageq_t) -> size_t {
     let mut tail: *mut pony_msg_t = (*q).tail;
-    let mut count: size_t = 0 as libc::c_int as size_t;
+    let mut count: size_t = 0;
     while !({ ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next as *mut *mut pony_msg_t) })
         .is_null()
     {

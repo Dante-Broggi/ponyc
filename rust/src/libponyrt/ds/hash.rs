@@ -257,13 +257,13 @@ unsafe extern "C" fn search(
 ) -> *mut libc::c_void {
     let mut mask: size_t = ((*map).size).wrapping_sub(1 as libc::c_int as libc::c_ulong);
     let mut p_length: size_t = *probe_length;
-    let mut oi_p_length: size_t = 0 as libc::c_int as size_t;
+    let mut oi_p_length: size_t = 0;
     let mut index: size_t = (hash & mask).wrapping_add(p_length) & mask;
     let mut elem: *mut libc::c_void = 0 as *mut libc::c_void;
     let mut elem_hash: size_t = 0;
     let mut ib_index: size_t = 0;
     let mut ib_offset: size_t = 0;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i <= mask {
         ib_index = index >> 6 as libc::c_int;
         ib_offset =
@@ -392,7 +392,7 @@ unsafe extern "C" fn optimize_item(
     let mut index: size_t = h & mask;
     let mut ib_index: size_t = 0;
     let mut ib_offset: size_t = 0;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i <= mask {
         if index == old_index {
             break;
@@ -525,8 +525,8 @@ pub unsafe extern "C" fn ponyint_hashmap_get(
     if (*map).count == 0 as libc::c_int as libc::c_ulong {
         return 0 as *mut libc::c_void;
     }
-    let mut probe_length: size_t = 0 as libc::c_int as size_t;
-    let mut oi_probe_length: size_t = 0 as libc::c_int as size_t;
+    let mut probe_length: size_t = 0;
+    let mut oi_probe_length: size_t = 0;
     return search(
         map,
         pos,
@@ -551,7 +551,7 @@ unsafe extern "C" fn shift_put(
     let mut elem: *mut libc::c_void = e;
     let mut ci_hash: size_t = hash;
     let mut ci_entry: *mut libc::c_void = entry;
-    let mut oi_hash: size_t = 0 as libc::c_int as size_t;
+    let mut oi_hash: size_t = 0;
     let mut oi_entry: *mut libc::c_void = 0 as *mut libc::c_void;
     let mut pos: size_t = index;
     let mut probe_length: size_t = pl;
@@ -639,8 +639,8 @@ pub unsafe extern "C" fn ponyint_hashmap_put(
         ponyint_hashmap_init(map, 4 as libc::c_int as size_t);
     }
     let mut pos: size_t = 0;
-    let mut probe_length: size_t = 0 as libc::c_int as size_t;
-    let mut oi_probe_length: size_t = 0 as libc::c_int as size_t;
+    let mut probe_length: size_t = 0;
+    let mut oi_probe_length: size_t = 0;
     let mut elem: *mut libc::c_void = search(
         map,
         &mut pos,
@@ -785,8 +785,8 @@ pub unsafe extern "C" fn ponyint_hashmap_remove(
         return 0 as *mut libc::c_void;
     }
     let mut pos: size_t = 0;
-    let mut probe_length: size_t = 0 as libc::c_int as size_t;
-    let mut oi_probe_length: size_t = 0 as libc::c_int as size_t;
+    let mut probe_length: size_t = 0;
+    let mut oi_probe_length: size_t = 0;
     let mut elem: *mut libc::c_void = search(
         map,
         &mut pos,
@@ -832,7 +832,7 @@ pub unsafe extern "C" fn ponyint_hashmap_next(
     let mut ib_index: size_t = index >> 6 as libc::c_int;
     let mut ib_offset: size_t =
         index & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
-    let mut ffs_offset: size_t = 0 as libc::c_int as size_t;
+    let mut ffs_offset: size_t = 0;
     let mut ib: bitmap_t = *item_bitmap.offset(ib_index as isize) >> ib_offset;
     while index < size {
         ffs_offset = __pony_ffszu(ib) as size_t;
@@ -929,8 +929,8 @@ pub unsafe extern "C" fn ponyint_hashmap_clearindex(mut map: *mut hashmap_t, mut
 #[no_mangle]
 #[c2rust::src_loc = "550:1"]
 pub unsafe extern "C" fn ponyint_hashmap_optimize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
-    let mut count: size_t = 0 as libc::c_int as size_t;
-    let mut num_iters: size_t = 0 as libc::c_int as size_t;
+    let mut count: size_t = 0;
+    let mut num_iters: size_t = 0;
     let mut i: size_t = -(1 as libc::c_int) as size_t;
     let mut elem: *mut libc::c_void = 0 as *mut libc::c_void;
     loop {

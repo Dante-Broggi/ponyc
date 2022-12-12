@@ -206,7 +206,7 @@ pub unsafe extern "C" fn pony_mkdir(mut path: *const libc::c_char) {
     let mut buf: *mut libc::c_char =
         ponyint_pool_alloc_size(path_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
             as *mut libc::c_char;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < path_len {
         *buf.offset(i as isize) = *path.offset(i as isize);
         if *path.offset(i as isize) as libc::c_int == '/' as i32 {

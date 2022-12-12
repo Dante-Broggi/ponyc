@@ -1581,7 +1581,7 @@ unsafe extern "C" fn print_params(
     mut param_count: size_t,
     mut initial_comma: bool,
 ) {
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < param_count {
         if initial_comma {
             printbuf(buf, b", \0" as *const u8 as *const libc::c_char);
@@ -1623,7 +1623,7 @@ unsafe extern "C" fn should_emit_fun(mut m: *mut reach_method_t) -> bool {
     if (*(*m).result).underlying as libc::c_uint == TK_TUPLETYPE as libc::c_int as libc::c_uint {
         return 0 as libc::c_int != 0;
     }
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*m).param_count {
         if (*(*((*m).params).offset(i as isize)).type_0).underlying as libc::c_uint
             == TK_TUPLETYPE as libc::c_int as libc::c_uint

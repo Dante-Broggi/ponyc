@@ -1159,7 +1159,7 @@ unsafe extern "C" fn compare_signatures(mut sig_a: *mut ast_t, mut sig_b: *mut a
             }
             let mut a_text: *const libc::c_char = ast_name(sig_a);
             let mut b_text: *const libc::c_char = ast_name(sig_b);
-            let mut i_0: size_t = 0 as libc::c_int as size_t;
+            let mut i_0: size_t = 0;
             while i_0 < a_len {
                 if *a_text.offset(i_0 as isize) as libc::c_int
                     != *b_text.offset(i_0 as isize) as libc::c_int

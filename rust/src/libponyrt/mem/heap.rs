@@ -732,7 +732,7 @@ unsafe extern "C" fn sweep_small(
     mut empty: uint32_t,
     mut size: size_t,
 ) -> size_t {
-    let mut used: size_t = 0 as libc::c_int as size_t;
+    let mut used: size_t = 0;
     let mut next: *mut chunk_t = 0 as *mut chunk_t;
     while !chunk.is_null() {
         next = (*chunk).next;
@@ -1227,7 +1227,7 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
 #[no_mangle]
 #[c2rust::src_loc = "741:1"]
 pub unsafe extern "C" fn ponyint_heap_endgc(mut heap: *mut heap_t) {
-    let mut used: size_t = 0 as libc::c_int as size_t;
+    let mut used: size_t = 0;
     let mut i: libc::c_int = 0 as libc::c_int;
     while i < 10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int {
         let mut list1: *mut chunk_t = (*heap).small_free[i as usize];

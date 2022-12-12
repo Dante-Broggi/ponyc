@@ -1000,7 +1000,7 @@ unsafe extern "C" fn print_typemap(mut size: size_t, mut map: *mut uint64_t) {
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < size {
         printf(b"  \0" as *const u8 as *const libc::c_char);
         let mut mask: uint64_t = 1 as libc::c_int as uint64_t;
@@ -1197,7 +1197,7 @@ unsafe extern "C" fn is_name_compatible(
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*name).typemap_size {
         if *((*colour).type_map).offset(i as isize) & *((*name).type_map).offset(i as isize)
             != 0 as libc::c_int as libc::c_ulonglong
@@ -1235,7 +1235,7 @@ unsafe extern "C" fn assign_name_to_colour(
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*name).typemap_size {
         let ref mut fresh7 = *((*colour).type_map).offset(i as isize);
         *fresh7 |= *((*name).type_map).offset(i as isize);
@@ -1271,7 +1271,7 @@ unsafe extern "C" fn find_names_types_use(
         );
     };
     let mut i: size_t = -(1 as libc::c_int) as size_t;
-    let mut typemap_index: size_t = 0 as libc::c_int as size_t;
+    let mut typemap_index: size_t = 0;
     let mut typemap_mask: uint64_t = 1 as libc::c_int as uint64_t;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {

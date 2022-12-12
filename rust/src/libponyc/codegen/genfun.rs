@@ -2041,7 +2041,7 @@ unsafe extern "C" fn name_params(
     }
     let mut params: *mut ast_t = ast_childidx((*(*m).fun).ast, 3 as libc::c_int as size_t);
     let mut param: *mut ast_t = ast_child(params);
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*m).param_count {
         let mut r_param: *mut reach_param_t =
             &mut *((*m).params).offset(i as isize) as *mut reach_param_t;
@@ -2068,7 +2068,7 @@ unsafe extern "C" fn make_signature(
     mut message_type: bool,
 ) {
     let mut count: size_t = (*m).param_count;
-    let mut offset: size_t = 0 as libc::c_int as size_t;
+    let mut offset: size_t = 0;
     if (*m).cap as libc::c_uint != TK_AT as libc::c_int as libc::c_uint {
         count = count.wrapping_add(1);
         offset = offset.wrapping_add(1);
@@ -2097,7 +2097,7 @@ unsafe extern "C" fn make_signature(
         let ref mut fresh0 = *tparams.offset(0 as libc::c_int as isize);
         *fresh0 = (*c_t).use_type;
     }
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*m).param_count {
         let mut p_c_t: *mut compile_type_t =
             (*(*((*m).params).offset(i as isize)).type_0).c_type as *mut compile_type_t;
@@ -2174,7 +2174,7 @@ unsafe extern "C" fn make_function_debug(
         let ref mut fresh10 = *md.offset(1 as libc::c_int as isize);
         *fresh10 = (*c_t).di_type;
     }
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*m).param_count {
         let ref mut fresh11 = *md.offset(i.wrapping_add(offset) as isize);
         *fresh11 = (*((*(*((*m).params).offset(i as isize)).type_0).c_type as *mut compile_type_t))
@@ -2422,7 +2422,7 @@ unsafe extern "C" fn add_dispatch_case(
         i += 1;
     }
     let mut need_trace: bool = 0 as libc::c_int != 0;
-    let mut i_0: size_t = 0 as libc::c_int as size_t;
+    let mut i_0: size_t = 0;
     while i_0 < count.wrapping_sub(1 as libc::c_int as libc::c_ulong) {
         if gentrace_needed(
             c,

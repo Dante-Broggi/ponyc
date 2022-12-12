@@ -963,7 +963,7 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
     }
     let mut old_index: size_t = ponyint_pool_index(old_size);
     let mut new_index: size_t = ponyint_pool_index(new_size);
-    let mut old_adj_size: size_t = 0 as libc::c_int as size_t;
+    let mut old_adj_size: size_t = 0;
     let mut new_p: *mut libc::c_void = 0 as *mut libc::c_void;
     if new_index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
         if old_index == new_index {
@@ -999,7 +999,7 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
 #[no_mangle]
 #[c2rust::src_loc = "968:1"]
 pub unsafe extern "C" fn ponyint_pool_thread_cleanup() {
-    let mut index: size_t = 0 as libc::c_int as size_t;
+    let mut index: size_t = 0;
     while index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
         let mut thread: *mut pool_local_t =
             &mut *pool_local.as_mut_ptr().offset(index as isize) as *mut pool_local_t;

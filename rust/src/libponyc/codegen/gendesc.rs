@@ -2194,7 +2194,7 @@ pub unsafe extern "C" fn gendesc_table(mut c: *mut compile_t) {
         .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut null: LLVMValueRef = LLVMConstNull((*c).descriptor_ptr);
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < len as libc::c_ulong {
         let ref mut fresh15 = *args.offset(i as isize);
         *fresh15 = null;
