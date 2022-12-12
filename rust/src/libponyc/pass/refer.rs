@@ -1064,7 +1064,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         );
     };
     let mut def: *mut ast_t = 0 as *mut ast_t;
-    let mut len: size_t = 0 as libc::c_int as size_t;
+    let mut len: size_t = 0;
     let mut temp_ast: *mut ast_t = ast;
     while !(ast_id(temp_ast) as libc::c_uint != TK_DOT as libc::c_int as libc::c_uint) {
         let mut left: ast_ptr_t = 0 as *mut ast_t;
@@ -1156,7 +1156,7 @@ unsafe extern "C" fn generate_multi_dot_name(
     }
     len = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
-    let mut offset: size_t = 0 as libc::c_int as size_t;
+    let mut offset: size_t = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
     let mut slen: size_t = strlen(name);
     memcpy(
@@ -2757,7 +2757,7 @@ unsafe extern "C" fn refer_if(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, left);
@@ -2807,7 +2807,7 @@ unsafe extern "C" fn refer_iftype(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children_0.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, left);
@@ -2852,7 +2852,7 @@ unsafe extern "C" fn refer_while(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         errorframe_report(&mut errorf, (*opt).check.errors);
         return 0 as libc::c_int != 0;
     }
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, body);
@@ -2897,7 +2897,7 @@ unsafe extern "C" fn refer_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         errorframe_report(&mut errorf, (*opt).check.errors);
         return 0 as libc::c_int != 0;
     }
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, body);
@@ -2943,7 +2943,7 @@ unsafe extern "C" fn refer_match(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(cases, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, cases);
@@ -2982,7 +2982,7 @@ unsafe extern "C" fn refer_cases(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         );
         return 0 as libc::c_int != 0;
     }
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     while !the_case.is_null() {
         let mut pattern: ast_ptr_t = 0 as *mut ast_t;
         let mut guard: ast_ptr_t = 0 as *mut ast_t;
@@ -3039,7 +3039,7 @@ unsafe extern "C" fn refer_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(then_clause, body);
@@ -3086,7 +3086,7 @@ unsafe extern "C" fn refer_disposing_block(mut ast: *mut ast_t) -> bool {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0 as libc::c_int as size_t;
+    let mut branch_count: size_t = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(dispose_clause, body);

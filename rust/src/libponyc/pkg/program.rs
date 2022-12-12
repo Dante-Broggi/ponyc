@@ -1678,7 +1678,7 @@ pub unsafe extern "C" fn program_signature(mut program: *mut ast_t) -> *const li
 }
 #[c2rust::src_loc = "311:1"]
 unsafe extern "C" fn print_signature(mut sig: *const libc::c_char) {
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < 64 as libc::c_int as libc::c_ulong {
         printf(
             b"%02hhX\0" as *const u8 as *const libc::c_char,
@@ -1728,7 +1728,7 @@ pub unsafe extern "C" fn program_dump(mut program: *mut ast_t) {
     );
     print_signature(signature);
     puts(b"\n\0" as *const u8 as *const libc::c_char);
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     let mut iter: *mut package_group_list_t = (*data).package_groups;
     while !iter.is_null() {
         printf(b"Group %zu\n\0" as *const u8 as *const libc::c_char, i);

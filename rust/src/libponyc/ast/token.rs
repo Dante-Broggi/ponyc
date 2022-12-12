@@ -1054,7 +1054,7 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         );
     };
     let mut str: *const libc::c_char = 0 as *const libc::c_char;
-    let mut str_len: size_t = 0 as libc::c_int as size_t;
+    let mut str_len: size_t = 0;
     if (*token).id as libc::c_uint == TK_STRING as libc::c_int as libc::c_uint {
         str = (*token).c2rust_unnamed.c2rust_unnamed.string;
         str_len = (*token).c2rust_unnamed.c2rust_unnamed.str_length;
@@ -1062,8 +1062,8 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         str = token_print(token);
         str_len = strlen(str);
     }
-    let mut escapes: size_t = 0 as libc::c_int as size_t;
-    let mut idx: size_t = 0 as libc::c_int as size_t;
+    let mut escapes: size_t = 0;
+    let mut idx: size_t = 0;
     while idx < str_len {
         let mut c: libc::c_char = *str.offset(idx as isize);
         if c as libc::c_int == '"' as i32
@@ -1090,8 +1090,8 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
     let mut escaped: *mut libc::c_char =
         ponyint_pool_alloc_size(escaped_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
             as *mut libc::c_char;
-    let mut escaped_idx: size_t = 0 as libc::c_int as size_t;
-    let mut idx_0: size_t = 0 as libc::c_int as size_t;
+    let mut escaped_idx: size_t = 0;
+    let mut idx_0: size_t = 0;
     while idx_0 < str_len {
         let mut c_0: libc::c_char = *str.offset(idx_0 as isize);
         if c_0 as libc::c_int == '"' as i32 || c_0 as libc::c_int == '\\' as i32 {

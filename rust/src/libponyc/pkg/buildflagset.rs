@@ -270,22 +270,22 @@ unsafe extern "C" fn stringtab_mutexgroups() {
     if _stringtabed {
         return;
     }
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while !(_os_flags[i as usize]).is_null() {
         _os_flags[i as usize] = stringtab(_os_flags[i as usize]);
         i = i.wrapping_add(1);
     }
-    let mut i_0: size_t = 0 as libc::c_int as size_t;
+    let mut i_0: size_t = 0;
     while !(_arch_flags[i_0 as usize]).is_null() {
         _arch_flags[i_0 as usize] = stringtab(_arch_flags[i_0 as usize]);
         i_0 = i_0.wrapping_add(1);
     }
-    let mut i_1: size_t = 0 as libc::c_int as size_t;
+    let mut i_1: size_t = 0;
     while !(_size_flags[i_1 as usize]).is_null() {
         _size_flags[i_1 as usize] = stringtab(_size_flags[i_1 as usize]);
         i_1 = i_1.wrapping_add(1);
     }
-    let mut i_2: size_t = 0 as libc::c_int as size_t;
+    let mut i_2: size_t = 0;
     while !(_endian_flags[i_2 as usize]).is_null() {
         _endian_flags[i_2 as usize] = stringtab(_endian_flags[i_2 as usize]);
         i_2 = i_2.wrapping_add(1);
@@ -546,7 +546,7 @@ unsafe extern "C" fn os_index(mut flag: *const libc::c_char) -> ssize_t {
         );
     };
     stringtab_mutexgroups();
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while !(_os_flags[i as usize]).is_null() {
         if flag == _os_flags[i as usize] {
             return i as ssize_t;
@@ -568,7 +568,7 @@ unsafe extern "C" fn arch_index(mut flag: *const libc::c_char) -> ssize_t {
         );
     };
     stringtab_mutexgroups();
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while !(_arch_flags[i as usize]).is_null() {
         if flag == _arch_flags[i as usize] {
             return i as ssize_t;
@@ -590,7 +590,7 @@ unsafe extern "C" fn size_index(mut flag: *const libc::c_char) -> ssize_t {
         );
     };
     stringtab_mutexgroups();
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while !(_size_flags[i as usize]).is_null() {
         if flag == _size_flags[i as usize] {
             return i as ssize_t;
@@ -612,7 +612,7 @@ unsafe extern "C" fn endian_index(mut flag: *const libc::c_char) -> ssize_t {
         );
     };
     stringtab_mutexgroups();
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while !(_endian_flags[i as usize]).is_null() {
         if flag == _endian_flags[i as usize] {
             return i as ssize_t;
@@ -1222,7 +1222,7 @@ pub unsafe extern "C" fn remove_build_flags(mut flags: *mut *const libc::c_char)
         _user_flags = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut flagtab_t;
         flagtab_init(_user_flags, 8 as libc::c_int as size_t);
     }
-    let mut removed: size_t = 0 as libc::c_int as size_t;
+    let mut removed: size_t = 0;
     let mut next: *mut *const libc::c_char = flags;
     while !(*next).is_null() {
         let mut f1: flag_t = {

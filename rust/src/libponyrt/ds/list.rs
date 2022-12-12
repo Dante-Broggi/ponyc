@@ -263,7 +263,7 @@ pub unsafe extern "C" fn ponyint_list_findindex(
     mut f: cmp_fn,
     mut data: *mut libc::c_void,
 ) -> ssize_t {
-    let mut index: size_t = 0 as libc::c_int as size_t;
+    let mut index: size_t = 0;
     while !list.is_null() {
         if f.expect("non-null function pointer")(data, (*list).data) {
             return index as ssize_t;
@@ -338,7 +338,7 @@ pub unsafe extern "C" fn ponyint_list_reverse(mut list: *mut list_t) -> *mut lis
 #[no_mangle]
 #[c2rust::src_loc = "153:1"]
 pub unsafe extern "C" fn ponyint_list_length(mut list: *mut list_t) -> size_t {
-    let mut len: size_t = 0 as libc::c_int as size_t;
+    let mut len: size_t = 0;
     while !list.is_null() {
         len = len.wrapping_add(1);
         list = (*list).next;

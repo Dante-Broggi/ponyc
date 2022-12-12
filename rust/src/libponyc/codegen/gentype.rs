@@ -2573,7 +2573,7 @@ unsafe extern "C" fn make_debug_field(
 #[c2rust::src_loc = "521:1"]
 unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_type_t) {
     let mut fields: *mut LLVMMetadataRef = 0 as *mut LLVMMetadataRef;
-    let mut fields_buf_size: size_t = 0 as libc::c_int as size_t;
+    let mut fields_buf_size: size_t = 0;
     if (*t).field_count > 0 as libc::c_int as libc::c_uint {
         fields_buf_size = ((*t).field_count as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<LLVMMetadataRef>() as libc::c_ulong);

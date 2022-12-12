@@ -2537,7 +2537,7 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
         (::core::mem::size_of::<[libc::c_char; 15]>() as libc::c_ulong)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong) as libc::c_uint,
     );
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < count as libc::c_ulong {
         let ref mut fresh1 =
             *params.offset(i.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize);

@@ -71,7 +71,7 @@ static mut root: pagemap_node_t = 0 as *const libc::c_void as *mut libc::c_void;
 pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *mut chunk_t {
     let mut next_node: *mut pagemap_node_t = &mut root;
     let mut node: pagemap_node_t = ({ ::core::intrinsics::atomic_load_acq(next_node) });
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < 3 as libc::c_int as libc::c_ulong {
         if node.is_null() {
             return 0 as *mut chunk_t;
@@ -91,7 +91,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
     mut chunk: *mut chunk_t,
 ) {
     let mut next_node: *mut pagemap_node_t = &mut root;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < 3 as libc::c_int as libc::c_ulong {
         let mut node: pagemap_node_t = ({ ::core::intrinsics::atomic_load_relaxed(next_node) });
         if node.is_null() {
@@ -137,7 +137,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
     let mut addr_end: uintptr_t = (addr as uintptr_t).wrapping_add(size);
     while addr_ptr < addr_end {
         next_node = &mut root;
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < 3 as libc::c_int as libc::c_ulong {
             node = ({ ::core::intrinsics::atomic_load_relaxed(next_node) });
             if node.is_null() {

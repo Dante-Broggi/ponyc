@@ -2802,14 +2802,14 @@ unsafe extern "C" fn copy_source_to_doc_src(
     let mut filename: *mut libc::c_char =
         ponyint_pool_alloc_size(filename_alloc_size) as *mut libc::c_char;
     strcpy(filename, just_filename);
-    let mut filename_without_ext_alloc_size: size_t = 0 as libc::c_int as size_t;
+    let mut filename_without_ext_alloc_size: size_t = 0;
     let mut filename_without_ext: *const libc::c_char = remove_ext(
         filename,
         '.' as i32 as libc::c_char,
         0 as libc::c_int as libc::c_char,
         &mut filename_without_ext_alloc_size,
     );
-    let mut filename_md_extension_alloc_size: size_t = 0 as libc::c_int as size_t;
+    let mut filename_md_extension_alloc_size: size_t = 0;
     let mut filename_md_extension: *const libc::c_char = concat(
         filename_without_ext,
         b".md\0" as *const u8 as *const libc::c_char,
@@ -2826,21 +2826,21 @@ unsafe extern "C" fn copy_source_to_doc_src(
     let mut path: *mut libc::c_char =
         ponyint_pool_alloc_size(1024 as libc::c_int as size_t) as *mut libc::c_char;
     path_cat(source_dir.as_mut_ptr(), filename_md_extension, path);
-    let mut old_ptr_alloc_size: size_t = 0 as libc::c_int as size_t;
+    let mut old_ptr_alloc_size: size_t = 0;
     let mut doc_source_dir_relative: *const libc::c_char = concat(
         b"src/\0" as *const u8 as *const libc::c_char,
         package_name,
         &mut old_ptr_alloc_size,
     );
     let mut old_ptr: *const libc::c_char = doc_source_dir_relative;
-    let mut doc_source_dir_relative_alloc_size: size_t = 0 as libc::c_int as size_t;
+    let mut doc_source_dir_relative_alloc_size: size_t = 0;
     doc_source_dir_relative = concat(
         doc_source_dir_relative,
         b"/\0" as *const u8 as *const libc::c_char,
         &mut doc_source_dir_relative_alloc_size,
     );
     ponyint_pool_free_size(old_ptr_alloc_size, old_ptr as *mut libc::c_void);
-    let mut doc_path_alloc_size: size_t = 0 as libc::c_int as size_t;
+    let mut doc_path_alloc_size: size_t = 0;
     let mut doc_path: *const libc::c_char = concat(
         doc_source_dir_relative,
         filename_md_extension,

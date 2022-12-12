@@ -1855,7 +1855,7 @@ unsafe extern "C" fn collect(
 unsafe extern "C" fn check_blocked(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t) {
     let mut i: size_t = (*d).last_checked;
     let mut total: size_t = ponyint_viewmap_size(&mut (*d).views);
-    let mut n: size_t = 0 as libc::c_int as size_t;
+    let mut n: size_t = 0;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*d).views, &mut i);

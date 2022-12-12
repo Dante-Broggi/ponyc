@@ -6863,7 +6863,7 @@ unsafe extern "C" fn make_signature_array(
     mut signature: *const libc::c_char,
 ) -> LLVMValueRef {
     let mut args: [LLVMValueRef; 64] = [0 as *mut LLVMOpaqueValue; 64];
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < 64 as libc::c_int as libc::c_ulong {
         args[i as usize] = LLVMConstInt(
             (*c).i8_0,

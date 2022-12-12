@@ -2461,7 +2461,7 @@ unsafe extern "C" fn syntax_ifdef_cond(
             let mut len: size_t = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
             let mut lower_case: *mut libc::c_char =
                 ponyint_pool_alloc_size(len) as *mut libc::c_char;
-            let mut i: size_t = 0 as libc::c_int as size_t;
+            let mut i: size_t = 0;
             while i < len {
                 *lower_case.offset(i as isize) =
                     tolower(*name.offset(i as isize) as libc::c_int) as libc::c_char;

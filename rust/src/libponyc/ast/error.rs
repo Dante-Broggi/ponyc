@@ -301,7 +301,7 @@ unsafe extern "C" fn error_print_msg(
             (*e).source,
         );
         fprintf(fp, b"%s\0" as *const u8 as *const libc::c_char, indent);
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < ((*e).pos).wrapping_sub(1 as libc::c_int as libc::c_ulong) {
             if *((*e).source).offset(i as isize) as libc::c_int == '\t' as i32 {
                 fprintf(fp, b"\t\0" as *const u8 as *const libc::c_char);
@@ -409,7 +409,7 @@ unsafe extern "C" fn make_errorv(
     *fresh10 = stringtab(buf.as_mut_ptr());
     if !source.is_null() && line != 0 as libc::c_int as libc::c_ulong {
         let mut tline: size_t = 1 as libc::c_int as size_t;
-        let mut tpos: size_t = 0 as libc::c_int as size_t;
+        let mut tpos: size_t = 0;
         while tline < (*e).line && tpos < (*source).len {
             if *((*source).m).offset(tpos as isize) as libc::c_int == '\n' as i32 {
                 tline = tline.wrapping_add(1);

@@ -2761,7 +2761,7 @@ unsafe extern "C" fn set_method_types(
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         ) as *mut reach_param_t;
         let mut param: *mut ast_t = ast_child(params);
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while !param.is_null() {
             let mut p_type: *mut ast_t = deferred_reify((*m).fun, ast_type(param), opt);
             ast_set_scope(p_type, 0 as *mut ast_t);
@@ -2791,7 +2791,7 @@ unsafe extern "C" fn set_method_types(
 unsafe extern "C" fn make_mangled_name(mut m: *mut reach_method_t) -> *const libc::c_char {
     let mut buf: *mut printbuf_t = printbuf_new();
     printbuf(buf, b"%s_\0" as *const u8 as *const libc::c_char, (*m).name);
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*m).param_count {
         printbuf(
             buf,
@@ -3288,7 +3288,7 @@ unsafe extern "C" fn add_fields(
             .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
     ) as *mut reach_field_t;
     member = ast_child(members);
-    let mut index: size_t = 0 as libc::c_int as size_t;
+    let mut index: size_t = 0;
     let mut str_final: *const libc::c_char =
         stringtab(b"_final\0" as *const u8 as *const libc::c_char);
     let mut has_finaliser: bool = !(ast_get(def, str_final, 0 as *mut sym_status_t)).is_null();
@@ -3489,7 +3489,7 @@ unsafe extern "C" fn add_tuple(
         (*t).field_count,
     );
     let mut child: *mut ast_t = ast_child((*t).ast_cap);
-    let mut index: size_t = 0 as libc::c_int as size_t;
+    let mut index: size_t = 0;
     while !child.is_null() {
         let ref mut fresh42 = (*((*t).fields).offset(index as isize)).ast;
         *fresh42 = ast_dup(child);
@@ -4659,7 +4659,7 @@ unsafe extern "C" fn reach_method_serialise_trace(
             ((*m).param_count)
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         );
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < (*m).param_count {
             reach_param_serialise_trace(
                 ctx,
@@ -4719,7 +4719,7 @@ unsafe extern "C" fn reach_method_serialise(
     *fresh80 = pony_serialise_offset(ctx, (*m).params as *mut libc::c_void) as *mut reach_param_t;
     if !((*m).params).is_null() {
         let mut param_offset: size_t = (*dst).params as size_t;
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < (*m).param_count {
             reach_param_serialise(
                 ctx,
@@ -4768,7 +4768,7 @@ unsafe extern "C" fn reach_method_deserialise(
             ((*m).param_count)
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         ) as *mut reach_param_t;
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < (*m).param_count {
             reach_param_deserialise(
                 ctx,
@@ -5074,7 +5074,7 @@ unsafe extern "C" fn reach_type_serialise_trace(
             ((*t).field_count as libc::c_ulong)
                 .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
         );
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < (*t).field_count as libc::c_ulong {
             reach_field_serialise_trace(
                 ctx,
@@ -5131,7 +5131,7 @@ unsafe extern "C" fn reach_type_serialise(
     *fresh103 = pony_serialise_offset(ctx, (*t).fields as *mut libc::c_void) as *mut reach_field_t;
     if !((*t).fields).is_null() {
         let mut field_offset: size_t = (*dst).fields as size_t;
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < (*t).field_count as libc::c_ulong {
             reach_field_serialise(
                 ctx,
@@ -5184,7 +5184,7 @@ unsafe extern "C" fn reach_type_deserialise(
             ((*t).field_count as libc::c_ulong)
                 .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
         ) as *mut reach_field_t;
-        let mut i: size_t = 0 as libc::c_int as size_t;
+        let mut i: size_t = 0;
         while i < (*t).field_count as libc::c_ulong {
             reach_field_deserialise(
                 ctx,

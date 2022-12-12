@@ -1208,7 +1208,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
     *fresh0 = actor;
     let mut batch: size_t = 100 as libc::c_int as size_t;
     let mut msg: *mut pony_msg_t = 0 as *mut pony_msg_t;
-    let mut app: size_t = 0 as libc::c_int as size_t;
+    let mut app: size_t = 0;
     if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
         set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as uint8_t);
     }

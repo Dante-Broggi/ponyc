@@ -1949,7 +1949,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
     mut ctx: *mut pony_ctx_t,
     mut actor: *mut pony_actor_t,
 ) -> bool {
-    let mut actors_rescheduled: size_t = 0 as libc::c_int as size_t;
+    let mut actors_rescheduled: size_t = 0;
     let mut sched: *mut scheduler_t = (*ctx).scheduler;
     let mut index: size_t = -(1 as libc::c_int) as size_t;
     let mut key: muteref_t = muteref_t {

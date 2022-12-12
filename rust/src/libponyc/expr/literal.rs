@@ -2349,7 +2349,7 @@ unsafe extern "C" fn coerce_group(
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"coerce_group\0")).as_ptr(),
         );
     };
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     let mut link: lit_chain_t = lit_chain_t {
         cardinality: 0,
         index: 0,

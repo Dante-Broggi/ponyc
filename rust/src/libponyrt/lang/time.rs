@@ -296,7 +296,7 @@ pub unsafe extern "C" fn ponyint_formattime(
     };
     date_to_tm(date, &mut tm);
     let mut len: size_t = 64 as libc::c_int as size_t;
-    let mut r: size_t = 0 as libc::c_int as size_t;
+    let mut r: size_t = 0;
     while r == 0 as libc::c_int as libc::c_ulong {
         buffer = pony_alloc(ctx, len) as *mut libc::c_char;
         r = strftime(buffer, len, fmt, &mut tm);

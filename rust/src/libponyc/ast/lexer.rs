@@ -2549,10 +2549,10 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
         );
     }
     let mut ws: size_t = (*lexer).buflen;
-    let mut ws_this_line: size_t = 0 as libc::c_int as size_t;
+    let mut ws_this_line: size_t = 0;
     let mut in_leading_ws: bool = 1 as libc::c_int != 0;
     let mut has_non_ws: bool = 0 as libc::c_int != 0;
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < (*lexer).buflen {
         let mut c: libc::c_char = *((*lexer).buffer).offset(i as isize);
         if in_leading_ws {
@@ -2609,7 +2609,7 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
         }
         (*lexer).buflen = compacted.offset_from((*lexer).buffer) as libc::c_long as size_t;
     }
-    let mut trim_0: size_t = 0 as libc::c_int as size_t;
+    let mut trim_0: size_t = 0;
     let mut i_0: size_t = ((*lexer).buflen).wrapping_sub(1 as libc::c_int as libc::c_ulong);
     while i_0 > 0 as libc::c_int as libc::c_ulong {
         let mut c_0: libc::c_char = *((*lexer).buffer).offset(i_0 as isize);
@@ -2888,7 +2888,7 @@ unsafe extern "C" fn string(mut lexer: *mut lexer_t) -> *mut token_t {
 #[c2rust::src_loc = "866:1"]
 unsafe extern "C" fn character(mut lexer: *mut lexer_t) -> *mut token_t {
     consume_chars(lexer, 1 as libc::c_int as size_t);
-    let mut chars_consumed: size_t = 0 as libc::c_int as size_t;
+    let mut chars_consumed: size_t = 0;
     let mut value: lexint_t = lexint_t { low: 0, high: 0 };
     lexint_zero(&mut value);
     loop {
@@ -3145,7 +3145,7 @@ unsafe extern "C" fn number(mut lexer: *mut lexer_t) -> *mut token_t {
 }
 #[c2rust::src_loc = "1120:1"]
 unsafe extern "C" fn read_id(mut lexer: *mut lexer_t) -> size_t {
-    let mut len: size_t = 0 as libc::c_int as size_t;
+    let mut len: size_t = 0;
     let mut c: libc::c_char = 0;
     loop {
         c = lookn(lexer, len.wrapping_add(1 as libc::c_int as libc::c_ulong));
@@ -3222,7 +3222,7 @@ unsafe extern "C" fn newline_symbols(mut raw_token: token_id, mut newline: bool)
 #[c2rust::src_loc = "1233:1"]
 unsafe extern "C" fn symbol(mut lexer: *mut lexer_t) -> *mut token_t {
     let mut sym: [libc::c_char; 3] = [0; 3];
-    let mut i: size_t = 0 as libc::c_int as size_t;
+    let mut i: size_t = 0;
     while i < ::core::mem::size_of::<[libc::c_char; 3]>() as libc::c_ulong {
         sym[i as usize] = lookn(lexer, i.wrapping_add(1 as libc::c_int as libc::c_ulong));
         i = i.wrapping_add(1);

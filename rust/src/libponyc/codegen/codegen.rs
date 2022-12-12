@@ -3556,7 +3556,7 @@ unsafe extern "C" fn process_llvm_args(mut opt: *mut pass_opt_t) {
         (::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong)
             .wrapping_mul(argv_buf_size),
     ) as *mut *const libc::c_char;
-    let mut token_counter: size_t = 0 as libc::c_int as size_t;
+    let mut token_counter: size_t = 0;
     let fresh111 = token_counter;
     token_counter = token_counter.wrapping_add(1);
     let ref mut fresh112 = *argv_buffer.offset(fresh111 as isize);

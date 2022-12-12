@@ -1286,7 +1286,7 @@ pub unsafe extern "C" fn consume_funs_get(
 #[c2rust::src_loc = "123:1"]
 unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_char {
     let mut def: *mut ast_t = 0 as *mut ast_t;
-    let mut len: size_t = 0 as libc::c_int as size_t;
+    let mut len: size_t = 0;
     let mut temp_ast: *mut ast_t = ast;
     def = ast_data(temp_ast) as *mut ast_t;
     while def.is_null() {
@@ -1372,7 +1372,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
     }
     len = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
-    let mut offset: size_t = 0 as libc::c_int as size_t;
+    let mut offset: size_t = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
     let mut slen: size_t = strlen(name);
     memcpy(
