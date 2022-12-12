@@ -544,7 +544,7 @@ pub mod ast_h {
     use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;
@@ -918,7 +918,7 @@ pub mod assemble_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/safeto.h:16"]
 pub mod safeto_h {
-    use super::cap_h::{direction};
+    use super::cap_h::direction;
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "10:1"]

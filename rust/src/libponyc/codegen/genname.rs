@@ -458,7 +458,7 @@ pub mod ast_h {
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;

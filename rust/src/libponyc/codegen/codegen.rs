@@ -388,8 +388,7 @@ pub mod Core_h {
     pub type LLVMAttributeIndex = libc::c_uint;
     use super::Types_h::{
         LLVMAttributeRef, LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef,
-        LLVMMetadataRef, LLVMModuleRef, LLVMPassRegistryRef, LLVMTypeRef,
-        LLVMValueRef,
+        LLVMMetadataRef, LLVMModuleRef, LLVMPassRegistryRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint64_t_h::uint64_t;
@@ -635,9 +634,7 @@ pub mod Target_h {
         LLVMInitializeWebAssemblyTargetInfo, LLVMInitializeWebAssemblyTargetMC,
         LLVMInitializeX86Target, LLVMInitializeX86TargetInfo, LLVMInitializeX86TargetMC,
     };
-    use super::Types_h::{
-        LLVMBool, LLVMContextRef, LLVMTypeRef,
-    };
+    use super::Types_h::{LLVMBool, LLVMContextRef, LLVMTypeRef};
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -826,9 +823,7 @@ pub mod DebugInfo_h {
     pub const LLVMDWARFEmissionFull: LLVMDWARFEmissionKind = 1;
     #[c2rust::src_loc = "129:5"]
     pub const LLVMDWARFEmissionNone: LLVMDWARFEmissionKind = 0;
-    use super::Types_h::{
-        LLVMBool, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-    };
+    use super::Types_h::{LLVMBool, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef};
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "275:1"]
@@ -1427,8 +1422,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMTypeRef,
-        LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint32_t_h::uint32_t;
@@ -1638,7 +1632,7 @@ pub mod genname_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:5"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMTypeRef};
+    use super::Types_h::LLVMTypeRef;
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gendesc_basetype(c: *mut compile_t, desc_type: LLVMTypeRef);
@@ -1647,7 +1641,7 @@ pub mod gendesc_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gencall.h:6"]
 pub mod gencall_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "21:1"]
         pub fn gencall_runtime(
@@ -1738,7 +1732,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Initialization.h:20"]
 pub mod Initialization_h {
-    use super::Types_h::{LLVMPassRegistryRef};
+    use super::Types_h::LLVMPassRegistryRef;
     extern "C" {
         #[c2rust::src_loc = "34:1"]
         pub fn LLVMInitializeTransformUtils(R: LLVMPassRegistryRef);

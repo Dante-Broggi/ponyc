@@ -200,9 +200,7 @@ pub mod Core_h {
     pub const LLVMIntNE: LLVMIntPredicate = 33;
     #[c2rust::src_loc = "291:3"]
     pub const LLVMIntEQ: LLVMIntPredicate = 32;
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "1276:1"]
         pub fn LLVMGetParamTypes(FunctionTy: LLVMTypeRef, Dest: *mut LLVMTypeRef);
@@ -293,7 +291,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMTypeRef};
+    use super::Types_h::LLVMTypeRef;
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -1276,8 +1274,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef,
-        LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint32_t_h::uint32_t;
@@ -1402,7 +1399,7 @@ pub mod gencall_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.h:3"]
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "21:1"]
         pub fn gendesc_instance(c: *mut compile_t, desc: LLVMValueRef) -> LLVMValueRef;

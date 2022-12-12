@@ -1,9 +1,8 @@
 use ::libc;
 use core::mem::ManuallyDrop;
 use core::sync::atomic::{
-    AtomicBool, AtomicPtr,
+    AtomicBool, AtomicPtr, AtomicUsize,
     Ordering::{Acquire, Relaxed, Release},
-    AtomicUsize,
 };
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
@@ -533,7 +532,8 @@ unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
     &mut (*block).acquired.store(false, Relaxed);
     in_pool_block_global.fetch_add(1, Acquire);
     loop {
-        let mut pos: *mut pool_block_t = (&mut *pool_block_global.c2rust_unnamed.global).load(Acquire);
+        let mut pos: *mut pool_block_t =
+            (&mut *pool_block_global.c2rust_unnamed.global).load(Acquire);
         let mut prev: *mut pool_block_t = &mut pool_block_global;
         while !pos.is_null() && (*block).size > (*pos).size {
             prev = pos;

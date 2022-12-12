@@ -239,8 +239,7 @@ pub mod Core_h {
     pub type LLVMAttributeIndex = libc::c_uint;
     use super::Types_h::{
         LLVMAttributeRef, LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef,
-        LLVMModuleRef, LLVMTypeRef,
-        LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint64_t_h::uint64_t;
@@ -360,7 +359,7 @@ pub mod Core_h {
 pub mod Target_h {
     #[c2rust::src_loc = "37:1"]
     pub type LLVMTargetDataRef = *mut LLVMOpaqueTargetData;
-    use super::Types_h::{LLVMTypeRef};
+    use super::Types_h::LLVMTypeRef;
     extern "C" {
         #[c2rust::src_loc = "37:16"]
         pub type LLVMOpaqueTargetData;
@@ -451,9 +450,7 @@ pub mod DebugInfo_h {
     pub const LLVMDIFlagPrivate: LLVMDIFlags = 1;
     #[c2rust::src_loc = "35:3"]
     pub const LLVMDIFlagZero: LLVMDIFlags = 0;
-    use super::Types_h::{
-        LLVMBool, LLVMDIBuilderRef, LLVMMetadataRef,
-    };
+    use super::Types_h::{LLVMBool, LLVMDIBuilderRef, LLVMMetadataRef};
     use super::_size_t_h::size_t;
     use super::_uint64_t_h::uint64_t;
     extern "C" {
@@ -1322,7 +1319,7 @@ pub mod reach_h {
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
@@ -1520,8 +1517,7 @@ pub mod codegen_h {
     use super::Target_h::LLVMTargetDataRef;
     use super::Types_h::{
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef,
-        LLVMTypeRef, LLVMValueRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
     use super::_uint32_t_h::uint32_t;
@@ -1637,9 +1633,7 @@ pub mod genfun_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendebug.h:1"]
 pub mod gendebug_h {
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMDIBuilderRef, LLVMMetadataRef, LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBasicBlockRef, LLVMDIBuilderRef, LLVMMetadataRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "57:1"]
         pub fn LLVMDIBuilderCreateMethod(
@@ -1730,7 +1724,7 @@ pub mod gencall_h {
 pub mod gentrace_h {
     use super::codegen_h::compile_t;
     use super::symtab_h::ast_t;
-    use super::Types_h::{LLVMValueRef};
+    use super::Types_h::LLVMValueRef;
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn gentrace_needed(
@@ -1838,7 +1832,7 @@ pub use self::codegen_h::{
     compile_locals_t, compile_t, ffi_decls_t, genned_strings_t, LLVMBuildCall_P, LLVMBuildLoad_P,
     LLVMBuildStructGEP_P,
 };
-use self::error_h::{errors_get_count};
+use self::error_h::errors_get_count;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 use self::gencall_h::{gen_send_message, gencall_alloc, gencall_create, gencall_runtime};
 use self::gendebug_h::{

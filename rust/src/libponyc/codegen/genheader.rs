@@ -1397,7 +1397,7 @@ pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
 pub use self::_uint32_t_h::uint32_t;
-use self::error_h::{errorf};
+use self::error_h::errorf;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
 pub use self::pass_h::{

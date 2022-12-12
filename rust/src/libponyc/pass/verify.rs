@@ -981,7 +981,7 @@ pub use self::ast_h::{
 };
 use self::call_h::{verify_behaviour_call, verify_ffi_call, verify_function_call};
 use self::control_h::{verify_disposing_block, verify_try};
-use self::error_h::{errors_get_count};
+use self::error_h::errors_get_count;
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
 pub use self::fun_h::{cmp_fn, free_fn, ponyint_hash_ptr};
 pub use self::hash_h::{
@@ -1003,7 +1003,7 @@ use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_alloc_size, ponyint_pool_free};
 pub use self::reify_h::{deferred_reification_t, deferred_reify_free};
 use self::string_h::{memcpy, memset, strlen, strncmp};
-use self::stringtab_h::{stringtab_consume};
+use self::stringtab_h::stringtab_consume;
 use self::symtab_h::ast_t;
 pub use self::token_h::{
     token_id, TK_ACTOR, TK_ADDRESS, TK_ALIASED, TK_AND, TK_ANNOTATION, TK_ARRAY, TK_ARROW, TK_AS,
@@ -1233,8 +1233,7 @@ pub unsafe extern "C" fn consume_funs_next(
     mut i: *mut size_t,
 ) -> *mut ast_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut ast_t
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:46"]

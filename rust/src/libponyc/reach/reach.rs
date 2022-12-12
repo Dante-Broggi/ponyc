@@ -1226,7 +1226,7 @@ pub mod stdio_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genname.h:4"]
 pub mod genname_h {
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "9:1"]
         pub fn genname_type(ast: *mut ast_t) -> *const libc::c_char;
@@ -1530,8 +1530,7 @@ pub unsafe extern "C" fn reach_method_stack_push(
     mut stack: *mut reach_method_stack_t,
     mut data: *mut reach_method_t,
 ) -> *mut reach_method_stack_t {
-    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut reach_method_stack_t
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void) as *mut reach_method_stack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:34"]

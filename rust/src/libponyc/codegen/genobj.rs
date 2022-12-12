@@ -738,7 +738,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/BitWriter.h:2"]
 pub mod BitWriter_h {
-    use super::Types_h::{LLVMModuleRef};
+    use super::Types_h::LLVMModuleRef;
     extern "C" {
         #[c2rust::src_loc = "37:1"]
         pub fn LLVMWriteBitcodeToFile(M: LLVMModuleRef, Path: *const libc::c_char) -> libc::c_int;
@@ -795,7 +795,6 @@ pub use self::pass_h::{
 pub use self::reach_h::{reach_method_stack_t, reach_t, reach_types_t};
 pub use self::reify_h::deferred_reification_t;
 use self::stdio_h::{__stderrp, fprintf};
-
 
 use self::BitWriter_h::LLVMWriteBitcodeToFile;
 #[no_mangle]

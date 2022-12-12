@@ -218,10 +218,7 @@ pub mod Core_h {
     pub const LLVMFastCallConv: LLVMCallConv = 8;
     #[c2rust::src_loc = "213:3"]
     pub const LLVMCCallConv: LLVMCallConv = 0;
-    use super::Types_h::{
-        LLVMBuilderRef, LLVMTypeRef,
-        LLVMValueRef,
-    };
+    use super::Types_h::{LLVMBuilderRef, LLVMTypeRef, LLVMValueRef};
     extern "C" {
         #[c2rust::src_loc = "1106:1"]
         pub fn LLVMGetTypeKind(Ty: LLVMTypeRef) -> LLVMTypeKind;

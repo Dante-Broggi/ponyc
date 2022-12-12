@@ -564,7 +564,7 @@ pub mod ast_h {
     use super::error_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::{ast_t, sym_status_t};
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "59:1"]
         pub fn ast_from(ast: *mut ast_t, id: token_id) -> *mut ast_t;

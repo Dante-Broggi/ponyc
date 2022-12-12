@@ -736,7 +736,7 @@ pub use self::pass_h::{
     VERBOSITY_ALL, VERBOSITY_INFO, VERBOSITY_MINIMAL, VERBOSITY_QUIET, VERBOSITY_TOOL_INFO,
 };
 use self::ponyassert_h::ponyint_assert_fail;
-use self::stringtab_h::{stringtab};
+use self::stringtab_h::stringtab;
 pub use self::symtab_h::{
     ast_t, sym_status_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR, SYM_DEFINED, SYM_ERROR, SYM_FFIDECL,
     SYM_NOCASE, SYM_NONE, SYM_UNDEFINED,

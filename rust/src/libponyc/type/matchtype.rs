@@ -704,7 +704,7 @@ pub mod matchtype_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.h:2"]
 pub mod cap_h {
     use super::symtab_h::ast_t;
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn is_cap_sub_cap(

@@ -447,7 +447,7 @@ pub mod token_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.h:3"]
 pub mod lexer_h {
-    use super::token_h::{token_id};
+    use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "37:1"]
         pub fn lexer_print(id: token_id) -> *const libc::c_char;

@@ -257,8 +257,7 @@ pub unsafe extern "C" fn ponyint_actor_messageq_pop(mut q: *mut messageq_t) -> *
 #[c2rust::src_loc = "260:1"]
 pub unsafe extern "C" fn ponyint_thread_messageq_pop(mut q: *mut messageq_t) -> *mut pony_msg_t {
     let mut tail: *mut pony_msg_t = (*q).tail;
-    let mut next: *mut pony_msg_t =
-        { ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next) };
+    let mut next: *mut pony_msg_t = { ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next) };
     if !next.is_null() {
         macro__DTRACE(
             b"THREAD_MSG_POP\0" as *const u8 as *const libc::c_char,

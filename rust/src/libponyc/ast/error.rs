@@ -123,7 +123,7 @@ pub mod error_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h:1"]
 pub mod stdio_h {
     use super::_stdio_h::FILE;
-    
+
     extern "C" {
         #[c2rust::src_loc = "69:14"]
         pub static mut __stderrp: *mut FILE;

@@ -365,7 +365,7 @@ pub mod pthread_h {
     use super::_pthread_mutexattr_t_h::pthread_mutexattr_t;
     use super::_pthread_once_t_h::pthread_once_t;
     use super::_pthread_t_h::pthread_t;
-    
+
     extern "C" {
         #[c2rust::src_loc = "351:1"]
         pub fn pthread_equal(_: pthread_t, _: pthread_t) -> libc::c_int;
@@ -390,7 +390,7 @@ pub mod threads_h {
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_mutex_t_h::pthread_mutex_t;
     use super::_pthread_t_h::pthread_t;
-    
+
     extern "C" {
         #[c2rust::src_loc = "61:1"]
         pub fn ponyint_thread_suspend(signal: *mut pthread_cond_t, mut_0: *mut pthread_mutex_t);
