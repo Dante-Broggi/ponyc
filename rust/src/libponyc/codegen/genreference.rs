@@ -2475,7 +2475,7 @@ pub unsafe extern "C" fn gen_tuple(mut c: *mut compile_t, mut ast: *mut ast_t) -
         value = gen_assign_cast(c, *elements.offset(i as isize), value, child_type);
         ast_free_unattached(child_type);
         let fresh0 = i;
-        i = i + 1;
+        i += 1;
         tuple = LLVMBuildInsertValue(
             (*c).builder,
             tuple,
