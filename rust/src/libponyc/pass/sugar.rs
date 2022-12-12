@@ -1225,7 +1225,7 @@ unsafe extern "C" fn make_runtime_override_defaults(mut ast: *mut ast_t) -> *mut
     }
     ast_inheritflags(parent_0);
     runtime_override_defaults = parent;
-    return runtime_override_defaults;
+    runtime_override_defaults
 }
 #[c2rust::src_loc = "42:1"]
 unsafe extern "C" fn make_create(mut ast: *mut ast_t) -> *mut ast_t {
@@ -1349,7 +1349,7 @@ unsafe extern "C" fn make_create(mut ast: *mut ast_t) -> *mut ast_t {
     }
     ast_inheritflags(parent_0);
     create = parent;
-    return create;
+    create
 }
 #[no_mangle]
 #[c2rust::src_loc = "75:1"]
@@ -1534,7 +1534,7 @@ unsafe extern "C" fn sugar_module(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     }
     ast_append(package, docstring);
     ast_remove(docstring);
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "189:1"]
 unsafe extern "C" fn sugar_docstring(mut ast: *mut ast_t) {

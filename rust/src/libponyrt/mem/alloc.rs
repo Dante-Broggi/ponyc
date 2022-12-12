@@ -80,7 +80,7 @@ pub unsafe extern "C" fn ponyint_virt_alloc(mut bytes: size_t) -> *mut libc::c_v
         perror(b"out of memory: \0" as *const u8 as *const libc::c_char);
         abort();
     }
-    return p;
+    p
 }
 #[no_mangle]
 #[c2rust::src_loc = "58:1"]

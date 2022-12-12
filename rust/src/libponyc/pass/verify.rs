@@ -1149,11 +1149,11 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
 }
 #[c2rust::src_loc = "100:1"]
 unsafe extern "C" fn funref_hash(mut key: *mut ast_t) -> size_t {
-    return ponyint_hash_ptr(key as *const libc::c_void);
+    ponyint_hash_ptr(key as *const libc::c_void)
 }
 #[c2rust::src_loc = "105:1"]
 unsafe extern "C" fn funref_cmp(mut a: *mut ast_t, mut b: *mut ast_t) -> bool {
-    return a == b;
+    a == b
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
@@ -1199,32 +1199,32 @@ pub unsafe extern "C" fn consume_funs_clearindex(mut map: *mut consume_funs_t, m
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
 pub unsafe extern "C" fn consume_funs_size(mut map: *mut consume_funs_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
 pub unsafe extern "C" fn consume_funs_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
 pub unsafe extern "C" fn consume_funs_mem_size(mut map: *mut consume_funs_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
 pub unsafe extern "C" fn consume_funs_alloc_size(mut map: *mut consume_funs_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
 pub unsafe extern "C" fn consume_funs_optimize(mut map: *mut consume_funs_t) {
     let mut cmpf: consume_funs_cmp_fn =
         Some(funref_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<consume_funs_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:46"]
@@ -1233,8 +1233,8 @@ pub unsafe extern "C" fn consume_funs_next(
     mut i: *mut size_t,
 ) -> *mut ast_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut ast_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:46"]
@@ -1244,12 +1244,12 @@ pub unsafe extern "C" fn consume_funs_remove(
 ) -> *mut ast_t {
     let mut cmpf: consume_funs_cmp_fn =
         Some(funref_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         funref_hash(entry),
         ::core::mem::transmute::<consume_funs_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut ast_t;
+    ) as *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:46"]
@@ -1259,12 +1259,12 @@ pub unsafe extern "C" fn consume_funs_put(
 ) -> *mut ast_t {
     let mut cmpf: consume_funs_cmp_fn =
         Some(funref_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         funref_hash(entry),
         ::core::mem::transmute::<consume_funs_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut ast_t;
+    ) as *mut ast_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:46"]
@@ -1275,13 +1275,13 @@ pub unsafe extern "C" fn consume_funs_get(
 ) -> *mut ast_t {
     let mut cmpf: consume_funs_cmp_fn =
         Some(funref_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         funref_hash(key),
         ::core::mem::transmute::<consume_funs_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut ast_t;
+    ) as *mut ast_t
 }
 #[c2rust::src_loc = "123:1"]
 unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_char {
@@ -1409,7 +1409,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         );
     };
     *buf.offset(offset as isize) = '\0' as i32 as libc::c_char;
-    return stringtab_consume(buf, len);
+    stringtab_consume(buf, len)
 }
 #[c2rust::src_loc = "219:1"]
 unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> *mut ast_t {
@@ -1955,5 +1955,5 @@ pub unsafe extern "C" fn pass_verify(
         };
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }

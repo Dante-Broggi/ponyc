@@ -1379,7 +1379,7 @@ pub unsafe extern "C" fn reify(
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"reify\0")).as_ptr(),
         );
     };
-    return r_ast;
+    r_ast
 }
 #[no_mangle]
 #[c2rust::src_loc = "239:1"]
@@ -1938,5 +1938,5 @@ static mut deferred_reification_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "579:1"]
 pub unsafe extern "C" fn deferred_reification_pony_type() -> *const pony_type_t {
-    return &deferred_reification_pony;
+    &deferred_reification_pony
 }

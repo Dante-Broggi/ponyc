@@ -106,7 +106,7 @@ pub unsafe extern "C" fn ponyint_ssl_multithreading(mut count: uint32_t) -> *mut
         );
         i = i.wrapping_add(1);
     }
-    return ::core::mem::transmute::<
+    ::core::mem::transmute::<
         Option<
             unsafe extern "C" fn(libc::c_int, libc::c_int, *const libc::c_char, libc::c_int) -> (),
         >,
@@ -119,5 +119,5 @@ pub unsafe extern "C" fn ponyint_ssl_multithreading(mut count: uint32_t) -> *mut
                 *const libc::c_char,
                 libc::c_int,
             ) -> (),
-    ));
+    ))
 }

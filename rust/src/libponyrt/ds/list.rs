@@ -191,7 +191,7 @@ pub unsafe extern "C" fn ponyint_list_push(
     *fresh0 = data;
     let ref mut fresh1 = (*l).next;
     *fresh1 = list;
-    return l;
+    l
 }
 #[no_mangle]
 #[c2rust::src_loc = "26:1"]
@@ -213,12 +213,12 @@ pub unsafe extern "C" fn ponyint_list_append(
     }
     let ref mut fresh4 = (*p).next;
     *fresh4 = l;
-    return list;
+    list
 }
 #[no_mangle]
 #[c2rust::src_loc = "44:1"]
 pub unsafe extern "C" fn ponyint_list_next(mut list: *mut list_t) -> *mut list_t {
-    return (*list).next;
+    (*list).next
 }
 #[no_mangle]
 #[c2rust::src_loc = "49:1"]
@@ -234,12 +234,12 @@ pub unsafe extern "C" fn ponyint_list_index(
         list = (*list).next;
         i += 1;
     }
-    return list;
+    list
 }
 #[no_mangle]
 #[c2rust::src_loc = "60:1"]
 pub unsafe extern "C" fn ponyint_list_data(mut list: *mut list_t) -> *mut libc::c_void {
-    return (*list).data;
+    (*list).data
 }
 #[no_mangle]
 #[c2rust::src_loc = "65:1"]
@@ -343,7 +343,7 @@ pub unsafe extern "C" fn ponyint_list_length(mut list: *mut list_t) -> size_t {
         len = len.wrapping_add(1);
         list = (*list).next;
     }
-    return len;
+    len
 }
 #[no_mangle]
 #[c2rust::src_loc = "166:1"]

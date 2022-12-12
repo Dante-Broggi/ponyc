@@ -481,7 +481,7 @@ unsafe extern "C" fn get_width() -> size_t {
             }
         }
     }
-    return width;
+    width
 }
 #[c2rust::src_loc = "53:1"]
 unsafe extern "C" fn compile_package(
@@ -502,7 +502,7 @@ unsafe extern "C" fn compile_package(
     }
     let mut ok: bool = generate_passes(program, opt);
     ast_free(program);
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "72:1"]
 unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> libc::c_int {

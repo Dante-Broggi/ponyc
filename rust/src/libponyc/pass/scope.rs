@@ -1120,7 +1120,7 @@ unsafe extern "C" fn scope_entity(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         }
         member = ast_sibling(member);
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "157:1"]
 unsafe extern "C" fn make_iftype_typeparam(
@@ -1239,7 +1239,7 @@ unsafe extern "C" fn make_iftype_typeparam(
     ast_inheritflags(parent_2);
     typeparam = parent_1;
     ast_setdata(typeparam, ast_data(def));
-    return typeparam;
+    typeparam
 }
 #[c2rust::src_loc = "206:1"]
 unsafe extern "C" fn scope_iftype(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {

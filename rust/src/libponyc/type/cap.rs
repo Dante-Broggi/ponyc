@@ -979,7 +979,7 @@ pub unsafe extern "C" fn cap_single(mut type_0: *mut ast_t) -> token_id {
     let mut tcap: token_id = ast_id(cap);
     let mut teph: token_id = ast_id(eph);
     cap_aliasing(&mut tcap, &mut teph);
-    return tcap;
+    tcap
 }
 #[no_mangle]
 #[c2rust::src_loc = "559:1"]
@@ -1026,7 +1026,7 @@ pub unsafe extern "C" fn cap_dispatch(mut type_0: *mut ast_t) -> token_id {
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"cap_dispatch\0")).as_ptr(),
         );
     };
-    return TK_NONE;
+    TK_NONE
 }
 #[no_mangle]
 #[c2rust::src_loc = "616:1"]
@@ -1040,7 +1040,7 @@ pub unsafe extern "C" fn cap_for_this(mut t: *mut typecheck_t) -> token_id {
     if ast_id((*(*t).frame).method) as libc::c_uint == TK_FUN as libc::c_int as libc::c_uint {
         return ast_id(ast_child((*(*t).frame).method));
     }
-    return TK_REF;
+    TK_REF
 }
 #[no_mangle]
 #[c2rust::src_loc = "634:1"]
@@ -1452,13 +1452,13 @@ pub unsafe extern "C" fn unisolated_mod(mut cap: *mut token_id, mut eph: *mut to
 #[c2rust::src_loc = "1147:1"]
 pub unsafe extern "C" fn unisolated_cap(mut cap: token_id, mut eph: token_id) -> token_id {
     unisolated_mod(&mut cap, &mut eph);
-    return cap;
+    cap
 }
 #[no_mangle]
 #[c2rust::src_loc = "1153:1"]
 pub unsafe extern "C" fn unisolated(mut type_0: *mut ast_t) -> *mut ast_t {
-    return modified_cap(
+    modified_cap(
         type_0,
         Some(unisolated_mod as unsafe extern "C" fn(*mut token_id, *mut token_id) -> bool),
-    );
+    )
 }

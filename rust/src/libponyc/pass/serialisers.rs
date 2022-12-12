@@ -770,7 +770,7 @@ unsafe extern "C" fn module_serialisers(
         }
         entity = ast_sibling(entity);
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "57:1"]
 unsafe extern "C" fn package_serialisers(
@@ -788,7 +788,7 @@ unsafe extern "C" fn package_serialisers(
         }
         module = ast_sibling(module);
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "75:1"]
@@ -810,5 +810,5 @@ pub unsafe extern "C" fn pass_serialisers(
         }
         package = ast_sibling(package);
     }
-    return ok;
+    ok
 }

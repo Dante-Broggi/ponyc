@@ -1658,7 +1658,7 @@ pub unsafe extern "C" fn expr_return(mut opt: *mut pass_opt_t, mut ast: *mut ast
             }
         }
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "518:1"]

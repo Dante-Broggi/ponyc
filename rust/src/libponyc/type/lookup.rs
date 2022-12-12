@@ -988,7 +988,7 @@ unsafe extern "C" fn downcast_iso_trn_receiver_to_ref(mut receiver: *mut ast_t) 
             };
             return 0 as *mut ast_t;
         }
-    };
+    }
 }
 #[c2rust::src_loc = "56:1"]
 unsafe extern "C" fn lookup_nominal(
@@ -1251,7 +1251,7 @@ unsafe extern "C" fn lookup_nominal(
     if orig != orig_initial {
         ast_free(orig);
     }
-    return reified;
+    reified
 }
 #[c2rust::src_loc = "235:1"]
 unsafe extern "C" fn lookup_typeparam(
@@ -1518,7 +1518,7 @@ unsafe extern "C" fn lookup_union(
         deferred_reify_free(result);
         result = 0 as *mut deferred_reification_t;
     }
-    return result;
+    result
 }
 #[c2rust::src_loc = "424:1"]
 unsafe extern "C" fn lookup_isect(
@@ -1596,7 +1596,7 @@ unsafe extern "C" fn lookup_isect(
         deferred_reify_free(result);
         result = 0 as *mut deferred_reification_t;
     }
-    return result;
+    result
 }
 #[c2rust::src_loc = "507:1"]
 unsafe extern "C" fn lookup_base(

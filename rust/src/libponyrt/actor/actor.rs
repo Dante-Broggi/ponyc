@@ -713,7 +713,7 @@ unsafe extern "C" fn has_sync_flag_any(
 }
 #[c2rust::src_loc = "94:1"]
 unsafe extern "C" fn has_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) -> bool {
-    return has_sync_flag_any(actor, flag);
+    has_sync_flag_any(actor, flag)
 }
 #[c2rust::src_loc = "99:1"]
 unsafe extern "C" fn set_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {

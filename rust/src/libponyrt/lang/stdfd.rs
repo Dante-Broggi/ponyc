@@ -330,12 +330,12 @@ pub const FD_TYPE_NONE: fd_type_t = 0;
 #[no_mangle]
 #[c2rust::src_loc = "17:1"]
 pub unsafe extern "C" fn pony_os_stdout() -> *mut FILE {
-    return __stdoutp;
+    __stdoutp
 }
 #[no_mangle]
 #[c2rust::src_loc = "22:1"]
 pub unsafe extern "C" fn pony_os_stderr() -> *mut FILE {
-    return __stderrp;
+    __stderrp
 }
 #[c2rust::src_loc = "27:13"]
 static mut is_stdout_tty: bool = 0 as libc::c_int != 0;
@@ -404,7 +404,7 @@ unsafe extern "C" fn fd_type(mut fd: libc::c_int) -> fd_type_t {
             _ => {}
         }
     }
-    return type_0;
+    type_0
 }
 #[c2rust::src_loc = "316:1"]
 unsafe extern "C" fn stdin_tty_restore() {
@@ -520,7 +520,7 @@ pub unsafe extern "C" fn pony_os_stdin_setup() -> bool {
     if stdin_type as libc::c_uint == FD_TYPE_FILE as libc::c_int as libc::c_uint {
         stdin_event_based = 0 as libc::c_int != 0;
     }
-    return stdin_event_based;
+    stdin_event_based
 }
 #[no_mangle]
 #[c2rust::src_loc = "450:1"]

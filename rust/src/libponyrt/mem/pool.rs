@@ -35,12 +35,12 @@ pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "270:1"]
     pub unsafe extern "C" fn __pony_clzll(mut x: uint64_t) -> uint32_t {
-        return x.leading_zeros() as i32 as uint32_t;
+        x.leading_zeros() as i32 as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
     pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> uint32_t {
-        return __pony_clzll(x as uint64_t);
+        __pony_clzll(x as uint64_t)
     }
     use super::_uint32_t_h::uint32_t;
     use super::_uint64_t_h::uint64_t;
@@ -272,7 +272,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0_i32 as uintptr_t,
                     };
                     init
                 },
@@ -607,7 +607,7 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
                 .as_ptr(),
         );
     };
-    return block;
+    block
 }
 #[c2rust::src_loc = "580:1"]
 unsafe extern "C" fn pool_block_get(mut size: size_t) -> *mut libc::c_void {
@@ -675,7 +675,7 @@ unsafe extern "C" fn pool_block_get(mut size: size_t) -> *mut libc::c_void {
     if pool_block_header.largest_size < rem_0 {
         pool_block_header.largest_size = rem_0;
     }
-    return (block_0 as *mut libc::c_char).offset(rem_0 as isize) as *mut libc::c_void;
+    (block_0 as *mut libc::c_char).offset(rem_0 as isize) as *mut libc::c_void
 }
 #[c2rust::src_loc = "651:1"]
 unsafe extern "C" fn pool_alloc_pages(mut size: size_t) -> *mut libc::c_void {
@@ -703,7 +703,7 @@ unsafe extern "C" fn pool_alloc_pages(mut size: size_t) -> *mut libc::c_void {
     if pool_block_header.largest_size < rem {
         pool_block_header.largest_size = rem;
     }
-    return (block as *mut libc::c_char).offset(rem as isize) as *mut libc::c_void;
+    (block as *mut libc::c_char).offset(rem as isize) as *mut libc::c_void
 }
 #[c2rust::src_loc = "676:1"]
 unsafe extern "C" fn todo() {}
@@ -872,14 +872,14 @@ unsafe extern "C" fn pool_get(mut pool: *mut pool_local_t, mut index: size_t) ->
         *fresh19 = mem.offset(((1 as libc::c_int) << 10 as libc::c_int) as isize);
         return mem as *mut libc::c_void;
     }
-    return pool_alloc_pages((*global).size);
+    pool_alloc_pages((*global).size)
 }
 #[no_mangle]
 #[c2rust::src_loc = "819:1"]
 pub unsafe extern "C" fn ponyint_pool_alloc(mut index: size_t) -> *mut libc::c_void {
     let mut pool: *mut pool_local_t = pool_local.as_mut_ptr();
     let mut p: *mut libc::c_void = pool_get(pool, index);
-    return p;
+    p
 }
 #[no_mangle]
 #[c2rust::src_loc = "838:1"]
@@ -924,7 +924,7 @@ pub unsafe extern "C" fn ponyint_pool_free(mut index: size_t, mut p: *mut libc::
 #[c2rust::src_loc = "866:1"]
 unsafe extern "C" fn pool_alloc_size(mut size: size_t) -> *mut libc::c_void {
     let mut p: *mut libc::c_void = pool_alloc_pages(size);
-    return p;
+    p
 }
 #[no_mangle]
 #[c2rust::src_loc = "884:1"]
@@ -935,7 +935,7 @@ pub unsafe extern "C" fn ponyint_pool_alloc_size(mut size: size_t) -> *mut libc:
     }
     size = ponyint_pool_adjust_size(size);
     let mut p: *mut libc::c_void = pool_alloc_size(size);
-    return p;
+    p
 }
 #[c2rust::src_loc = "897:1"]
 unsafe extern "C" fn pool_free_size(mut size: size_t, mut p: *mut libc::c_void) {
@@ -994,7 +994,7 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
     } else {
         pool_free_size(old_adj_size, p);
     }
-    return new_p;
+    new_p
 }
 #[no_mangle]
 #[c2rust::src_loc = "968:1"]
@@ -1055,7 +1055,7 @@ pub unsafe extern "C" fn ponyint_pool_used_size(mut size: size_t) -> size_t {
         return (1 as libc::c_int as size_t)
             << (5 as libc::c_int as libc::c_ulong).wrapping_add(index);
     }
-    return ponyint_pool_adjust_size(size);
+    ponyint_pool_adjust_size(size)
 }
 #[no_mangle]
 #[c2rust::src_loc = "1030:1"]
@@ -1070,5 +1070,5 @@ pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: size_t) -> size_t {
     if size == 0 as libc::c_int as libc::c_ulong {
         size = size.wrapping_sub(1 as libc::c_int as libc::c_ulong);
     }
-    return size;
+    size
 }

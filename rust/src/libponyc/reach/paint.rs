@@ -839,11 +839,11 @@ pub type name_records_cmp_fn =
     Option<unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool>;
 #[c2rust::src_loc = "87:1"]
 unsafe extern "C" fn name_record_hash(mut p: *mut name_record_t) -> size_t {
-    return ponyint_hash_str((*p).name);
+    ponyint_hash_str((*p).name)
 }
 #[c2rust::src_loc = "92:1"]
 unsafe extern "C" fn name_record_cmp(mut a: *mut name_record_t, mut b: *mut name_record_t) -> bool {
-    return (*a).name == (*b).name;
+    (*a).name == (*b).name
 }
 #[c2rust::src_loc = "97:1"]
 unsafe extern "C" fn name_record_free(mut p: *mut name_record_t) {
@@ -866,17 +866,17 @@ pub unsafe extern "C" fn name_records_destroy(mut map: *mut name_records_t) {
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
 pub unsafe extern "C" fn name_records_size(mut map: *mut name_records_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
 pub unsafe extern "C" fn name_records_alloc_size(mut map: *mut name_records_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
 pub unsafe extern "C" fn name_records_mem_size(mut map: *mut name_records_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
@@ -884,10 +884,10 @@ pub unsafe extern "C" fn name_records_optimize(mut map: *mut name_records_t) {
     let mut cmpf: name_records_cmp_fn = Some(
         name_record_cmp as unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<name_records_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
@@ -910,7 +910,7 @@ pub unsafe extern "C" fn name_records_putindex(
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
 pub unsafe extern "C" fn name_records_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
@@ -936,12 +936,12 @@ pub unsafe extern "C" fn name_records_remove(
     let mut cmpf: name_records_cmp_fn = Some(
         name_record_cmp as unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         name_record_hash(entry),
         ::core::mem::transmute::<name_records_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut name_record_t;
+    ) as *mut name_record_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:46"]
@@ -950,8 +950,8 @@ pub unsafe extern "C" fn name_records_next(
     mut i: *mut size_t,
 ) -> *mut name_record_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut name_record_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut name_record_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:46"]
@@ -963,13 +963,13 @@ pub unsafe extern "C" fn name_records_get(
     let mut cmpf: name_records_cmp_fn = Some(
         name_record_cmp as unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         name_record_hash(key),
         ::core::mem::transmute::<name_records_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut name_record_t;
+    ) as *mut name_record_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:46"]
@@ -980,12 +980,12 @@ pub unsafe extern "C" fn name_records_put(
     let mut cmpf: name_records_cmp_fn = Some(
         name_record_cmp as unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         name_record_hash(entry),
         ::core::mem::transmute::<name_records_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut name_record_t;
+    ) as *mut name_record_t
 }
 #[c2rust::src_loc = "127:1"]
 unsafe extern "C" fn print_typemap(mut size: size_t, mut map: *mut uint64_t) {
@@ -1117,7 +1117,7 @@ unsafe extern "C" fn add_name(
         map_byte_count,
     );
     name_records_put(&mut (*painter).names, n);
-    return n;
+    n
 }
 #[c2rust::src_loc = "201:1"]
 unsafe extern "C" fn add_colour(mut painter: *mut painter_t) -> *mut colour_record_t {
@@ -1151,7 +1151,7 @@ unsafe extern "C" fn add_colour(mut painter: *mut painter_t) -> *mut colour_reco
     *fresh5 = &mut (*n).next;
     let ref mut fresh6 = (*painter).colour_count;
     *fresh6 = (*fresh6).wrapping_add(1);
-    return n;
+    n
 }
 #[c2rust::src_loc = "221:1"]
 unsafe extern "C" fn find_name(

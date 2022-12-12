@@ -1530,8 +1530,8 @@ pub unsafe extern "C" fn reach_method_stack_push(
     mut stack: *mut reach_method_stack_t,
     mut data: *mut reach_method_t,
 ) -> *mut reach_method_stack_t {
-    return ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
-        as *mut reach_method_stack_t;
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void)
+        as *mut reach_method_stack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:34"]
@@ -1539,19 +1539,19 @@ pub unsafe extern "C" fn reach_method_stack_pop(
     mut stack: *mut reach_method_stack_t,
     mut data: *mut *mut reach_method_t,
 ) -> *mut reach_method_stack_t {
-    return ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut reach_method_stack_t;
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
+        as *mut reach_method_stack_t
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn reach_method_hash(mut m: *mut reach_method_t) -> size_t {
-    return ponyint_hash_str((*m).name);
+    ponyint_hash_str((*m).name)
 }
 #[c2rust::src_loc = "35:1"]
 unsafe extern "C" fn reach_method_cmp(
     mut a: *mut reach_method_t,
     mut b: *mut reach_method_t,
 ) -> bool {
-    return (*a).name == (*b).name;
+    (*a).name == (*b).name
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -1559,10 +1559,10 @@ pub unsafe extern "C" fn reach_methods_optimize(mut map: *mut reach_methods_t) {
     let mut cmpf: reach_methods_cmp_fn = Some(
         reach_method_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<reach_methods_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -1639,12 +1639,12 @@ static mut reach_methods_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_mem_size(mut map: *mut reach_methods_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -1657,12 +1657,12 @@ pub unsafe extern "C" fn reach_methods_deserialise(
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_alloc_size(mut map: *mut reach_methods_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_pony_type() -> *const pony_type_t {
-    return &reach_methods_pony;
+    &reach_methods_pony
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -1694,7 +1694,7 @@ pub unsafe extern "C" fn reach_methods_removeindex(
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_size(mut map: *mut reach_methods_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -1713,12 +1713,12 @@ pub unsafe extern "C" fn reach_methods_remove(
     let mut cmpf: reach_methods_cmp_fn = Some(
         reach_method_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_method_hash(entry),
         ::core::mem::transmute::<reach_methods_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_method_t;
+    ) as *mut reach_method_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:58"]
@@ -1730,13 +1730,13 @@ pub unsafe extern "C" fn reach_methods_get(
     let mut cmpf: reach_methods_cmp_fn = Some(
         reach_method_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         reach_method_hash(key),
         ::core::mem::transmute::<reach_methods_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut reach_method_t;
+    ) as *mut reach_method_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:58"]
@@ -1745,8 +1745,8 @@ pub unsafe extern "C" fn reach_methods_next(
     mut i: *mut size_t,
 ) -> *mut reach_method_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut reach_method_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut reach_method_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:58"]
@@ -1757,23 +1757,23 @@ pub unsafe extern "C" fn reach_methods_put(
     let mut cmpf: reach_methods_cmp_fn = Some(
         reach_method_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_method_hash(entry),
         ::core::mem::transmute::<reach_methods_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_method_t;
+    ) as *mut reach_method_t
 }
 #[c2rust::src_loc = "43:1"]
 unsafe extern "C" fn reach_mangled_hash(mut m: *mut reach_method_t) -> size_t {
-    return ponyint_hash_str((*m).mangled_name);
+    ponyint_hash_str((*m).mangled_name)
 }
 #[c2rust::src_loc = "48:1"]
 unsafe extern "C" fn reach_mangled_cmp(
     mut a: *mut reach_method_t,
     mut b: *mut reach_method_t,
 ) -> bool {
-    return (*a).mangled_name == (*b).mangled_name;
+    (*a).mangled_name == (*b).mangled_name
 }
 #[c2rust::src_loc = "53:1"]
 unsafe extern "C" fn reach_mangled_free(mut m: *mut reach_method_t) {
@@ -1822,7 +1822,7 @@ pub unsafe extern "C" fn reach_mangled_serialise(
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
 pub unsafe extern "C" fn reach_mangled_alloc_size(mut map: *mut reach_mangled_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
@@ -1883,7 +1883,7 @@ pub unsafe extern "C" fn reach_mangled_clearindex(
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
 pub unsafe extern "C" fn reach_mangled_pony_type() -> *const pony_type_t {
-    return &reach_mangled_pony;
+    &reach_mangled_pony
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
@@ -1932,20 +1932,20 @@ pub unsafe extern "C" fn reach_mangled_optimize(mut map: *mut reach_mangled_t) {
     let mut cmpf: reach_mangled_cmp_fn = Some(
         reach_mangled_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<reach_mangled_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
 pub unsafe extern "C" fn reach_mangled_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
 pub unsafe extern "C" fn reach_mangled_size(mut map: *mut reach_mangled_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:58"]
@@ -1957,13 +1957,13 @@ pub unsafe extern "C" fn reach_mangled_get(
     let mut cmpf: reach_mangled_cmp_fn = Some(
         reach_mangled_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         reach_mangled_hash(key),
         ::core::mem::transmute::<reach_mangled_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut reach_method_t;
+    ) as *mut reach_method_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:58"]
@@ -1974,12 +1974,12 @@ pub unsafe extern "C" fn reach_mangled_remove(
     let mut cmpf: reach_mangled_cmp_fn = Some(
         reach_mangled_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_mangled_hash(entry),
         ::core::mem::transmute::<reach_mangled_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_method_t;
+    ) as *mut reach_method_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:58"]
@@ -1990,12 +1990,12 @@ pub unsafe extern "C" fn reach_mangled_put(
     let mut cmpf: reach_mangled_cmp_fn = Some(
         reach_mangled_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_mangled_hash(entry),
         ::core::mem::transmute::<reach_mangled_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_method_t;
+    ) as *mut reach_method_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:58"]
@@ -2004,19 +2004,19 @@ pub unsafe extern "C" fn reach_mangled_next(
     mut i: *mut size_t,
 ) -> *mut reach_method_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut reach_method_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut reach_method_t
 }
 #[c2rust::src_loc = "74:1"]
 unsafe extern "C" fn reach_method_name_hash(mut n: *mut reach_method_name_t) -> size_t {
-    return ponyint_hash_str((*n).name);
+    ponyint_hash_str((*n).name)
 }
 #[c2rust::src_loc = "79:1"]
 unsafe extern "C" fn reach_method_name_cmp(
     mut a: *mut reach_method_name_t,
     mut b: *mut reach_method_name_t,
 ) -> bool {
-    return (*a).name == (*b).name;
+    (*a).name == (*b).name
 }
 #[c2rust::src_loc = "85:1"]
 unsafe extern "C" fn reach_method_name_free(mut n: *mut reach_method_name_t) {
@@ -2027,7 +2027,7 @@ unsafe extern "C" fn reach_method_name_free(mut n: *mut reach_method_name_t) {
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_mem_size(mut map: *mut reach_method_names_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2046,10 +2046,10 @@ pub unsafe extern "C" fn reach_method_names_optimize(mut map: *mut reach_method_
         reach_method_name_cmp
             as unsafe extern "C" fn(*mut reach_method_name_t, *mut reach_method_name_t) -> bool,
     );
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<reach_method_names_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2089,7 +2089,7 @@ pub unsafe extern "C" fn reach_method_names_clearindex(
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_size(mut map: *mut reach_method_names_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2102,7 +2102,7 @@ pub unsafe extern "C" fn reach_method_names_deserialise(
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
@@ -2128,12 +2128,12 @@ pub unsafe extern "C" fn reach_method_names_serialise_trace(
 pub unsafe extern "C" fn reach_method_names_alloc_size(
     mut map: *mut reach_method_names_t,
 ) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_pony_type() -> *const pony_type_t {
-    return &reach_method_names_pony;
+    &reach_method_names_pony
 }
 #[c2rust::src_loc = "92:1"]
 static mut reach_method_names_pony: pony_type_t = unsafe {
@@ -2190,8 +2190,8 @@ pub unsafe extern "C" fn reach_method_names_next(
     mut i: *mut size_t,
 ) -> *mut reach_method_name_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut reach_method_name_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut reach_method_name_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "93:3"]
@@ -2204,13 +2204,13 @@ pub unsafe extern "C" fn reach_method_names_get(
         reach_method_name_cmp
             as unsafe extern "C" fn(*mut reach_method_name_t, *mut reach_method_name_t) -> bool,
     );
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         reach_method_name_hash(key),
         ::core::mem::transmute::<reach_method_names_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut reach_method_name_t;
+    ) as *mut reach_method_name_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "93:3"]
@@ -2222,12 +2222,12 @@ pub unsafe extern "C" fn reach_method_names_put(
         reach_method_name_cmp
             as unsafe extern "C" fn(*mut reach_method_name_t, *mut reach_method_name_t) -> bool,
     );
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_method_name_hash(entry),
         ::core::mem::transmute::<reach_method_names_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_method_name_t;
+    ) as *mut reach_method_name_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "93:3"]
@@ -2239,20 +2239,20 @@ pub unsafe extern "C" fn reach_method_names_remove(
         reach_method_name_cmp
             as unsafe extern "C" fn(*mut reach_method_name_t, *mut reach_method_name_t) -> bool,
     );
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_method_name_hash(entry),
         ::core::mem::transmute::<reach_method_names_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_method_name_t;
+    ) as *mut reach_method_name_t
 }
 #[c2rust::src_loc = "96:1"]
 unsafe extern "C" fn reach_type_hash(mut t: *mut reach_type_t) -> size_t {
-    return ponyint_hash_str((*t).name);
+    ponyint_hash_str((*t).name)
 }
 #[c2rust::src_loc = "101:1"]
 unsafe extern "C" fn reach_type_cmp(mut a: *mut reach_type_t, mut b: *mut reach_type_t) -> bool {
-    return (*a).name == (*b).name;
+    (*a).name == (*b).name
 }
 #[c2rust::src_loc = "106:1"]
 unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
@@ -2285,7 +2285,7 @@ unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
 pub unsafe extern "C" fn reach_types_mem_size(mut map: *mut reach_types_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
@@ -2313,7 +2313,7 @@ pub unsafe extern "C" fn reach_types_serialise_trace(
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
 pub unsafe extern "C" fn reach_types_pony_type() -> *const pony_type_t {
-    return &reach_types_pony;
+    &reach_types_pony
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
@@ -2335,7 +2335,7 @@ pub unsafe extern "C" fn reach_types_putindex(
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
 pub unsafe extern "C" fn reach_types_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
@@ -2356,17 +2356,17 @@ pub unsafe extern "C" fn reach_types_serialise(
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
 pub unsafe extern "C" fn reach_types_alloc_size(mut map: *mut reach_types_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
 pub unsafe extern "C" fn reach_types_optimize(mut map: *mut reach_types_t) {
     let mut cmpf: reach_types_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<reach_types_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
@@ -2376,7 +2376,7 @@ pub unsafe extern "C" fn reach_types_removeindex(mut map: *mut reach_types_t, mu
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
 pub unsafe extern "C" fn reach_types_size(mut map: *mut reach_types_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
@@ -2434,12 +2434,12 @@ pub unsafe extern "C" fn reach_types_remove(
 ) -> *mut reach_type_t {
     let mut cmpf: reach_types_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_type_hash(entry),
         ::core::mem::transmute::<reach_types_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_type_t;
+    ) as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:54"]
@@ -2450,13 +2450,13 @@ pub unsafe extern "C" fn reach_types_get(
 ) -> *mut reach_type_t {
     let mut cmpf: reach_types_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         reach_type_hash(key),
         ::core::mem::transmute::<reach_types_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut reach_type_t;
+    ) as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:54"]
@@ -2465,8 +2465,8 @@ pub unsafe extern "C" fn reach_types_next(
     mut i: *mut size_t,
 ) -> *mut reach_type_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut reach_type_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:54"]
@@ -2476,12 +2476,12 @@ pub unsafe extern "C" fn reach_types_put(
 ) -> *mut reach_type_t {
     let mut cmpf: reach_types_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_type_hash(entry),
         ::core::mem::transmute::<reach_types_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_type_t;
+    ) as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
@@ -2567,27 +2567,27 @@ static mut reach_type_cache_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_pony_type() -> *const pony_type_t {
-    return &reach_type_cache_pony;
+    &reach_type_cache_pony
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_alloc_size(mut map: *mut reach_type_cache_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_mem_size(mut map: *mut reach_type_cache_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_size(mut map: *mut reach_type_cache_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
@@ -2610,10 +2610,10 @@ pub unsafe extern "C" fn reach_type_cache_removeindex(
 pub unsafe extern "C" fn reach_type_cache_optimize(mut map: *mut reach_type_cache_t) {
     let mut cmpf: reach_type_cache_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<reach_type_cache_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
@@ -2641,13 +2641,13 @@ pub unsafe extern "C" fn reach_type_cache_get(
 ) -> *mut reach_type_t {
     let mut cmpf: reach_type_cache_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         reach_type_hash(key),
         ::core::mem::transmute::<reach_type_cache_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut reach_type_t;
+    ) as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:64"]
@@ -2657,12 +2657,12 @@ pub unsafe extern "C" fn reach_type_cache_remove(
 ) -> *mut reach_type_t {
     let mut cmpf: reach_type_cache_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_type_hash(entry),
         ::core::mem::transmute::<reach_type_cache_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_type_t;
+    ) as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:64"]
@@ -2671,8 +2671,8 @@ pub unsafe extern "C" fn reach_type_cache_next(
     mut i: *mut size_t,
 ) -> *mut reach_type_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut reach_type_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut reach_type_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:64"]
@@ -2682,12 +2682,12 @@ pub unsafe extern "C" fn reach_type_cache_put(
 ) -> *mut reach_type_t {
     let mut cmpf: reach_type_cache_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         reach_type_hash(entry),
         ::core::mem::transmute::<reach_type_cache_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut reach_type_t;
+    ) as *mut reach_type_t
 }
 #[c2rust::src_loc = "135:1"]
 unsafe extern "C" fn reach_rmethod(
@@ -2743,7 +2743,7 @@ unsafe extern "C" fn add_method_name(
             deferred_reify_free(fun);
         }
     }
-    return n;
+    n
 }
 #[c2rust::src_loc = "174:1"]
 unsafe extern "C" fn set_method_types(
@@ -2809,7 +2809,7 @@ unsafe extern "C" fn make_mangled_name(mut m: *mut reach_method_t) -> *const lib
     }
     let mut name: *const libc::c_char = stringtab((*buf).m);
     printbuf_free(buf);
-    return name;
+    name
 }
 #[c2rust::src_loc = "231:1"]
 unsafe extern "C" fn make_full_name(
@@ -2825,7 +2825,7 @@ unsafe extern "C" fn make_full_name(
     );
     let mut name: *const libc::c_char = stringtab((*buf).m);
     printbuf_free(buf);
-    return name;
+    name
 }
 #[c2rust::src_loc = "242:1"]
 unsafe extern "C" fn add_rmethod_to_subtype(
@@ -3011,7 +3011,7 @@ unsafe extern "C" fn add_rmethod(
         *fresh20 = reach_method_stack_push((*r).method_stack, m);
         add_rmethod_to_subtypes(r, t, n, m, opt);
     }
-    return m;
+    m
 }
 #[c2rust::src_loc = "394:1"]
 unsafe extern "C" fn add_methods_to_type(
@@ -3366,7 +3366,7 @@ unsafe extern "C" fn get_new_trait_id(mut r: *mut reach_t) -> uint32_t {
     let ref mut fresh26 = (*r).trait_type_count;
     let fresh27 = *fresh26;
     *fresh26 = (*fresh26).wrapping_add(1);
-    return fresh27;
+    fresh27
 }
 #[c2rust::src_loc = "715:1"]
 unsafe extern "C" fn get_new_object_id(mut r: *mut reach_t) -> uint32_t {
@@ -3449,7 +3449,7 @@ unsafe extern "C" fn add_isect_or_union(
         add_type(r, child, opt);
         child = ast_sibling(child);
     }
-    return t;
+    t
 }
 #[c2rust::src_loc = "782:1"]
 unsafe extern "C" fn add_tuple(

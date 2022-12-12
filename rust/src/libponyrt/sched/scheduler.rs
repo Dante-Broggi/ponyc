@@ -1226,7 +1226,7 @@ unsafe extern "C" fn suspend_scheduler(
     }
     sched_count_check = get_active_scheduler_count_check();
     active_scheduler_count_check.store(sched_count_check.wrapping_add(1), Relaxed);
-    return actor;
+    actor
 }
 #[c2rust::src_loc = "711:1"]
 unsafe extern "C" fn perhaps_suspend_scheduler(
@@ -1440,7 +1440,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
         b"(uintptr_t)victim\0" as *const u8 as *const libc::c_char,
         b"(uintptr_t)actor\0" as *const u8 as *const libc::c_char,
     );
-    return actor;
+    actor
 }
 #[c2rust::src_loc = "961:1"]
 unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
@@ -1688,7 +1688,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
     ponyint_mpmcq_init(&mut inject);
     ponyint_asio_init(asio_cpu);
     inject_context = pony_ctx();
-    return inject_context;
+    inject_context
 }
 #[no_mangle]
 #[c2rust::src_loc = "1298:1"]
@@ -1747,27 +1747,27 @@ pub unsafe extern "C" fn pony_scheduler_stats() -> *mut schedulerstats_t {
 #[c2rust::src_loc = "1364:1"]
 pub unsafe extern "C" fn pony_scheduler_index() -> int32_t {
     let mut ctx: *mut pony_ctx_t = pony_ctx();
-    return (*(*ctx).scheduler).index;
+    (*(*ctx).scheduler).index
 }
 #[no_mangle]
 #[c2rust::src_loc = "1370:1"]
 pub unsafe extern "C" fn pony_schedulers() -> uint32_t {
-    return scheduler_count;
+    scheduler_count
 }
 #[no_mangle]
 #[c2rust::src_loc = "1375:1"]
 pub unsafe extern "C" fn pony_active_schedulers() -> uint32_t {
-    return get_active_scheduler_count();
+    get_active_scheduler_count()
 }
 #[no_mangle]
 #[c2rust::src_loc = "1380:1"]
 pub unsafe extern "C" fn pony_min_schedulers() -> uint32_t {
-    return min_scheduler_count;
+    min_scheduler_count
 }
 #[no_mangle]
 #[c2rust::src_loc = "1385:1"]
 pub unsafe extern "C" fn pony_scheduler_yield() -> bool {
-    return use_yield;
+    use_yield
 }
 #[no_mangle]
 #[c2rust::src_loc = "1390:1"]
@@ -1811,7 +1811,7 @@ pub unsafe extern "C" fn pony_ctx() -> *mut pony_ctx_t {
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"pony_ctx\0")).as_ptr(),
         );
     };
-    return &mut (*this_scheduler).ctx;
+    &mut (*this_scheduler).ctx
 }
 #[no_mangle]
 #[c2rust::src_loc = "1420:1"]
@@ -1854,7 +1854,7 @@ pub unsafe extern "C" fn ponyint_sched_maybe_wakeup_if_all_asleep(
 #[no_mangle]
 #[c2rust::src_loc = "1462:1"]
 pub unsafe extern "C" fn ponyint_sched_get_inject_context() -> *mut pony_ctx_t {
-    return inject_context;
+    inject_context
 }
 #[no_mangle]
 #[c2rust::src_loc = "1467:1"]
@@ -1932,8 +1932,8 @@ pub unsafe extern "C" fn ponyint_actorstack_pop(
     mut stack: *mut actorstack_t,
     mut data: *mut *mut pony_actor_t,
 ) -> *mut actorstack_t {
-    return ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
-        as *mut actorstack_t;
+    ponyint_stack_pop(stack as *mut Stack, data as *mut *mut libc::c_void)
+        as *mut actorstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "1600:34"]
@@ -1941,7 +1941,7 @@ pub unsafe extern "C" fn ponyint_actorstack_push(
     mut stack: *mut actorstack_t,
     mut data: *mut pony_actor_t,
 ) -> *mut actorstack_t {
-    return ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void) as *mut actorstack_t;
+    ponyint_stack_push(stack as *mut Stack, data as *mut libc::c_void) as *mut actorstack_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "1602:1"]
@@ -2016,5 +2016,5 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
 #[no_mangle]
 #[c2rust::src_loc = "1673:1"]
 pub unsafe extern "C" fn pony_sched_index(mut ctx: *mut pony_ctx_t) -> int32_t {
-    return (*(*ctx).scheduler).index;
+    (*(*ctx).scheduler).index
 }

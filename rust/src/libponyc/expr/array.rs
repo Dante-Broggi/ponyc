@@ -1164,7 +1164,7 @@ unsafe extern "C" fn strip_this_arrow(mut opt: *mut pass_opt_t, mut ast: *mut as
         }
         return new_ast;
     }
-    return ast;
+    ast
 }
 #[c2rust::src_loc = "53:1"]
 unsafe extern "C" fn detect_apply_element_type(
@@ -1222,7 +1222,7 @@ unsafe extern "C" fn detect_apply_element_type(
     if ast_id(typeparams) as libc::c_uint == TK_TYPEPARAMS as libc::c_int as libc::c_uint {
         elem_type = reify(elem_type, typeparams, typeargs, opt, 1 as libc::c_int != 0);
     }
-    return strip_this_arrow(opt, elem_type);
+    strip_this_arrow(opt, elem_type)
 }
 #[c2rust::src_loc = "85:1"]
 unsafe extern "C" fn detect_values_element_type(
@@ -1287,7 +1287,7 @@ unsafe extern "C" fn detect_values_element_type(
     {
         elem_type = ast_childidx(elem_type, 1 as libc::c_int as size_t);
     }
-    return elem_type;
+    elem_type
 }
 #[c2rust::src_loc = "122:1"]
 unsafe extern "C" fn find_possible_element_types(
@@ -1342,11 +1342,11 @@ unsafe extern "C" fn find_possible_element_types(
             }
             ast_free_unattached(array_type);
             *list = astlist_push(*list, elem_type);
-            return;
+            
         }
         17 => {
-            find_possible_element_types(opt, ast_childidx(ast, 1 as libc::c_int as size_t), list);
-            return;
+            find_possible_element_types(opt, ast_childidx(ast, 1_i32 as size_t), list);
+            
         }
         187 => {
             let mut def_0: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1363,8 +1363,8 @@ unsafe extern "C" fn find_possible_element_types(
                     .as_ptr(),
                 );
             };
-            find_possible_element_types(opt, ast_childidx(def_0, 1 as libc::c_int as size_t), list);
-            return;
+            find_possible_element_types(opt, ast_childidx(def_0, 1_i32 as size_t), list);
+            
         }
         149 | 56 => {
             let mut c: *mut ast_t = ast_child(ast);
@@ -1372,7 +1372,7 @@ unsafe extern "C" fn find_possible_element_types(
                 find_possible_element_types(opt, c, list);
                 c = ast_sibling(c);
             }
-            return;
+            
         }
         _ => {}
     };
@@ -1408,7 +1408,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
             if stringtab(b"Iterator\0" as *const u8 as *const libc::c_char) == ast_name(name) {
                 *list = astlist_push(*list, ast_child(typeargs));
             }
-            return;
+            
         }
         17 => {
             find_possible_iterator_element_types(
@@ -1416,7 +1416,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
                 ast_childidx(ast, 1 as libc::c_int as size_t),
                 list,
             );
-            return;
+            
         }
         187 => {
             let mut def: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1438,7 +1438,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
                 ast_childidx(def, 1 as libc::c_int as size_t),
                 list,
             );
-            return;
+            
         }
         149 | 56 => {
             let mut c: *mut ast_t = ast_child(ast);

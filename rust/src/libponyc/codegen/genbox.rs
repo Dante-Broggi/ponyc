@@ -1418,7 +1418,7 @@ pub unsafe extern "C" fn gen_box(
         b"\0" as *const u8 as *const libc::c_char,
     );
     LLVMBuildStore((*c).builder, value, value_ptr);
-    return this_ptr;
+    this_ptr
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]

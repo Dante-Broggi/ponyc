@@ -422,5 +422,5 @@ static mut source_pony: pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn source_pony_type() -> *const pony_type_t {
-    return &source_pony;
+    &source_pony
 }

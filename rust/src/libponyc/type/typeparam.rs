@@ -873,7 +873,7 @@ unsafe extern "C" fn cap_union_constraint(mut a: token_id, mut b: token_id) -> t
         },
         _ => {}
     }
-    return TK_CAP_ANY;
+    TK_CAP_ANY
 }
 #[c2rust::src_loc = "151:1"]
 unsafe extern "C" fn cap_isect_constraint(mut a: token_id, mut b: token_id) -> token_id {
@@ -959,7 +959,7 @@ unsafe extern "C" fn cap_isect_constraint(mut a: token_id, mut b: token_id) -> t
         },
         _ => {}
     }
-    return TK_CAP_ANY;
+    TK_CAP_ANY
 }
 #[c2rust::src_loc = "293:1"]
 unsafe extern "C" fn cap_from_constraint(mut type_0: *mut ast_t) -> token_id {
@@ -1001,7 +1001,7 @@ unsafe extern "C" fn cap_from_constraint(mut type_0: *mut ast_t) -> token_id {
                 .as_ptr(),
         );
     };
-    return TK_NONE;
+    TK_NONE
 }
 #[c2rust::src_loc = "342:1"]
 unsafe extern "C" fn apply_cap_to_single(
@@ -1126,7 +1126,7 @@ unsafe extern "C" fn constraint_cap(mut typeparamref: *mut ast_t) -> *mut ast_t 
         ast_free_unattached(r_constraint);
         return 0 as *mut ast_t;
     }
-    return r_constraint;
+    r_constraint
 }
 #[no_mangle]
 #[c2rust::src_loc = "500:1"]
@@ -1156,7 +1156,7 @@ pub unsafe extern "C" fn typeparam_constraint(mut typeparamref: *mut ast_t) -> *
         }
     }
     astlist_free(def_list);
-    return constraint;
+    constraint
 }
 #[no_mangle]
 #[c2rust::src_loc = "525:1"]
@@ -1172,7 +1172,7 @@ pub unsafe extern "C" fn typeparam_upper(mut typeparamref: *mut ast_t) -> *mut a
                 .as_ptr(),
         );
     };
-    return constraint_cap(typeparamref);
+    constraint_cap(typeparamref)
 }
 #[no_mangle]
 #[c2rust::src_loc = "531:1"]
@@ -1192,7 +1192,7 @@ pub unsafe extern "C" fn typeparam_lower(mut typeparamref: *mut ast_t) -> *mut a
     if !is_known(constraint) {
         return 0 as *mut ast_t;
     }
-    return constraint_cap(typeparamref);
+    constraint_cap(typeparamref)
 }
 #[no_mangle]
 #[c2rust::src_loc = "544:1"]
@@ -1307,5 +1307,5 @@ pub unsafe extern "C" fn typeparam_current(
     }
     type_0 = ast_dup(type_0);
     typeparam_current_inner(type_0, scope);
-    return type_0;
+    type_0
 }

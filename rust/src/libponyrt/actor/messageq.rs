@@ -93,7 +93,7 @@ unsafe extern "C" fn messageq_size_debug(mut q: *mut messageq_t) -> size_t {
         count = count.wrapping_add(1);
         tail = ({ ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next) });
     }
-    return count;
+    count
 }
 #[c2rust::src_loc = "31:1"]
 unsafe extern "C" fn messageq_push(
@@ -115,7 +115,7 @@ unsafe extern "C" fn messageq_push(
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, first);
         // compile_error!("Builtin is not supposed to be used")
     });
-    return was_empty;
+    was_empty
 }
 #[c2rust::src_loc = "59:1"]
 unsafe extern "C" fn messageq_push_single(
@@ -139,7 +139,7 @@ unsafe extern "C" fn messageq_push_single(
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, first);
         // compile_error!("Builtin is not supposed to be used")
     });
-    return was_empty;
+    was_empty
 }
 #[no_mangle]
 #[c2rust::src_loc = "81:1"]
@@ -251,7 +251,7 @@ pub unsafe extern "C" fn ponyint_actor_messageq_pop(mut q: *mut messageq_t) -> *
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
         ponyint_pool_free((*tail).index as size_t, tail as *mut libc::c_void);
     }
-    return next;
+    next
 }
 #[no_mangle]
 #[c2rust::src_loc = "260:1"]
@@ -271,7 +271,7 @@ pub unsafe extern "C" fn ponyint_thread_messageq_pop(mut q: *mut messageq_t) -> 
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
         ponyint_pool_free((*tail).index as size_t, tail as *mut libc::c_void);
     }
-    return next;
+    next
 }
 #[no_mangle]
 #[c2rust::src_loc = "284:1"]
@@ -299,5 +299,5 @@ pub unsafe extern "C" fn ponyint_messageq_isempty(mut q: *mut messageq_t) -> boo
     if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 as libc::c_int as libc::c_ulong {
         return 1 as libc::c_int != 0;
     }
-    return head == tail;
+    head == tail
 }

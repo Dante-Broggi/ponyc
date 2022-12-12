@@ -1062,9 +1062,9 @@ unsafe extern "C" fn uri_command(
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"uri_command\0")).as_ptr(),
         );
     };
-    return (handlers[index as usize].handler).expect("non-null function pointer")(
+    (handlers[index as usize].handler).expect("non-null function pointer")(
         ast, locator, alias, opt,
-    );
+    )
 }
 #[c2rust::src_loc = "147:1"]
 unsafe extern "C" fn ffi_command(mut opt: *mut pass_opt_t, mut alias: *mut ast_t) -> bool {
@@ -1172,5 +1172,5 @@ pub unsafe extern "C" fn use_command(
             return AST_ERROR;
         }
     }
-    return AST_OK;
+    AST_OK
 }

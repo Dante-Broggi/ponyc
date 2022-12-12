@@ -1080,5 +1080,5 @@ pub unsafe extern "C" fn ponyc_opt_process(
         }
         i += 1;
     }
-    return exit_code;
+    exit_code
 }

@@ -50,7 +50,7 @@ unsafe extern "C" fn stack_new(mut prev: *mut Stack, mut data: *mut libc::c_void
     *fresh0 = data;
     let ref mut fresh1 = (*stack).prev;
     *fresh1 = prev;
-    return stack;
+    stack
 }
 #[no_mangle]
 #[c2rust::src_loc = "15:1"]
@@ -88,7 +88,7 @@ pub unsafe extern "C" fn ponyint_stack_pop(
         ponyint_pool_free(4 as libc::c_int as size_t, stack as *mut libc::c_void);
         return prev;
     }
-    return stack;
+    stack
 }
 #[no_mangle]
 #[c2rust::src_loc = "33:1"]
@@ -104,5 +104,5 @@ pub unsafe extern "C" fn ponyint_stack_push(
     } else {
         stack = stack_new(stack, data);
     }
-    return stack;
+    stack
 }

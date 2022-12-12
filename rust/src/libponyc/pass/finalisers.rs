@@ -1115,7 +1115,7 @@ unsafe extern "C" fn module_finalisers(
         }
         entity = ast_sibling(entity);
     }
-    return ok;
+    ok
 }
 #[c2rust::src_loc = "249:1"]
 unsafe extern "C" fn package_finalisers(
@@ -1131,7 +1131,7 @@ unsafe extern "C" fn package_finalisers(
         }
         module = ast_sibling(module);
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "266:1"]
@@ -1149,5 +1149,5 @@ pub unsafe extern "C" fn pass_finalisers(
         }
         package = ast_sibling(package);
     }
-    return ok;
+    ok
 }

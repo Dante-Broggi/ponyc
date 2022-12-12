@@ -1535,7 +1535,7 @@ pub unsafe extern "C" fn names_nominal(
             }
         }
     }
-    return r;
+    r
 }
 #[no_mangle]
 #[c2rust::src_loc = "371:1"]
@@ -1551,5 +1551,5 @@ pub unsafe extern "C" fn pass_names(
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }

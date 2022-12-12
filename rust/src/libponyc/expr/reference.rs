@@ -2494,7 +2494,7 @@ unsafe extern "C" fn check_return_type(mut opt: *mut pass_opt_t, mut ast: *mut a
         errorframe_report(&mut frame, (*opt).check.errors);
         ok = 0 as libc::c_int != 0;
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "1044:1"]

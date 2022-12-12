@@ -941,5 +941,5 @@ pub unsafe extern "C" fn verify_interface(mut opt: *mut pass_opt_t, mut ast: *mu
         }
         member = ast_sibling(member);
     }
-    return ok;
+    ok
 }

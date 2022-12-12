@@ -951,5 +951,5 @@ pub unsafe extern "C" fn sanitise_type(mut type_0: *mut ast_t) -> *mut ast_t {
     };
     let mut new_type: *mut ast_t = ast_dup(type_0);
     sanitise(&mut new_type);
-    return new_type;
+    new_type
 }

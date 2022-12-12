@@ -163,7 +163,7 @@ unsafe extern "C" fn read_sleb128(mut data: *mut *const uint8_t) -> intptr_t {
         result |= !(0 as libc::c_int as uintptr_t) << shift;
     }
     *data = p;
-    return result as intptr_t;
+    result as intptr_t
 }
 #[c2rust::src_loc = "66:1"]
 unsafe extern "C" fn read_uleb128(mut data: *mut *const uint8_t) -> uintptr_t {
@@ -183,7 +183,7 @@ unsafe extern "C" fn read_uleb128(mut data: *mut *const uint8_t) -> uintptr_t {
         }
     }
     *data = p;
-    return result;
+    result
 }
 #[c2rust::src_loc = "84:1"]
 unsafe extern "C" fn read_encoded_ptr(
@@ -235,7 +235,7 @@ unsafe extern "C" fn read_encoded_ptr(
         }
     }
     *data = p;
-    return result;
+    result
 }
 #[c2rust::src_loc = "148:1"]
 unsafe extern "C" fn read_with_encoding(
@@ -264,7 +264,7 @@ unsafe extern "C" fn read_with_encoding(
     if encoding as libc::c_int & DW_EH_PE_indirect as libc::c_int != 0 {
         result = *(result as *mut uintptr_t);
     }
-    return result;
+    result
 }
 #[c2rust::src_loc = "186:1"]
 unsafe extern "C" fn lsda_init(

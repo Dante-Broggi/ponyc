@@ -841,7 +841,7 @@ pub mod _ctype_h {
     #[linkage = "external"]
     #[c2rust::src_loc = "291:1"]
     pub unsafe extern "C" fn tolower(mut _c: libc::c_int) -> libc::c_int {
-        return __tolower(_c);
+        __tolower(_c)
     }
     use super::_types_h::__darwin_ct_rune_t;
     extern "C" {
@@ -1553,7 +1553,7 @@ unsafe extern "C" fn check_members(
         }
         member = ast_sibling(member);
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "353:1"]
 unsafe extern "C" fn syntax_entity(
@@ -1807,7 +1807,7 @@ unsafe extern "C" fn syntax_arrow(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "510:1"]
 unsafe extern "C" fn syntax_tupletype(
@@ -1822,7 +1822,7 @@ unsafe extern "C" fn syntax_tupletype(
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "523:1"]
 unsafe extern "C" fn syntax_nominal(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -1893,7 +1893,7 @@ unsafe extern "C" fn syntax_nominal(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         );
         r = AST_ERROR;
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "565:1"]
 unsafe extern "C" fn syntax_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -1944,7 +1944,7 @@ unsafe extern "C" fn syntax_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "595:1"]
 unsafe extern "C" fn syntax_ffi(
@@ -2027,7 +2027,7 @@ unsafe extern "C" fn syntax_ffi(
         );
         r = AST_ERROR;
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "638:1"]
 unsafe extern "C" fn syntax_ffi_decl(
@@ -2097,7 +2097,7 @@ unsafe extern "C" fn syntax_ffi_call(
     {
         r = AST_ERROR;
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "683:1"]
 unsafe extern "C" fn syntax_ellipsis(
@@ -2144,7 +2144,7 @@ unsafe extern "C" fn syntax_ellipsis(
         );
         r = AST_ERROR;
     }
-    return r;
+    r
 }
 #[c2rust::src_loc = "708:1"]
 unsafe extern "C" fn syntax_infix_expr(
@@ -2212,7 +2212,7 @@ unsafe extern "C" fn syntax_infix_expr(
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "736:1"]
 unsafe extern "C" fn syntax_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -2254,7 +2254,7 @@ unsafe extern "C" fn syntax_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         b"Consume expressions must specify an identifier or field\0" as *const u8
             as *const libc::c_char,
     );
-    return AST_ERROR;
+    AST_ERROR
 }
 #[c2rust::src_loc = "761:1"]
 unsafe extern "C" fn syntax_return(
@@ -2354,7 +2354,7 @@ unsafe extern "C" fn syntax_return(
             }
         }
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "842:1"]
 unsafe extern "C" fn syntax_semi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -2387,14 +2387,14 @@ unsafe extern "C" fn syntax_semi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "858:1"]
 unsafe extern "C" fn syntax_local(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
     if !check_id_local(opt, ast_child(ast)) {
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "867:1"]
 unsafe extern "C" fn syntax_embed(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -2406,7 +2406,7 @@ unsafe extern "C" fn syntax_embed(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "879:1"]
 unsafe extern "C" fn syntax_type_param(
@@ -2416,7 +2416,7 @@ unsafe extern "C" fn syntax_type_param(
     if !check_id_type_param(opt, ast_child(ast)) {
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "889:26"]
 static mut _illegal_flags: [*const libc::c_char; 4] = [
@@ -2554,7 +2554,7 @@ unsafe extern "C" fn syntax_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ) {
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1004:1"]
 unsafe extern "C" fn syntax_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -2593,7 +2593,7 @@ unsafe extern "C" fn syntax_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
     {
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1019:1"]
 unsafe extern "C" fn syntax_lambda_capture(
@@ -2685,7 +2685,7 @@ unsafe extern "C" fn syntax_barelambdatype(
             return AST_ERROR;
         }
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1069:1"]
 unsafe extern "C" fn syntax_compile_intrinsic(
@@ -2734,7 +2734,7 @@ unsafe extern "C" fn syntax_compile_intrinsic(
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1110:1"]
 unsafe extern "C" fn syntax_compile_error(
@@ -2786,7 +2786,7 @@ unsafe extern "C" fn syntax_compile_error(
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1147:1"]
 unsafe extern "C" fn syntax_lambda(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -2902,11 +2902,11 @@ unsafe extern "C" fn syntax_lambda(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         }
         capture = ast_sibling(capture);
     }
-    return (if r as libc::c_int != 0 {
+    (if r as libc::c_int != 0 {
         AST_OK as libc::c_int
     } else {
         AST_ERROR as libc::c_int
-    }) as ast_result_t;
+    }) as ast_result_t
 }
 #[c2rust::src_loc = "1224:1"]
 unsafe extern "C" fn syntax_object(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -2945,7 +2945,7 @@ unsafe extern "C" fn syntax_object(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     {
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1241:1"]
 unsafe extern "C" fn syntax_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -3000,7 +3000,7 @@ unsafe extern "C" fn syntax_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1267:1"]
 unsafe extern "C" fn syntax_cap(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -3014,7 +3014,7 @@ unsafe extern "C" fn syntax_cap(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
         ast,
         b"a type cannot be only a capability\0" as *const u8 as *const libc::c_char,
     );
-    return AST_ERROR;
+    AST_ERROR
 }
 #[c2rust::src_loc = "1300:1"]
 unsafe extern "C" fn syntax_cap_set(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -3029,7 +3029,7 @@ unsafe extern "C" fn syntax_cap_set(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         );
         return AST_ERROR;
     }
-    return AST_OK;
+    AST_OK
 }
 #[c2rust::src_loc = "1315:1"]
 unsafe extern "C" fn check_annotation_location(

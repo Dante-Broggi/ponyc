@@ -251,11 +251,11 @@ pub type ponyint_objectmap_cmp_fn =
     Option<unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool>;
 #[c2rust::src_loc = "9:1"]
 unsafe extern "C" fn object_hash(mut obj: *mut object_t) -> size_t {
-    return ponyint_hash_ptr((*obj).address);
+    ponyint_hash_ptr((*obj).address)
 }
 #[c2rust::src_loc = "14:1"]
 unsafe extern "C" fn object_cmp(mut a: *mut object_t, mut b: *mut object_t) -> bool {
-    return (*a).address == (*b).address;
+    (*a).address == (*b).address
 }
 #[c2rust::src_loc = "19:1"]
 unsafe extern "C" fn object_alloc(
@@ -285,22 +285,22 @@ pub unsafe extern "C" fn ponyint_objectmap_init(mut map: *mut objectmap_t, mut s
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_alloc_size(mut map: *mut objectmap_t) -> size_t {
-    return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
+    ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_mem_size(mut map: *mut objectmap_t) -> size_t {
-    return ponyint_hashmap_mem_size(map as *mut hashmap_t);
+    ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_optimize(mut map: *mut objectmap_t) {
     let mut cmpf: ponyint_objectmap_cmp_fn =
         Some(object_cmp as unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool);
-    return ponyint_hashmap_optimize(
+    ponyint_hashmap_optimize(
         map as *mut hashmap_t,
         ::core::mem::transmute::<ponyint_objectmap_cmp_fn, cmp_fn>(cmpf),
-    );
+    )
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
@@ -315,12 +315,12 @@ pub unsafe extern "C" fn ponyint_objectmap_destroy(mut map: *mut objectmap_t) {
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_fill_ratio(mut map: *mut hashmap_t) -> libc::c_double {
-    return ponyint_hashmap_fill_ratio(map);
+    ponyint_hashmap_fill_ratio(map)
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_size(mut map: *mut objectmap_t) -> size_t {
-    return ponyint_hashmap_size(map as *mut hashmap_t);
+    ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
@@ -363,12 +363,12 @@ pub unsafe extern "C" fn ponyint_objectmap_put(
 ) -> *mut object_t {
     let mut cmpf: ponyint_objectmap_cmp_fn =
         Some(object_cmp as unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool);
-    return ponyint_hashmap_put(
+    ponyint_hashmap_put(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         object_hash(entry),
         ::core::mem::transmute::<ponyint_objectmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut object_t;
+    ) as *mut object_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:48"]
@@ -378,12 +378,12 @@ pub unsafe extern "C" fn ponyint_objectmap_remove(
 ) -> *mut object_t {
     let mut cmpf: ponyint_objectmap_cmp_fn =
         Some(object_cmp as unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool);
-    return ponyint_hashmap_remove(
+    ponyint_hashmap_remove(
         map as *mut hashmap_t,
         entry as *mut libc::c_void,
         object_hash(entry),
         ::core::mem::transmute::<ponyint_objectmap_cmp_fn, cmp_fn>(cmpf),
-    ) as *mut object_t;
+    ) as *mut object_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:48"]
@@ -394,13 +394,13 @@ pub unsafe extern "C" fn ponyint_objectmap_get(
 ) -> *mut object_t {
     let mut cmpf: ponyint_objectmap_cmp_fn =
         Some(object_cmp as unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool);
-    return ponyint_hashmap_get(
+    ponyint_hashmap_get(
         map as *mut hashmap_t,
         key as *mut libc::c_void,
         object_hash(key),
         ::core::mem::transmute::<ponyint_objectmap_cmp_fn, cmp_fn>(cmpf),
         index,
-    ) as *mut object_t;
+    ) as *mut object_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:48"]
@@ -409,8 +409,8 @@ pub unsafe extern "C" fn ponyint_objectmap_next(
     mut i: *mut size_t,
 ) -> *mut object_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
-    return ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
-        as *mut object_t;
+    ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
+        as *mut object_t
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
@@ -427,7 +427,7 @@ pub unsafe extern "C" fn ponyint_objectmap_getobject(
         type_0: 0 as *const pony_type_t,
     };
     obj.address = address;
-    return ponyint_objectmap_get(map, &mut obj, index);
+    ponyint_objectmap_get(map, &mut obj, index)
 }
 #[no_mangle]
 #[c2rust::src_loc = "48:1"]
@@ -444,7 +444,7 @@ pub unsafe extern "C" fn ponyint_objectmap_getorput(
     }
     obj = object_alloc(address, type_0, mark);
     ponyint_objectmap_putindex(map, obj, index);
-    return obj;
+    obj
 }
 #[no_mangle]
 #[c2rust::src_loc = "62:1"]

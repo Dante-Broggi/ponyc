@@ -3064,5 +3064,5 @@ pub unsafe extern "C" fn expr_call(mut opt: *mut pass_opt_t, mut astp: *mut *mut
         203 | 204 => return method_chain(opt, ast),
         _ => {}
     }
-    return insert_apply(opt, astp);
+    insert_apply(opt, astp)
 }

@@ -770,7 +770,7 @@ unsafe extern "C" fn recover_single(
     if rec_eph {
         ast_setid(ast_sibling(cap), TK_EPHEMERAL);
     }
-    return type_0;
+    type_0
 }
 #[c2rust::src_loc = "184:1"]
 unsafe extern "C" fn consume_single(
@@ -816,7 +816,7 @@ unsafe extern "C" fn consume_single(
         return 0 as *mut ast_t;
     }
     ast_setid(cap, ccap);
-    return type_0;
+    type_0
 }
 #[no_mangle]
 #[c2rust::src_loc = "243:1"]
@@ -1038,7 +1038,7 @@ unsafe extern "C" fn recover_complex(
         ast_append(r_type, r_right);
         child = ast_sibling(child);
     }
-    return r_type;
+    r_type
 }
 #[c2rust::src_loc = "436:1"]
 unsafe extern "C" fn recover_type_inner(

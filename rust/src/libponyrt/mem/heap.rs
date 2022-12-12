@@ -396,50 +396,50 @@ pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "250:1"]
     pub unsafe extern "C" fn __pony_popcount(mut x: uint32_t) -> uint32_t {
-        return x.count_ones() as i32 as uint32_t;
+        x.count_ones() as i32 as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "254:1"]
     pub unsafe extern "C" fn __pony_ffs(mut x: uint32_t) -> uint32_t {
-        return (if x as libc::c_int == 0 {
+        (if x as libc::c_int == 0 {
             0
         } else {
             (x as libc::c_int).trailing_zeros() as i32 + 1
-        }) as uint32_t;
+        }) as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "258:1"]
     pub unsafe extern "C" fn __pony_ffsll(mut x: uint64_t) -> uint32_t {
-        return (if x as libc::c_longlong == 0 {
+        (if x as libc::c_longlong == 0 {
             0
         } else {
             (x as libc::c_longlong).trailing_zeros() as i32 + 1
-        }) as uint32_t;
+        }) as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "262:1"]
     pub unsafe extern "C" fn __pony_ctz(mut x: uint32_t) -> uint32_t {
-        return x.trailing_zeros() as i32 as uint32_t;
+        x.trailing_zeros() as i32 as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "266:1"]
     pub unsafe extern "C" fn __pony_clz(mut x: uint32_t) -> uint32_t {
-        return x.leading_zeros() as i32 as uint32_t;
+        x.leading_zeros() as i32 as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "270:1"]
     pub unsafe extern "C" fn __pony_clzll(mut x: uint64_t) -> uint32_t {
-        return x.leading_zeros() as i32 as uint32_t;
+        x.leading_zeros() as i32 as uint32_t
     }
     #[inline]
     #[c2rust::src_loc = "319:1"]
     pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> uint32_t {
-        return __pony_ffsll(x as uint64_t);
+        __pony_ffsll(x as uint64_t)
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
     pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> uint32_t {
-        return __pony_clzll(x as uint64_t);
+        __pony_clzll(x as uint64_t)
     }
     use super::_uint32_t_h::uint32_t;
     use super::_uint64_t_h::uint64_t;
@@ -762,7 +762,7 @@ unsafe extern "C" fn sweep_small(
         }
         chunk = next;
     }
-    return used;
+    used
 }
 #[c2rust::src_loc = "322:1"]
 unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut size_t) -> *mut chunk_t {
@@ -784,7 +784,7 @@ unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut size_t)
         }
         chunk = next;
     }
-    return list;
+    list
 }
 #[c2rust::src_loc = "370:1"]
 unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut mark: uint32_t) {
@@ -1094,7 +1094,7 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
         TRACK_NO_FINALISERS as libc::c_int as uint32_t,
     );
     memcpy(q, p, oldsize);
-    return q;
+    q
 }
 #[no_mangle]
 #[c2rust::src_loc = "615:1"]
@@ -1167,7 +1167,7 @@ pub unsafe extern "C" fn ponyint_heap_mark(
             *fresh21 &= !slot;
         }
     }
-    return marked;
+    marked
 }
 #[no_mangle]
 #[c2rust::src_loc = "683:1"]
@@ -1260,7 +1260,7 @@ pub unsafe extern "C" fn ponyint_heap_endgc(mut heap: *mut heap_t) {
 #[no_mangle]
 #[c2rust::src_loc = "804:1"]
 pub unsafe extern "C" fn ponyint_heap_owner(mut chunk: *mut chunk_t) -> *mut pony_actor_t {
-    return (*chunk).actor;
+    (*chunk).actor
 }
 #[no_mangle]
 #[c2rust::src_loc = "816:1"]

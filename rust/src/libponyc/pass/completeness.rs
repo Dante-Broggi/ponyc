@@ -852,5 +852,5 @@ pub unsafe extern "C" fn pass_completeness(
         }
         _ => {}
     }
-    return AST_OK;
+    AST_OK
 }

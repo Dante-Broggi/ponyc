@@ -1034,7 +1034,7 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             symtab_add(mod_symtab, (*sym).name, (*sym).def, (*sym).status);
         }
     }
-    return ok;
+    ok
 }
 #[no_mangle]
 #[c2rust::src_loc = "91:1"]
@@ -1052,5 +1052,5 @@ pub unsafe extern "C" fn pass_import(
         }
         _ => return AST_IGNORE,
     }
-    return AST_OK;
+    AST_OK
 }
