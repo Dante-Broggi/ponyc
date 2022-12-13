@@ -41,7 +41,7 @@ typedef struct options_t
   bool ponyhelp;
 } options_t;
 
-typedef enum running_kind_t
+typedef enum running_kind_t: uint_fast8_t
 {
   NOT_RUNNING,
   RUNNING_DEFAULT,
@@ -55,7 +55,7 @@ static PONY_ATOMIC(int) rt_exit_code;
 
 static pony_language_features_init_t language_init;
 
-enum opt_num_t
+enum opt_num_t: uint_fast8_t
 {
   OPT_MAXTHREADS,
   OPT_MINTHREADS,
