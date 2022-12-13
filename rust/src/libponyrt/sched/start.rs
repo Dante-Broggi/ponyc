@@ -667,7 +667,7 @@ static mut initialised: AtomicBool = AtomicBool::new(false);
 #[c2rust::src_loc = "53:36"]
 static mut running: running_kind_t = NOT_RUNNING;
 #[c2rust::src_loc = "54:25"]
-static mut rt_exit_code: libc::c_int = 0;
+static mut rt_exit_code: AtomicI32 = AtomicI32::new(0);
 #[c2rust::src_loc = "56:38"]
 static mut language_init: pony_language_features_init_t = pony_language_features_init_t {
     init_network: false,
@@ -1267,13 +1267,10 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
 #[no_mangle]
 #[c2rust::src_loc = "403:1"]
 pub unsafe extern "C" fn pony_exitcode(mut code: libc::c_int) {
-    ({
-        ::core::intrinsics::atomic_store_rel(&mut rt_exit_code, code);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    rt_exit_code.store(code, Release);
 }
 #[no_mangle]
 #[c2rust::src_loc = "408:1"]
 pub unsafe extern "C" fn pony_get_exitcode() -> libc::c_int {
-    return ({ ::core::intrinsics::atomic_load_acq(&mut rt_exit_code) });
+    return (&mut rt_exit_code).load(Acquire);
 }
