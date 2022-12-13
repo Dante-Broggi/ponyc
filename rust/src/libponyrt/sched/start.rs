@@ -653,19 +653,19 @@ pub const OPT_NOSCALE: opt_num_t = 2;
 #[c2rust::src_loc = "61:3"]
 pub const OPT_MINTHREADS: opt_num_t = 1;
 #[c2rust::src_loc = "46:3"]
-pub const NOT_RUNNING: running_kind_t = 0;
+pub const NOT_RUNNING: RunningKind = 0;
 #[c2rust::src_loc = "44:9"]
-pub type running_kind_t = uint_fast8_t;
+pub type RunningKind = uint_fast8_t;
 #[c2rust::src_loc = "48:3"]
-pub const RUNNING_LIBRARY: running_kind_t = 2;
+pub const RUNNING_LIBRARY: RunningKind = 2;
 #[c2rust::src_loc = "47:3"]
-pub const RUNNING_DEFAULT: running_kind_t = 1;
+pub const RUNNING_DEFAULT: RunningKind = 1;
 #[c2rust::src_loc = "58:1"]
 pub type opt_num_t = uint_fast8_t;
 #[c2rust::src_loc = "52:26"]
 static mut initialised: AtomicBool = AtomicBool::new(false);
 #[c2rust::src_loc = "53:36"]
-static mut running: running_kind_t = NOT_RUNNING;
+static mut running: RunningKind = NOT_RUNNING;
 #[c2rust::src_loc = "54:25"]
 static mut rt_exit_code: AtomicI32 = AtomicI32::new(0);
 #[c2rust::src_loc = "56:38"]
@@ -1026,7 +1026,7 @@ pub unsafe extern "C" fn pony_init(
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pony_init\0")).as_ptr(),
         );
     };
-    if ({ ::core::intrinsics::atomic_load_relaxed(&mut running as *mut running_kind_t) })
+    if ({ ::core::intrinsics::atomic_load_relaxed(&mut running as *mut RunningKind) })
         as libc::c_int
         == NOT_RUNNING as uint_fast8_t as libc::c_int
     {
@@ -1153,7 +1153,7 @@ pub unsafe extern "C" fn pony_start(
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pony_start\0")).as_ptr(),
         );
     };
-    let mut prev_running: running_kind_t =
+    let mut prev_running: RunningKind =
         ({ ::core::intrinsics::atomic_xchg_relaxed(&mut running, RUNNING_DEFAULT) });
     if prev_running as libc::c_int == NOT_RUNNING as uint_fast8_t as libc::c_int {
     } else {
@@ -1240,7 +1240,7 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pony_stop\0")).as_ptr(),
         );
     };
-    let mut loc_running: running_kind_t = ({ ::core::intrinsics::atomic_load_acq(&mut running) });
+    let mut loc_running: RunningKind = ({ ::core::intrinsics::atomic_load_acq(&mut running) });
     if loc_running as libc::c_int == RUNNING_LIBRARY as uint_fast8_t as libc::c_int {
     } else {
         ponyint_assert_fail(
