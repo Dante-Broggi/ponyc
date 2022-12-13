@@ -867,7 +867,7 @@ static mut scheduler_suspend_threshold: uint64_t = 0;
 #[c2rust::src_loc = "44:30"]
 static mut active_scheduler_count: AtomicU32 = AtomicU32::new(0);
 #[c2rust::src_loc = "45:30"]
-static mut active_scheduler_count_check: uint32_t = 0;
+static mut active_scheduler_count_check: AtomicU32 = AtomicU32::new(0);
 #[c2rust::src_loc = "46:21"]
 static mut scheduler: *mut scheduler_t = 0 as *const scheduler_t as *mut scheduler_t;
 #[c2rust::src_loc = "47:20"]
@@ -913,7 +913,7 @@ unsafe extern "C" fn get_active_scheduler_count() -> uint32_t {
 }
 #[c2rust::src_loc = "158:1"]
 unsafe extern "C" fn get_active_scheduler_count_check() -> uint32_t {
-    return ({ ::core::intrinsics::atomic_load_relaxed(&mut active_scheduler_count_check) });
+    active_scheduler_count_check.load(Relaxed)
 }
 #[c2rust::src_loc = "166:1"]
 unsafe extern "C" fn pop(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
@@ -1171,13 +1171,7 @@ unsafe extern "C" fn suspend_scheduler(
     }
     active_scheduler_count.store(sched_count.wrapping_sub(1), Relaxed);
     let mut sched_count_check: uint32_t = get_active_scheduler_count_check();
-    ({
-        ::core::intrinsics::atomic_store_relaxed(
-            &mut active_scheduler_count_check,
-            sched_count_check.wrapping_sub(1 as libc::c_int as libc::c_uint),
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    active_scheduler_count_check.store(sched_count_check.wrapping_sub(1), Relaxed);
     if sched_count == sched_count_check {
     } else {
         ponyint_assert_fail(
@@ -1231,13 +1225,7 @@ unsafe extern "C" fn suspend_scheduler(
         active_scheduler_count.store(sched_count, Relaxed);
     }
     sched_count_check = get_active_scheduler_count_check();
-    ({
-        ::core::intrinsics::atomic_store_relaxed(
-            &mut active_scheduler_count_check,
-            sched_count_check.wrapping_add(1 as libc::c_int as libc::c_uint),
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    active_scheduler_count_check.store(sched_count_check.wrapping_add(1), Relaxed);
     return actor;
 }
 #[c2rust::src_loc = "711:1"]
@@ -1649,13 +1637,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
     scheduler_count = threads;
     min_scheduler_count = min_threads;
     active_scheduler_count.store(scheduler_count, Relaxed);
-    ({
-        ::core::intrinsics::atomic_store_relaxed(
-            &mut active_scheduler_count_check,
-            scheduler_count,
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    active_scheduler_count_check.store(scheduler_count, Relaxed);
     scheduler = ponyint_pool_alloc_size(
         (scheduler_count as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<scheduler_t>() as libc::c_ulong),
