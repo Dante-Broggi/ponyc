@@ -1,6 +1,10 @@
 use ::libc;
-use core::sync::atomic::{AtomicBool, AtomicPtr, Ordering::{Acquire, Relaxed, Release}};
 use core::mem::ManuallyDrop;
+use core::sync::atomic::{
+    AtomicBool, AtomicPtr,
+    Ordering::{Acquire, Relaxed, Release},
+    AtomicUsize,
+};
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
@@ -467,7 +471,7 @@ static mut pool_block_global: pool_block_t = pool_block_t {
     acquired: AtomicBool::new(false),
 };
 #[c2rust::src_loc = "119:28"]
-static mut in_pool_block_global: size_t = 0;
+static mut in_pool_block_global: AtomicUsize = AtomicUsize::new(0);
 #[thread_local]
 #[c2rust::src_loc = "121:41"]
 static mut pool_local: [pool_local_t; 16] = [pool_local_t {
@@ -527,10 +531,7 @@ unsafe extern "C" fn pool_block_insert(mut block: *mut pool_block_t) {
 #[c2rust::src_loc = "408:1"]
 unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
     &mut (*block).acquired.store(false, Relaxed);
-    ({
-        ::core::intrinsics::atomic_xadd_acq(&mut in_pool_block_global, 1 as libc::c_int as size_t);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    in_pool_block_global.fetch_add(1, Acquire);
     loop {
         let mut pos: *mut pool_block_t = (&mut *pool_block_global.c2rust_unnamed.global).load(Acquire);
         let mut prev: *mut pool_block_t = &mut pool_block_global;
@@ -551,10 +552,7 @@ unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
             break;
         }
     }
-    ({
-        ::core::intrinsics::atomic_xsub_rel(&mut in_pool_block_global, 1 as libc::c_int as size_t);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    in_pool_block_global.fetch_sub(1, Release);
 }
 #[c2rust::src_loc = "471:1"]
 unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
@@ -562,20 +560,11 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
     if block.is_null() {
         return 0 as *mut pool_block_t;
     }
-    ({
-        ::core::intrinsics::atomic_xadd_acq(&mut in_pool_block_global, 1 as libc::c_int as size_t);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    in_pool_block_global.fetch_add(1, Acquire);
     loop {
         block = (&mut pool_block_global.c2rust_unnamed.global).load(Relaxed);
         if block.is_null() {
-            ({
-                ::core::intrinsics::atomic_xsub_relaxed(
-                    &mut in_pool_block_global,
-                    1 as libc::c_int as size_t,
-                );
-                compile_error!("Builtin is not supposed to be used")
-            });
+            in_pool_block_global.fetch_sub(1, Relaxed);
             return 0 as *mut pool_block_t;
         }
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
@@ -585,13 +574,7 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
             block = (&mut (*block).c2rust_unnamed.global).load(Acquire);
         }
         if block.is_null() {
-            ({
-                ::core::intrinsics::atomic_xsub_relaxed(
-                    &mut in_pool_block_global,
-                    1 as libc::c_int as size_t,
-                );
-                compile_error!("Builtin is not supposed to be used")
-            });
+            in_pool_block_global.fetch_sub(1, Relaxed);
             return 0 as *mut pool_block_t;
         }
         if (*prev).acquired.swap(true, Acquire) {
@@ -608,13 +591,8 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
             break;
         }
     }
-    ({
-        ::core::intrinsics::atomic_xsub_rel(&mut in_pool_block_global, 1 as libc::c_int as size_t);
-        compile_error!("Builtin is not supposed to be used")
-    });
-    while ({ ::core::intrinsics::atomic_load_relaxed(&mut in_pool_block_global as *mut size_t) })
-        != 0 as libc::c_int as libc::c_ulong
-    {
+    in_pool_block_global.fetch_sub(1, Release);
+    while in_pool_block_global.load(Relaxed) != 0 {
         ponyint_cpu_relax();
     }
     f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
