@@ -1,4 +1,5 @@
 use ::libc;
+use core::sync::atomic::{AtomicU32, Ordering::Relaxed};
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
@@ -505,7 +506,7 @@ static mut total_threads: uint32_t = 0 as libc::c_int as uint32_t;
 #[c2rust::src_loc = "20:17"]
 static mut stopped_threads: uint32_t = 0 as libc::c_int as uint32_t;
 #[c2rust::src_loc = "21:30"]
-static mut waiting_to_start_count: uint32_t = 0;
+static mut waiting_to_start_count: AtomicU32 = AtomicU32::new(0);
 #[c2rust::src_loc = "24:24"]
 static mut systematic_testing_mut: pthread_mutex_t = pthread_mutex_t {
     __sig: 0,
@@ -540,13 +541,7 @@ pub unsafe extern "C" fn ponyint_systematic_testing_init(
             unsafe extern "C" fn() -> (),
         >(systematic_testing_mut_init))),
     );
-    ({
-        ::core::intrinsics::atomic_store_relaxed(
-            &mut waiting_to_start_count,
-            0 as libc::c_int as uint32_t,
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    waiting_to_start_count.store(0, Relaxed);
     if 0 as libc::c_int as libc::c_ulonglong == random_seed {
         random_seed = ponyint_cpu_tick();
     }
@@ -568,13 +563,7 @@ pub unsafe extern "C" fn ponyint_systematic_testing_wait_start(
     mut thread: pthread_t,
     mut signal: *mut pthread_cond_t,
 ) {
-    ({
-        ::core::intrinsics::atomic_xadd_relaxed(
-            &mut waiting_to_start_count,
-            1 as libc::c_int as uint32_t,
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    waiting_to_start_count.fetch_add(1, Relaxed);
     while 0 as libc::c_int == pthread_equal((*active_thread).tid, thread) {
         ponyint_thread_suspend(signal, &mut systematic_testing_mut);
     }
@@ -604,11 +593,7 @@ pub unsafe extern "C" fn ponyint_systematic_testing_start(
     }
     active_thread = &mut *threads_to_track.offset(1 as libc::c_int as isize)
         as *mut systematic_testing_thread_t;
-    while total_threads
-        != ({
-            ::core::intrinsics::atomic_load_relaxed(&mut waiting_to_start_count as *mut uint32_t)
-        })
-    {
+    while total_threads != waiting_to_start_count.load(Relaxed) {
         ponyint_cpu_core_pause(
             1 as libc::c_int as uint64_t,
             10000002 as libc::c_int as uint64_t,
@@ -656,13 +641,7 @@ pub unsafe extern "C" fn ponyint_systematic_testing_yield() {
         threads_to_track = 0 as *mut systematic_testing_thread_t;
         total_threads = 0 as libc::c_int as uint32_t;
         stopped_threads = 0 as libc::c_int as uint32_t;
-        ({
-            ::core::intrinsics::atomic_store_relaxed(
-                &mut waiting_to_start_count,
-                0 as libc::c_int as uint32_t,
-            );
-            compile_error!("Builtin is not supposed to be used")
-        });
+        waiting_to_start_count.store(0, Relaxed);
         pthread_mutex_unlock(&mut systematic_testing_mut);
         return;
     }
