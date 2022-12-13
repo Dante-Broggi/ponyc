@@ -368,7 +368,7 @@ PONY_API void pony_send_next(pony_ctx_t* ctx);
  * At runtime, we need to identify if the object is logically mutable,
  * immutable, or opaque.
  */
-enum
+enum pony_trace_kind_t
 {
   PONY_TRACE_MUTABLE = 0,
   PONY_TRACE_IMMUTABLE = 1,
