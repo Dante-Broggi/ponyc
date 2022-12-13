@@ -39,6 +39,8 @@ typedef struct pagemap_level_t
   size_t size_index;
 } pagemap_level_t;
 
+typedef void* pagemap_node_t;
+
 /* The pagemap is a prefix tree that maps heap memory to its corresponding
  * bookkeeping data structure. It is constructed for a 48 bit address space
  * where we are interested in memory with POOL_ALIGN_BITS granularity.
@@ -51,20 +53,20 @@ typedef struct pagemap_level_t
 static const pagemap_level_t level[PAGEMAP_LEVELS] =
 {
 #if PAGEMAP_LEVELS >= 3
-  { L3_SHIFT, (1 << L3_MASK) - 1, (1 << L3_MASK) * sizeof(void*),
-    POOL_INDEX((1 << L3_MASK) * sizeof(void*)) },
+  { L3_SHIFT, (1 << L3_MASK) - 1, (1 << L3_MASK) * sizeof(pagemap_node_t),
+    POOL_INDEX((1 << L3_MASK) * sizeof(pagemap_node_t)) },
 #endif
 
 #if PAGEMAP_LEVELS >= 2
-  { L2_SHIFT, (1 << L2_MASK) - 1, (1 << L2_MASK) * sizeof(void*),
-    POOL_INDEX((1 << L2_MASK) * sizeof(void*)) },
+  { L2_SHIFT, (1 << L2_MASK) - 1, (1 << L2_MASK) * sizeof(pagemap_node_t),
+    POOL_INDEX((1 << L2_MASK) * sizeof(pagemap_node_t)) },
 #endif
 
-  { L1_SHIFT, (1 << L1_MASK) - 1, (1 << L1_MASK) * sizeof(void*),
-    POOL_INDEX((1 << L1_MASK) * sizeof(void*)) }
+  { L1_SHIFT, (1 << L1_MASK) - 1, (1 << L1_MASK) * sizeof(pagemap_node_t),
+    POOL_INDEX((1 << L1_MASK) * sizeof(pagemap_node_t)) }
 };
 
-static PONY_ATOMIC(void*) root;
+static PONY_ATOMIC(pagemap_node_t) root;
 
 #ifdef USE_RUNTIMESTATS
 static PONY_ATOMIC(size_t) mem_allocated;
@@ -87,8 +89,8 @@ size_t ponyint_pagemap_alloc_size()
 
 chunk_t* ponyint_pagemap_get(const void* addr)
 {
-  PONY_ATOMIC(void*)* next_node = &root;
-  void* node = atomic_load_explicit(next_node, memory_order_acquire);
+  PONY_ATOMIC(pagemap_node_t)* next_node = &root;
+  pagemap_node_t node = atomic_load_explicit(next_node, memory_order_acquire);
 
   for(size_t i = 0; i < PAGEMAP_LEVELS; i++)
   {
@@ -96,7 +98,7 @@ chunk_t* ponyint_pagemap_get(const void* addr)
       return NULL;
 
     uintptr_t ix = ((uintptr_t)addr >> level[i].shift) & level[i].mask;
-    next_node = &(((PONY_ATOMIC_RVALUE(void*)*)node)[ix]);
+    next_node = &(((PONY_ATOMIC_RVALUE(pagemap_node_t)*)node)[ix]);
     node = atomic_load_explicit(next_node, memory_order_acquire);
   }
 
@@ -105,15 +107,15 @@ chunk_t* ponyint_pagemap_get(const void* addr)
 
 void ponyint_pagemap_set(const void* addr, chunk_t* chunk)
 {
-  PONY_ATOMIC(void*)* next_node = &root;
+  PONY_ATOMIC(pagemap_node_t)* next_node = &root;
 
   for(size_t i = 0; i < PAGEMAP_LEVELS; i++)
   {
-    void* node = atomic_load_explicit(next_node, memory_order_relaxed);
+    pagemap_node_t node = atomic_load_explicit(next_node, memory_order_relaxed);
 
     if(node == NULL)
     {
-      void* new_node = ponyint_pool_alloc(level[i].size_index);
+      pagemap_node_t new_node = ponyint_pool_alloc(level[i].size_index);
 #ifdef USE_RUNTIMESTATS
       atomic_fetch_add_explicit(&mem_used, level[i].size, memory_order_relaxed);
       atomic_fetch_add_explicit(&mem_allocated, POOL_SIZE(level[i].size_index),
@@ -147,7 +149,7 @@ void ponyint_pagemap_set(const void* addr, chunk_t* chunk)
     }
 
     uintptr_t ix = ((uintptr_t)addr >> level[i].shift) & level[i].mask;
-    next_node = &(((PONY_ATOMIC_RVALUE(void*)*)node)[ix]);
+    next_node = &(((PONY_ATOMIC_RVALUE(pagemap_node_t)*)node)[ix]);
   }
 
   atomic_store_explicit(next_node, chunk, memory_order_release);
@@ -155,8 +157,8 @@ void ponyint_pagemap_set(const void* addr, chunk_t* chunk)
 
 void ponyint_pagemap_set_bulk(const void* addr, chunk_t* chunk, size_t size)
 {
-  PONY_ATOMIC(void*)* next_node = NULL;
-  void* node = NULL;
+  PONY_ATOMIC(pagemap_node_t)* next_node = NULL;
+  pagemap_node_t node = NULL;
   uintptr_t ix = 0;
   uintptr_t addr_ptr = (uintptr_t)addr;
   uintptr_t addr_end = (uintptr_t)addr + size;
@@ -205,7 +207,7 @@ void ponyint_pagemap_set_bulk(const void* addr, chunk_t* chunk, size_t size)
       }
 
       ix = (addr_ptr >> level[i].shift) & level[i].mask;
-      next_node = &(((PONY_ATOMIC_RVALUE(void*)*)node)[ix]);
+      next_node = &(((PONY_ATOMIC_RVALUE(pagemap_node_t)*)node)[ix]);
     }
 
     // Store as many pagemap entries as would fit into this pagemap level
@@ -215,7 +217,7 @@ void ponyint_pagemap_set_bulk(const void* addr, chunk_t* chunk, size_t size)
       atomic_store_explicit(next_node, chunk, memory_order_release);
       addr_ptr += POOL_ALIGN;
       ix++;
-      next_node = &(((PONY_ATOMIC_RVALUE(void*)*)node)[ix]);
+      next_node = &(((PONY_ATOMIC_RVALUE(pagemap_node_t)*)node)[ix]);
       // If ix is greater than mask we need to move to the next pagemap level
       // segment.
     } while((addr_ptr < addr_end) &&
