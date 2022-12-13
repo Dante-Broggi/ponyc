@@ -1,4 +1,5 @@
 use ::libc;
+use core::sync::atomic::{AtomicBool, Ordering::AcqRel};
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
@@ -118,7 +119,7 @@ use self::stdlib_h::abort;
 pub use self::sys__types_h::__darwin_off_t;
 use self::time_h::nanosleep;
 #[c2rust::src_loc = "19:31"]
-static mut assert_guard: bool = 0 as libc::c_int != 0;
+static mut assert_guard: AtomicBool = AtomicBool::new(false);
 #[no_mangle]
 #[c2rust::src_loc = "29:1"]
 pub unsafe extern "C" fn ponyint_assert_fail(
@@ -127,12 +128,7 @@ pub unsafe extern "C" fn ponyint_assert_fail(
     mut line: size_t,
     mut func: *const libc::c_char,
 ) {
-    while {
-        ::core::intrinsics::atomic_xchg_acqrel(
-            &mut assert_guard as *mut bool,
-            1 as libc::c_int != 0,
-        )
-    } {
+    while assert_guard.swap(true, AcqRel) {
         let mut ts: timespec = {
             let mut init = timespec {
                 tv_sec: 1 as libc::c_int as __darwin_time_t,
