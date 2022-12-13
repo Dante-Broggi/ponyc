@@ -1,4 +1,5 @@
 use ::libc;
+use core::sync::atomic::{AtomicBool, Ordering::{Relaxed, Release}};
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
@@ -868,7 +869,7 @@ static mut scheduler: *mut scheduler_t = 0 as *const scheduler_t as *mut schedul
 #[c2rust::src_loc = "47:20"]
 static mut inject_context: *mut pony_ctx_t = 0 as *const pony_ctx_t as *mut pony_ctx_t;
 #[c2rust::src_loc = "48:26"]
-static mut detect_quiescence: bool = false;
+static mut detect_quiescence: AtomicBool = AtomicBool::new(false);
 #[c2rust::src_loc = "49:13"]
 static mut use_yield: bool = false;
 #[c2rust::src_loc = "50:16"]
@@ -1013,11 +1014,7 @@ unsafe extern "C" fn wake_suspended_threads(mut current_scheduler_id: int32_t) {
 }
 #[c2rust::src_loc = "310:1"]
 unsafe extern "C" fn maybe_start_cnf_ack_cycle(mut sched: *mut scheduler_t) {
-    if ({ ::core::intrinsics::atomic_load_relaxed(&mut detect_quiescence as *mut bool) })
-        as libc::c_int
-        != 0
-        && (*sched).block_count >= get_active_scheduler_count()
-    {
+    if detect_quiescence.load(Relaxed) && (*sched).block_count >= get_active_scheduler_count() {
         let ref mut fresh0 = (*sched).ack_token;
         *fresh0 += 1;
         (*sched).ack_count = 0 as libc::c_int as uint32_t;
@@ -1738,10 +1735,7 @@ pub unsafe extern "C" fn ponyint_sched_start(mut library: bool) -> bool {
     if !ponyint_asio_start() {
         return 0 as libc::c_int != 0;
     }
-    ({
-        ::core::intrinsics::atomic_store_relaxed(&mut detect_quiescence, !library);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    detect_quiescence.store(!library, Relaxed);
     macro__DTRACE(
         b"RT_START\0" as *const u8 as *const libc::c_char,
         0 as libc::c_int,
@@ -1770,10 +1764,7 @@ pub unsafe extern "C" fn ponyint_sched_start(mut library: bool) -> bool {
 #[no_mangle]
 #[c2rust::src_loc = "1336:1"]
 pub unsafe extern "C" fn ponyint_sched_stop() {
-    ({
-        ::core::intrinsics::atomic_store_rel(&mut detect_quiescence, 1 as libc::c_int != 0);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    detect_quiescence.store(true, Release);
     ponyint_sched_shutdown();
 }
 #[no_mangle]
