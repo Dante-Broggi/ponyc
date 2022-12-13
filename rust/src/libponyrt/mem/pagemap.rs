@@ -78,7 +78,7 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
         }
         let mut ix: uintptr_t =
             addr as uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
-        next_node = &mut *(node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
+        next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         node = ::core::intrinsics::atomic_load_acq(next_node);
         i = i.wrapping_add(1);
     }
@@ -115,7 +115,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
         }
         let mut ix: uintptr_t =
             addr as uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
-        next_node = &mut *(node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
+        next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         i = i.wrapping_add(1);
     }
     ({
@@ -163,8 +163,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
                 );
             }
             ix = addr_ptr >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
-            next_node =
-                &mut *(node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
+            next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
             i = i.wrapping_add(1);
         }
         loop {
@@ -176,8 +175,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
                 .wrapping_add(((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong)
                 as uintptr_t as uintptr_t;
             ix = ix.wrapping_add(1);
-            next_node =
-                &mut *(node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
+            next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
             if !(addr_ptr < addr_end
                 && ix <= level[(3 as libc::c_int - 1 as libc::c_int) as usize].mask as uintptr_t)
             {

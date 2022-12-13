@@ -529,7 +529,7 @@ unsafe extern "C" fn pool_block_insert(mut block: *mut pool_block_t) {
 }
 #[c2rust::src_loc = "408:1"]
 unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
-    &mut (*block).acquired.store(false, Relaxed);
+    (*block).acquired.store(false, Relaxed);
     in_pool_block_global.fetch_add(1, Acquire);
     loop {
         let mut pos: *mut pool_block_t =
@@ -544,7 +544,7 @@ unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
         }
         let mut check_pos: *mut pool_block_t = (&mut (*prev).c2rust_unnamed.global).load(Relaxed);
         if pos != check_pos {
-            &mut (*prev).acquired.store(false, Relaxed);
+            (*prev).acquired.store(false, Relaxed);
         } else {
             (&mut (*block).c2rust_unnamed.global).store(pos, Relaxed);
             (&mut (*prev).c2rust_unnamed.global).store(block, Release);
