@@ -1,5 +1,9 @@
 use ::libc;
-use core::sync::atomic::{AtomicBool, Ordering::{Relaxed, Release}};
+use core::sync::atomic::{
+    AtomicBool,
+    AtomicU32,
+    Ordering::{Relaxed, Release},
+};
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
@@ -861,7 +865,7 @@ static mut min_scheduler_count: uint32_t = 0;
 #[c2rust::src_loc = "43:17"]
 static mut scheduler_suspend_threshold: uint64_t = 0;
 #[c2rust::src_loc = "44:30"]
-static mut active_scheduler_count: uint32_t = 0;
+static mut active_scheduler_count: AtomicU32 = AtomicU32::new(0);
 #[c2rust::src_loc = "45:30"]
 static mut active_scheduler_count_check: uint32_t = 0;
 #[c2rust::src_loc = "46:21"]
@@ -905,7 +909,7 @@ pub unsafe extern "C" fn sched_mut_init() {
 }
 #[c2rust::src_loc = "150:1"]
 unsafe extern "C" fn get_active_scheduler_count() -> uint32_t {
-    return ({ ::core::intrinsics::atomic_load_relaxed(&mut active_scheduler_count) });
+    active_scheduler_count.load(Relaxed)
 }
 #[c2rust::src_loc = "158:1"]
 unsafe extern "C" fn get_active_scheduler_count_check() -> uint32_t {
@@ -996,13 +1000,7 @@ unsafe extern "C" fn wake_suspended_threads(mut current_scheduler_id: int32_t) {
             current_active_scheduler_count = get_active_scheduler_count();
             if current_active_scheduler_count < scheduler_count {
                 current_active_scheduler_count = scheduler_count;
-                ({
-                    ::core::intrinsics::atomic_store_relaxed(
-                        &mut active_scheduler_count,
-                        current_active_scheduler_count,
-                    );
-                    compile_error!("Builtin is not supposed to be used")
-                });
+                active_scheduler_count.store(current_active_scheduler_count, Relaxed);
             }
             pthread_mutex_unlock(&mut sched_mut);
             signal_suspended_threads(current_active_scheduler_count, current_scheduler_id);
@@ -1171,13 +1169,7 @@ unsafe extern "C" fn suspend_scheduler(
     if sched_count != current_active_scheduler_count {
         return actor;
     }
-    ({
-        ::core::intrinsics::atomic_store_relaxed(
-            &mut active_scheduler_count,
-            sched_count.wrapping_sub(1 as libc::c_int as libc::c_uint),
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    active_scheduler_count.store(sched_count.wrapping_sub(1), Relaxed);
     let mut sched_count_check: uint32_t = get_active_scheduler_count_check();
     ({
         ::core::intrinsics::atomic_store_relaxed(
@@ -1236,10 +1228,7 @@ unsafe extern "C" fn suspend_scheduler(
     sched_count = get_active_scheduler_count();
     if sched_count == 0 as libc::c_int as libc::c_uint {
         sched_count = 1 as libc::c_int as uint32_t;
-        ({
-            ::core::intrinsics::atomic_store_relaxed(&mut active_scheduler_count, sched_count);
-            compile_error!("Builtin is not supposed to be used")
-        });
+        active_scheduler_count.store(sched_count, Relaxed);
     }
     sched_count_check = get_active_scheduler_count_check();
     ({
@@ -1630,13 +1619,7 @@ unsafe extern "C" fn ponyint_sched_shutdown() {
     scheduler = 0 as *mut scheduler_t;
     inject_context = 0 as *mut pony_ctx_t;
     scheduler_count = 0 as libc::c_int as uint32_t;
-    ({
-        ::core::intrinsics::atomic_store_relaxed(
-            &mut active_scheduler_count,
-            0 as libc::c_int as uint32_t,
-        );
-        compile_error!("Builtin is not supposed to be used")
-    });
+    active_scheduler_count.store(0, Relaxed);
     ponyint_mpmcq_destroy(&mut inject);
 }
 #[no_mangle]
@@ -1665,10 +1648,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
         thread_suspend_threshold.wrapping_mul(1000000 as libc::c_int as libc::c_uint) as uint64_t;
     scheduler_count = threads;
     min_scheduler_count = min_threads;
-    ({
-        ::core::intrinsics::atomic_store_relaxed(&mut active_scheduler_count, scheduler_count);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    active_scheduler_count.store(scheduler_count, Relaxed);
     ({
         ::core::intrinsics::atomic_store_relaxed(
             &mut active_scheduler_count_check,
@@ -1904,13 +1884,7 @@ pub unsafe extern "C" fn ponyint_sched_maybe_wakeup(mut current_scheduler_id: in
         current_active_scheduler_count = get_active_scheduler_count();
         if current_active_scheduler_count < scheduler_count {
             current_active_scheduler_count = current_active_scheduler_count.wrapping_add(1);
-            ({
-                ::core::intrinsics::atomic_store_relaxed(
-                    &mut active_scheduler_count,
-                    current_active_scheduler_count,
-                );
-                compile_error!("Builtin is not supposed to be used")
-            });
+            active_scheduler_count.store(current_active_scheduler_count, Relaxed);
         }
         pthread_mutex_unlock(&mut sched_mut);
         signal_suspended_threads(current_active_scheduler_count, current_scheduler_id);
