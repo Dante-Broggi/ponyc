@@ -55,7 +55,7 @@ static PONY_ATOMIC(int) rt_exit_code;
 
 static pony_language_features_init_t language_init;
 
-enum
+enum opt_num_t
 {
   OPT_MAXTHREADS,
   OPT_MINTHREADS,
