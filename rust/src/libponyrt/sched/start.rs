@@ -652,14 +652,18 @@ pub const OPT_SUSPENDTHRESHOLD: opt_num_t = 3;
 pub const OPT_NOSCALE: opt_num_t = 2;
 #[c2rust::src_loc = "61:3"]
 pub const OPT_MINTHREADS: opt_num_t = 1;
-#[c2rust::src_loc = "46:3"]
-pub const NOT_RUNNING: RunningKind = 0;
 #[c2rust::src_loc = "44:9"]
-pub type RunningKind = uint_fast8_t;
-#[c2rust::src_loc = "48:3"]
-pub const RUNNING_LIBRARY: RunningKind = 2;
-#[c2rust::src_loc = "47:3"]
-pub const RUNNING_DEFAULT: RunningKind = 1;
+#[repr(u8)]
+#[derive(Copy, Clone)]
+pub enum RunningKind {
+    #[c2rust::src_loc = "46:3"]
+    NOT_RUNNING = 0,
+    #[c2rust::src_loc = "47:3"]
+    RUNNING_DEFAULT = 1,
+    #[c2rust::src_loc = "48:3"]
+    RUNNING_LIBRARY = 2,
+}
+pub use RunningKind::*;
 #[c2rust::src_loc = "58:1"]
 pub type opt_num_t = uint_fast8_t;
 #[c2rust::src_loc = "52:26"]
