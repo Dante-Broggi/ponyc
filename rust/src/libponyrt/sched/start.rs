@@ -1,4 +1,5 @@
 use ::libc;
+use core::sync::atomic::{AtomicBool, AtomicU8, AtomicI32, Ordering::{Acquire, Relaxed}};
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
@@ -662,7 +663,7 @@ pub const RUNNING_DEFAULT: running_kind_t = 1;
 #[c2rust::src_loc = "58:1"]
 pub type opt_num_t = uint_fast8_t;
 #[c2rust::src_loc = "52:26"]
-static mut initialised: bool = false;
+static mut initialised: AtomicBool = AtomicBool::new(false);
 #[c2rust::src_loc = "53:36"]
 static mut running: running_kind_t = NOT_RUNNING;
 #[c2rust::src_loc = "54:25"]
@@ -1014,8 +1015,7 @@ pub unsafe extern "C" fn pony_init(
     mut argc: libc::c_int,
     mut argv: *mut *mut libc::c_char,
 ) -> libc::c_int {
-    let mut prev_init: bool =
-        ({ ::core::intrinsics::atomic_xchg_relaxed(&mut initialised, 1 as libc::c_int != 0) });
+    let mut prev_init: bool = initialised.swap(true, Relaxed);
     if !prev_init {
     } else {
         ponyint_assert_fail(
@@ -1142,9 +1142,7 @@ pub unsafe extern "C" fn pony_start(
     mut exit_code: *mut libc::c_int,
     mut language_features: *const pony_language_features_init_t,
 ) -> bool {
-    if ({ ::core::intrinsics::atomic_load_relaxed(&mut initialised as *mut bool) }) as libc::c_int
-        != 0
-    {
+    if ({ (&mut initialised).load(Relaxed) }) {
     } else {
         ponyint_assert_fail(
             b"atomic_load_explicit(&initialised, memory_order_relaxed)\0" as *const u8
@@ -1218,10 +1216,7 @@ pub unsafe extern "C" fn pony_start(
     }
     let mut ec: libc::c_int = pony_get_exitcode();
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
-    ({
-        ::core::intrinsics::atomic_store_relaxed(&mut initialised, 0 as libc::c_int != 0);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    &mut initialised.store(false, Relaxed);
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
         compile_error!("Builtin is not supposed to be used")
@@ -1234,9 +1229,7 @@ pub unsafe extern "C" fn pony_start(
 #[no_mangle]
 #[c2rust::src_loc = "375:1"]
 pub unsafe extern "C" fn pony_stop() -> libc::c_int {
-    if ({ ::core::intrinsics::atomic_load_relaxed(&mut initialised as *mut bool) }) as libc::c_int
-        != 0
-    {
+    if (&mut initialised).load(Relaxed) {
     } else {
         ponyint_assert_fail(
             b"atomic_load_explicit(&initialised, memory_order_relaxed)\0" as *const u8
@@ -1264,10 +1257,7 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
     }
     let mut ec: libc::c_int = pony_get_exitcode();
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
-    ({
-        ::core::intrinsics::atomic_store_relaxed(&mut initialised, 0 as libc::c_int != 0);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    &mut initialised.store(false, Relaxed);
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
         compile_error!("Builtin is not supposed to be used")
