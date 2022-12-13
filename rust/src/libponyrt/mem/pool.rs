@@ -152,12 +152,11 @@ pub struct pool_block_t {
     pub size: size_t,
     pub acquired: AtomicBool,
 }
-#[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "75:3"]
 pub union C2RustUnnamed_0 {
     pub next: *mut pool_block_t,
-    pub global: *mut pool_block_t,
+    pub global: ManuallyDrop<AtomicPtr<pool_block_t>>,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -533,29 +532,21 @@ unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
         compile_error!("Builtin is not supposed to be used")
     });
     loop {
-        let mut pos: *mut pool_block_t =
-            ({ ::core::intrinsics::atomic_load_acq(&mut pool_block_global.c2rust_unnamed.global) });
+        let mut pos: *mut pool_block_t = (&mut *pool_block_global.c2rust_unnamed.global).load(Acquire);
         let mut prev: *mut pool_block_t = &mut pool_block_global;
         while !pos.is_null() && (*block).size > (*pos).size {
             prev = pos;
-            pos = ({ ::core::intrinsics::atomic_load_acq(&mut (*pos).c2rust_unnamed.global) });
+            pos = (&mut *(*pos).c2rust_unnamed.global).load(Acquire);
         }
         if (*prev).acquired.swap(true, Acquire) {
             continue;
         }
-        let mut check_pos: *mut pool_block_t =
-            ({ ::core::intrinsics::atomic_load_relaxed(&mut (*prev).c2rust_unnamed.global) });
+        let mut check_pos: *mut pool_block_t = (&mut (*prev).c2rust_unnamed.global).load(Relaxed);
         if pos != check_pos {
             &mut (*prev).acquired.store(false, Relaxed);
         } else {
-            ({
-                ::core::intrinsics::atomic_store_relaxed(&mut (*block).c2rust_unnamed.global, pos);
-                compile_error!("Builtin is not supposed to be used")
-            });
-            ({
-                ::core::intrinsics::atomic_store_rel(&mut (*prev).c2rust_unnamed.global, block);
-                compile_error!("Builtin is not supposed to be used")
-            });
+            (&mut (*block).c2rust_unnamed.global).store(pos, Relaxed);
+            (&mut (*prev).c2rust_unnamed.global).store(block, Release);
             (&mut (*prev).acquired).store(false, Release);
             break;
         }
@@ -567,8 +558,7 @@ unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
 }
 #[c2rust::src_loc = "471:1"]
 unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
-    let mut block: *mut pool_block_t =
-        ({ ::core::intrinsics::atomic_load_relaxed(&mut pool_block_global.c2rust_unnamed.global) });
+    let mut block: *mut pool_block_t = (&mut pool_block_global.c2rust_unnamed.global).load(Relaxed);
     if block.is_null() {
         return 0 as *mut pool_block_t;
     }
@@ -577,9 +567,7 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
         compile_error!("Builtin is not supposed to be used")
     });
     loop {
-        block = ({
-            ::core::intrinsics::atomic_load_relaxed(&mut pool_block_global.c2rust_unnamed.global)
-        });
+        block = (&mut pool_block_global.c2rust_unnamed.global).load(Relaxed);
         if block.is_null() {
             ({
                 ::core::intrinsics::atomic_xsub_relaxed(
@@ -594,7 +582,7 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
         let mut prev: *mut pool_block_t = &mut pool_block_global;
         while !block.is_null() && size > (*block).size {
             prev = block;
-            block = ({ ::core::intrinsics::atomic_load_acq(&mut (*block).c2rust_unnamed.global) });
+            block = (&mut (*block).c2rust_unnamed.global).load(Acquire);
         }
         if block.is_null() {
             ({
@@ -609,18 +597,13 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
         if (*prev).acquired.swap(true, Acquire) {
             continue;
         }
-        let mut check_block: *mut pool_block_t =
-            ({ ::core::intrinsics::atomic_load_relaxed(&mut (*prev).c2rust_unnamed.global) });
+        let mut check_block: *mut pool_block_t = (&mut (*prev).c2rust_unnamed.global).load(Relaxed);
         if block != check_block || (*block).acquired.swap(true, Relaxed) {
             (*prev).acquired.store(false, Relaxed);
         } else {
             f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
-            let mut next: *mut pool_block_t =
-                ({ ::core::intrinsics::atomic_load_relaxed(&mut (*block).c2rust_unnamed.global) });
-            ({
-                ::core::intrinsics::atomic_store_relaxed(&mut (*prev).c2rust_unnamed.global, next);
-                compile_error!("Builtin is not supposed to be used")
-            });
+            let mut next: *mut pool_block_t = (&mut (*block).c2rust_unnamed.global).load(Relaxed);
+            (&mut (*prev).c2rust_unnamed.global).store(next, Relaxed);
             (&mut (*prev).acquired).store(false, Release);
             break;
         }
