@@ -1,5 +1,6 @@
 use ::libc;
-use core::sync::atomic::{AtomicBool, AtomicU8, AtomicI32, Ordering::{Acquire, Relaxed}};
+use core::sync::atomic::{AtomicBool, AtomicI32, Ordering::{Acquire, Relaxed, Release}};
+use atomic_enum::atomic_enum;
 #[c2rust::header_src = "internal:0"]
 pub mod internal {
     #[c2rust::src_loc = "0:0"]
@@ -653,8 +654,8 @@ pub const OPT_NOSCALE: opt_num_t = 2;
 #[c2rust::src_loc = "61:3"]
 pub const OPT_MINTHREADS: opt_num_t = 1;
 #[c2rust::src_loc = "44:9"]
-#[repr(u8)]
-#[derive(Copy, Clone)]
+#[atomic_enum]
+#[derive(Eq, PartialEq)]
 pub enum RunningKind {
     #[c2rust::src_loc = "46:3"]
     NOT_RUNNING = 0,
@@ -669,7 +670,7 @@ pub type opt_num_t = uint_fast8_t;
 #[c2rust::src_loc = "52:26"]
 static mut initialised: AtomicBool = AtomicBool::new(false);
 #[c2rust::src_loc = "53:36"]
-static mut running: RunningKind = NOT_RUNNING;
+static mut running: AtomicRunningKind = AtomicRunningKind::new(NOT_RUNNING);
 #[c2rust::src_loc = "54:25"]
 static mut rt_exit_code: AtomicI32 = AtomicI32::new(0);
 #[c2rust::src_loc = "56:38"]
@@ -1030,10 +1031,7 @@ pub unsafe extern "C" fn pony_init(
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pony_init\0")).as_ptr(),
         );
     };
-    if ({ ::core::intrinsics::atomic_load_relaxed(&mut running as *mut RunningKind) })
-        as libc::c_int
-        == NOT_RUNNING as uint_fast8_t as libc::c_int
-    {
+    if (running.load(Relaxed)) == NOT_RUNNING {
     } else {
         ponyint_assert_fail(
             b"atomic_load_explicit(&running, memory_order_relaxed) == NOT_RUNNING\0" as *const u8
@@ -1157,9 +1155,8 @@ pub unsafe extern "C" fn pony_start(
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pony_start\0")).as_ptr(),
         );
     };
-    let mut prev_running: RunningKind =
-        ({ ::core::intrinsics::atomic_xchg_relaxed(&mut running, RUNNING_DEFAULT) });
-    if prev_running as libc::c_int == NOT_RUNNING as uint_fast8_t as libc::c_int {
+    let mut prev_running: RunningKind = running.swap(RUNNING_DEFAULT, Relaxed);
+    if prev_running as libc::c_uint == NOT_RUNNING as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
             b"prev_running == NOT_RUNNING\0" as *const u8 as *const libc::c_char,
@@ -1176,10 +1173,7 @@ pub unsafe extern "C" fn pony_start(
             ::core::mem::size_of::<pony_language_features_init_t>() as libc::c_ulong,
         );
         if language_init.init_network as libc::c_int != 0 && !ponyint_os_sockets_init() {
-            ({
-                ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
-                compile_error!("Builtin is not supposed to be used")
-            });
+            running.store(NOT_RUNNING, Relaxed);
             return 0 as libc::c_int != 0;
         }
         if language_init.init_serialisation as libc::c_int != 0
@@ -1188,10 +1182,7 @@ pub unsafe extern "C" fn pony_start(
                 language_init.descriptor_table_size,
             )
         {
-            ({
-                ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
-                compile_error!("Builtin is not supposed to be used")
-            });
+            running.store(NOT_RUNNING, Relaxed);
             return 0 as libc::c_int != 0;
         }
     } else {
@@ -1202,17 +1193,11 @@ pub unsafe extern "C" fn pony_start(
         );
     }
     if !ponyint_sched_start(library) {
-        ({
-            ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
-            compile_error!("Builtin is not supposed to be used")
-        });
+        running.store(NOT_RUNNING, Relaxed);
         return 0 as libc::c_int != 0;
     }
     if library {
-        ({
-            ::core::intrinsics::atomic_store_rel(&mut running, RUNNING_LIBRARY);
-            compile_error!("Builtin is not supposed to be used")
-        });
+        running.store(RUNNING_LIBRARY, Release);
         return 1 as libc::c_int != 0;
     }
     if language_init.init_network {
@@ -1221,10 +1206,7 @@ pub unsafe extern "C" fn pony_start(
     let mut ec: libc::c_int = pony_get_exitcode();
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
     &mut initialised.store(false, Relaxed);
-    ({
-        ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    running.store(NOT_RUNNING, Relaxed);
     if !exit_code.is_null() {
         *exit_code = ec;
     }
@@ -1244,8 +1226,8 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pony_stop\0")).as_ptr(),
         );
     };
-    let mut loc_running: RunningKind = ({ ::core::intrinsics::atomic_load_acq(&mut running) });
-    if loc_running as libc::c_int == RUNNING_LIBRARY as uint_fast8_t as libc::c_int {
+    let mut loc_running: RunningKind = running.load(Acquire);
+    if loc_running as libc::c_uint == RUNNING_LIBRARY as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
             b"loc_running == RUNNING_LIBRARY\0" as *const u8 as *const libc::c_char,
@@ -1262,10 +1244,7 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
     let mut ec: libc::c_int = pony_get_exitcode();
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
     &mut initialised.store(false, Relaxed);
-    ({
-        ::core::intrinsics::atomic_store_relaxed(&mut running, NOT_RUNNING);
-        compile_error!("Builtin is not supposed to be used")
-    });
+    running.store(NOT_RUNNING, Relaxed);
     return ec;
 }
 #[no_mangle]
