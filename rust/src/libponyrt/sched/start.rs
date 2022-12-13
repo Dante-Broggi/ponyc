@@ -1208,7 +1208,7 @@ pub unsafe extern "C" fn pony_start(
     }
     let mut ec: libc::c_int = pony_get_exitcode();
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
-    &mut initialised.store(false, Relaxed);
+    initialised.store(false, Relaxed);
     running.store(NOT_RUNNING, Relaxed);
     if !exit_code.is_null() {
         *exit_code = ec;
@@ -1246,7 +1246,7 @@ pub unsafe extern "C" fn pony_stop() -> libc::c_int {
     }
     let mut ec: libc::c_int = pony_get_exitcode();
     f__atomic_thread_fence(b"memory_order_acq_rel\0" as *const u8 as *const libc::c_char);
-    &mut initialised.store(false, Relaxed);
+    initialised.store(false, Relaxed);
     running.store(NOT_RUNNING, Relaxed);
     ec
 }
