@@ -24,7 +24,7 @@ pub mod sys__types_h {
     pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
     pub type __darwin_uid_t = u32;
-    use super::_types_h::{__int32_t, __uint32_t};
+    
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h:4"]
 pub mod _u_int32_t_h {
@@ -283,7 +283,7 @@ pub mod socket_h {
     use super::_sa_family_t_h::sa_family_t;
     use super::_socklen_t_h::socklen_t;
     use super::_ssize_t_h::ssize_t;
-    use super::_types_h::{__int64_t, __uint8_t};
+    
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "724:1"]
@@ -407,7 +407,7 @@ pub mod in6_h {
     }
     use super::_in_port_t_h::in_port_t;
     use super::_sa_family_t_h::sa_family_t;
-    use super::_types_h::{__uint16_t, __uint32_t, __uint8_t};
+    
     extern "C" {
         #[c2rust::src_loc = "213:30"]
         pub static in6addr_any: in6_addr;

@@ -25,7 +25,7 @@ pub mod sys__types_h {
     pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
     pub type __darwin_uid_t = u32;
-    use super::_types_h::{__int32_t, __uint32_t};
+    
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {

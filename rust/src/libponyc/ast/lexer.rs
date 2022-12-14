@@ -599,7 +599,7 @@ pub mod runetype_h {
         pub __map: __darwin_rune_t,
         pub __types: *mut u32,
     }
-    use super::_types_h::{__darwin_rune_t, __darwin_size_t, __uint32_t};
+    use super::_types_h::{__darwin_rune_t, __darwin_size_t};
     extern "C" {
         #[c2rust::src_loc = "111:20"]
         pub static mut _DefaultRuneLocale: _RuneLocale;
