@@ -25,7 +25,6 @@ pub mod sys__types_h {
     pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
     pub type __darwin_uid_t = u32;
-    
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
@@ -1082,8 +1081,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
     );
     (*ev).flags = ASIO_DISPOSABLE as libc::c_int as u32;
     let mut msg: *mut asio_msg_t =
-        pony_alloc_msg(0 as libc::c_int as u32, 0 as libc::c_int as u32)
-            as *mut asio_msg_t;
+        pony_alloc_msg(0 as libc::c_int as u32, 0 as libc::c_int as u32) as *mut asio_msg_t;
     let ref mut fresh1 = (*msg).event;
     *fresh1 = ev;
     (*msg).flags = ASIO_DISPOSABLE as libc::c_int as u32;

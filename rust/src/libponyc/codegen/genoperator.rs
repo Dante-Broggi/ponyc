@@ -1607,10 +1607,6 @@ pub mod codegen_h {
         pub frame: *mut compile_frame_t,
     }
     use super::hash_h::hashmap_t;
-    use super::Types_h::{
-        LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
-        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
-    };
     use super::pass_h::pass_opt_t;
     use super::reach_h::reach_t;
     use super::reify_h::deferred_reification_t;
@@ -1618,6 +1614,10 @@ pub mod codegen_h {
     use super::Core_h::{LLVMCallConv, LLVMLinkage};
     use super::TargetMachine_h::LLVMTargetMachineRef;
     use super::Target_h::LLVMTargetDataRef;
+    use super::Types_h::{
+        LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
+        LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
+    };
     extern "C" {
         #[c2rust::src_loc = "289:1"]
         pub fn codegen_block(c: *mut compile_t, name: *const libc::c_char) -> LLVMBasicBlockRef;

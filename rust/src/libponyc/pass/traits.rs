@@ -1739,16 +1739,10 @@ unsafe extern "C" fn add_method_from_trait(
         && ast_id(method_body) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
         && (*info).body_donor != ast_data(method) as *mut ast_t;
     if multiple_bodies as libc::c_int != 0
-        || ast_checkflag(
-            existing_method,
-            AST_FLAG_AMBIGUOUS as libc::c_int as u32,
-        ) != 0
+        || ast_checkflag(existing_method, AST_FLAG_AMBIGUOUS as libc::c_int as u32) != 0
         || ast_checkflag(method, AST_FLAG_AMBIGUOUS as libc::c_int as u32) != 0
     {
-        ast_setflag(
-            existing_method,
-            AST_FLAG_AMBIGUOUS as libc::c_int as u32,
-        );
+        ast_setflag(existing_method, AST_FLAG_AMBIGUOUS as libc::c_int as u32);
         if ast_id(existing_body) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
             ast_replace(&mut existing_body, ast_from(existing_method, TK_NONE));
         }

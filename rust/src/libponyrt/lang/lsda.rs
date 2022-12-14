@@ -142,10 +142,7 @@ unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> uintptr_t {
     result
 }
 #[c2rust::src_loc = "84:1"]
-unsafe extern "C" fn read_encoded_ptr(
-    mut data: *mut *const u8,
-    mut encoding: u8,
-) -> uintptr_t {
+unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8) -> uintptr_t {
     let mut p: *const u8 = *data;
     if encoding as libc::c_int == DW_EH_PE_omit as libc::c_int {
         return 0 as libc::c_int as uintptr_t;
@@ -194,10 +191,7 @@ unsafe extern "C" fn read_encoded_ptr(
     result
 }
 #[c2rust::src_loc = "148:1"]
-unsafe extern "C" fn read_with_encoding(
-    mut data: *mut *const u8,
-    mut def: uintptr_t,
-) -> uintptr_t {
+unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: uintptr_t) -> uintptr_t {
     let mut start: uintptr_t = *data as uintptr_t;
     let mut p: *const u8 = *data;
     let fresh2 = p;

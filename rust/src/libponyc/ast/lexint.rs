@@ -103,11 +103,7 @@ pub unsafe extern "C" fn lexint_testbit(mut a: *mut lexint_t, mut b: u8) -> u64 
 }
 #[no_mangle]
 #[c2rust::src_loc = "99:1"]
-pub unsafe extern "C" fn lexint_setbit(
-    mut dst: *mut lexint_t,
-    mut a: *mut lexint_t,
-    mut b: u8,
-) {
+pub unsafe extern "C" fn lexint_setbit(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u8) {
     *dst = *a;
     if b as libc::c_int >= 64 as libc::c_int {
         let ref mut fresh0 = (*dst).high;
@@ -131,11 +127,7 @@ pub unsafe extern "C" fn lexint_add(
 }
 #[no_mangle]
 #[c2rust::src_loc = "115:1"]
-pub unsafe extern "C" fn lexint_add64(
-    mut dst: *mut lexint_t,
-    mut a: *mut lexint_t,
-    mut b: u64,
-) {
+pub unsafe extern "C" fn lexint_add64(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u64) {
     (*dst).high = ((*a).high)
         .wrapping_add((((*a).low).wrapping_add(b) < (*a).low) as libc::c_int as libc::c_ulonglong);
     (*dst).low = ((*a).low).wrapping_add(b);
@@ -154,22 +146,14 @@ pub unsafe extern "C" fn lexint_sub(
 }
 #[no_mangle]
 #[c2rust::src_loc = "127:1"]
-pub unsafe extern "C" fn lexint_sub64(
-    mut dst: *mut lexint_t,
-    mut a: *mut lexint_t,
-    mut b: u64,
-) {
+pub unsafe extern "C" fn lexint_sub64(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u64) {
     (*dst).high = ((*a).high)
         .wrapping_sub((((*a).low).wrapping_sub(b) > (*a).low) as libc::c_int as libc::c_ulonglong);
     (*dst).low = ((*a).low).wrapping_sub(b);
 }
 #[no_mangle]
 #[c2rust::src_loc = "133:1"]
-pub unsafe extern "C" fn lexint_mul64(
-    mut dst: *mut lexint_t,
-    mut a: *mut lexint_t,
-    mut b: u64,
-) {
+pub unsafe extern "C" fn lexint_mul64(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u64) {
     let mut v1: u128 = ((*a).high as u128) << 64 as libc::c_int | (*a).low as u128;
     let mut v2: u128 = v1.wrapping_mul(b as u128);
     (*dst).low = v2 as u64;
@@ -177,11 +161,7 @@ pub unsafe extern "C" fn lexint_mul64(
 }
 #[no_mangle]
 #[c2rust::src_loc = "154:1"]
-pub unsafe extern "C" fn lexint_div64(
-    mut dst: *mut lexint_t,
-    mut a: *mut lexint_t,
-    mut b: u64,
-) {
+pub unsafe extern "C" fn lexint_div64(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u64) {
     let mut v1: u128 = ((*a).high as u128) << 64 as libc::c_int | (*a).low as u128;
     let mut v2: u128 = v1.wrapping_div(b as u128);
     (*dst).low = v2 as u64;
@@ -195,11 +175,7 @@ pub unsafe extern "C" fn lexint_char(mut i: *mut lexint_t, mut c: libc::c_int) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "197:1"]
-pub unsafe extern "C" fn lexint_accum(
-    mut i: *mut lexint_t,
-    mut digit: u64,
-    mut base: u64,
-) -> bool {
+pub unsafe extern "C" fn lexint_accum(mut i: *mut lexint_t, mut digit: u64, mut base: u64) -> bool {
     let mut v1: u128 = ((*i).high as u128) << 64 as libc::c_int | (*i).low as u128;
     let mut v2: u128 = v1.wrapping_mul(base as u128);
     if v2.wrapping_div(base as u128) != v1 {
@@ -268,11 +244,7 @@ pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
             let mut t: lexint_t = lexint_t { low: 0, high: 0 };
             lexint_shr(&mut t, i, (sig_bit_count - 55 as libc::c_int) as u64);
             mantissa = t.low;
-            lexint_shl(
-                &mut t,
-                &mut t,
-                (sig_bit_count - 55 as libc::c_int) as u64,
-            );
+            lexint_shl(&mut t, &mut t, (sig_bit_count - 55 as libc::c_int) as u64);
             if lexint_cmp(&mut t, i) != 0 as libc::c_int {
                 mantissa |= 1 as libc::c_int as libc::c_ulonglong;
             }
@@ -287,8 +259,8 @@ pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
         {
             mantissa >>= 1 as libc::c_int;
             exponent = (exponent as libc::c_ulonglong)
-                .wrapping_add(1 as libc::c_int as libc::c_ulonglong)
-                as u64 as u64;
+                .wrapping_add(1 as libc::c_int as libc::c_ulonglong) as u64
+                as u64;
         }
     }
     let mut raw_bits: u64 = exponent.wrapping_add(1023 as libc::c_int as libc::c_ulonglong)

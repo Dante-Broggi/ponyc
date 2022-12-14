@@ -603,10 +603,7 @@ pub mod pool_h {
 pub mod cpu_h {
     extern "C" {
         #[c2rust::src_loc = "26:1"]
-        pub fn ponyint_cpu_tick_diff(
-            supposedly_earlier: u64,
-            supposedly_later: u64,
-        ) -> u64;
+        pub fn ponyint_cpu_tick_diff(supposedly_earlier: u64, supposedly_later: u64) -> u64;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:12"]
@@ -2238,10 +2235,7 @@ static mut cycle_type: pony_type_t = unsafe {
 };
 #[no_mangle]
 #[c2rust::src_loc = "1243:1"]
-pub unsafe extern "C" fn ponyint_cycle_create(
-    mut ctx: *mut pony_ctx_t,
-    mut detect_interval: u32,
-) {
+pub unsafe extern "C" fn ponyint_cycle_create(mut ctx: *mut pony_ctx_t, mut detect_interval: u32) {
     if detect_interval > 1000 as libc::c_int as libc::c_uint {
         detect_interval = 1000 as libc::c_int as u32;
     }
@@ -2258,10 +2252,7 @@ pub unsafe extern "C" fn ponyint_cycle_create(
 }
 #[no_mangle]
 #[c2rust::src_loc = "1268:1"]
-pub unsafe extern "C" fn ponyint_cycle_check_blocked(
-    mut tsc: u64,
-    mut tsc2: u64,
-) -> bool {
+pub unsafe extern "C" fn ponyint_cycle_check_blocked(mut tsc: u64, mut tsc2: u64) -> bool {
     let mut d: *mut detector_t = cycle_detector as *mut detector_t;
     let mut diff: u64 = ponyint_cpu_tick_diff(tsc, tsc2);
     if diff > (*d).detect_interval as libc::c_ulonglong {

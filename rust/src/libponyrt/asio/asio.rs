@@ -138,27 +138,20 @@ pub unsafe extern "C" fn ponyint_asio_stop() -> bool {
 #[no_mangle]
 #[c2rust::src_loc = "160:1"]
 pub unsafe extern "C" fn ponyint_asio_stoppable() -> bool {
-    return ({
-        ::core::intrinsics::atomic_load_acq(&mut running_base.noisy_count as *mut u64)
-    }) == 0 as libc::c_int as libc::c_ulonglong;
+    return ({ ::core::intrinsics::atomic_load_acq(&mut running_base.noisy_count as *mut u64) })
+        == 0 as libc::c_int as libc::c_ulonglong;
 }
 #[no_mangle]
 #[c2rust::src_loc = "166:1"]
 pub unsafe extern "C" fn ponyint_asio_noisy_add() -> u64 {
     return {
-        ::core::intrinsics::atomic_xadd_rel(
-            &mut running_base.noisy_count,
-            1 as libc::c_int as u64,
-        )
+        ::core::intrinsics::atomic_xadd_rel(&mut running_base.noisy_count, 1 as libc::c_int as u64)
     };
 }
 #[no_mangle]
 #[c2rust::src_loc = "171:1"]
 pub unsafe extern "C" fn ponyint_asio_noisy_remove() -> u64 {
     return {
-        ::core::intrinsics::atomic_xsub_rel(
-            &mut running_base.noisy_count,
-            1 as libc::c_int as u64,
-        )
+        ::core::intrinsics::atomic_xsub_rel(&mut running_base.noisy_count, 1 as libc::c_int as u64)
     };
 }

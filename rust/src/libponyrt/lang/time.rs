@@ -213,11 +213,7 @@ pub unsafe extern "C" fn ponyint_timegm(mut date: *mut date_t) -> i64 {
 }
 #[no_mangle]
 #[c2rust::src_loc = "62:1"]
-pub unsafe extern "C" fn ponyint_gmtime(
-    mut date: *mut date_t,
-    mut sec: i64,
-    mut nsec: i64,
-) {
+pub unsafe extern "C" fn ponyint_gmtime(mut date: *mut date_t, mut sec: i64, mut nsec: i64) {
     let mut overflow_sec: time_t = (nsec / 1000000000 as libc::c_int as libc::c_longlong) as time_t;
     nsec -= (overflow_sec * 1000000000 as libc::c_int as libc::c_long) as libc::c_longlong;
     if nsec < 0 as libc::c_int as libc::c_longlong {

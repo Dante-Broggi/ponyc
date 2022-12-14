@@ -5205,10 +5205,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     if parent_21.is_null() {
         parent_21 = ast_from_int(basis_ast, ast_pos(location) as u64);
     } else if last_sibling_21.is_null() {
-        last_sibling_21 = ast_add(
-            parent_21,
-            ast_from_int(basis_ast, ast_pos(location) as u64),
-        );
+        last_sibling_21 = ast_add(parent_21, ast_from_int(basis_ast, ast_pos(location) as u64));
     } else {
         last_sibling_21 = ast_add_sibling(
             last_sibling_21,
