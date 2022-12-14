@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h:1"]
-pub mod _int64_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int64_t = libc::c_longlong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "122:1"]
@@ -142,7 +137,6 @@ pub mod string_h {
         pub fn strcmp(_: *const libc::c_char, _: *const libc::c_char) -> libc::c_int;
     }
 }
-pub use self::_int64_t_h::int64_t;
 pub use self::_time_t_h::time_t;
 pub use self::_types_h::__darwin_time_t;
 pub use self::_uintptr_t_h::uintptr_t;
@@ -200,7 +194,7 @@ unsafe extern "C" fn tm_to_date(mut tm: *mut tm, mut nsec: libc::c_int, mut date
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
-pub unsafe extern "C" fn ponyint_timegm(mut date: *mut date_t) -> int64_t {
+pub unsafe extern "C" fn ponyint_timegm(mut date: *mut date_t) -> i64 {
     let mut tm: tm = tm {
         tm_sec: 0,
         tm_min: 0,
@@ -215,14 +209,14 @@ pub unsafe extern "C" fn ponyint_timegm(mut date: *mut date_t) -> int64_t {
         tm_zone: 0 as *mut libc::c_char,
     };
     date_to_tm(date, &mut tm);
-    return timegm(&mut tm) as int64_t;
+    return timegm(&mut tm) as i64;
 }
 #[no_mangle]
 #[c2rust::src_loc = "62:1"]
 pub unsafe extern "C" fn ponyint_gmtime(
     mut date: *mut date_t,
-    mut sec: int64_t,
-    mut nsec: int64_t,
+    mut sec: i64,
+    mut nsec: i64,
 ) {
     let mut overflow_sec: time_t = (nsec / 1000000000 as libc::c_int as libc::c_longlong) as time_t;
     nsec -= (overflow_sec * 1000000000 as libc::c_int as libc::c_long) as libc::c_longlong;

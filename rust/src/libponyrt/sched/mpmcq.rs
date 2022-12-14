@@ -21,7 +21,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub union aba_protected_mpmcq_node_t {
         pub c2rust_unnamed: C2RustUnnamed,
-        pub raw: __int128_t,
+        pub raw: i128,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -38,7 +38,6 @@ pub mod mpmcq_h {
         pub tail: aba_protected_mpmcq_node_t,
     }
     use super::_uintptr_t_h::uintptr_t;
-    use super::internal::__int128_t;
     use super::mpmcq_node_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/pony/detail/atomics.h:3"]
@@ -68,7 +67,6 @@ pub mod cpu_h {
 pub use self::_uintptr_t_h::uintptr_t;
 use self::atomics_h::f__atomic_thread_fence;
 use self::cpu_h::ponyint_cpu_relax;
-pub use self::internal::__int128_t;
 pub use self::mpmcq_h::{aba_protected_mpmcq_node_t, mpmcq_t, C2RustUnnamed};
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_free};
 pub use self::stddef_h::size_t;
@@ -194,11 +192,11 @@ pub unsafe extern "C" fn ponyint_mpmcq_pop(mut q: *mut mpmcq_t) -> *mut libc::c_
             (cmp.c2rust_unnamed.counter).wrapping_add(1 as libc::c_int as libc::c_ulong);
         if {
             let fresh2 = ::core::intrinsics::atomic_cxchg_acqrel(
-                &mut (*q).tail.raw as *mut __int128_t,
-                *(&mut cmp.raw as *mut __int128_t),
+                &mut (*q).tail.raw as *mut i128,
+                *(&mut cmp.raw as *mut i128),
                 xchg.raw,
             );
-            *(&mut cmp.raw as *mut __int128_t) = fresh2.0;
+            *(&mut cmp.raw as *mut i128) = fresh2.0;
             fresh2.1
         } {
             break;

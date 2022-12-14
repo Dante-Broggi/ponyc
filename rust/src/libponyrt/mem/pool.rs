@@ -83,7 +83,6 @@ pub use self::_uintptr_t_h::uintptr_t;
 use self::alloc_h::ponyint_virt_alloc;
 use self::atomics_h::f__atomic_thread_fence;
 use self::cpu_h::ponyint_cpu_relax;
-pub use self::internal::__int128_t;
 pub use self::platform_h::{__pony_clzll, __pony_clzzu};
 use self::ponyassert_h::ponyint_assert_fail;
 pub use self::stddef_h::size_t;
@@ -116,7 +115,7 @@ pub struct pool_global_t {
 #[c2rust::src_loc = "61:1"]
 pub union aba_protected_pool_central_t {
     pub c2rust_unnamed: C2RustUnnamed,
-    pub raw: __int128_t,
+    pub raw: i128,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -755,11 +754,11 @@ unsafe extern "C" fn pool_push(mut thread: *mut pool_local_t, mut global: *mut p
         *fresh11 = top;
         if {
             let fresh12 = ::core::intrinsics::atomic_cxchg_acqrel(
-                &mut (*global).central.raw as *mut __int128_t,
-                *(&mut cmp.raw as *mut __int128_t),
+                &mut (*global).central.raw as *mut i128,
+                *(&mut cmp.raw as *mut i128),
                 xchg.raw,
             );
-            *(&mut cmp.raw as *mut __int128_t) = fresh12.0;
+            *(&mut cmp.raw as *mut i128) = fresh12.0;
             fresh12.1
         } {
             break;
@@ -799,11 +798,11 @@ unsafe extern "C" fn pool_pull(
             (cmp.c2rust_unnamed.counter).wrapping_add(1 as libc::c_int as libc::c_ulong);
         if {
             let fresh13 = ::core::intrinsics::atomic_cxchg_acqrel(
-                &mut (*global).central.raw as *mut __int128_t,
-                *(&mut cmp.raw as *mut __int128_t),
+                &mut (*global).central.raw as *mut i128,
+                *(&mut cmp.raw as *mut i128),
                 xchg.raw,
             );
-            *(&mut cmp.raw as *mut __int128_t) = fresh13.0;
+            *(&mut cmp.raw as *mut i128) = fresh13.0;
             fresh13.1
         } {
             break;

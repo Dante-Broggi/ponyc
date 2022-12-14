@@ -7,8 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:4"]
 pub mod sys__types_h {
     #[c2rust::src_loc = "71:1"]
-    pub type __darwin_off_t = __int64_t;
-    use super::_types_h::__int64_t;
+    pub type __darwin_off_t = i64;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:4"]
 pub mod stddef_h {
@@ -54,7 +53,6 @@ pub mod mman_h {
     }
 }
 pub use self::_off_t_h::off_t;
-pub use self::_types_h::__int64_t;
 use self::mman_h::{mmap, munmap};
 pub use self::stddef_h::size_t;
 use self::stdio_h::perror;

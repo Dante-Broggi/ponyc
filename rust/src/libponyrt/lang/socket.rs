@@ -19,7 +19,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:4"]
 pub mod sys__types_h {
     #[c2rust::src_loc = "72:1"]
-    pub type __darwin_pid_t = __int32_t;
+    pub type __darwin_pid_t = i32;
     #[c2rust::src_loc = "73:1"]
     pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
@@ -277,7 +277,7 @@ pub mod socket_h {
         pub ss_len: u8,
         pub ss_family: sa_family_t,
         pub __ss_pad1: [libc::c_char; 6],
-        pub __ss_align: __int64_t,
+        pub __ss_align: i64,
         pub __ss_pad2: [libc::c_char; 112],
     }
     use super::_sa_family_t_h::sa_family_t;

@@ -9,11 +9,6 @@ pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
     pub type size_t = libc::c_ulong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:3"]
-pub mod _int32_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int32_t = libc::c_int;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
     #[c2rust::src_loc = "51:1"]
@@ -418,7 +413,7 @@ pub mod scheduler_h {
     #[c2rust::src_loc = "84:8"]
     pub struct scheduler_t {
         pub tid: pthread_t,
-        pub index: int32_t,
+        pub index: i32,
         pub cpu: u32,
         pub node: u32,
         pub terminate: bool,
@@ -428,13 +423,12 @@ pub mod scheduler_h {
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
         pub block_count: u32,
-        pub ack_token: int32_t,
+        pub ack_token: i32,
         pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
     }
-    use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
     use super::actor_h::pony_actor_t;
@@ -490,7 +484,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub union aba_protected_mpmcq_node_t {
         pub c2rust_unnamed: C2RustUnnamed,
-        pub raw: __int128_t,
+        pub raw: i128,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -500,7 +494,6 @@ pub mod mpmcq_h {
         pub counter: uintptr_t,
     }
     use super::_uintptr_t_h::uintptr_t;
-    use super::internal::__int128_t;
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -604,7 +597,6 @@ pub mod dtrace_h {
         pub fn macro__DTRACE(_: *const libc::c_char, _: libc::c_int, _: ...) -> bool;
     }
 }
-pub use self::_int32_t_h::int32_t;
 pub use self::_intptr_t_h::intptr_t;
 pub use self::_pthread_cond_t_h::pthread_cond_t;
 pub use self::_pthread_t_h::pthread_t;
@@ -633,7 +625,6 @@ pub use self::heap_h::{
     ponyint_heap_realloc, ponyint_heap_startgc, C2RustUnnamed_0, TRACK_ALL_FINALISERS,
     TRACK_NO_FINALISERS,
 };
-pub use self::internal::__int128_t;
 pub use self::messageq_h::{
     messageq_t, ponyint_actor_messageq_pop, ponyint_actor_messageq_push,
     ponyint_actor_messageq_push_single, ponyint_messageq_destroy, ponyint_messageq_init,

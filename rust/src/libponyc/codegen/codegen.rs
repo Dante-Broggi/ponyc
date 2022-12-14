@@ -19,11 +19,11 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
     #[c2rust::src_loc = "55:1"]
-    pub type __darwin_blkcnt_t = __int64_t;
+    pub type __darwin_blkcnt_t = i64;
     #[c2rust::src_loc = "56:1"]
-    pub type __darwin_blksize_t = __int32_t;
+    pub type __darwin_blksize_t = i32;
     #[c2rust::src_loc = "57:1"]
-    pub type __darwin_dev_t = __int32_t;
+    pub type __darwin_dev_t = i32;
     #[c2rust::src_loc = "60:1"]
     pub type __darwin_gid_t = u32;
     #[c2rust::src_loc = "62:1"]
@@ -31,7 +31,7 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "70:1"]
     pub type __darwin_mode_t = u16;
     #[c2rust::src_loc = "71:1"]
-    pub type __darwin_off_t = __int64_t;
+    pub type __darwin_off_t = i64;
     #[c2rust::src_loc = "75:1"]
     pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t};
@@ -122,8 +122,8 @@ pub mod stat_h {
         pub st_blksize: blksize_t,
         pub st_flags: u32,
         pub st_gen: u32,
-        pub st_lspare: __int32_t,
-        pub st_qspare: [__int64_t; 2],
+        pub st_lspare: i32,
+        pub st_qspare: [i64; 2],
     }
     use super::_blkcnt_t_h::blkcnt_t;
     use super::_blksize_t_h::blksize_t;

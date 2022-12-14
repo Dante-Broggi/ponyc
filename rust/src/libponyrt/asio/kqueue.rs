@@ -4,16 +4,6 @@ pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
     pub type size_t = libc::c_ulong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h:1"]
-pub mod _int16_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int16_t = libc::c_short;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:1"]
-pub mod _int32_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int32_t = libc::c_int;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "46:1"]
@@ -30,7 +20,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
     #[c2rust::src_loc = "72:1"]
-    pub type __darwin_pid_t = __int32_t;
+    pub type __darwin_pid_t = i32;
     #[c2rust::src_loc = "73:1"]
     pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
@@ -210,13 +200,12 @@ pub mod event_h {
     #[c2rust::src_loc = "86:8"]
     pub struct kevent {
         pub ident: uintptr_t,
-        pub filter: int16_t,
+        pub filter: i16,
         pub flags: u16,
         pub fflags: u32,
         pub data: intptr_t,
         pub udata: *mut libc::c_void,
     }
-    use super::_int16_t_h::int16_t;
     use super::_intptr_t_h::intptr_t;
     use super::_timespec_h::timespec;
     use super::_uintptr_t_h::uintptr_t;
@@ -285,14 +274,13 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.h:5"]
 pub mod scheduler_h {
-    use super::_int32_t_h::int32_t;
     extern "C" {
         #[c2rust::src_loc = "139:1"]
-        pub fn ponyint_sched_noisy_asio(from: int32_t);
+        pub fn ponyint_sched_noisy_asio(from: i32);
         #[c2rust::src_loc = "150:1"]
-        pub fn ponyint_sched_maybe_wakeup_if_all_asleep(current_scheduler_id: int32_t);
+        pub fn ponyint_sched_maybe_wakeup_if_all_asleep(current_scheduler_id: i32);
         #[c2rust::src_loc = "143:1"]
-        pub fn ponyint_sched_unnoisy_asio(from: int32_t);
+        pub fn ponyint_sched_unnoisy_asio(from: i32);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:7"]
@@ -337,8 +325,6 @@ pub mod unistd_h {
         pub fn write(__fd: libc::c_int, __buf: *const libc::c_void, __nbyte: size_t) -> ssize_t;
     }
 }
-pub use self::_int16_t_h::int16_t;
-pub use self::_int32_t_h::int32_t;
 pub use self::_intptr_t_h::intptr_t;
 pub use self::_pid_t_h::pid_t;
 pub use self::_sigset_t_h::sigset_t;
@@ -390,7 +376,7 @@ pub type kevent_flag_t = u32;
 unsafe extern "C" fn macro__EV_SET(
     mut kevp: *mut kevent,
     mut ident: uintptr_t,
-    mut filter: int16_t,
+    mut filter: i16,
     mut flags: u16,
     mut fflags: u32,
     mut data: intptr_t,
@@ -432,7 +418,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_init() -> *mut asio_backend_t {
     macro__EV_SET(
         &mut new_event,
         (*b).wakeup[0 as libc::c_int as usize] as uintptr_t,
-        -(1 as libc::c_int) as int16_t,
+        -(1 as libc::c_int) as i16,
         0x1 as libc::c_int as u16,
         0 as libc::c_int as u32,
         0 as libc::c_int as intptr_t,
@@ -544,7 +530,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_read(mut ev: *mut asio_even
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
-            -(1 as libc::c_int) as int16_t,
+            -(1 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -621,7 +607,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_write(mut ev: *mut asio_eve
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
-            -(2 as libc::c_int) as int16_t,
+            -(2 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -831,7 +817,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
-            -(1 as libc::c_int) as int16_t,
+            -(1 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | flags) as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -843,7 +829,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
-            -(2 as libc::c_int) as int16_t,
+            -(2 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | flags) as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -855,7 +841,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             ev as uintptr_t,
-            -(7 as libc::c_int) as int16_t,
+            -(7 as libc::c_int) as i16,
             (0x1 as libc::c_int | 0x10 as libc::c_int) as u16,
             0x4 as libc::c_int as u32,
             (*ev).nsec as intptr_t,
@@ -883,7 +869,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).nsec as uintptr_t,
-            -(6 as libc::c_int) as int16_t,
+            -(6 as libc::c_int) as i16,
             (0x1 as libc::c_int | 0x20 as libc::c_int) as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -954,7 +940,7 @@ pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut 
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             ev as uintptr_t,
-            -(7 as libc::c_int) as int16_t,
+            -(7 as libc::c_int) as i16,
             (0x1 as libc::c_int | 0x10 as libc::c_int) as u16,
             0x4 as libc::c_int as u32,
             (*ev).nsec as intptr_t,
@@ -1029,7 +1015,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
-            -(1 as libc::c_int) as int16_t,
+            -(1 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -1041,7 +1027,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
-            -(2 as libc::c_int) as int16_t,
+            -(2 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -1053,7 +1039,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             ev as uintptr_t,
-            -(7 as libc::c_int) as int16_t,
+            -(7 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
@@ -1078,7 +1064,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).nsec as uintptr_t,
-            -(6 as libc::c_int) as int16_t,
+            -(6 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,

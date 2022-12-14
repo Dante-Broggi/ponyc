@@ -1,19 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h:1"]
-pub mod _int16_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int16_t = libc::c_short;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:1"]
-pub mod _int32_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int32_t = libc::c_int;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h:1"]
-pub mod _int64_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int64_t = libc::c_longlong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "51:1"]
@@ -57,9 +42,6 @@ pub mod stdlib_h {
         pub fn abort() -> !;
     }
 }
-pub use self::_int16_t_h::int16_t;
-pub use self::_int32_t_h::int32_t;
-pub use self::_int64_t_h::int64_t;
 pub use self::_intptr_t_h::intptr_t;
 pub use self::_types_h::__darwin_intptr_t;
 pub use self::_uintptr_t_h::uintptr_t;
@@ -187,16 +169,16 @@ unsafe extern "C" fn read_encoded_ptr(
             p = p.offset(::core::mem::size_of::<u64>() as libc::c_ulong as isize);
         }
         10 => {
-            result = *(p as *mut int16_t) as uintptr_t;
-            p = p.offset(::core::mem::size_of::<int16_t>() as libc::c_ulong as isize);
+            result = *(p as *mut i16) as uintptr_t;
+            p = p.offset(::core::mem::size_of::<i16>() as libc::c_ulong as isize);
         }
         11 => {
-            result = *(p as *mut int32_t) as uintptr_t;
-            p = p.offset(::core::mem::size_of::<int32_t>() as libc::c_ulong as isize);
+            result = *(p as *mut i32) as uintptr_t;
+            p = p.offset(::core::mem::size_of::<i32>() as libc::c_ulong as isize);
         }
         12 => {
-            result = *(p as *mut int64_t) as uintptr_t;
-            p = p.offset(::core::mem::size_of::<int64_t>() as libc::c_ulong as isize);
+            result = *(p as *mut i64) as uintptr_t;
+            p = p.offset(::core::mem::size_of::<i64>() as libc::c_ulong as isize);
         }
         9 => {
             result = read_sleb128(&mut p) as uintptr_t;

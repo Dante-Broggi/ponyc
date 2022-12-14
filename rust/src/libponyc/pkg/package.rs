@@ -4,11 +4,6 @@ pub mod internal {
     #[c2rust::src_loc = "0:0"]
     pub type __int128_t = i128;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:1"]
-pub mod _int32_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int32_t = libc::c_int;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "43:1"]
@@ -33,11 +28,11 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
     #[c2rust::src_loc = "55:1"]
-    pub type __darwin_blkcnt_t = __int64_t;
+    pub type __darwin_blkcnt_t = i64;
     #[c2rust::src_loc = "56:1"]
-    pub type __darwin_blksize_t = __int32_t;
+    pub type __darwin_blksize_t = i32;
     #[c2rust::src_loc = "57:1"]
-    pub type __darwin_dev_t = __int32_t;
+    pub type __darwin_dev_t = i32;
     #[c2rust::src_loc = "60:1"]
     pub type __darwin_gid_t = u32;
     #[c2rust::src_loc = "62:1"]
@@ -45,7 +40,7 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "70:1"]
     pub type __darwin_mode_t = u16;
     #[c2rust::src_loc = "71:1"]
-    pub type __darwin_off_t = __int64_t;
+    pub type __darwin_off_t = i64;
     #[c2rust::src_loc = "75:1"]
     pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t};
@@ -236,8 +231,8 @@ pub mod stat_h {
         pub st_blksize: blksize_t,
         pub st_flags: u32,
         pub st_gen: u32,
-        pub st_lspare: __int32_t,
-        pub st_qspare: [__int64_t; 2],
+        pub st_lspare: i32,
+        pub st_qspare: [i64; 2],
     }
     use super::_blkcnt_t_h::blkcnt_t;
     use super::_blksize_t_h::blksize_t;
@@ -386,7 +381,7 @@ pub mod scheduler_h {
     #[c2rust::src_loc = "84:8"]
     pub struct scheduler_t {
         pub tid: pthread_t,
-        pub index: int32_t,
+        pub index: i32,
         pub cpu: u32,
         pub node: u32,
         pub terminate: bool,
@@ -396,13 +391,12 @@ pub mod scheduler_h {
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
         pub block_count: u32,
-        pub ack_token: int32_t,
+        pub ack_token: i32,
         pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
     }
-    use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
     use super::_size_t_h::size_t;
@@ -613,7 +607,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub union aba_protected_mpmcq_node_t {
         pub c2rust_unnamed: C2RustUnnamed,
-        pub raw: __int128_t,
+        pub raw: i128,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -623,7 +617,6 @@ pub mod mpmcq_h {
         pub counter: uintptr_t,
     }
     use super::_uintptr_t_h::uintptr_t;
-    use super::internal::__int128_t;
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -1789,7 +1782,6 @@ pub use self::_blkcnt_t_h::blkcnt_t;
 pub use self::_blksize_t_h::blksize_t;
 pub use self::_dev_t_h::dev_t;
 pub use self::_gid_t_h::gid_t;
-pub use self::_int32_t_h::int32_t;
 pub use self::_mode_t_h::mode_t;
 pub use self::_nlink_t_h::nlink_t;
 pub use self::_off_t_h::off_t;
@@ -1834,7 +1826,6 @@ pub use self::hash_h::{
     ponyint_hashmap_remove, ponyint_hashmap_removeindex, ponyint_hashmap_serialise,
     ponyint_hashmap_serialise_trace, ponyint_hashmap_size,
 };
-pub use self::internal::__int128_t;
 pub use self::list_h::{
     list_t, ponyint_list_append, ponyint_list_data, ponyint_list_deserialise, ponyint_list_equals,
     ponyint_list_find, ponyint_list_findindex, ponyint_list_free, ponyint_list_index,
