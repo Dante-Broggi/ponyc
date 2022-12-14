@@ -29,7 +29,7 @@ pub mod messageq_h {
         pub head: *mut pony_msg_t,
         pub tail: *mut pony_msg_t,
     }
-    use super::pony_h::pony_msg_t;
+    pub use super::pony_h::pony_msg_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/pony/detail/atomics.h:3"]
 pub mod atomics_h {

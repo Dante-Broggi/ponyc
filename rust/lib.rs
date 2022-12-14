@@ -202,3 +202,4 @@ pub mod src {
         pub mod main;
     } // mod ponyc
 } // mod src
+pub use src::*;
