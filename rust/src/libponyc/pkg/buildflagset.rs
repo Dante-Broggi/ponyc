@@ -12,11 +12,6 @@ pub mod _size_t_h {
     pub type size_t = __darwin_size_t;
     use super::_types_h::__darwin_size_t;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
 pub mod _ssize_t_h {
     #[c2rust::src_loc = "31:1"]
@@ -178,7 +173,6 @@ pub mod string_h {
 pub use self::_size_t_h::size_t;
 pub use self::_ssize_t_h::ssize_t;
 pub use self::_types_h::{__darwin_size_t, __darwin_ssize_t};
-pub use self::_uint32_t_h::uint32_t;
 pub use self::fun_h::{cmp_fn, free_fn, ponyint_hash_ptr};
 pub use self::hash_h::{
     bitmap_t, hashmap_entry_t, hashmap_t, ponyint_hashmap_alloc_size, ponyint_hashmap_clearindex,
@@ -205,10 +199,10 @@ pub struct buildflagset_t {
     pub started_enum: bool,
     pub first_config_ready: bool,
     pub flags: *mut flagtab_t,
-    pub enum_os_flags: uint32_t,
-    pub enum_arch_flags: uint32_t,
-    pub enum_size_flags: uint32_t,
-    pub enum_endian_flags: uint32_t,
+    pub enum_os_flags: u32,
+    pub enum_arch_flags: u32,
+    pub enum_size_flags: u32,
+    pub enum_endian_flags: u32,
     pub text_buffer: *mut libc::c_char,
     pub buffer_size: size_t,
 }
@@ -795,10 +789,10 @@ pub unsafe extern "C" fn buildflagset_startenum(mut set: *mut buildflagset_t) {
     };
     (*set).started_enum = 1 as libc::c_int != 0;
     (*set).first_config_ready = 1 as libc::c_int != 0;
-    (*set).enum_os_flags = 0 as libc::c_int as uint32_t;
-    (*set).enum_arch_flags = 0 as libc::c_int as uint32_t;
-    (*set).enum_size_flags = 0 as libc::c_int as uint32_t;
-    (*set).enum_endian_flags = 0 as libc::c_int as uint32_t;
+    (*set).enum_os_flags = 0 as libc::c_int as u32;
+    (*set).enum_arch_flags = 0 as libc::c_int as u32;
+    (*set).enum_size_flags = 0 as libc::c_int as u32;
+    (*set).enum_endian_flags = 0 as libc::c_int as u32;
     let mut i: size_t = -(1 as libc::c_int) as size_t;
     let mut flag: *mut flag_t = 0 as *mut flag_t;
     loop {
@@ -855,7 +849,7 @@ pub unsafe extern "C" fn buildflagset_next(mut set: *mut buildflagset_t) -> bool
         if !(_os_flags[(*set).enum_os_flags as usize]).is_null() {
             return 1 as libc::c_int != 0;
         }
-        (*set).enum_os_flags = 0 as libc::c_int as uint32_t;
+        (*set).enum_os_flags = 0 as libc::c_int as u32;
     }
     if (*set).have_arch_flags {
         let ref mut fresh3 = (*set).enum_arch_flags;
@@ -863,7 +857,7 @@ pub unsafe extern "C" fn buildflagset_next(mut set: *mut buildflagset_t) -> bool
         if !(_arch_flags[(*set).enum_arch_flags as usize]).is_null() {
             return 1 as libc::c_int != 0;
         }
-        (*set).enum_arch_flags = 0 as libc::c_int as uint32_t;
+        (*set).enum_arch_flags = 0 as libc::c_int as u32;
     }
     if (*set).have_size_flags {
         let ref mut fresh4 = (*set).enum_size_flags;
@@ -871,7 +865,7 @@ pub unsafe extern "C" fn buildflagset_next(mut set: *mut buildflagset_t) -> bool
         if !(_size_flags[(*set).enum_size_flags as usize]).is_null() {
             return 1 as libc::c_int != 0;
         }
-        (*set).enum_size_flags = 0 as libc::c_int as uint32_t;
+        (*set).enum_size_flags = 0 as libc::c_int as u32;
     }
     if (*set).have_endian_flags {
         let ref mut fresh5 = (*set).enum_endian_flags;
@@ -879,7 +873,7 @@ pub unsafe extern "C" fn buildflagset_next(mut set: *mut buildflagset_t) -> bool
         if !(_endian_flags[(*set).enum_endian_flags as usize]).is_null() {
             return 1 as libc::c_int != 0;
         }
-        (*set).enum_endian_flags = 0 as libc::c_int as uint32_t;
+        (*set).enum_endian_flags = 0 as libc::c_int as u32;
     }
     let mut i: size_t = -(1 as libc::c_int) as size_t;
     let mut flag: *mut flag_t = 0 as *mut flag_t;
@@ -948,19 +942,19 @@ pub unsafe extern "C" fn buildflagset_get(
     };
     let mut index: ssize_t = os_index(flag);
     if index >= 0 as libc::c_int as libc::c_long {
-        return (*set).enum_os_flags == index as uint32_t;
+        return (*set).enum_os_flags == index as u32;
     }
     index = arch_index(flag);
     if index >= 0 as libc::c_int as libc::c_long {
-        return (*set).enum_arch_flags == index as uint32_t;
+        return (*set).enum_arch_flags == index as u32;
     }
     index = size_index(flag);
     if index >= 0 as libc::c_int as libc::c_long {
-        return (*set).enum_size_flags == index as uint32_t;
+        return (*set).enum_size_flags == index as u32;
     }
     index = endian_index(flag);
     if index >= 0 as libc::c_int as libc::c_long {
-        return (*set).enum_endian_flags == index as uint32_t;
+        return (*set).enum_endian_flags == index as u32;
     }
     let mut f1: flag_t = {
         let mut init = flag_t {

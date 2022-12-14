@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -529,7 +524,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "31:3"]
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed = 31;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
     extern "C" {
@@ -538,7 +532,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "113:1"]
         pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
@@ -577,7 +571,6 @@ pub mod parserapi_h {
         unsafe extern "C" fn(*mut parser_t, *mut builder_fn_t, *const libc::c_char) -> *mut ast_t,
     >;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::lexer_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
@@ -598,7 +591,7 @@ pub mod parserapi_h {
         #[c2rust::src_loc = "127:1"]
         pub fn parse_rule_complete(parser: *mut parser_t, state: *mut rule_state_t) -> *mut ast_t;
         #[c2rust::src_loc = "125:1"]
-        pub fn parse_set_next_flags(parser: *mut parser_t, flags: uint32_t);
+        pub fn parse_set_next_flags(parser: *mut parser_t, flags: u32);
         #[c2rust::src_loc = "122:1"]
         pub fn parse_rule_set(
             parser: *mut parser_t,
@@ -644,7 +637,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_childcount, ast_childidx, ast_id, ast_reorder_children, ast_setflag, ast_setid,
     C2RustUnnamed, AST_FLAG_AMBIGUOUS, AST_FLAG_BAD_SEMI, AST_FLAG_CAN_ERROR, AST_FLAG_CAN_SEND,
@@ -2386,7 +2378,7 @@ unsafe extern "C" fn groupedtype(
     if r_2 != 1 as libc::c_int as *mut ast_t {
         return r_2;
     }
-    ast_setflag(state.ast, AST_FLAG_IN_PARENS as libc::c_int as uint32_t);
+    ast_setflag(state.ast, AST_FLAG_IN_PARENS as libc::c_int as u32);
     return parse_rule_complete(parser, &mut state);
 }
 #[c2rust::src_loc = "229:1"]
@@ -3843,15 +3835,15 @@ unsafe extern "C" fn object(
     }
     ast_setflag(
         ast_childidx(state.ast, 0 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 1 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 2 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return parse_rule_complete(parser, &mut state);
 }
@@ -4659,19 +4651,19 @@ unsafe extern "C" fn lambda(
     }
     ast_setflag(
         ast_childidx(state.ast, 2 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 3 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 5 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 7 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return parse_rule_complete(parser, &mut state);
 }
@@ -5007,19 +4999,19 @@ unsafe extern "C" fn barelambda(
     }
     ast_setflag(
         ast_childidx(state.ast, 2 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 3 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 5 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(state.ast, 7 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return parse_rule_complete(parser, &mut state);
 }
@@ -5510,7 +5502,7 @@ unsafe extern "C" fn groupedexpr(
     if r_2 != 1 as libc::c_int as *mut ast_t {
         return r_2;
     }
-    ast_setflag(state.ast, AST_FLAG_IN_PARENS as libc::c_int as uint32_t);
+    ast_setflag(state.ast, AST_FLAG_IN_PARENS as libc::c_int as u32);
     return parse_rule_complete(parser, &mut state);
 }
 #[c2rust::src_loc = "484:1"]
@@ -5611,7 +5603,7 @@ unsafe extern "C" fn nextgroupedexpr(
     if r_2 != 1 as libc::c_int as *mut ast_t {
         return r_2;
     }
-    ast_setflag(state.ast, AST_FLAG_IN_PARENS as libc::c_int as uint32_t);
+    ast_setflag(state.ast, AST_FLAG_IN_PARENS as libc::c_int as u32);
     return parse_rule_complete(parser, &mut state);
 }
 #[c2rust::src_loc = "494:1"]
@@ -12532,9 +12524,9 @@ unsafe extern "C" fn semi(
         return r;
     }
     if found {
-        parse_set_next_flags(parser, AST_FLAG_BAD_SEMI as libc::c_int as uint32_t);
+        parse_set_next_flags(parser, AST_FLAG_BAD_SEMI as libc::c_int as u32);
     } else {
-        parse_set_next_flags(parser, 0 as libc::c_int as uint32_t);
+        parse_set_next_flags(parser, 0 as libc::c_int as u32);
     }
     static mut id_set_0: [token_id; 2] = [TK_SEMI, TK_NONE];
     let mut r_0: *mut ast_t = parse_token_set(
@@ -12565,7 +12557,7 @@ unsafe extern "C" fn semi(
         return r_1;
     }
     if found_0 {
-        ast_setflag(state.ast, AST_FLAG_BAD_SEMI as libc::c_int as uint32_t);
+        ast_setflag(state.ast, AST_FLAG_BAD_SEMI as libc::c_int as u32);
     }
     return parse_rule_complete(parser, &mut state);
 }
@@ -12688,9 +12680,9 @@ unsafe extern "C" fn nosemi(
         return r;
     }
     if found {
-        parse_set_next_flags(parser, 0 as libc::c_int as uint32_t);
+        parse_set_next_flags(parser, 0 as libc::c_int as u32);
     } else {
-        parse_set_next_flags(parser, AST_FLAG_MISSING_SEMI as libc::c_int as uint32_t);
+        parse_set_next_flags(parser, AST_FLAG_MISSING_SEMI as libc::c_int as u32);
     }
     static mut rule_set: [rule_t; 3] = unsafe {
         [
@@ -12806,7 +12798,7 @@ unsafe extern "C" fn nextexprseq(
     if r_0 != 1 as libc::c_int as *mut ast_t {
         return r_0;
     }
-    parse_set_next_flags(parser, 0 as libc::c_int as uint32_t);
+    parse_set_next_flags(parser, 0 as libc::c_int as u32);
     return parse_rule_complete(parser, &mut state);
 }
 #[c2rust::src_loc = "1129:1"]
@@ -12890,7 +12882,7 @@ unsafe extern "C" fn exprseq(
     if r_0 != 1 as libc::c_int as *mut ast_t {
         return r_0;
     }
-    parse_set_next_flags(parser, 0 as libc::c_int as uint32_t);
+    parse_set_next_flags(parser, 0 as libc::c_int as u32);
     return parse_rule_complete(parser, &mut state);
 }
 #[c2rust::src_loc = "1137:1"]

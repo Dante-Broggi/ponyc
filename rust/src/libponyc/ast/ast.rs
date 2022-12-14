@@ -106,26 +106,16 @@ pub mod _ssize_t_h {
     pub type ssize_t = __darwin_ssize_t;
     use super::_types_h::__darwin_ssize_t;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
 pub mod pony_h {
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -135,7 +125,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -149,8 +139,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "105:1"]
@@ -180,7 +170,6 @@ pub mod pony_h {
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::source_h::pony_type_t;
     extern "C" {
@@ -275,10 +264,9 @@ pub mod lexint_h {
     #[repr(C)]
     #[c2rust::src_loc = "9:16"]
     pub struct lexint_t {
-        pub low: uint64_t,
-        pub high: uint64_t,
+        pub low: u64,
+        pub high: u64,
     }
-    use super::_uint64_t_h::uint64_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
 pub mod token_h {
@@ -1138,8 +1126,6 @@ pub use self::_size_t_h::size_t;
 pub use self::_ssize_t_h::ssize_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __darwin_ssize_t, __darwin_va_list, __int64_t};
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::_va_list_h::va_list;
 pub use self::ast_h::{
@@ -1233,7 +1219,7 @@ pub struct ast_t {
     pub child: *mut ast_t,
     pub sibling: *mut ast_t,
     pub annotation_type: *mut ast_t,
-    pub flags: uint32_t,
+    pub flags: u32,
     pub frozen: bool,
 }
 #[derive(Copy, Clone)]
@@ -1741,7 +1727,7 @@ unsafe extern "C" fn print(
 }
 #[c2rust::src_loc = "323:1"]
 unsafe extern "C" fn hasparent(mut ast: *mut ast_t) -> bool {
-    return ast_checkflag(ast, AST_ORPHAN as libc::c_int as uint32_t) == 0
+    return ast_checkflag(ast, AST_ORPHAN as libc::c_int as u32) == 0
         && !((*ast).parent).is_null();
 }
 #[c2rust::src_loc = "329:1"]
@@ -1770,7 +1756,7 @@ unsafe extern "C" fn set_scope_and_parent(mut ast: *mut ast_t, mut parent: *mut 
     };
     let ref mut fresh0 = (*ast).parent;
     *fresh0 = parent;
-    ast_clearflag(ast, AST_ORPHAN as libc::c_int as uint32_t);
+    ast_clearflag(ast, AST_ORPHAN as libc::c_int as u32);
 }
 #[c2rust::src_loc = "339:1"]
 unsafe extern "C" fn set_scope_no_parent(mut ast: *mut ast_t, mut scope: *mut ast_t) {
@@ -1798,7 +1784,7 @@ unsafe extern "C" fn set_scope_no_parent(mut ast: *mut ast_t, mut scope: *mut as
     };
     let ref mut fresh1 = (*ast).parent;
     *fresh1 = scope;
-    ast_setflag(ast, AST_ORPHAN as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_ORPHAN as libc::c_int as u32);
 }
 #[c2rust::src_loc = "349:1"]
 unsafe extern "C" fn make_orphan_leave_scope(mut ast: *mut ast_t) {
@@ -1828,7 +1814,7 @@ unsafe extern "C" fn make_orphan_leave_scope(mut ast: *mut ast_t) {
             .as_ptr(),
         );
     };
-    ast_setflag(ast, AST_ORPHAN as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_ORPHAN as libc::c_int as u32);
 }
 #[c2rust::src_loc = "357:1"]
 unsafe extern "C" fn duplicate(mut parent: *mut ast_t, mut ast: *mut ast_t) -> *mut ast_t {
@@ -1937,7 +1923,7 @@ pub unsafe extern "C" fn ast_from_string(
 }
 #[no_mangle]
 #[c2rust::src_loc = "441:1"]
-pub unsafe extern "C" fn ast_from_int(mut ast: *mut ast_t, mut value: uint64_t) -> *mut ast_t {
+pub unsafe extern "C" fn ast_from_int(mut ast: *mut ast_t, mut value: u64) -> *mut ast_t {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(
@@ -1953,7 +1939,7 @@ pub unsafe extern "C" fn ast_from_int(mut ast: *mut ast_t, mut value: uint64_t) 
     let mut lexint: lexint_t = {
         let mut init = lexint_t {
             low: value,
-            high: 0 as libc::c_int as uint64_t,
+            high: 0 as libc::c_int as u64,
         };
         init
     };
@@ -2337,7 +2323,7 @@ pub unsafe extern "C" fn ast_canerror(mut ast: *mut ast_t) -> bool {
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"ast_canerror\0")).as_ptr(),
         );
     };
-    return ast_checkflag(ast, AST_FLAG_CAN_ERROR as libc::c_int as uint32_t) != 0 as libc::c_int;
+    return ast_checkflag(ast, AST_FLAG_CAN_ERROR as libc::c_int as u32) != 0 as libc::c_int;
 }
 #[no_mangle]
 #[c2rust::src_loc = "621:1"]
@@ -2362,7 +2348,7 @@ pub unsafe extern "C" fn ast_seterror(mut ast: *mut ast_t) {
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"ast_seterror\0")).as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_CAN_ERROR as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_CAN_ERROR as libc::c_int as u32);
 }
 #[no_mangle]
 #[c2rust::src_loc = "628:1"]
@@ -2377,7 +2363,7 @@ pub unsafe extern "C" fn ast_cansend(mut ast: *mut ast_t) -> bool {
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"ast_cansend\0")).as_ptr(),
         );
     };
-    return ast_checkflag(ast, AST_FLAG_CAN_SEND as libc::c_int as uint32_t) != 0 as libc::c_int;
+    return ast_checkflag(ast, AST_FLAG_CAN_SEND as libc::c_int as u32) != 0 as libc::c_int;
 }
 #[no_mangle]
 #[c2rust::src_loc = "634:1"]
@@ -2402,7 +2388,7 @@ pub unsafe extern "C" fn ast_setsend(mut ast: *mut ast_t) {
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"ast_setsend\0")).as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_CAN_SEND as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_CAN_SEND as libc::c_int as u32);
 }
 #[no_mangle]
 #[c2rust::src_loc = "641:1"]
@@ -2418,7 +2404,7 @@ pub unsafe extern "C" fn ast_mightsend(mut ast: *mut ast_t) -> bool {
                 .as_ptr(),
         );
     };
-    return ast_checkflag(ast, AST_FLAG_MIGHT_SEND as libc::c_int as uint32_t) != 0 as libc::c_int;
+    return ast_checkflag(ast, AST_FLAG_MIGHT_SEND as libc::c_int as u32) != 0 as libc::c_int;
 }
 #[no_mangle]
 #[c2rust::src_loc = "647:1"]
@@ -2445,7 +2431,7 @@ pub unsafe extern "C" fn ast_setmightsend(mut ast: *mut ast_t) {
                 .as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_MIGHT_SEND as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_MIGHT_SEND as libc::c_int as u32);
 }
 #[no_mangle]
 #[c2rust::src_loc = "654:1"]
@@ -2472,7 +2458,7 @@ pub unsafe extern "C" fn ast_clearmightsend(mut ast: *mut ast_t) {
                 .as_ptr(),
         );
     };
-    ast_clearflag(ast, AST_FLAG_MIGHT_SEND as libc::c_int as uint32_t);
+    ast_clearflag(ast, AST_FLAG_MIGHT_SEND as libc::c_int as u32);
 }
 #[no_mangle]
 #[c2rust::src_loc = "661:1"]
@@ -2510,7 +2496,7 @@ pub unsafe extern "C" fn ast_inheritflags(mut ast: *mut ast_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "670:1"]
-pub unsafe extern "C" fn ast_checkflag(mut ast: *mut ast_t, mut flag: uint32_t) -> libc::c_int {
+pub unsafe extern "C" fn ast_checkflag(mut ast: *mut ast_t, mut flag: u32) -> libc::c_int {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(
@@ -2537,7 +2523,7 @@ pub unsafe extern "C" fn ast_checkflag(mut ast: *mut ast_t, mut flag: uint32_t) 
 }
 #[no_mangle]
 #[c2rust::src_loc = "678:1"]
-pub unsafe extern "C" fn ast_setflag(mut ast: *mut ast_t, mut flag: uint32_t) {
+pub unsafe extern "C" fn ast_setflag(mut ast: *mut ast_t, mut flag: u32) {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(
@@ -2573,7 +2559,7 @@ pub unsafe extern "C" fn ast_setflag(mut ast: *mut ast_t, mut flag: uint32_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "687:1"]
-pub unsafe extern "C" fn ast_clearflag(mut ast: *mut ast_t, mut flag: uint32_t) {
+pub unsafe extern "C" fn ast_clearflag(mut ast: *mut ast_t, mut flag: u32) {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(
@@ -2612,7 +2598,7 @@ pub unsafe extern "C" fn ast_clearflag(mut ast: *mut ast_t, mut flag: uint32_t) 
 }
 #[no_mangle]
 #[c2rust::src_loc = "696:1"]
-pub unsafe extern "C" fn ast_resetpass(mut ast: *mut ast_t, mut flag: uint32_t) {
+pub unsafe extern "C" fn ast_resetpass(mut ast: *mut ast_t, mut flag: u32) {
     if flag & AST_FLAG_PASS_MASK as libc::c_int as libc::c_uint == flag {
     } else {
         ponyint_assert_fail(
@@ -2638,10 +2624,10 @@ pub unsafe extern "C" fn ast_resetpass(mut ast: *mut ast_t, mut flag: uint32_t) 
                 .as_ptr(),
         );
     };
-    if ast_checkflag(ast, AST_FLAG_PRESERVE as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(ast, AST_FLAG_PRESERVE as libc::c_int as u32) != 0 {
         return;
     }
-    ast_clearflag(ast, AST_FLAG_PASS_MASK as libc::c_int as uint32_t);
+    ast_clearflag(ast, AST_FLAG_PASS_MASK as libc::c_int as u32);
     ast_setflag(ast, flag);
     ast_resetpass(ast_type(ast), flag);
     let mut p: *mut ast_t = ast_child(ast);
@@ -3121,7 +3107,7 @@ pub unsafe extern "C" fn ast_error_handling_clause(
 #[no_mangle]
 #[c2rust::src_loc = "978:1"]
 pub unsafe extern "C" fn ast_parent(mut ast: *mut ast_t) -> *mut ast_t {
-    if ast_checkflag(ast, AST_ORPHAN as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(ast, AST_ORPHAN as libc::c_int as u32) != 0 {
         return 0 as *mut ast_t;
     }
     return (*ast).parent;
@@ -5127,10 +5113,10 @@ unsafe extern "C" fn ast_signature_serialise(
 static mut ast_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<ast_signature_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<ast_signature_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -5152,7 +5138,7 @@ static mut ast_signature_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -5300,10 +5286,10 @@ unsafe extern "C" fn ast_nominal_pkg_id_signature_serialise(
 static mut ast_nominal_pkg_id_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<ast_signature_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<ast_signature_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -5325,7 +5311,7 @@ static mut ast_nominal_pkg_id_signature_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -5541,10 +5527,10 @@ unsafe extern "C" fn ast_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut 
 static mut ast_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<ast_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<ast_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -5568,7 +5554,7 @@ static mut ast_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,

@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -219,8 +214,8 @@ pub mod options_h {
     pub struct opt_arg_t {
         pub long_opt: *const libc::c_char,
         pub short_opt: libc::c_char,
-        pub flag: uint32_t,
-        pub id: uint32_t,
+        pub flag: u32,
+        pub id: u32,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -236,7 +231,6 @@ pub mod options_h {
         pub idx: libc::c_int,
         pub remove: libc::c_int,
     }
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "89:1"]
         pub fn ponyint_opt_next(s: *mut opt_state_t) -> libc::c_int;
@@ -316,7 +310,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::bnfprint_h::print_grammar;
 use self::buildflagset_h::define_build_flag;
 use self::error_h::errors_set_immediate;
@@ -425,8 +418,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"version\0" as *const u8 as *const libc::c_char,
             short_opt: 'v' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_VERSION as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_VERSION as libc::c_int as u32,
         };
         init
     },
@@ -434,8 +427,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"help\0" as *const u8 as *const libc::c_char,
             short_opt: 'h' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_HELP as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_HELP as libc::c_int as u32,
         };
         init
     },
@@ -443,8 +436,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"debug\0" as *const u8 as *const libc::c_char,
             short_opt: 'd' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_DEBUG as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_DEBUG as libc::c_int as u32,
         };
         init
     },
@@ -452,8 +445,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"define\0" as *const u8 as *const libc::c_char,
             short_opt: 'D' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_BUILDFLAG as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_BUILDFLAG as libc::c_int as u32,
         };
         init
     },
@@ -461,8 +454,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"strip\0" as *const u8 as *const libc::c_char,
             short_opt: 's' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_STRIP as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_STRIP as libc::c_int as u32,
         };
         init
     },
@@ -470,8 +463,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"path\0" as *const u8 as *const libc::c_char,
             short_opt: 'p' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_PATHS as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_PATHS as libc::c_int as u32,
         };
         init
     },
@@ -479,8 +472,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"output\0" as *const u8 as *const libc::c_char,
             short_opt: 'o' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_OUTPUT as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_OUTPUT as libc::c_int as u32,
         };
         init
     },
@@ -488,8 +481,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"bin-name\0" as *const u8 as *const libc::c_char,
             short_opt: 'b' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_BIN_NAME as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_BIN_NAME as libc::c_int as u32,
         };
         init
     },
@@ -497,8 +490,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"runtimebc\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_RUNTIMEBC as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_RUNTIMEBC as libc::c_int as u32,
         };
         init
     },
@@ -506,8 +499,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"static\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_STATIC as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_STATIC as libc::c_int as u32,
         };
         init
     },
@@ -515,8 +508,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"pic\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_PIC as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_PIC as libc::c_int as u32,
         };
         init
     },
@@ -524,8 +517,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"nopic\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_NOPIC as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_NOPIC as libc::c_int as u32,
         };
         init
     },
@@ -533,8 +526,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"docs\0" as *const u8 as *const libc::c_char,
             short_opt: 'g' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_DOCS as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_DOCS as libc::c_int as u32,
         };
         init
     },
@@ -542,8 +535,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"docs-public\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_DOCS_PUBLIC as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_DOCS_PUBLIC as libc::c_int as u32,
         };
         init
     },
@@ -551,8 +544,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"safe\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 1 as libc::c_int) as uint32_t,
-            id: OPT_SAFE as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 1 as libc::c_int) as u32,
+            id: OPT_SAFE as libc::c_int as u32,
         };
         init
     },
@@ -560,8 +553,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"abi\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_ABI as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_ABI as libc::c_int as u32,
         };
         init
     },
@@ -569,8 +562,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"cpu\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_CPU as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_CPU as libc::c_int as u32,
         };
         init
     },
@@ -578,8 +571,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"features\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_FEATURES as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_FEATURES as libc::c_int as u32,
         };
         init
     },
@@ -587,8 +580,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"triple\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_TRIPLE as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_TRIPLE as libc::c_int as u32,
         };
         init
     },
@@ -596,8 +589,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"stats\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_STATS as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_STATS as libc::c_int as u32,
         };
         init
     },
@@ -605,8 +598,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"link-arch\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_LINK_ARCH as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_LINK_ARCH as libc::c_int as u32,
         };
         init
     },
@@ -614,8 +607,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"linker\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_LINKER as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_LINKER as libc::c_int as u32,
         };
         init
     },
@@ -623,8 +616,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"link-ldcmd\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_LINK_LDCMD as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_LINK_LDCMD as libc::c_int as u32,
         };
         init
     },
@@ -632,8 +625,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"plugin\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_PLUGIN as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_PLUGIN as libc::c_int as u32,
         };
         init
     },
@@ -641,8 +634,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"verbose\0" as *const u8 as *const libc::c_char,
             short_opt: 'V' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_VERBOSE as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_VERBOSE as libc::c_int as u32,
         };
         init
     },
@@ -650,8 +643,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"pass\0" as *const u8 as *const libc::c_char,
             short_opt: 'r' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_PASSES as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_PASSES as libc::c_int as u32,
         };
         init
     },
@@ -659,8 +652,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"ast\0" as *const u8 as *const libc::c_char,
             short_opt: 'a' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_AST as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_AST as libc::c_int as u32,
         };
         init
     },
@@ -668,8 +661,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"astpackage\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_ASTPACKAGE as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_ASTPACKAGE as libc::c_int as u32,
         };
         init
     },
@@ -677,8 +670,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"trace\0" as *const u8 as *const libc::c_char,
             short_opt: 't' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_TRACE as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_TRACE as libc::c_int as u32,
         };
         init
     },
@@ -686,8 +679,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"width\0" as *const u8 as *const libc::c_char,
             short_opt: 'w' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_WIDTH as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_WIDTH as libc::c_int as u32,
         };
         init
     },
@@ -695,8 +688,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"immerr\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_IMMERR as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_IMMERR as libc::c_int as u32,
         };
         init
     },
@@ -704,8 +697,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"verify\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_VERIFY as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_VERIFY as libc::c_int as u32,
         };
         init
     },
@@ -713,8 +706,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"files\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_FILENAMES as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_FILENAMES as libc::c_int as u32,
         };
         init
     },
@@ -722,8 +715,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"checktree\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_CHECKTREE as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_CHECKTREE as libc::c_int as u32,
         };
         init
     },
@@ -731,8 +724,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"extfun\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_EXTFUN as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_EXTFUN as libc::c_int as u32,
         };
         init
     },
@@ -740,8 +733,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"lint-llvm\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_LINT_LLVM as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_LINT_LLVM as libc::c_int as u32,
         };
         init
     },
@@ -749,8 +742,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"llvm-args\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_LLVM_ARGS as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_LLVM_ARGS as libc::c_int as u32,
         };
         init
     },
@@ -758,8 +751,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"bnf\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_BNF as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_BNF as libc::c_int as u32,
         };
         init
     },
@@ -767,8 +760,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"antlr\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_ANTLR as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_ANTLR as libc::c_int as u32,
         };
         init
     },
@@ -776,8 +769,8 @@ static mut std_args: [opt_arg_t; 41] = [
         let mut init = opt_arg_t {
             long_opt: b"antlrraw\0" as *const u8 as *const libc::c_char,
             short_opt: '\0' as i32 as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_ANTLRRAW as libc::c_int as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_ANTLRRAW as libc::c_int as u32,
         };
         init
     },

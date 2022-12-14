@@ -4,28 +4,18 @@ pub mod _int64_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int64_t = libc::c_longlong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "46:1"]
     pub type __int32_t = libc::c_int;
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
     #[c2rust::src_loc = "122:1"]
     pub type __darwin_time_t = libc::c_long;
 }
@@ -38,15 +28,15 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "57:1"]
     pub type __darwin_dev_t = __int32_t;
     #[c2rust::src_loc = "60:1"]
-    pub type __darwin_gid_t = __uint32_t;
+    pub type __darwin_gid_t = u32;
     #[c2rust::src_loc = "62:1"]
-    pub type __darwin_ino64_t = __uint64_t;
+    pub type __darwin_ino64_t = u64;
     #[c2rust::src_loc = "70:1"]
-    pub type __darwin_mode_t = __uint16_t;
+    pub type __darwin_mode_t = u16;
     #[c2rust::src_loc = "71:1"]
     pub type __darwin_off_t = __int64_t;
     #[c2rust::src_loc = "75:1"]
-    pub type __darwin_uid_t = __uint32_t;
+    pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t};
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
@@ -115,8 +105,7 @@ pub mod _gid_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_nlink_t.h:1"]
 pub mod _nlink_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type nlink_t = __uint16_t;
-    use super::_types_h::__uint16_t;
+    pub type nlink_t = u16;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stat.h:1"]
 pub mod stat_h {
@@ -138,8 +127,8 @@ pub mod stat_h {
         pub st_size: off_t,
         pub st_blocks: blkcnt_t,
         pub st_blksize: blksize_t,
-        pub st_flags: __uint32_t,
-        pub st_gen: __uint32_t,
+        pub st_flags: u32,
+        pub st_gen: u32,
         pub st_lspare: __int32_t,
         pub st_qspare: [__int64_t; 2],
     }
@@ -169,8 +158,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "74:1"]
@@ -200,10 +189,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -213,14 +202,13 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::stddef_h::size_t;
     extern "C" {
@@ -243,8 +231,6 @@ pub use self::_types_h::{
     __darwin_time_t, __int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t,
 };
 pub use self::_uid_t_h::uid_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::pony_h::{
     _pony_type_t, pony_actor_t, pony_ctx_t, pony_custom_deserialise_fn,
@@ -282,11 +268,11 @@ pub struct pony_stat_t {
     pub desc: *const pony_type_t,
     pub path: *mut libc::c_void,
     pub mode: *mut pony_mode_t,
-    pub hard_links: uint32_t,
-    pub device: uint64_t,
-    pub inode: uint64_t,
-    pub uid: uint32_t,
-    pub gid: uint32_t,
+    pub hard_links: u32,
+    pub device: u64,
+    pub inode: u64,
+    pub uid: u32,
+    pub gid: u32,
     pub size: size_t,
     pub access_time: int64_t,
     pub access_time_nsec: int64_t,
@@ -315,8 +301,8 @@ unsafe extern "C" fn unix_file_type(mut p: *mut pony_stat_t, mut st: *mut stat) 
 }
 #[c2rust::src_loc = "115:1"]
 unsafe extern "C" fn unix_stat(mut p: *mut pony_stat_t, mut st: *mut stat) {
-    (*p).hard_links = (*st).st_nlink as uint32_t;
-    (*p).device = (*st).st_dev as uint64_t;
+    (*p).hard_links = (*st).st_nlink as u32;
+    (*p).device = (*st).st_dev as u64;
     (*p).inode = (*st).st_ino;
     (*p).uid = (*st).st_uid;
     (*p).gid = (*st).st_gid;

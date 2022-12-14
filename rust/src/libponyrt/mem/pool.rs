@@ -14,16 +14,6 @@ pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
     pub type size_t = libc::c_ulong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:3"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:3"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -33,16 +23,14 @@ pub mod _uintptr_t_h {
 pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "270:1"]
-    pub unsafe extern "C" fn __pony_clzll(mut x: uint64_t) -> uint32_t {
-        x.leading_zeros() as i32 as uint32_t
+    pub unsafe extern "C" fn __pony_clzll(mut x: u64) -> u32 {
+        x.leading_zeros() as i32 as u32
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
-    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> uint32_t {
-        __pony_clzll(x as uint64_t)
+    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> u32 {
+        __pony_clzll(x as u64)
     }
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/alloc.h:4"]
@@ -91,8 +79,6 @@ pub mod string_h {
         ) -> *mut libc::c_void;
     }
 }
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 use self::alloc_h::ponyint_virt_alloc;
 use self::atomics_h::f__atomic_thread_fence;

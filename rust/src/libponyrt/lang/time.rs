@@ -4,11 +4,6 @@ pub mod _int64_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int64_t = libc::c_longlong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "122:1"]
@@ -72,8 +67,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "74:1"]
@@ -103,10 +98,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -116,14 +111,13 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::stddef_h::size_t;
     extern "C" {
@@ -151,7 +145,6 @@ pub mod string_h {
 pub use self::_int64_t_h::int64_t;
 pub use self::_time_t_h::time_t;
 pub use self::_types_h::__darwin_time_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::pony_h::{
     _pony_type_t, pony_actor_t, pony_alloc, pony_ctx, pony_ctx_t, pony_custom_deserialise_fn,

@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -1163,7 +1158,7 @@ pub mod reach_h {
         pub cap: token_id,
         pub fun: *mut deferred_reification_t,
         pub typeargs: *mut ast_t,
-        pub vtable_index: uint32_t,
+        pub vtable_index: u32,
         pub intrinsic: bool,
         pub internal: bool,
         pub forwarding: bool,
@@ -1193,11 +1188,11 @@ pub mod reach_h {
         pub methods: reach_method_names_t,
         pub bare_method: *mut reach_method_t,
         pub subtypes: reach_type_cache_t,
-        pub type_id: uint32_t,
-        pub vtable_size: uint32_t,
+        pub type_id: u32,
+        pub vtable_size: u32,
         pub can_be_boxed: bool,
         pub is_trait: bool,
-        pub field_count: uint32_t,
+        pub field_count: u32,
         pub fields: *mut reach_field_t,
         pub c_type: *mut compile_opaque_t,
     }
@@ -1265,14 +1260,13 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
@@ -1419,7 +1413,7 @@ pub mod codegen_h {
         pub str__serialise_space: *const libc::c_char,
         pub str__serialise: *const libc::c_char,
         pub str__deserialise: *const libc::c_char,
-        pub trait_bitmap_size: uint32_t,
+        pub trait_bitmap_size: u32,
         pub callconv: LLVMCallConv,
         pub linkage: LLVMLinkage,
         pub context: LLVMContextRef,
@@ -1477,7 +1471,6 @@ pub mod codegen_h {
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "29:1"]
@@ -1848,10 +1841,9 @@ pub mod pool_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.h:16"]
 pub mod heap_h {
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
-        pub fn ponyint_heap_index(size: size_t) -> uint32_t;
+        pub fn ponyint_heap_index(size: size_t) -> u32;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:17"]
@@ -2009,7 +2001,6 @@ pub use self::Types_h::{
 };
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::_uintptr_t_h::uintptr_t;
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -2700,7 +2691,7 @@ unsafe extern "C" fn gen_constructor_receiver(
 unsafe extern "C" fn set_method_external_interface(
     mut t: *mut reach_type_t,
     mut name: *const libc::c_char,
-    mut vtable_index: uint32_t,
+    mut vtable_index: u32,
 ) {
     let mut i: size_t = -(1 as libc::c_int) as size_t;
     let mut sub: *mut reach_type_t = 0 as *mut reach_type_t;
@@ -4029,7 +4020,7 @@ pub unsafe extern "C" fn gencall_allocstruct(
         size = 1 as libc::c_int as size_t;
     }
     if size <= ((1 as libc::c_int) << 10 as libc::c_int - 1 as libc::c_int) as libc::c_ulong {
-        let mut index: uint32_t = ponyint_heap_index(size);
+        let mut index: u32 = ponyint_heap_index(size);
         args[1 as libc::c_int as usize] =
             LLVMConstInt((*c).i32_0, index as libc::c_ulonglong, 0 as libc::c_int);
         if ((*c_t).final_fn).is_null() {

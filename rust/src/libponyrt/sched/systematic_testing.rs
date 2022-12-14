@@ -10,16 +10,6 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:3"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:3"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:3"]
 pub mod _pthread_types_h {
     #[derive(Copy, Clone)]
@@ -155,17 +145,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -202,7 +192,6 @@ pub mod scheduler_h {
     use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
     use super::messageq_h::messageq_t;
@@ -213,7 +202,7 @@ pub mod scheduler_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "131:1"]
-        pub fn pony_active_schedulers() -> uint32_t;
+        pub fn pony_active_schedulers() -> u32;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.h:3"]
@@ -233,8 +222,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -243,10 +232,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -256,7 +245,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -284,7 +273,6 @@ pub mod pony_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::scheduler_h::pony_ctx_t;
     use super::stddef_h::size_t;
@@ -426,12 +414,11 @@ pub mod string_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:7"]
 pub mod cpu_h {
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "20:1"]
-        pub fn ponyint_cpu_core_pause(tsc: uint64_t, tsc2: uint64_t, yield_0: bool);
+        pub fn ponyint_cpu_core_pause(tsc: u64, tsc2: u64, yield_0: bool);
         #[c2rust::src_loc = "24:1"]
-        pub fn ponyint_cpu_tick() -> uint64_t;
+        pub fn ponyint_cpu_tick() -> u64;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:8"]
@@ -459,8 +446,6 @@ pub use self::_pthread_types_h::{
     _opaque_pthread_cond_t, _opaque_pthread_mutex_t, _opaque_pthread_mutexattr_t,
     _opaque_pthread_once_t, _opaque_pthread_t,
 };
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actormap_h::actormap_t;
 use self::cpu_h::{ponyint_cpu_core_pause, ponyint_cpu_tick};
@@ -502,9 +487,9 @@ static mut active_thread: *mut systematic_testing_thread_t =
 static mut threads_to_track: *mut systematic_testing_thread_t =
     0 as *const systematic_testing_thread_t as *mut systematic_testing_thread_t;
 #[c2rust::src_loc = "19:17"]
-static mut total_threads: uint32_t = 0 as libc::c_int as uint32_t;
+static mut total_threads: u32 = 0 as libc::c_int as u32;
 #[c2rust::src_loc = "20:17"]
-static mut stopped_threads: uint32_t = 0 as libc::c_int as uint32_t;
+static mut stopped_threads: u32 = 0 as libc::c_int as u32;
 #[c2rust::src_loc = "21:30"]
 static mut waiting_to_start_count: AtomicU32 = AtomicU32::new(0);
 #[c2rust::src_loc = "24:24"]
@@ -528,8 +513,8 @@ pub unsafe extern "C" fn systematic_testing_mut_init() {
 #[no_mangle]
 #[c2rust::src_loc = "54:1"]
 pub unsafe extern "C" fn ponyint_systematic_testing_init(
-    mut random_seed: uint64_t,
-    mut max_threads: uint32_t,
+    mut random_seed: u64,
+    mut max_threads: u32,
 ) {
     pthread_once(
         &mut systematic_testing_mut_once,
@@ -580,7 +565,7 @@ pub unsafe extern "C" fn ponyint_systematic_testing_start(
     let ref mut fresh1 = (*threads_to_track.offset(0 as libc::c_int as isize)).sleep_object;
     *fresh1 = asio_signal;
     (*threads_to_track.offset(0 as libc::c_int as isize)).stopped = 0 as libc::c_int != 0;
-    let mut i: uint32_t = 1 as libc::c_int as uint32_t;
+    let mut i: u32 = 1 as libc::c_int as u32;
     while i < total_threads {
         let ref mut fresh2 = (*threads_to_track.offset(i as isize)).tid;
         *fresh2 =
@@ -595,19 +580,19 @@ pub unsafe extern "C" fn ponyint_systematic_testing_start(
         as *mut systematic_testing_thread_t;
     while total_threads != waiting_to_start_count.load(Relaxed) {
         ponyint_cpu_core_pause(
-            1 as libc::c_int as uint64_t,
-            10000002 as libc::c_int as uint64_t,
+            1 as libc::c_int as u64,
+            10000002 as libc::c_int as u64,
             1 as libc::c_int != 0,
         );
     }
     ponyint_thread_wake((*active_thread).tid, (*active_thread).sleep_object);
 }
 #[c2rust::src_loc = "140:1"]
-unsafe extern "C" fn get_next_index() -> uint32_t {
-    let mut active_scheduler_count: uint32_t = pony_active_schedulers();
-    let mut active_count: uint32_t =
+unsafe extern "C" fn get_next_index() -> u32 {
+    let mut active_scheduler_count: u32 = pony_active_schedulers();
+    let mut active_count: u32 =
         active_scheduler_count.wrapping_add(1 as libc::c_int as libc::c_uint);
-    let mut next_index: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut next_index: u32 = 0 as libc::c_int as u32;
     loop {
         next_index = (rand() as libc::c_uint).wrapping_rem(active_count);
         if next_index <= total_threads {
@@ -639,13 +624,13 @@ pub unsafe extern "C" fn ponyint_systematic_testing_yield() {
         ponyint_pool_free_size(mem_needed, threads_to_track as *mut libc::c_void);
         active_thread = 0 as *mut systematic_testing_thread_t;
         threads_to_track = 0 as *mut systematic_testing_thread_t;
-        total_threads = 0 as libc::c_int as uint32_t;
-        stopped_threads = 0 as libc::c_int as uint32_t;
+        total_threads = 0 as libc::c_int as u32;
+        stopped_threads = 0 as libc::c_int as u32;
         waiting_to_start_count.store(0, Relaxed);
         pthread_mutex_unlock(&mut systematic_testing_mut);
         return;
     }
-    let mut next_index: uint32_t = get_next_index();
+    let mut next_index: u32 = get_next_index();
     let mut next_thread: *mut systematic_testing_thread_t =
         &mut *threads_to_track.offset(next_index as isize) as *mut systematic_testing_thread_t;
     let mut current_thread: *mut systematic_testing_thread_t = active_thread;

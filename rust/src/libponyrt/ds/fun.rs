@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -23,16 +13,14 @@ pub mod stddef_h {
 pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "270:1"]
-    pub unsafe extern "C" fn __pony_clzll(mut x: uint64_t) -> uint32_t {
-        x.leading_zeros() as i32 as uint32_t
+    pub unsafe extern "C" fn __pony_clzll(mut x: u64) -> u32 {
+        x.leading_zeros() as i32 as u32
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
-    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> uint32_t {
-        __pony_clzll(x as uint64_t)
+    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> u32 {
+        __pony_clzll(x as u64)
     }
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:2"]
@@ -42,8 +30,6 @@ pub mod string_h {
         pub fn strlen(_: *const libc::c_char) -> libc::c_ulong;
     }
 }
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::platform_h::{__pony_clzll, __pony_clzzu};
 pub use self::stddef_h::size_t;
@@ -72,45 +58,45 @@ unsafe extern "C" fn siphash24(
     mut key: *const libc::c_uchar,
     mut in_0: *const libc::c_uchar,
     mut len: size_t,
-) -> uint64_t {
-    let mut k0: uint64_t = *(key as *mut uint64_t);
-    let mut k1: uint64_t = *(key.offset(8 as libc::c_int as isize) as *mut uint64_t);
-    let mut b: uint64_t = (len as uint64_t) << 56 as libc::c_int;
-    let mut v0: uint64_t = k0 ^ 0x736f6d6570736575 as libc::c_ulonglong;
-    let mut v1: uint64_t = k1 ^ 0x646f72616e646f6d as libc::c_ulonglong;
-    let mut v2: uint64_t = k0 ^ 0x6c7967656e657261 as libc::c_ulonglong;
-    let mut v3: uint64_t = k1 ^ 0x7465646279746573 as libc::c_ulonglong;
+) -> u64 {
+    let mut k0: u64 = *(key as *mut u64);
+    let mut k1: u64 = *(key.offset(8 as libc::c_int as isize) as *mut u64);
+    let mut b: u64 = (len as u64) << 56 as libc::c_int;
+    let mut v0: u64 = k0 ^ 0x736f6d6570736575 as libc::c_ulonglong;
+    let mut v1: u64 = k1 ^ 0x646f72616e646f6d as libc::c_ulonglong;
+    let mut v2: u64 = k0 ^ 0x6c7967656e657261 as libc::c_ulonglong;
+    let mut v3: u64 = k1 ^ 0x7465646279746573 as libc::c_ulonglong;
     let mut end: *const libc::c_uchar = in_0
         .offset(len as isize)
         .offset(-(len.wrapping_rem(8 as libc::c_int as libc::c_ulong) as isize));
     while in_0 != end {
-        let mut m: uint64_t = *(in_0 as *mut uint64_t);
+        let mut m: u64 = *(in_0 as *mut u64);
         v3 ^= m;
-        v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+        v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
         v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
         v1 ^= v0;
         v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-        v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+        v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
         v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
         v3 ^= v2;
-        v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+        v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
         v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
         v3 ^= v0;
-        v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+        v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
         v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
         v1 ^= v2;
         v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
-        v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+        v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
         v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
         v1 ^= v0;
         v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-        v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+        v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
         v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
         v3 ^= v2;
-        v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+        v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
         v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
         v3 ^= v0;
-        v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+        v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
         v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
         v1 ^= v2;
         v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
@@ -120,7 +106,7 @@ unsafe extern "C" fn siphash24(
     let mut current_block_42: u64;
     match len & 7 as libc::c_int as libc::c_ulong {
         7 => {
-            b |= (*in_0.offset(6 as libc::c_int as isize) as uint64_t) << 48 as libc::c_int;
+            b |= (*in_0.offset(6 as libc::c_int as isize) as u64) << 48 as libc::c_int;
             current_block_42 = 12975228715441869902;
         }
         6 => {
@@ -147,129 +133,129 @@ unsafe extern "C" fn siphash24(
     }
     match current_block_42 {
         12975228715441869902 => {
-            b |= (*in_0.offset(5 as libc::c_int as isize) as uint64_t) << 40 as libc::c_int;
+            b |= (*in_0.offset(5 as libc::c_int as isize) as u64) << 40 as libc::c_int;
             current_block_42 = 5966796404194383908;
         }
         _ => {}
     }
     match current_block_42 {
         5966796404194383908 => {
-            b |= (*in_0.offset(4 as libc::c_int as isize) as uint64_t) << 32 as libc::c_int;
+            b |= (*in_0.offset(4 as libc::c_int as isize) as u64) << 32 as libc::c_int;
             current_block_42 = 15551203804450972332;
         }
         _ => {}
     }
     match current_block_42 {
         15551203804450972332 => {
-            b |= (*in_0.offset(3 as libc::c_int as isize) as uint64_t) << 24 as libc::c_int;
+            b |= (*in_0.offset(3 as libc::c_int as isize) as u64) << 24 as libc::c_int;
             current_block_42 = 1273030355561950405;
         }
         _ => {}
     }
     match current_block_42 {
         1273030355561950405 => {
-            b |= (*in_0.offset(2 as libc::c_int as isize) as uint64_t) << 16 as libc::c_int;
+            b |= (*in_0.offset(2 as libc::c_int as isize) as u64) << 16 as libc::c_int;
             current_block_42 = 3753403667802422685;
         }
         _ => {}
     }
     match current_block_42 {
         3753403667802422685 => {
-            b |= (*in_0.offset(1 as libc::c_int as isize) as uint64_t) << 8 as libc::c_int;
+            b |= (*in_0.offset(1 as libc::c_int as isize) as u64) << 8 as libc::c_int;
             current_block_42 = 12300049035009383903;
         }
         _ => {}
     }
     match current_block_42 {
         12300049035009383903 => {
-            b |= *in_0.offset(0 as libc::c_int as isize) as uint64_t;
+            b |= *in_0.offset(0 as libc::c_int as isize) as u64;
         }
         _ => {}
     }
     v3 ^= b;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
     v1 ^= v0;
     v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
     v3 ^= v2;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
     v3 ^= v0;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
     v1 ^= v2;
     v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
     v1 ^= v0;
     v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
     v3 ^= v2;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
     v3 ^= v0;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
     v1 ^= v2;
     v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
     v0 ^= b;
     v2 ^= 0xff as libc::c_int as libc::c_ulonglong;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
     v1 ^= v0;
     v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
     v3 ^= v2;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
     v3 ^= v0;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
     v1 ^= v2;
     v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
     v1 ^= v0;
     v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
     v3 ^= v2;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
     v3 ^= v0;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
     v1 ^= v2;
     v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
     v1 ^= v0;
     v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
     v3 ^= v2;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
     v3 ^= v0;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
     v1 ^= v2;
     v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 13 as libc::c_int | v1 >> 64 as libc::c_int - 13 as libc::c_int;
     v1 ^= v0;
     v0 = v0 << 32 as libc::c_int | v0 >> 64 as libc::c_int - 32 as libc::c_int;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 16 as libc::c_int | v3 >> 64 as libc::c_int - 16 as libc::c_int;
     v3 ^= v2;
-    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as uint64_t as uint64_t;
+    v0 = (v0 as libc::c_ulonglong).wrapping_add(v3) as u64 as u64;
     v3 = v3 << 21 as libc::c_int | v3 >> 64 as libc::c_int - 21 as libc::c_int;
     v3 ^= v0;
-    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as uint64_t as uint64_t;
+    v2 = (v2 as libc::c_ulonglong).wrapping_add(v1) as u64 as u64;
     v1 = v1 << 17 as libc::c_int | v1 >> 64 as libc::c_int - 17 as libc::c_int;
     v1 ^= v2;
     v2 = v2 << 32 as libc::c_int | v2 >> 64 as libc::c_int - 32 as libc::c_int;
@@ -285,7 +271,7 @@ pub unsafe extern "C" fn ponyint_hash_block(mut p: *const libc::c_void, mut len:
 pub unsafe extern "C" fn ponyint_hash_block64(
     mut p: *const libc::c_void,
     mut len: size_t,
-) -> uint64_t {
+) -> u64 {
     return siphash24(the_key.as_ptr(), p as *const libc::c_uchar, len);
 }
 #[no_mangle]
@@ -296,11 +282,11 @@ pub unsafe extern "C" fn ponyint_hash_str(mut str: *const libc::c_char) -> size_
 #[no_mangle]
 #[c2rust::src_loc = "161:1"]
 pub unsafe extern "C" fn ponyint_hash_ptr(mut p: *const libc::c_void) -> size_t {
-    return ponyint_hash_int64(p as uintptr_t as uint64_t) as size_t;
+    return ponyint_hash_int64(p as uintptr_t as u64) as size_t;
 }
 #[no_mangle]
 #[c2rust::src_loc = "170:1"]
-pub unsafe extern "C" fn ponyint_hash_int64(mut key: uint64_t) -> uint64_t {
+pub unsafe extern "C" fn ponyint_hash_int64(mut key: u64) -> u64 {
     key = (!key).wrapping_add(key << 21 as libc::c_int);
     key = key ^ key >> 24 as libc::c_int;
     key = key
@@ -316,7 +302,7 @@ pub unsafe extern "C" fn ponyint_hash_int64(mut key: uint64_t) -> uint64_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "183:1"]
-pub unsafe extern "C" fn ponyint_hash_int32(mut key: uint32_t) -> uint32_t {
+pub unsafe extern "C" fn ponyint_hash_int32(mut key: u32) -> u32 {
     key = (!key).wrapping_add(key << 15 as libc::c_int);
     key = key ^ key >> 12 as libc::c_int;
     key = key.wrapping_add(key << 2 as libc::c_int);
@@ -330,7 +316,7 @@ pub unsafe extern "C" fn ponyint_hash_int32(mut key: uint32_t) -> uint32_t {
 #[no_mangle]
 #[c2rust::src_loc = "194:1"]
 pub unsafe extern "C" fn ponyint_hash_size(mut key: size_t) -> size_t {
-    return ponyint_hash_int64(key as uint64_t) as size_t;
+    return ponyint_hash_int64(key as u64) as size_t;
 }
 #[no_mangle]
 #[c2rust::src_loc = "203:1"]

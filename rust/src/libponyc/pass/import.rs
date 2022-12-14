@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -600,7 +595,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "31:3"]
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed = 31;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::symtab_h::{ast_t, symtab_t};
     use super::token_h::token_id;
@@ -612,7 +606,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "78:1"]
         pub fn ast_data(ast: *mut ast_t) -> *mut libc::c_void;
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "111:1"]
@@ -828,7 +822,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_checkflag, ast_childidx, ast_data, ast_error, ast_error_continue, ast_get_symtab, ast_id,
     ast_name, ast_parent, ast_result_t, C2RustUnnamed, AST_ERROR, AST_FATAL, AST_FLAG_AMBIGUOUS,
@@ -900,7 +893,7 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
-    if ast_checkflag(ast, AST_FLAG_IMPORT as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(ast, AST_FLAG_IMPORT as libc::c_int as u32) == 0 {
         return 1 as libc::c_int != 0;
     }
     let mut import: *mut ast_t = ast_data(ast) as *mut ast_t;

@@ -1,26 +1,16 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "46:1"]
     pub type __int32_t = libc::c_int;
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
     pub type __darwin_size_t = libc::c_ulong;
     #[c2rust::src_loc = "122:1"]
@@ -35,15 +25,15 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "57:1"]
     pub type __darwin_dev_t = __int32_t;
     #[c2rust::src_loc = "60:1"]
-    pub type __darwin_gid_t = __uint32_t;
+    pub type __darwin_gid_t = u32;
     #[c2rust::src_loc = "62:1"]
-    pub type __darwin_ino64_t = __uint64_t;
+    pub type __darwin_ino64_t = u64;
     #[c2rust::src_loc = "70:1"]
-    pub type __darwin_mode_t = __uint16_t;
+    pub type __darwin_mode_t = u16;
     #[c2rust::src_loc = "71:1"]
     pub type __darwin_off_t = __int64_t;
     #[c2rust::src_loc = "75:1"]
-    pub type __darwin_uid_t = __uint32_t;
+    pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t};
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
@@ -108,8 +98,7 @@ pub mod _gid_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_nlink_t.h:1"]
 pub mod _nlink_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type nlink_t = __uint16_t;
-    use super::_types_h::__uint16_t;
+    pub type nlink_t = u16;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stat.h:1"]
 pub mod stat_h {
@@ -131,8 +120,8 @@ pub mod stat_h {
         pub st_size: off_t,
         pub st_blocks: blkcnt_t,
         pub st_blksize: blksize_t,
-        pub st_flags: __uint32_t,
-        pub st_gen: __uint32_t,
+        pub st_flags: u32,
+        pub st_gen: u32,
         pub st_lspare: __int32_t,
         pub st_qspare: [__int64_t; 2],
     }
@@ -391,7 +380,6 @@ pub mod Core_h {
         LLVMMetadataRef, LLVMModuleRef, LLVMPassRegistryRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "469:1"]
         pub fn LLVMInitializeCore(R: LLVMPassRegistryRef);
@@ -414,7 +402,7 @@ pub mod Core_h {
         pub fn LLVMCreateEnumAttribute(
             C: LLVMContextRef,
             KindID: libc::c_uint,
-            Val: uint64_t,
+            Val: u64,
         ) -> LLVMAttributeRef;
         #[c2rust::src_loc = "680:1"]
         pub fn LLVMModuleCreateWithNameInContext(
@@ -1225,13 +1213,12 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::pass_h::pass_opt_t;
     use super::symtab_h::ast_t;
@@ -1367,7 +1354,7 @@ pub mod codegen_h {
         pub str__serialise_space: *const libc::c_char,
         pub str__serialise: *const libc::c_char,
         pub str__deserialise: *const libc::c_char,
-        pub trait_bitmap_size: uint32_t,
+        pub trait_bitmap_size: u32,
         pub callconv: LLVMCallConv,
         pub linkage: LLVMLinkage,
         pub context: LLVMContextRef,
@@ -1425,7 +1412,6 @@ pub mod codegen_h {
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "237:1"]
         pub fn codegen_machine(target: LLVMTargetRef, opt: *mut pass_opt_t)
@@ -1810,8 +1796,6 @@ pub use self::_types_h::{
     __darwin_size_t, __darwin_time_t, __int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t,
 };
 pub use self::_uid_t_h::uid_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::assemble_h::type_builtin;
 use self::ast_h::{ast_child, ast_free, ast_get, ast_line, ast_pos, ast_sibling};
 use self::gencall_h::{gencall_lifetime_end, gencall_lifetime_start, gencall_runtime};
@@ -2483,7 +2467,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     nounwind_attr =
-        LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut readnone_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readnone_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readnone\0" as *const u8 as *const libc::c_char,
@@ -2491,7 +2475,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     readnone_attr =
-        LLVMCreateEnumAttribute((*c).context, readnone_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, readnone_attr_id, 0 as libc::c_int as u64);
     let mut readonly_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readonly_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readonly\0" as *const u8 as *const libc::c_char,
@@ -2499,7 +2483,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     readonly_attr =
-        LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
@@ -2509,7 +2493,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
         inacc_or_arg_mem_attr_id,
-        0 as libc::c_int as uint64_t,
+        0 as libc::c_int as u64,
     );
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
@@ -2518,7 +2502,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     noalias_attr =
-        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut noreturn_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noreturn_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"noreturn\0" as *const u8 as *const libc::c_char,
@@ -2526,7 +2510,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     noreturn_attr =
-        LLVMCreateEnumAttribute((*c).context, noreturn_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, noreturn_attr_id, 0 as libc::c_int as u64);
     let mut deref_actor_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_actor_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable\0" as *const u8 as *const libc::c_char,
@@ -2536,7 +2520,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
     deref_actor_attr = LLVMCreateEnumAttribute(
         (*c).context,
         deref_actor_attr_id,
-        (264 as libc::c_int as libc::c_uint).wrapping_add(align_value) as uint64_t,
+        (264 as libc::c_int as libc::c_uint).wrapping_add(align_value) as u64,
     );
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
@@ -2544,7 +2528,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
         (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
-    align_attr = LLVMCreateEnumAttribute((*c).context, align_attr_id, align_value as uint64_t);
+    align_attr = LLVMCreateEnumAttribute((*c).context, align_attr_id, align_value as u64);
     let mut deref_or_null_alloc_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_or_null_alloc_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
@@ -2554,7 +2538,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
     deref_or_null_alloc_attr = LLVMCreateEnumAttribute(
         (*c).context,
         deref_or_null_alloc_attr_id,
-        ((1 as libc::c_int) << 5 as libc::c_int) as uint64_t,
+        ((1 as libc::c_int) << 5 as libc::c_int) as u64,
     );
     let mut deref_alloc_small_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_alloc_small_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
@@ -2565,7 +2549,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
     deref_alloc_small_attr = LLVMCreateEnumAttribute(
         (*c).context,
         deref_alloc_small_attr_id,
-        ((1 as libc::c_int) << 5 as libc::c_int) as uint64_t,
+        ((1 as libc::c_int) << 5 as libc::c_int) as u64,
     );
     let mut deref_alloc_large_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_alloc_large_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
@@ -2577,7 +2561,7 @@ unsafe extern "C" fn init_runtime(mut c: *mut compile_t) {
         (*c).context,
         deref_alloc_large_attr_id,
         (((1 as libc::c_int) << 10 as libc::c_int - 1 as libc::c_int) << 1 as libc::c_int)
-            as uint64_t,
+            as u64,
     );
     type_0 = LLVMFunctionType(
         (*c).void_ptr,
@@ -3926,7 +3910,7 @@ pub unsafe extern "C" fn codegen_addfun(
         LLVMSetMetadataStr(fun, b"pony.abi\0" as *const u8 as *const libc::c_char, md);
     }
     let mut arg: LLVMValueRef = LLVMGetFirstParam(fun);
-    let mut i: uint32_t = 1 as libc::c_int as uint32_t;
+    let mut i: u32 = 1 as libc::c_int as u32;
     while !arg.is_null() {
         let mut type_1: LLVMTypeRef = LLVMTypeOf(arg);
         if LLVMGetTypeKind(type_1) as libc::c_uint
@@ -3943,7 +3927,7 @@ pub unsafe extern "C" fn codegen_addfun(
                     (::core::mem::size_of::<[libc::c_char; 16]>() as libc::c_ulong)
                         .wrapping_sub(1 as libc::c_int as libc::c_ulong),
                 );
-                deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as uint64_t);
+                deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
                 LLVMAddAttributeAtIndex(fun, i, deref_attr);
             }
         }

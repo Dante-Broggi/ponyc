@@ -14,16 +14,6 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:3"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:3"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
     #[c2rust::src_loc = "51:1"]
@@ -78,11 +68,11 @@ pub mod actor_h {
     pub struct pony_actor_t {
         pub type_0: *const pony_type_t,
         pub q: messageq_t,
-        pub sync_flags: uint8_t,
-        pub cycle_detector_critical: uint8_t,
+        pub sync_flags: u8,
+        pub cycle_detector_critical: u8,
         pub heap: heap_t,
         pub muted: size_t,
-        pub internal_flags: uint8_t,
+        pub internal_flags: u8,
         pub gc: gc_t,
     }
     #[derive(Copy, Clone)]
@@ -106,7 +96,6 @@ pub mod actor_h {
         pub foreign_actormap_objectmap_mem_used: size_t,
         pub foreign_actormap_objectmap_mem_allocated: size_t,
     }
-    use super::_uint8_t_h::uint8_t;
     use super::gc_h::gc_t;
     use super::heap_h::heap_t;
     use super::messageq_h::messageq_t;
@@ -119,14 +108,13 @@ pub mod gc_h {
     #[repr(C)]
     #[c2rust::src_loc = "16:16"]
     pub struct gc_t {
-        pub mark: uint32_t,
-        pub rc_mark: uint32_t,
+        pub mark: u32,
+        pub rc_mark: u32,
         pub rc: size_t,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::actormap_h::{actormap_t, actorref_t};
     use super::delta_h::deltamap_t;
@@ -196,10 +184,9 @@ pub mod actormap_h {
     pub struct actorref_t {
         pub actor: *mut pony_actor_t,
         pub rc: size_t,
-        pub mark: uint32_t,
+        pub mark: u32,
         pub map: objectmap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::hash_h::hashmap_t;
     use super::objectmap_h::objectmap_t;
@@ -233,7 +220,6 @@ pub mod heap_h {
     pub const TRACK_ALL_FINALISERS: C2RustUnnamed_0 = 4294967295;
     #[c2rust::src_loc = "30:1"]
     pub type C2RustUnnamed_0 = libc::c_uint;
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::stddef_h::size_t;
     extern "C" {
@@ -246,21 +232,21 @@ pub mod heap_h {
             actor: *mut pony_actor_t,
             heap: *mut heap_t,
             size: size_t,
-            track_finalisers_mask: uint32_t,
+            track_finalisers_mask: u32,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "54:1"]
         pub fn ponyint_heap_alloc_small(
             actor: *mut pony_actor_t,
             heap: *mut heap_t,
-            sizeclass: uint32_t,
-            track_finalisers_mask: uint32_t,
+            sizeclass: u32,
+            track_finalisers_mask: u32,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "59:1"]
         pub fn ponyint_heap_alloc_large(
             actor: *mut pony_actor_t,
             heap: *mut heap_t,
             size: size_t,
-            track_finalisers_mask: uint32_t,
+            track_finalisers_mask: u32,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "63:1"]
         pub fn ponyint_heap_realloc(
@@ -321,8 +307,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -331,10 +317,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -344,7 +330,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -387,7 +373,6 @@ pub mod pony_h {
         pub p: *mut libc::c_void,
     }
     use super::_intptr_t_h::intptr_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::actor_h::pony_actor_t;
     use super::scheduler_h::pony_ctx_t;
@@ -434,17 +419,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -452,7 +437,6 @@ pub mod scheduler_h {
     use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
@@ -472,7 +456,7 @@ pub mod scheduler_h {
             recv: *mut pony_actor_t,
         );
         #[c2rust::src_loc = "127:1"]
-        pub fn ponyint_sched_start_global_unmute(from: uint32_t, actor: *mut pony_actor_t);
+        pub fn ponyint_sched_start_global_unmute(from: u32, actor: *mut pony_actor_t);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:3"]
@@ -629,8 +613,6 @@ pub use self::_pthread_types_h::{
     _opaque_pthread_cond_t, _opaque_pthread_t,
 };
 pub use self::_types_h::__darwin_intptr_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actor_h::{actorstats_t, pony_actor_t};
 pub use self::actormap_h::{actormap_t, actorref_t};
@@ -706,55 +688,55 @@ static mut actor_noblock: bool = 0 as libc::c_int != 0;
 #[c2rust::src_loc = "88:1"]
 unsafe extern "C" fn has_sync_flag_any(
     mut actor: *mut pony_actor_t,
-    mut check_flags: uint8_t,
+    mut check_flags: u8,
 ) -> bool {
-    let mut flags: uint8_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
+    let mut flags: u8 = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     return flags as libc::c_int & check_flags as libc::c_int != 0 as libc::c_int;
 }
 #[c2rust::src_loc = "94:1"]
-unsafe extern "C" fn has_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) -> bool {
+unsafe extern "C" fn has_sync_flag(mut actor: *mut pony_actor_t, mut flag: u8) -> bool {
     has_sync_flag_any(actor, flag)
 }
 #[c2rust::src_loc = "99:1"]
-unsafe extern "C" fn set_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {
-    let mut flags: uint8_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
+unsafe extern "C" fn set_sync_flag(mut actor: *mut pony_actor_t, mut flag: u8) {
+    let mut flags: u8 = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     ({
         ::core::intrinsics::atomic_store_rel(
             &mut (*actor).sync_flags,
-            (flags as libc::c_int | flag as libc::c_int) as uint8_t,
+            (flags as libc::c_int | flag as libc::c_int) as u8,
         );
         // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[c2rust::src_loc = "105:1"]
-unsafe extern "C" fn unset_sync_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {
-    let mut flags: uint8_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
+unsafe extern "C" fn unset_sync_flag(mut actor: *mut pony_actor_t, mut flag: u8) {
+    let mut flags: u8 = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     ({
         ::core::intrinsics::atomic_store_rel(
             &mut (*actor).sync_flags,
-            (flags as libc::c_int & !(flag as libc::c_int) as uint8_t as libc::c_int) as uint8_t,
+            (flags as libc::c_int & !(flag as libc::c_int) as u8 as libc::c_int) as u8,
         );
         // compile_error!("Builtin is not supposed to be used")
     });
 }
 #[c2rust::src_loc = "114:1"]
-unsafe extern "C" fn has_internal_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) -> bool {
+unsafe extern "C" fn has_internal_flag(mut actor: *mut pony_actor_t, mut flag: u8) -> bool {
     return (*actor).internal_flags as libc::c_int & flag as libc::c_int != 0 as libc::c_int;
 }
 #[c2rust::src_loc = "119:1"]
-unsafe extern "C" fn set_internal_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {
+unsafe extern "C" fn set_internal_flag(mut actor: *mut pony_actor_t, mut flag: u8) {
     (*actor).internal_flags =
-        ((*actor).internal_flags as libc::c_int | flag as libc::c_int) as uint8_t;
+        ((*actor).internal_flags as libc::c_int | flag as libc::c_int) as u8;
 }
 #[c2rust::src_loc = "124:1"]
-unsafe extern "C" fn unset_internal_flag(mut actor: *mut pony_actor_t, mut flag: uint8_t) {
+unsafe extern "C" fn unset_internal_flag(mut actor: *mut pony_actor_t, mut flag: u8) {
     (*actor).internal_flags = ((*actor).internal_flags as libc::c_int
-        & !(flag as libc::c_int) as uint8_t as libc::c_int)
-        as uint8_t;
+        & !(flag as libc::c_int) as u8 as libc::c_int)
+        as u8;
 }
 #[c2rust::src_loc = "152:1"]
 unsafe extern "C" fn mute_actor(mut actor: *mut pony_actor_t) {
-    set_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as uint8_t);
+    set_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as u8);
     macro__DTRACE(
         b"ACTOR_MUTED\0" as *const u8 as *const libc::c_char,
         1 as libc::c_int,
@@ -764,7 +746,7 @@ unsafe extern "C" fn mute_actor(mut actor: *mut pony_actor_t) {
 #[no_mangle]
 #[c2rust::src_loc = "158:1"]
 pub unsafe extern "C" fn ponyint_unmute_actor(mut actor: *mut pony_actor_t) {
-    unset_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as uint8_t);
+    unset_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as u8);
     macro__DTRACE(
         b"ACTOR_UNMUTED\0" as *const u8 as *const libc::c_char,
         1 as libc::c_int,
@@ -777,7 +759,7 @@ unsafe extern "C" fn triggers_muting(mut actor: *mut pony_actor_t) -> bool {
         actor,
         (SYNC_FLAG_OVERLOADED as libc::c_int
             | SYNC_FLAG_UNDER_PRESSURE as libc::c_int
-            | SYNC_FLAG_MUTED as libc::c_int) as uint8_t,
+            | SYNC_FLAG_MUTED as libc::c_int) as u8,
     );
 }
 #[c2rust::src_loc = "170:1"]
@@ -793,7 +775,7 @@ unsafe extern "C" fn actor_setoverloaded(mut actor: *mut pony_actor_t) {
                 .as_ptr(),
         );
     };
-    set_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as uint8_t);
+    set_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as u8);
     macro__DTRACE(
         b"ACTOR_OVERLOADED\0" as *const u8 as *const libc::c_char,
         1 as libc::c_int,
@@ -803,14 +785,14 @@ unsafe extern "C" fn actor_setoverloaded(mut actor: *mut pony_actor_t) {
 #[c2rust::src_loc = "177:1"]
 unsafe extern "C" fn actor_unsetoverloaded(mut actor: *mut pony_actor_t) {
     let mut ctx: *mut pony_ctx_t = pony_ctx();
-    unset_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as uint8_t);
+    unset_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as u8);
     macro__DTRACE(
         b"ACTOR_OVERLOADED_CLEARED\0" as *const u8 as *const libc::c_char,
         1 as libc::c_int,
         b"(uintptr_t)actor\0" as *const u8 as *const libc::c_char,
     );
-    if !has_sync_flag(actor, SYNC_FLAG_UNDER_PRESSURE as libc::c_int as uint8_t) {
-        ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as uint32_t, actor);
+    if !has_sync_flag(actor, SYNC_FLAG_UNDER_PRESSURE as libc::c_int as u8) {
+        ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as u32, actor);
     }
 }
 #[c2rust::src_loc = "188:1"]
@@ -820,7 +802,7 @@ unsafe extern "C" fn maybe_mark_should_mute(mut ctx: *mut pony_ctx_t, mut to: *m
             && !has_sync_flag_any(
                 (*ctx).current,
                 (SYNC_FLAG_OVERLOADED as libc::c_int | SYNC_FLAG_UNDER_PRESSURE as libc::c_int)
-                    as uint8_t,
+                    as u8,
             )
             && (*ctx).current != to
         {
@@ -890,7 +872,7 @@ unsafe extern "C" fn try_gc(mut ctx: *mut pony_ctx_t, mut actor: *mut pony_actor
 unsafe extern "C" fn send_unblock(mut actor: *mut pony_actor_t) {
     unset_internal_flag(
         actor,
-        (FLAG_BLOCKED as libc::c_int | FLAG_BLOCKED_SENT as libc::c_int) as uint8_t,
+        (FLAG_BLOCKED as libc::c_int | FLAG_BLOCKED_SENT as libc::c_int) as u8,
     );
     ponyint_cycle_unblock(actor);
 }
@@ -908,8 +890,8 @@ unsafe extern "C" fn send_block(mut ctx: *mut pony_ctx_t, mut actor: *mut pony_a
     };
     pony_triggergc(ctx);
     try_gc(ctx, actor);
-    set_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as uint8_t);
-    set_internal_flag(actor, FLAG_CD_CONTACTED as libc::c_int as uint8_t);
+    set_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8);
+    set_internal_flag(actor, FLAG_CD_CONTACTED as libc::c_int as u8);
     ponyint_cycle_block(actor, &mut (*actor).gc);
 }
 #[c2rust::src_loc = "319:1"]
@@ -935,7 +917,7 @@ unsafe extern "C" fn handle_message(
             };
             let mut m: *mut pony_msgp_t = msg as *mut pony_msgp_t;
             if ponyint_gc_acquire(&mut (*actor).gc, (*m).p as *mut actorref_t) as libc::c_int != 0
-                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as uint8_t)
+                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8)
                     as libc::c_int
                     != 0
             {
@@ -959,7 +941,7 @@ unsafe extern "C" fn handle_message(
             };
             let mut m_0: *mut pony_msgp_t = msg as *mut pony_msgp_t;
             if ponyint_gc_release(&mut (*actor).gc, (*m_0).p as *mut actorref_t) as libc::c_int != 0
-                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as uint8_t)
+                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8)
                     as libc::c_int
                     != 0
             {
@@ -1005,7 +987,7 @@ unsafe extern "C" fn handle_message(
                     .as_ptr(),
                 );
             };
-            if has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as uint8_t) {
+            if has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8) {
                 let mut m_1: *mut pony_msgi_t = msg as *mut pony_msgi_t;
                 ponyint_cycle_ack((*m_1).i as size_t);
             }
@@ -1038,8 +1020,8 @@ unsafe extern "C" fn handle_message(
                     .as_ptr(),
                 );
             };
-            if has_internal_flag(actor, FLAG_BLOCKED as libc::c_int as uint8_t) as libc::c_int != 0
-                && !has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as uint8_t)
+            if has_internal_flag(actor, FLAG_BLOCKED as libc::c_int as u8) as libc::c_int != 0
+                && !has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8)
                 && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong
             {
                 send_block(ctx, actor);
@@ -1156,7 +1138,7 @@ unsafe extern "C" fn handle_message(
                     .as_ptr(),
                 );
             };
-            if has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as uint8_t) {
+            if has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8) {
                 send_unblock(actor);
             }
             macro__DTRACE(
@@ -1181,7 +1163,7 @@ unsafe extern "C" fn maybe_should_mute(mut actor: *mut pony_actor_t) -> bool {
 }
 #[c2rust::src_loc = "543:1"]
 unsafe extern "C" fn batch_limit_reached(mut actor: *mut pony_actor_t, mut polling: bool) -> bool {
-    if !has_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as uint8_t) && !polling {
+    if !has_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as u8) && !polling {
         actor_setoverloaded(actor);
     }
     return 1 as libc::c_int != 0;
@@ -1193,7 +1175,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
     mut actor: *mut pony_actor_t,
     mut polling: bool,
 ) -> bool {
-    if !has_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as uint8_t) {
+    if !has_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as u8) {
     } else {
         ponyint_assert_fail(
             b"!has_sync_flag(actor, SYNC_FLAG_MUTED)\0" as *const u8 as *const libc::c_char,
@@ -1210,7 +1192,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
     let mut msg: *mut pony_msg_t = 0 as *mut pony_msg_t;
     let mut app: size_t = 0;
     if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
-        set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as uint8_t);
+        set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8);
     }
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).q.head) };
     loop {
@@ -1220,7 +1202,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
         }
         let mut app_msg: bool = handle_message(ctx, actor, msg);
         if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
-            set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as uint8_t);
+            set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8);
         }
         if app_msg {
             app = app.wrapping_add(1);
@@ -1247,7 +1229,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
                 .as_ptr(),
         );
     };
-    if !has_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as uint8_t) {
+    if !has_sync_flag(actor, SYNC_FLAG_MUTED as libc::c_int as u8) {
     } else {
         ponyint_assert_fail(
             b"!has_sync_flag(actor, SYNC_FLAG_MUTED)\0" as *const u8 as *const libc::c_char,
@@ -1258,7 +1240,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
                 .as_ptr(),
         );
     };
-    if has_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as uint8_t) {
+    if has_sync_flag(actor, SYNC_FLAG_OVERLOADED as libc::c_int as u8) {
         actor_unsetoverloaded(actor);
     }
     try_gc(ctx, actor);
@@ -1269,14 +1251,14 @@ pub unsafe extern "C" fn ponyint_actor_run(
         actor,
         (FLAG_BLOCKED as libc::c_int
             | FLAG_SYSTEM as libc::c_int
-            | FLAG_BLOCKED_SENT as libc::c_int) as uint8_t,
+            | FLAG_BLOCKED_SENT as libc::c_int) as u8,
     ) {
-        set_internal_flag(actor, FLAG_BLOCKED as libc::c_int as uint8_t);
+        set_internal_flag(actor, FLAG_BLOCKED as libc::c_int as u8);
     }
-    if has_internal_flag(actor, FLAG_BLOCKED as libc::c_int as uint8_t) {
+    if has_internal_flag(actor, FLAG_BLOCKED as libc::c_int as u8) {
         if (*actor).gc.rc == 0 as libc::c_int as libc::c_ulong {
             if actor_noblock as libc::c_int != 0
-                || !has_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as uint8_t)
+                || !has_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8)
             {
                 if ponyint_messageq_isempty(&mut (*actor).q) {
                     let mut empty: bool = ponyint_messageq_markempty(&mut (*actor).q);
@@ -1326,7 +1308,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
                 }
             }
         } else if !actor_noblock
-            && !has_internal_flag(actor, FLAG_CD_CONTACTED as libc::c_int as uint8_t)
+            && !has_internal_flag(actor, FLAG_CD_CONTACTED as libc::c_int as u8)
         {
             if ponyint_acquire_cycle_detector_critical(actor) {
                 send_block(ctx, actor);
@@ -1339,7 +1321,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
 #[no_mangle]
 #[c2rust::src_loc = "786:1"]
 pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
-    if has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as uint8_t) as libc::c_int != 0
+    if has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as u8) as libc::c_int != 0
     {
     } else {
         ponyint_assert_fail(
@@ -1380,12 +1362,12 @@ pub unsafe extern "C" fn ponyint_actor_heap(mut actor: *mut pony_actor_t) -> *mu
 #[no_mangle]
 #[c2rust::src_loc = "831:1"]
 pub unsafe extern "C" fn ponyint_actor_pendingdestroy(mut actor: *mut pony_actor_t) -> bool {
-    return has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as uint8_t);
+    return has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as u8);
 }
 #[no_mangle]
 #[c2rust::src_loc = "836:1"]
 pub unsafe extern "C" fn ponyint_actor_setpendingdestroy(mut actor: *mut pony_actor_t) {
-    set_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as uint8_t);
+    set_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as u8);
 }
 #[no_mangle]
 #[c2rust::src_loc = "846:1"]
@@ -1416,7 +1398,7 @@ pub unsafe extern "C" fn ponyint_actor_sendrelease(
 #[no_mangle]
 #[c2rust::src_loc = "869:1"]
 pub unsafe extern "C" fn ponyint_actor_setsystem(mut actor: *mut pony_actor_t) {
-    set_internal_flag(actor, FLAG_SYSTEM as libc::c_int as uint8_t);
+    set_internal_flag(actor, FLAG_SYSTEM as libc::c_int as u8);
 }
 #[no_mangle]
 #[c2rust::src_loc = "874:1"]
@@ -1479,7 +1461,7 @@ pub unsafe extern "C" fn ponyint_destroy(mut _ctx: *mut pony_ctx_t, mut actor: *
 }
 #[no_mangle]
 #[c2rust::src_loc = "938:1"]
-pub unsafe extern "C" fn pony_alloc_msg(mut index: uint32_t, mut id: uint32_t) -> *mut pony_msg_t {
+pub unsafe extern "C" fn pony_alloc_msg(mut index: u32, mut id: u32) -> *mut pony_msg_t {
     let mut msg: *mut pony_msg_t = ponyint_pool_alloc(index as size_t) as *mut pony_msg_t;
     (*msg).index = index;
     (*msg).id = id;
@@ -1493,9 +1475,9 @@ pub unsafe extern "C" fn pony_alloc_msg(mut index: uint32_t, mut id: uint32_t) -
 #[c2rust::src_loc = "961:1"]
 pub unsafe extern "C" fn pony_alloc_msg_size(
     mut size: size_t,
-    mut id: uint32_t,
+    mut id: u32,
 ) -> *mut pony_msg_t {
-    return pony_alloc_msg(ponyint_pool_index(size) as uint32_t, id);
+    return pony_alloc_msg(ponyint_pool_index(size) as u32, id);
 }
 #[no_mangle]
 #[c2rust::src_loc = "966:1"]
@@ -1552,7 +1534,7 @@ pub unsafe extern "C" fn pony_sendv(
         maybe_mark_should_mute(ctx, to);
     }
     if ponyint_actor_messageq_push(&mut (*to).q, first, last) {
-        if !has_sync_flag(to, SYNC_FLAG_MUTED as libc::c_int as uint8_t) {
+        if !has_sync_flag(to, SYNC_FLAG_MUTED as libc::c_int as u8) {
             ponyint_sched_add(ctx, to);
         }
     }
@@ -1614,7 +1596,7 @@ pub unsafe extern "C" fn pony_sendv_single(
         maybe_mark_should_mute(ctx, to);
     }
     if ponyint_actor_messageq_push_single(&mut (*to).q, first, last) {
-        if !has_sync_flag(to, SYNC_FLAG_MUTED as libc::c_int as uint8_t) {
+        if !has_sync_flag(to, SYNC_FLAG_MUTED as libc::c_int as u8) {
             ponyint_sched_add(ctx, to);
         }
     }
@@ -1645,9 +1627,9 @@ pub unsafe extern "C" fn pony_chain(mut prev: *mut pony_msg_t, mut next: *mut po
 pub unsafe extern "C" fn pony_send(
     mut ctx: *mut pony_ctx_t,
     mut to: *mut pony_actor_t,
-    mut id: uint32_t,
+    mut id: u32,
 ) {
-    let mut m: *mut pony_msg_t = pony_alloc_msg(0 as libc::c_int as uint32_t, id);
+    let mut m: *mut pony_msg_t = pony_alloc_msg(0 as libc::c_int as u32, id);
     pony_sendv(
         ctx,
         to,
@@ -1661,11 +1643,11 @@ pub unsafe extern "C" fn pony_send(
 pub unsafe extern "C" fn pony_sendp(
     mut ctx: *mut pony_ctx_t,
     mut to: *mut pony_actor_t,
-    mut id: uint32_t,
+    mut id: u32,
     mut p: *mut libc::c_void,
 ) {
     let mut m: *mut pony_msgp_t =
-        pony_alloc_msg(0 as libc::c_int as uint32_t, id) as *mut pony_msgp_t;
+        pony_alloc_msg(0 as libc::c_int as u32, id) as *mut pony_msgp_t;
     let ref mut fresh4 = (*m).p;
     *fresh4 = p;
     pony_sendv(
@@ -1681,11 +1663,11 @@ pub unsafe extern "C" fn pony_sendp(
 pub unsafe extern "C" fn pony_sendi(
     mut ctx: *mut pony_ctx_t,
     mut to: *mut pony_actor_t,
-    mut id: uint32_t,
+    mut id: u32,
     mut i: intptr_t,
 ) {
     let mut m: *mut pony_msgi_t =
-        pony_alloc_msg(0 as libc::c_int as uint32_t, id) as *mut pony_msgi_t;
+        pony_alloc_msg(0 as libc::c_int as u32, id) as *mut pony_msgi_t;
     (*m).i = i;
     pony_sendv(
         ctx,
@@ -1721,14 +1703,14 @@ pub unsafe extern "C" fn pony_alloc(
         (*ctx).current,
         &mut (*(*ctx).current).heap,
         size,
-        TRACK_NO_FINALISERS as libc::c_int as uint32_t,
+        TRACK_NO_FINALISERS as libc::c_int as u32,
     );
 }
 #[no_mangle]
 #[c2rust::src_loc = "1110:1"]
 pub unsafe extern "C" fn pony_alloc_small(
     mut ctx: *mut pony_ctx_t,
-    mut sizeclass: uint32_t,
+    mut sizeclass: u32,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1751,7 +1733,7 @@ pub unsafe extern "C" fn pony_alloc_small(
         (*ctx).current,
         &mut (*(*ctx).current).heap,
         sizeclass,
-        TRACK_NO_FINALISERS as libc::c_int as uint32_t,
+        TRACK_NO_FINALISERS as libc::c_int as u32,
     );
 }
 #[no_mangle]
@@ -1781,7 +1763,7 @@ pub unsafe extern "C" fn pony_alloc_large(
         (*ctx).current,
         &mut (*(*ctx).current).heap,
         size,
-        TRACK_NO_FINALISERS as libc::c_int as uint32_t,
+        TRACK_NO_FINALISERS as libc::c_int as u32,
     );
 }
 #[no_mangle]
@@ -1844,7 +1826,7 @@ pub unsafe extern "C" fn pony_alloc_final(
 #[c2rust::src_loc = "1145:1"]
 pub unsafe extern "C" fn pony_alloc_small_final(
     mut ctx: *mut pony_ctx_t,
-    mut sizeclass: uint32_t,
+    mut sizeclass: u32,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1947,7 +1929,7 @@ pub unsafe extern "C" fn pony_apply_backpressure() {
     let mut ctx: *mut pony_ctx_t = pony_ctx();
     set_sync_flag(
         (*ctx).current,
-        SYNC_FLAG_UNDER_PRESSURE as libc::c_int as uint8_t,
+        SYNC_FLAG_UNDER_PRESSURE as libc::c_int as u8,
     );
     macro__DTRACE(
         b"ACTOR_UNDER_PRESSURE\0" as *const u8 as *const libc::c_char,
@@ -1961,7 +1943,7 @@ pub unsafe extern "C" fn pony_release_backpressure() {
     let mut ctx: *mut pony_ctx_t = pony_ctx();
     unset_sync_flag(
         (*ctx).current,
-        SYNC_FLAG_UNDER_PRESSURE as libc::c_int as uint8_t,
+        SYNC_FLAG_UNDER_PRESSURE as libc::c_int as u8,
     );
     macro__DTRACE(
         b"ACTOR_PRESSURE_RELEASED\0" as *const u8 as *const libc::c_char,
@@ -1970,9 +1952,9 @@ pub unsafe extern "C" fn pony_release_backpressure() {
     );
     if !has_sync_flag(
         (*ctx).current,
-        SYNC_FLAG_OVERLOADED as libc::c_int as uint8_t,
+        SYNC_FLAG_OVERLOADED as libc::c_int as u8,
     ) {
-        ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as uint32_t, (*ctx).current);
+        ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as u32, (*ctx).current);
     }
 }
 #[no_mangle]
@@ -1985,12 +1967,12 @@ pub unsafe extern "C" fn pony_actor_stats() -> *mut actorstats_t {
 pub unsafe extern "C" fn ponyint_acquire_cycle_detector_critical(
     mut actor: *mut pony_actor_t,
 ) -> bool {
-    let mut expected: uint8_t = 0 as libc::c_int as uint8_t;
+    let mut expected: u8 = 0 as libc::c_int as u8;
     return {
         let fresh6 = ::core::intrinsics::atomic_cxchg_acqrel(
             &mut (*actor).cycle_detector_critical,
             *&mut expected,
-            1 as libc::c_int as uint8_t,
+            1 as libc::c_int as u8,
         );
         *&mut expected = fresh6.0;
         fresh6.1
@@ -1999,5 +1981,5 @@ pub unsafe extern "C" fn ponyint_acquire_cycle_detector_critical(
 #[no_mangle]
 #[c2rust::src_loc = "1263:1"]
 pub unsafe extern "C" fn ponyint_release_cycle_detector_critical(mut actor: *mut pony_actor_t) {
-    (*actor).cycle_detector_critical = 0 as libc::c_int as uint8_t;
+    (*actor).cycle_detector_critical = 0 as libc::c_int as u8;
 }

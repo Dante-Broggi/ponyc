@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -49,13 +44,12 @@ pub mod unwind_h {
     #[repr(C)]
     #[c2rust::src_loc = "122:8"]
     pub struct _Unwind_Exception {
-        pub exception_class: uint64_t,
+        pub exception_class: u64,
         pub exception_cleanup:
             Option<unsafe extern "C" fn(_Unwind_Reason_Code, *mut _Unwind_Exception) -> ()>,
         pub private_1: uintptr_t,
         pub private_2: uintptr_t,
     }
-    use super::_uint64_t_h::uint64_t;
     use super::_uintptr_t_h::uintptr_t;
     extern "C" {
         #[c2rust::src_loc = "56:16"]
@@ -84,7 +78,6 @@ pub mod stdlib_h {
         pub fn abort() -> !;
     }
 }
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::lsda_h::{exception_context_t, ponyint_lsda_scan};
 use self::stdlib_h::abort;
@@ -115,7 +108,7 @@ unsafe extern "C" fn exception_cleanup(
 #[no_mangle]
 #[c2rust::src_loc = "29:1"]
 pub unsafe extern "C" fn pony_error() {
-    exception.exception_class = 0x506f6e7900000000 as libc::c_long as uint64_t;
+    exception.exception_class = 0x506f6e7900000000 as libc::c_long as u64;
     exception.exception_cleanup = Some(
         exception_cleanup
             as unsafe extern "C" fn(_Unwind_Reason_Code, *mut _Unwind_Exception) -> (),
@@ -135,7 +128,7 @@ unsafe extern "C" fn set_registers(
 pub unsafe extern "C" fn ponyint_personality_v0(
     mut version: libc::c_int,
     mut actions: _Unwind_Action,
-    mut ex_class: uint64_t,
+    mut ex_class: u64,
     mut exception_0: *mut _Unwind_Exception,
     mut context: *mut _Unwind_Context,
 ) -> _Unwind_Reason_Code {

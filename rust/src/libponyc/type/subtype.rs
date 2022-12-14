@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -553,7 +548,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errorframe_t;
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -571,7 +565,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "105:1"]
@@ -918,7 +912,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::alias_h::consume_type;
 use self::assemble_h::set_cap_and_ephemeral;
 pub use self::ast_h::{
@@ -2108,9 +2101,9 @@ unsafe extern "C" fn is_nominal_sub_structural(
     let mut sub_def: *mut ast_t = ast_data(sub) as *mut ast_t;
     let mut super_def: *mut ast_t = ast_data(super_0) as *mut ast_t;
     let mut sub_pass: pass_id =
-        ast_checkflag(sub_def, AST_FLAG_PASS_MASK as libc::c_int as uint32_t) as pass_id;
+        ast_checkflag(sub_def, AST_FLAG_PASS_MASK as libc::c_int as u32) as pass_id;
     let mut super_pass: pass_id =
-        ast_checkflag(super_def, AST_FLAG_PASS_MASK as libc::c_int as uint32_t) as pass_id;
+        ast_checkflag(super_def, AST_FLAG_PASS_MASK as libc::c_int as u32) as pass_id;
     if sub_pass as libc::c_uint >= PASS_TRAITS as libc::c_int as libc::c_uint
         && super_pass as libc::c_uint >= PASS_TRAITS as libc::c_int as libc::c_uint
     {

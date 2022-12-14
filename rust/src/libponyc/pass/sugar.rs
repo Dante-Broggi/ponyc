@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -506,7 +501,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint64_t_h::uint64_t;
     use super::error_h::errors_t;
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
@@ -517,7 +511,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "60:1"]
         pub fn ast_from_string(ast: *mut ast_t, name: *const libc::c_char) -> *mut ast_t;
         #[c2rust::src_loc = "61:1"]
-        pub fn ast_from_int(ast: *mut ast_t, value: uint64_t) -> *mut ast_t;
+        pub fn ast_from_int(ast: *mut ast_t, value: u64) -> *mut ast_t;
         #[c2rust::src_loc = "66:1"]
         pub fn ast_scope(ast: *mut ast_t);
         #[c2rust::src_loc = "70:1"]
@@ -927,7 +921,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::assemble_h::{type_for_this, type_sugar};
 pub use self::ast_h::{
     ast_add, ast_add_sibling, ast_append, ast_child, ast_childcount, ast_childidx, ast_childlast,
@@ -5066,16 +5059,16 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     let mut last_sibling_17: *mut ast_t = 0 as *mut ast_t;
     let mut _node_17: *mut ast_t = 0 as *mut ast_t;
     if parent_17.is_null() {
-        parent_17 = ast_from_int(basis_ast, ast_line(location) as uint64_t);
+        parent_17 = ast_from_int(basis_ast, ast_line(location) as u64);
     } else if last_sibling_17.is_null() {
         last_sibling_17 = ast_add(
             parent_17,
-            ast_from_int(basis_ast, ast_line(location) as uint64_t),
+            ast_from_int(basis_ast, ast_line(location) as u64),
         );
     } else {
         last_sibling_17 = ast_add_sibling(
             last_sibling_17,
-            ast_from_int(basis_ast, ast_line(location) as uint64_t),
+            ast_from_int(basis_ast, ast_line(location) as u64),
         );
     }
     ast_inheritflags(parent_17);
@@ -5210,16 +5203,16 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
     let mut last_sibling_21: *mut ast_t = 0 as *mut ast_t;
     let mut _node_21: *mut ast_t = 0 as *mut ast_t;
     if parent_21.is_null() {
-        parent_21 = ast_from_int(basis_ast, ast_pos(location) as uint64_t);
+        parent_21 = ast_from_int(basis_ast, ast_pos(location) as u64);
     } else if last_sibling_21.is_null() {
         last_sibling_21 = ast_add(
             parent_21,
-            ast_from_int(basis_ast, ast_pos(location) as uint64_t),
+            ast_from_int(basis_ast, ast_pos(location) as u64),
         );
     } else {
         last_sibling_21 = ast_add_sibling(
             last_sibling_21,
-            ast_from_int(basis_ast, ast_pos(location) as uint64_t),
+            ast_from_int(basis_ast, ast_pos(location) as u64),
         );
     }
     ast_inheritflags(parent_21);

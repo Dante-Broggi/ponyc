@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -548,7 +543,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -568,7 +562,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "108:1"]
@@ -853,7 +847,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_add, ast_add_sibling, ast_child, ast_childcount, ast_childidx, ast_data, ast_dup,
     ast_error, ast_error_continue, ast_free_unattached, ast_from, ast_from_string, ast_get,
@@ -1040,7 +1033,7 @@ pub unsafe extern "C" fn use_package(
     if !name.is_null() && ast_id(name) as libc::c_uint == TK_ID as libc::c_int as libc::c_uint {
         return set_scope(options, ast, name, package, 0 as libc::c_int != 0);
     }
-    ast_setflag(ast, AST_FLAG_IMPORT as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_IMPORT as libc::c_int as u32);
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "107:1"]

@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -569,7 +564,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -609,13 +603,13 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "90:1"]
-        pub fn ast_clearflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_clearflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "91:1"]
-        pub fn ast_resetpass(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_resetpass(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "100:1"]
@@ -1066,7 +1060,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::alias_h::{alias, consume_type};
 use self::assemble_h::type_for_class;
 pub use self::ast_h::{
@@ -1684,10 +1677,10 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
         ast_free(members);
         return 0 as libc::c_int != 0;
     }
-    ast_clearflag(t_params, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
-    ast_clearflag(params, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
-    ast_clearflag(ret_type, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
-    ast_clearflag(body, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
+    ast_clearflag(t_params, AST_FLAG_PRESERVE as libc::c_int as u32);
+    ast_clearflag(params, AST_FLAG_PRESERVE as libc::c_int as u32);
+    ast_clearflag(ret_type, AST_FLAG_PRESERVE as libc::c_int as u32);
+    ast_clearflag(body, AST_FLAG_PRESERVE as libc::c_int as u32);
     let mut fn_name: *const libc::c_char = b"apply\0" as *const u8 as *const libc::c_char;
     if ast_id(name) as libc::c_uint == TK_ID as libc::c_int as libc::c_uint {
         fn_name = ast_name(name);
@@ -1769,7 +1762,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
     ast_inheritflags(parent_0);
     apply = parent;
     ast_list_append(members, &mut last_member, apply);
-    ast_setflag(members, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
+    ast_setflag(members, AST_FLAG_PRESERVE as libc::c_int as u32);
     let mut buf: *mut printbuf_t = printbuf_new();
     printbuf(
         buf,
@@ -2036,7 +2029,7 @@ unsafe extern "C" fn capture_from_expr(
     mut capture: *mut ast_t,
     mut last_capture: *mut *mut ast_t,
 ) -> bool {
-    if ast_checkflag(ast, AST_FLAG_PRESERVE as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(ast, AST_FLAG_PRESERVE as libc::c_int as u32) != 0 {
         return 1 as libc::c_int != 0;
     }
     let mut ok: bool = 1 as libc::c_int != 0;
@@ -2290,9 +2283,9 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    ast_clearflag(cap, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
-    ast_clearflag(provides, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
-    ast_clearflag(members, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
+    ast_clearflag(cap, AST_FLAG_PRESERVE as libc::c_int as u32);
+    ast_clearflag(provides, AST_FLAG_PRESERVE as libc::c_int as u32);
+    ast_clearflag(members, AST_FLAG_PRESERVE as libc::c_int as u32);
     let mut annotation: *mut ast_t = ast_consumeannotation(ast);
     let mut c_id: *const libc::c_char = package_hygienic_id(&mut (*opt).check);
     let mut t_params: *mut ast_t = 0 as *mut ast_t;
@@ -2676,7 +2669,7 @@ pub unsafe extern "C" fn expr_object(mut opt: *mut pass_opt_t, mut astp: *mut *m
         p = ast_sibling(p);
     }
     ast_free_unattached(captures);
-    ast_resetpass(def, PASS_SUGAR as libc::c_int as uint32_t);
+    ast_resetpass(def, PASS_SUGAR as libc::c_int as u32);
     let mut cap_id: token_id = ast_id(cap);
     if has_behaviours {
         ast_setid(def, TK_ACTOR);

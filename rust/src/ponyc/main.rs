@@ -1,13 +1,8 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
 }
@@ -284,8 +279,8 @@ pub mod options_h {
     pub struct opt_arg_t {
         pub long_opt: *const libc::c_char,
         pub short_opt: libc::c_char,
-        pub flag: uint32_t,
-        pub id: uint32_t,
+        pub flag: u32,
+        pub id: u32,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -301,7 +296,6 @@ pub mod options_h {
         pub idx: libc::c_int,
         pub remove: libc::c_int,
     }
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_opt_init(
@@ -428,7 +422,6 @@ pub mod unistd_h {
 use self::_malloc_h::calloc;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__int64_t, __uint32_t};
-pub use self::_uint32_t_h::uint32_t;
 use self::ast_h::{ast_child, ast_fprint, ast_free};
 use self::error_h::{errors_get_count, errors_print, errors_t};
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
@@ -467,7 +460,7 @@ unsafe extern "C" fn get_width() -> size_t {
         };
         if ioctl(
             1 as libc::c_int,
-            0x40000000 as libc::c_int as __uint32_t as libc::c_ulong
+            0x40000000 as libc::c_int as u32 as libc::c_ulong
                 | (::core::mem::size_of::<winsize>() as libc::c_ulong
                     & 0x1fff as libc::c_int as libc::c_ulong)
                     << 16 as libc::c_int

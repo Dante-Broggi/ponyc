@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -522,13 +512,11 @@ pub mod DebugInfo_h {
     pub const LLVMDIFlagZero: LLVMDIFlags = 0;
     use super::Types_h::{LLVMBool, LLVMDIBuilderRef, LLVMMetadataRef};
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "1104:1"]
         pub fn LLVMDIBuilderCreateExpression(
             Builder: LLVMDIBuilderRef,
-            Addr: *mut uint64_t,
+            Addr: *mut u64,
             Length: size_t,
         ) -> LLVMMetadataRef;
         #[c2rust::src_loc = "1309:1"]
@@ -542,7 +530,7 @@ pub mod DebugInfo_h {
             Ty: LLVMMetadataRef,
             AlwaysPreserve: LLVMBool,
             Flags: LLVMDIFlags,
-            AlignInBits: uint32_t,
+            AlignInBits: u32,
         ) -> LLVMMetadataRef;
     }
 }
@@ -559,10 +547,9 @@ pub mod lexint_h {
     #[repr(C)]
     #[c2rust::src_loc = "9:16"]
     pub struct lexint_t {
-        pub low: uint64_t,
-        pub high: uint64_t,
+        pub low: u64,
+        pub high: u64,
     }
-    use super::_uint64_t_h::uint64_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
 pub mod token_h {
@@ -1354,7 +1341,7 @@ pub mod reach_h {
         pub cap: token_id,
         pub fun: *mut deferred_reification_t,
         pub typeargs: *mut ast_t,
-        pub vtable_index: uint32_t,
+        pub vtable_index: u32,
         pub intrinsic: bool,
         pub internal: bool,
         pub forwarding: bool,
@@ -1384,11 +1371,11 @@ pub mod reach_h {
         pub methods: reach_method_names_t,
         pub bare_method: *mut reach_method_t,
         pub subtypes: reach_type_cache_t,
-        pub type_id: uint32_t,
-        pub vtable_size: uint32_t,
+        pub type_id: u32,
+        pub vtable_size: u32,
         pub can_be_boxed: bool,
         pub is_trait: bool,
-        pub field_count: uint32_t,
+        pub field_count: u32,
         pub fields: *mut reach_field_t,
         pub c_type: *mut compile_opaque_t,
     }
@@ -1433,14 +1420,13 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
@@ -1574,7 +1560,7 @@ pub mod codegen_h {
         pub str__serialise_space: *const libc::c_char,
         pub str__serialise: *const libc::c_char,
         pub str__deserialise: *const libc::c_char,
-        pub trait_bitmap_size: uint32_t,
+        pub trait_bitmap_size: u32,
         pub callconv: LLVMCallConv,
         pub linkage: LLVMLinkage,
         pub context: LLVMContextRef,
@@ -1632,7 +1618,6 @@ pub mod codegen_h {
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "294:1"]
         pub fn codegen_string(
@@ -1726,7 +1711,6 @@ pub mod gentype_h {
     use super::reach_h::compile_opaque_free_fn;
     use super::Types_h::{LLVMMetadataRef, LLVMTypeRef, LLVMValueRef};
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "9:1"]
@@ -1735,7 +1719,7 @@ pub mod gentype_h {
             right: *mut ast_t,
             l_def: *mut *mut ast_t,
             field: *mut *mut ast_t,
-            index: *mut uint32_t,
+            index: *mut u32,
         );
     }
 }
@@ -2047,8 +2031,6 @@ pub use self::Types_h::{
 };
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "19:8"]
@@ -2277,7 +2259,7 @@ unsafe extern "C" fn make_fieldptr(
     };
     let mut def: *mut ast_t = 0 as *mut ast_t;
     let mut field: *mut ast_t = 0 as *mut ast_t;
-    let mut index: uint32_t = 0;
+    let mut index: u32 = 0;
     get_fieldinfo(l_type, right, &mut def, &mut field, &mut index);
     if ast_id(def) as libc::c_uint != TK_STRUCT as libc::c_int as libc::c_uint {
         index = index.wrapping_add(1);
@@ -2507,7 +2489,7 @@ pub unsafe extern "C" fn gen_localdecl(mut c: *mut compile_t, mut ast: *mut ast_
     codegen_setlocal(c, name, alloc);
     let mut file: LLVMMetadataRef = codegen_difile(c);
     let mut scope: LLVMMetadataRef = codegen_discope(c);
-    let mut align_bytes: uint32_t = LLVMABIAlignmentOfType((*c).target_data, (*c_t).mem_type);
+    let mut align_bytes: u32 = LLVMABIAlignmentOfType((*c).target_data, (*c_t).mem_type);
     let mut info: LLVMMetadataRef = LLVMDIBuilderCreateAutoVariable(
         (*c).di,
         scope,
@@ -2521,7 +2503,7 @@ pub unsafe extern "C" fn gen_localdecl(mut c: *mut compile_t, mut ast: *mut ast_
         align_bytes.wrapping_mul(8 as libc::c_int as libc::c_uint),
     );
     let mut expr: LLVMMetadataRef =
-        LLVMDIBuilderCreateExpression((*c).di, 0 as *mut uint64_t, 0 as libc::c_int as size_t);
+        LLVMDIBuilderCreateExpression((*c).di, 0 as *mut u64, 0 as libc::c_int as size_t);
     LLVMDIBuilderInsertDeclare(
         (*c).di,
         alloc,
@@ -2801,7 +2783,7 @@ unsafe extern "C" fn gen_digestof_value(
             return gen_digestof_int64(c, value);
         }
         8 => {
-            let mut width: uint32_t = LLVMGetIntTypeWidth(impl_type);
+            let mut width: u32 = LLVMGetIntTypeWidth(impl_type);
             if width < 64 as libc::c_int as libc::c_uint {
                 return LLVMBuildZExt(
                     (*c).builder,
@@ -2850,14 +2832,14 @@ unsafe extern "C" fn gen_digestof_value(
             }
         }
         10 => {
-            let mut count: uint32_t = LLVMCountStructElementTypes(impl_type);
+            let mut count: u32 = LLVMCountStructElementTypes(impl_type);
             let mut result: LLVMValueRef = LLVMConstInt(
                 (*c).intptr,
                 0 as libc::c_int as libc::c_ulonglong,
                 0 as libc::c_int,
             );
             let mut child: *mut ast_t = ast_child(type_0);
-            let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+            let mut i: u32 = 0 as libc::c_int as u32;
             while i < count {
                 let mut elem: LLVMValueRef = LLVMBuildExtractValue(
                     (*c).builder,

@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -43,10 +38,9 @@ pub mod lexint_h {
     #[repr(C)]
     #[c2rust::src_loc = "9:16"]
     pub struct lexint_t {
-        pub low: uint64_t,
-        pub high: uint64_t,
+        pub low: u64,
+        pub high: u64,
     }
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn lexint_cmp(a: *const lexint_t, b: *const lexint_t) -> libc::c_int;
@@ -834,7 +828,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::assemble_h::{type_builtin, type_builtin_args, type_union};
 pub use self::ast_h::{
     ast_add, ast_add_sibling, ast_child, ast_childcount, ast_childidx, ast_childlast, ast_data,
@@ -928,8 +921,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"U8\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0x100 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0x100 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -942,8 +935,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"U16\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0x10000 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0x10000 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -956,8 +949,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"U32\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0x100000000 as libc::c_longlong as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0x100000000 as libc::c_longlong as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -970,8 +963,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"U64\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
-                    high: 1 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
+                    high: 1 as libc::c_int as u64,
                 };
                 init
             },
@@ -984,8 +977,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"U128\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -998,8 +991,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"ULong\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
-                    high: 1 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
+                    high: 1 as libc::c_int as u64,
                 };
                 init
             },
@@ -1012,8 +1005,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"USize\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
-                    high: 1 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
+                    high: 1 as libc::c_int as u64,
                 };
                 init
             },
@@ -1026,8 +1019,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"I8\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0x80 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0x80 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1040,8 +1033,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"I16\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0x8000 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0x8000 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1054,8 +1047,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"I32\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0x80000000 as libc::c_uint as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0x80000000 as libc::c_uint as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1069,7 +1062,7 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             limit: {
                 let mut init = lexint_t {
                     low: 0x8000000000000000 as libc::c_ulonglong,
-                    high: 0 as libc::c_int as uint64_t,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1082,7 +1075,7 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"I128\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
                     high: 0x8000000000000000 as libc::c_ulonglong,
                 };
                 init
@@ -1097,7 +1090,7 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             limit: {
                 let mut init = lexint_t {
                     low: 0x8000000000000000 as libc::c_ulonglong,
-                    high: 0 as libc::c_int as uint64_t,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1111,7 +1104,7 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             limit: {
                 let mut init = lexint_t {
                     low: 0x8000000000000000 as libc::c_ulonglong,
-                    high: 0 as libc::c_int as uint64_t,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1124,8 +1117,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"F32\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },
@@ -1138,8 +1131,8 @@ static mut _str_uif_types: [C2RustUnnamed; 16] = [
             name: b"F64\0" as *const u8 as *const libc::c_char,
             limit: {
                 let mut init = lexint_t {
-                    low: 0 as libc::c_int as uint64_t,
-                    high: 0 as libc::c_int as uint64_t,
+                    low: 0 as libc::c_int as u64,
+                    high: 0 as libc::c_int as u64,
                 };
                 init
             },

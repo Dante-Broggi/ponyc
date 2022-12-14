@@ -20,16 +20,6 @@ pub mod _pthread_types_h {
     #[c2rust::src_loc = "118:1"]
     pub type __darwin_pthread_t = *mut _opaque_pthread_t;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:4"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:4"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_t.h:8"]
 pub mod _pthread_t_h {
     #[c2rust::src_loc = "31:1"]
@@ -41,14 +31,12 @@ pub mod threads_h {
     #[c2rust::src_loc = "19:1"]
     pub type thread_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> *mut libc::c_void>;
     use super::_pthread_t_h::pthread_t;
-
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
         pub fn ponyint_thread_create(
             thread: *mut pthread_t,
             start: thread_fn,
-            cpu: uint32_t,
+            cpu: u32,
             arg: *mut libc::c_void,
         ) -> bool;
         #[c2rust::src_loc = "54:1"]
@@ -72,8 +60,6 @@ pub use self::_pthread_t_h::pthread_t;
 pub use self::_pthread_types_h::{
     __darwin_pthread_handler_rec, __darwin_pthread_t, _opaque_pthread_t,
 };
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::asio_h::{
     asio_backend_t, ponyint_asio_backend_dispatch, ponyint_asio_backend_final,
     ponyint_asio_backend_init,
@@ -85,7 +71,7 @@ pub use self::threads_h::{ponyint_thread_create, ponyint_thread_join, thread_fn}
 pub struct asio_base_t {
     pub tid: pthread_t,
     pub backend: *mut asio_backend_t,
-    pub noisy_count: uint64_t,
+    pub noisy_count: u64,
 }
 #[c2rust::src_loc = "22:20"]
 static mut running_base: asio_base_t = asio_base_t {
@@ -94,7 +80,7 @@ static mut running_base: asio_base_t = asio_base_t {
     noisy_count: 0,
 };
 #[c2rust::src_loc = "23:17"]
-static mut asio_cpu: uint32_t = 0;
+static mut asio_cpu: u32 = 0;
 #[no_mangle]
 #[c2rust::src_loc = "56:1"]
 pub unsafe extern "C" fn ponyint_asio_get_backend() -> *mut asio_backend_t {
@@ -107,12 +93,12 @@ pub unsafe extern "C" fn ponyint_asio_get_backend_tid() -> pthread_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "73:1"]
-pub unsafe extern "C" fn ponyint_asio_get_cpu() -> uint32_t {
+pub unsafe extern "C" fn ponyint_asio_get_cpu() -> u32 {
     asio_cpu
 }
 #[no_mangle]
 #[c2rust::src_loc = "78:1"]
-pub unsafe extern "C" fn ponyint_asio_init(mut cpu: uint32_t) {
+pub unsafe extern "C" fn ponyint_asio_init(mut cpu: u32) {
     asio_cpu = cpu;
     running_base.backend = ponyint_asio_backend_init();
 }
@@ -153,26 +139,26 @@ pub unsafe extern "C" fn ponyint_asio_stop() -> bool {
 #[c2rust::src_loc = "160:1"]
 pub unsafe extern "C" fn ponyint_asio_stoppable() -> bool {
     return ({
-        ::core::intrinsics::atomic_load_acq(&mut running_base.noisy_count as *mut uint64_t)
+        ::core::intrinsics::atomic_load_acq(&mut running_base.noisy_count as *mut u64)
     }) == 0 as libc::c_int as libc::c_ulonglong;
 }
 #[no_mangle]
 #[c2rust::src_loc = "166:1"]
-pub unsafe extern "C" fn ponyint_asio_noisy_add() -> uint64_t {
+pub unsafe extern "C" fn ponyint_asio_noisy_add() -> u64 {
     return {
         ::core::intrinsics::atomic_xadd_rel(
             &mut running_base.noisy_count,
-            1 as libc::c_int as uint64_t,
+            1 as libc::c_int as u64,
         )
     };
 }
 #[no_mangle]
 #[c2rust::src_loc = "171:1"]
-pub unsafe extern "C" fn ponyint_asio_noisy_remove() -> uint64_t {
+pub unsafe extern "C" fn ponyint_asio_noisy_remove() -> u64 {
     return {
         ::core::intrinsics::atomic_xsub_rel(
             &mut running_base.noisy_count,
-            1 as libc::c_int as uint64_t,
+            1 as libc::c_int as u64,
         )
     };
 }

@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/options/options.h:1"]
 pub mod options_h {
     #[derive(Copy, Clone)]
@@ -12,8 +7,8 @@ pub mod options_h {
     pub struct opt_arg_t {
         pub long_opt: *const libc::c_char,
         pub short_opt: libc::c_char,
-        pub flag: uint32_t,
-        pub id: uint32_t,
+        pub flag: u32,
+        pub id: u32,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -29,7 +24,6 @@ pub mod options_h {
         pub idx: libc::c_int,
         pub remove: libc::c_int,
     }
-    use super::_uint32_t_h::uint32_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
@@ -75,7 +69,6 @@ pub mod stdio_h {
         pub fn printf(_: *const libc::c_char, _: ...) -> libc::c_int;
     }
 }
-pub use self::_uint32_t_h::uint32_t;
 pub use self::options_h::{opt_arg_t, opt_state_t};
 use self::ponyassert_h::ponyint_assert_fail;
 pub use self::stddef_h::size_t;

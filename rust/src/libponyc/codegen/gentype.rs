@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
@@ -411,8 +401,6 @@ pub mod DebugInfo_h {
     pub type LLVMDWARFTypeEncoding = libc::c_uint;
     use super::Types_h::{LLVMDIBuilderRef, LLVMMetadataRef};
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "292:1"]
         pub fn LLVMDIBuilderCreateFile(
@@ -427,7 +415,7 @@ pub mod DebugInfo_h {
             Builder: LLVMDIBuilderRef,
             Name: *const libc::c_char,
             NameLen: size_t,
-            SizeInBits: uint64_t,
+            SizeInBits: u64,
             Encoding: LLVMDWARFTypeEncoding,
             Flags: LLVMDIFlags,
         ) -> LLVMMetadataRef;
@@ -435,8 +423,8 @@ pub mod DebugInfo_h {
         pub fn LLVMDIBuilderCreatePointerType(
             Builder: LLVMDIBuilderRef,
             PointeeTy: LLVMMetadataRef,
-            SizeInBits: uint64_t,
-            AlignInBits: uint32_t,
+            SizeInBits: u64,
+            AlignInBits: u32,
             AddressSpace: libc::c_uint,
             Name: *const libc::c_char,
             NameLen: size_t,
@@ -449,8 +437,8 @@ pub mod DebugInfo_h {
             NameLen: size_t,
             File: LLVMMetadataRef,
             LineNumber: libc::c_uint,
-            SizeInBits: uint64_t,
-            AlignInBits: uint32_t,
+            SizeInBits: u64,
+            AlignInBits: u32,
             Flags: LLVMDIFlags,
             DerivedFrom: LLVMMetadataRef,
             Elements: *mut LLVMMetadataRef,
@@ -468,9 +456,9 @@ pub mod DebugInfo_h {
             NameLen: size_t,
             File: LLVMMetadataRef,
             LineNo: libc::c_uint,
-            SizeInBits: uint64_t,
-            AlignInBits: uint32_t,
-            OffsetInBits: uint64_t,
+            SizeInBits: u64,
+            AlignInBits: u32,
+            OffsetInBits: u64,
             Flags: LLVMDIFlags,
             Ty: LLVMMetadataRef,
         ) -> LLVMMetadataRef;
@@ -1248,7 +1236,7 @@ pub mod reach_h {
         pub cap: token_id,
         pub fun: *mut deferred_reification_t,
         pub typeargs: *mut ast_t,
-        pub vtable_index: uint32_t,
+        pub vtable_index: u32,
         pub intrinsic: bool,
         pub internal: bool,
         pub forwarding: bool,
@@ -1278,11 +1266,11 @@ pub mod reach_h {
         pub methods: reach_method_names_t,
         pub bare_method: *mut reach_method_t,
         pub subtypes: reach_type_cache_t,
-        pub type_id: uint32_t,
-        pub vtable_size: uint32_t,
+        pub type_id: u32,
+        pub vtable_size: u32,
         pub can_be_boxed: bool,
         pub is_trait: bool,
-        pub field_count: uint32_t,
+        pub field_count: u32,
         pub fields: *mut reach_field_t,
         pub c_type: *mut compile_opaque_t,
     }
@@ -1327,14 +1315,13 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
@@ -1463,7 +1450,7 @@ pub mod codegen_h {
         pub str__serialise_space: *const libc::c_char,
         pub str__serialise: *const libc::c_char,
         pub str__deserialise: *const libc::c_char,
-        pub trait_bitmap_size: uint32_t,
+        pub trait_bitmap_size: u32,
         pub callconv: LLVMCallConv,
         pub linkage: LLVMLinkage,
         pub context: LLVMContextRef,
@@ -1520,7 +1507,6 @@ pub mod codegen_h {
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "289:1"]
         pub fn codegen_block(c: *mut compile_t, name: *const libc::c_char) -> LLVMBasicBlockRef;
@@ -1812,8 +1798,6 @@ pub mod string_h {
     }
 }
 pub use self::_types_h::{__darwin_size_t, __int64_t};
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::ast_h::{
     ast_child, ast_childidx, ast_data, ast_get, ast_get_children, ast_has_annotation, ast_id,
     ast_index, ast_line, ast_name, ast_ptr_t, ast_source,
@@ -1965,11 +1949,11 @@ pub unsafe extern "C" fn get_fieldinfo(
     mut right: *mut ast_t,
     mut l_def: *mut *mut ast_t,
     mut field: *mut *mut ast_t,
-    mut index: *mut uint32_t,
+    mut index: *mut u32,
 ) {
     let mut d: *mut ast_t = ast_data(l_type) as *mut ast_t;
     let mut f: *mut ast_t = ast_get(d, ast_name(right), 0 as *mut sym_status_t);
-    let mut i: uint32_t = ast_index(f) as uint32_t;
+    let mut i: u32 = ast_index(f) as u32;
     *l_def = d;
     *field = f;
     *index = i;
@@ -2199,9 +2183,9 @@ unsafe extern "C" fn make_opaque_struct(mut c: *mut compile_t, mut t: *mut reach
 #[c2rust::src_loc = "205:1"]
 unsafe extern "C" fn make_debug_basic(mut c: *mut compile_t, mut t: *mut reach_type_t) {
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut size: uint64_t = LLVMABISizeOfType((*c).target_data, (*c_t).primitive);
-    let mut _align: uint64_t =
-        LLVMABIAlignmentOfType((*c).target_data, (*c_t).primitive) as uint64_t;
+    let mut size: u64 = LLVMABISizeOfType((*c).target_data, (*c_t).primitive);
+    let mut _align: u64 =
+        LLVMABIAlignmentOfType((*c).target_data, (*c_t).primitive) as u64;
     let mut encoding: libc::c_uint = 0;
     if is_bool((*t).ast) {
         encoding = DW_ATE_boolean as libc::c_int as libc::c_uint;
@@ -2236,8 +2220,8 @@ unsafe extern "C" fn make_debug_prototype(mut c: *mut compile_t, mut t: *mut rea
     if (*t).underlying as libc::c_uint != TK_TUPLETYPE as libc::c_int as libc::c_uint {
         let ref mut fresh52 = (*c_t).di_type_embed;
         *fresh52 = (*c_t).di_type;
-        let mut size_bytes: uint64_t = LLVMABISizeOfType((*c).target_data, (*c_t).mem_type);
-        let mut align_bytes: uint32_t = LLVMABIAlignmentOfType((*c).target_data, (*c_t).mem_type);
+        let mut size_bytes: u64 = LLVMABISizeOfType((*c).target_data, (*c_t).mem_type);
+        let mut align_bytes: u32 = LLVMABIAlignmentOfType((*c).target_data, (*c_t).mem_type);
         let ref mut fresh53 = (*c_t).di_type;
         *fresh53 = LLVMDIBuilderCreatePointerType(
             (*c).di,
@@ -2463,7 +2447,7 @@ unsafe extern "C" fn make_struct(mut c: *mut compile_t, mut t: *mut reach_type_t
         let ref mut fresh61 = *elements.offset(1 as libc::c_int as isize);
         *fresh61 = (*c).actor_pad;
     }
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < (*t).field_count {
         let mut f_c_t: *mut compile_type_t =
             (*(*((*t).fields).offset(i as isize)).type_0).c_type as *mut compile_type_t;
@@ -2503,12 +2487,12 @@ unsafe extern "C" fn make_struct(mut c: *mut compile_t, mut t: *mut reach_type_t
 unsafe extern "C" fn make_debug_field(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
-    mut i: uint32_t,
+    mut i: u32,
 ) -> LLVMMetadataRef {
     let mut name: *const libc::c_char = 0 as *const libc::c_char;
     let mut buf: [libc::c_char; 32] = [0; 32];
     let mut flags: LLVMDIFlags = LLVMDIFlagZero;
-    let mut offset: uint64_t = 0 as libc::c_int as uint64_t;
+    let mut offset: u64 = 0 as libc::c_int as u64;
     let mut ast: *mut ast_t = 0 as *mut ast_t;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     if (*t).underlying as libc::c_uint != TK_TUPLETYPE as libc::c_int as libc::c_uint {
@@ -2520,7 +2504,7 @@ unsafe extern "C" fn make_debug_field(
             flags = (flags as libc::c_uint | LLVMDIFlagPrivate as libc::c_int as libc::c_uint)
                 as LLVMDIFlags;
         }
-        let mut extra: uint32_t = 0 as libc::c_int as uint32_t;
+        let mut extra: u32 = 0 as libc::c_int as u32;
         if (*t).underlying as libc::c_uint != TK_STRUCT as libc::c_int as libc::c_uint {
             extra = extra.wrapping_add(1);
         }
@@ -2550,8 +2534,8 @@ unsafe extern "C" fn make_debug_field(
         type_0 = (*f_c_t).mem_type;
         di_type = (*f_c_t).di_type;
     }
-    let mut size: uint64_t = LLVMABISizeOfType((*c).target_data, type_0);
-    let mut align: uint64_t = LLVMABIAlignmentOfType((*c).target_data, type_0) as uint64_t;
+    let mut size: u64 = LLVMABISizeOfType((*c).target_data, type_0);
+    let mut align: u64 = LLVMABIAlignmentOfType((*c).target_data, type_0) as u64;
     return LLVMDIBuilderCreateMemberType(
         (*c).di,
         (*c).di_unit,
@@ -2560,7 +2544,7 @@ unsafe extern "C" fn make_debug_field(
         (*c_t).di_file,
         ast_line(ast) as libc::c_uint,
         (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(size),
-        (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(align) as uint32_t,
+        (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(align) as u32,
         (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(offset),
         flags,
         di_type,
@@ -2574,7 +2558,7 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
         fields_buf_size = ((*t).field_count as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<LLVMMetadataRef>() as libc::c_ulong);
         fields = ponyint_pool_alloc_size(fields_buf_size) as *mut LLVMMetadataRef;
-        let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+        let mut i: u32 = 0 as libc::c_int as u32;
         while i < (*t).field_count {
             let ref mut fresh64 = *fields.offset(i as isize);
             *fresh64 = make_debug_field(c, t, i);
@@ -2588,11 +2572,11 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
     } else {
         type_0 = (*c_t).primitive;
     }
-    let mut size: uint64_t = 0 as libc::c_int as uint64_t;
-    let mut align: uint64_t = 0 as libc::c_int as uint64_t;
+    let mut size: u64 = 0 as libc::c_int as u64;
+    let mut align: u64 = 0 as libc::c_int as u64;
     if !type_0.is_null() {
         size = LLVMABISizeOfType((*c).target_data, type_0);
-        align = LLVMABIAlignmentOfType((*c).target_data, type_0) as uint64_t;
+        align = LLVMABIAlignmentOfType((*c).target_data, type_0) as u64;
     }
     let mut di_type: LLVMMetadataRef = LLVMDIBuilderCreateStructType(
         (*c).di,
@@ -2602,7 +2586,7 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
         (*c_t).di_file,
         ast_line((*t).ast) as libc::c_uint,
         (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(size),
-        (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(align) as uint32_t,
+        (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(align) as u32,
         LLVMDIFlagZero,
         0 as LLVMMetadataRef,
         fields,
@@ -2751,7 +2735,7 @@ unsafe extern "C" fn make_trace(mut c: *mut compile_t, mut t: *mut reach_type_t)
         }
         _ => {}
     }
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < (*t).field_count {
         let mut f: *mut reach_field_t =
             &mut *((*t).fields).offset(i as isize) as *mut reach_field_t;

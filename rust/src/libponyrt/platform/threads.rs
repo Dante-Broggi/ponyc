@@ -1,13 +1,8 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:4"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:4"]
 pub mod _types_h {
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:4"]
 pub mod _pthread_types_h {
@@ -94,7 +89,7 @@ pub mod threads_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h:4"]
 pub mod resource_h {
     #[c2rust::src_loc = "89:1"]
-    pub type rlim_t = __uint64_t;
+    pub type rlim_t = u64;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "459:8"]
@@ -102,7 +97,6 @@ pub mod resource_h {
         pub rlim_cur: rlim_t,
         pub rlim_max: rlim_t,
     }
-    use super::_types_h::__uint64_t;
     extern "C" {
         #[c2rust::src_loc = "567:1"]
         pub fn getrlimit(_: libc::c_int, _: *mut rlimit) -> libc::c_int;
@@ -151,8 +145,6 @@ pub use self::_pthread_types_h::{
     __darwin_pthread_mutex_t, __darwin_pthread_t, _opaque_pthread_attr_t, _opaque_pthread_cond_t,
     _opaque_pthread_mutex_t, _opaque_pthread_t,
 };
-pub use self::_types_h::__uint64_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::pthread_h::{
     pthread_attr_destroy, pthread_attr_init, pthread_attr_setstacksize, pthread_cond_signal,
     pthread_cond_wait, pthread_create, pthread_detach, pthread_join, pthread_self,
@@ -165,7 +157,7 @@ pub use self::threads_h::thread_fn;
 pub unsafe extern "C" fn ponyint_thread_create(
     mut thread: *mut pthread_t,
     mut start: thread_fn,
-    mut _cpu: uint32_t,
+    mut _cpu: u32,
     mut arg: *mut libc::c_void,
 ) -> bool {
     let mut ret: bool = 1 as libc::c_int != 0;
@@ -182,7 +174,7 @@ pub unsafe extern "C" fn ponyint_thread_create(
     pthread_attr_init(attr_p);
     if getrlimit(3 as libc::c_int, &mut limit) == 0 as libc::c_int
         && limit.rlim_cur
-            != ((1 as libc::c_int as __uint64_t) << 63 as libc::c_int)
+            != ((1 as libc::c_int as u64) << 63 as libc::c_int)
                 .wrapping_sub(1 as libc::c_int as libc::c_ulonglong)
         && limit.rlim_cur >= 8192 as libc::c_int as rlim_t
     {

@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -506,7 +501,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
     extern "C" {
@@ -527,7 +521,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "90:1"]
-        pub fn ast_clearflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_clearflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "111:1"]
@@ -569,7 +563,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_add, ast_add_sibling, ast_append, ast_child, ast_childidx, ast_clearflag, ast_data,
     ast_dup, ast_from, ast_from_string, ast_get_children, ast_id, ast_inheritflags, ast_name,
@@ -851,7 +844,7 @@ unsafe extern "C" fn sanitise(mut astp: *mut *mut ast_t) {
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sanitise\0")).as_ptr(),
         );
     };
-    ast_clearflag(*astp, AST_FLAG_PASS_MASK as libc::c_int as uint32_t);
+    ast_clearflag(*astp, AST_FLAG_PASS_MASK as libc::c_int as u32);
     if ast_id(type_0) as libc::c_uint == TK_TYPEPARAMREF as libc::c_int as libc::c_uint {
         let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;
         if !def.is_null() {

@@ -1,25 +1,19 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "43:1"]
-    pub type __uint8_t = libc::c_uchar;
+    pub type __uint8_t = u8;
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
     pub type __darwin_size_t = libc::c_ulong;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
     #[c2rust::src_loc = "70:1"]
-    pub type __darwin_mode_t = __uint16_t;
-    use super::_types_h::__uint16_t;
+    pub type __darwin_mode_t = u16;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:1"]
 pub mod _pthread_types_h {
@@ -45,11 +39,11 @@ pub mod dirent_h {
     #[repr(C)]
     #[c2rust::src_loc = "112:8"]
     pub struct dirent {
-        pub d_ino: __uint64_t,
-        pub d_seekoff: __uint64_t,
-        pub d_reclen: __uint16_t,
-        pub d_namlen: __uint16_t,
-        pub d_type: __uint8_t,
+        pub d_ino: u64,
+        pub d_seekoff: u64,
+        pub d_reclen: u16,
+        pub d_namlen: u16,
+        pub d_type: u8,
         pub d_name: [libc::c_char; 1024],
     }
     use super::_types_h::{__uint16_t, __uint64_t, __uint8_t};
@@ -135,10 +129,9 @@ pub mod string_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach-o/dyld.h:9"]
 pub mod dyld_h {
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "98:1"]
-        pub fn _NSGetExecutablePath(buf: *mut libc::c_char, bufsize: *mut uint32_t) -> libc::c_int;
+        pub fn _NSGetExecutablePath(buf: *mut libc::c_char, bufsize: *mut u32) -> libc::c_int;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libgen.h:158"]
@@ -152,7 +145,6 @@ pub use self::_mode_t_h::mode_t;
 pub use self::_pthread_types_h::{__darwin_pthread_mutex_t, _opaque_pthread_mutex_t};
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{__darwin_size_t, __uint16_t, __uint64_t, __uint8_t};
-pub use self::_uint32_t_h::uint32_t;
 pub use self::dirent_h::dirent;
 use self::dyld_h::_NSGetExecutablePath;
 use self::errno_h::__error;
@@ -167,11 +159,11 @@ pub use self::sys__types_h::__darwin_mode_t;
 #[c2rust::src_loc = "23:1"]
 pub unsafe extern "C" fn pony_opendir(
     mut path: *const libc::c_char,
-    mut err: *mut uint32_t,
+    mut err: *mut u32,
 ) -> *mut DIR {
     let mut dir: *mut DIR = opendir(path);
     if dir.is_null() {
-        *err = *__error() as uint32_t;
+        *err = *__error() as u32;
         return 0 as *mut DIR;
     }
     dir
@@ -274,8 +266,8 @@ pub unsafe extern "C" fn get_compiler_exe_path(
         success as libc::c_int
     } != 0;
     let mut exec_path: [libc::c_char; 1024] = [0; 1024];
-    let mut size: uint32_t =
-        ::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong as uint32_t;
+    let mut size: u32 =
+        ::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong as u32;
     let mut r: libc::c_int = _NSGetExecutablePath(exec_path.as_mut_ptr(), &mut size);
     success = r == 0 as libc::c_int;
     if success {

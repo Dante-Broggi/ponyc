@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:1"]
 pub mod _pthread_types_h {
     #[derive(Copy, Clone)]
@@ -72,7 +67,6 @@ pub use self::_pthread_types_h::{
     __darwin_pthread_mutex_t, __darwin_pthread_mutexattr_t, _opaque_pthread_mutex_t,
     _opaque_pthread_mutexattr_t,
 };
-pub use self::_uint32_t_h::uint32_t;
 use self::pool_h::ponyint_pool_alloc_size;
 use self::pthread_h::{pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock};
 pub use self::stddef_h::size_t;
@@ -93,12 +87,12 @@ unsafe extern "C" fn locking_callback(
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
-pub unsafe extern "C" fn ponyint_ssl_multithreading(mut count: uint32_t) -> *mut libc::c_void {
+pub unsafe extern "C" fn ponyint_ssl_multithreading(mut count: u32) -> *mut libc::c_void {
     locks = ponyint_pool_alloc_size(
         (count as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<pthread_mutex_t>() as libc::c_ulong),
     ) as *mut pthread_mutex_t;
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < count {
         pthread_mutex_init(
             &mut *locks.offset(i as isize),

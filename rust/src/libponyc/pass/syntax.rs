@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "72:1"]
@@ -534,7 +529,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -559,7 +553,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "102:1"]
@@ -845,7 +839,6 @@ pub mod _ctype_h {
 pub use self::_ctype_h::__tolower;
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{__darwin_ct_rune_t, __darwin_size_t};
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_annotation, ast_checkflag, ast_child, ast_childcount, ast_childidx, ast_error,
     ast_error_continue, ast_get_children, ast_has_annotation, ast_id, ast_name, ast_parent,
@@ -2181,7 +2174,7 @@ unsafe extern "C" fn syntax_infix_expr(
     let mut left_op: token_id = ast_id(left);
     let mut left_clash: bool = left_op as libc::c_uint != op as libc::c_uint
         && is_expr_infix(left_op) as libc::c_int != 0
-        && ast_checkflag(left, AST_FLAG_IN_PARENS as libc::c_int as uint32_t) == 0;
+        && ast_checkflag(left, AST_FLAG_IN_PARENS as libc::c_int as u32) == 0;
     if !right.is_null() {
     } else {
         ponyint_assert_fail(
@@ -2196,7 +2189,7 @@ unsafe extern "C" fn syntax_infix_expr(
     let mut right_op: token_id = ast_id(right);
     let mut right_clash: bool = right_op as libc::c_uint != op as libc::c_uint
         && is_expr_infix(right_op) as libc::c_int != 0
-        && ast_checkflag(right, AST_FLAG_IN_PARENS as libc::c_int as uint32_t) == 0;
+        && ast_checkflag(right, AST_FLAG_IN_PARENS as libc::c_int as u32) == 0;
     if left_clash as libc::c_int != 0 || right_clash as libc::c_int != 0 {
         ast_error(
             (*opt).check.errors,
@@ -2372,7 +2365,7 @@ unsafe extern "C" fn syntax_semi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"syntax_semi\0")).as_ptr(),
         );
     };
-    if ast_checkflag(ast, AST_FLAG_BAD_SEMI as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(ast, AST_FLAG_BAD_SEMI as libc::c_int as u32) != 0 {
         ast_error(
             (*opt).check.errors,
             ast,
@@ -3342,7 +3335,7 @@ pub unsafe extern "C" fn pass_syntax(
     if is_expr_infix(id) {
         r = syntax_infix_expr(options, ast);
     }
-    if ast_checkflag(ast, AST_FLAG_MISSING_SEMI as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(ast, AST_FLAG_MISSING_SEMI as libc::c_int as u32) != 0 {
         ast_error(
             (*options).check.errors,
             ast,
