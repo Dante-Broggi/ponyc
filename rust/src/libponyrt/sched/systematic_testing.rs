@@ -5,11 +5,6 @@ pub mod internal {
     #[c2rust::src_loc = "0:0"]
     pub type __int128_t = i128;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:3"]
-pub mod _int32_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int32_t = libc::c_int;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:3"]
 pub mod _pthread_types_h {
     #[derive(Copy, Clone)]
@@ -114,7 +109,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub union aba_protected_mpmcq_node_t {
         pub c2rust_unnamed: C2RustUnnamed,
-        pub raw: __int128_t,
+        pub raw: i128,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -131,7 +126,6 @@ pub mod mpmcq_h {
         pub tail: aba_protected_mpmcq_node_t,
     }
     use super::_uintptr_t_h::uintptr_t;
-    use super::internal::__int128_t;
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -144,7 +138,7 @@ pub mod scheduler_h {
     #[c2rust::src_loc = "84:8"]
     pub struct scheduler_t {
         pub tid: pthread_t,
-        pub index: int32_t,
+        pub index: i32,
         pub cpu: u32,
         pub node: u32,
         pub terminate: bool,
@@ -154,7 +148,7 @@ pub mod scheduler_h {
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
         pub block_count: u32,
-        pub ack_token: int32_t,
+        pub ack_token: i32,
         pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
@@ -189,7 +183,6 @@ pub mod scheduler_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
     use super::actormap_h::actormap_t;
@@ -434,7 +427,6 @@ pub mod ponyassert_h {
         );
     }
 }
-pub use self::_int32_t_h::int32_t;
 pub use self::_pthread_cond_t_h::pthread_cond_t;
 pub use self::_pthread_mutex_t_h::pthread_mutex_t;
 pub use self::_pthread_mutexattr_t_h::pthread_mutexattr_t;
@@ -451,7 +443,6 @@ pub use self::actormap_h::actormap_t;
 use self::cpu_h::{ponyint_cpu_core_pause, ponyint_cpu_tick};
 
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
-pub use self::internal::__int128_t;
 pub use self::messageq_h::messageq_t;
 pub use self::mpmcq_h::{aba_protected_mpmcq_node_t, mpmcq_node_t, mpmcq_t, C2RustUnnamed};
 pub use self::mutemap_h::mutemap_t;

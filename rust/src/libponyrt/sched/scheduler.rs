@@ -8,16 +8,6 @@ pub mod internal {
     #[c2rust::src_loc = "0:0"]
     pub type __int128_t = i128;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:3"]
-pub mod _int32_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int32_t = libc::c_int;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h:3"]
-pub mod _int64_t_h {
-    #[c2rust::src_loc = "30:1"]
-    pub type int64_t = libc::c_longlong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
     #[c2rust::src_loc = "51:1"]
@@ -173,7 +163,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub union aba_protected_mpmcq_node_t {
         pub c2rust_unnamed: C2RustUnnamed,
-        pub raw: __int128_t,
+        pub raw: i128,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -190,7 +180,6 @@ pub mod mpmcq_h {
         pub tail: aba_protected_mpmcq_node_t,
     }
     use super::_uintptr_t_h::uintptr_t;
-    use super::internal::__int128_t;
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -213,7 +202,7 @@ pub mod scheduler_h {
     #[c2rust::src_loc = "84:8"]
     pub struct scheduler_t {
         pub tid: pthread_t,
-        pub index: int32_t,
+        pub index: i32,
         pub cpu: u32,
         pub node: u32,
         pub terminate: bool,
@@ -223,7 +212,7 @@ pub mod scheduler_h {
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
         pub block_count: u32,
-        pub ack_token: int32_t,
+        pub ack_token: i32,
         pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
@@ -262,10 +251,10 @@ pub mod scheduler_h {
     #[repr(C)]
     #[c2rust::src_loc = "35:16"]
     pub struct schedulerstats_t {
-        pub mem_used: int64_t,
-        pub mem_allocated: int64_t,
-        pub mem_used_actors: int64_t,
-        pub mem_allocated_actors: int64_t,
+        pub mem_used: i64,
+        pub mem_allocated: i64,
+        pub mem_used_actors: i64,
+        pub mem_allocated_actors: i64,
         pub created_actors_counter: size_t,
         pub destroyed_actors_counter: size_t,
         pub actor_app_cpu: size_t,
@@ -275,8 +264,6 @@ pub mod scheduler_h {
         pub msg_cpu: size_t,
         pub misc_cpu: size_t,
     }
-    use super::_int32_t_h::int32_t;
-    use super::_int64_t_h::int64_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
     use super::actor_h::pony_actor_t;
@@ -726,8 +713,6 @@ pub mod string_h {
         pub fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong) -> *mut libc::c_void;
     }
 }
-pub use self::_int32_t_h::int32_t;
-pub use self::_int64_t_h::int64_t;
 pub use self::_intptr_t_h::intptr_t;
 pub use self::_pthread_cond_t_h::pthread_cond_t;
 pub use self::_pthread_condattr_t_h::pthread_condattr_t;
@@ -761,7 +746,6 @@ use self::dtrace_h::{macro__DTRACE, macro__DTRACE_ENABLED};
 pub use self::gc_h::{gc_t, gcstack_t};
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};
 pub use self::heap_h::{chunk_t, heap_t};
-pub use self::internal::__int128_t;
 pub use self::messageq_h::{
     messageq_t, ponyint_messageq_destroy, ponyint_messageq_init, ponyint_thread_messageq_pop,
     ponyint_thread_messageq_push,
@@ -946,11 +930,11 @@ unsafe extern "C" fn send_msg_all(mut from: u32, mut msg: sched_msg_t, mut arg: 
 #[c2rust::src_loc = "233:1"]
 unsafe extern "C" fn signal_suspended_threads(
     mut sched_count: u32,
-    mut curr_sched_id: int32_t,
+    mut curr_sched_id: i32,
 ) {
     let mut i: u32 = 0 as libc::c_int as u32;
     while i < sched_count {
-        if i as int32_t != curr_sched_id {
+        if i as i32 != curr_sched_id {
             ponyint_thread_wake(
                 (*scheduler.offset(i as isize)).tid,
                 (*scheduler.offset(i as isize)).sleep_object,
@@ -960,7 +944,7 @@ unsafe extern "C" fn signal_suspended_threads(
     }
 }
 #[c2rust::src_loc = "246:1"]
-unsafe extern "C" fn wake_suspended_threads(mut current_scheduler_id: int32_t) {
+unsafe extern "C" fn wake_suspended_threads(mut current_scheduler_id: i32) {
     let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     loop {
         current_active_scheduler_count = get_active_scheduler_count();
@@ -1650,7 +1634,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
         *fresh13 = &mut *scheduler.offset(i as isize) as *mut scheduler_t;
         let ref mut fresh14 = (*scheduler.offset(i as isize)).last_victim;
         *fresh14 = &mut *scheduler.offset(i as isize) as *mut scheduler_t;
-        (*scheduler.offset(i as isize)).index = i as int32_t;
+        (*scheduler.offset(i as isize)).index = i as i32;
         (*scheduler.offset(i as isize)).asio_noisy = 0 as libc::c_int != 0;
         ponyint_messageq_init(&mut (*scheduler.offset(i as isize)).mq);
         ponyint_mpmcq_init(&mut (*scheduler.offset(i as isize)).q);
@@ -1716,7 +1700,7 @@ pub unsafe extern "C" fn pony_scheduler_stats() -> *mut schedulerstats_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1364:1"]
-pub unsafe extern "C" fn pony_scheduler_index() -> int32_t {
+pub unsafe extern "C" fn pony_scheduler_index() -> i32 {
     let mut ctx: *mut pony_ctx_t = pony_ctx();
     (*(*ctx).scheduler).index
 }
@@ -1786,7 +1770,7 @@ pub unsafe extern "C" fn pony_ctx() -> *mut pony_ctx_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1420:1"]
-pub unsafe extern "C" fn ponyint_sched_noisy_asio(mut from: int32_t) {
+pub unsafe extern "C" fn ponyint_sched_noisy_asio(mut from: i32) {
     send_msg_all(
         from as u32,
         SCHED_NOISY_ASIO,
@@ -1795,7 +1779,7 @@ pub unsafe extern "C" fn ponyint_sched_noisy_asio(mut from: int32_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1426:1"]
-pub unsafe extern "C" fn ponyint_sched_unnoisy_asio(mut from: int32_t) {
+pub unsafe extern "C" fn ponyint_sched_unnoisy_asio(mut from: i32) {
     send_msg_all(
         from as u32,
         SCHED_UNNOISY_ASIO,
@@ -1805,7 +1789,7 @@ pub unsafe extern "C" fn ponyint_sched_unnoisy_asio(mut from: int32_t) {
 #[no_mangle]
 #[c2rust::src_loc = "1432:1"]
 pub unsafe extern "C" fn ponyint_sched_maybe_wakeup_if_all_asleep(
-    mut current_scheduler_id: int32_t,
+    mut current_scheduler_id: i32,
 ) {
     let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     loop {
@@ -1829,7 +1813,7 @@ pub unsafe extern "C" fn ponyint_sched_get_inject_context() -> *mut pony_ctx_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1467:1"]
-pub unsafe extern "C" fn ponyint_sched_maybe_wakeup(mut current_scheduler_id: int32_t) {
+pub unsafe extern "C" fn ponyint_sched_maybe_wakeup(mut current_scheduler_id: i32) {
     let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     if current_active_scheduler_count < scheduler_count
         && pthread_mutex_trylock(&mut sched_mut) == 0
@@ -1985,6 +1969,6 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
 }
 #[no_mangle]
 #[c2rust::src_loc = "1673:1"]
-pub unsafe extern "C" fn pony_sched_index(mut ctx: *mut pony_ctx_t) -> int32_t {
+pub unsafe extern "C" fn pony_sched_index(mut ctx: *mut pony_ctx_t) -> i32 {
     (*(*ctx).scheduler).index
 }
