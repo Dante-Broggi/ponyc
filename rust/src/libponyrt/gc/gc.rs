@@ -278,16 +278,7 @@ pub mod heap_h {
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.h:2"]
-pub mod messageq_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "6:16"]
-    pub struct messageq_t {
-        pub head: *mut pony_msg_t,
-        pub tail: *mut pony_msg_t,
-    }
-    use super::pony_h::pony_msg_t;
-}
+pub use crate::libponyrt::actor::messageq::messageq_h;
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
 pub mod pony_h {
     #[derive(Copy, Clone)]
