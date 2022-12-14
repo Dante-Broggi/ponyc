@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -539,7 +534,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -553,7 +547,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "100:1"]
         pub fn ast_type(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "101:1"]
@@ -875,7 +869,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::alias_h::{consume_type, recover_type};
 use self::assemble_h::{control_type_add_branch, type_builtin};
 pub use self::ast_h::{
@@ -1096,13 +1089,13 @@ pub unsafe extern "C" fn expr_if(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         }
     }
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
-    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(left)) {
             return 0 as libc::c_int != 0;
         }
         type_0 = control_type_add_branch(opt, type_0, left);
     }
-    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(right)) {
             return 0 as libc::c_int != 0;
         }
@@ -1163,13 +1156,13 @@ pub unsafe extern "C" fn expr_iftype(mut opt: *mut pass_opt_t, mut ast: *mut ast
         children_0.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
-    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(left)) {
             return 0 as libc::c_int != 0;
         }
         type_0 = control_type_add_branch(opt, type_0, left);
     }
-    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(right)) {
             return 0 as libc::c_int != 0;
         }
@@ -1229,13 +1222,13 @@ pub unsafe extern "C" fn expr_while(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         return 0 as libc::c_int != 0;
     }
     let mut type_0: *mut ast_t = ast_type(ast);
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(body)) {
             return 0 as libc::c_int != 0;
         }
         type_0 = control_type_add_branch(opt, type_0, body);
     }
-    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(else_clause)) {
             return 0 as libc::c_int != 0;
         }
@@ -1283,13 +1276,13 @@ pub unsafe extern "C" fn expr_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast
         return 0 as libc::c_int != 0;
     }
     let mut type_0: *mut ast_t = ast_type(ast);
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(body)) {
             return 0 as libc::c_int != 0;
         }
         type_0 = control_type_add_branch(opt, type_0, body);
     }
-    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(else_clause)) {
             return 0 as libc::c_int != 0;
         }
@@ -1332,13 +1325,13 @@ pub unsafe extern "C" fn expr_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(body)) {
             return 0 as libc::c_int != 0;
         }
         type_0 = control_type_add_branch(opt, type_0, body);
     }
-    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(else_clause)) {
             return 0 as libc::c_int != 0;
         }
@@ -1396,7 +1389,7 @@ pub unsafe extern "C" fn expr_disposing_block(
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         if is_typecheck_error(ast_type(body)) {
             return 0 as libc::c_int != 0;
         }
@@ -1490,7 +1483,7 @@ pub unsafe extern "C" fn expr_break(mut opt: *mut pass_opt_t, mut ast: *mut ast_
     };
     let mut body: *mut ast_t = ast_child(ast);
     if ast_id(body) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
-        if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) != 0 {
+        if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
             ast_error(
                 (*opt).check.errors,
                 body,
@@ -1584,7 +1577,7 @@ pub unsafe extern "C" fn expr_return(mut opt: *mut pass_opt_t, mut ast: *mut ast
     if is_typecheck_error(body_type) {
         return 0 as libc::c_int != 0;
     }
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
         ast_error(
             (*opt).check.errors,
             body,

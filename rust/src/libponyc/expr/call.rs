@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -539,7 +534,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -557,9 +551,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "100:1"]
@@ -1045,7 +1039,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::alias_h::{alias, chain_type, consume_type, recover_type, sendable};
 use self::assemble_h::set_cap_and_ephemeral;
 pub use self::ast_h::{
@@ -1488,7 +1481,7 @@ unsafe extern "C" fn check_arg_types(
         if is_typecheck_error(arg_type) {
             return 0 as libc::c_int != 0;
         }
-        if ast_checkflag(arg, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) != 0 {
+        if ast_checkflag(arg, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
             ast_error(
                 (*opt).check.errors,
                 arg,
@@ -1554,7 +1547,7 @@ unsafe extern "C" fn check_arg_types(
                 }
                 if ast_checkflag(
                     ast_type(arg),
-                    AST_FLAG_INCOMPLETE as libc::c_int as uint32_t,
+                    AST_FLAG_INCOMPLETE as libc::c_int as u32,
                 ) != 0
                 {
                     ast_error_frame(
@@ -1772,7 +1765,7 @@ unsafe extern "C" fn check_receiver_cap(
         errorframe_append(&mut frame, &mut info);
         if ast_checkflag(
             ast_type(method_receiver(lhs)),
-            AST_FLAG_INCOMPLETE as libc::c_int as uint32_t,
+            AST_FLAG_INCOMPLETE as libc::c_int as u32,
         ) != 0
         {
             ast_error_frame(
@@ -2961,19 +2954,19 @@ unsafe extern "C" fn partial_application(
     ast_replace(astp, parent_25);
     ast_setflag(
         ast_childidx(*astp, 2 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(*astp, 3 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(*astp, 5 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
         ast_childidx(*astp, 7 as libc::c_int as size_t),
-        AST_FLAG_PRESERVE as libc::c_int as uint32_t,
+        AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return ast_passes_subtree(astp, opt, PASS_EXPR);
 }

@@ -1,19 +1,14 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "43:1"]
-    pub type __uint8_t = libc::c_uchar;
+    pub type __uint8_t = u8;
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
     pub type __darwin_size_t = libc::c_ulong;
 }
@@ -47,11 +42,11 @@ pub mod sys_dirent_h {
     #[repr(C)]
     #[c2rust::src_loc = "112:8"]
     pub struct dirent {
-        pub d_ino: __uint64_t,
-        pub d_seekoff: __uint64_t,
-        pub d_reclen: __uint16_t,
-        pub d_namlen: __uint16_t,
-        pub d_type: __uint8_t,
+        pub d_ino: u64,
+        pub d_seekoff: u64,
+        pub d_reclen: u16,
+        pub d_namlen: u16,
+        pub d_type: u8,
         pub d_name: [libc::c_char; 1024],
     }
     use super::_types_h::{__uint16_t, __uint64_t, __uint8_t};
@@ -864,12 +859,11 @@ pub mod stdio_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/paths.h:1"]
 pub mod paths_h {
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::dirent_h::DIR;
     use super::sys_dirent_h::dirent;
     extern "C" {
         #[c2rust::src_loc = "32:1"]
-        pub fn pony_opendir(path: *const libc::c_char, err: *mut uint32_t) -> *mut DIR;
+        pub fn pony_opendir(path: *const libc::c_char, err: *mut u32) -> *mut DIR;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_dir_info_name(info: *mut dirent) -> *mut libc::c_char;
         #[c2rust::src_loc = "38:1"]
@@ -964,7 +958,6 @@ pub use self::_pthread_types_h::{__darwin_pthread_mutex_t, _opaque_pthread_mutex
 pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t, __uint16_t, __uint64_t, __uint8_t};
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_child, ast_childidx, ast_data, ast_get_children, ast_get_print, ast_has_annotation, ast_id,
     ast_line, ast_name, ast_nearest, ast_nice_name, ast_parent, ast_ptr_t, ast_sibling, ast_source,
@@ -3884,7 +3877,7 @@ unsafe extern "C" fn doc_rm_star(mut path: *const libc::c_char) {
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_rm_star\0")).as_ptr(),
         );
     };
-    let mut err: uint32_t = 0;
+    let mut err: u32 = 0;
     let mut dir: *mut DIR = pony_opendir(path, &mut err);
     if dir.is_null() {
         printf(

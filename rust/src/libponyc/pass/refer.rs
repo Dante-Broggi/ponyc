@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -575,7 +570,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -597,9 +591,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "79:1"]
         pub fn ast_setdata(ast: *mut ast_t, data: *mut libc::c_void) -> *mut ast_t;
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "100:1"]
@@ -917,7 +911,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_add, ast_all_consumes_in_scope, ast_append, ast_checkflag, ast_child, ast_childcount,
     ast_childidx, ast_childlast, ast_consolidate_branches, ast_data, ast_error, ast_error_continue,
@@ -1483,7 +1476,7 @@ unsafe extern "C" fn refer_this(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
         );
     };
     if is_this_incomplete(opt, ast) {
-        ast_setflag(ast, AST_FLAG_INCOMPLETE as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_INCOMPLETE as libc::c_int as u32);
     }
     return 1 as libc::c_int != 0;
 }
@@ -1826,7 +1819,7 @@ pub unsafe extern "C" fn refer_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         185 => return refer_packageref_dot(opt, ast),
         102 => return refer_this_dot(opt, ast),
         198 | 196 | 197 | 19 => {
-            if ast_checkflag(ast, AST_FLAG_FCNSM_REASGN as libc::c_int as uint32_t) != 0
+            if ast_checkflag(ast, AST_FLAG_FCNSM_REASGN as libc::c_int as u32) != 0
                 && ast_id(ast_parent(ast)) as libc::c_uint != TK_CALL as libc::c_int as libc::c_uint
                 && ast_id(ast_parent(ast)) as libc::c_uint
                     != TK_QUALIFY as libc::c_int as libc::c_uint
@@ -2392,7 +2385,7 @@ unsafe extern "C" fn check_assigned_same_expression(
     return ast_get_child(assign_left, name);
 }
 #[c2rust::src_loc = "1107:1"]
-unsafe extern "C" fn set_flag_recursive(mut outer: *mut ast_t, mut flag: uint32_t) {
+unsafe extern "C" fn set_flag_recursive(mut outer: *mut ast_t, mut flag: u32) {
     if !outer.is_null() {
     } else {
         ponyint_assert_fail(
@@ -2443,7 +2436,7 @@ unsafe extern "C" fn refer_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             let mut assign_ast: *mut ast_t = 0 as *mut ast_t;
             if check_assigned_same_expression(id, name, &mut assign_ast) {
                 consumed_same_expr = 1 as libc::c_int != 0;
-                ast_setflag(assign_ast, AST_FLAG_CNSM_REASGN as libc::c_int as uint32_t);
+                ast_setflag(assign_ast, AST_FLAG_CNSM_REASGN as libc::c_int as u32);
             }
         }
         102 => {
@@ -2499,7 +2492,7 @@ unsafe extern "C" fn refer_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             consumed_same_expr = 1 as libc::c_int != 0;
             set_flag_recursive(
                 assign_ast_0,
-                AST_FLAG_FCNSM_REASGN as libc::c_int as uint32_t,
+                AST_FLAG_FCNSM_REASGN as libc::c_int as u32,
             );
         }
         _ => {
@@ -2651,10 +2644,10 @@ unsafe extern "C" fn refer_seq(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -
     };
     if ast_checkflag(
         ast_childlast(ast),
-        AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t,
+        AST_FLAG_JUMPS_AWAY as libc::c_int as u32,
     ) != 0
     {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     if ast_has_scope(ast) {
         let mut parent: *mut ast_t = ast_parent(ast);
@@ -2758,17 +2751,17 @@ unsafe extern "C" fn refer_if(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         children.as_mut_ptr(),
     );
     let mut branch_count: size_t = 0;
-    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, left);
     }
-    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, right);
     }
     ast_consolidate_branches(ast, branch_count);
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_inheritstatus(ast_parent(ast), ast);
     return 1 as libc::c_int != 0;
@@ -2808,17 +2801,17 @@ unsafe extern "C" fn refer_iftype(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t
         children_0.as_mut_ptr(),
     );
     let mut branch_count: size_t = 0;
-    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, left);
     }
-    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, right);
     }
     ast_consolidate_branches(ast, branch_count);
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_inheritstatus(ast_parent(ast), ast);
     return 1 as libc::c_int != 0;
@@ -2853,17 +2846,17 @@ unsafe extern "C" fn refer_while(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         return 0 as libc::c_int != 0;
     }
     let mut branch_count: size_t = 0;
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, body);
     }
-    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, else_clause);
     }
     ast_consolidate_branches(ast, branch_count);
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_inheritstatus(ast_parent(ast), ast);
     return 1 as libc::c_int != 0;
@@ -2898,19 +2891,19 @@ unsafe extern "C" fn refer_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         return 0 as libc::c_int != 0;
     }
     let mut branch_count: size_t = 0;
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, body);
     }
-    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
-        if ast_checkflag(body, AST_FLAG_MAY_BREAK as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
+        if ast_checkflag(body, AST_FLAG_MAY_BREAK as libc::c_int as u32) != 0 {
             branch_count = branch_count.wrapping_add(1);
             ast_inheritbranch(ast, else_clause);
         }
     }
     ast_consolidate_branches(ast, branch_count);
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_inheritstatus(ast_parent(ast), ast);
     return 1 as libc::c_int != 0;
@@ -2944,18 +2937,18 @@ unsafe extern "C" fn refer_match(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t)
         children.as_mut_ptr(),
     );
     let mut branch_count: size_t = 0;
-    if ast_checkflag(cases, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(cases, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, cases);
     }
     if ast_id(else_clause) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
         branch_count = branch_count.wrapping_add(1);
-    } else if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    } else if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, else_clause);
     }
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_consolidate_branches(ast, branch_count);
     ast_inheritstatus(ast_parent(ast), ast);
@@ -2996,14 +2989,14 @@ unsafe extern "C" fn refer_cases(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
                 .wrapping_sub(1 as libc::c_int as libc::c_ulong),
             children.as_mut_ptr(),
         );
-        if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+        if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
             branch_count = branch_count.wrapping_add(1);
             ast_inheritbranch(ast, the_case);
         }
         the_case = ast_sibling(the_case);
     }
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_consolidate_branches(ast, branch_count);
     return 1 as libc::c_int != 0;
@@ -3040,15 +3033,15 @@ unsafe extern "C" fn refer_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         children.as_mut_ptr(),
     );
     let mut branch_count: size_t = 0;
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(then_clause, body);
     }
-    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(then_clause, else_clause);
     }
-    if ast_checkflag(then_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(then_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
         ast_error(
             (*opt).check.errors,
             then_clause,
@@ -3058,7 +3051,7 @@ unsafe extern "C" fn refer_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
     }
     ast_consolidate_branches(then_clause, branch_count);
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_inheritstatus(ast_parent(ast), then_clause);
     return 1 as libc::c_int != 0;
@@ -3087,13 +3080,13 @@ unsafe extern "C" fn refer_disposing_block(mut ast: *mut ast_t) -> bool {
         children.as_mut_ptr(),
     );
     let mut branch_count: size_t = 0;
-    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(dispose_clause, body);
     }
     ast_consolidate_branches(dispose_clause, branch_count);
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_inheritstatus(ast_parent(ast), dispose_clause);
     return 1 as libc::c_int != 0;
@@ -3146,7 +3139,7 @@ unsafe extern "C" fn refer_break(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     }
     ast_setflag(
         (*(*opt).check.frame).loop_body,
-        AST_FLAG_MAY_BREAK as libc::c_int as uint32_t,
+        AST_FLAG_MAY_BREAK as libc::c_int as u32,
     );
     let mut errorf: errorframe_t = 0 as errorframe_t;
     if !ast_all_consumes_in_scope((*(*opt).check.frame).loop_body, ast, &mut errorf) {
@@ -3163,7 +3156,7 @@ unsafe extern "C" fn refer_break(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_break\0")).as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1702:1"]
@@ -3203,7 +3196,7 @@ unsafe extern "C" fn refer_continue(mut opt: *mut pass_opt_t, mut ast: *mut ast_
                 .as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1727:1"]
@@ -3228,7 +3221,7 @@ unsafe extern "C" fn refer_return(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"refer_return\0")).as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     if ast_id((*(*opt).check.frame).method) as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint
         && is_this_incomplete(opt, ast) as libc::c_int != 0
     {
@@ -3254,7 +3247,7 @@ unsafe extern "C" fn refer_error(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t)
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_error\0")).as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "1757:1"]
@@ -3270,7 +3263,7 @@ unsafe extern "C" fn refer_compile_error(mut _opt: *mut pass_opt_t, mut ast: *mu
                 .as_ptr(),
         );
     };
-    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     return 1 as libc::c_int != 0;
 }
 #[no_mangle]

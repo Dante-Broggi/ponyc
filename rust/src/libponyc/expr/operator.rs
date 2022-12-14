@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -541,7 +536,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -557,7 +551,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "100:1"]
         pub fn ast_type(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "101:1"]
@@ -955,7 +949,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 use self::alias_h::{alias, consume_type, recover_type};
 use self::assemble_h::{type_builtin, type_isect, type_union};
 pub use self::ast_h::{
@@ -1533,7 +1526,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
         }
         return 0 as libc::c_int != 0;
     }
-    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(right, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
         ast_error(
             (*opt).check.errors,
             ast,
@@ -1582,7 +1575,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
         );
         if ast_checkflag(
             ast_type(right),
-            AST_FLAG_INCOMPLETE as libc::c_int as uint32_t,
+            AST_FLAG_INCOMPLETE as libc::c_int as u32,
         ) != 0
         {
             ast_error_frame(
@@ -1604,7 +1597,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
             );
             if ast_checkflag(
                 ast_type(right),
-                AST_FLAG_INCOMPLETE as libc::c_int as uint32_t,
+                AST_FLAG_INCOMPLETE as libc::c_int as u32,
             ) != 0
             {
                 ast_error_frame(

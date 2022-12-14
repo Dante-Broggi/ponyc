@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
@@ -625,7 +620,6 @@ pub mod ponyassert_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/ast.h:1"]
 pub mod ast_h {
-    use super::_uint32_t_h::uint32_t;
     use super::lexer_h::errors_t;
     use super::symtab_h::ast_t;
     use super::token_h::{token_id, token_t};
@@ -645,7 +639,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "103:1"]
         pub fn ast_setannotation(ast: *mut ast_t, annotation: *mut ast_t);
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "56:1"]
         pub fn ast_new(t: *mut token_t, id: token_id) -> *mut ast_t;
         #[c2rust::src_loc = "58:1"]
@@ -711,7 +705,6 @@ pub mod pool_h {
 pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
-pub use self::_uint32_t_h::uint32_t;
 use self::ast_h::{
     ast_add, ast_add_sibling, ast_append, ast_data, ast_error, ast_free, ast_id, ast_new, ast_pop,
     ast_scope, ast_setannotation, ast_setdata, ast_setflag, ast_token,
@@ -767,7 +760,7 @@ pub struct parser_t {
     pub token: *mut token_t,
     pub last_token: *mut token_t,
     pub last_matched: *const libc::c_char,
-    pub next_flags: uint32_t,
+    pub next_flags: u32,
     pub free_last_token: bool,
     pub failed: bool,
     pub errors: *mut errors_t,
@@ -806,7 +799,7 @@ unsafe extern "C" fn fetch_next_lexer_token(mut parser: *mut parser_t, mut free_
 unsafe extern "C" fn consume_token(mut parser: *mut parser_t) -> *mut ast_t {
     let mut ast: *mut ast_t = ast_token((*parser).token);
     ast_setflag(ast, (*parser).next_flags);
-    (*parser).next_flags = 0 as libc::c_int as uint32_t;
+    (*parser).next_flags = 0 as libc::c_int as u32;
     fetch_next_lexer_token(parser, 0 as libc::c_int != 0);
     return ast;
 }
@@ -1644,7 +1637,7 @@ pub unsafe extern "C" fn parse_rule_set(
 }
 #[no_mangle]
 #[c2rust::src_loc = "532:1"]
-pub unsafe extern "C" fn parse_set_next_flags(mut parser: *mut parser_t, mut flags: uint32_t) {
+pub unsafe extern "C" fn parse_set_next_flags(mut parser: *mut parser_t, mut flags: u32) {
     if !parser.is_null() {
     } else {
         ponyint_assert_fail(
@@ -1811,7 +1804,7 @@ pub unsafe extern "C" fn parse(
     *fresh17 = (*parser).token;
     let ref mut fresh18 = (*parser).last_matched;
     *fresh18 = 0 as *const libc::c_char;
-    (*parser).next_flags = 0 as libc::c_int as uint32_t;
+    (*parser).next_flags = 0 as libc::c_int as u32;
     (*parser).free_last_token = 0 as libc::c_int != 0;
     (*parser).failed = 0 as libc::c_int != 0;
     let ref mut fresh19 = (*parser).errors;

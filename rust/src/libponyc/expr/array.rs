@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -574,8 +564,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::error_h::{errorframe_t, errors_t};
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -597,7 +585,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "60:1"]
         pub fn ast_from_string(ast: *mut ast_t, name: *const libc::c_char) -> *mut ast_t;
         #[c2rust::src_loc = "61:1"]
-        pub fn ast_from_int(ast: *mut ast_t, value: uint64_t) -> *mut ast_t;
+        pub fn ast_from_int(ast: *mut ast_t, value: u64) -> *mut ast_t;
         #[c2rust::src_loc = "63:1"]
         pub fn ast_dup(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "66:1"]
@@ -611,7 +599,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "100:1"]
@@ -1031,8 +1019,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::alias_h::{alias, consume_type};
 use self::assemble_h::{type_builtin, type_builtin_args, type_union};
 pub use self::ast_h::{
@@ -1735,7 +1721,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     let mut ele: *mut ast_t = ast_child(elements);
     while !ele.is_null() {
-        if ast_checkflag(ele, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) != 0 {
+        if ast_checkflag(ele, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
             ast_error(
                 (*opt).check.errors,
                 ele,
@@ -1922,7 +1908,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     ast_inheritflags(parent_5);
     dot = parent_4;
-    let mut size_arg: *mut ast_t = ast_from_int(ast, size as uint64_t);
+    let mut size_arg: *mut ast_t = ast_from_int(ast, size as u64);
     let mut size_arg_seq: *mut ast_t = 0 as *mut ast_t;
     let mut basis_ast_2: *mut ast_t = ast;
     let mut parent_6: *mut ast_t = 0 as *mut ast_t;

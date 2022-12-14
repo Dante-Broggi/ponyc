@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -32,8 +27,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "74:1"]
@@ -63,10 +58,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -76,14 +71,13 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::stddef_h::size_t;
     extern "C" {
@@ -182,7 +176,7 @@ pub mod objectmap_h {
     pub struct object_t {
         pub address: *mut libc::c_void,
         pub rc: size_t,
-        pub mark: uint32_t,
+        pub mark: u32,
         pub immutable: bool,
         pub type_0: *const pony_type_t,
     }
@@ -192,7 +186,6 @@ pub mod objectmap_h {
     pub struct objectmap_t {
         pub contents: hashmap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::pony_h::pony_type_t;
     use super::stddef_h::size_t;
@@ -224,7 +217,6 @@ pub mod pagemap_h {
         pub fn ponyint_pagemap_get(addr: *const libc::c_void) -> *mut chunk_t;
     }
 }
-pub use self::_uint32_t_h::uint32_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::fun_h::{cmp_fn, free_fn, ponyint_hash_ptr};
 pub use self::hash_h::{
@@ -261,7 +253,7 @@ unsafe extern "C" fn object_cmp(mut a: *mut object_t, mut b: *mut object_t) -> b
 unsafe extern "C" fn object_alloc(
     mut address: *mut libc::c_void,
     mut type_0: *const pony_type_t,
-    mut mark: uint32_t,
+    mut mark: u32,
 ) -> *mut object_t {
     let mut obj: *mut object_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut object_t;
     let ref mut fresh0 = (*obj).address;
@@ -434,7 +426,7 @@ pub unsafe extern "C" fn ponyint_objectmap_getorput(
     mut map: *mut objectmap_t,
     mut address: *mut libc::c_void,
     mut type_0: *const pony_type_t,
-    mut mark: uint32_t,
+    mut mark: u32,
 ) -> *mut object_t {
     let mut index: size_t = -(1 as libc::c_int) as size_t;
     let mut obj: *mut object_t = ponyint_objectmap_getobject(map, address, &mut index);

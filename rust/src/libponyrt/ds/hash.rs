@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -37,8 +27,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "74:1"]
@@ -68,10 +58,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -81,7 +71,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -96,7 +86,6 @@ pub mod pony_h {
     pub const PONY_TRACE_IMMUTABLE: C2RustUnnamed = 1;
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::stddef_h::size_t;
     extern "C" {
@@ -139,20 +128,18 @@ pub mod hash_h {
 pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "258:1"]
-    pub unsafe extern "C" fn __pony_ffsll(mut x: uint64_t) -> uint32_t {
+    pub unsafe extern "C" fn __pony_ffsll(mut x: u64) -> u32 {
         (if x as libc::c_longlong == 0 {
             0
         } else {
             (x as libc::c_longlong).trailing_zeros() as i32 + 1
-        }) as uint32_t
+        }) as u32
     }
     #[inline]
     #[c2rust::src_loc = "319:1"]
-    pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> uint32_t {
-        __pony_ffsll(x as uint64_t)
+    pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> u32 {
+        __pony_ffsll(x as u64)
     }
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:2"]
@@ -217,8 +204,6 @@ pub mod string_h {
         pub fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong) -> *mut libc::c_void;
     }
 }
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::fun_h::{cmp_fn, free_fn, ponyint_next_pow2};
 pub use self::hash_h::{bitmap_t, hashmap_entry_t, hashmap_t};

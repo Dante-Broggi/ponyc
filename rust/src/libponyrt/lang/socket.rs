@@ -1,33 +1,18 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:4"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:4"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:4"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:4"]
 pub mod _types_h {
     #[c2rust::src_loc = "43:1"]
-    pub type __uint8_t = libc::c_uchar;
+    pub type __uint8_t = u8;
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "46:1"]
     pub type __int32_t = libc::c_int;
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "120:1"]
-    pub type __darwin_socklen_t = __uint32_t;
+    pub type __darwin_socklen_t = u32;
     #[c2rust::src_loc = "121:1"]
     pub type __darwin_ssize_t = libc::c_long;
 }
@@ -36,9 +21,9 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "72:1"]
     pub type __darwin_pid_t = __int32_t;
     #[c2rust::src_loc = "73:1"]
-    pub type __darwin_sigset_t = __uint32_t;
+    pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
-    pub type __darwin_uid_t = __uint32_t;
+    pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __uint32_t};
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h:4"]
@@ -121,14 +106,12 @@ pub mod signal_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_in_addr_t.h:4"]
 pub mod _in_addr_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type in_addr_t = __uint32_t;
-    use super::_types_h::__uint32_t;
+    pub type in_addr_t = u32;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_in_port_t.h:4"]
 pub mod _in_port_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type in_port_t = __uint16_t;
-    use super::_types_h::__uint16_t;
+    pub type in_port_t = u16;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:4"]
 pub mod _ssize_t_h {
@@ -153,8 +136,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "74:1"]
@@ -184,10 +167,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -197,14 +180,13 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::stddef_h::size_t;
     extern "C" {
@@ -247,24 +229,22 @@ pub mod event_h {
     pub struct asio_event_t {
         pub magic: *mut asio_event_t,
         pub owner: *mut pony_actor_t,
-        pub msg_id: uint32_t,
+        pub msg_id: u32,
         pub fd: libc::c_int,
-        pub flags: uint32_t,
+        pub flags: u32,
         pub noisy: bool,
         pub readable: bool,
         pub writeable: bool,
-        pub nsec: uint64_t,
+        pub nsec: u64,
     }
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::pony_h::pony_actor_t;
     extern "C" {
         #[c2rust::src_loc = "46:1"]
         pub fn pony_asio_event_create(
             owner: *mut pony_actor_t,
             fd: libc::c_int,
-            flags: uint32_t,
-            nsec: uint64_t,
+            flags: u32,
+            nsec: u64,
             noisy: bool,
         ) -> *mut asio_event_t;
     }
@@ -272,8 +252,7 @@ pub mod event_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sa_family_t.h:23"]
 pub mod _sa_family_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type sa_family_t = __uint8_t;
-    use super::_types_h::__uint8_t;
+    pub type sa_family_t = u8;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_socklen_t.h:23"]
 pub mod _socklen_t_h {
@@ -287,7 +266,7 @@ pub mod socket_h {
     #[repr(C)]
     #[c2rust::src_loc = "416:8"]
     pub struct sockaddr {
-        pub sa_len: __uint8_t,
+        pub sa_len: u8,
         pub sa_family: sa_family_t,
         pub sa_data: [libc::c_char; 14],
     }
@@ -295,7 +274,7 @@ pub mod socket_h {
     #[repr(C)]
     #[c2rust::src_loc = "464:8"]
     pub struct sockaddr_storage {
-        pub ss_len: __uint8_t,
+        pub ss_len: u8,
         pub ss_family: sa_family_t,
         pub __ss_pad1: [libc::c_char; 6],
         pub __ss_align: __int64_t,
@@ -375,7 +354,7 @@ pub mod in_h {
     #[repr(C)]
     #[c2rust::src_loc = "374:8"]
     pub struct sockaddr_in {
-        pub sin_len: __uint8_t,
+        pub sin_len: u8,
         pub sin_family: sa_family_t,
         pub sin_port: in_port_t,
         pub sin_addr: in_addr,
@@ -391,7 +370,6 @@ pub mod in_h {
     use super::_in_addr_t_h::in_addr_t;
     use super::_in_port_t_h::in_port_t;
     use super::_sa_family_t_h::sa_family_t;
-    use super::_types_h::__uint8_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/netinet6/in6.h:24"]
 pub mod in6_h {
@@ -405,20 +383,20 @@ pub mod in6_h {
     #[repr(C)]
     #[c2rust::src_loc = "153:2"]
     pub union C2RustUnnamed_0 {
-        pub __u6_addr8: [__uint8_t; 16],
-        pub __u6_addr16: [__uint16_t; 8],
-        pub __u6_addr32: [__uint32_t; 4],
+        pub __u6_addr8: [u8; 16],
+        pub __u6_addr16: [u16; 8],
+        pub __u6_addr32: [u32; 4],
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "170:8"]
     pub struct sockaddr_in6 {
-        pub sin6_len: __uint8_t,
+        pub sin6_len: u8,
         pub sin6_family: sa_family_t,
         pub sin6_port: in_port_t,
-        pub sin6_flowinfo: __uint32_t,
+        pub sin6_flowinfo: u32,
         pub sin6_addr: in6_addr,
-        pub sin6_scope_id: __uint32_t,
+        pub sin6_scope_id: u32,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -440,7 +418,7 @@ pub mod in6_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/netinet/tcp.h:25"]
 pub mod tcp_h {
     #[c2rust::src_loc = "77:1"]
-    pub type tcp_seq = __uint32_t;
+    pub type tcp_seq = u32;
     #[derive(Copy, Clone, BitfieldStruct)]
     #[repr(C)]
     #[c2rust::src_loc = "87:8"]
@@ -457,7 +435,6 @@ pub mod tcp_h {
         pub th_sum: libc::c_ushort,
         pub th_urp: libc::c_ushort,
     }
-    use super::_types_h::__uint32_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/netdb.h:27"]
 pub mod netdb_h {
@@ -510,10 +487,9 @@ pub mod include_signal_h {
 pub mod _OSByteOrder_h {
     #[inline]
     #[c2rust::src_loc = "53:1"]
-    pub unsafe extern "C" fn _OSSwapInt32(mut _data: __uint32_t) -> __uint32_t {
+    pub unsafe extern "C" fn _OSSwapInt32(mut _data: u32) -> u32 {
         _data.swap_bytes()
     }
-    use super::_types_h::__uint32_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/errno.h:4"]
 pub mod errno_h {
@@ -597,11 +573,7 @@ pub use self::_ssize_t_h::ssize_t;
 pub use self::_types_h::{
     __darwin_socklen_t, __darwin_ssize_t, __int32_t, __int64_t, __uint16_t, __uint32_t, __uint8_t,
 };
-pub use self::_u_int32_t_h::u_int32_t;
 pub use self::_uid_t_h::uid_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::asio_h::{
     C2RustUnnamed, ASIO_DESTROYED, ASIO_DISPOSABLE, ASIO_ONESHOT, ASIO_READ, ASIO_SIGNAL,
@@ -657,18 +629,18 @@ unsafe extern "C" fn map_any_to_loopback(mut addr: *mut sockaddr) -> bool {
     match (*addr).sa_family as libc::c_int {
         2 => {
             let mut in_0: *mut sockaddr_in = addr as *mut sockaddr_in;
-            if (*in_0).sin_addr.s_addr == 0 as libc::c_int as u_int32_t {
+            if (*in_0).sin_addr.s_addr == 0 as libc::c_int as u32 {
                 (*in_0).sin_addr.s_addr = if 0 != 0 {
-                    (0x7f000001 as libc::c_int as u_int32_t & 0xff000000 as libc::c_uint)
+                    (0x7f000001 as libc::c_int as u32 & 0xff000000 as libc::c_uint)
                         >> 24 as libc::c_int
-                        | (0x7f000001 as libc::c_int as u_int32_t & 0xff0000 as libc::c_uint)
+                        | (0x7f000001 as libc::c_int as u32 & 0xff0000 as libc::c_uint)
                             >> 8 as libc::c_int
-                        | (0x7f000001 as libc::c_int as u_int32_t & 0xff00 as libc::c_uint)
+                        | (0x7f000001 as libc::c_int as u32 & 0xff00 as libc::c_uint)
                             << 8 as libc::c_int
-                        | (0x7f000001 as libc::c_int as u_int32_t & 0xff as libc::c_uint)
+                        | (0x7f000001 as libc::c_int as u32 & 0xff as libc::c_uint)
                             << 24 as libc::c_int
                 } else {
-                    _OSSwapInt32(0x7f000001 as libc::c_int as u_int32_t)
+                    _OSSwapInt32(0x7f000001 as libc::c_int as u32)
                 };
                 return 1 as libc::c_int != 0;
             }
@@ -787,8 +759,8 @@ unsafe extern "C" fn os_listen(
     let mut ev: *mut asio_event_t = pony_asio_event_create(
         owner,
         fd,
-        ASIO_READ as libc::c_int as uint32_t,
-        0 as libc::c_int as uint64_t,
+        ASIO_READ as libc::c_int as u32,
+        0 as libc::c_int as u64,
         1 as libc::c_int != 0,
     );
     return ev;
@@ -799,7 +771,7 @@ unsafe extern "C" fn os_connect(
     mut fd: libc::c_int,
     mut p: *mut addrinfo,
     mut from: *const libc::c_char,
-    mut asio_flags: uint32_t,
+    mut asio_flags: u32,
 ) -> bool {
     map_any_to_loopback((*p).ai_addr);
     let mut need_bind: bool =
@@ -850,7 +822,7 @@ unsafe extern "C" fn os_connect(
         owner,
         fd,
         asio_flags,
-        0 as libc::c_int as uint64_t,
+        0 as libc::c_int as u64,
         1 as libc::c_int != 0,
     );
     return 1 as libc::c_int != 0;
@@ -897,7 +869,7 @@ unsafe extern "C" fn os_socket_connect(
     mut family: libc::c_int,
     mut socktype: libc::c_int,
     mut proto: libc::c_int,
-    mut asio_flags: uint32_t,
+    mut asio_flags: u32,
 ) -> libc::c_int {
     let mut reuse: bool =
         from.is_null() || *from.offset(0 as libc::c_int as isize) as libc::c_int != '\0' as i32;
@@ -1029,7 +1001,7 @@ pub unsafe extern "C" fn pony_os_connect_tcp(
     mut host: *const libc::c_char,
     mut service: *const libc::c_char,
     mut from: *const libc::c_char,
-    mut asio_flags: uint32_t,
+    mut asio_flags: u32,
 ) -> libc::c_int {
     return os_socket_connect(
         owner,
@@ -1049,7 +1021,7 @@ pub unsafe extern "C" fn pony_os_connect_tcp4(
     mut host: *const libc::c_char,
     mut service: *const libc::c_char,
     mut from: *const libc::c_char,
-    mut asio_flags: uint32_t,
+    mut asio_flags: u32,
 ) -> libc::c_int {
     return os_socket_connect(
         owner,
@@ -1069,7 +1041,7 @@ pub unsafe extern "C" fn pony_os_connect_tcp6(
     mut host: *const libc::c_char,
     mut service: *const libc::c_char,
     mut from: *const libc::c_char,
-    mut asio_flags: uint32_t,
+    mut asio_flags: u32,
 ) -> libc::c_int {
     return os_socket_connect(
         owner,
@@ -1558,37 +1530,37 @@ pub unsafe extern "C" fn pony_os_multicast_interface(
 #[no_mangle]
 #[c2rust::src_loc = "1241:1"]
 pub unsafe extern "C" fn pony_os_multicast_loopback(mut fd: libc::c_int, mut loopback: bool) {
-    let mut loop_0: uint8_t = (if loopback as libc::c_int != 0 {
+    let mut loop_0: u8 = (if loopback as libc::c_int != 0 {
         1 as libc::c_int
     } else {
         0 as libc::c_int
-    }) as uint8_t;
+    }) as u8;
     setsockopt(
         fd,
         0 as libc::c_int,
         11 as libc::c_int,
-        &mut loop_0 as *mut uint8_t as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<uint8_t>() as libc::c_ulong as socklen_t,
+        &mut loop_0 as *mut u8 as *const libc::c_char as *const libc::c_void,
+        ::core::mem::size_of::<u8>() as libc::c_ulong as socklen_t,
     );
 }
 #[no_mangle]
 #[c2rust::src_loc = "1250:1"]
-pub unsafe extern "C" fn pony_os_multicast_ttl(mut fd: libc::c_int, mut ttl: uint8_t) {
+pub unsafe extern "C" fn pony_os_multicast_ttl(mut fd: libc::c_int, mut ttl: u8) {
     setsockopt(
         fd,
         0 as libc::c_int,
         10 as libc::c_int,
-        &mut ttl as *mut uint8_t as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<uint8_t>() as libc::c_ulong as socklen_t,
+        &mut ttl as *mut u8 as *const libc::c_char as *const libc::c_void,
+        ::core::mem::size_of::<u8>() as libc::c_ulong as socklen_t,
     );
 }
 #[c2rust::src_loc = "1256:1"]
 unsafe extern "C" fn multicast_interface(
     mut family: libc::c_int,
     mut host: *const libc::c_char,
-) -> uint32_t {
+) -> u32 {
     if host.is_null() || *host.offset(0 as libc::c_int as isize) as libc::c_int == '\0' as i32 {
-        return 0 as libc::c_int as uint32_t;
+        return 0 as libc::c_int as u32;
     }
     let mut p: *mut addrinfo = os_addrinfo_intern(
         family,
@@ -1599,9 +1571,9 @@ unsafe extern "C" fn multicast_interface(
         1 as libc::c_int != 0,
     );
     if p.is_null() {
-        return 0 as libc::c_int as uint32_t;
+        return 0 as libc::c_int as u32;
     }
-    let mut interface: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut interface: u32 = 0 as libc::c_int as u32;
     match (*p).ai_family {
         2 => {
             interface = (*((*p).ai_addr as *mut sockaddr_in)).sin_addr.s_addr;
@@ -1632,7 +1604,7 @@ unsafe extern "C" fn multicast_change(
     if rg.is_null() {
         return;
     }
-    let mut interface: uint32_t = multicast_interface((*rg).ai_family, to);
+    let mut interface: u32 = multicast_interface((*rg).ai_family, to);
     let mut s: SOCKET = fd;
     match (*rg).ai_family {
         2 => {

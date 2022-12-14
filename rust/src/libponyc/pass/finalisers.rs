@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -540,7 +535,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -560,11 +554,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "86:1"]
         pub fn ast_clearmightsend(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "90:1"]
-        pub fn ast_clearflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_clearflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "100:1"]
@@ -788,7 +782,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_cansend, ast_checkflag, ast_child, ast_childidx, ast_clearflag, ast_clearmightsend,
     ast_data, ast_error, ast_error_continue, ast_get, ast_get_children, ast_id, ast_mightsend,
@@ -1026,7 +1019,7 @@ unsafe extern "C" fn check_expr_send(mut ast: *mut ast_t, mut in_final: bool) ->
 }
 #[c2rust::src_loc = "170:1"]
 unsafe extern "C" fn check_body_send(mut ast: *mut ast_t, mut in_final: bool) -> libc::c_int {
-    if ast_checkflag(ast, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t) != 0 {
+    if ast_checkflag(ast, AST_FLAG_RECURSE_1 as libc::c_int as u32) != 0 {
         return FINAL_RECURSE as libc::c_int;
     }
     if ast_cansend(ast) {
@@ -1035,14 +1028,14 @@ unsafe extern "C" fn check_body_send(mut ast: *mut ast_t, mut in_final: bool) ->
     if !ast_mightsend(ast) {
         return FINAL_NO_SEND as libc::c_int;
     }
-    ast_setflag(ast, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t);
+    ast_setflag(ast, AST_FLAG_RECURSE_1 as libc::c_int as u32);
     let mut r: libc::c_int = check_expr_send(ast, in_final);
     if r == FINAL_NO_SEND as libc::c_int {
         ast_clearmightsend(ast);
     } else if r & FINAL_CAN_SEND as libc::c_int != 0 as libc::c_int {
         ast_setsend(ast);
     }
-    ast_clearflag(ast, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t);
+    ast_clearflag(ast, AST_FLAG_RECURSE_1 as libc::c_int as u32);
     return r;
 }
 #[c2rust::src_loc = "198:1"]

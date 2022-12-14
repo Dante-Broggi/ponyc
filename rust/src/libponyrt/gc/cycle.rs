@@ -9,21 +9,6 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:5"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:5"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:5"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:5"]
 pub mod _types_h {
     #[c2rust::src_loc = "51:1"]
@@ -109,11 +94,11 @@ pub mod actor_h {
     pub struct pony_actor_t {
         pub type_0: *const pony_type_t,
         pub q: messageq_t,
-        pub sync_flags: uint8_t,
-        pub cycle_detector_critical: uint8_t,
+        pub sync_flags: u8,
+        pub cycle_detector_critical: u8,
         pub heap: heap_t,
         pub muted: size_t,
-        pub internal_flags: uint8_t,
+        pub internal_flags: u8,
         pub gc: gc_t,
     }
     #[derive(Copy, Clone)]
@@ -123,7 +108,6 @@ pub mod actor_h {
         pub type_0: *const pony_type_t,
         pub pad: [libc::c_char; 264],
     }
-    use super::_uint8_t_h::uint8_t;
     use super::gc_h::gc_t;
     use super::heap_h::heap_t;
     use super::messageq_h::messageq_t;
@@ -159,14 +143,13 @@ pub mod gc_h {
     #[repr(C)]
     #[c2rust::src_loc = "16:16"]
     pub struct gc_t {
-        pub mark: uint32_t,
-        pub rc_mark: uint32_t,
+        pub mark: u32,
+        pub rc_mark: u32,
         pub rc: size_t,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
@@ -299,10 +282,9 @@ pub mod actormap_h {
     pub struct actorref_t {
         pub actor: *mut pony_actor_t,
         pub rc: size_t,
-        pub mark: uint32_t,
+        pub mark: u32,
         pub map: objectmap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::hash_h::hashmap_t;
     use super::objectmap_h::objectmap_t;
@@ -371,8 +353,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -381,10 +363,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -394,7 +376,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -437,7 +419,6 @@ pub mod pony_h {
         pub p: *mut libc::c_void,
     }
     use super::_intptr_t_h::intptr_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::actor_h::pony_actor_t;
     use super::scheduler_h::pony_ctx_t;
@@ -450,7 +431,7 @@ pub mod pony_h {
             orphaned: bool,
         ) -> *mut pony_actor_t;
         #[c2rust::src_loc = "196:1"]
-        pub fn pony_alloc_msg(index: uint32_t, id: uint32_t) -> *mut pony_msg_t;
+        pub fn pony_alloc_msg(index: u32, id: u32) -> *mut pony_msg_t;
         #[c2rust::src_loc = "208:1"]
         pub fn pony_sendv(
             ctx: *mut pony_ctx_t,
@@ -460,16 +441,16 @@ pub mod pony_h {
             has_app_msg: bool,
         );
         #[c2rust::src_loc = "241:1"]
-        pub fn pony_send(ctx: *mut pony_ctx_t, to: *mut pony_actor_t, id: uint32_t);
+        pub fn pony_send(ctx: *mut pony_ctx_t, to: *mut pony_actor_t, id: u32);
         #[c2rust::src_loc = "247:1"]
         pub fn pony_sendp(
             ctx: *mut pony_ctx_t,
             to: *mut pony_actor_t,
-            id: uint32_t,
+            id: u32,
             p: *mut libc::c_void,
         );
         #[c2rust::src_loc = "254:1"]
-        pub fn pony_sendi(ctx: *mut pony_ctx_t, to: *mut pony_actor_t, id: uint32_t, i: intptr_t);
+        pub fn pony_sendi(ctx: *mut pony_ctx_t, to: *mut pony_actor_t, id: u32, i: intptr_t);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.h:6"]
@@ -509,17 +490,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -527,7 +508,6 @@ pub mod scheduler_h {
     use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
@@ -628,13 +608,12 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:7"]
 pub mod cpu_h {
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "26:1"]
         pub fn ponyint_cpu_tick_diff(
-            supposedly_earlier: uint64_t,
-            supposedly_later: uint64_t,
-        ) -> uint64_t;
+            supposedly_earlier: u64,
+            supposedly_later: u64,
+        ) -> u64;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:12"]
@@ -673,9 +652,6 @@ pub use self::_pthread_types_h::{
     _opaque_pthread_cond_t, _opaque_pthread_t,
 };
 pub use self::_types_h::__darwin_intptr_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actor_h::{
     pony_actor_pad_t, pony_actor_t, ponyint_acquire_cycle_detector_critical, ponyint_actor_destroy,
@@ -757,10 +733,10 @@ pub struct viewmap_t {
 pub struct view_t {
     pub actor: *mut pony_actor_t,
     pub rc: size_t,
-    pub view_rc: uint32_t,
+    pub view_rc: u32,
     pub blocked: bool,
     pub deferred: bool,
-    pub color: uint8_t,
+    pub color: u8,
     pub map: viewrefmap_t,
     pub perceived: *mut perceived_t,
 }
@@ -1347,7 +1323,7 @@ unsafe extern "C" fn get_view(
         );
         let ref mut fresh1 = (*view).actor;
         *fresh1 = actor;
-        (*view).view_rc = 1 as libc::c_int as uint32_t;
+        (*view).view_rc = 1 as libc::c_int as u32;
         ponyint_viewmap_putindex(&mut (*d).views, view, index);
         let ref mut fresh2 = (*d).created;
         *fresh2 = (*fresh2).wrapping_add(1);
@@ -1432,7 +1408,7 @@ unsafe extern "C" fn mark_grey(
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"mark_grey\0")).as_ptr(),
         );
     };
-    (*view).color = COLOR_GREY as libc::c_int as uint8_t;
+    (*view).color = COLOR_GREY as libc::c_int as u8;
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "470:1"]
@@ -1487,7 +1463,7 @@ unsafe extern "C" fn mark_black(
     if (*view).color as libc::c_int == COLOR_WHITE as libc::c_int {
         *count = *count + 1 as libc::c_int;
     }
-    (*view).color = COLOR_BLACK as libc::c_int as uint8_t;
+    (*view).color = COLOR_BLACK as libc::c_int as u8;
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "512:1"]
@@ -1545,7 +1521,7 @@ unsafe extern "C" fn mark_white(mut view: *mut view_t, mut count: *mut libc::c_i
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"mark_white\0")).as_ptr(),
         );
     };
-    (*view).color = COLOR_WHITE as libc::c_int as uint8_t;
+    (*view).color = COLOR_WHITE as libc::c_int as u8;
     *count = *count + 1 as libc::c_int;
     return 1 as libc::c_int != 0;
 }
@@ -2241,10 +2217,10 @@ unsafe extern "C" fn cycle_dispatch(
 static mut cycle_type: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<detector_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<detector_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: None,
@@ -2261,7 +2237,7 @@ static mut cycle_type: pony_type_t = unsafe {
                     ) -> (),
             ),
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2273,13 +2249,13 @@ static mut cycle_type: pony_type_t = unsafe {
 #[c2rust::src_loc = "1243:1"]
 pub unsafe extern "C" fn ponyint_cycle_create(
     mut ctx: *mut pony_ctx_t,
-    mut detect_interval: uint32_t,
+    mut detect_interval: u32,
 ) {
     if detect_interval > 1000 as libc::c_int as libc::c_uint {
-        detect_interval = 1000 as libc::c_int as uint32_t;
+        detect_interval = 1000 as libc::c_int as u32;
     }
     if detect_interval < 10 as libc::c_int as libc::c_uint {
-        detect_interval = 10 as libc::c_int as uint32_t;
+        detect_interval = 10 as libc::c_int as u32;
     }
     cycle_detector = 0 as *mut pony_actor_t;
     cycle_detector = pony_create(ctx, &cycle_type, 0 as libc::c_int != 0);
@@ -2292,11 +2268,11 @@ pub unsafe extern "C" fn ponyint_cycle_create(
 #[no_mangle]
 #[c2rust::src_loc = "1268:1"]
 pub unsafe extern "C" fn ponyint_cycle_check_blocked(
-    mut tsc: uint64_t,
-    mut tsc2: uint64_t,
+    mut tsc: u64,
+    mut tsc2: u64,
 ) -> bool {
     let mut d: *mut detector_t = cycle_detector as *mut detector_t;
-    let mut diff: uint64_t = ponyint_cpu_tick_diff(tsc, tsc2);
+    let mut diff: u64 = ponyint_cpu_tick_diff(tsc, tsc2);
     if diff > (*d).detect_interval as libc::c_ulonglong {
         let mut ctx: *mut pony_ctx_t = ponyint_sched_get_inject_context();
         pony_send(
@@ -2337,7 +2313,7 @@ pub unsafe extern "C" fn ponyint_cycle_block(mut actor: *mut pony_actor_t, mut g
     };
     let mut ctx: *mut pony_ctx_t = ponyint_sched_get_inject_context();
     let mut m: *mut block_msg_t = pony_alloc_msg(
-        1 as libc::c_int as uint32_t,
+        1 as libc::c_int as u32,
         (4294967295 as libc::c_uint).wrapping_sub(6 as libc::c_int as libc::c_uint),
     ) as *mut block_msg_t;
     let ref mut fresh18 = (*m).actor;

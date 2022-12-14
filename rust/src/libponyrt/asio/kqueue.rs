@@ -14,27 +14,12 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h:1"]
-pub mod _uint16_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint16_t = libc::c_ushort;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "46:1"]
     pub type __int32_t = libc::c_int;
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "51:1"]
     pub type __darwin_intptr_t = libc::c_long;
     #[c2rust::src_loc = "121:1"]
@@ -47,9 +32,9 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "72:1"]
     pub type __darwin_pid_t = __int32_t;
     #[c2rust::src_loc = "73:1"]
-    pub type __darwin_sigset_t = __uint32_t;
+    pub type __darwin_sigset_t = u32;
     #[c2rust::src_loc = "75:1"]
-    pub type __darwin_uid_t = __uint32_t;
+    pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __uint32_t};
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
@@ -69,16 +54,15 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
         #[c2rust::src_loc = "196:1"]
-        pub fn pony_alloc_msg(index: uint32_t, id: uint32_t) -> *mut pony_msg_t;
+        pub fn pony_alloc_msg(index: u32, id: u32) -> *mut pony_msg_t;
         #[c2rust::src_loc = "449:1"]
         pub fn pony_register_thread();
         #[c2rust::src_loc = "457:1"]
@@ -207,16 +191,14 @@ pub mod asio_h {
     pub const ASIO_READ: C2RustUnnamed = 1;
     #[c2rust::src_loc = "26:3"]
     pub const ASIO_DISPOSABLE: C2RustUnnamed = 0;
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::asio_backend_t;
     extern "C" {
         #[c2rust::src_loc = "113:1"]
-        pub fn ponyint_asio_noisy_remove() -> uint64_t;
+        pub fn ponyint_asio_noisy_remove() -> u64;
         #[c2rust::src_loc = "109:1"]
-        pub fn ponyint_asio_noisy_add() -> uint64_t;
+        pub fn ponyint_asio_noisy_add() -> u64;
         #[c2rust::src_loc = "88:1"]
-        pub fn ponyint_asio_get_cpu() -> uint32_t;
+        pub fn ponyint_asio_get_cpu() -> u32;
         #[c2rust::src_loc = "71:1"]
         pub fn ponyint_asio_get_backend() -> *mut asio_backend_t;
     }
@@ -229,16 +211,14 @@ pub mod event_h {
     pub struct kevent {
         pub ident: uintptr_t,
         pub filter: int16_t,
-        pub flags: uint16_t,
-        pub fflags: uint32_t,
+        pub flags: u16,
+        pub fflags: u32,
         pub data: intptr_t,
         pub udata: *mut libc::c_void,
     }
     use super::_int16_t_h::int16_t;
     use super::_intptr_t_h::intptr_t;
     use super::_timespec_h::timespec;
-    use super::_uint16_t_h::uint16_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     extern "C" {
         #[c2rust::src_loc = "380:1"]
@@ -262,13 +242,13 @@ pub mod asio_event_h {
     pub struct asio_event_t {
         pub magic: *mut asio_event_t,
         pub owner: *mut pony_actor_t,
-        pub msg_id: uint32_t,
+        pub msg_id: u32,
         pub fd: libc::c_int,
-        pub flags: uint32_t,
+        pub flags: u32,
         pub noisy: bool,
         pub readable: bool,
         pub writeable: bool,
-        pub nsec: uint64_t,
+        pub nsec: u64,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -276,15 +256,13 @@ pub mod asio_event_h {
     pub struct asio_msg_t {
         pub msg: pony_msg_t,
         pub event: *mut asio_event_t,
-        pub flags: uint32_t,
-        pub arg: uint32_t,
+        pub flags: u32,
+        pub arg: u32,
     }
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::pony_h::{pony_actor_t, pony_msg_t};
     extern "C" {
         #[c2rust::src_loc = "58:1"]
-        pub fn pony_asio_event_send(ev: *mut asio_event_t, flags: uint32_t, arg: uint32_t);
+        pub fn pony_asio_event_send(ev: *mut asio_event_t, flags: u32, arg: u32);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/signal.h:1"]
@@ -319,10 +297,9 @@ pub mod scheduler_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:7"]
 pub mod cpu_h {
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "18:1"]
-        pub fn ponyint_cpu_affinity(cpu: uint32_t);
+        pub fn ponyint_cpu_affinity(cpu: u32);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:10"]
@@ -371,9 +348,6 @@ pub use self::_types_h::{
     __darwin_intptr_t, __darwin_ssize_t, __darwin_time_t, __int32_t, __uint32_t,
 };
 pub use self::_uid_t_h::uid_t;
-pub use self::_uint16_t_h::uint16_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::asio_event_h::{asio_event_t, asio_msg_t, pony_asio_event_send};
 pub use self::asio_h::{
@@ -410,15 +384,15 @@ pub struct asio_backend_t {
     pub q: messageq_t,
 }
 #[c2rust::src_loc = "22:1"]
-pub type kevent_flag_t = uint32_t;
+pub type kevent_flag_t = u32;
 #[inline]
 #[c2rust::src_loc = "27:1"]
 unsafe extern "C" fn macro__EV_SET(
     mut kevp: *mut kevent,
     mut ident: uintptr_t,
     mut filter: int16_t,
-    mut flags: uint16_t,
-    mut fflags: uint32_t,
+    mut flags: u16,
+    mut fflags: u32,
     mut data: intptr_t,
     mut udata: *mut libc::c_void,
 ) {
@@ -459,8 +433,8 @@ pub unsafe extern "C" fn ponyint_asio_backend_init() -> *mut asio_backend_t {
         &mut new_event,
         (*b).wakeup[0 as libc::c_int as usize] as uintptr_t,
         -(1 as libc::c_int) as int16_t,
-        0x1 as libc::c_int as uint16_t,
-        0 as libc::c_int as uint32_t,
+        0x1 as libc::c_int as u16,
+        0 as libc::c_int as u32,
         0 as libc::c_int as intptr_t,
         0 as *mut libc::c_void,
     );
@@ -501,8 +475,8 @@ unsafe extern "C" fn handle_queue(mut b: *mut asio_backend_t) {
         }
         pony_asio_event_send(
             (*msg).event,
-            ASIO_DISPOSABLE as libc::c_int as uint32_t,
-            0 as libc::c_int as uint32_t,
+            ASIO_DISPOSABLE as libc::c_int as u32,
+            0 as libc::c_int as u32,
         );
     }
 }
@@ -571,8 +545,8 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_read(mut ev: *mut asio_even
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
             -(1 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as uint16_t,
-            0 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -648,8 +622,8 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_write(mut ev: *mut asio_eve
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
             -(2 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as uint16_t,
-            0 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -735,8 +709,8 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
                                 (*ev).readable = 1 as libc::c_int != 0;
                                 pony_asio_event_send(
                                     ev,
-                                    ASIO_READ as libc::c_int as uint32_t,
-                                    0 as libc::c_int as uint32_t,
+                                    ASIO_READ as libc::c_int as u32,
+                                    0 as libc::c_int as u32,
                                 );
                             }
                         }
@@ -752,16 +726,16 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
                                     pony_asio_event_send(
                                         ev,
                                         (ASIO_READ as libc::c_int | ASIO_WRITE as libc::c_int)
-                                            as uint32_t,
-                                        0 as libc::c_int as uint32_t,
+                                            as u32,
+                                        0 as libc::c_int as u32,
                                     );
                                 }
                             } else if (*ev).flags & ASIO_WRITE as libc::c_int as libc::c_uint != 0 {
                                 (*ev).writeable = 1 as libc::c_int != 0;
                                 pony_asio_event_send(
                                     ev,
-                                    ASIO_WRITE as libc::c_int as uint32_t,
-                                    0 as libc::c_int as uint32_t,
+                                    ASIO_WRITE as libc::c_int as u32,
+                                    0 as libc::c_int as u32,
                                 );
                             }
                         }
@@ -769,8 +743,8 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
                             if (*ev).flags & ASIO_TIMER as libc::c_int as libc::c_uint != 0 {
                                 pony_asio_event_send(
                                     ev,
-                                    ASIO_TIMER as libc::c_int as uint32_t,
-                                    0 as libc::c_int as uint32_t,
+                                    ASIO_TIMER as libc::c_int as u32,
+                                    0 as libc::c_int as u32,
                                 );
                             }
                         }
@@ -778,8 +752,8 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
                             if (*ev).flags & ASIO_SIGNAL as libc::c_int as libc::c_uint != 0 {
                                 pony_asio_event_send(
                                     ev,
-                                    ASIO_SIGNAL as libc::c_int as uint32_t,
-                                    (*ep).data as uint32_t,
+                                    ASIO_SIGNAL as libc::c_int as u32,
+                                    (*ep).data as u32,
                                 );
                             }
                         }
@@ -833,7 +807,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
         );
     };
     if (*ev).noisy {
-        let mut old_count: uint64_t = ponyint_asio_noisy_add();
+        let mut old_count: u64 = ponyint_asio_noisy_add();
         if old_count == 0 as libc::c_int as libc::c_ulonglong {
             ponyint_sched_noisy_asio(-(10 as libc::c_int));
         }
@@ -858,8 +832,8 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
             -(1 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int as libc::c_uint | flags) as uint16_t,
-            0 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int as libc::c_uint | flags) as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -870,8 +844,8 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
             -(2 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int as libc::c_uint | flags) as uint16_t,
-            0 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int as libc::c_uint | flags) as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -882,8 +856,8 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
             &mut *event.as_mut_ptr().offset(i as isize),
             ev as uintptr_t,
             -(7 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int | 0x10 as libc::c_int) as uint16_t,
-            0x4 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int | 0x10 as libc::c_int) as u16,
+            0x4 as libc::c_int as u32,
             (*ev).nsec as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -910,8 +884,8 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).nsec as uintptr_t,
             -(6 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int | 0x20 as libc::c_int) as uint16_t,
-            0 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int | 0x20 as libc::c_int) as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -931,7 +905,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "373:1"]
-pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut nsec: uint64_t) {
+pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut nsec: u64) {
     if ev.is_null()
         || (*ev).magic != ev
         || (*ev).flags == ASIO_DISPOSABLE as libc::c_int as libc::c_uint
@@ -981,8 +955,8 @@ pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut 
             &mut *event.as_mut_ptr().offset(i as isize),
             ev as uintptr_t,
             -(7 as libc::c_int) as int16_t,
-            (0x1 as libc::c_int | 0x10 as libc::c_int) as uint16_t,
-            0x4 as libc::c_int as uint32_t,
+            (0x1 as libc::c_int | 0x10 as libc::c_int) as u16,
+            0x4 as libc::c_int as u32,
             (*ev).nsec as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -1035,7 +1009,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         );
     };
     if (*ev).noisy {
-        let mut old_count: uint64_t = ponyint_asio_noisy_remove();
+        let mut old_count: u64 = ponyint_asio_noisy_remove();
         if old_count == 1 as libc::c_int as libc::c_ulonglong {
             ponyint_sched_unnoisy_asio(-(10 as libc::c_int));
             ponyint_sched_maybe_wakeup_if_all_asleep(-(1 as libc::c_int));
@@ -1056,8 +1030,8 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
             -(1 as libc::c_int) as int16_t,
-            0x2 as libc::c_int as uint16_t,
-            0 as libc::c_int as uint32_t,
+            0x2 as libc::c_int as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -1068,8 +1042,8 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).fd as uintptr_t,
             -(2 as libc::c_int) as int16_t,
-            0x2 as libc::c_int as uint16_t,
-            0 as libc::c_int as uint32_t,
+            0x2 as libc::c_int as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -1080,8 +1054,8 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
             &mut *event.as_mut_ptr().offset(i as isize),
             ev as uintptr_t,
             -(7 as libc::c_int) as int16_t,
-            0x2 as libc::c_int as uint16_t,
-            0 as libc::c_int as uint32_t,
+            0x2 as libc::c_int as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -1105,8 +1079,8 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
             &mut *event.as_mut_ptr().offset(i as isize),
             (*ev).nsec as uintptr_t,
             -(6 as libc::c_int) as int16_t,
-            0x2 as libc::c_int as uint16_t,
-            0 as libc::c_int as uint32_t,
+            0x2 as libc::c_int as u16,
+            0 as libc::c_int as u32,
             0 as libc::c_int as intptr_t,
             ev as *mut libc::c_void,
         );
@@ -1120,13 +1094,13 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         0 as libc::c_int,
         0 as *const timespec,
     );
-    (*ev).flags = ASIO_DISPOSABLE as libc::c_int as uint32_t;
+    (*ev).flags = ASIO_DISPOSABLE as libc::c_int as u32;
     let mut msg: *mut asio_msg_t =
-        pony_alloc_msg(0 as libc::c_int as uint32_t, 0 as libc::c_int as uint32_t)
+        pony_alloc_msg(0 as libc::c_int as u32, 0 as libc::c_int as u32)
             as *mut asio_msg_t;
     let ref mut fresh1 = (*msg).event;
     *fresh1 = ev;
-    (*msg).flags = ASIO_DISPOSABLE as libc::c_int as uint32_t;
+    (*msg).flags = ASIO_DISPOSABLE as libc::c_int as u32;
     ponyint_thread_messageq_push(&mut (*b).q, msg as *mut pony_msg_t, msg as *mut pony_msg_t);
     retry_loop(b);
 }

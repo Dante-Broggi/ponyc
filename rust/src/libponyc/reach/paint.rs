@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -582,7 +572,7 @@ pub mod reach_h {
         pub cap: token_id,
         pub fun: *mut deferred_reification_t,
         pub typeargs: *mut ast_t,
-        pub vtable_index: uint32_t,
+        pub vtable_index: u32,
         pub intrinsic: bool,
         pub internal: bool,
         pub forwarding: bool,
@@ -612,11 +602,11 @@ pub mod reach_h {
         pub methods: reach_method_names_t,
         pub bare_method: *mut reach_method_t,
         pub subtypes: reach_type_cache_t,
-        pub type_id: uint32_t,
-        pub vtable_size: uint32_t,
+        pub type_id: u32,
+        pub vtable_size: u32,
         pub can_be_boxed: bool,
         pub is_trait: bool,
-        pub field_count: uint32_t,
+        pub field_count: u32,
         pub fields: *mut reach_field_t,
         pub c_type: *mut compile_opaque_t,
     }
@@ -679,7 +669,6 @@ pub mod reach_h {
         pub contents: hashmap_t,
     }
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
@@ -744,8 +733,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::fun_h::{cmp_fn, free_fn, ponyint_hash_str};
 pub use self::hash_h::{
     bitmap_t, hashmap_entry_t, hashmap_t, ponyint_hashmap_alloc_size, ponyint_hashmap_clearindex,
@@ -807,14 +794,14 @@ pub struct painter_t {
     pub colours: *mut colour_record_t,
     pub colour_next: *mut *mut colour_record_t,
     pub typemap_size: size_t,
-    pub colour_count: uint32_t,
+    pub colour_count: u32,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "108:16"]
 pub struct colour_record_t {
-    pub colour: uint32_t,
-    pub type_map: *mut uint64_t,
+    pub colour: u32,
+    pub type_map: *mut u64,
     pub next: *mut colour_record_t,
 }
 #[derive(Copy, Clone)]
@@ -830,9 +817,9 @@ pub type name_records_free_fn = Option<unsafe extern "C" fn(*mut name_record_t) 
 #[c2rust::src_loc = "77:16"]
 pub struct name_record_t {
     pub name: *const libc::c_char,
-    pub colour: uint32_t,
+    pub colour: u32,
     pub typemap_size: size_t,
-    pub type_map: *mut uint64_t,
+    pub type_map: *mut u64,
 }
 #[c2rust::src_loc = "104:1"]
 pub type name_records_cmp_fn =
@@ -848,7 +835,7 @@ unsafe extern "C" fn name_record_cmp(mut a: *mut name_record_t, mut b: *mut name
 #[c2rust::src_loc = "97:1"]
 unsafe extern "C" fn name_record_free(mut p: *mut name_record_t) {
     ponyint_pool_free_size(
-        ((*p).typemap_size).wrapping_mul(::core::mem::size_of::<uint64_t>() as libc::c_ulong),
+        ((*p).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong),
         (*p).type_map as *mut libc::c_void,
     );
     ponyint_pool_free(0 as libc::c_int as size_t, p as *mut libc::c_void);
@@ -988,7 +975,7 @@ pub unsafe extern "C" fn name_records_put(
     ) as *mut name_record_t
 }
 #[c2rust::src_loc = "127:1"]
-unsafe extern "C" fn print_typemap(mut size: size_t, mut map: *mut uint64_t) {
+unsafe extern "C" fn print_typemap(mut size: size_t, mut map: *mut u64) {
     if !map.is_null() {
     } else {
         ponyint_assert_fail(
@@ -1003,7 +990,7 @@ unsafe extern "C" fn print_typemap(mut size: size_t, mut map: *mut uint64_t) {
     let mut i: size_t = 0;
     while i < size {
         printf(b"  \0" as *const u8 as *const libc::c_char);
-        let mut mask: uint64_t = 1 as libc::c_int as uint64_t;
+        let mut mask: u64 = 1 as libc::c_int as u64;
         while mask != 0 as libc::c_int as libc::c_ulonglong {
             printf(
                 b"%c\0" as *const u8 as *const libc::c_char,
@@ -1036,7 +1023,7 @@ pub unsafe extern "C" fn painter_print(mut painter: *mut painter_t) {
     printf(
         b"Painter typemaps are %zu bits\n\0" as *const u8 as *const libc::c_char,
         ((*painter).typemap_size)
-            .wrapping_mul(::core::mem::size_of::<uint64_t>() as libc::c_ulong)
+            .wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong)
             .wrapping_mul(8 as libc::c_int as libc::c_ulong),
     );
     printf(b"Painter names:\n\0" as *const u8 as *const libc::c_char);
@@ -1051,7 +1038,7 @@ pub unsafe extern "C" fn painter_print(mut painter: *mut painter_t) {
             b"\"%s\" colour \0" as *const u8 as *const libc::c_char,
             (*name).name,
         );
-        if (*name).colour == -(1 as libc::c_int) as uint32_t {
+        if (*name).colour == -(1 as libc::c_int) as u32 {
             printf(b"unassigned\n\0" as *const u8 as *const libc::c_char);
         } else {
             printf(
@@ -1102,15 +1089,15 @@ unsafe extern "C" fn add_name(
         );
     };
     let mut map_byte_count: size_t =
-        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<uint64_t>() as libc::c_ulong);
+        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     let mut n: *mut name_record_t =
         ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut name_record_t;
     let ref mut fresh0 = (*n).name;
     *fresh0 = name;
-    (*n).colour = -(1 as libc::c_int) as uint32_t;
+    (*n).colour = -(1 as libc::c_int) as u32;
     (*n).typemap_size = (*painter).typemap_size;
     let ref mut fresh1 = (*n).type_map;
-    *fresh1 = ponyint_pool_alloc_size(map_byte_count) as *mut uint64_t;
+    *fresh1 = ponyint_pool_alloc_size(map_byte_count) as *mut u64;
     memset(
         (*n).type_map as *mut libc::c_void,
         0 as libc::c_int,
@@ -1132,12 +1119,12 @@ unsafe extern "C" fn add_colour(mut painter: *mut painter_t) -> *mut colour_reco
         );
     };
     let mut map_byte_count: size_t =
-        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<uint64_t>() as libc::c_ulong);
+        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     let mut n: *mut colour_record_t =
         ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut colour_record_t;
     (*n).colour = (*painter).colour_count;
     let ref mut fresh2 = (*n).type_map;
-    *fresh2 = ponyint_pool_alloc_size(map_byte_count) as *mut uint64_t;
+    *fresh2 = ponyint_pool_alloc_size(map_byte_count) as *mut u64;
     let ref mut fresh3 = (*n).next;
     *fresh3 = 0 as *mut colour_record_t;
     memset(
@@ -1161,9 +1148,9 @@ unsafe extern "C" fn find_name(
     let mut n: name_record_t = {
         let mut init = name_record_t {
             name: name,
-            colour: 0 as libc::c_int as uint32_t,
+            colour: 0 as libc::c_int as u32,
             typemap_size: 0 as libc::c_int as size_t,
-            type_map: 0 as *mut uint64_t,
+            type_map: 0 as *mut u64,
         };
         init
     };
@@ -1272,7 +1259,7 @@ unsafe extern "C" fn find_names_types_use(
     };
     let mut i: size_t = -(1 as libc::c_int) as size_t;
     let mut typemap_index: size_t = 0;
-    let mut typemap_mask: uint64_t = 1 as libc::c_int as uint64_t;
+    let mut typemap_mask: u64 = 1 as libc::c_int as u64;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         t = reach_types_next(types, &mut i);
@@ -1320,7 +1307,7 @@ unsafe extern "C" fn find_names_types_use(
         }
         typemap_mask <<= 1 as libc::c_int;
         if typemap_mask == 0 as libc::c_int as libc::c_ulonglong {
-            typemap_mask = 1 as libc::c_int as uint64_t;
+            typemap_mask = 1 as libc::c_int as u64;
             typemap_index = typemap_index.wrapping_add(1);
         }
     }
@@ -1388,7 +1375,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
         }
         let mut j: size_t = -(1 as libc::c_int) as size_t;
         let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
-        let mut max_colour: uint32_t = 0 as libc::c_int as uint32_t;
+        let mut max_colour: u32 = 0 as libc::c_int as u32;
         loop {
             n = reach_method_names_next(&mut (*t).methods, &mut j);
             if n.is_null() {
@@ -1416,7 +1403,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
                         .as_ptr(),
                     );
                 };
-                let mut colour: uint32_t = (*name_rec).colour;
+                let mut colour: u32 = (*name_rec).colour;
                 (*m).vtable_index = colour;
                 if colour > max_colour {
                     max_colour = colour;
@@ -1439,7 +1426,7 @@ unsafe extern "C" fn painter_tidy(mut painter: *mut painter_t) {
         );
     };
     let mut map_byte_count: size_t =
-        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<uint64_t>() as libc::c_ulong);
+        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     name_records_destroy(&mut (*painter).names);
     let mut c: *mut colour_record_t = (*painter).colours;
     while !c.is_null() {
@@ -1483,7 +1470,7 @@ pub unsafe extern "C" fn paint(mut types: *mut reach_types_t) {
     name_records_init(&mut painter.names, 8 as libc::c_int as size_t);
     painter.colours = 0 as *mut colour_record_t;
     painter.colour_next = &mut painter.colours;
-    painter.colour_count = 0 as libc::c_int as uint32_t;
+    painter.colour_count = 0 as libc::c_int as u32;
     painter.typemap_size = type_count
         .wrapping_sub(1 as libc::c_int as libc::c_ulong)
         .wrapping_div(64 as libc::c_int as libc::c_ulong)

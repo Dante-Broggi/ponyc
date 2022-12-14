@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -530,16 +525,15 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "111:1"]
         pub fn ast_parent(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "125:1"]
@@ -738,7 +732,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_checkflag, ast_consolidate_branches, ast_get_children, ast_id, ast_inheritbranch,
     ast_inheritstatus, ast_parent, ast_ptr_t, ast_result_t, ast_setflag, C2RustUnnamed, AST_ERROR,
@@ -822,18 +815,18 @@ unsafe extern "C" fn completeness_match(mut _opt: *mut pass_opt_t, mut ast: *mut
         children.as_mut_ptr(),
     );
     let mut branch_count: size_t = 0;
-    if ast_checkflag(cases, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0 {
+    if ast_checkflag(cases, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, cases);
     }
     if ast_id(else_clause) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
-        && ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0
+        && ast_checkflag(else_clause, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0
     {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, else_clause);
     }
     if branch_count == 0 as libc::c_int as libc::c_ulong {
-        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t);
+        ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_consolidate_branches(ast, branch_count);
     ast_inheritstatus(ast_parent(ast), ast);

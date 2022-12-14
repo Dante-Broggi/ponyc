@@ -2,11 +2,11 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
     #[c2rust::src_loc = "43:1"]
-    pub type __uint8_t = libc::c_uchar;
+    pub type __uint8_t = u8;
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:3"]
 pub mod _pthread_types_h {
@@ -31,11 +31,11 @@ pub mod dirent_h {
     #[repr(C)]
     #[c2rust::src_loc = "112:8"]
     pub struct dirent {
-        pub d_ino: __uint64_t,
-        pub d_seekoff: __uint64_t,
-        pub d_reclen: __uint16_t,
-        pub d_namlen: __uint16_t,
-        pub d_type: __uint8_t,
+        pub d_ino: u64,
+        pub d_seekoff: u64,
+        pub d_reclen: u16,
+        pub d_namlen: u16,
+        pub d_type: u8,
         pub d_name: [libc::c_char; 1024],
     }
     use super::_types_h::{__uint16_t, __uint64_t, __uint8_t};

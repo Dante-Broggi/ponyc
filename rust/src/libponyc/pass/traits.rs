@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -33,10 +23,9 @@ pub mod lexint_h {
     #[repr(C)]
     #[c2rust::src_loc = "9:16"]
     pub struct lexint_t {
-        pub low: uint64_t,
-        pub high: uint64_t,
+        pub low: u64,
+        pub high: u64,
     }
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn lexint_cmp(a: *const lexint_t, b: *const lexint_t) -> libc::c_int;
@@ -570,7 +559,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::lexint_h::lexint_t;
     use super::symtab_h::{ast_t, sym_status_t};
@@ -595,11 +583,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "87:1"]
         pub fn ast_inheritflags(ast: *mut ast_t);
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "90:1"]
-        pub fn ast_clearflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_clearflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "96:1"]
@@ -917,8 +905,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::ast_h::{
     ast_add, ast_add_sibling, ast_append, ast_checkflag, ast_child, ast_childidx, ast_clear_local,
     ast_clearflag, ast_data, ast_error, ast_error_continue, ast_float, ast_free_unattached,
@@ -1755,13 +1741,13 @@ unsafe extern "C" fn add_method_from_trait(
     if multiple_bodies as libc::c_int != 0
         || ast_checkflag(
             existing_method,
-            AST_FLAG_AMBIGUOUS as libc::c_int as uint32_t,
+            AST_FLAG_AMBIGUOUS as libc::c_int as u32,
         ) != 0
-        || ast_checkflag(method, AST_FLAG_AMBIGUOUS as libc::c_int as uint32_t) != 0
+        || ast_checkflag(method, AST_FLAG_AMBIGUOUS as libc::c_int as u32) != 0
     {
         ast_setflag(
             existing_method,
-            AST_FLAG_AMBIGUOUS as libc::c_int as uint32_t,
+            AST_FLAG_AMBIGUOUS as libc::c_int as u32,
         );
         if ast_id(existing_body) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
             ast_replace(&mut existing_body, ast_from(existing_method, TK_NONE));
@@ -1920,7 +1906,7 @@ unsafe extern "C" fn check_concrete_bodies(
             if !(*info).failed {
                 let mut name: *const libc::c_char =
                     ast_name(ast_childidx(p, 1 as libc::c_int as size_t));
-                if ast_checkflag(p, AST_FLAG_AMBIGUOUS as libc::c_int as uint32_t) != 0 {
+                if ast_checkflag(p, AST_FLAG_AMBIGUOUS as libc::c_int as u32) != 0 {
                     ast_error(
                         (*opt).check.errors,
                         entity,
@@ -1975,11 +1961,11 @@ unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt
         entity,
         (AST_FLAG_RECURSE_1 as libc::c_int
             | AST_FLAG_DONE_1 as libc::c_int
-            | AST_FLAG_ERROR_1 as libc::c_int) as uint32_t,
+            | AST_FLAG_ERROR_1 as libc::c_int) as u32,
     );
     match state {
         0 => {
-            ast_setflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t);
+            ast_setflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as u32);
         }
         16384 => {
             ast_error(
@@ -1987,8 +1973,8 @@ unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt
                 entity,
                 b"traits and interfaces can't be recursive\0" as *const u8 as *const libc::c_char,
             );
-            ast_clearflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t);
-            ast_setflag(entity, AST_FLAG_ERROR_1 as libc::c_int as uint32_t);
+            ast_clearflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as u32);
+            ast_setflag(entity, AST_FLAG_ERROR_1 as libc::c_int as u32);
             return 0 as libc::c_int != 0;
         }
         32768 => return 1 as libc::c_int != 0,
@@ -2012,8 +1998,8 @@ unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt
     let mut r: bool = provided_methods(entity, opt) as libc::c_int != 0
         && check_concrete_bodies(entity, opt) as libc::c_int != 0;
     tidy_up(entity);
-    ast_clearflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as uint32_t);
-    ast_setflag(entity, AST_FLAG_DONE_1 as libc::c_int as uint32_t);
+    ast_clearflag(entity, AST_FLAG_RECURSE_1 as libc::c_int as u32);
+    ast_setflag(entity, AST_FLAG_DONE_1 as libc::c_int as u32);
     r
 }
 #[c2rust::src_loc = "710:1"]
@@ -2032,11 +2018,11 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
         entity,
         (AST_FLAG_RECURSE_2 as libc::c_int
             | AST_FLAG_DONE_2 as libc::c_int
-            | AST_FLAG_ERROR_2 as libc::c_int) as uint32_t,
+            | AST_FLAG_ERROR_2 as libc::c_int) as u32,
     );
     match state {
         0 => {
-            ast_setflag(entity, AST_FLAG_RECURSE_2 as libc::c_int as uint32_t);
+            ast_setflag(entity, AST_FLAG_RECURSE_2 as libc::c_int as u32);
         }
         131072 => {
             ast_error(
@@ -2044,8 +2030,8 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
                 entity,
                 b"embedded fields can't be recursive\0" as *const u8 as *const libc::c_char,
             );
-            ast_clearflag(entity, AST_FLAG_RECURSE_2 as libc::c_int as uint32_t);
-            ast_setflag(entity, AST_FLAG_ERROR_2 as libc::c_int as uint32_t);
+            ast_clearflag(entity, AST_FLAG_RECURSE_2 as libc::c_int as u32);
+            ast_setflag(entity, AST_FLAG_ERROR_2 as libc::c_int as u32);
             return 0 as libc::c_int != 0;
         }
         262144 => return 1 as libc::c_int != 0,
@@ -2117,8 +2103,8 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
         }
         member = ast_sibling(member);
     }
-    ast_clearflag(entity, AST_FLAG_RECURSE_2 as libc::c_int as uint32_t);
-    ast_setflag(entity, AST_FLAG_DONE_2 as libc::c_int as uint32_t);
+    ast_clearflag(entity, AST_FLAG_RECURSE_2 as libc::c_int as u32);
+    ast_setflag(entity, AST_FLAG_DONE_2 as libc::c_int as u32);
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "770:1"]

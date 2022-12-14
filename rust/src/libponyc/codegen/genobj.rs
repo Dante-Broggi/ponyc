@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
@@ -529,13 +524,12 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     extern "C" {
         #[c2rust::src_loc = "18:35"]
@@ -657,7 +651,7 @@ pub mod codegen_h {
         pub str__serialise_space: *const libc::c_char,
         pub str__serialise: *const libc::c_char,
         pub str__deserialise: *const libc::c_char,
-        pub trait_bitmap_size: uint32_t,
+        pub trait_bitmap_size: u32,
         pub callconv: LLVMCallConv,
         pub linkage: LLVMLinkage,
         pub context: LLVMContextRef,
@@ -714,7 +708,6 @@ pub mod codegen_h {
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "296:1"]
         pub fn suffix_filename(
@@ -745,7 +738,6 @@ pub mod BitWriter_h {
     }
 }
 pub use self::_types_h::{__darwin_size_t, __int64_t};
-pub use self::_uint32_t_h::uint32_t;
 pub use self::sys__types_h::__darwin_off_t;
 pub use self::Core_h::{
     LLVMAMDGPUCSCallConv, LLVMAMDGPUESCallConv, LLVMAMDGPUGSCallConv, LLVMAMDGPUHSCallConv,

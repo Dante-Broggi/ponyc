@@ -14,21 +14,10 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:3"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:3"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h:3"]
 pub mod stdint_h {
     #[c2rust::src_loc = "44:1"]
-    pub type uint_fast8_t = uint8_t;
-    use super::_uint8_t_h::uint8_t;
+    pub type uint_fast8_t = u8;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:3"]
 pub mod _pthread_types_h {
@@ -120,17 +109,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -167,7 +156,6 @@ pub mod scheduler_h {
     use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
@@ -180,13 +168,13 @@ pub mod scheduler_h {
     extern "C" {
         #[c2rust::src_loc = "110:1"]
         pub fn ponyint_sched_init(
-            threads: uint32_t,
+            threads: u32,
             noyield: bool,
             nopin: bool,
             pinasio: bool,
-            min_threads: uint32_t,
-            thread_suspend_threshold: uint32_t,
-            stats_interval: uint32_t,
+            min_threads: u32,
+            thread_suspend_threshold: u32,
+            stats_interval: u32,
         ) -> *mut pony_ctx_t;
         #[c2rust::src_loc = "119:1"]
         pub fn ponyint_sched_start(library: bool) -> bool;
@@ -211,8 +199,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -221,10 +209,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -234,7 +222,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -271,7 +259,6 @@ pub mod pony_h {
         pub descriptor_table: *mut *const pony_type_t,
         pub descriptor_table_size: size_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::actor_h::pony_actor_t;
     use super::scheduler_h::pony_ctx_t;
@@ -351,14 +338,13 @@ pub mod gc_h {
     #[repr(C)]
     #[c2rust::src_loc = "16:16"]
     pub struct gc_t {
-        pub mark: uint32_t,
-        pub rc_mark: uint32_t,
+        pub mark: u32,
+        pub rc_mark: u32,
         pub rc: size_t,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
@@ -376,14 +362,13 @@ pub mod actor_h {
     pub struct pony_actor_t {
         pub type_0: *const pony_type_t,
         pub q: messageq_t,
-        pub sync_flags: uint8_t,
-        pub cycle_detector_critical: uint8_t,
+        pub sync_flags: u8,
+        pub cycle_detector_critical: u8,
         pub heap: heap_t,
         pub muted: size_t,
-        pub internal_flags: uint8_t,
+        pub internal_flags: u8,
         pub gc: gc_t,
     }
-    use super::_uint8_t_h::uint8_t;
     use super::gc_h::gc_t;
     use super::heap_h::heap_t;
     use super::messageq_h::messageq_t;
@@ -444,8 +429,8 @@ pub mod options_h {
     pub struct opt_arg_t {
         pub long_opt: *const libc::c_char,
         pub short_opt: libc::c_char,
-        pub flag: uint32_t,
-        pub id: uint32_t,
+        pub flag: u32,
+        pub id: u32,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -461,7 +446,6 @@ pub mod options_h {
         pub idx: libc::c_int,
         pub remove: libc::c_int,
     }
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_opt_init(
@@ -494,21 +478,19 @@ pub mod stdlib_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:4"]
 pub mod cpu_h {
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "11:1"]
         pub fn ponyint_cpu_init();
         #[c2rust::src_loc = "13:1"]
-        pub fn ponyint_cpu_count() -> uint32_t;
+        pub fn ponyint_cpu_count() -> u32;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.h:7"]
 pub mod cycle_h {
-    use super::_uint32_t_h::uint32_t;
     use super::scheduler_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "12:1"]
-        pub fn ponyint_cycle_create(ctx: *mut pony_ctx_t, detect_interval: uint32_t);
+        pub fn ponyint_cycle_create(ctx: *mut pony_ctx_t, detect_interval: u32);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/lang/socket.h:10"]
@@ -567,8 +549,6 @@ pub use self::_pthread_types_h::{
     __darwin_pthread_cond_t, __darwin_pthread_handler_rec, __darwin_pthread_t,
     _opaque_pthread_cond_t, _opaque_pthread_t,
 };
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actor_h::{pony_actor_t, ponyint_actor_setnoblock};
 pub use self::actormap_h::actormap_t;
@@ -613,18 +593,18 @@ extern "C" {
 #[repr(C)]
 #[c2rust::src_loc = "22:16"]
 pub struct options_t {
-    pub threads: uint32_t,
-    pub min_threads: uint32_t,
+    pub threads: u32,
+    pub min_threads: u32,
     pub noscale: bool,
-    pub thread_suspend_threshold: uint32_t,
-    pub cd_detect_interval: uint32_t,
+    pub thread_suspend_threshold: u32,
+    pub cd_detect_interval: u32,
     pub gc_initial: size_t,
     pub gc_factor: libc::c_double,
     pub noyield: bool,
     pub noblock: bool,
     pub pin: bool,
     pub pinasio: bool,
-    pub stats_interval: uint32_t,
+    pub stats_interval: u32,
     pub version: bool,
     pub ponyhelp: bool,
 }
@@ -689,8 +669,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponymaxthreads\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_MAXTHREADS as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_MAXTHREADS as uint_fast8_t as u32,
         };
         init
     },
@@ -698,8 +678,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponyminthreads\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_MINTHREADS as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_MINTHREADS as uint_fast8_t as u32,
         };
         init
     },
@@ -707,8 +687,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponynoscale\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_NOSCALE as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_NOSCALE as uint_fast8_t as u32,
         };
         init
     },
@@ -716,8 +696,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponysuspendthreshold\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_SUSPENDTHRESHOLD as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_SUSPENDTHRESHOLD as uint_fast8_t as u32,
         };
         init
     },
@@ -725,8 +705,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponycdinterval\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_CDINTERVAL as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_CDINTERVAL as uint_fast8_t as u32,
         };
         init
     },
@@ -734,8 +714,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponygcinitial\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_GCINITIAL as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_GCINITIAL as uint_fast8_t as u32,
         };
         init
     },
@@ -743,8 +723,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponygcfactor\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_GCFACTOR as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_GCFACTOR as uint_fast8_t as u32,
         };
         init
     },
@@ -752,8 +732,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponynoyield\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_NOYIELD as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_NOYIELD as uint_fast8_t as u32,
         };
         init
     },
@@ -761,8 +741,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponynoblock\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_NOBLOCK as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_NOBLOCK as uint_fast8_t as u32,
         };
         init
     },
@@ -770,8 +750,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponypin\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_PIN as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_PIN as uint_fast8_t as u32,
         };
         init
     },
@@ -779,8 +759,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponypinasio\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_PINASIO as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_PINASIO as uint_fast8_t as u32,
         };
         init
     },
@@ -788,8 +768,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponyprintstatsinterval\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 0 as libc::c_int) as uint32_t,
-            id: OPT_STATSINTERVAL as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 0 as libc::c_int) as u32,
+            id: OPT_STATSINTERVAL as uint_fast8_t as u32,
         };
         init
     },
@@ -797,8 +777,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponyversion\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_VERSION as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_VERSION as uint_fast8_t as u32,
         };
         init
     },
@@ -806,8 +786,8 @@ static mut args: [opt_arg_t; 15] = [
         let mut init = opt_arg_t {
             long_opt: b"ponyhelp\0" as *const u8 as *const libc::c_char,
             short_opt: 0 as libc::c_int as libc::c_char,
-            flag: ((1 as libc::c_int) << 2 as libc::c_int) as uint32_t,
-            id: OPT_PONYHELP as uint_fast8_t as uint32_t,
+            flag: ((1 as libc::c_int) << 2 as libc::c_int) as u32,
+            id: OPT_PONYHELP as uint_fast8_t as u32,
         };
         init
     },
@@ -836,7 +816,7 @@ unsafe extern "C" fn err_out(mut id: libc::c_int, mut msg: *const libc::c_char) 
 }
 #[c2rust::src_loc = "119:1"]
 unsafe extern "C" fn parse_uint(
-    mut target: *mut uint32_t,
+    mut target: *mut u32,
     mut min: libc::c_int,
     mut value: *const libc::c_char,
 ) -> libc::c_int {
@@ -848,7 +828,7 @@ unsafe extern "C" fn parse_uint(
     }) {
         return 1 as libc::c_int;
     }
-    *target = v as uint32_t;
+    *target = v as u32;
     return 0 as libc::c_int;
 }
 #[c2rust::src_loc = "144:1"]
@@ -1071,8 +1051,8 @@ pub unsafe extern "C" fn pony_init(
         0 as libc::c_int,
         ::core::mem::size_of::<options_t>() as libc::c_ulong,
     );
-    opt.min_threads = 0 as libc::c_int as uint32_t;
-    opt.cd_detect_interval = 100 as libc::c_int as uint32_t;
+    opt.min_threads = 0 as libc::c_int as u32;
+    opt.cd_detect_interval = 100 as libc::c_int as u32;
     opt.gc_initial = 14 as libc::c_int as size_t;
     opt.gc_factor = 2.0f32 as libc::c_double;
     opt.pin = 0 as libc::c_int != 0;

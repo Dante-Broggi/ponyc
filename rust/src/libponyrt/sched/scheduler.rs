@@ -18,21 +18,6 @@ pub mod _int64_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int64_t = libc::c_longlong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:3"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:3"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:3"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
     #[c2rust::src_loc = "51:1"]
@@ -163,14 +148,12 @@ pub mod threads_h {
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_mutex_t_h::pthread_mutex_t;
     use super::_pthread_t_h::pthread_t;
-
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
         pub fn ponyint_thread_create(
             thread: *mut pthread_t,
             start: thread_fn,
-            cpu: uint32_t,
+            cpu: u32,
             arg: *mut libc::c_void,
         ) -> bool;
         #[c2rust::src_loc = "54:1"]
@@ -231,17 +214,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -296,7 +279,6 @@ pub mod scheduler_h {
     use super::_int64_t_h::int64_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
@@ -338,8 +320,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -348,10 +330,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -361,7 +343,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -397,14 +379,13 @@ pub mod pony_h {
         pub i: intptr_t,
     }
     use super::_intptr_t_h::intptr_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::actor_h::pony_actor_t;
     use super::scheduler_h::pony_ctx_t;
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "196:1"]
-        pub fn pony_alloc_msg(index: uint32_t, id: uint32_t) -> *mut pony_msg_t;
+        pub fn pony_alloc_msg(index: u32, id: u32) -> *mut pony_msg_t;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/mutemap.h:3"]
@@ -519,14 +500,13 @@ pub mod gc_h {
     #[repr(C)]
     #[c2rust::src_loc = "16:16"]
     pub struct gc_t {
-        pub mark: uint32_t,
-        pub rc_mark: uint32_t,
+        pub mark: u32,
+        pub rc_mark: u32,
         pub rc: size_t,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
@@ -544,14 +524,13 @@ pub mod actor_h {
     pub struct pony_actor_t {
         pub type_0: *const pony_type_t,
         pub q: messageq_t,
-        pub sync_flags: uint8_t,
-        pub cycle_detector_critical: uint8_t,
+        pub sync_flags: u8,
+        pub cycle_detector_critical: u8,
         pub heap: heap_t,
         pub muted: size_t,
-        pub internal_flags: uint8_t,
+        pub internal_flags: u8,
         pub gc: gc_t,
     }
-    use super::_uint8_t_h::uint8_t;
     use super::gc_h::gc_t;
     use super::heap_h::heap_t;
     use super::messageq_h::messageq_t;
@@ -677,43 +656,39 @@ pub mod pthread_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:5"]
 pub mod cpu_h {
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::scheduler_h::scheduler_t;
     extern "C" {
         #[c2rust::src_loc = "13:1"]
-        pub fn ponyint_cpu_count() -> uint32_t;
+        pub fn ponyint_cpu_count() -> u32;
         #[c2rust::src_loc = "15:1"]
         pub fn ponyint_cpu_assign(
-            count: uint32_t,
+            count: u32,
             scheduler_0: *mut scheduler_t,
             nopin: bool,
             pinasio: bool,
-        ) -> uint32_t;
+        ) -> u32;
         #[c2rust::src_loc = "18:1"]
-        pub fn ponyint_cpu_affinity(cpu: uint32_t);
+        pub fn ponyint_cpu_affinity(cpu: u32);
         #[c2rust::src_loc = "20:1"]
-        pub fn ponyint_cpu_core_pause(tsc: uint64_t, tsc2: uint64_t, yield_0: bool);
+        pub fn ponyint_cpu_core_pause(tsc: u64, tsc2: u64, yield_0: bool);
         #[c2rust::src_loc = "24:1"]
-        pub fn ponyint_cpu_tick() -> uint64_t;
+        pub fn ponyint_cpu_tick() -> u64;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.h:8"]
 pub mod cycle_h {
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "14:1"]
-        pub fn ponyint_cycle_check_blocked(tsc: uint64_t, tsc2: uint64_t) -> bool;
+        pub fn ponyint_cycle_check_blocked(tsc: u64, tsc2: u64) -> bool;
         #[c2rust::src_loc = "24:1"]
         pub fn ponyint_cycle_terminate();
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/asio.h:9"]
 pub mod asio_h {
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "56:1"]
-        pub fn ponyint_asio_init(cpu: uint32_t);
+        pub fn ponyint_asio_init(cpu: u32);
         #[c2rust::src_loc = "59:1"]
         pub fn ponyint_asio_start() -> bool;
         #[c2rust::src_loc = "98:1"]
@@ -768,9 +743,6 @@ pub use self::_pthread_types_h::{
     _opaque_pthread_t,
 };
 pub use self::_types_h::__darwin_intptr_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actor_h::{
     pony_actor_t, ponyint_actor_getnoblock, ponyint_actor_run, ponyint_unmute_actor,
@@ -856,13 +828,13 @@ pub struct actorstack_t {}
 #[c2rust::src_loc = "39:13"]
 static mut pause_cycle_detection: bool = false;
 #[c2rust::src_loc = "40:17"]
-static mut last_cd_tsc: uint64_t = 0;
+static mut last_cd_tsc: u64 = 0;
 #[c2rust::src_loc = "41:17"]
-static mut scheduler_count: uint32_t = 0;
+static mut scheduler_count: u32 = 0;
 #[c2rust::src_loc = "42:17"]
-static mut min_scheduler_count: uint32_t = 0;
+static mut min_scheduler_count: u32 = 0;
 #[c2rust::src_loc = "43:17"]
-static mut scheduler_suspend_threshold: uint64_t = 0;
+static mut scheduler_suspend_threshold: u64 = 0;
 #[c2rust::src_loc = "44:30"]
 static mut active_scheduler_count: AtomicU32 = AtomicU32::new(0);
 #[c2rust::src_loc = "45:30"]
@@ -907,11 +879,11 @@ pub unsafe extern "C" fn sched_mut_init() {
     pthread_mutex_init(&mut sched_mut, 0 as *const pthread_mutexattr_t);
 }
 #[c2rust::src_loc = "150:1"]
-unsafe extern "C" fn get_active_scheduler_count() -> uint32_t {
+unsafe extern "C" fn get_active_scheduler_count() -> u32 {
     active_scheduler_count.load(Relaxed)
 }
 #[c2rust::src_loc = "158:1"]
-unsafe extern "C" fn get_active_scheduler_count_check() -> uint32_t {
+unsafe extern "C" fn get_active_scheduler_count_check() -> u32 {
     active_scheduler_count_check.load(Relaxed)
 }
 #[c2rust::src_loc = "166:1"]
@@ -936,13 +908,13 @@ unsafe extern "C" fn pop_global(mut sched: *mut scheduler_t) -> *mut pony_actor_
 }
 #[c2rust::src_loc = "199:1"]
 unsafe extern "C" fn send_msg(
-    mut _from: uint32_t,
-    mut to: uint32_t,
+    mut _from: u32,
+    mut to: u32,
     mut msg: sched_msg_t,
     mut arg: intptr_t,
 ) {
     let mut m: *mut pony_msgi_t =
-        pony_alloc_msg(0 as libc::c_int as uint32_t, msg as uint32_t) as *mut pony_msgi_t;
+        pony_alloc_msg(0 as libc::c_int as u32, msg as u32) as *mut pony_msgi_t;
     (*m).i = arg;
     ponyint_thread_messageq_push(
         &mut (*scheduler.offset(to as isize)).mq,
@@ -952,20 +924,20 @@ unsafe extern "C" fn send_msg(
 }
 #[c2rust::src_loc = "219:1"]
 unsafe extern "C" fn send_msg_all_active(
-    mut from: uint32_t,
+    mut from: u32,
     mut msg: sched_msg_t,
     mut arg: intptr_t,
 ) {
-    let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < current_active_scheduler_count {
         send_msg(from, i, msg, arg);
         i = i.wrapping_add(1);
     }
 }
 #[c2rust::src_loc = "227:1"]
-unsafe extern "C" fn send_msg_all(mut from: uint32_t, mut msg: sched_msg_t, mut arg: intptr_t) {
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+unsafe extern "C" fn send_msg_all(mut from: u32, mut msg: sched_msg_t, mut arg: intptr_t) {
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < scheduler_count {
         send_msg(from, i, msg, arg);
         i = i.wrapping_add(1);
@@ -973,10 +945,10 @@ unsafe extern "C" fn send_msg_all(mut from: uint32_t, mut msg: sched_msg_t, mut 
 }
 #[c2rust::src_loc = "233:1"]
 unsafe extern "C" fn signal_suspended_threads(
-    mut sched_count: uint32_t,
+    mut sched_count: u32,
     mut curr_sched_id: int32_t,
 ) {
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < sched_count {
         if i as int32_t != curr_sched_id {
             ponyint_thread_wake(
@@ -989,7 +961,7 @@ unsafe extern "C" fn signal_suspended_threads(
 }
 #[c2rust::src_loc = "246:1"]
 unsafe extern "C" fn wake_suspended_threads(mut current_scheduler_id: int32_t) {
-    let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
+    let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     loop {
         current_active_scheduler_count = get_active_scheduler_count();
         if !(current_active_scheduler_count < scheduler_count) {
@@ -1014,9 +986,9 @@ unsafe extern "C" fn maybe_start_cnf_ack_cycle(mut sched: *mut scheduler_t) {
     if detect_quiescence.load(Relaxed) && (*sched).block_count >= get_active_scheduler_count() {
         let ref mut fresh0 = (*sched).ack_token;
         *fresh0 += 1;
-        (*sched).ack_count = 0 as libc::c_int as uint32_t;
+        (*sched).ack_count = 0 as libc::c_int as u32;
         send_msg_all_active(
-            (*sched).index as uint32_t,
+            (*sched).index as u32,
             SCHED_CNF,
             (*sched).ack_token as intptr_t,
         );
@@ -1034,7 +1006,7 @@ unsafe extern "C" fn handle_sched_unblock(mut sched: *mut scheduler_t) {
     *fresh2 = (*fresh2).wrapping_sub(1);
     let ref mut fresh3 = (*sched).ack_token;
     *fresh3 += 1;
-    (*sched).ack_count = 0 as libc::c_int as uint32_t;
+    (*sched).ack_count = 0 as libc::c_int as u32;
 }
 #[c2rust::src_loc = "345:1"]
 unsafe extern "C" fn read_msg(mut sched: *mut scheduler_t) -> bool {
@@ -1057,8 +1029,8 @@ unsafe extern "C" fn read_msg(mut sched: *mut scheduler_t) -> bool {
             }
             30 => {
                 send_msg(
-                    (*sched).index as uint32_t,
-                    0 as libc::c_int as uint32_t,
+                    (*sched).index as u32,
+                    0 as libc::c_int as u32,
                     SCHED_ACK,
                     (*m).i,
                 );
@@ -1091,32 +1063,32 @@ unsafe extern "C" fn read_msg(mut sched: *mut scheduler_t) -> bool {
 #[c2rust::src_loc = "449:1"]
 unsafe extern "C" fn quiescent(
     mut sched: *mut scheduler_t,
-    mut tsc: uint64_t,
-    mut tsc2: uint64_t,
+    mut tsc: u64,
+    mut tsc2: u64,
 ) -> bool {
     if (*sched).terminate {
         return 1 as libc::c_int != 0;
     }
-    let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
+    let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     if (*sched).ack_count >= current_active_scheduler_count {
         pause_cycle_detection = 1 as libc::c_int != 0;
         if (*sched).asio_stoppable as libc::c_int != 0 && ponyint_asio_stop() as libc::c_int != 0 {
             send_msg_all(
-                (*sched).index as uint32_t,
+                (*sched).index as u32,
                 SCHED_TERMINATE,
                 0 as libc::c_int as intptr_t,
             );
             wake_suspended_threads((*sched).index);
             let ref mut fresh5 = (*sched).ack_token;
             *fresh5 += 1;
-            (*sched).ack_count = 0 as libc::c_int as uint32_t;
+            (*sched).ack_count = 0 as libc::c_int as u32;
         } else if ponyint_asio_stoppable() {
             (*sched).asio_stoppable = 1 as libc::c_int != 0;
             let ref mut fresh6 = (*sched).ack_token;
             *fresh6 += 1;
-            (*sched).ack_count = 0 as libc::c_int as uint32_t;
+            (*sched).ack_count = 0 as libc::c_int as u32;
             send_msg_all_active(
-                (*sched).index as uint32_t,
+                (*sched).index as u32,
                 SCHED_CNF,
                 (*sched).ack_token as intptr_t,
             );
@@ -1134,7 +1106,7 @@ unsafe extern "C" fn choose_victim(mut sched: *mut scheduler_t) -> *mut schedule
     let mut victim: *mut scheduler_t = (*sched).last_victim;
     loop {
         victim = victim.offset(-1);
-        let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
+        let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
         if victim < scheduler {
             victim = &mut *scheduler.offset(
                 current_active_scheduler_count.wrapping_sub(1 as libc::c_int as libc::c_uint)
@@ -1161,15 +1133,15 @@ unsafe extern "C" fn choose_victim(mut sched: *mut scheduler_t) -> *mut schedule
 #[c2rust::src_loc = "556:1"]
 unsafe extern "C" fn suspend_scheduler(
     mut sched: *mut scheduler_t,
-    mut current_active_scheduler_count: uint32_t,
+    mut current_active_scheduler_count: u32,
 ) -> *mut pony_actor_t {
     let mut actor: *mut pony_actor_t = 0 as *mut pony_actor_t;
-    let mut sched_count: uint32_t = get_active_scheduler_count();
+    let mut sched_count: u32 = get_active_scheduler_count();
     if sched_count != current_active_scheduler_count {
         return actor;
     }
     active_scheduler_count.store(sched_count.wrapping_sub(1), Relaxed);
-    let mut sched_count_check: uint32_t = get_active_scheduler_count_check();
+    let mut sched_count_check: u32 = get_active_scheduler_count_check();
     active_scheduler_count_check.store(sched_count_check.wrapping_sub(1), Relaxed);
     if sched_count == sched_count_check {
     } else {
@@ -1184,8 +1156,8 @@ unsafe extern "C" fn suspend_scheduler(
     };
     if (*sched).index != 0 as libc::c_int {
         send_msg(
-            (*sched).index as uint32_t,
-            0 as libc::c_int as uint32_t,
+            (*sched).index as u32,
+            0 as libc::c_int as u32,
             SCHED_SUSPEND,
             0 as libc::c_int as intptr_t,
         );
@@ -1195,7 +1167,7 @@ unsafe extern "C" fn suspend_scheduler(
         1 as libc::c_int,
         b"(uintptr_t)sched\0" as *const u8 as *const libc::c_char,
     );
-    while get_active_scheduler_count() <= (*sched).index as uint32_t {
+    while get_active_scheduler_count() <= (*sched).index as u32 {
         if (*sched).index == 0 as libc::c_int {
             actor = pop_global(0 as *mut scheduler_t);
             if !actor.is_null() {
@@ -1220,7 +1192,7 @@ unsafe extern "C" fn suspend_scheduler(
     );
     sched_count = get_active_scheduler_count();
     if sched_count == 0 as libc::c_int as libc::c_uint {
-        sched_count = 1 as libc::c_int as uint32_t;
+        sched_count = 1 as libc::c_int as u32;
         active_scheduler_count.store(sched_count, Relaxed);
     }
     sched_count_check = get_active_scheduler_count_check();
@@ -1230,9 +1202,9 @@ unsafe extern "C" fn suspend_scheduler(
 #[c2rust::src_loc = "711:1"]
 unsafe extern "C" fn perhaps_suspend_scheduler(
     mut sched: *mut scheduler_t,
-    mut current_active_scheduler_count: uint32_t,
+    mut current_active_scheduler_count: u32,
     mut block_sent: *mut bool,
-    mut steal_attempts: *mut uint32_t,
+    mut steal_attempts: *mut u32,
     mut sched_is_blocked: bool,
 ) -> *mut pony_actor_t {
     if current_active_scheduler_count > min_scheduler_count
@@ -1254,8 +1226,8 @@ unsafe extern "C" fn perhaps_suspend_scheduler(
                     handle_sched_unblock(sched);
                 } else {
                     send_msg(
-                        (*sched).index as uint32_t,
-                        0 as libc::c_int as uint32_t,
+                        (*sched).index as u32,
+                        0 as libc::c_int as u32,
                         SCHED_UNBLOCK,
                         0 as libc::c_int as intptr_t,
                     );
@@ -1263,7 +1235,7 @@ unsafe extern "C" fn perhaps_suspend_scheduler(
                 *block_sent = 0 as libc::c_int != 0;
             }
             actor = suspend_scheduler(sched, current_active_scheduler_count);
-            *steal_attempts = 0 as libc::c_int as uint32_t;
+            *steal_attempts = 0 as libc::c_int as u32;
         } else {
             if (*sched).index == 0 as libc::c_int {
             } else {
@@ -1306,8 +1278,8 @@ unsafe extern "C" fn perhaps_suspend_scheduler(
 #[c2rust::src_loc = "789:1"]
 unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
     let mut block_sent: bool = 0 as libc::c_int != 0;
-    let mut steal_attempts: uint32_t = 0 as libc::c_int as uint32_t;
-    let mut tsc: uint64_t = ponyint_cpu_tick();
+    let mut steal_attempts: u32 = 0 as libc::c_int as u32;
+    let mut tsc: u64 = ponyint_cpu_tick();
     let mut actor: *mut pony_actor_t = 0 as *mut pony_actor_t;
     let mut victim: *mut scheduler_t = 0 as *mut scheduler_t;
     loop {
@@ -1316,7 +1288,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
         if !actor.is_null() {
             break;
         }
-        let mut tsc2: uint64_t = ponyint_cpu_tick();
+        let mut tsc2: u64 = ponyint_cpu_tick();
         if read_msg(sched) {
             actor = pop_global(sched);
             if !actor.is_null() {
@@ -1332,10 +1304,10 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
             );
             return 0 as *mut pony_actor_t;
         }
-        let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
-        let mut clocks_elapsed: uint64_t = tsc2.wrapping_sub(tsc);
+        let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
+        let mut clocks_elapsed: u64 = tsc2.wrapping_sub(tsc);
         if !block_sent {
-            if current_active_scheduler_count > (*sched).index as uint32_t {
+            if current_active_scheduler_count > (*sched).index as u32 {
             } else {
                 ponyint_assert_fail(
                     b"current_active_scheduler_count > (uint32_t)sched->index\0" as *const u8
@@ -1370,8 +1342,8 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
                         handle_sched_block(sched);
                     } else {
                         send_msg(
-                            (*sched).index as uint32_t,
-                            0 as libc::c_int as uint32_t,
+                            (*sched).index as u32,
+                            0 as libc::c_int as u32,
                             SCHED_BLOCK,
                             0 as libc::c_int as intptr_t,
                         );
@@ -1380,7 +1352,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
                 }
             }
         } else {
-            if current_active_scheduler_count > (*sched).index as uint32_t {
+            if current_active_scheduler_count > (*sched).index as u32 {
             } else {
                 ponyint_assert_fail(
                     b"current_active_scheduler_count > (uint32_t)sched->index\0" as *const u8
@@ -1410,7 +1382,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
         {
             continue;
         }
-        let mut current_tsc: uint64_t = ponyint_cpu_tick();
+        let mut current_tsc: u64 = ponyint_cpu_tick();
         if !ponyint_cycle_check_blocked(last_cd_tsc, current_tsc) {
             continue;
         }
@@ -1425,8 +1397,8 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
             handle_sched_unblock(sched);
         } else {
             send_msg(
-                (*sched).index as uint32_t,
-                0 as libc::c_int as uint32_t,
+                (*sched).index as u32,
+                0 as libc::c_int as u32,
                 SCHED_UNBLOCK,
                 0 as libc::c_int as intptr_t,
             );
@@ -1445,7 +1417,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
 unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
     if (*sched).index == 0 as libc::c_int {
         pause_cycle_detection = 0 as libc::c_int != 0;
-        last_cd_tsc = 0 as libc::c_int as uint64_t;
+        last_cd_tsc = 0 as libc::c_int as u64;
     }
     let mut actor: *mut pony_actor_t = pop_global(sched);
     if macro__DTRACE_ENABLED(b"ACTOR_SCHEDULED\0" as *const u8 as *const libc::c_char)
@@ -1464,7 +1436,7 @@ unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
         if (*sched).index == 0 as libc::c_int {
             if !ponyint_actor_getnoblock() {
                 if !pause_cycle_detection {
-                    let mut current_tsc: uint64_t = ponyint_cpu_tick();
+                    let mut current_tsc: u64 = ponyint_cpu_tick();
                     if ponyint_cycle_check_blocked(last_cd_tsc, current_tsc) {
                         last_cd_tsc = current_tsc;
                         if actor.is_null() {
@@ -1473,8 +1445,8 @@ unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
                     }
                 }
             }
-            let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
-            let mut current_active_scheduler_count_check: uint32_t =
+            let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
+            let mut current_active_scheduler_count_check: u32 =
                 get_active_scheduler_count_check();
             if current_active_scheduler_count != current_active_scheduler_count_check {
                 signal_suspended_threads(current_active_scheduler_count, (*sched).index);
@@ -1569,9 +1541,9 @@ unsafe extern "C" fn run_thread(mut arg: *mut libc::c_void) -> *mut libc::c_void
 }
 #[c2rust::src_loc = "1133:1"]
 unsafe extern "C" fn ponyint_sched_shutdown() {
-    let mut start: uint32_t = 0;
-    start = 0 as libc::c_int as uint32_t;
-    let mut i: uint32_t = start;
+    let mut start: u32 = 0;
+    start = 0 as libc::c_int as u32;
+    let mut i: u32 = start;
     while i < scheduler_count {
         ponyint_thread_join((*scheduler.offset(i as isize)).tid);
         i = i.wrapping_add(1);
@@ -1581,7 +1553,7 @@ unsafe extern "C" fn ponyint_sched_shutdown() {
         0 as libc::c_int,
     );
     ponyint_cycle_terminate();
-    let mut i_0: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i_0: u32 = 0 as libc::c_int as u32;
     while i_0 < scheduler_count {
         while !(ponyint_thread_messageq_pop(&mut (*scheduler.offset(i_0 as isize)).mq)).is_null() {}
         ponyint_messageq_destroy(
@@ -1605,25 +1577,25 @@ unsafe extern "C" fn ponyint_sched_shutdown() {
     );
     scheduler = 0 as *mut scheduler_t;
     inject_context = 0 as *mut pony_ctx_t;
-    scheduler_count = 0 as libc::c_int as uint32_t;
+    scheduler_count = 0 as libc::c_int as u32;
     active_scheduler_count.store(0, Relaxed);
     ponyint_mpmcq_destroy(&mut inject);
 }
 #[no_mangle]
 #[c2rust::src_loc = "1185:1"]
 pub unsafe extern "C" fn ponyint_sched_init(
-    mut threads: uint32_t,
+    mut threads: u32,
     mut noyield: bool,
     mut pin: bool,
     mut pinasio: bool,
-    mut min_threads: uint32_t,
-    mut thread_suspend_threshold: uint32_t,
-    mut _stats_interval: uint32_t,
+    mut min_threads: u32,
+    mut thread_suspend_threshold: u32,
+    mut _stats_interval: u32,
 ) -> *mut pony_ctx_t {
     pony_register_thread();
     use_yield = !noyield;
     if thread_suspend_threshold < 1 as libc::c_int as libc::c_uint {
-        thread_suspend_threshold = 1 as libc::c_int as uint32_t;
+        thread_suspend_threshold = 1 as libc::c_int as u32;
     }
     if threads == 0 as libc::c_int as libc::c_uint {
         threads = ponyint_cpu_count();
@@ -1632,7 +1604,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
         min_threads = threads;
     }
     scheduler_suspend_threshold =
-        thread_suspend_threshold.wrapping_mul(1000000 as libc::c_int as libc::c_uint) as uint64_t;
+        thread_suspend_threshold.wrapping_mul(1000000 as libc::c_int as libc::c_uint) as u64;
     scheduler_count = threads;
     min_scheduler_count = min_threads;
     active_scheduler_count.store(scheduler_count, Relaxed);
@@ -1647,7 +1619,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
         (scheduler_count as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<scheduler_t>() as libc::c_ulong),
     );
-    let mut asio_cpu: uint32_t = ponyint_cpu_assign(scheduler_count, scheduler, pin, pinasio);
+    let mut asio_cpu: u32 = ponyint_cpu_assign(scheduler_count, scheduler, pin, pinasio);
     pthread_once(
         &mut sched_mut_once,
         ::core::mem::transmute::<
@@ -1658,7 +1630,7 @@ pub unsafe extern "C" fn ponyint_sched_init(
             unsafe extern "C" fn() -> (),
         >(sched_mut_init))),
     );
-    let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i: u32 = 0 as libc::c_int as u32;
     while i < scheduler_count {
         let ref mut fresh11 = (*scheduler.offset(i as isize)).sleep_object;
         *fresh11 = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut pthread_cond_t;
@@ -1701,8 +1673,8 @@ pub unsafe extern "C" fn ponyint_sched_start(mut library: bool) -> bool {
         b"RT_START\0" as *const u8 as *const libc::c_char,
         0 as libc::c_int,
     );
-    let mut start: uint32_t = 0 as libc::c_int as uint32_t;
-    let mut i: uint32_t = start;
+    let mut start: u32 = 0 as libc::c_int as u32;
+    let mut i: u32 = start;
     while i < scheduler_count {
         if ((*scheduler.offset(i as isize)).sleep_object).is_null() {
             return 0 as libc::c_int != 0;
@@ -1750,17 +1722,17 @@ pub unsafe extern "C" fn pony_scheduler_index() -> int32_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1370:1"]
-pub unsafe extern "C" fn pony_schedulers() -> uint32_t {
+pub unsafe extern "C" fn pony_schedulers() -> u32 {
     scheduler_count
 }
 #[no_mangle]
 #[c2rust::src_loc = "1375:1"]
-pub unsafe extern "C" fn pony_active_schedulers() -> uint32_t {
+pub unsafe extern "C" fn pony_active_schedulers() -> u32 {
     get_active_scheduler_count()
 }
 #[no_mangle]
 #[c2rust::src_loc = "1380:1"]
-pub unsafe extern "C" fn pony_min_schedulers() -> uint32_t {
+pub unsafe extern "C" fn pony_min_schedulers() -> u32 {
     min_scheduler_count
 }
 #[no_mangle]
@@ -1816,7 +1788,7 @@ pub unsafe extern "C" fn pony_ctx() -> *mut pony_ctx_t {
 #[c2rust::src_loc = "1420:1"]
 pub unsafe extern "C" fn ponyint_sched_noisy_asio(mut from: int32_t) {
     send_msg_all(
-        from as uint32_t,
+        from as u32,
         SCHED_NOISY_ASIO,
         0 as libc::c_int as intptr_t,
     );
@@ -1825,7 +1797,7 @@ pub unsafe extern "C" fn ponyint_sched_noisy_asio(mut from: int32_t) {
 #[c2rust::src_loc = "1426:1"]
 pub unsafe extern "C" fn ponyint_sched_unnoisy_asio(mut from: int32_t) {
     send_msg_all(
-        from as uint32_t,
+        from as u32,
         SCHED_UNNOISY_ASIO,
         0 as libc::c_int as intptr_t,
     );
@@ -1835,7 +1807,7 @@ pub unsafe extern "C" fn ponyint_sched_unnoisy_asio(mut from: int32_t) {
 pub unsafe extern "C" fn ponyint_sched_maybe_wakeup_if_all_asleep(
     mut current_scheduler_id: int32_t,
 ) {
-    let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
+    let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     loop {
         current_active_scheduler_count = get_active_scheduler_count();
         if !(current_active_scheduler_count == 0 as libc::c_int as libc::c_uint) {
@@ -1858,7 +1830,7 @@ pub unsafe extern "C" fn ponyint_sched_get_inject_context() -> *mut pony_ctx_t {
 #[no_mangle]
 #[c2rust::src_loc = "1467:1"]
 pub unsafe extern "C" fn ponyint_sched_maybe_wakeup(mut current_scheduler_id: int32_t) {
-    let mut current_active_scheduler_count: uint32_t = get_active_scheduler_count();
+    let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     if current_active_scheduler_count < scheduler_count
         && pthread_mutex_trylock(&mut sched_mut) == 0
     {
@@ -1920,7 +1892,7 @@ pub unsafe extern "C" fn ponyint_sched_mute(
 #[no_mangle]
 #[c2rust::src_loc = "1594:1"]
 pub unsafe extern "C" fn ponyint_sched_start_global_unmute(
-    mut from: uint32_t,
+    mut from: u32,
     mut actor: *mut pony_actor_t,
 ) {
     send_msg_all_active(from, SCHED_UNMUTE_ACTOR, actor as intptr_t);
@@ -2006,7 +1978,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
                 b"(uintptr_t)to_unmute\0" as *const u8 as *const libc::c_char,
             );
             actors_rescheduled = actors_rescheduled.wrapping_add(1);
-            ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as uint32_t, to_unmute);
+            ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as u32, to_unmute);
         }
     }
     return actors_rescheduled > 0 as libc::c_int as libc::c_ulong;

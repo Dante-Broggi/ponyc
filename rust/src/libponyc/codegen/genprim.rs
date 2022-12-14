@@ -1,14 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
@@ -304,7 +294,6 @@ pub mod Core_h {
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
     use super::_size_t_h::size_t;
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "589:1"]
         pub fn LLVMGetEnumAttributeKindForName(
@@ -315,7 +304,7 @@ pub mod Core_h {
         pub fn LLVMCreateEnumAttribute(
             C: LLVMContextRef,
             KindID: libc::c_uint,
-            Val: uint64_t,
+            Val: u64,
         ) -> LLVMAttributeRef;
         #[c2rust::src_loc = "877:1"]
         pub fn LLVMGetInlineAsm(
@@ -1385,7 +1374,7 @@ pub mod reach_h {
         pub cap: token_id,
         pub fun: *mut deferred_reification_t,
         pub typeargs: *mut ast_t,
-        pub vtable_index: uint32_t,
+        pub vtable_index: u32,
         pub intrinsic: bool,
         pub internal: bool,
         pub forwarding: bool,
@@ -1415,11 +1404,11 @@ pub mod reach_h {
         pub methods: reach_method_names_t,
         pub bare_method: *mut reach_method_t,
         pub subtypes: reach_type_cache_t,
-        pub type_id: uint32_t,
-        pub vtable_size: uint32_t,
+        pub type_id: u32,
+        pub vtable_size: u32,
         pub can_be_boxed: bool,
         pub is_trait: bool,
-        pub field_count: uint32_t,
+        pub field_count: u32,
         pub fields: *mut reach_field_t,
         pub c_type: *mut compile_opaque_t,
     }
@@ -1487,14 +1476,13 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::pass_h::pass_opt_t;
     use super::reify_h::deferred_reification_t;
@@ -1647,7 +1635,7 @@ pub mod codegen_h {
         pub str__serialise_space: *const libc::c_char,
         pub str__serialise: *const libc::c_char,
         pub str__deserialise: *const libc::c_char,
-        pub trait_bitmap_size: uint32_t,
+        pub trait_bitmap_size: u32,
         pub callconv: LLVMCallConv,
         pub linkage: LLVMLinkage,
         pub context: LLVMContextRef,
@@ -1704,7 +1692,6 @@ pub mod codegen_h {
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_uint32_t_h::uint32_t;
     extern "C" {
         #[c2rust::src_loc = "26:1"]
         pub fn LLVMConstNaN(type_0: LLVMTypeRef) -> LLVMValueRef;
@@ -2015,8 +2002,6 @@ pub mod ponyassert_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::assemble_h::type_builtin;
 pub use self::ast_h::{
     ast_child, ast_childidx, ast_data, ast_free_unattached, ast_get, ast_get_children, ast_id,
@@ -2330,14 +2315,14 @@ unsafe extern "C" fn pointer_alloc(
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     noalias_attr =
-        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
         (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
-    deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as uint64_t);
+    deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"align\0" as *const u8 as *const libc::c_char,
@@ -2347,7 +2332,7 @@ unsafe extern "C" fn pointer_alloc(
     align_attr = LLVMCreateEnumAttribute(
         (*c).context,
         align_attr_id,
-        ((1 as libc::c_int) << 5 as libc::c_int) as uint64_t,
+        ((1 as libc::c_int) << 5 as libc::c_int) as u64,
     );
     LLVMAddAttributeAtIndex(
         (*c_m).func,
@@ -2426,14 +2411,14 @@ unsafe extern "C" fn pointer_realloc(
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     noalias_attr =
-        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
         (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
-    deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as uint64_t);
+    deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"align\0" as *const u8 as *const libc::c_char,
@@ -2443,7 +2428,7 @@ unsafe extern "C" fn pointer_realloc(
     align_attr = LLVMCreateEnumAttribute(
         (*c).context,
         align_attr_id,
-        ((1 as libc::c_int) << 5 as libc::c_int) as uint64_t,
+        ((1 as libc::c_int) << 5 as libc::c_int) as u64,
     );
     LLVMAddAttributeAtIndex(
         (*c_m).func,
@@ -3341,7 +3326,7 @@ unsafe extern "C" fn donotoptimise_apply(
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     nounwind_attr =
-        LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut readonly_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readonly_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readonly\0" as *const u8 as *const libc::c_char,
@@ -3349,7 +3334,7 @@ unsafe extern "C" fn donotoptimise_apply(
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     readonly_attr =
-        LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
@@ -3359,7 +3344,7 @@ unsafe extern "C" fn donotoptimise_apply(
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
         inacc_or_arg_mem_attr_id,
-        0 as libc::c_int as uint64_t,
+        0 as libc::c_int as u64,
     );
     LLVMAddCallSiteAttribute(
         call,
@@ -3428,7 +3413,7 @@ unsafe extern "C" fn donotoptimise_observe(
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
     nounwind_attr =
-        LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as uint64_t);
+        LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
@@ -3438,7 +3423,7 @@ unsafe extern "C" fn donotoptimise_observe(
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
         inacc_or_arg_mem_attr_id,
-        0 as libc::c_int as uint64_t,
+        0 as libc::c_int as u64,
     );
     LLVMAddCallSiteAttribute(
         call,
@@ -5091,8 +5076,8 @@ unsafe extern "C" fn handle_nan(
     mut c: *mut compile_t,
     mut arg: LLVMValueRef,
     mut int_type: LLVMTypeRef,
-    mut exp: uint64_t,
-    mut mantissa: uint64_t,
+    mut exp: u64,
+    mut mantissa: u64,
 ) -> LLVMBasicBlockRef {
     let mut nan: LLVMBasicBlockRef = codegen_block(c, b"\0" as *const u8 as *const libc::c_char);
     let mut non_nan: LLVMBasicBlockRef =
@@ -5237,8 +5222,8 @@ unsafe extern "C" fn f32_to_si_saturation(
         c,
         arg,
         (*c).i32_0,
-        0x7f800000 as libc::c_int as uint64_t,
-        0x7fffff as libc::c_int as uint64_t,
+        0x7f800000 as libc::c_int as u64,
+        0x7fffff as libc::c_int as u64,
     );
     LLVMBuildRet((*c).builder, LLVMConstNull((*to).type_0));
     LLVMPositionBuilderAtEnd((*c).builder, test_overflow);
@@ -5284,8 +5269,8 @@ unsafe extern "C" fn f64_to_si_saturation(
         c,
         arg,
         (*c).i64_0,
-        0x7ff0000000000000 as libc::c_long as uint64_t,
-        0xfffffffffffff as libc::c_long as uint64_t,
+        0x7ff0000000000000 as libc::c_long as u64,
+        0xfffffffffffff as libc::c_long as u64,
     );
     LLVMBuildRet((*c).builder, LLVMConstNull((*to).type_0));
     LLVMPositionBuilderAtEnd((*c).builder, test_overflow);
@@ -5331,8 +5316,8 @@ unsafe extern "C" fn f32_to_ui_saturation(
         c,
         arg,
         (*c).i32_0,
-        0x7f800000 as libc::c_int as uint64_t,
-        0x7fffff as libc::c_int as uint64_t,
+        0x7f800000 as libc::c_int as u64,
+        0x7fffff as libc::c_int as u64,
     );
     LLVMBuildRet((*c).builder, LLVMConstNull((*to).type_0));
     LLVMPositionBuilderAtEnd((*c).builder, test_overflow);
@@ -5361,8 +5346,8 @@ unsafe extern "C" fn f32_to_u128_saturation(
         c,
         arg,
         (*c).i32_0,
-        0x7f800000 as libc::c_int as uint64_t,
-        0x7fffff as libc::c_int as uint64_t,
+        0x7f800000 as libc::c_int as u64,
+        0x7fffff as libc::c_int as u64,
     );
     LLVMBuildRet((*c).builder, LLVMConstNull((*c).i128_0));
     LLVMPositionBuilderAtEnd((*c).builder, test_overflow);
@@ -5421,8 +5406,8 @@ unsafe extern "C" fn f64_to_ui_saturation(
         c,
         arg,
         (*c).i64_0,
-        0x7ff0000000000000 as libc::c_long as uint64_t,
-        0xfffffffffffff as libc::c_long as uint64_t,
+        0x7ff0000000000000 as libc::c_long as u64,
+        0xfffffffffffff as libc::c_long as u64,
     );
     LLVMBuildRet((*c).builder, LLVMConstNull((*to).type_0));
     LLVMPositionBuilderAtEnd((*c).builder, test_overflow);
@@ -5451,8 +5436,8 @@ unsafe extern "C" fn f64_to_f32_saturation(
         c,
         arg,
         (*c).i64_0,
-        0x7ff0000000000000 as libc::c_long as uint64_t,
-        0xfffffffffffff as libc::c_long as uint64_t,
+        0x7ff0000000000000 as libc::c_long as u64,
+        0xfffffffffffff as libc::c_long as u64,
     );
     LLVMBuildRet((*c).builder, LLVMConstNaN((*c).f32_0));
     let mut overflow: LLVMBasicBlockRef =

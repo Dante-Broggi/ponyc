@@ -1,19 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:1"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
@@ -96,10 +81,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -109,7 +94,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -123,8 +108,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "105:1"]
@@ -154,7 +139,6 @@ pub mod pony_h {
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::source_h::pony_type_t;
     extern "C" {
@@ -865,17 +849,15 @@ pub mod blake2_h {
     #[repr(C)]
     #[c2rust::src_loc = "40:18"]
     pub struct blake2b_state__ {
-        pub h: [uint64_t; 8],
-        pub t: [uint64_t; 2],
-        pub f: [uint64_t; 2],
-        pub buf: [uint8_t; 128],
+        pub h: [u64; 8],
+        pub t: [u64; 2],
+        pub f: [u64; 2],
+        pub buf: [u8; 128],
         pub buflen: size_t,
         pub outlen: size_t,
-        pub last_node: uint8_t,
+        pub last_node: u8,
     }
     use super::_size_t_h::size_t;
-    use super::_uint64_t_h::uint64_t;
-    use super::_uint8_t_h::uint8_t;
     extern "C" {
         #[c2rust::src_loc = "75:3"]
         pub fn blake2b_init(S: *mut blake2b_state, outlen: size_t) -> libc::c_int;
@@ -999,9 +981,6 @@ pub mod string_h {
 pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 use self::ast_h::{ast_child, ast_data, ast_error, ast_id, ast_nearest};
 pub use self::blake2_h::{
@@ -1080,7 +1059,7 @@ pub use self::token_h::{
 pub struct program_t {
     pub package_groups: *mut package_group_list_t,
     pub signature: *mut libc::c_char,
-    pub next_package_id: uint32_t,
+    pub next_package_id: u32,
     pub libpaths: *mut strlist_t,
     pub libs: *mut strlist_t,
     pub lib_args_size: size_t,
@@ -1143,7 +1122,7 @@ pub unsafe extern "C" fn program_create() -> *mut program_t {
     *fresh1 = 0 as *mut package_group_list_t;
     let ref mut fresh2 = (*p).signature;
     *fresh2 = 0 as *mut libc::c_char;
-    (*p).next_package_id = 0 as libc::c_int as uint32_t;
+    (*p).next_package_id = 0 as libc::c_int as u32;
     let ref mut fresh3 = (*p).libpaths;
     *fresh3 = 0 as *mut strlist_t;
     let ref mut fresh4 = (*p).libs;
@@ -1185,7 +1164,7 @@ pub unsafe extern "C" fn program_free(mut program: *mut program_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "83:1"]
-pub unsafe extern "C" fn program_assign_pkg_id(mut ast: *mut ast_t) -> uint32_t {
+pub unsafe extern "C" fn program_assign_pkg_id(mut ast: *mut ast_t) -> u32 {
     if !ast.is_null() {
     } else {
         ponyint_assert_fail(
@@ -1864,10 +1843,10 @@ unsafe extern "C" fn program_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
 static mut program_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<program_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<program_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -1892,7 +1871,7 @@ static mut program_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,

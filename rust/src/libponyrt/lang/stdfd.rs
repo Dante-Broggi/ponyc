@@ -2,15 +2,15 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "46:1"]
     pub type __int32_t = libc::c_int;
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
     #[c2rust::src_loc = "121:1"]
     pub type __darwin_ssize_t = libc::c_long;
     #[c2rust::src_loc = "122:1"]
@@ -25,15 +25,15 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "57:1"]
     pub type __darwin_dev_t = __int32_t;
     #[c2rust::src_loc = "60:1"]
-    pub type __darwin_gid_t = __uint32_t;
+    pub type __darwin_gid_t = u32;
     #[c2rust::src_loc = "62:1"]
-    pub type __darwin_ino64_t = __uint64_t;
+    pub type __darwin_ino64_t = u64;
     #[c2rust::src_loc = "70:1"]
-    pub type __darwin_mode_t = __uint16_t;
+    pub type __darwin_mode_t = u16;
     #[c2rust::src_loc = "71:1"]
     pub type __darwin_off_t = __int64_t;
     #[c2rust::src_loc = "75:1"]
-    pub type __darwin_uid_t = __uint32_t;
+    pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t};
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
@@ -97,8 +97,7 @@ pub mod _gid_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_nlink_t.h:1"]
 pub mod _nlink_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type nlink_t = __uint16_t;
-    use super::_types_h::__uint16_t;
+    pub type nlink_t = u16;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
 pub mod _ssize_t_h {
@@ -126,8 +125,8 @@ pub mod stat_h {
         pub st_size: off_t,
         pub st_blocks: blkcnt_t,
         pub st_blksize: blksize_t,
-        pub st_flags: __uint32_t,
-        pub st_gen: __uint32_t,
+        pub st_flags: u32,
+        pub st_gen: u32,
         pub st_lspare: __int32_t,
         pub st_qspare: [__int64_t; 2],
     }

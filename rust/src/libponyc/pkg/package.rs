@@ -9,25 +9,20 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "43:1"]
-    pub type __uint8_t = libc::c_uchar;
+    pub type __uint8_t = u8;
     #[c2rust::src_loc = "45:1"]
-    pub type __uint16_t = libc::c_ushort;
+    pub type __uint16_t = u16;
     #[c2rust::src_loc = "46:1"]
     pub type __int32_t = libc::c_int;
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "49:1"]
-    pub type __uint64_t = libc::c_ulonglong;
+    pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
     pub type __darwin_size_t = libc::c_ulong;
     #[c2rust::src_loc = "121:1"]
@@ -44,15 +39,15 @@ pub mod sys__types_h {
     #[c2rust::src_loc = "57:1"]
     pub type __darwin_dev_t = __int32_t;
     #[c2rust::src_loc = "60:1"]
-    pub type __darwin_gid_t = __uint32_t;
+    pub type __darwin_gid_t = u32;
     #[c2rust::src_loc = "62:1"]
-    pub type __darwin_ino64_t = __uint64_t;
+    pub type __darwin_ino64_t = u64;
     #[c2rust::src_loc = "70:1"]
-    pub type __darwin_mode_t = __uint16_t;
+    pub type __darwin_mode_t = u16;
     #[c2rust::src_loc = "71:1"]
     pub type __darwin_off_t = __int64_t;
     #[c2rust::src_loc = "75:1"]
-    pub type __darwin_uid_t = __uint32_t;
+    pub type __darwin_uid_t = u32;
     use super::_types_h::{__int32_t, __int64_t, __uint16_t, __uint32_t, __uint64_t};
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:1"]
@@ -140,11 +135,11 @@ pub mod sys_dirent_h {
     #[repr(C)]
     #[c2rust::src_loc = "112:8"]
     pub struct dirent {
-        pub d_ino: __uint64_t,
-        pub d_seekoff: __uint64_t,
-        pub d_reclen: __uint16_t,
-        pub d_namlen: __uint16_t,
-        pub d_type: __uint8_t,
+        pub d_ino: u64,
+        pub d_seekoff: u64,
+        pub d_reclen: u16,
+        pub d_namlen: u16,
+        pub d_type: u8,
         pub d_name: [libc::c_char; 1024],
     }
     use super::_types_h::{__uint16_t, __uint64_t, __uint8_t};
@@ -211,8 +206,7 @@ pub mod _gid_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_nlink_t.h:1"]
 pub mod _nlink_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type nlink_t = __uint16_t;
-    use super::_types_h::__uint16_t;
+    pub type nlink_t = u16;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
 pub mod _ssize_t_h {
@@ -240,8 +234,8 @@ pub mod stat_h {
         pub st_size: off_t,
         pub st_blocks: blkcnt_t,
         pub st_blksize: blksize_t,
-        pub st_flags: __uint32_t,
-        pub st_gen: __uint32_t,
+        pub st_flags: u32,
+        pub st_gen: u32,
         pub st_lspare: __int32_t,
         pub st_qspare: [__int64_t; 2],
     }
@@ -284,10 +278,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -297,7 +291,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -311,8 +305,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "105:1"]
@@ -342,7 +336,6 @@ pub mod pony_h {
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed_0 = 0;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::scheduler_h::pony_ctx_t;
     extern "C" {
@@ -394,17 +387,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -413,7 +406,6 @@ pub mod scheduler_h {
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
     use super::messageq_h::messageq_t;
@@ -1541,7 +1533,6 @@ pub mod ast_h {
     pub const AST_FLAG_CAN_ERROR: C2RustUnnamed_1 = 64;
     #[c2rust::src_loc = "31:3"]
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed_1 = 31;
-    use super::_uint32_t_h::uint32_t;
     use super::error_h::errors_t;
     use super::package_h::ast_t;
     use super::pony_h::pony_type_t;
@@ -1575,7 +1566,7 @@ pub mod ast_h {
             status: *mut sym_status_t,
         ) -> *mut ast_t;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "159:1"]
         pub fn ast_error(errors: *mut errors_t, ast: *mut ast_t, fmt: *const libc::c_char, _: ...);
         #[c2rust::src_loc = "122:1"]
@@ -1640,12 +1631,11 @@ pub mod stack_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/paths.h:1"]
 pub mod paths_h {
-    use super::_uint32_t_h::uint32_t;
     use super::dirent_h::DIR;
     use super::sys_dirent_h::dirent;
     extern "C" {
         #[c2rust::src_loc = "32:1"]
-        pub fn pony_opendir(path: *const libc::c_char, err: *mut uint32_t) -> *mut DIR;
+        pub fn pony_opendir(path: *const libc::c_char, err: *mut u32) -> *mut DIR;
         #[c2rust::src_loc = "34:1"]
         pub fn pony_realpath(
             path: *const libc::c_char,
@@ -1710,11 +1700,10 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/program.h:2"]
 pub mod program_h {
-    use super::_uint32_t_h::uint32_t;
     use super::package_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "20:1"]
-        pub fn program_assign_pkg_id(ast: *mut ast_t) -> uint32_t;
+        pub fn program_assign_pkg_id(ast: *mut ast_t) -> u32;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:10"]
@@ -1819,7 +1808,6 @@ pub use self::_types_h::{
     __uint32_t, __uint64_t, __uint8_t,
 };
 pub use self::_uid_t_h::uid_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actormap_h::actormap_t;
 pub use self::ast_h::{
@@ -2040,10 +2028,10 @@ pub unsafe extern "C" fn package_group_list_pony_type() -> *const pony_type_t {
 static mut package_group_list_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<package_group_list_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<package_group_list_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -2068,7 +2056,7 @@ static mut package_group_list_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2260,10 +2248,10 @@ pub unsafe extern "C" fn package_set_destroy(mut map: *mut package_set_t) {
 static mut package_set_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<package_set_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<package_set_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -2288,7 +2276,7 @@ static mut package_set_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2617,7 +2605,7 @@ unsafe extern "C" fn parse_files_in_dir(
     mut dir_path: *const libc::c_char,
     mut opt: *mut pass_opt_t,
 ) -> bool {
-    let mut err: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut err: u32 = 0 as libc::c_int as u32;
     let mut dir: *mut DIR = pony_opendir(dir_path, &mut err);
     let mut errors: *mut errors_t = (*opt).check.errors;
     if dir.is_null() {
@@ -2998,7 +2986,7 @@ pub unsafe extern "C" fn create_package(
     mut opt: *mut pass_opt_t,
 ) -> *mut ast_t {
     let mut package: *mut ast_t = ast_blank(TK_PACKAGE);
-    let mut pkg_id: uint32_t = program_assign_pkg_id(program);
+    let mut pkg_id: u32 = program_assign_pkg_id(program);
     let mut pkg: *mut package_t = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut package_t;
     let ref mut fresh3 = (*pkg).path;
     *fresh3 = name;
@@ -3560,7 +3548,7 @@ pub unsafe extern "C" fn package_load(
         return 0 as *mut ast_t;
     }
     if !ast_passes_subtree(&mut package, opt, (*opt).program_pass) {
-        ast_setflag(package, AST_FLAG_PRESERVE as libc::c_int as uint32_t);
+        ast_setflag(package, AST_FLAG_PRESERVE as libc::c_int as u32);
         return 0 as *mut ast_t;
     }
     return package;
@@ -4228,10 +4216,10 @@ unsafe extern "C" fn package_signature_serialise(
 static mut package_dep_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<package_signature_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<package_signature_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4253,7 +4241,7 @@ static mut package_dep_signature_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4270,10 +4258,10 @@ pub unsafe extern "C" fn package_dep_signature_pony_type() -> *const pony_type_t
 static mut package_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<package_signature_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<package_signature_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4295,7 +4283,7 @@ static mut package_signature_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4399,10 +4387,10 @@ unsafe extern "C" fn package_group_signature_serialise(
 static mut package_group_dep_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4424,7 +4412,7 @@ static mut package_group_dep_signature_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4441,10 +4429,10 @@ pub unsafe extern "C" fn package_group_dep_signature_pony_type() -> *const pony_
 static mut package_group_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4466,7 +4454,7 @@ static mut package_group_signature_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4711,10 +4699,10 @@ unsafe extern "C" fn package_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
 static mut package_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<package_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<package_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4739,7 +4727,7 @@ static mut package_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4823,10 +4811,10 @@ unsafe extern "C" fn package_group_deserialise(
 static mut package_group_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<package_group_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<package_group_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4851,7 +4839,7 @@ static mut package_group_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,

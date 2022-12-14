@@ -14,21 +14,6 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h:1"]
-pub mod _uint8_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint8_t = libc::c_uchar;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:1"]
 pub mod _pthread_types_h {
     #[derive(Copy, Clone)]
@@ -84,14 +69,13 @@ pub mod actor_h {
     pub struct pony_actor_t {
         pub type_0: *const pony_type_t,
         pub q: messageq_t,
-        pub sync_flags: uint8_t,
-        pub cycle_detector_critical: uint8_t,
+        pub sync_flags: u8,
+        pub cycle_detector_critical: u8,
         pub heap: heap_t,
         pub muted: size_t,
-        pub internal_flags: uint8_t,
+        pub internal_flags: u8,
         pub gc: gc_t,
     }
-    use super::_uint8_t_h::uint8_t;
     use super::gc_h::gc_t;
     use super::heap_h::heap_t;
     use super::messageq_h::messageq_t;
@@ -104,14 +88,13 @@ pub mod gc_h {
     #[repr(C)]
     #[c2rust::src_loc = "16:16"]
     pub struct gc_t {
-        pub mark: uint32_t,
-        pub rc_mark: uint32_t,
+        pub mark: u32,
+        pub rc_mark: u32,
         pub rc: size_t,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
     }
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
@@ -211,8 +194,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -221,10 +204,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -234,7 +217,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -262,7 +245,6 @@ pub mod pony_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::actor_h::pony_actor_t;
     use super::scheduler_h::pony_ctx_t;
@@ -305,17 +287,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -323,7 +305,6 @@ pub mod scheduler_h {
     use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actor_h::pony_actor_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
@@ -395,54 +376,52 @@ pub mod mutemap_h {
 pub mod platform_h {
     #[inline]
     #[c2rust::src_loc = "250:1"]
-    pub unsafe extern "C" fn __pony_popcount(mut x: uint32_t) -> uint32_t {
-        x.count_ones() as i32 as uint32_t
+    pub unsafe extern "C" fn __pony_popcount(mut x: u32) -> u32 {
+        x.count_ones() as i32 as u32
     }
     #[inline]
     #[c2rust::src_loc = "254:1"]
-    pub unsafe extern "C" fn __pony_ffs(mut x: uint32_t) -> uint32_t {
+    pub unsafe extern "C" fn __pony_ffs(mut x: u32) -> u32 {
         (if x as libc::c_int == 0 {
             0
         } else {
             (x as libc::c_int).trailing_zeros() as i32 + 1
-        }) as uint32_t
+        }) as u32
     }
     #[inline]
     #[c2rust::src_loc = "258:1"]
-    pub unsafe extern "C" fn __pony_ffsll(mut x: uint64_t) -> uint32_t {
+    pub unsafe extern "C" fn __pony_ffsll(mut x: u64) -> u32 {
         (if x as libc::c_longlong == 0 {
             0
         } else {
             (x as libc::c_longlong).trailing_zeros() as i32 + 1
-        }) as uint32_t
+        }) as u32
     }
     #[inline]
     #[c2rust::src_loc = "262:1"]
-    pub unsafe extern "C" fn __pony_ctz(mut x: uint32_t) -> uint32_t {
-        x.trailing_zeros() as i32 as uint32_t
+    pub unsafe extern "C" fn __pony_ctz(mut x: u32) -> u32 {
+        x.trailing_zeros() as i32 as u32
     }
     #[inline]
     #[c2rust::src_loc = "266:1"]
-    pub unsafe extern "C" fn __pony_clz(mut x: uint32_t) -> uint32_t {
-        x.leading_zeros() as i32 as uint32_t
+    pub unsafe extern "C" fn __pony_clz(mut x: u32) -> u32 {
+        x.leading_zeros() as i32 as u32
     }
     #[inline]
     #[c2rust::src_loc = "270:1"]
-    pub unsafe extern "C" fn __pony_clzll(mut x: uint64_t) -> uint32_t {
-        x.leading_zeros() as i32 as uint32_t
+    pub unsafe extern "C" fn __pony_clzll(mut x: u64) -> u32 {
+        x.leading_zeros() as i32 as u32
     }
     #[inline]
     #[c2rust::src_loc = "319:1"]
-    pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> uint32_t {
-        __pony_ffsll(x as uint64_t)
+    pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> u32 {
+        __pony_ffsll(x as u64)
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
-    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> uint32_t {
-        __pony_clzll(x as uint64_t)
+    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> u32 {
+        __pony_clzll(x as u64)
     }
-    use super::_uint32_t_h::uint32_t;
-    use super::_uint64_t_h::uint64_t;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:1"]
@@ -518,9 +497,6 @@ pub use self::_pthread_types_h::{
     __darwin_pthread_cond_t, __darwin_pthread_handler_rec, __darwin_pthread_t,
     _opaque_pthread_cond_t, _opaque_pthread_t,
 };
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
-pub use self::_uint8_t_h::uint8_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actor_h::pony_actor_t;
 pub use self::actormap_h::actormap_t;
@@ -559,9 +535,9 @@ pub struct chunk_t {
     pub actor: *mut pony_actor_t,
     pub m: *mut libc::c_char,
     pub size: size_t,
-    pub slots: uint32_t,
-    pub shallow: uint32_t,
-    pub finalisers: uint32_t,
+    pub slots: u32,
+    pub shallow: u32,
+    pub finalisers: u32,
     pub next: *mut chunk_t,
 }
 #[c2rust::src_loc = "37:1"]
@@ -571,7 +547,7 @@ pub const FORCE_ALL_FINALISERS: C2RustUnnamed_2 = 4294967295;
 #[c2rust::src_loc = "33:3"]
 pub const FORCE_NO_FINALISERS: C2RustUnnamed_2 = 0;
 #[c2rust::src_loc = "38:1"]
-pub type chunk_fn = Option<unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()>;
+pub type chunk_fn = Option<unsafe extern "C" fn(*mut chunk_t, u32) -> ()>;
 #[c2rust::src_loc = "28:3"]
 pub const CHUNK_NEEDS_TO_BE_CLEARED: C2RustUnnamed_1 = 4294967295;
 #[c2rust::src_loc = "26:1"]
@@ -579,39 +555,39 @@ pub type C2RustUnnamed_1 = libc::c_uint;
 #[c2rust::src_loc = "31:1"]
 pub type C2RustUnnamed_2 = libc::c_uint;
 #[c2rust::src_loc = "49:23"]
-static mut sizeclass_empty: [uint32_t; 5] = [
+static mut sizeclass_empty: [u32; 5] = [
     0xffffffff as libc::c_uint,
-    0x55555555 as libc::c_int as uint32_t,
-    0x11111111 as libc::c_int as uint32_t,
-    0x1010101 as libc::c_int as uint32_t,
-    0x10001 as libc::c_int as uint32_t,
+    0x55555555 as libc::c_int as u32,
+    0x11111111 as libc::c_int as u32,
+    0x1010101 as libc::c_int as u32,
+    0x10001 as libc::c_int as u32,
 ];
 #[c2rust::src_loc = "58:23"]
-static mut sizeclass_init: [uint32_t; 5] = [
+static mut sizeclass_init: [u32; 5] = [
     0xfffffffe as libc::c_uint,
-    0x55555554 as libc::c_int as uint32_t,
-    0x11111110 as libc::c_int as uint32_t,
-    0x1010100 as libc::c_int as uint32_t,
-    0x10000 as libc::c_int as uint32_t,
+    0x55555554 as libc::c_int as u32,
+    0x11111110 as libc::c_int as u32,
+    0x1010100 as libc::c_int as u32,
+    0x10000 as libc::c_int as u32,
 ];
 #[c2rust::src_loc = "74:22"]
-static mut sizeclass_table: [uint8_t; 16] = [
-    0 as libc::c_int as uint8_t,
-    1 as libc::c_int as uint8_t,
-    2 as libc::c_int as uint8_t,
-    2 as libc::c_int as uint8_t,
-    3 as libc::c_int as uint8_t,
-    3 as libc::c_int as uint8_t,
-    3 as libc::c_int as uint8_t,
-    3 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
-    4 as libc::c_int as uint8_t,
+static mut sizeclass_table: [u8; 16] = [
+    0 as libc::c_int as u8,
+    1 as libc::c_int as u8,
+    2 as libc::c_int as u8,
+    2 as libc::c_int as u8,
+    3 as libc::c_int as u8,
+    3 as libc::c_int as u8,
+    3 as libc::c_int as u8,
+    3 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
+    4 as libc::c_int as u8,
 ];
 #[c2rust::src_loc = "80:15"]
 static mut heap_initialgc: size_t = ((1 as libc::c_int) << 14 as libc::c_int) as size_t;
@@ -626,7 +602,7 @@ unsafe extern "C" fn large_pagemap(
     ponyint_pagemap_set_bulk(m as *const libc::c_void, chunk, size);
 }
 #[c2rust::src_loc = "136:1"]
-unsafe extern "C" fn clear_chunk(mut chunk: *mut chunk_t, mut mark: uint32_t) {
+unsafe extern "C" fn clear_chunk(mut chunk: *mut chunk_t, mut mark: u32) {
     (*chunk).slots = mark;
     (*chunk).shallow = mark;
 }
@@ -639,8 +615,8 @@ unsafe extern "C" fn maybe_clear_chunk(mut chunk: *mut chunk_t) {
             >= (10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
                 as libc::c_ulong
         {
-            (*chunk).slots = 1 as libc::c_int as uint32_t;
-            (*chunk).shallow = 1 as libc::c_int as uint32_t;
+            (*chunk).slots = 1 as libc::c_int as u32;
+            (*chunk).shallow = 1 as libc::c_int as u32;
         } else {
             (*chunk).slots = sizeclass_empty[(*chunk).size as usize];
             (*chunk).shallow = sizeclass_empty[(*chunk).size as usize];
@@ -648,7 +624,7 @@ unsafe extern "C" fn maybe_clear_chunk(mut chunk: *mut chunk_t) {
     }
 }
 #[c2rust::src_loc = "164:1"]
-unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_mask: uint32_t) {
+unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_mask: u32) {
     if force_finalisers_mask == FORCE_NO_FINALISERS as libc::c_int as libc::c_uint
         || force_finalisers_mask == FORCE_ALL_FINALISERS as libc::c_uint
     {
@@ -663,15 +639,15 @@ unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_m
                 .as_ptr(),
         );
     };
-    let mut finalisers: uint32_t = (*chunk).finalisers & ((*chunk).slots | force_finalisers_mask);
+    let mut finalisers: u32 = (*chunk).finalisers & ((*chunk).slots | force_finalisers_mask);
     if finalisers == 0 as libc::c_int as libc::c_uint {
         return;
     }
     (*chunk).finalisers = (*chunk).finalisers & !((*chunk).slots | force_finalisers_mask);
     let mut p: *mut libc::c_void = 0 as *mut libc::c_void;
-    let mut bit: uint64_t = 0 as libc::c_int as uint64_t;
+    let mut bit: u64 = 0 as libc::c_int as u64;
     while finalisers != 0 as libc::c_int as libc::c_uint {
-        bit = __pony_ctz(finalisers) as uint64_t;
+        bit = __pony_ctz(finalisers) as u64;
         p = ((*chunk).m).offset((bit << 5 as libc::c_int) as isize) as *mut libc::c_void;
         if ((**(p as *mut *const pony_type_t)).final_0).is_some() {
         } else {
@@ -689,7 +665,7 @@ unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_m
     }
 }
 #[c2rust::src_loc = "204:1"]
-unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut _mark: uint32_t) {
+unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut _mark: u32) {
     if (*chunk).finalisers == 1 as libc::c_int as libc::c_uint {
         if ((**((*chunk).m as *mut *const pony_type_t)).final_0).is_some() {
         } else {
@@ -705,18 +681,18 @@ unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut _mark: uint32_t) {
         ((**((*chunk).m as *mut *const pony_type_t)).final_0).expect("non-null function pointer")(
             (*chunk).m as *mut libc::c_void,
         );
-        (*chunk).finalisers = 0 as libc::c_int as uint32_t;
+        (*chunk).finalisers = 0 as libc::c_int as u32;
     }
 }
 #[c2rust::src_loc = "216:1"]
-unsafe extern "C" fn destroy_small(mut chunk: *mut chunk_t, mut _mark: uint32_t) {
+unsafe extern "C" fn destroy_small(mut chunk: *mut chunk_t, mut _mark: u32) {
     final_small(chunk, FORCE_ALL_FINALISERS as libc::c_uint);
     ponyint_pagemap_set((*chunk).m as *const libc::c_void, 0 as *mut chunk_t);
     ponyint_pool_free(5 as libc::c_int as size_t, (*chunk).m as *mut libc::c_void);
     ponyint_pool_free(1 as libc::c_int as size_t, chunk as *mut libc::c_void);
 }
 #[c2rust::src_loc = "228:1"]
-unsafe extern "C" fn destroy_large(mut chunk: *mut chunk_t, mut mark: uint32_t) {
+unsafe extern "C" fn destroy_large(mut chunk: *mut chunk_t, mut mark: u32) {
     final_large(chunk, mark);
     large_pagemap((*chunk).m, (*chunk).size, 0 as *mut chunk_t);
     if !((*chunk).m).is_null() {
@@ -729,7 +705,7 @@ unsafe extern "C" fn sweep_small(
     mut chunk: *mut chunk_t,
     mut avail: *mut *mut chunk_t,
     mut full: *mut *mut chunk_t,
-    mut empty: uint32_t,
+    mut empty: u32,
     mut size: size_t,
 ) -> size_t {
     let mut used: size_t = 0;
@@ -748,14 +724,14 @@ unsafe extern "C" fn sweep_small(
             *fresh1 = *full;
             *full = chunk;
         } else if (*chunk).slots == empty {
-            destroy_small(chunk, 0 as libc::c_int as uint32_t);
+            destroy_small(chunk, 0 as libc::c_int as u32);
         } else {
             used = (used as libc::c_ulong).wrapping_add(
                 (::core::mem::size_of::<block_t>() as libc::c_ulong).wrapping_sub(
                     (__pony_popcount((*chunk).slots) as libc::c_ulong).wrapping_mul(size),
                 ),
             ) as size_t as size_t;
-            final_small(chunk, FORCE_NO_FINALISERS as libc::c_int as uint32_t);
+            final_small(chunk, FORCE_NO_FINALISERS as libc::c_int as u32);
             let ref mut fresh2 = (*chunk).next;
             *fresh2 = *avail;
             *avail = chunk;
@@ -780,14 +756,14 @@ unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut size_t)
             list = chunk;
             *used = (*used as libc::c_ulong).wrapping_add((*chunk).size) as size_t as size_t;
         } else {
-            destroy_large(chunk, 0 as libc::c_int as uint32_t);
+            destroy_large(chunk, 0 as libc::c_int as u32);
         }
         chunk = next;
     }
     list
 }
 #[c2rust::src_loc = "370:1"]
-unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut mark: uint32_t) {
+unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut mark: u32) {
     let mut next: *mut chunk_t = 0 as *mut chunk_t;
     while !current.is_null() {
         next = (*current).next;
@@ -797,10 +773,10 @@ unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut 
 }
 #[no_mangle]
 #[c2rust::src_loc = "382:1"]
-pub unsafe extern "C" fn ponyint_heap_index(mut size: size_t) -> uint32_t {
+pub unsafe extern "C" fn ponyint_heap_index(mut size: size_t) -> u32 {
     return sizeclass_table
         [(size.wrapping_sub(1 as libc::c_int as libc::c_ulong) >> 5 as libc::c_int) as usize]
-        as uint32_t;
+        as u32;
 }
 #[no_mangle]
 #[c2rust::src_loc = "389:1"]
@@ -834,21 +810,21 @@ pub unsafe extern "C" fn ponyint_heap_init(mut heap: *mut heap_t) {
 #[c2rust::src_loc = "409:1"]
 pub unsafe extern "C" fn ponyint_heap_destroy(mut heap: *mut heap_t) {
     chunk_list(
-        Some(destroy_large as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+        Some(destroy_large as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
         (*heap).large,
-        0 as libc::c_int as uint32_t,
+        0 as libc::c_int as u32,
     );
     let mut i: libc::c_int = 0 as libc::c_int;
     while i < 10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int {
         chunk_list(
-            Some(destroy_small as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+            Some(destroy_small as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
             (*heap).small_free[i as usize],
-            0 as libc::c_int as uint32_t,
+            0 as libc::c_int as u32,
         );
         chunk_list(
-            Some(destroy_small as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+            Some(destroy_small as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
             (*heap).small_full[i as usize],
-            0 as libc::c_int as uint32_t,
+            0 as libc::c_int as u32,
         );
         i += 1;
     }
@@ -857,19 +833,19 @@ pub unsafe extern "C" fn ponyint_heap_destroy(mut heap: *mut heap_t) {
 #[c2rust::src_loc = "420:1"]
 pub unsafe extern "C" fn ponyint_heap_final(mut heap: *mut heap_t) {
     chunk_list(
-        Some(final_large as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+        Some(final_large as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
         (*heap).large,
-        0 as libc::c_int as uint32_t,
+        0 as libc::c_int as u32,
     );
     let mut i: libc::c_int = 0 as libc::c_int;
     while i < 10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int {
         chunk_list(
-            Some(final_small as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+            Some(final_small as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
             (*heap).small_free[i as usize],
             FORCE_ALL_FINALISERS as libc::c_uint,
         );
         chunk_list(
-            Some(final_small as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+            Some(final_small as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
             (*heap).small_full[i as usize],
             FORCE_ALL_FINALISERS as libc::c_uint,
         );
@@ -882,7 +858,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc(
     mut actor: *mut pony_actor_t,
     mut heap: *mut heap_t,
     mut size: size_t,
-    mut track_finalisers_mask: uint32_t,
+    mut track_finalisers_mask: u32,
 ) -> *mut libc::c_void {
     if track_finalisers_mask == TRACK_NO_FINALISERS as libc::c_int as libc::c_uint
         || track_finalisers_mask == TRACK_ALL_FINALISERS as libc::c_uint
@@ -920,8 +896,8 @@ pub unsafe extern "C" fn ponyint_heap_alloc(
 pub unsafe extern "C" fn ponyint_heap_alloc_small(
     mut actor: *mut pony_actor_t,
     mut heap: *mut heap_t,
-    mut sizeclass: uint32_t,
-    mut track_finalisers_mask: uint32_t,
+    mut sizeclass: u32,
+    mut track_finalisers_mask: u32,
 ) -> *mut libc::c_void {
     if track_finalisers_mask == TRACK_NO_FINALISERS as libc::c_int as libc::c_uint
         || track_finalisers_mask == TRACK_ALL_FINALISERS as libc::c_uint
@@ -943,13 +919,13 @@ pub unsafe extern "C" fn ponyint_heap_alloc_small(
     let mut chunk: *mut chunk_t = (*heap).small_free[sizeclass as usize];
     let mut m: *mut libc::c_void = 0 as *mut libc::c_void;
     if !chunk.is_null() {
-        let mut slots: uint32_t = (*chunk).slots;
-        let mut bit: uint32_t = __pony_ctz(slots);
-        slots &= !((1 as libc::c_int as uint32_t) << bit);
+        let mut slots: u32 = (*chunk).slots;
+        let mut bit: u32 = __pony_ctz(slots);
+        slots &= !((1 as libc::c_int as u32) << bit);
         m = ((*chunk).m).offset((bit << 5 as libc::c_int) as isize) as *mut libc::c_void;
         (*chunk).slots = slots;
         let ref mut fresh5 = (*chunk).finalisers;
-        *fresh5 |= track_finalisers_mask & (1 as libc::c_int as uint32_t) << bit;
+        *fresh5 |= track_finalisers_mask & (1 as libc::c_int as u32) << bit;
         if slots == 0 as libc::c_int as libc::c_uint {
             let ref mut fresh6 = (*heap).small_free[sizeclass as usize];
             *fresh6 = (*chunk).next;
@@ -989,7 +965,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_large(
     mut actor: *mut pony_actor_t,
     mut heap: *mut heap_t,
     mut size: size_t,
-    mut track_finalisers_mask: uint32_t,
+    mut track_finalisers_mask: u32,
 ) -> *mut libc::c_void {
     if track_finalisers_mask == TRACK_NO_FINALISERS as libc::c_int as libc::c_uint
         || track_finalisers_mask == TRACK_ALL_FINALISERS as libc::c_uint
@@ -1015,7 +991,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_large(
     (*chunk).size = size;
     let ref mut fresh15 = (*chunk).m;
     *fresh15 = ponyint_pool_alloc_size(size) as *mut libc::c_char;
-    (*chunk).slots = 0 as libc::c_int as uint32_t;
+    (*chunk).slots = 0 as libc::c_int as u32;
     (*chunk).shallow = CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint;
     (*chunk).finalisers = track_finalisers_mask & 1 as libc::c_int as libc::c_uint;
     large_pagemap((*chunk).m, size, chunk);
@@ -1041,7 +1017,7 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
             actor,
             heap,
             size,
-            TRACK_NO_FINALISERS as libc::c_int as uint32_t,
+            TRACK_NO_FINALISERS as libc::c_int as u32,
         );
     }
     let mut chunk: *mut chunk_t = ponyint_pagemap_get(p);
@@ -1091,7 +1067,7 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
         actor,
         heap,
         size,
-        TRACK_NO_FINALISERS as libc::c_int as uint32_t,
+        TRACK_NO_FINALISERS as libc::c_int as u32,
     );
     memcpy(q, p, oldsize);
     q
@@ -1108,7 +1084,7 @@ pub unsafe extern "C" fn ponyint_heap_startgc(mut heap: *mut heap_t) -> bool {
     if (*heap).used <= (*heap).next_gc {
         return 0 as libc::c_int != 0;
     }
-    let mut mark: uint32_t = sizeclass_empty[0 as libc::c_int as usize];
+    let mut mark: u32 = sizeclass_empty[0 as libc::c_int as usize];
     if mark == 0xffffffff as libc::c_uint {
     } else {
         ponyint_assert_fail(
@@ -1121,12 +1097,12 @@ pub unsafe extern "C" fn ponyint_heap_startgc(mut heap: *mut heap_t) -> bool {
         );
     };
     chunk_list(
-        Some(clear_chunk as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+        Some(clear_chunk as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
         (*heap).small_free[0 as libc::c_int as usize],
         mark,
     );
     chunk_list(
-        Some(clear_chunk as unsafe extern "C" fn(*mut chunk_t, uint32_t) -> ()),
+        Some(clear_chunk as unsafe extern "C" fn(*mut chunk_t, u32) -> ()),
         (*heap).small_full[0 as libc::c_int as usize],
         mark,
     );
@@ -1147,17 +1123,17 @@ pub unsafe extern "C" fn ponyint_heap_mark(
     {
         marked = (*chunk).slots == 0 as libc::c_int as libc::c_uint;
         if p == (*chunk).m as *mut libc::c_void {
-            (*chunk).slots = 0 as libc::c_int as uint32_t;
+            (*chunk).slots = 0 as libc::c_int as u32;
         } else {
-            (*chunk).shallow = 0 as libc::c_int as uint32_t;
+            (*chunk).shallow = 0 as libc::c_int as u32;
         }
     } else {
         let mut ext: *mut libc::c_void = (p as uintptr_t
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
-        let mut slot: uint32_t = ((1 as libc::c_int)
+        let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as uintptr_t
-                >> 5 as libc::c_int)) as uint32_t;
+                >> 5 as libc::c_int)) as u32;
         marked = (*chunk).slots & slot == 0 as libc::c_int as libc::c_uint;
         if p == ext {
             let ref mut fresh20 = (*chunk).slots;
@@ -1180,14 +1156,14 @@ pub unsafe extern "C" fn ponyint_heap_mark_shallow(
         >= (10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
             as libc::c_ulong
     {
-        (*chunk).shallow = 0 as libc::c_int as uint32_t;
+        (*chunk).shallow = 0 as libc::c_int as u32;
     } else {
         let mut ext: *mut libc::c_void = (p as uintptr_t
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
-        let mut slot: uint32_t = ((1 as libc::c_int)
+        let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as uintptr_t
-                >> 5 as libc::c_int)) as uint32_t;
+                >> 5 as libc::c_int)) as u32;
         let ref mut fresh22 = (*chunk).shallow;
         *fresh22 &= !slot;
     };
@@ -1200,11 +1176,11 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
             as libc::c_ulong
     {
         if p == (*chunk).m as *mut libc::c_void {
-            final_large(chunk, 0 as libc::c_int as uint32_t);
+            final_large(chunk, 0 as libc::c_int as u32);
             ponyint_pool_free_size((*chunk).size, (*chunk).m as *mut libc::c_void);
             let ref mut fresh23 = (*chunk).m;
             *fresh23 = 0 as *mut libc::c_char;
-            (*chunk).slots = 1 as libc::c_int as uint32_t;
+            (*chunk).slots = 1 as libc::c_int as u32;
         }
         return;
     }
@@ -1212,9 +1188,9 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
         & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
             as libc::c_ulong) as *mut libc::c_void;
     if p == ext {
-        let mut slot: uint32_t = ((1 as libc::c_int)
+        let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as uintptr_t
-                >> 5 as libc::c_int)) as uint32_t;
+                >> 5 as libc::c_int)) as u32;
         if (*chunk).finalisers & slot != 0 as libc::c_int as libc::c_uint {
             ((**(p as *mut *const pony_type_t)).final_0).expect("non-null function pointer")(p);
             let ref mut fresh24 = (*chunk).finalisers;
@@ -1241,7 +1217,7 @@ pub unsafe extern "C" fn ponyint_heap_endgc(mut heap: *mut heap_t) {
         let mut full: *mut *mut chunk_t =
             &mut *((*heap).small_full).as_mut_ptr().offset(i as isize) as *mut *mut chunk_t;
         let mut size: size_t = (((1 as libc::c_int) << 5 as libc::c_int) << i) as size_t;
-        let mut empty: uint32_t = sizeclass_empty[i as usize];
+        let mut empty: u32 = sizeclass_empty[i as usize];
         used = (used as libc::c_ulong).wrapping_add(sweep_small(list1, avail, full, empty, size))
             as size_t as size_t;
         used = (used as libc::c_ulong).wrapping_add(sweep_small(list2, avail, full, empty, size))

@@ -15,21 +15,16 @@ pub mod _size_t_h {
     pub type size_t = __darwin_size_t;
     use super::_types_h::__darwin_size_t;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
 pub mod pony_h {
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -39,7 +34,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -53,8 +48,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "105:1"]
@@ -84,7 +79,6 @@ pub mod pony_h {
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::source_h::pony_type_t;
     extern "C" {
@@ -779,7 +773,6 @@ pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::source_h::{pony_type_t, source_t};
     use super::symtab_h::{ast_t, sym_status_t};
     use super::token_h::token_id;
@@ -799,7 +792,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "78:1"]
         pub fn ast_data(ast: *mut ast_t) -> *mut libc::c_void;
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "100:1"]
@@ -1080,7 +1073,7 @@ pub mod reach_h {
         pub cap: token_id,
         pub fun: *mut deferred_reification_t,
         pub typeargs: *mut ast_t,
-        pub vtable_index: uint32_t,
+        pub vtable_index: u32,
         pub intrinsic: bool,
         pub internal: bool,
         pub forwarding: bool,
@@ -1110,11 +1103,11 @@ pub mod reach_h {
         pub methods: reach_method_names_t,
         pub bare_method: *mut reach_method_t,
         pub subtypes: reach_type_cache_t,
-        pub type_id: uint32_t,
-        pub vtable_size: uint32_t,
+        pub type_id: u32,
+        pub vtable_size: u32,
         pub can_be_boxed: bool,
         pub is_trait: bool,
-        pub field_count: uint32_t,
+        pub field_count: u32,
         pub fields: *mut reach_field_t,
         pub c_type: *mut compile_opaque_t,
     }
@@ -1182,14 +1175,13 @@ pub mod reach_h {
     pub struct reach_t {
         pub types: reach_types_t,
         pub method_stack: *mut reach_method_stack_t,
-        pub object_type_count: uint32_t,
-        pub numeric_type_count: uint32_t,
-        pub tuple_type_count: uint32_t,
-        pub total_type_count: uint32_t,
-        pub trait_type_count: uint32_t,
+        pub object_type_count: u32,
+        pub numeric_type_count: u32,
+        pub tuple_type_count: u32,
+        pub total_type_count: u32,
+        pub trait_type_count: u32,
     }
     use super::_size_t_h::size_t;
-    use super::_uint32_t_h::uint32_t;
     use super::hash_h::hashmap_t;
     use super::reach_method_stack_t;
     use super::reify_h::deferred_reification_t;
@@ -1394,7 +1386,6 @@ pub mod string_h {
 }
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::__darwin_size_t;
-pub use self::_uint32_t_h::uint32_t;
 pub use self::_uintptr_t_h::uintptr_t;
 use self::assemble_h::set_cap_and_ephemeral;
 pub use self::ast_h::{
@@ -1599,10 +1590,10 @@ pub unsafe extern "C" fn reach_methods_putindex(
 static mut reach_methods_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_methods_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_methods_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -1627,7 +1618,7 @@ static mut reach_methods_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -1835,10 +1826,10 @@ pub unsafe extern "C" fn reach_mangled_removeindex(
 static mut reach_mangled_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_mangled_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_mangled_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -1863,7 +1854,7 @@ static mut reach_mangled_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2138,10 +2129,10 @@ pub unsafe extern "C" fn reach_method_names_pony_type() -> *const pony_type_t {
 static mut reach_method_names_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_method_names_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_method_names_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -2166,7 +2157,7 @@ static mut reach_method_names_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2260,7 +2251,7 @@ unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
     reach_method_names_destroy(&mut (*t).methods);
     reach_type_cache_destroy(&mut (*t).subtypes);
     if (*t).field_count > 0 as libc::c_int as libc::c_uint {
-        let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+        let mut i: u32 = 0 as libc::c_int as u32;
         while i < (*t).field_count {
             ast_free((*((*t).fields).offset(i as isize)).ast);
             i = i.wrapping_add(1);
@@ -2270,7 +2261,7 @@ unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
                 .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
             (*t).fields as *mut libc::c_void,
         );
-        (*t).field_count = 0 as libc::c_int as uint32_t;
+        (*t).field_count = 0 as libc::c_int as u32;
         let ref mut fresh0 = (*t).fields;
         *fresh0 = 0 as *mut reach_field_t;
     }
@@ -2389,10 +2380,10 @@ pub unsafe extern "C" fn reach_types_deserialise(
 static mut reach_types_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_types_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_types_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -2417,7 +2408,7 @@ static mut reach_types_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2527,10 +2518,10 @@ pub unsafe extern "C" fn reach_type_cache_destroy(mut map: *mut reach_type_cache
 static mut reach_type_cache_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_type_cache_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_type_cache_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -2555,7 +2546,7 @@ static mut reach_type_cache_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2966,7 +2957,7 @@ unsafe extern "C" fn add_rmethod(
     let ref mut fresh15 = (*m).name;
     *fresh15 = name;
     (*m).cap = cap;
-    (*m).vtable_index = -(1 as libc::c_int) as uint32_t;
+    (*m).vtable_index = -(1 as libc::c_int) as u32;
     (*m).internal = internal;
     (*m).intrinsic = internal;
     if !internal {
@@ -3361,14 +3352,14 @@ unsafe extern "C" fn add_fields(
     }
 }
 #[c2rust::src_loc = "710:1"]
-unsafe extern "C" fn get_new_trait_id(mut r: *mut reach_t) -> uint32_t {
+unsafe extern "C" fn get_new_trait_id(mut r: *mut reach_t) -> u32 {
     let ref mut fresh26 = (*r).trait_type_count;
     let fresh27 = *fresh26;
     *fresh26 = (*fresh26).wrapping_add(1);
     fresh27
 }
 #[c2rust::src_loc = "715:1"]
-unsafe extern "C" fn get_new_object_id(mut r: *mut reach_t) -> uint32_t {
+unsafe extern "C" fn get_new_object_id(mut r: *mut reach_t) -> u32 {
     let ref mut fresh28 = (*r).total_type_count;
     *fresh28 = (*fresh28).wrapping_add(1);
     let ref mut fresh29 = (*r).object_type_count;
@@ -3379,7 +3370,7 @@ unsafe extern "C" fn get_new_object_id(mut r: *mut reach_t) -> uint32_t {
         .wrapping_add(1 as libc::c_int as libc::c_uint);
 }
 #[c2rust::src_loc = "721:1"]
-unsafe extern "C" fn get_new_numeric_id(mut r: *mut reach_t) -> uint32_t {
+unsafe extern "C" fn get_new_numeric_id(mut r: *mut reach_t) -> u32 {
     let ref mut fresh31 = (*r).total_type_count;
     *fresh31 = (*fresh31).wrapping_add(1);
     let ref mut fresh32 = (*r).numeric_type_count;
@@ -3388,7 +3379,7 @@ unsafe extern "C" fn get_new_numeric_id(mut r: *mut reach_t) -> uint32_t {
     return fresh33.wrapping_mul(4 as libc::c_int as libc::c_uint);
 }
 #[c2rust::src_loc = "727:1"]
-unsafe extern "C" fn get_new_tuple_id(mut r: *mut reach_t) -> uint32_t {
+unsafe extern "C" fn get_new_tuple_id(mut r: *mut reach_t) -> u32 {
     let ref mut fresh34 = (*r).total_type_count;
     *fresh34 = (*fresh34).wrapping_add(1);
     let ref mut fresh35 = (*r).tuple_type_count;
@@ -3418,7 +3409,7 @@ unsafe extern "C" fn add_reach_type(
     *fresh39 = set_cap_and_ephemeral(type_0, TK_REF, TK_NONE);
     let ref mut fresh40 = (*t).ast_cap;
     *fresh40 = ast_dup(type_0);
-    (*t).type_id = -(1 as libc::c_int) as uint32_t;
+    (*t).type_id = -(1 as libc::c_int) as u32;
     ast_set_scope((*t).ast, 0 as *mut ast_t);
     ast_set_scope((*t).ast_cap, 0 as *mut ast_t);
     reach_method_names_init(&mut (*t).methods, 0 as libc::c_int as size_t);
@@ -3440,7 +3431,7 @@ unsafe extern "C" fn add_isect_or_union(
     (*t).underlying = ast_id((*t).ast);
     (*t).is_trait = 1 as libc::c_int != 0;
     add_types_to_trait(r, t, opt);
-    if (*t).type_id == -(1 as libc::c_int) as uint32_t {
+    if (*t).type_id == -(1 as libc::c_int) as u32 {
         (*t).type_id = get_new_trait_id(r);
     }
     let mut child: *mut ast_t = ast_child(type_0);
@@ -3467,7 +3458,7 @@ unsafe extern "C" fn add_tuple(
     (*t).underlying = TK_TUPLETYPE;
     (*t).type_id = get_new_tuple_id(r);
     (*t).can_be_boxed = 1 as libc::c_int != 0;
-    (*t).field_count = ast_childcount((*t).ast) as uint32_t;
+    (*t).field_count = ast_childcount((*t).ast) as u32;
     let ref mut fresh41 = (*t).fields;
     *fresh41 = ponyint_pool_alloc_size(
         ((*t).field_count as libc::c_ulong)
@@ -3686,7 +3677,7 @@ unsafe extern "C" fn add_nominal(
         let ref mut fresh45 = (*t).bare_method;
         *fresh45 = add_rmethod(r, t, n, TK_AT, 0 as *mut ast_t, opt, 0 as libc::c_int != 0);
     }
-    if (*t).type_id == -(1 as libc::c_int) as uint32_t {
+    if (*t).type_id == -(1 as libc::c_int) as u32 {
         if (*t).is_trait as libc::c_int != 0 && !bare {
             (*t).type_id = get_new_trait_id(r);
         } else if (*t).can_be_boxed {
@@ -4065,7 +4056,7 @@ unsafe extern "C" fn reachable_expr(
             };
             cond = ast_child(cond);
             if is_result_needed(ast) as libc::c_int != 0
-                && ast_checkflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0
+                && ast_checkflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0
             {
                 let mut type_2: *mut ast_t = deferred_reify(reify_0, ast_type(ast), opt);
                 add_type(r, type_2, opt);
@@ -4108,7 +4099,7 @@ unsafe extern "C" fn reachable_expr(
                 children_2.as_mut_ptr(),
             );
             if is_result_needed(ast) as libc::c_int != 0
-                && ast_checkflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0
+                && ast_checkflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0
             {
                 let mut type_3: *mut ast_t = deferred_reify(reify_0, ast_type(ast), opt);
                 add_type(r, type_3, opt);
@@ -4127,7 +4118,7 @@ unsafe extern "C" fn reachable_expr(
         }
         122 | 116 | 118 | 124 | 206 | 107 => {
             if is_result_needed(ast) as libc::c_int != 0
-                && ast_checkflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as uint32_t) == 0
+                && ast_checkflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0
             {
                 let mut type_4: *mut ast_t = deferred_reify(reify_0, ast_type(ast), opt);
                 add_type(r, type_4, opt);
@@ -4251,11 +4242,11 @@ pub unsafe extern "C" fn reach_new() -> *mut reach_t {
     let mut r: *mut reach_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut reach_t;
     let ref mut fresh67 = (*r).method_stack;
     *fresh67 = 0 as *mut reach_method_stack_t;
-    (*r).object_type_count = 0 as libc::c_int as uint32_t;
-    (*r).numeric_type_count = 0 as libc::c_int as uint32_t;
-    (*r).tuple_type_count = 0 as libc::c_int as uint32_t;
-    (*r).total_type_count = 0 as libc::c_int as uint32_t;
-    (*r).trait_type_count = 0 as libc::c_int as uint32_t;
+    (*r).object_type_count = 0 as libc::c_int as u32;
+    (*r).numeric_type_count = 0 as libc::c_int as u32;
+    (*r).tuple_type_count = 0 as libc::c_int as u32;
+    (*r).total_type_count = 0 as libc::c_int as u32;
+    (*r).trait_type_count = 0 as libc::c_int as u32;
     reach_types_init(&mut (*r).types, 64 as libc::c_int as size_t);
     return r;
 }
@@ -4437,25 +4428,25 @@ pub unsafe extern "C" fn reach_method_name(
 pub unsafe extern "C" fn reach_vtable_index(
     mut t: *mut reach_type_t,
     mut name: *const libc::c_char,
-) -> uint32_t {
+) -> u32 {
     let mut m: *mut reach_method_t = reach_method(t, TK_NONE, name, 0 as *mut ast_t);
     if m.is_null() {
-        return -(1 as libc::c_int) as uint32_t;
+        return -(1 as libc::c_int) as u32;
     }
     return (*m).vtable_index;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1483:1"]
-pub unsafe extern "C" fn reach_max_type_id(mut r: *mut reach_t) -> uint32_t {
-    let mut object_id_max: uint32_t = ((*r).object_type_count)
+pub unsafe extern "C" fn reach_max_type_id(mut r: *mut reach_t) -> u32 {
+    let mut object_id_max: u32 = ((*r).object_type_count)
         .wrapping_mul(2 as libc::c_int as libc::c_uint)
         .wrapping_add(1 as libc::c_int as libc::c_uint);
-    let mut numeric_id_max: uint32_t =
+    let mut numeric_id_max: u32 =
         ((*r).numeric_type_count).wrapping_mul(4 as libc::c_int as libc::c_uint);
-    let mut tuple_id_max: uint32_t = ((*r).tuple_type_count)
+    let mut tuple_id_max: u32 = ((*r).tuple_type_count)
         .wrapping_mul(4 as libc::c_int as libc::c_uint)
         .wrapping_add(2 as libc::c_int as libc::c_uint);
-    let mut len: uint32_t = object_id_max;
+    let mut len: u32 = object_id_max;
     if len < numeric_id_max {
         len = numeric_id_max;
     }
@@ -4577,10 +4568,10 @@ unsafe extern "C" fn reach_param_deserialise(
 static mut reach_param_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_param_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_param_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4605,7 +4596,7 @@ static mut reach_param_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4787,10 +4778,10 @@ unsafe extern "C" fn reach_method_deserialise(
 static mut reach_method_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_method_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_method_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4815,7 +4806,7 @@ static mut reach_method_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4897,10 +4888,10 @@ unsafe extern "C" fn reach_method_name_deserialise(
 static mut reach_method_name_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_method_name_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_method_name_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -4925,7 +4916,7 @@ static mut reach_method_name_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4989,10 +4980,10 @@ unsafe extern "C" fn reach_field_deserialise(
 static mut reach_field_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_field_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_field_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -5017,7 +5008,7 @@ static mut reach_field_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -5200,10 +5191,10 @@ unsafe extern "C" fn reach_type_deserialise(
 static mut reach_type_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_type_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_type_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -5228,7 +5219,7 @@ static mut reach_type_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
@@ -5289,10 +5280,10 @@ unsafe extern "C" fn reach_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mu
 static mut reach_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
-            id: 0 as libc::c_int as uint32_t,
-            size: ::core::mem::size_of::<reach_t>() as libc::c_ulong as uint32_t,
-            field_count: 0 as libc::c_int as uint32_t,
-            field_offset: 0 as libc::c_int as uint32_t,
+            id: 0 as libc::c_int as u32,
+            size: ::core::mem::size_of::<reach_t>() as libc::c_ulong as u32,
+            field_count: 0 as libc::c_int as u32,
+            field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
             trace: None,
             serialise_trace: Some(
@@ -5316,7 +5307,7 @@ static mut reach_pony: pony_type_t = unsafe {
             custom_deserialise: None,
             dispatch: None,
             final_0: None,
-            event_notify: 0 as libc::c_int as uint32_t,
+            event_notify: 0 as libc::c_int as u32,
             traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,

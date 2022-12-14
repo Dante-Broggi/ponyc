@@ -1,9 +1,4 @@
 use ::libc;
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
@@ -603,18 +598,17 @@ pub mod ast_h {
     pub const AST_FLAG_CAN_ERROR: C2RustUnnamed = 64;
     #[c2rust::src_loc = "31:3"]
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed = 31;
-    use super::_uint32_t_h::uint32_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "88:1"]
-        pub fn ast_checkflag(ast: *mut ast_t, flag: uint32_t) -> libc::c_int;
+        pub fn ast_checkflag(ast: *mut ast_t, flag: u32) -> libc::c_int;
         #[c2rust::src_loc = "89:1"]
-        pub fn ast_setflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "90:1"]
-        pub fn ast_clearflag(ast: *mut ast_t, flag: uint32_t);
+        pub fn ast_clearflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "108:1"]
         pub fn ast_nearest(ast: *mut ast_t, id: token_id) -> *mut ast_t;
         #[c2rust::src_loc = "111:1"]
@@ -1036,7 +1030,6 @@ pub mod string_h {
 pub use self::_size_t_h::size_t;
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__darwin_size_t, __int64_t};
-pub use self::_uint32_t_h::uint32_t;
 pub use self::ast_h::{
     ast_checkflag, ast_child, ast_clearflag, ast_freeze, ast_id, ast_nearest, ast_parent,
     ast_result_t, ast_setflag, ast_sibling, C2RustUnnamed, AST_ERROR, AST_FATAL,
@@ -1635,8 +1628,8 @@ pub unsafe extern "C" fn ast_pass_record(mut ast: *mut ast_t, mut pass: pass_id)
     if pass as libc::c_uint == PASS_ALL as libc::c_int as libc::c_uint {
         return;
     }
-    ast_clearflag(ast, AST_FLAG_PASS_MASK as libc::c_int as uint32_t);
-    ast_setflag(ast, pass as libc::c_int as uint32_t);
+    ast_clearflag(ast, AST_FLAG_PASS_MASK as libc::c_int as u32);
+    ast_setflag(ast, pass as libc::c_int as u32);
 }
 #[no_mangle]
 #[c2rust::src_loc = "385:1"]
@@ -1668,12 +1661,12 @@ pub unsafe extern "C" fn ast_visit(
         );
     };
     let mut ast_pass: pass_id =
-        ast_checkflag(*ast, AST_FLAG_PASS_MASK as libc::c_int as uint32_t) as pass_id;
+        ast_checkflag(*ast, AST_FLAG_PASS_MASK as libc::c_int as u32) as pass_id;
     if ast_pass as libc::c_uint >= pass as libc::c_uint {
         return AST_OK;
     }
     if pass as libc::c_uint > PASS_SYNTAX as libc::c_int as libc::c_uint
-        && ast_checkflag(*ast, AST_FLAG_PRESERVE as libc::c_int as uint32_t) != 0
+        && ast_checkflag(*ast, AST_FLAG_PRESERVE as libc::c_int as u32) != 0
     {
         return AST_OK;
     }

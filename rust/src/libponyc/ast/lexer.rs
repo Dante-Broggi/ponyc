@@ -16,7 +16,7 @@ pub mod internal {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "47:1"]
-    pub type __uint32_t = libc::c_uint;
+    pub type __uint32_t = u32;
     #[c2rust::src_loc = "72:1"]
     pub type __darwin_ct_rune_t = libc::c_int;
     #[c2rust::src_loc = "94:1"]
@@ -31,16 +31,6 @@ pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = __darwin_size_t;
     use super::_types_h::__darwin_size_t;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:1"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:1"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
 pub mod source_h {
@@ -85,17 +75,16 @@ pub mod lexint_h {
     #[repr(C)]
     #[c2rust::src_loc = "9:16"]
     pub struct lexint_t {
-        pub low: uint64_t,
-        pub high: uint64_t,
+        pub low: u64,
+        pub high: u64,
     }
-    use super::_uint64_t_h::uint64_t;
     extern "C" {
         #[c2rust::src_loc = "15:1"]
         pub fn lexint_zero(i: *mut lexint_t);
         #[c2rust::src_loc = "41:1"]
         pub fn lexint_char(i: *mut lexint_t, c: libc::c_int);
         #[c2rust::src_loc = "43:1"]
-        pub fn lexint_accum(i: *mut lexint_t, digit: uint64_t, base: uint64_t) -> bool;
+        pub fn lexint_accum(i: *mut lexint_t, digit: u64, base: u64) -> bool;
         #[c2rust::src_loc = "45:1"]
         pub fn lexint_double(i: *mut lexint_t) -> libc::c_double;
     }
@@ -576,7 +565,7 @@ pub mod runetype_h {
             ) -> libc::c_int,
         >,
         pub __invalid_rune: __darwin_rune_t,
-        pub __runetype: [__uint32_t; 256],
+        pub __runetype: [u32; 256],
         pub __maplower: [__darwin_rune_t; 256],
         pub __mapupper: [__darwin_rune_t; 256],
         pub __runetype_ext: _RuneRange,
@@ -592,7 +581,7 @@ pub mod runetype_h {
     #[c2rust::src_loc = "72:9"]
     pub struct _RuneCharClass {
         pub __name: [libc::c_char; 14],
-        pub __mask: __uint32_t,
+        pub __mask: u32,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -608,7 +597,7 @@ pub mod runetype_h {
         pub __min: __darwin_rune_t,
         pub __max: __darwin_rune_t,
         pub __map: __darwin_rune_t,
-        pub __types: *mut __uint32_t,
+        pub __types: *mut u32,
     }
     use super::_types_h::{__darwin_rune_t, __darwin_size_t, __uint32_t};
     extern "C" {
@@ -761,8 +750,6 @@ pub use self::_size_t_h::size_t;
 pub use self::_types_h::{
     __darwin_ct_rune_t, __darwin_rune_t, __darwin_size_t, __darwin_wchar_t, __uint32_t,
 };
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 use self::error_h::{errors_t, errorv};
 pub use self::internal::{__builtin_va_list, __va_list_tag};
 pub use self::lexint_h::{lexint_accum, lexint_char, lexint_double, lexint_t, lexint_zero};
@@ -2668,7 +2655,7 @@ unsafe extern "C" fn read_hex_escape(
     mut lexer: *mut lexer_t,
     mut length: libc::c_int,
 ) -> libc::c_int {
-    let mut value: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut value: u32 = 0 as libc::c_int as u32;
     let mut text_len: libc::c_int = 2 as libc::c_int;
     let mut i: libc::c_int = 0 as libc::c_int;
     while i < length {
@@ -2925,17 +2912,17 @@ unsafe extern "C" fn character(mut lexer: *mut lexer_t) -> *mut token_t {
 #[c2rust::src_loc = "924:1"]
 unsafe extern "C" fn lex_integer(
     mut lexer: *mut lexer_t,
-    mut base: uint32_t,
+    mut base: u32,
     mut out_value: *mut lexint_t,
-    mut out_digit_count: *mut uint32_t,
+    mut out_digit_count: *mut u32,
     mut end_on_e: bool,
     mut context: *const libc::c_char,
 ) -> bool {
-    let mut digit_count: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut digit_count: u32 = 0 as libc::c_int as u32;
     let mut previous_underscore: bool = 0 as libc::c_int != 0;
     while !is_eof(lexer) {
         let mut c: libc::c_char = look(lexer);
-        let mut digit: uint32_t = 0 as libc::c_int as uint32_t;
+        let mut digit: u32 = 0 as libc::c_int as u32;
         if c as libc::c_int == '_' as i32 {
             if previous_underscore {
                 lex_error(
@@ -2954,14 +2941,14 @@ unsafe extern "C" fn lex_integer(
                 break;
             }
             if c as libc::c_int >= '0' as i32 && c as libc::c_int <= '9' as i32 {
-                digit = (c as libc::c_int - '0' as i32) as uint32_t;
+                digit = (c as libc::c_int - '0' as i32) as u32;
             } else if c as libc::c_int >= 'a' as i32 && c as libc::c_int <= 'z' as i32 {
-                digit = (c as libc::c_int - 'a' as i32 + 10 as libc::c_int) as uint32_t;
+                digit = (c as libc::c_int - 'a' as i32 + 10 as libc::c_int) as u32;
             } else {
                 if !(c as libc::c_int >= 'A' as i32 && c as libc::c_int <= 'Z' as i32) {
                     break;
                 }
-                digit = (c as libc::c_int - 'A' as i32 + 10 as libc::c_int) as uint32_t;
+                digit = (c as libc::c_int - 'A' as i32 + 10 as libc::c_int) as u32;
             }
             if digit >= base {
                 lex_error(
@@ -2972,7 +2959,7 @@ unsafe extern "C" fn lex_integer(
                 );
                 return 0 as libc::c_int != 0;
             }
-            if !lexint_accum(out_value, digit as uint64_t, base as uint64_t) {
+            if !lexint_accum(out_value, digit as u64, base as u64) {
                 lex_error(
                     lexer,
                     b"overflow in numeric literal\0" as *const u8 as *const libc::c_char,
@@ -3015,7 +3002,7 @@ unsafe extern "C" fn real(
     let mut e: lexint_t = lexint_t { low: 0, high: 0 };
     lexint_zero(&mut e);
     let mut exp_neg: bool = 0 as libc::c_int != 0;
-    let mut mantissa_digit_count: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut mantissa_digit_count: u32 = 0 as libc::c_int as u32;
     let mut c: libc::c_char = look(lexer);
     if c as libc::c_int == '.' as i32
         || c as libc::c_int == 'e' as i32
@@ -3040,7 +3027,7 @@ unsafe extern "C" fn real(
         consume_chars(lexer, 1 as libc::c_int as size_t);
         if !lex_integer(
             lexer,
-            10 as libc::c_int as uint32_t,
+            10 as libc::c_int as u32,
             &mut significand,
             &mut mantissa_digit_count,
             1 as libc::c_int != 0,
@@ -3057,9 +3044,9 @@ unsafe extern "C" fn real(
         }
         if !lex_integer(
             lexer,
-            10 as libc::c_int as uint32_t,
+            10 as libc::c_int as u32,
             &mut e,
-            0 as *mut uint32_t,
+            0 as *mut u32,
             0 as libc::c_int != 0,
             b"real number exponent\0" as *const u8 as *const libc::c_char,
         ) {
@@ -3086,9 +3073,9 @@ unsafe extern "C" fn nondecimal_number(
     lexint_zero(&mut value);
     if !lex_integer(
         lexer,
-        base as uint32_t,
+        base as u32,
         &mut value,
-        0 as *mut uint32_t,
+        0 as *mut u32,
         0 as libc::c_int != 0,
         context,
     ) {
@@ -3125,9 +3112,9 @@ unsafe extern "C" fn number(mut lexer: *mut lexer_t) -> *mut token_t {
     lexint_zero(&mut value);
     if !lex_integer(
         lexer,
-        10 as libc::c_int as uint32_t,
+        10 as libc::c_int as u32,
         &mut value,
-        0 as *mut uint32_t,
+        0 as *mut u32,
         1 as libc::c_int != 0,
         b"decimal number\0" as *const u8 as *const libc::c_char,
     ) {

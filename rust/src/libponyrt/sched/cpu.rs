@@ -9,16 +9,6 @@ pub mod _int32_t_h {
     #[c2rust::src_loc = "30:1"]
     pub type int32_t = libc::c_int;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:4"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h:4"]
-pub mod _uint64_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint64_t = libc::c_ulonglong;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:4"]
 pub mod _types_h {
     #[c2rust::src_loc = "52:1"]
@@ -182,17 +172,17 @@ pub mod scheduler_h {
     pub struct scheduler_t {
         pub tid: pthread_t,
         pub index: int32_t,
-        pub cpu: uint32_t,
-        pub node: uint32_t,
+        pub cpu: u32,
+        pub node: u32,
         pub terminate: bool,
         pub asio_stoppable: bool,
         pub asio_noisy: bool,
         pub sleep_object: *mut pthread_cond_t,
         pub last_victim: *mut scheduler_t,
         pub ctx: pony_ctx_t,
-        pub block_count: uint32_t,
+        pub block_count: u32,
         pub ack_token: int32_t,
-        pub ack_count: uint32_t,
+        pub ack_count: u32,
         pub mute_mapping: mutemap_t,
         pub q: mpmcq_t,
         pub mq: messageq_t,
@@ -229,7 +219,6 @@ pub mod scheduler_h {
     use super::_int32_t_h::int32_t;
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_uint32_t_h::uint32_t;
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
     use super::messageq_h::messageq_t;
@@ -256,8 +245,8 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
     #[c2rust::src_loc = "133:1"]
@@ -266,10 +255,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "133:22"]
     pub struct _pony_type_t {
-        pub id: uint32_t,
-        pub size: uint32_t,
-        pub field_count: uint32_t,
-        pub field_offset: uint32_t,
+        pub id: u32,
+        pub size: u32,
+        pub field_count: u32,
+        pub field_offset: u32,
         pub instance: *mut libc::c_void,
         pub trace: pony_trace_fn,
         pub serialise_trace: pony_trace_fn,
@@ -279,7 +268,7 @@ pub mod pony_h {
         pub custom_deserialise: pony_custom_deserialise_fn,
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
-        pub event_notify: uint32_t,
+        pub event_notify: u32,
         pub traits: *mut *mut uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
@@ -307,7 +296,6 @@ pub mod pony_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_uint32_t_h::uint32_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::scheduler_h::pony_ctx_t;
     use super::stddef_h::size_t;
@@ -446,8 +434,6 @@ pub use self::_pthread_types_h::{
 };
 pub use self::_timespec_h::timespec;
 pub use self::_types_h::{__darwin_natural_t, __darwin_time_t};
-pub use self::_uint32_t_h::uint32_t;
-pub use self::_uint64_t_h::uint64_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::actormap_h::actormap_t;
 use self::dtrace_h::macro__DTRACE;
@@ -478,7 +464,7 @@ use self::time_h::nanosleep;
 pub use self::vm_types_h::{integer_t, natural_t};
 use core::arch::asm;
 #[c2rust::src_loc = "40:1"]
-unsafe extern "C" fn property(mut key: *const libc::c_char) -> uint32_t {
+unsafe extern "C" fn property(mut key: *const libc::c_char) -> u32 {
     let mut value: libc::c_int = 0 as libc::c_int;
     let mut len: size_t = ::core::mem::size_of::<libc::c_int>() as libc::c_ulong;
     let mut err: libc::c_int = sysctlbyname(
@@ -492,10 +478,10 @@ unsafe extern "C" fn property(mut key: *const libc::c_char) -> uint32_t {
         value
     } else {
         0 as libc::c_int
-    }) as uint32_t;
+    }) as u32;
 }
 #[c2rust::src_loc = "60:17"]
-static mut hw_cpu_count: uint32_t = 0;
+static mut hw_cpu_count: u32 = 0;
 #[no_mangle]
 #[c2rust::src_loc = "106:1"]
 pub unsafe extern "C" fn ponyint_cpu_init() {
@@ -503,31 +489,31 @@ pub unsafe extern "C" fn ponyint_cpu_init() {
 }
 #[no_mangle]
 #[c2rust::src_loc = "224:1"]
-pub unsafe extern "C" fn ponyint_cpu_count() -> uint32_t {
+pub unsafe extern "C" fn ponyint_cpu_count() -> u32 {
     hw_cpu_count
 }
 #[no_mangle]
 #[c2rust::src_loc = "229:1"]
 pub unsafe extern "C" fn ponyint_cpu_assign(
-    mut count: uint32_t,
+    mut count: u32,
     mut scheduler: *mut scheduler_t,
     mut pin: bool,
     mut pinasio: bool,
-) -> uint32_t {
-    let mut asio_cpu: uint32_t = -(1 as libc::c_int) as uint32_t;
+) -> u32 {
+    let mut asio_cpu: u32 = -(1 as libc::c_int) as u32;
     if !pin {
-        let mut i: uint32_t = 0 as libc::c_int as uint32_t;
+        let mut i: u32 = 0 as libc::c_int as u32;
         while i < count {
-            (*scheduler.offset(i as isize)).cpu = -(1 as libc::c_int) as uint32_t;
-            (*scheduler.offset(i as isize)).node = 0 as libc::c_int as uint32_t;
+            (*scheduler.offset(i as isize)).cpu = -(1 as libc::c_int) as u32;
+            (*scheduler.offset(i as isize)).node = 0 as libc::c_int as u32;
             i = i.wrapping_add(1);
         }
         return asio_cpu;
     }
-    let mut i_0: uint32_t = 0 as libc::c_int as uint32_t;
+    let mut i_0: u32 = 0 as libc::c_int as u32;
     while i_0 < count {
         (*scheduler.offset(i_0 as isize)).cpu = i_0;
-        (*scheduler.offset(i_0 as isize)).node = 0 as libc::c_int as uint32_t;
+        (*scheduler.offset(i_0 as isize)).node = 0 as libc::c_int as u32;
         i_0 = i_0.wrapping_add(1);
     }
     if pinasio {
@@ -537,8 +523,8 @@ pub unsafe extern "C" fn ponyint_cpu_assign(
 }
 #[no_mangle]
 #[c2rust::src_loc = "294:1"]
-pub unsafe extern "C" fn ponyint_cpu_affinity(mut cpu: uint32_t) {
-    if cpu == -(1 as libc::c_int) as uint32_t {
+pub unsafe extern "C" fn ponyint_cpu_affinity(mut cpu: u32) {
+    if cpu == -(1 as libc::c_int) as u32 {
         return;
     }
     let mut policy: thread_affinity_policy_data_t =
@@ -556,11 +542,11 @@ pub unsafe extern "C" fn ponyint_cpu_affinity(mut cpu: uint32_t) {
 #[no_mangle]
 #[c2rust::src_loc = "325:1"]
 pub unsafe extern "C" fn ponyint_cpu_core_pause(
-    mut tsc: uint64_t,
-    mut tsc2: uint64_t,
+    mut tsc: u64,
+    mut tsc2: u64,
     mut yield_0: bool,
 ) {
-    let mut diff: uint64_t = ponyint_cpu_tick_diff(tsc, tsc2);
+    let mut diff: u64 = ponyint_cpu_tick_diff(tsc, tsc2);
     if diff < 10000000 as libc::c_int as libc::c_ulonglong {
         return;
     }
@@ -596,17 +582,17 @@ pub unsafe extern "C" fn ponyint_cpu_relax() {
 }
 #[no_mangle]
 #[c2rust::src_loc = "394:1"]
-pub unsafe extern "C" fn ponyint_cpu_tick() -> uint64_t {
-    return 0 as libc::c_int as uint64_t;
+pub unsafe extern "C" fn ponyint_cpu_tick() -> u64 {
+    return 0 as libc::c_int as u64;
 }
 #[no_mangle]
 #[c2rust::src_loc = "456:1"]
 pub unsafe extern "C" fn ponyint_cpu_tick_diff(
-    mut supposedly_earlier: uint64_t,
-    mut supposedly_later: uint64_t,
-) -> uint64_t {
+    mut supposedly_earlier: u64,
+    mut supposedly_later: u64,
+) -> u64 {
     if supposedly_earlier == supposedly_later {
-        return 0 as libc::c_int as uint64_t;
+        return 0 as libc::c_int as u64;
     } else if supposedly_earlier > supposedly_later {
         return (18446744073709551615 as libc::c_ulonglong)
             .wrapping_sub(supposedly_earlier)

@@ -4,11 +4,6 @@ pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
     pub type size_t = libc::c_ulong;
 }
-#[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h:3"]
-pub mod _uint32_t_h {
-    #[c2rust::src_loc = "31:1"]
-    pub type uint32_t = libc::c_uint;
-}
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -20,11 +15,10 @@ pub mod pony_h {
     #[repr(C)]
     #[c2rust::src_loc = "46:8"]
     pub struct pony_msg_t {
-        pub index: uint32_t,
-        pub id: uint32_t,
+        pub index: u32,
+        pub id: u32,
         pub next: *mut pony_msg_t,
     }
-    use super::_uint32_t_h::uint32_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.h:3"]
 pub mod messageq_h {
@@ -74,7 +68,6 @@ pub mod dtrace_h {
         pub fn macro__DTRACE(_: *const libc::c_char, _: libc::c_int, _: ...) -> bool;
     }
 }
-pub use self::_uint32_t_h::uint32_t;
 pub use self::_uintptr_t_h::uintptr_t;
 use self::atomics_h::f__atomic_thread_fence;
 use self::dtrace_h::macro__DTRACE;
@@ -146,7 +139,7 @@ unsafe extern "C" fn messageq_push_single(
 pub unsafe extern "C" fn ponyint_messageq_init(mut q: *mut messageq_t) {
     let mut stub: *mut pony_msg_t =
         ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut pony_msg_t;
-    (*stub).index = 0 as libc::c_int as uint32_t;
+    (*stub).index = 0 as libc::c_int as u32;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*stub).next, 0 as *mut pony_msg_t);
         // compile_error!("Builtin is not supposed to be used")
