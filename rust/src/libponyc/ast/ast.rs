@@ -1726,8 +1726,7 @@ unsafe extern "C" fn print(
 }
 #[c2rust::src_loc = "323:1"]
 unsafe extern "C" fn hasparent(mut ast: *mut ast_t) -> bool {
-    return ast_checkflag(ast, AST_ORPHAN as libc::c_int as u32) == 0
-        && !((*ast).parent).is_null();
+    return ast_checkflag(ast, AST_ORPHAN as libc::c_int as u32) == 0 && !((*ast).parent).is_null();
 }
 #[c2rust::src_loc = "329:1"]
 unsafe extern "C" fn set_scope_and_parent(mut ast: *mut ast_t, mut parent: *mut ast_t) {

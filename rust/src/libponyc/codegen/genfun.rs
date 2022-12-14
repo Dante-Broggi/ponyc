@@ -3163,8 +3163,7 @@ pub unsafe extern "C" fn genfun_param_attrs(
         (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
     );
-    noalias_attr =
-        LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
+    noalias_attr = LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut readonly_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readonly_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readonly\0" as *const u8 as *const libc::c_char,

@@ -2490,10 +2490,7 @@ unsafe extern "C" fn refer_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
                 return 0 as libc::c_int != 0;
             }
             consumed_same_expr = 1 as libc::c_int != 0;
-            set_flag_recursive(
-                assign_ast_0,
-                AST_FLAG_FCNSM_REASGN as libc::c_int as u32,
-            );
+            set_flag_recursive(assign_ast_0, AST_FLAG_FCNSM_REASGN as libc::c_int as u32);
         }
         _ => {
             ast_error(

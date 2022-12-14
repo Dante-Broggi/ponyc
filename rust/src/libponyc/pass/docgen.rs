@@ -48,7 +48,6 @@ pub mod sys_dirent_h {
         pub d_type: u8,
         pub d_name: [libc::c_char; 1024],
     }
-    
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/dirent.h:1"]
 pub mod dirent_h {

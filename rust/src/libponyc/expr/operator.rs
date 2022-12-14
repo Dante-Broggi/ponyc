@@ -1573,11 +1573,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
             b"Invalid type for field of assignment: %s\0" as *const u8 as *const libc::c_char,
             ast_print_type(fl_type),
         );
-        if ast_checkflag(
-            ast_type(right),
-            AST_FLAG_INCOMPLETE as libc::c_int as u32,
-        ) != 0
-        {
+        if ast_checkflag(ast_type(right), AST_FLAG_INCOMPLETE as libc::c_int as u32) != 0 {
             ast_error_frame(
                 &mut frame as *mut errorframe_t,
                 right,
@@ -1595,11 +1591,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
                 ast,
                 b"right side must be a subtype of left side\0" as *const u8 as *const libc::c_char,
             );
-            if ast_checkflag(
-                ast_type(right),
-                AST_FLAG_INCOMPLETE as libc::c_int as u32,
-            ) != 0
-            {
+            if ast_checkflag(ast_type(right), AST_FLAG_INCOMPLETE as libc::c_int as u32) != 0 {
                 ast_error_frame(
                     &mut frame as *mut errorframe_t,
                     right,

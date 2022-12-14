@@ -907,11 +907,7 @@ unsafe extern "C" fn send_msg(
     );
 }
 #[c2rust::src_loc = "219:1"]
-unsafe extern "C" fn send_msg_all_active(
-    mut from: u32,
-    mut msg: sched_msg_t,
-    mut arg: intptr_t,
-) {
+unsafe extern "C" fn send_msg_all_active(mut from: u32, mut msg: sched_msg_t, mut arg: intptr_t) {
     let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     let mut i: u32 = 0 as libc::c_int as u32;
     while i < current_active_scheduler_count {
@@ -928,10 +924,7 @@ unsafe extern "C" fn send_msg_all(mut from: u32, mut msg: sched_msg_t, mut arg: 
     }
 }
 #[c2rust::src_loc = "233:1"]
-unsafe extern "C" fn signal_suspended_threads(
-    mut sched_count: u32,
-    mut curr_sched_id: i32,
-) {
+unsafe extern "C" fn signal_suspended_threads(mut sched_count: u32, mut curr_sched_id: i32) {
     let mut i: u32 = 0 as libc::c_int as u32;
     while i < sched_count {
         if i as i32 != curr_sched_id {
@@ -1045,11 +1038,7 @@ unsafe extern "C" fn read_msg(mut sched: *mut scheduler_t) -> bool {
     return run_queue_changed;
 }
 #[c2rust::src_loc = "449:1"]
-unsafe extern "C" fn quiescent(
-    mut sched: *mut scheduler_t,
-    mut tsc: u64,
-    mut tsc2: u64,
-) -> bool {
+unsafe extern "C" fn quiescent(mut sched: *mut scheduler_t, mut tsc: u64, mut tsc2: u64) -> bool {
     if (*sched).terminate {
         return 1 as libc::c_int != 0;
     }
@@ -1430,8 +1419,7 @@ unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
                 }
             }
             let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
-            let mut current_active_scheduler_count_check: u32 =
-                get_active_scheduler_count_check();
+            let mut current_active_scheduler_count_check: u32 = get_active_scheduler_count_check();
             if current_active_scheduler_count != current_active_scheduler_count_check {
                 signal_suspended_threads(current_active_scheduler_count, (*sched).index);
             }
@@ -1771,11 +1759,7 @@ pub unsafe extern "C" fn pony_ctx() -> *mut pony_ctx_t {
 #[no_mangle]
 #[c2rust::src_loc = "1420:1"]
 pub unsafe extern "C" fn ponyint_sched_noisy_asio(mut from: i32) {
-    send_msg_all(
-        from as u32,
-        SCHED_NOISY_ASIO,
-        0 as libc::c_int as intptr_t,
-    );
+    send_msg_all(from as u32, SCHED_NOISY_ASIO, 0 as libc::c_int as intptr_t);
 }
 #[no_mangle]
 #[c2rust::src_loc = "1426:1"]
@@ -1788,9 +1772,7 @@ pub unsafe extern "C" fn ponyint_sched_unnoisy_asio(mut from: i32) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1432:1"]
-pub unsafe extern "C" fn ponyint_sched_maybe_wakeup_if_all_asleep(
-    mut current_scheduler_id: i32,
-) {
+pub unsafe extern "C" fn ponyint_sched_maybe_wakeup_if_all_asleep(mut current_scheduler_id: i32) {
     let mut current_active_scheduler_count: u32 = get_active_scheduler_count();
     loop {
         current_active_scheduler_count = get_active_scheduler_count();

@@ -1004,12 +1004,7 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
     mut copy: size_t,
 ) -> *mut libc::c_void {
     if p.is_null() {
-        return ponyint_heap_alloc(
-            actor,
-            heap,
-            size,
-            TRACK_NO_FINALISERS as libc::c_int as u32,
-        );
+        return ponyint_heap_alloc(actor, heap, size, TRACK_NO_FINALISERS as libc::c_int as u32);
     }
     let mut chunk: *mut chunk_t = ponyint_pagemap_get(p);
     if !chunk.is_null() {
@@ -1054,12 +1049,8 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
     if oldsize > copy {
         oldsize = copy;
     }
-    let mut q: *mut libc::c_void = ponyint_heap_alloc(
-        actor,
-        heap,
-        size,
-        TRACK_NO_FINALISERS as libc::c_int as u32,
-    );
+    let mut q: *mut libc::c_void =
+        ponyint_heap_alloc(actor, heap, size, TRACK_NO_FINALISERS as libc::c_int as u32);
     memcpy(q, p, oldsize);
     q
 }

@@ -1811,8 +1811,7 @@ unsafe extern "C" fn trait_bitmap64(
                     .as_ptr(),
             );
         };
-        let mut bit: u64 =
-            ((*provide).type_id & 63 as libc::c_int as libc::c_uint) as u64;
+        let mut bit: u64 = ((*provide).type_id & 63 as libc::c_int as libc::c_uint) as u64;
         let ref mut fresh7 = *bm.offset(index as isize);
         *fresh7 |= (1 as libc::c_int as u64) << bit;
     }

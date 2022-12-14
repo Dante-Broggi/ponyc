@@ -677,10 +677,7 @@ pub type C2RustUnnamed_2 = libc::c_uint;
 #[c2rust::src_loc = "29:13"]
 static mut actor_noblock: bool = 0 as libc::c_int != 0;
 #[c2rust::src_loc = "88:1"]
-unsafe extern "C" fn has_sync_flag_any(
-    mut actor: *mut pony_actor_t,
-    mut check_flags: u8,
-) -> bool {
+unsafe extern "C" fn has_sync_flag_any(mut actor: *mut pony_actor_t, mut check_flags: u8) -> bool {
     let mut flags: u8 = { ::core::intrinsics::atomic_load_acq(&mut (*actor).sync_flags) };
     return flags as libc::c_int & check_flags as libc::c_int != 0 as libc::c_int;
 }
@@ -716,14 +713,12 @@ unsafe extern "C" fn has_internal_flag(mut actor: *mut pony_actor_t, mut flag: u
 }
 #[c2rust::src_loc = "119:1"]
 unsafe extern "C" fn set_internal_flag(mut actor: *mut pony_actor_t, mut flag: u8) {
-    (*actor).internal_flags =
-        ((*actor).internal_flags as libc::c_int | flag as libc::c_int) as u8;
+    (*actor).internal_flags = ((*actor).internal_flags as libc::c_int | flag as libc::c_int) as u8;
 }
 #[c2rust::src_loc = "124:1"]
 unsafe extern "C" fn unset_internal_flag(mut actor: *mut pony_actor_t, mut flag: u8) {
     (*actor).internal_flags = ((*actor).internal_flags as libc::c_int
-        & !(flag as libc::c_int) as u8 as libc::c_int)
-        as u8;
+        & !(flag as libc::c_int) as u8 as libc::c_int) as u8;
 }
 #[c2rust::src_loc = "152:1"]
 unsafe extern "C" fn mute_actor(mut actor: *mut pony_actor_t) {
@@ -908,8 +903,7 @@ unsafe extern "C" fn handle_message(
             };
             let mut m: *mut pony_msgp_t = msg as *mut pony_msgp_t;
             if ponyint_gc_acquire(&mut (*actor).gc, (*m).p as *mut actorref_t) as libc::c_int != 0
-                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8)
-                    as libc::c_int
+                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8) as libc::c_int
                     != 0
             {
                 send_unblock(actor);
@@ -932,8 +926,7 @@ unsafe extern "C" fn handle_message(
             };
             let mut m_0: *mut pony_msgp_t = msg as *mut pony_msgp_t;
             if ponyint_gc_release(&mut (*actor).gc, (*m_0).p as *mut actorref_t) as libc::c_int != 0
-                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8)
-                    as libc::c_int
+                && has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8) as libc::c_int
                     != 0
             {
                 send_unblock(actor);
@@ -1312,8 +1305,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
 #[no_mangle]
 #[c2rust::src_loc = "786:1"]
 pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
-    if has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as u8) as libc::c_int != 0
-    {
+    if has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY as libc::c_int as u8) as libc::c_int != 0 {
     } else {
         ponyint_assert_fail(
             b"has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY)\0" as *const u8 as *const libc::c_char,
@@ -1464,10 +1456,7 @@ pub unsafe extern "C" fn pony_alloc_msg(mut index: u32, mut id: u32) -> *mut pon
 }
 #[no_mangle]
 #[c2rust::src_loc = "961:1"]
-pub unsafe extern "C" fn pony_alloc_msg_size(
-    mut size: size_t,
-    mut id: u32,
-) -> *mut pony_msg_t {
+pub unsafe extern "C" fn pony_alloc_msg_size(mut size: size_t, mut id: u32) -> *mut pony_msg_t {
     return pony_alloc_msg(ponyint_pool_index(size) as u32, id);
 }
 #[no_mangle]
@@ -1637,8 +1626,7 @@ pub unsafe extern "C" fn pony_sendp(
     mut id: u32,
     mut p: *mut libc::c_void,
 ) {
-    let mut m: *mut pony_msgp_t =
-        pony_alloc_msg(0 as libc::c_int as u32, id) as *mut pony_msgp_t;
+    let mut m: *mut pony_msgp_t = pony_alloc_msg(0 as libc::c_int as u32, id) as *mut pony_msgp_t;
     let ref mut fresh4 = (*m).p;
     *fresh4 = p;
     pony_sendv(
@@ -1657,8 +1645,7 @@ pub unsafe extern "C" fn pony_sendi(
     mut id: u32,
     mut i: intptr_t,
 ) {
-    let mut m: *mut pony_msgi_t =
-        pony_alloc_msg(0 as libc::c_int as u32, id) as *mut pony_msgi_t;
+    let mut m: *mut pony_msgi_t = pony_alloc_msg(0 as libc::c_int as u32, id) as *mut pony_msgi_t;
     (*m).i = i;
     pony_sendv(
         ctx,
@@ -1941,10 +1928,7 @@ pub unsafe extern "C" fn pony_release_backpressure() {
         1 as libc::c_int,
         b"(uintptr_t)ctx->current\0" as *const u8 as *const libc::c_char,
     );
-    if !has_sync_flag(
-        (*ctx).current,
-        SYNC_FLAG_OVERLOADED as libc::c_int as u8,
-    ) {
+    if !has_sync_flag((*ctx).current, SYNC_FLAG_OVERLOADED as libc::c_int as u8) {
         ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as u32, (*ctx).current);
     }
 }

@@ -1545,11 +1545,7 @@ unsafe extern "C" fn check_arg_types(
                             as *const libc::c_char,
                     );
                 }
-                if ast_checkflag(
-                    ast_type(arg),
-                    AST_FLAG_INCOMPLETE as libc::c_int as u32,
-                ) != 0
-                {
+                if ast_checkflag(ast_type(arg), AST_FLAG_INCOMPLETE as libc::c_int as u32) != 0 {
                     ast_error_frame(
                         &mut frame_0 as *mut errorframe_t,
                         arg,

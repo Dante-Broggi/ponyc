@@ -34,7 +34,6 @@ pub mod sys__types_h {
     pub type __darwin_off_t = i64;
     #[c2rust::src_loc = "75:1"]
     pub type __darwin_uid_t = u32;
-    
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
@@ -138,7 +137,7 @@ pub mod stat_h {
     use super::_nlink_t_h::nlink_t;
     use super::_off_t_h::off_t;
     use super::_timespec_h::timespec;
-    
+
     use super::_uid_t_h::uid_t;
     use super::sys__types_h::__darwin_ino64_t;
     extern "C" {

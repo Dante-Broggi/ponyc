@@ -2183,8 +2183,7 @@ unsafe extern "C" fn make_opaque_struct(mut c: *mut compile_t, mut t: *mut reach
 unsafe extern "C" fn make_debug_basic(mut c: *mut compile_t, mut t: *mut reach_type_t) {
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut size: u64 = LLVMABISizeOfType((*c).target_data, (*c_t).primitive);
-    let mut _align: u64 =
-        LLVMABIAlignmentOfType((*c).target_data, (*c_t).primitive) as u64;
+    let mut _align: u64 = LLVMABIAlignmentOfType((*c).target_data, (*c_t).primitive) as u64;
     let mut encoding: libc::c_uint = 0;
     if is_bool((*t).ast) {
         encoding = DW_ATE_boolean as libc::c_int as libc::c_uint;
