@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -448,20 +448,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -506,7 +506,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -577,13 +577,13 @@ pub mod reach_h {
         #[c2rust::src_loc = "24:65"]
         pub fn reach_type_cache_next(
             map: *mut reach_type_cache_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_type_t;
         #[c2rust::src_loc = "24:65"]
         pub fn reach_type_cache_get(
             map: *mut reach_type_cache_t,
             key: *mut reach_type_t,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut reach_type_t;
     }
 }
@@ -610,7 +610,7 @@ pub mod ast_h {
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:2"]
@@ -621,7 +621,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -681,12 +681,12 @@ pub unsafe extern "C" fn subtype_kind(mut type_0: *mut reach_type_t) -> libc::c_
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            6 as libc::c_int as size_t,
+            6 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"subtype_kind\0")).as_ptr(),
         );
     };
     let mut subtypes: libc::c_int = SUBTYPE_KIND_NONE as libc::c_int;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sub: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         sub = reach_type_cache_next(&mut (*type_0).subtypes, &mut i);
@@ -720,7 +720,7 @@ pub unsafe extern "C" fn subtype_kind_overlap(
             b"left != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            34 as libc::c_int as size_t,
+            34 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"subtype_kind_overlap\0"))
                 .as_ptr(),
         );
@@ -729,7 +729,7 @@ pub unsafe extern "C" fn subtype_kind_overlap(
         return subtype_kind(left);
     }
     let mut subtypes: libc::c_int = SUBTYPE_KIND_NONE as libc::c_int;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sub_left: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         sub_left = reach_type_cache_next(&mut (*left).subtypes, &mut i);
@@ -776,7 +776,7 @@ pub unsafe extern "C" fn subtype_kind_overlap(
                 c_type: 0 as *mut compile_opaque_t,
             };
             k.name = (*sub_left).name;
-            let mut j: size_t = -(1 as libc::c_int) as size_t;
+            let mut j: usize = -(1 as libc::c_int) as usize;
             let mut sub_right: *mut reach_type_t =
                 reach_type_cache_get(&mut (*right).subtypes, &mut k, &mut j);
             if !sub_right.is_null() {
@@ -786,7 +786,7 @@ pub unsafe extern "C" fn subtype_kind_overlap(
                         b"sub_left == sub_right\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/subtype.c\0"
                             as *const u8 as *const libc::c_char,
-                        64 as libc::c_int as size_t,
+                        64 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                             b"subtype_kind_overlap\0",
                         ))
@@ -803,8 +803,8 @@ pub unsafe extern "C" fn subtype_kind_overlap(
                 }
             }
         } else if subtypes & SUBTYPE_KIND_TUPLE as libc::c_int == 0 as libc::c_int {
-            let mut cardinality: size_t = ast_childcount((*sub_left).ast_cap);
-            let mut j_0: size_t = -(1 as libc::c_int) as size_t;
+            let mut cardinality: usize = ast_childcount((*sub_left).ast_cap);
+            let mut j_0: usize = -(1 as libc::c_int) as usize;
             let mut sub_right_0: *mut reach_type_t = 0 as *mut reach_type_t;
             loop {
                 sub_right_0 = reach_type_cache_next(&mut (*right).subtypes, &mut j_0);

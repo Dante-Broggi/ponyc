@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -791,20 +791,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -861,10 +861,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -959,7 +959,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1023,7 +1023,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1135,19 +1135,19 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "20:59"]
-        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut size_t)
+        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize)
             -> *mut reach_method_t;
         #[c2rust::src_loc = "22:3"]
         pub fn reach_method_names_next(
             map: *mut reach_method_names_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_method_name_t;
         #[c2rust::src_loc = "23:55"]
-        pub fn reach_types_next(map: *mut reach_types_t, i: *mut size_t) -> *mut reach_type_t;
+        pub fn reach_types_next(map: *mut reach_types_t, i: *mut usize) -> *mut reach_type_t;
         #[c2rust::src_loc = "24:65"]
         pub fn reach_type_cache_next(
             map: *mut reach_type_cache_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_type_t;
         #[c2rust::src_loc = "136:1"]
         pub fn reach_type(r: *mut reach_t, type_0: *mut ast_t) -> *mut reach_type_t;
@@ -1336,7 +1336,7 @@ pub mod codegen_h {
             c: *mut compile_t,
             fun: LLVMValueRef,
             args: *mut LLVMValueRef,
-            count: size_t,
+            count: usize,
             setcc: bool,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "35:1"]
@@ -1387,7 +1387,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1482,9 +1482,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:10"]
@@ -1495,7 +1495,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1623,7 +1623,7 @@ unsafe extern "C" fn make_unbox_function(
     let mut c_m: *mut compile_method_t = (*m).c_method as *mut compile_method_t;
     let mut f_type: LLVMTypeRef = LLVMGetElementType(LLVMTypeOf((*c_m).func));
     let mut count: libc::c_int = LLVMCountParamTypes(f_type) as libc::c_int;
-    let mut buf_size: size_t = ((count + 1 as libc::c_int) as libc::c_ulong)
+    let mut buf_size: usize = ((count + 1 as libc::c_int) as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong);
     let mut params: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetParamTypes(f_type, params);
@@ -1693,7 +1693,7 @@ unsafe extern "C" fn make_unbox_function(
         c,
         (*c_m).func,
         args,
-        count as size_t,
+        count as usize,
         (*m).cap as libc::c_uint != TK_AT as libc::c_int as libc::c_uint,
     );
     LLVMBuildRet((*c).builder, result);
@@ -1717,11 +1717,11 @@ unsafe extern "C" fn trait_bitmap32(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
-    let mut bm_size: size_t = ((*c).trait_bitmap_size as libc::c_ulong)
+    let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<u32>() as libc::c_ulong);
     let mut bm: *mut u32 = ponyint_pool_alloc_size(bm_size) as *mut u32;
     memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut provide: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         provide = reach_type_cache_next(&mut (*t).subtypes, &mut i);
@@ -1734,7 +1734,7 @@ unsafe extern "C" fn trait_bitmap32(
                 b"provide->type_id != (uint32_t)-1\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                     as *const u8 as *const libc::c_char,
-                120 as libc::c_int as size_t,
+                120 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"trait_bitmap32\0"))
                     .as_ptr(),
             );
@@ -1746,7 +1746,7 @@ unsafe extern "C" fn trait_bitmap32(
                 b"index < c->trait_bitmap_size\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                     as *const u8 as *const libc::c_char,
-                122 as libc::c_int as size_t,
+                122 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"trait_bitmap32\0"))
                     .as_ptr(),
             );
@@ -1759,7 +1759,7 @@ unsafe extern "C" fn trait_bitmap32(
         ((*c).trait_bitmap_size as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong),
     ) as *mut LLVMValueRef;
-    i = 0 as libc::c_int as size_t;
+    i = 0 as libc::c_int as usize;
     while i < (*c).trait_bitmap_size as libc::c_ulong {
         let ref mut fresh6 = *bitmap.offset(i as isize);
         *fresh6 = LLVMConstInt(
@@ -1777,11 +1777,11 @@ unsafe extern "C" fn trait_bitmap64(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
-    let mut bm_size: size_t = ((*c).trait_bitmap_size as libc::c_ulong)
+    let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     let mut bm: *mut u64 = ponyint_pool_alloc_size(bm_size) as *mut u64;
     memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut provide: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         provide = reach_type_cache_next(&mut (*t).subtypes, &mut i);
@@ -1794,7 +1794,7 @@ unsafe extern "C" fn trait_bitmap64(
                 b"provide->type_id != (uint32_t)-1\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                     as *const u8 as *const libc::c_char,
-                150 as libc::c_int as size_t,
+                150 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"trait_bitmap64\0"))
                     .as_ptr(),
             );
@@ -1806,7 +1806,7 @@ unsafe extern "C" fn trait_bitmap64(
                 b"index < c->trait_bitmap_size\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                     as *const u8 as *const libc::c_char,
-                152 as libc::c_int as size_t,
+                152 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"trait_bitmap64\0"))
                     .as_ptr(),
             );
@@ -1819,7 +1819,7 @@ unsafe extern "C" fn trait_bitmap64(
         ((*c).trait_bitmap_size as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong),
     ) as *mut LLVMValueRef;
-    i = 0 as libc::c_int as size_t;
+    i = 0 as libc::c_int as usize;
     while i < (*c).trait_bitmap_size as libc::c_ulong {
         let ref mut fresh8 = *bitmap.offset(i as isize);
         *fresh8 = LLVMConstInt((*c).intptr, *bm.offset(i as isize), 0 as libc::c_int);
@@ -1920,7 +1920,7 @@ unsafe extern "C" fn make_field_list(
             0 as libc::c_int as libc::c_uint,
         ));
     }
-    let mut buf_size: size_t = (count as libc::c_ulong)
+    let mut buf_size: usize = (count as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
     let mut list: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
@@ -1967,19 +1967,19 @@ unsafe extern "C" fn make_vtable(mut c: *mut compile_t, mut t: *mut reach_type_t
             0 as libc::c_int as libc::c_uint,
         );
     }
-    let mut buf_size: size_t = ((*t).vtable_size as libc::c_ulong)
+    let mut buf_size: usize = ((*t).vtable_size as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
     let mut vtable: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     memset(vtable as *mut libc::c_void, 0 as libc::c_int, buf_size);
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
     loop {
         n = reach_method_names_next(&mut (*t).methods, &mut i);
         if n.is_null() {
             break;
         }
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
         loop {
             m = reach_mangled_next(&mut (*n).r_mangled, &mut j);
@@ -1993,7 +1993,7 @@ unsafe extern "C" fn make_vtable(mut c: *mut compile_t, mut t: *mut reach_type_t
                     b"index != (uint32_t)-1\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                         as *const u8 as *const libc::c_char,
-                    298 as libc::c_int as size_t,
+                    298 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"make_vtable\0"))
                         .as_ptr(),
                 );
@@ -2004,7 +2004,7 @@ unsafe extern "C" fn make_vtable(mut c: *mut compile_t, mut t: *mut reach_type_t
                     b"vtable[index] == NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                         as *const u8 as *const libc::c_char,
-                    299 as libc::c_int as size_t,
+                    299 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"make_vtable\0"))
                         .as_ptr(),
                 );
@@ -2173,18 +2173,18 @@ pub unsafe extern "C" fn gendesc_init(mut c: *mut compile_t, mut t: *mut reach_t
 #[c2rust::src_loc = "439:1"]
 pub unsafe extern "C" fn gendesc_table(mut c: *mut compile_t) {
     let mut len: u32 = reach_max_type_id((*c).reach);
-    let mut size: size_t = (len as libc::c_ulong)
+    let mut size: usize = (len as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut null: LLVMValueRef = LLVMConstNull((*c).descriptor_ptr);
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < len as libc::c_ulong {
         let ref mut fresh15 = *args.offset(i as isize);
         *fresh15 = null;
         i = i.wrapping_add(1);
     }
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
-    let mut i_0: size_t = -(1 as libc::c_int) as size_t;
+    let mut i_0: usize = -(1 as libc::c_int) as usize;
     loop {
         t = reach_types_next(&mut (*(*c).reach).types, &mut i_0);
         if t.is_null() {
@@ -2293,7 +2293,7 @@ pub unsafe extern "C" fn gendesc_dispatch(
 pub unsafe extern "C" fn gendesc_vtable(
     mut c: *mut compile_t,
     mut desc: LLVMValueRef,
-    mut colour: size_t,
+    mut colour: usize,
 ) -> LLVMValueRef {
     let mut vtable: LLVMValueRef = LLVMBuildStructGEP_P(
         (*c).builder,
@@ -2364,7 +2364,7 @@ pub unsafe extern "C" fn gendesc_fieldcount(
 pub unsafe extern "C" fn gendesc_fieldinfo(
     mut c: *mut compile_t,
     mut desc: LLVMValueRef,
-    mut index: size_t,
+    mut index: usize,
 ) -> LLVMValueRef {
     let mut fields: LLVMValueRef = desc_field(c, desc, 15 as libc::c_int);
     let mut gep: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
@@ -2475,7 +2475,7 @@ pub unsafe extern "C" fn gendesc_isnominal(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                 as *const u8 as *const libc::c_char,
-            605 as libc::c_int as size_t,
+            605 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"gendesc_isnominal\0"))
                 .as_ptr(),
         );
@@ -2496,7 +2496,7 @@ pub unsafe extern "C" fn gendesc_istrait(
             b"t != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gendesc.c\0"
                 as *const u8 as *const libc::c_char,
-            612 as libc::c_int as size_t,
+            612 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"gendesc_istrait\0"))
                 .as_ptr(),
         );

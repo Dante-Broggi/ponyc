@@ -18,7 +18,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -28,7 +28,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
@@ -39,7 +39,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
 }
@@ -108,8 +108,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -149,9 +149,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:4"]
@@ -162,7 +162,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -199,14 +199,14 @@ pub use self::sys__types_h::__darwin_off_t;
 pub struct errors_t {
     pub head: *mut errormsg_t,
     pub tail: *mut errormsg_t,
-    pub count: size_t,
+    pub count: usize,
     pub immediate_report: bool,
     pub output_stream: *mut FILE,
 }
 #[no_mangle]
 #[c2rust::src_loc = "22:1"]
 pub unsafe extern "C" fn error_alloc() -> *mut errormsg_t {
-    let mut e: *mut errormsg_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut errormsg_t;
+    let mut e: *mut errormsg_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut errormsg_t;
     memset(
         e as *mut libc::c_void,
         0 as libc::c_int,
@@ -218,14 +218,14 @@ pub unsafe extern "C" fn error_alloc() -> *mut errormsg_t {
 unsafe extern "C" fn error_free(mut e: *mut errormsg_t) {
     while !e.is_null() {
         let mut next: *mut errormsg_t = (*e).frame;
-        ponyint_pool_free(1 as libc::c_int as size_t, e as *mut libc::c_void);
+        ponyint_pool_free(1 as libc::c_int as usize, e as *mut libc::c_void);
         e = next;
     }
 }
 #[no_mangle]
 #[c2rust::src_loc = "39:1"]
 pub unsafe extern "C" fn errors_alloc() -> *mut errors_t {
-    let mut errors: *mut errors_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut errors_t;
+    let mut errors: *mut errors_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut errors_t;
     memset(
         errors as *mut libc::c_void,
         0 as libc::c_int,
@@ -244,7 +244,7 @@ pub unsafe extern "C" fn errors_free(mut errors: *mut errors_t) {
         error_free(e);
         e = next;
     }
-    ponyint_pool_free(1 as libc::c_int as size_t, errors as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, errors as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "61:1"]
@@ -253,7 +253,7 @@ pub unsafe extern "C" fn errors_get_first(mut errors: *mut errors_t) -> *mut err
 }
 #[no_mangle]
 #[c2rust::src_loc = "66:1"]
-pub unsafe extern "C" fn errors_get_count(mut errors: *mut errors_t) -> size_t {
+pub unsafe extern "C" fn errors_get_count(mut errors: *mut errors_t) -> usize {
     return (*errors).count;
 }
 #[no_mangle]
@@ -300,7 +300,7 @@ unsafe extern "C" fn error_print_msg(
             (*e).source,
         );
         fprintf(fp, b"%s\0" as *const u8 as *const libc::c_char, indent);
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < ((*e).pos).wrapping_sub(1 as libc::c_int as libc::c_ulong) {
             if *((*e).source).offset(i as isize) as libc::c_int == '\t' as i32 {
                 fprintf(fp, b"\t\0" as *const u8 as *const libc::c_char);
@@ -354,7 +354,7 @@ unsafe extern "C" fn append_to_frame(mut frame: *mut errorframe_t, mut e: *mut e
             b"frame != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            149 as libc::c_int as size_t,
+            149 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"append_to_frame\0"))
                 .as_ptr(),
         );
@@ -385,8 +385,8 @@ pub unsafe extern "C" fn errors_print(mut errors: *mut errors_t) {
 #[c2rust::src_loc = "179:1"]
 unsafe extern "C" fn make_errorv(
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut ap: ::core::ffi::VaList,
 ) -> *mut errormsg_t {
@@ -407,21 +407,21 @@ unsafe extern "C" fn make_errorv(
     let ref mut fresh10 = (*e).msg;
     *fresh10 = stringtab(buf.as_mut_ptr());
     if !source.is_null() && line != 0 as libc::c_int as libc::c_ulong {
-        let mut tline: size_t = 1 as libc::c_int as size_t;
-        let mut tpos: size_t = 0;
+        let mut tline: usize = 1 as libc::c_int as usize;
+        let mut tpos: usize = 0;
         while tline < (*e).line && tpos < (*source).len {
             if *((*source).m).offset(tpos as isize) as libc::c_int == '\n' as i32 {
                 tline = tline.wrapping_add(1);
             }
             tpos = tpos.wrapping_add(1);
         }
-        let mut start: size_t = tpos;
+        let mut start: usize = tpos;
         while *((*source).m).offset(tpos as isize) as libc::c_int != '\n' as i32
             && tpos < (*source).len
         {
             tpos = tpos.wrapping_add(1);
         }
-        let mut len: size_t = tpos.wrapping_sub(start);
+        let mut len: usize = tpos.wrapping_sub(start);
         if len >= ::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong {
             len = (::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong)
                 .wrapping_sub(1 as libc::c_int as libc::c_ulong);
@@ -442,8 +442,8 @@ unsafe extern "C" fn make_errorv(
 pub unsafe extern "C" fn errorv(
     mut errors: *mut errors_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut ap: ::core::ffi::VaList,
 ) {
@@ -454,8 +454,8 @@ pub unsafe extern "C" fn errorv(
 pub unsafe extern "C" fn errorv_continue(
     mut errors: *mut errors_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut ap: ::core::ffi::VaList,
 ) {
@@ -474,8 +474,8 @@ pub unsafe extern "C" fn errorv_continue(
 pub unsafe extern "C" fn error(
     mut errors: *mut errors_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut args: ...
 ) {
@@ -488,8 +488,8 @@ pub unsafe extern "C" fn error(
 pub unsafe extern "C" fn error_continue(
     mut errors: *mut errors_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut args: ...
 ) {
@@ -502,8 +502,8 @@ pub unsafe extern "C" fn error_continue(
 pub unsafe extern "C" fn errorframev(
     mut frame: *mut errorframe_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut ap: ::core::ffi::VaList,
 ) {
@@ -513,7 +513,7 @@ pub unsafe extern "C" fn errorframev(
             b"frame != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            265 as libc::c_int as size_t,
+            265 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"errorframev\0")).as_ptr(),
         );
     };
@@ -524,8 +524,8 @@ pub unsafe extern "C" fn errorframev(
 pub unsafe extern "C" fn errorframe(
     mut frame: *mut errorframe_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut args: ...
 ) {
@@ -535,7 +535,7 @@ pub unsafe extern "C" fn errorframe(
             b"frame != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            272 as libc::c_int as size_t,
+            272 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"errorframe\0")).as_ptr(),
         );
     };
@@ -627,7 +627,7 @@ pub unsafe extern "C" fn errorframe_append(
             b"first != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            328 as libc::c_int as size_t,
+            328 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"errorframe_append\0"))
                 .as_ptr(),
         );
@@ -638,7 +638,7 @@ pub unsafe extern "C" fn errorframe_append(
             b"second != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            329 as libc::c_int as size_t,
+            329 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"errorframe_append\0"))
                 .as_ptr(),
         );
@@ -655,7 +655,7 @@ pub unsafe extern "C" fn errorframe_has_errors(mut frame: *mut errorframe_t) -> 
             b"frame != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            337 as libc::c_int as size_t,
+            337 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"errorframe_has_errors\0"))
                 .as_ptr(),
         );
@@ -674,7 +674,7 @@ pub unsafe extern "C" fn errorframe_report(
             b"frame != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            343 as libc::c_int as size_t,
+            343 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"errorframe_report\0"))
                 .as_ptr(),
         );
@@ -693,7 +693,7 @@ pub unsafe extern "C" fn errorframe_discard(mut frame: *mut errorframe_t) {
             b"frame != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.c\0" as *const u8
                 as *const libc::c_char,
-            353 as libc::c_int as size_t,
+            353 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"errorframe_discard\0"))
                 .as_ptr(),
         );

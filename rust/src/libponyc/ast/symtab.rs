@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "72:1"]
     pub type __darwin_ct_rune_t = libc::c_int;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
@@ -14,7 +14,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/fun.h:1"]
@@ -26,7 +26,7 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "30:1"]
-        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> size_t;
+        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
@@ -47,16 +47,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -113,20 +113,20 @@ pub mod pony_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -135,7 +135,7 @@ pub mod hash_h {
     use super::pony_h::{pony_ctx_t, pony_type_t};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -144,50 +144,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "124:1"]
@@ -201,7 +201,7 @@ pub mod hash_h {
             ctx: *mut pony_ctx_t,
             object: *mut libc::c_void,
             buf: *mut libc::c_void,
-            offset: size_t,
+            offset: usize,
         );
         #[c2rust::src_loc = "130:1"]
         pub fn ponyint_hashmap_deserialise(
@@ -238,7 +238,7 @@ pub mod symtab_h {
         pub name: *const libc::c_char,
         pub def: *mut ast_t,
         pub status: sym_status_t,
-        pub branch_count: size_t,
+        pub branch_count: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -264,7 +264,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "20:1"]
         pub fn stringtab_consume(
             string: *const libc::c_char,
-            buf_size: size_t,
+            buf_size: usize,
         ) -> *const libc::c_char;
         #[c2rust::src_loc = "24:1"]
         pub fn string_trace(ctx: *mut pony_ctx_t, string: *const libc::c_char);
@@ -307,11 +307,11 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:5"]
@@ -327,7 +327,7 @@ pub mod serialise_h {
             offset: uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:10"]
@@ -398,7 +398,7 @@ pub type symtab_free_fn = Option<unsafe extern "C" fn(*mut symbol_t) -> ()>;
 #[c2rust::src_loc = "35:1"]
 pub type symtab_cmp_fn = Option<unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool>;
 #[c2rust::src_loc = "13:1"]
-unsafe extern "C" fn sym_hash(mut sym: *mut symbol_t) -> size_t {
+unsafe extern "C" fn sym_hash(mut sym: *mut symbol_t) -> usize {
     ponyint_hash_ptr((*sym).name as *const libc::c_void)
 }
 #[c2rust::src_loc = "18:1"]
@@ -407,7 +407,7 @@ unsafe extern "C" fn sym_cmp(mut a: *mut symbol_t, mut b: *mut symbol_t) -> bool
 }
 #[c2rust::src_loc = "23:1"]
 unsafe extern "C" fn sym_dup(mut sym: *mut symbol_t) -> *mut symbol_t {
-    let mut s: *mut symbol_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut symbol_t;
+    let mut s: *mut symbol_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut symbol_t;
     memcpy(
         s as *mut libc::c_void,
         sym as *const libc::c_void,
@@ -417,7 +417,7 @@ unsafe extern "C" fn sym_dup(mut sym: *mut symbol_t) -> *mut symbol_t {
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn sym_free(mut sym: *mut symbol_t) {
-    ponyint_pool_free(0 as libc::c_int as size_t, sym as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, sym as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
@@ -425,14 +425,14 @@ pub unsafe extern "C" fn symtab_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
-pub unsafe extern "C" fn symtab_alloc_size(mut map: *mut symtab_t) -> size_t {
+pub unsafe extern "C" fn symtab_alloc_size(mut map: *mut symtab_t) -> usize {
     return ponyint_hashmap_alloc_size(map as *mut hashmap_t);
 }
 #[c2rust::src_loc = "35:1"]
@@ -455,7 +455,7 @@ static mut symtab_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -501,7 +501,7 @@ pub unsafe extern "C" fn symtab_optimize(mut map: *mut symtab_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
-pub unsafe extern "C" fn symtab_init(mut map: *mut symtab_t, mut size: size_t) {
+pub unsafe extern "C" fn symtab_init(mut map: *mut symtab_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -509,7 +509,7 @@ pub unsafe extern "C" fn symtab_init(mut map: *mut symtab_t, mut size: size_t) {
 pub unsafe extern "C" fn symtab_putindex(
     mut map: *mut symtab_t,
     mut entry: *mut symbol_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: symtab_cmp_fn =
         Some(sym_cmp as unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool);
@@ -523,17 +523,17 @@ pub unsafe extern "C" fn symtab_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
-pub unsafe extern "C" fn symtab_removeindex(mut map: *mut symtab_t, mut index: size_t) {
+pub unsafe extern "C" fn symtab_removeindex(mut map: *mut symtab_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
-pub unsafe extern "C" fn symtab_clearindex(mut map: *mut symtab_t, mut index: size_t) {
+pub unsafe extern "C" fn symtab_clearindex(mut map: *mut symtab_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
-pub unsafe extern "C" fn symtab_size(mut map: *mut symtab_t) -> size_t {
+pub unsafe extern "C" fn symtab_size(mut map: *mut symtab_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -551,7 +551,7 @@ pub unsafe extern "C" fn symtab_deserialise(
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:1"]
-pub unsafe extern "C" fn symtab_mem_size(mut map: *mut symtab_t) -> size_t {
+pub unsafe extern "C" fn symtab_mem_size(mut map: *mut symtab_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -567,7 +567,7 @@ pub unsafe extern "C" fn symtab_serialise_trace(
 pub unsafe extern "C" fn symtab_get(
     mut map: *mut symtab_t,
     mut key: *mut symbol_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut symbol_t {
     let mut cmpf: symtab_cmp_fn =
         Some(sym_cmp as unsafe extern "C" fn(*mut symbol_t, *mut symbol_t) -> bool);
@@ -596,7 +596,7 @@ pub unsafe extern "C" fn symtab_remove(
 }
 #[no_mangle]
 #[c2rust::src_loc = "35:44"]
-pub unsafe extern "C" fn symtab_next(mut map: *mut symtab_t, mut i: *mut size_t) -> *mut symbol_t {
+pub unsafe extern "C" fn symtab_next(mut map: *mut symtab_t, mut i: *mut usize) -> *mut symbol_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut symbol_t
 }
@@ -617,17 +617,17 @@ pub unsafe extern "C" fn symtab_put(
 }
 #[c2rust::src_loc = "38:1"]
 unsafe extern "C" fn name_without_case(mut name: *const libc::c_char) -> *const libc::c_char {
-    let mut len: size_t = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     if is_name_type(name) {
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < len {
             *buf.offset(i as isize) =
                 toupper(*name.offset(i as isize) as libc::c_int) as libc::c_char;
             i = i.wrapping_add(1);
         }
     } else {
-        let mut i_0: size_t = 0;
+        let mut i_0: usize = 0;
         while i_0 < len {
             *buf.offset(i_0 as isize) =
                 tolower(*name.offset(i_0 as isize) as libc::c_int) as libc::c_char;
@@ -639,16 +639,16 @@ unsafe extern "C" fn name_without_case(mut name: *const libc::c_char) -> *const 
 #[no_mangle]
 #[c2rust::src_loc = "55:1"]
 pub unsafe extern "C" fn symtab_new() -> *mut symtab_t {
-    let mut symtab: *mut symtab_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut symtab_t;
-    symtab_init(symtab, 8 as libc::c_int as size_t);
+    let mut symtab: *mut symtab_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut symtab_t;
+    symtab_init(symtab, 8 as libc::c_int as usize);
     return symtab;
 }
 #[no_mangle]
 #[c2rust::src_loc = "62:1"]
 pub unsafe extern "C" fn symtab_dup(mut symtab: *mut symtab_t) -> *mut symtab_t {
-    let mut n: *mut symtab_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut symtab_t;
+    let mut n: *mut symtab_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut symtab_t;
     symtab_init(n, symtab_size(symtab));
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
     loop {
         sym = symtab_next(symtab, &mut i);
@@ -666,7 +666,7 @@ pub unsafe extern "C" fn symtab_free(mut symtab: *mut symtab_t) {
         return;
     }
     symtab_destroy(symtab);
-    ponyint_pool_free(0 as libc::c_int as size_t, symtab as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, symtab as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "85:1"]
@@ -683,11 +683,11 @@ pub unsafe extern "C" fn symtab_add(
                 name: no_case,
                 def: def,
                 status: SYM_NOCASE,
-                branch_count: 0 as libc::c_int as size_t,
+                branch_count: 0 as libc::c_int as usize,
             };
             init
         };
-        let mut index: size_t = -(1 as libc::c_int) as size_t;
+        let mut index: usize = -(1 as libc::c_int) as usize;
         let mut s2: *mut symbol_t = symtab_get(symtab, &mut s1, &mut index);
         if !s2.is_null() {
             return 0 as libc::c_int != 0;
@@ -699,11 +699,11 @@ pub unsafe extern "C" fn symtab_add(
             name: name,
             def: def,
             status: status,
-            branch_count: 0 as libc::c_int as size_t,
+            branch_count: 0 as libc::c_int as usize,
         };
         init
     };
-    let mut index_0: size_t = -(1 as libc::c_int) as size_t;
+    let mut index_0: usize = -(1 as libc::c_int) as usize;
     let mut s2_0: *mut symbol_t = symtab_get(symtab, &mut s1_0, &mut index_0);
     if !s2_0.is_null() {
         return 0 as libc::c_int != 0;
@@ -723,11 +723,11 @@ pub unsafe extern "C" fn symtab_find(
             name: name,
             def: 0 as *mut ast_t,
             status: SYM_NONE,
-            branch_count: 0 as libc::c_int as size_t,
+            branch_count: 0 as libc::c_int as usize,
         };
         init
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s2: *mut symbol_t = symtab_get(symtab, &mut s1, &mut index);
     if !s2.is_null() {
         if !status.is_null() {
@@ -755,11 +755,11 @@ pub unsafe extern "C" fn symtab_find_case(
             name: name,
             def: 0 as *mut ast_t,
             status: SYM_NONE,
-            branch_count: 0 as libc::c_int as size_t,
+            branch_count: 0 as libc::c_int as usize,
         };
         init
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s2: *mut symbol_t = symtab_get(symtab, &mut s1, &mut index);
     if !s2.is_null() {
         if !status.is_null() {
@@ -788,11 +788,11 @@ pub unsafe extern "C" fn symtab_set_status(
             name: name,
             def: 0 as *mut ast_t,
             status: status,
-            branch_count: 0 as libc::c_int as size_t,
+            branch_count: 0 as libc::c_int as usize,
         };
         init
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s2: *mut symbol_t = symtab_get(symtab, &mut s1, &mut index);
     if !s2.is_null() {
         (*s2).status = status;
@@ -803,9 +803,9 @@ pub unsafe extern "C" fn symtab_set_status(
 #[no_mangle]
 #[c2rust::src_loc = "184:1"]
 pub unsafe extern "C" fn symtab_inherit_status(mut dst: *mut symtab_t, mut src: *mut symtab_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     loop {
         sym = symtab_next(src, &mut i);
         if sym.is_null() {
@@ -825,9 +825,9 @@ pub unsafe extern "C" fn symtab_inherit_status(mut dst: *mut symtab_t, mut src: 
 #[no_mangle]
 #[c2rust::src_loc = "211:1"]
 pub unsafe extern "C" fn symtab_inherit_branch(mut dst: *mut symtab_t, mut src: *mut symtab_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     loop {
         sym = symtab_next(src, &mut i);
         if sym.is_null() {
@@ -845,18 +845,18 @@ pub unsafe extern "C" fn symtab_inherit_branch(mut dst: *mut symtab_t, mut src: 
                 }
             } else if (*sym).status as libc::c_uint == SYM_CONSUMED as libc::c_int as libc::c_uint {
                 (*dsym).status = SYM_CONSUMED;
-                (*dsym).branch_count = 0 as libc::c_int as size_t;
+                (*dsym).branch_count = 0 as libc::c_int as usize;
             } else if (*sym).status as libc::c_uint
                 == SYM_CONSUMED_SAME_EXPR as libc::c_int as libc::c_uint
             {
                 (*dsym).status = SYM_CONSUMED_SAME_EXPR;
-                (*dsym).branch_count = 0 as libc::c_int as size_t;
+                (*dsym).branch_count = 0 as libc::c_int as usize;
             }
         } else {
             dsym = sym_dup(sym);
             if (*dsym).status as libc::c_uint == SYM_DEFINED as libc::c_int as libc::c_uint {
                 (*dsym).status = SYM_UNDEFINED;
-                (*dsym).branch_count = 1 as libc::c_int as size_t;
+                (*dsym).branch_count = 1 as libc::c_int as usize;
             }
             symtab_putindex(dst, dsym, index);
         }
@@ -868,7 +868,7 @@ pub unsafe extern "C" fn symtab_can_merge_public(
     mut dst: *mut symtab_t,
     mut src: *mut symtab_t,
 ) -> bool {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
     loop {
         sym = symtab_next(src, &mut i);
@@ -893,7 +893,7 @@ pub unsafe extern "C" fn symtab_merge_public(
     mut dst: *mut symtab_t,
     mut src: *mut symtab_t,
 ) -> bool {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
     loop {
         sym = symtab_next(src, &mut i);
@@ -919,7 +919,7 @@ pub unsafe extern "C" fn symtab_check_all_defined(
     mut errors: *mut errors_t,
 ) -> bool {
     let mut r: bool = 1 as libc::c_int != 0;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
     loop {
         sym = symtab_next(symtab, &mut i);
@@ -944,7 +944,7 @@ pub unsafe extern "C" fn symtab_check_all_defined(
 #[no_mangle]
 #[c2rust::src_loc = "318:1"]
 pub unsafe extern "C" fn symtab_print(mut symtab: *mut symtab_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
     loop {
         sym = symtab_next(symtab, &mut i);
@@ -992,7 +992,7 @@ unsafe extern "C" fn symbol_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut sym: *mut symbol_t = object as *mut symbol_t;
@@ -1033,7 +1033,7 @@ static mut symbol_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

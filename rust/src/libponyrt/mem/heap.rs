@@ -7,7 +7,7 @@ pub mod internal {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:1"]
 pub mod _pthread_types_h {
@@ -67,7 +67,7 @@ pub mod actor_h {
         pub sync_flags: u8,
         pub cycle_detector_critical: u8,
         pub heap: heap_t,
-        pub muted: size_t,
+        pub muted: usize,
         pub internal_flags: u8,
         pub gc: gc_t,
     }
@@ -85,7 +85,7 @@ pub mod gc_h {
     pub struct gc_t {
         pub mark: u32,
         pub rc_mark: u32,
-        pub rc: size_t,
+        pub rc: usize,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
@@ -115,8 +115,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -125,10 +125,10 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:4"]
@@ -160,8 +160,8 @@ pub mod heap_h {
         pub small_free: [*mut chunk_t; 5],
         pub small_full: [*mut chunk_t; 5],
         pub large: *mut chunk_t,
-        pub used: size_t,
-        pub next_gc: size_t,
+        pub used: usize,
+        pub next_gc: usize,
     }
     #[c2rust::src_loc = "30:1"]
     pub type C2RustUnnamed_0 = libc::c_uint;
@@ -215,10 +215,10 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -227,7 +227,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -249,7 +249,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -306,7 +306,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -398,12 +398,12 @@ pub mod platform_h {
     }
     #[inline]
     #[c2rust::src_loc = "319:1"]
-    pub unsafe extern "C" fn __pony_ffszu(mut x: size_t) -> u32 {
+    pub unsafe extern "C" fn __pony_ffszu(mut x: usize) -> u32 {
         __pony_ffsll(x as u64)
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
-    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> u32 {
+    pub unsafe extern "C" fn __pony_clzzu(mut x: usize) -> u32 {
         __pony_clzll(x as u64)
     }
     use super::stddef_h::size_t;
@@ -413,15 +413,15 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "38:1"]
-        pub fn ponyint_pool_adjust_size(size: size_t) -> size_t;
+        pub fn ponyint_pool_adjust_size(size: usize) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pagemap.h:2"]
@@ -437,7 +437,7 @@ pub mod pagemap_h {
         pub fn ponyint_pagemap_set_bulk(
             addr: *const libc::c_void,
             chunk: *mut chunk_t,
-            size: size_t,
+            size: usize,
         );
     }
 }
@@ -449,7 +449,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -516,7 +516,7 @@ use self::string_h::{memcpy, memset};
 pub struct chunk_t {
     pub actor: *mut pony_actor_t,
     pub m: *mut libc::c_char,
-    pub size: size_t,
+    pub size: usize,
     pub slots: u32,
     pub shallow: u32,
     pub finalisers: u32,
@@ -572,13 +572,13 @@ static mut sizeclass_table: [u8; 16] = [
     4 as libc::c_int as u8,
 ];
 #[c2rust::src_loc = "80:15"]
-static mut heap_initialgc: size_t = ((1 as libc::c_int) << 14 as libc::c_int) as size_t;
+static mut heap_initialgc: usize = ((1 as libc::c_int) << 14 as libc::c_int) as usize;
 #[c2rust::src_loc = "81:15"]
 static mut heap_nextgc_factor: libc::c_double = 2.0f64;
 #[c2rust::src_loc = "131:1"]
 unsafe extern "C" fn large_pagemap(
     mut m: *mut libc::c_char,
-    mut size: size_t,
+    mut size: usize,
     mut chunk: *mut chunk_t,
 ) {
     ponyint_pagemap_set_bulk(m as *const libc::c_void, chunk, size);
@@ -616,7 +616,7 @@ unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_m
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0"
                 as *const u8 as *const libc::c_char,
-            174 as libc::c_int as size_t,
+            174 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"final_small\0"))
                 .as_ptr(),
         );
@@ -637,7 +637,7 @@ unsafe extern "C" fn final_small(mut chunk: *mut chunk_t, mut force_finalisers_m
                 b"(*(pony_type_t**)p)->final != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0" as *const u8
                     as *const libc::c_char,
-                196 as libc::c_int as size_t,
+                196 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"final_small\0"))
                     .as_ptr(),
             );
@@ -655,7 +655,7 @@ unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut _mark: u32) {
                 b"(*(pony_type_t**)chunk->m)->final != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0" as *const u8
                     as *const libc::c_char,
-                209 as libc::c_int as size_t,
+                209 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"final_large\0"))
                     .as_ptr(),
             );
@@ -670,8 +670,8 @@ unsafe extern "C" fn final_large(mut chunk: *mut chunk_t, mut _mark: u32) {
 unsafe extern "C" fn destroy_small(mut chunk: *mut chunk_t, mut _mark: u32) {
     final_small(chunk, FORCE_ALL_FINALISERS as libc::c_uint);
     ponyint_pagemap_set((*chunk).m as *const libc::c_void, 0 as *mut chunk_t);
-    ponyint_pool_free(5 as libc::c_int as size_t, (*chunk).m as *mut libc::c_void);
-    ponyint_pool_free(1 as libc::c_int as size_t, chunk as *mut libc::c_void);
+    ponyint_pool_free(5 as libc::c_int as usize, (*chunk).m as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, chunk as *mut libc::c_void);
 }
 #[c2rust::src_loc = "228:1"]
 unsafe extern "C" fn destroy_large(mut chunk: *mut chunk_t, mut mark: u32) {
@@ -680,7 +680,7 @@ unsafe extern "C" fn destroy_large(mut chunk: *mut chunk_t, mut mark: u32) {
     if !((*chunk).m).is_null() {
         ponyint_pool_free_size((*chunk).size, (*chunk).m as *mut libc::c_void);
     }
-    ponyint_pool_free(1 as libc::c_int as size_t, chunk as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, chunk as *mut libc::c_void);
 }
 #[c2rust::src_loc = "244:1"]
 unsafe extern "C" fn sweep_small(
@@ -688,9 +688,9 @@ unsafe extern "C" fn sweep_small(
     mut avail: *mut *mut chunk_t,
     mut full: *mut *mut chunk_t,
     mut empty: u32,
-    mut size: size_t,
-) -> size_t {
-    let mut used: size_t = 0;
+    mut size: usize,
+) -> usize {
+    let mut used: usize = 0;
     let mut next: *mut chunk_t = 0 as *mut chunk_t;
     while !chunk.is_null() {
         next = (*chunk).next;
@@ -701,7 +701,7 @@ unsafe extern "C" fn sweep_small(
         if (*chunk).slots == 0 as libc::c_int as libc::c_uint {
             used = (used as libc::c_ulong)
                 .wrapping_add(::core::mem::size_of::<block_t>() as libc::c_ulong)
-                as size_t as size_t;
+                as usize as usize;
             let ref mut fresh1 = (*chunk).next;
             *fresh1 = *full;
             *full = chunk;
@@ -712,7 +712,7 @@ unsafe extern "C" fn sweep_small(
                 (::core::mem::size_of::<block_t>() as libc::c_ulong).wrapping_sub(
                     (__pony_popcount((*chunk).slots) as libc::c_ulong).wrapping_mul(size),
                 ),
-            ) as size_t as size_t;
+            ) as usize as usize;
             final_small(chunk, FORCE_NO_FINALISERS as libc::c_int as u32);
             let ref mut fresh2 = (*chunk).next;
             *fresh2 = *avail;
@@ -723,7 +723,7 @@ unsafe extern "C" fn sweep_small(
     used
 }
 #[c2rust::src_loc = "322:1"]
-unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut size_t) -> *mut chunk_t {
+unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut usize) -> *mut chunk_t {
     let mut list: *mut chunk_t = 0 as *mut chunk_t;
     let mut next: *mut chunk_t = 0 as *mut chunk_t;
     while !chunk.is_null() {
@@ -736,7 +736,7 @@ unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut size_t)
             let ref mut fresh4 = (*chunk).next;
             *fresh4 = list;
             list = chunk;
-            *used = (*used as libc::c_ulong).wrapping_add((*chunk).size) as size_t as size_t;
+            *used = (*used as libc::c_ulong).wrapping_add((*chunk).size) as usize as usize;
         } else {
             destroy_large(chunk, 0 as libc::c_int as u32);
         }
@@ -755,15 +755,15 @@ unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut 
 }
 #[no_mangle]
 #[c2rust::src_loc = "382:1"]
-pub unsafe extern "C" fn ponyint_heap_index(mut size: size_t) -> u32 {
+pub unsafe extern "C" fn ponyint_heap_index(mut size: usize) -> u32 {
     return sizeclass_table
         [(size.wrapping_sub(1 as libc::c_int as libc::c_ulong) >> 5 as libc::c_int) as usize]
         as u32;
 }
 #[no_mangle]
 #[c2rust::src_loc = "389:1"]
-pub unsafe extern "C" fn ponyint_heap_setinitialgc(mut size: size_t) {
-    heap_initialgc = (1 as libc::c_int as size_t) << size;
+pub unsafe extern "C" fn ponyint_heap_setinitialgc(mut size: usize) {
+    heap_initialgc = (1 as libc::c_int as usize) << size;
 }
 #[no_mangle]
 #[c2rust::src_loc = "394:1"]
@@ -839,7 +839,7 @@ pub unsafe extern "C" fn ponyint_heap_final(mut heap: *mut heap_t) {
 pub unsafe extern "C" fn ponyint_heap_alloc(
     mut actor: *mut pony_actor_t,
     mut heap: *mut heap_t,
-    mut size: size_t,
+    mut size: usize,
     mut track_finalisers_mask: u32,
 ) -> *mut libc::c_void {
     if track_finalisers_mask == TRACK_NO_FINALISERS as libc::c_int as libc::c_uint
@@ -851,7 +851,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0"
                 as *const u8 as *const libc::c_char,
-            439 as libc::c_int as size_t,
+            439 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 19],
                 &[libc::c_char; 19],
@@ -890,7 +890,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_small(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0"
                 as *const u8 as *const libc::c_char,
-            460 as libc::c_int as size_t,
+            460 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 25],
                 &[libc::c_char; 25],
@@ -917,13 +917,13 @@ pub unsafe extern "C" fn ponyint_heap_alloc_small(
             *fresh8 = chunk;
         }
     } else {
-        let mut n: *mut chunk_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut chunk_t;
+        let mut n: *mut chunk_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut chunk_t;
         let ref mut fresh9 = (*n).actor;
         *fresh9 = actor;
         let ref mut fresh10 = (*n).m;
         *fresh10 =
-            ponyint_pool_alloc(5 as libc::c_int as size_t) as *mut block_t as *mut libc::c_char;
-        (*n).size = sizeclass as size_t;
+            ponyint_pool_alloc(5 as libc::c_int as usize) as *mut block_t as *mut libc::c_char;
+        (*n).size = sizeclass as usize;
         (*n).finalisers = track_finalisers_mask & 1 as libc::c_int as libc::c_uint;
         (*n).slots = sizeclass_init[sizeclass as usize];
         let ref mut fresh11 = (*n).next;
@@ -938,7 +938,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_small(
     let ref mut fresh13 = (*heap).used;
     *fresh13 = (*fresh13 as libc::c_ulong)
         .wrapping_add((((1 as libc::c_int) << 5 as libc::c_int) << sizeclass) as libc::c_ulong)
-        as size_t as size_t;
+        as usize as usize;
     return m;
 }
 #[no_mangle]
@@ -946,7 +946,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_small(
 pub unsafe extern "C" fn ponyint_heap_alloc_large(
     mut actor: *mut pony_actor_t,
     mut heap: *mut heap_t,
-    mut size: size_t,
+    mut size: usize,
     mut track_finalisers_mask: u32,
 ) -> *mut libc::c_void {
     if track_finalisers_mask == TRACK_NO_FINALISERS as libc::c_int as libc::c_uint
@@ -958,7 +958,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_large(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0"
                 as *const u8 as *const libc::c_char,
-            535 as libc::c_int as size_t,
+            535 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 25],
                 &[libc::c_char; 25],
@@ -967,7 +967,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_large(
         );
     };
     size = ponyint_pool_adjust_size(size);
-    let mut chunk: *mut chunk_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut chunk_t;
+    let mut chunk: *mut chunk_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut chunk_t;
     let ref mut fresh14 = (*chunk).actor;
     *fresh14 = actor;
     (*chunk).size = size;
@@ -982,7 +982,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc_large(
     let ref mut fresh17 = (*heap).large;
     *fresh17 = chunk;
     let ref mut fresh18 = (*heap).used;
-    *fresh18 = (*fresh18 as libc::c_ulong).wrapping_add((*chunk).size) as size_t as size_t;
+    *fresh18 = (*fresh18 as libc::c_ulong).wrapping_add((*chunk).size) as usize as usize;
     return (*chunk).m as *mut libc::c_void;
 }
 #[no_mangle]
@@ -991,8 +991,8 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
     mut actor: *mut pony_actor_t,
     mut heap: *mut heap_t,
     mut p: *mut libc::c_void,
-    mut size: size_t,
-    mut copy: size_t,
+    mut size: usize,
+    mut copy: usize,
 ) -> *mut libc::c_void {
     if p.is_null() {
         return ponyint_heap_alloc(actor, heap, size, TRACK_NO_FINALISERS as libc::c_int as u32);
@@ -1004,12 +1004,12 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
             b"chunk != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0" as *const u8
                 as *const libc::c_char,
-            585 as libc::c_int as size_t,
+            585 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"ponyint_heap_realloc\0"))
                 .as_ptr(),
         );
     };
-    let mut oldsize: size_t = 0;
+    let mut oldsize: usize = 0;
     if (*chunk).size
         < (10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
             as libc::c_ulong
@@ -1029,7 +1029,7 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
             b"copy <= size\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0" as *const u8
                 as *const libc::c_char,
-            601 as libc::c_int as size_t,
+            601 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"ponyint_heap_realloc\0"))
                 .as_ptr(),
         );
@@ -1047,9 +1047,9 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
 }
 #[no_mangle]
 #[c2rust::src_loc = "615:1"]
-pub unsafe extern "C" fn ponyint_heap_used(mut heap: *mut heap_t, mut size: size_t) {
+pub unsafe extern "C" fn ponyint_heap_used(mut heap: *mut heap_t, mut size: usize) {
     let ref mut fresh19 = (*heap).used;
-    *fresh19 = (*fresh19 as libc::c_ulong).wrapping_add(size) as size_t as size_t;
+    *fresh19 = (*fresh19 as libc::c_ulong).wrapping_add(size) as usize as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "620:1"]
@@ -1064,7 +1064,7 @@ pub unsafe extern "C" fn ponyint_heap_startgc(mut heap: *mut heap_t) -> bool {
             b"mark == 0xFFFFFFFF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/heap.c\0" as *const u8
                 as *const libc::c_char,
-            633 as libc::c_int as size_t,
+            633 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"ponyint_heap_startgc\0"))
                 .as_ptr(),
         );
@@ -1079,7 +1079,7 @@ pub unsafe extern "C" fn ponyint_heap_startgc(mut heap: *mut heap_t) -> bool {
         (*heap).small_full[0 as libc::c_int as usize],
         mark,
     );
-    (*heap).used = 0 as libc::c_int as size_t;
+    (*heap).used = 0 as libc::c_int as usize;
     return 1 as libc::c_int != 0;
 }
 #[no_mangle]
@@ -1176,7 +1176,7 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
 #[no_mangle]
 #[c2rust::src_loc = "741:1"]
 pub unsafe extern "C" fn ponyint_heap_endgc(mut heap: *mut heap_t) {
-    let mut used: size_t = 0;
+    let mut used: usize = 0;
     let mut i: libc::c_int = 0 as libc::c_int;
     while i < 10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int {
         let mut list1: *mut chunk_t = (*heap).small_free[i as usize];
@@ -1189,19 +1189,19 @@ pub unsafe extern "C" fn ponyint_heap_endgc(mut heap: *mut heap_t) {
             &mut *((*heap).small_free).as_mut_ptr().offset(i as isize) as *mut *mut chunk_t;
         let mut full: *mut *mut chunk_t =
             &mut *((*heap).small_full).as_mut_ptr().offset(i as isize) as *mut *mut chunk_t;
-        let mut size: size_t = (((1 as libc::c_int) << 5 as libc::c_int) << i) as size_t;
+        let mut size: usize = (((1 as libc::c_int) << 5 as libc::c_int) << i) as usize;
         let mut empty: u32 = sizeclass_empty[i as usize];
         used = (used as libc::c_ulong).wrapping_add(sweep_small(list1, avail, full, empty, size))
-            as size_t as size_t;
+            as usize as usize;
         used = (used as libc::c_ulong).wrapping_add(sweep_small(list2, avail, full, empty, size))
-            as size_t as size_t;
+            as usize as usize;
         i += 1;
     }
     let ref mut fresh28 = (*heap).large;
     *fresh28 = sweep_large((*heap).large, &mut used);
     let ref mut fresh29 = (*heap).used;
-    *fresh29 = (*fresh29 as libc::c_ulong).wrapping_add(used) as size_t as size_t;
-    (*heap).next_gc = ((*heap).used as libc::c_double * heap_nextgc_factor) as size_t;
+    *fresh29 = (*fresh29 as libc::c_ulong).wrapping_add(used) as usize as usize;
+    (*heap).next_gc = ((*heap).used as libc::c_double * heap_nextgc_factor) as usize;
     if (*heap).next_gc < heap_initialgc {
         (*heap).next_gc = heap_initialgc;
     }
@@ -1213,12 +1213,12 @@ pub unsafe extern "C" fn ponyint_heap_owner(mut chunk: *mut chunk_t) -> *mut pon
 }
 #[no_mangle]
 #[c2rust::src_loc = "816:1"]
-pub unsafe extern "C" fn ponyint_heap_size(mut chunk: *mut chunk_t) -> size_t {
+pub unsafe extern "C" fn ponyint_heap_size(mut chunk: *mut chunk_t) -> usize {
     if (*chunk).size
         >= (10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
             as libc::c_ulong
     {
         return (*chunk).size;
     }
-    return (((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) as size_t;
+    return (((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) as usize;
 }

@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
@@ -18,7 +18,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
 }
@@ -482,7 +482,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "20:1"]
         pub fn stringtab_consume(
             string: *const libc::c_char,
-            buf_size: size_t,
+            buf_size: usize,
         ) -> *const libc::c_char;
     }
 }
@@ -519,9 +519,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "74:1"]
-        pub fn ast_line(ast: *mut ast_t) -> size_t;
+        pub fn ast_line(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "75:1"]
-        pub fn ast_pos(ast: *mut ast_t) -> size_t;
+        pub fn ast_pos(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "76:1"]
         pub fn ast_source(ast: *mut ast_t) -> *mut source_t;
         #[c2rust::src_loc = "79:1"]
@@ -531,7 +531,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "96:1"]
-        pub fn ast_name_len(ast: *mut ast_t) -> size_t;
+        pub fn ast_name_len(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "103:1"]
         pub fn ast_setannotation(ast: *mut ast_t, annotation: *mut ast_t);
         #[c2rust::src_loc = "104:1"]
@@ -543,11 +543,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "114:1"]
         pub fn ast_childlast(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "136:1"]
@@ -580,13 +580,13 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "205:1"]
         pub fn ast_extract_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -628,10 +628,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -726,7 +726,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -780,8 +780,8 @@ pub mod printbuf_h {
     #[c2rust::src_loc = "10:16"]
     pub struct printbuf_t {
         pub m: *mut libc::c_char,
-        pub size: size_t,
-        pub offset: size_t,
+        pub size: usize,
+        pub offset: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -884,7 +884,7 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:15"]
@@ -895,7 +895,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -993,7 +993,7 @@ unsafe extern "C" fn make_runtime_override_defaults(mut ast: *mut ast_t) -> *mut
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            22 as libc::c_int as size_t,
+            22 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 31], &[libc::c_char; 31]>(
                 b"make_runtime_override_defaults\0",
             ))
@@ -1228,7 +1228,7 @@ unsafe extern "C" fn make_create(mut ast: *mut ast_t) -> *mut ast_t {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            44 as libc::c_int as size_t,
+            44 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"make_create\0")).as_ptr(),
         );
     };
@@ -1359,7 +1359,7 @@ pub unsafe extern "C" fn has_member(
                 id = ast_child(member);
             }
             _ => {
-                id = ast_childidx(member, 1 as libc::c_int as size_t);
+                id = ast_childidx(member, 1 as libc::c_int as usize);
             }
         }
         if ast_name(id) == name {
@@ -1377,14 +1377,14 @@ unsafe extern "C" fn add_default_runtime_override_defaults_method(mut ast: *mut 
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            109 as libc::c_int as size_t,
+            109 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 45], &[libc::c_char; 45]>(
                 b"add_default_runtime_override_defaults_method\0",
             ))
             .as_ptr(),
         );
     };
-    let mut members: *mut ast_t = ast_childidx(ast, 4 as libc::c_int as size_t);
+    let mut members: *mut ast_t = ast_childidx(ast, 4 as libc::c_int as usize);
     if has_member(
         members,
         b"runtime_override_defaults\0" as *const u8 as *const libc::c_char,
@@ -1401,14 +1401,14 @@ unsafe extern "C" fn add_default_constructor(mut ast: *mut ast_t) {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            122 as libc::c_int as size_t,
+            122 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                 b"add_default_constructor\0",
             ))
             .as_ptr(),
         );
     };
-    let mut members: *mut ast_t = ast_childidx(ast, 4 as libc::c_int as size_t);
+    let mut members: *mut ast_t = ast_childidx(ast, 4 as libc::c_int as usize);
     if has_member(members, b"create\0" as *const u8 as *const libc::c_char) {
         return;
     }
@@ -1432,7 +1432,7 @@ unsafe extern "C" fn sugar_module(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            154 as libc::c_int as size_t,
+            154 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"sugar_module\0")).as_ptr(),
         );
     };
@@ -1537,7 +1537,7 @@ unsafe extern "C" fn sugar_docstring(mut ast: *mut ast_t) {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            191 as libc::c_int as size_t,
+            191 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"sugar_docstring\0"))
                 .as_ptr(),
         );
@@ -1739,7 +1739,7 @@ unsafe extern "C" fn sugar_entity(
                             b"ast_id(n_body) == TK_SEQ\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                                 as *const u8 as *const libc::c_char,
-                            279 as libc::c_int as size_t,
+                            279 as libc::c_int as usize,
                             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(
                                 b"sugar_entity\0",
                             ))
@@ -1840,7 +1840,7 @@ unsafe extern "C" fn check_params(
             b"params != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            326 as libc::c_int as size_t,
+            326 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"check_params\0")).as_ptr(),
         );
     };
@@ -1894,12 +1894,12 @@ unsafe extern "C" fn check_method(
             b"method != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            360 as libc::c_int as size_t,
+            360 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"check_method\0")).as_ptr(),
         );
     };
     let mut result: ast_result_t = AST_OK;
-    let mut params: *mut ast_t = ast_childidx(method, 3 as libc::c_int as size_t);
+    let mut params: *mut ast_t = ast_childidx(method, 3 as libc::c_int as usize);
     result = check_params(opt, params);
     return result;
 }
@@ -1993,7 +1993,7 @@ pub unsafe extern "C" fn fun_defaults(mut ast: *mut ast_t) {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            421 as libc::c_int as size_t,
+            421 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"fun_defaults\0")).as_ptr(),
         );
     };
@@ -2138,7 +2138,7 @@ unsafe extern "C" fn sugar_return(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
                 b"ast_id(return_value) == TK_NONE\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                480 as libc::c_int as size_t,
+                480 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"sugar_return\0"))
                     .as_ptr(),
             );
@@ -2150,7 +2150,7 @@ unsafe extern "C" fn sugar_return(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     return AST_OK;
 }
 #[c2rust::src_loc = "490:1"]
-unsafe extern "C" fn sugar_else(mut ast: *mut ast_t, mut index: size_t) -> ast_result_t {
+unsafe extern "C" fn sugar_else(mut ast: *mut ast_t, mut index: usize) -> ast_result_t {
     let mut else_clause: *mut ast_t = ast_childidx(ast, index);
     expand_none(else_clause, 1 as libc::c_int != 0);
     return AST_OK;
@@ -2616,7 +2616,7 @@ unsafe extern "C" fn build_with_dispose(mut dispose_clause: *mut ast_t, mut idse
             b"dispose_clause != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            561 as libc::c_int as size_t,
+            561 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"build_with_dispose\0"))
                 .as_ptr(),
         );
@@ -2627,7 +2627,7 @@ unsafe extern "C" fn build_with_dispose(mut dispose_clause: *mut ast_t, mut idse
             b"idseq != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            562 as libc::c_int as size_t,
+            562 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"build_with_dispose\0"))
                 .as_ptr(),
         );
@@ -2640,7 +2640,7 @@ unsafe extern "C" fn build_with_dispose(mut dispose_clause: *mut ast_t, mut idse
                 b"id != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                568 as libc::c_int as size_t,
+                568 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                     b"build_with_dispose\0",
                 ))
@@ -2742,7 +2742,7 @@ unsafe extern "C" fn build_with_dispose(mut dispose_clause: *mut ast_t, mut idse
             b"ast_id(idseq) == TK_TUPLE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            586 as libc::c_int as size_t,
+            586 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"build_with_dispose\0"))
                 .as_ptr(),
         );
@@ -2755,7 +2755,7 @@ unsafe extern "C" fn build_with_dispose(mut dispose_clause: *mut ast_t, mut idse
                 b"ast_id(p) == TK_SEQ\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                590 as libc::c_int as size_t,
+                590 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                     b"build_with_dispose\0",
                 ))
@@ -2866,7 +2866,7 @@ unsafe extern "C" fn sugar_with(
                 b"ast_id(p) == TK_SEQ\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                617 as libc::c_int as size_t,
+                617 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"sugar_with\0"))
                     .as_ptr(),
             );
@@ -3088,7 +3088,7 @@ unsafe extern "C" fn sugar_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
                 b"next != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                728 as libc::c_int as size_t,
+                728 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"sugar_case\0"))
                     .as_ptr(),
             );
@@ -3099,12 +3099,12 @@ unsafe extern "C" fn sugar_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
                 b"ast_id(next) == TK_CASE\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                729 as libc::c_int as size_t,
+                729 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"sugar_case\0"))
                     .as_ptr(),
             );
         };
-        next_body = ast_childidx(next, 2 as libc::c_int as size_t);
+        next_body = ast_childidx(next, 2 as libc::c_int as usize);
     }
     ast_replace(&mut body, next_body);
     return r;
@@ -3118,7 +3118,7 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
             b"ast_id(ast) == TK_ASSIGN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            741 as libc::c_int as size_t,
+            741 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"sugar_update\0")).as_ptr(),
         );
     };
@@ -3289,7 +3289,7 @@ unsafe extern "C" fn sugar_as(
             b"ast_id(ast) == TK_AS\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            780 as libc::c_int as size_t,
+            780 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sugar_as\0")).as_ptr(),
         );
     };
@@ -3325,7 +3325,7 @@ unsafe extern "C" fn sugar_as(
         let mut p: *mut ast_t = ast_child(type_0);
         while !p.is_null() {
             if ast_id(p) as libc::c_uint == TK_NOMINAL as libc::c_int as libc::c_uint
-                && is_name_dontcare(ast_name(ast_childidx(p, 1 as libc::c_int as size_t)))
+                && is_name_dontcare(ast_name(ast_childidx(p, 1 as libc::c_int as usize)))
                     as libc::c_int
                     != 0
             {
@@ -3638,7 +3638,7 @@ unsafe extern "C" fn sugar_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         children.as_mut_ptr(),
     );
     let mut name: *const libc::c_char = ast_name(id);
-    let mut len: size_t = ast_name_len(id);
+    let mut len: usize = ast_name_len(id);
     if !(memchr(name as *const libc::c_void, '\0' as i32, len)).is_null() {
         ast_error(
             (*opt).check.errors,
@@ -3677,7 +3677,7 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"opt != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            888 as libc::c_int as size_t,
+            888 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"sugar_ifdef\0")).as_ptr(),
         );
     };
@@ -3687,7 +3687,7 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            889 as libc::c_int as size_t,
+            889 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"sugar_ifdef\0")).as_ptr(),
         );
     };
@@ -3720,7 +3720,7 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0"
                     as *const u8 as *const libc::c_char,
-                899 as libc::c_int as size_t,
+                899 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"sugar_ifdef\0"))
                     .as_ptr(),
             );
@@ -3865,7 +3865,7 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         );
         return AST_ERROR;
     }
-    return sugar_else(ast, 2 as libc::c_int as size_t);
+    return sugar_else(ast, 2 as libc::c_int as usize);
 }
 #[c2rust::src_loc = "937:1"]
 unsafe extern "C" fn sugar_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
@@ -3875,11 +3875,11 @@ unsafe extern "C" fn sugar_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            939 as libc::c_int as size_t,
+            939 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"sugar_use\0")).as_ptr(),
         );
     };
-    let mut guard: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as size_t);
+    let mut guard: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as usize);
     if !ifdef_cond_normalise(&mut guard, opt) {
         ast_error(
             (*opt).check.errors,
@@ -3902,7 +3902,7 @@ unsafe extern "C" fn sugar_semi(
             b"ast_id(ast) == TK_SEMI\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            958 as libc::c_int as size_t,
+            958 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"sugar_semi\0")).as_ptr(),
         );
     };
@@ -3912,7 +3912,7 @@ unsafe extern "C" fn sugar_semi(
             b"ast_child(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            961 as libc::c_int as size_t,
+            961 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"sugar_semi\0")).as_ptr(),
         );
     };
@@ -3931,7 +3931,7 @@ unsafe extern "C" fn sugar_lambdatype(
             b"astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            973 as libc::c_int as size_t,
+            973 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"sugar_lambdatype\0"))
                 .as_ptr(),
         );
@@ -3943,7 +3943,7 @@ unsafe extern "C" fn sugar_lambdatype(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            975 as libc::c_int as size_t,
+            975 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"sugar_lambdatype\0"))
                 .as_ptr(),
         );
@@ -4129,7 +4129,7 @@ unsafe extern "C" fn sugar_lambdatype(
         fn_name = ast_name(apply_name);
     }
     ast_setdata(
-        ast_childidx(ast, 1 as libc::c_int as size_t),
+        ast_childidx(ast, 1 as libc::c_int as usize),
         stringtab((*buf).m) as *mut libc::c_void,
     );
     let mut def: *mut ast_t = 0 as *mut ast_t;
@@ -4355,7 +4355,7 @@ unsafe extern "C" fn sugar_barelambda(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            1111 as libc::c_int as size_t,
+            1111 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"sugar_barelambda\0"))
                 .as_ptr(),
         );
@@ -4401,7 +4401,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
             b"location != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            1125 as libc::c_int as size_t,
+            1125 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"expand_location\0"))
                 .as_ptr(),
         );
@@ -4418,7 +4418,7 @@ pub unsafe extern "C" fn expand_location(mut location: *mut ast_t) -> *mut ast_t
             || variety as libc::c_uint == TK_BE as libc::c_int as libc::c_uint
             || variety as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint
         {
-            method_name = ast_name(ast_childidx(method, 1 as libc::c_int as size_t));
+            method_name = ast_name(ast_childidx(method, 1 as libc::c_int as usize));
             break;
         } else {
             method = ast_parent(method);
@@ -5237,7 +5237,7 @@ unsafe extern "C" fn sugar_location(
             b"astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            1203 as libc::c_int as size_t,
+            1203 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"sugar_location\0"))
                 .as_ptr(),
         );
@@ -5249,7 +5249,7 @@ unsafe extern "C" fn sugar_location(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            1205 as libc::c_int as size_t,
+            1205 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"sugar_location\0"))
                 .as_ptr(),
         );
@@ -5279,7 +5279,7 @@ pub unsafe extern "C" fn pass_sugar(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/sugar.c\0" as *const u8
                 as *const libc::c_char,
-            1225 as libc::c_int as size_t,
+            1225 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pass_sugar\0")).as_ptr(),
         );
     };
@@ -5295,8 +5295,8 @@ pub unsafe extern "C" fn pass_sugar(
         90 => return sugar_be(options, ast),
         89 => return sugar_fun(options, ast),
         103 => return sugar_return(options, ast),
-        108 | 116 | 118 => return sugar_else(ast, 2 as libc::c_int as size_t),
-        111 => return sugar_else(ast, 1 as libc::c_int as size_t),
+        108 | 116 | 118 => return sugar_else(ast, 2 as libc::c_int as usize),
+        111 => return sugar_else(ast, 1 as libc::c_int as usize),
         124 => return sugar_try(ast),
         120 => return sugar_for(options, astp),
         126 => return sugar_with(options, astp),

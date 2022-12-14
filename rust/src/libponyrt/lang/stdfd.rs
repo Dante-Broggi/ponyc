@@ -38,7 +38,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:1"]
 pub mod _timespec_h {
@@ -273,7 +273,7 @@ pub mod stdio_h {
             _: *mut FILE,
             _: *mut libc::c_char,
             _: libc::c_int,
-            _: size_t,
+            _: usize,
         ) -> libc::c_int;
     }
 }
@@ -285,7 +285,7 @@ pub mod unistd_h {
         #[c2rust::src_loc = "463:1"]
         pub fn isatty(_: libc::c_int) -> libc::c_int;
         #[c2rust::src_loc = "472:1"]
-        pub fn read(_: libc::c_int, _: *mut libc::c_void, _: size_t) -> ssize_t;
+        pub fn read(_: libc::c_int, _: *mut libc::c_void, _: usize) -> ssize_t;
     }
 }
 pub use self::_blkcnt_t_h::blkcnt_t;
@@ -435,12 +435,12 @@ unsafe extern "C" fn stdin_tty() {
 #[c2rust::src_loc = "340:1"]
 pub unsafe extern "C" fn ansi_parse(
     mut buffer: *const libc::c_char,
-    mut pos: *mut size_t,
-    mut len: size_t,
+    mut pos: *mut usize,
+    mut len: usize,
     mut argc: *mut libc::c_int,
     mut argv: *mut libc::c_int,
 ) -> libc::c_char {
-    let mut n: size_t = 0;
+    let mut n: usize = 0;
     let mut arg: libc::c_int = -(1 as libc::c_int);
     let mut code: libc::c_char = -(1 as libc::c_int) as libc::c_char;
     n = *pos;
@@ -479,14 +479,14 @@ pub unsafe extern "C" fn pony_os_stdout_setup() {
             __stdoutp,
             0 as *mut libc::c_char,
             2 as libc::c_int,
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
         );
     } else {
         setvbuf(
             __stdoutp,
             0 as *mut libc::c_char,
             1 as libc::c_int,
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
         );
     }
     if is_stderr_tty {
@@ -494,14 +494,14 @@ pub unsafe extern "C" fn pony_os_stdout_setup() {
             __stderrp,
             0 as *mut libc::c_char,
             2 as libc::c_int,
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
         );
     } else {
         setvbuf(
             __stderrp,
             0 as *mut libc::c_char,
             1 as libc::c_int,
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
         );
     };
 }
@@ -524,8 +524,8 @@ pub unsafe extern "C" fn pony_os_stdin_setup() -> bool {
 #[c2rust::src_loc = "450:1"]
 pub unsafe extern "C" fn pony_os_stdin_read(
     mut buffer: *mut libc::c_char,
-    mut space: size_t,
-) -> size_t {
+    mut space: usize,
+) -> usize {
     let mut pfd: pollfd = pollfd {
         fd: 0,
         events: 0,
@@ -536,16 +536,16 @@ pub unsafe extern "C" fn pony_os_stdin_read(
     pfd.revents = 0 as libc::c_int as libc::c_short;
     let mut n: libc::c_int = poll(&mut pfd, 1 as libc::c_int as nfds_t, 0 as libc::c_int);
     if n != 1 as libc::c_int {
-        return -(1 as libc::c_int) as size_t;
+        return -(1 as libc::c_int) as usize;
     }
-    return read(0 as libc::c_int, buffer as *mut libc::c_void, space) as size_t;
+    return read(0 as libc::c_int, buffer as *mut libc::c_void, space) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "516:1"]
 pub unsafe extern "C" fn pony_os_std_print(
     mut fp: *mut FILE,
     mut buffer: *mut libc::c_char,
-    mut len: size_t,
+    mut len: usize,
 ) {
     fwrite(
         buffer as *const libc::c_void,
@@ -560,7 +560,7 @@ pub unsafe extern "C" fn pony_os_std_print(
 pub unsafe extern "C" fn pony_os_std_write(
     mut fp: *mut FILE,
     mut buffer: *mut libc::c_char,
-    mut len: size_t,
+    mut len: usize,
 ) {
     if len == 0 as libc::c_int as libc::c_ulong {
         return;

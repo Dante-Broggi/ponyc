@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -529,7 +529,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "136:1"]
@@ -543,7 +543,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -556,7 +556,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -618,7 +618,7 @@ unsafe extern "C" fn collect_type_param(
             b"orig_param != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0" as *const u8
                 as *const libc::c_char,
-            9 as libc::c_int as size_t,
+            9 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"collect_type_param\0"))
                 .as_ptr(),
         );
@@ -643,7 +643,7 @@ unsafe extern "C" fn collect_type_param(
             b"constraint != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0" as *const u8
                 as *const libc::c_char,
-            16 as libc::c_int as size_t,
+            16 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"collect_type_param\0"))
                 .as_ptr(),
         );
@@ -763,7 +763,7 @@ pub unsafe extern "C" fn collect_type_params(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0" as *const u8
                 as *const libc::c_char,
-            54 as libc::c_int as size_t,
+            54 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"collect_type_params\0"))
                 .as_ptr(),
         );
@@ -799,7 +799,7 @@ pub unsafe extern "C" fn collect_type_params(
         method = ast_parent(method);
     }
     if !entity.is_null() {
-        let mut entity_t_params: *mut ast_t = ast_childidx(entity, 1 as libc::c_int as size_t);
+        let mut entity_t_params: *mut ast_t = ast_childidx(entity, 1 as libc::c_int as usize);
         let mut p: *mut ast_t = ast_child(entity_t_params);
         while !p.is_null() {
             collect_type_param(p, params, args);
@@ -807,7 +807,7 @@ pub unsafe extern "C" fn collect_type_params(
         }
     }
     if !method.is_null() {
-        let mut method_t_params: *mut ast_t = ast_childidx(method, 2 as libc::c_int as size_t);
+        let mut method_t_params: *mut ast_t = ast_childidx(method, 2 as libc::c_int as usize);
         let mut p_0: *mut ast_t = ast_child(method_t_params);
         while !p_0.is_null() {
             collect_type_param(p_0, params, args);
@@ -829,7 +829,7 @@ unsafe extern "C" fn sanitise(mut astp: *mut *mut ast_t) {
             b"astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0" as *const u8
                 as *const libc::c_char,
-            110 as libc::c_int as size_t,
+            110 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sanitise\0")).as_ptr(),
         );
     };
@@ -840,7 +840,7 @@ unsafe extern "C" fn sanitise(mut astp: *mut *mut ast_t) {
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0" as *const u8
                 as *const libc::c_char,
-            113 as libc::c_int as size_t,
+            113 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sanitise\0")).as_ptr(),
         );
     };
@@ -853,7 +853,7 @@ unsafe extern "C" fn sanitise(mut astp: *mut *mut ast_t) {
                 b"def != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0"
                     as *const u8 as *const libc::c_char,
-                121 as libc::c_int as size_t,
+                121 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sanitise\0")).as_ptr(),
             );
         };
@@ -864,7 +864,7 @@ unsafe extern "C" fn sanitise(mut astp: *mut *mut ast_t) {
                 b"name != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0"
                     as *const u8 as *const libc::c_char,
-                124 as libc::c_int as size_t,
+                124 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sanitise\0")).as_ptr(),
             );
         };
@@ -937,7 +937,7 @@ pub unsafe extern "C" fn sanitise_type(mut type_0: *mut ast_t) -> *mut ast_t {
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/sanitise.c\0" as *const u8
                 as *const libc::c_char,
-            145 as libc::c_int as size_t,
+            145 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"sanitise_type\0"))
                 .as_ptr(),
         );

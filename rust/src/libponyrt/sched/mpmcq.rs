@@ -12,7 +12,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/mpmcq.h:3"]
 pub mod mpmcq_h {
@@ -52,9 +52,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:5"]
@@ -80,7 +80,7 @@ pub struct mpmcq_node_t {
 #[c2rust::src_loc = "19:1"]
 unsafe extern "C" fn node_alloc(mut data: *mut libc::c_void) -> *mut mpmcq_node_t {
     let mut node: *mut mpmcq_node_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut mpmcq_node_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut mpmcq_node_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*node).next, 0 as *mut mpmcq_node_t);
         // compile_error!("Builtin is not supposed to be used")
@@ -93,11 +93,11 @@ unsafe extern "C" fn node_alloc(mut data: *mut libc::c_void) -> *mut mpmcq_node_
 }
 #[c2rust::src_loc = "28:1"]
 unsafe extern "C" fn node_free(mut node: *mut mpmcq_node_t) {
-    ponyint_pool_free(0 as libc::c_int as size_t, node as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, node as *mut libc::c_void);
 }
 #[c2rust::src_loc = "39:1"]
-unsafe extern "C" fn mpmcq_size_debug(mut q: *mut mpmcq_t) -> size_t {
-    let mut count: size_t = 0;
+unsafe extern "C" fn mpmcq_size_debug(mut q: *mut mpmcq_t) -> usize {
+    let mut count: usize = 0;
     let mut tail: *mut mpmcq_node_t = (*q).tail.c2rust_unnamed.object;
     while !({
         ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next as *mut *mut mpmcq_node_t)

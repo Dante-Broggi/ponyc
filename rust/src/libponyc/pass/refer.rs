@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -31,7 +31,7 @@ pub mod error_h {
         #[c2rust::src_loc = "36:16"]
         pub type errors_t;
         #[c2rust::src_loc = "63:1"]
-        pub fn errors_get_count(errors: *mut errors_t) -> size_t;
+        pub fn errors_get_count(errors: *mut errors_t) -> usize;
         #[c2rust::src_loc = "122:1"]
         pub fn errorframe_report(frame: *mut errorframe_t, errors: *mut errors_t);
     }
@@ -507,7 +507,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "20:1"]
         pub fn stringtab_consume(
             string: *const libc::c_char,
-            buf_size: size_t,
+            buf_size: usize,
         ) -> *const libc::c_char;
     }
 }
@@ -583,9 +583,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "74:1"]
-        pub fn ast_line(ast: *mut ast_t) -> size_t;
+        pub fn ast_line(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "75:1"]
-        pub fn ast_pos(ast: *mut ast_t) -> size_t;
+        pub fn ast_pos(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "78:1"]
         pub fn ast_data(ast: *mut ast_t) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
@@ -603,11 +603,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "114:1"]
         pub fn ast_childlast(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -629,7 +629,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "126:1"]
         pub fn ast_inheritbranch(dst: *mut ast_t, src: *mut ast_t);
         #[c2rust::src_loc = "127:1"]
-        pub fn ast_consolidate_branches(ast: *mut ast_t, count: size_t);
+        pub fn ast_consolidate_branches(ast: *mut ast_t, count: usize);
         #[c2rust::src_loc = "130:1"]
         pub fn ast_within_scope(
             outer: *mut ast_t,
@@ -673,7 +673,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "216:1"]
@@ -721,10 +721,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -819,7 +819,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -880,7 +880,7 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:5"]
@@ -891,7 +891,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1020,7 +1020,7 @@ unsafe extern "C" fn is_this_incomplete(mut opt: *mut pass_opt_t, mut ast: *mut 
         return 0 as libc::c_int != 0;
     }
     let mut members: *mut ast_t =
-        ast_childidx((*(*opt).check.frame).type_0, 4 as libc::c_int as size_t);
+        ast_childidx((*(*opt).check.frame).type_0, 4 as libc::c_int as usize);
     let mut member: *mut ast_t = ast_child(members);
     while !member.is_null() {
         match ast_id(member) as libc::c_uint {
@@ -1049,7 +1049,7 @@ unsafe extern "C" fn generate_multi_dot_name(
             b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            87 as libc::c_int as size_t,
+            87 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                 b"generate_multi_dot_name\0",
             ))
@@ -1057,7 +1057,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         );
     };
     let mut def: *mut ast_t = 0 as *mut ast_t;
-    let mut len: size_t = 0;
+    let mut len: usize = 0;
     let mut temp_ast: *mut ast_t = ast;
     while !(ast_id(temp_ast) as libc::c_uint != TK_DOT as libc::c_int as libc::c_uint) {
         let mut left: ast_ptr_t = 0 as *mut ast_t;
@@ -1074,7 +1074,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         temp_ast = left;
         len = (len as libc::c_ulong)
             .wrapping_add((strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
-            as size_t as size_t;
+            as usize as usize;
         if !def.is_null() {
             break;
         }
@@ -1094,8 +1094,8 @@ unsafe extern "C" fn generate_multi_dot_name(
             );
             if ast_id(left_0) as libc::c_uint == TK_THIS as libc::c_int as libc::c_uint {
                 temp_ast = right_0;
-                len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as size_t
-                    as size_t;
+                len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize
+                    as usize;
             } else {
                 if 0 as libc::c_int != 0 {
                 } else {
@@ -1103,7 +1103,7 @@ unsafe extern "C" fn generate_multi_dot_name(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                             as *const u8 as *const libc::c_char,
-                        116 as libc::c_int as size_t,
+                        116 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                             b"generate_multi_dot_name\0",
                         ))
@@ -1115,12 +1115,12 @@ unsafe extern "C" fn generate_multi_dot_name(
         197 | 196 | 184 | 198 => {
             temp_ast = ast_child(temp_ast);
             len =
-                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as size_t as size_t;
+                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
-            len = (len as libc::c_ulong).wrapping_sub(1 as libc::c_int as libc::c_ulong) as size_t
-                as size_t;
+            len = (len as libc::c_ulong).wrapping_sub(1 as libc::c_int as libc::c_ulong) as usize
+                as usize;
         }
         _ => {
             if def.is_null() {
@@ -1132,7 +1132,7 @@ unsafe extern "C" fn generate_multi_dot_name(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                         as *const u8 as *const libc::c_char,
-                    144 as libc::c_int as size_t,
+                    144 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                         b"generate_multi_dot_name\0",
                     ))
@@ -1149,20 +1149,20 @@ unsafe extern "C" fn generate_multi_dot_name(
     }
     len = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
-    let mut offset: size_t = 0;
+    let mut offset: usize = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
-    let mut slen: size_t = strlen(name);
+    let mut slen: usize = strlen(name);
     memcpy(
         buf.offset(offset as isize) as *mut libc::c_void,
         name as *const libc::c_void,
         slen,
     );
-    offset = (offset as libc::c_ulong).wrapping_add(slen) as size_t as size_t;
+    offset = (offset as libc::c_ulong).wrapping_add(slen) as usize as usize;
     temp_ast = ast_parent(temp_ast);
     while temp_ast != ast {
         *buf.offset(offset as isize) = '.' as i32 as libc::c_char;
-        offset = (offset as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as size_t
-            as size_t;
+        offset = (offset as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as usize
+            as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
         slen = strlen(name);
@@ -1171,7 +1171,7 @@ unsafe extern "C" fn generate_multi_dot_name(
             name as *const libc::c_void,
             slen,
         );
-        offset = (offset as libc::c_ulong).wrapping_add(slen) as size_t as size_t;
+        offset = (offset as libc::c_ulong).wrapping_add(slen) as usize as usize;
         temp_ast = ast_parent(temp_ast);
     }
     if offset.wrapping_add(1 as libc::c_int as libc::c_ulong) == len {
@@ -1180,7 +1180,7 @@ unsafe extern "C" fn generate_multi_dot_name(
             b"(offset + 1) == len\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            178 as libc::c_int as size_t,
+            178 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                 b"generate_multi_dot_name\0",
             ))
@@ -1258,7 +1258,7 @@ unsafe extern "C" fn is_constructed_from(mut ast: *mut ast_t) -> bool {
                 b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                     as *const u8 as *const libc::c_char,
-                267 as libc::c_int as size_t,
+                267 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(
                     b"is_constructed_from\0",
                 ))
@@ -1272,7 +1272,7 @@ unsafe extern "C" fn is_constructed_from(mut ast: *mut ast_t) -> bool {
     }
     match ast_id(def) as libc::c_uint {
         84 | 85 | 140 | 141 | 86 => {
-            let mut typeref: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
+            let mut typeref: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
             if typeref.is_null() || (ast_data(typeref)).is_null() {
                 return 0 as libc::c_int != 0;
             }
@@ -1327,7 +1327,7 @@ unsafe extern "C" fn valid_reference(
                     b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                         as *const u8 as *const libc::c_char,
-                    328 as libc::c_int as size_t,
+                    328 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"valid_reference\0",
                     ))
@@ -1344,7 +1344,7 @@ unsafe extern "C" fn valid_reference(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            334 as libc::c_int as size_t,
+            334 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"valid_reference\0"))
                 .as_ptr(),
         );
@@ -1362,7 +1362,7 @@ unsafe extern "C" fn suggest_alt_name(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            340 as libc::c_int as size_t,
+            340 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"suggest_alt_name\0"))
                 .as_ptr(),
         );
@@ -1373,12 +1373,12 @@ unsafe extern "C" fn suggest_alt_name(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            341 as libc::c_int as size_t,
+            341 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"suggest_alt_name\0"))
                 .as_ptr(),
         );
     };
-    let mut name_len: size_t = strlen(name);
+    let mut name_len: usize = strlen(name);
     if is_name_private(name) {
         let mut try_name: *const libc::c_char = stringtab(name.offset(1 as libc::c_int as isize));
         if !(ast_get(ast, try_name, 0 as *mut sym_status_t)).is_null() {
@@ -1445,7 +1445,7 @@ unsafe extern "C" fn refer_this(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast_id(ast) == TK_THIS\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            403 as libc::c_int as size_t,
+            403 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"refer_this\0")).as_ptr(),
         );
     };
@@ -1471,7 +1471,7 @@ unsafe extern "C" fn refer_this(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"status == SYM_NONE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            415 as libc::c_int as size_t,
+            415 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"refer_this\0")).as_ptr(),
         );
     };
@@ -1590,7 +1590,7 @@ pub unsafe extern "C" fn refer_reference(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            552 as libc::c_int as size_t,
+            552 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"refer_reference\0"))
                 .as_ptr(),
         );
@@ -1605,7 +1605,7 @@ unsafe extern "C" fn refer_packageref_dot(mut opt: *mut pass_opt_t, mut ast: *mu
             b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            558 as libc::c_int as size_t,
+            558 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"refer_packageref_dot\0"))
                 .as_ptr(),
         );
@@ -1626,7 +1626,7 @@ unsafe extern "C" fn refer_packageref_dot(mut opt: *mut pass_opt_t, mut ast: *mu
             b"ast_id(left) == TK_PACKAGEREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            560 as libc::c_int as size_t,
+            560 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"refer_packageref_dot\0"))
                 .as_ptr(),
         );
@@ -1637,7 +1637,7 @@ unsafe extern "C" fn refer_packageref_dot(mut opt: *mut pass_opt_t, mut ast: *mu
             b"ast_id(right) == TK_ID\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            561 as libc::c_int as size_t,
+            561 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"refer_packageref_dot\0"))
                 .as_ptr(),
         );
@@ -1659,7 +1659,7 @@ unsafe extern "C" fn refer_packageref_dot(mut opt: *mut pass_opt_t, mut ast: *mu
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            574 as libc::c_int as size_t,
+            574 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"refer_packageref_dot\0"))
                 .as_ptr(),
         );
@@ -1689,7 +1689,7 @@ unsafe extern "C" fn refer_this_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            595 as libc::c_int as size_t,
+            595 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"refer_this_dot\0"))
                 .as_ptr(),
         );
@@ -1710,7 +1710,7 @@ unsafe extern "C" fn refer_this_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(left) == TK_THIS\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            597 as libc::c_int as size_t,
+            597 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"refer_this_dot\0"))
                 .as_ptr(),
         );
@@ -1721,7 +1721,7 @@ unsafe extern "C" fn refer_this_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(right) == TK_ID\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            598 as libc::c_int as size_t,
+            598 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"refer_this_dot\0"))
                 .as_ptr(),
         );
@@ -1769,7 +1769,7 @@ unsafe extern "C" fn refer_multi_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast
             b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            637 as libc::c_int as size_t,
+            637 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"refer_multi_dot\0"))
                 .as_ptr(),
         );
@@ -1801,7 +1801,7 @@ pub unsafe extern "C" fn refer_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            656 as libc::c_int as size_t,
+            656 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"refer_dot\0")).as_ptr(),
         );
     };
@@ -1834,7 +1834,7 @@ pub unsafe extern "C" fn refer_dot(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
 #[c2rust::src_loc = "681:1"]
 unsafe extern "C" fn qualify_typeref(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> bool {
     let mut typeref: *mut ast_t = ast_child(ast);
-    if ast_id(ast_childidx(typeref, 2 as libc::c_int as size_t)) as libc::c_uint
+    if ast_id(ast_childidx(typeref, 2 as libc::c_int as usize)) as libc::c_uint
         == TK_TYPEARGS as libc::c_int as libc::c_uint
     {
         return 1 as libc::c_int != 0;
@@ -1846,12 +1846,12 @@ unsafe extern "C" fn qualify_typeref(mut _opt: *mut pass_opt_t, mut ast: *mut as
             b"def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            692 as libc::c_int as size_t,
+            692 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"qualify_typeref\0"))
                 .as_ptr(),
         );
     };
-    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
+    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
     if ast_id(typeparams) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
         return 1 as libc::c_int != 0;
     }
@@ -1864,7 +1864,7 @@ unsafe extern "C" fn qualify_typeref(mut _opt: *mut pass_opt_t, mut ast: *mut as
             b"typeref == first_child\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            707 as libc::c_int as size_t,
+            707 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"qualify_typeref\0"))
                 .as_ptr(),
         );
@@ -1885,7 +1885,7 @@ pub unsafe extern "C" fn refer_qualify(mut opt: *mut pass_opt_t, mut ast: *mut a
             b"ast_id(ast) == TK_QUALIFY\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            720 as libc::c_int as size_t,
+            720 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"refer_qualify\0"))
                 .as_ptr(),
         );
@@ -1904,7 +1904,7 @@ unsafe extern "C" fn error_check_used_decl(mut frame: *mut errorframe_t, mut ast
             b"parent != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            732 as libc::c_int as size_t,
+            732 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"error_check_used_decl\0"))
                 .as_ptr(),
         );
@@ -1957,7 +1957,7 @@ unsafe extern "C" fn assign_multi_dot(
             b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            766 as libc::c_int as size_t,
+            766 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"assign_multi_dot\0"))
                 .as_ptr(),
         );
@@ -2008,7 +2008,7 @@ unsafe extern "C" fn assign_multi_dot(
                     b"ast_id(ast) == TK_DOT\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                         as *const u8 as *const libc::c_char,
-                    820 as libc::c_int as size_t,
+                    820 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(
                         b"assign_multi_dot\0",
                     ))
@@ -2025,7 +2025,7 @@ unsafe extern "C" fn assign_multi_dot(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            826 as libc::c_int as size_t,
+            826 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"assign_multi_dot\0"))
                 .as_ptr(),
         );
@@ -2045,7 +2045,7 @@ unsafe extern "C" fn assign_id(
             b"ast_id(ast) == TK_ID\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            832 as libc::c_int as size_t,
+            832 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"assign_id\0")).as_ptr(),
         );
     };
@@ -2120,7 +2120,7 @@ unsafe extern "C" fn assign_id(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            900 as libc::c_int as size_t,
+            900 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"assign_id\0")).as_ptr(),
         );
     };
@@ -2238,7 +2238,7 @@ unsafe extern "C" fn refer_pre_call(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_CALL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1003 as libc::c_int as size_t,
+            1003 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"refer_pre_call\0"))
                 .as_ptr(),
         );
@@ -2276,7 +2276,7 @@ unsafe extern "C" fn refer_pre_assign(mut opt: *mut pass_opt_t, mut ast: *mut as
             b"ast_id(ast) == TK_ASSIGN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1017 as libc::c_int as size_t,
+            1017 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"refer_pre_assign\0"))
                 .as_ptr(),
         );
@@ -2304,7 +2304,7 @@ unsafe extern "C" fn refer_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_id(ast) == TK_ASSIGN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1030 as libc::c_int as size_t,
+            1030 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"refer_assign\0")).as_ptr(),
         );
     };
@@ -2392,7 +2392,7 @@ unsafe extern "C" fn set_flag_recursive(mut outer: *mut ast_t, mut flag: u32) {
             b"outer != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1109 as libc::c_int as size_t,
+            1109 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"set_flag_recursive\0"))
                 .as_ptr(),
         );
@@ -2412,7 +2412,7 @@ unsafe extern "C" fn refer_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"ast_id(ast) == TK_CONSUME\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1125 as libc::c_int as size_t,
+            1125 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"refer_consume\0"))
                 .as_ptr(),
         );
@@ -2528,7 +2528,7 @@ unsafe extern "C" fn refer_pre_new(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_NEW\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1236 as libc::c_int as size_t,
+            1236 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"refer_pre_new\0"))
                 .as_ptr(),
         );
@@ -2566,7 +2566,7 @@ unsafe extern "C" fn refer_local(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1266 as libc::c_int as size_t,
+            1266 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_local\0")).as_ptr(),
         );
     };
@@ -2576,7 +2576,7 @@ unsafe extern "C" fn refer_local(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_type(ast) != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1267 as libc::c_int as size_t,
+            1267 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_local\0")).as_ptr(),
         );
     };
@@ -2596,7 +2596,7 @@ unsafe extern "C" fn refer_local(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1270 as libc::c_int as size_t,
+            1270 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_local\0")).as_ptr(),
         );
     };
@@ -2635,7 +2635,7 @@ unsafe extern "C" fn refer_seq(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast_id(ast) == TK_SEQ\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1304 as libc::c_int as size_t,
+            1304 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"refer_seq\0")).as_ptr(),
         );
     };
@@ -2668,10 +2668,10 @@ unsafe extern "C" fn refer_seq(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -
                 );
                 if body == ast {
                     ast_inheritbranch(else_clause, body);
-                    ast_consolidate_branches(else_clause, 2 as libc::c_int as size_t);
+                    ast_consolidate_branches(else_clause, 2 as libc::c_int as usize);
                 } else if else_clause == ast {
                     ast_inheritbranch(then_clause, else_clause);
-                    ast_consolidate_branches(then_clause, 2 as libc::c_int as size_t);
+                    ast_consolidate_branches(then_clause, 2 as libc::c_int as usize);
                 }
             }
             206 => {
@@ -2688,7 +2688,7 @@ unsafe extern "C" fn refer_seq(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -
                 );
                 if body_0 == ast {
                     ast_inheritbranch(dispose_clause, body_0);
-                    ast_consolidate_branches(dispose_clause, 2 as libc::c_int as size_t);
+                    ast_consolidate_branches(dispose_clause, 2 as libc::c_int as usize);
                 }
             }
             118 => {
@@ -2712,7 +2712,7 @@ unsafe extern "C" fn refer_seq(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -
                     ast_inheritstatus(cond, body_1);
                 } else if cond == ast {
                     ast_inheritbranch(else_clause_0, cond);
-                    ast_consolidate_branches(else_clause_0, 2 as libc::c_int as size_t);
+                    ast_consolidate_branches(else_clause_0, 2 as libc::c_int as usize);
                 }
             }
             _ => {}
@@ -2731,7 +2731,7 @@ unsafe extern "C" fn refer_if(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1377 as libc::c_int as size_t,
+            1377 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"refer_if\0")).as_ptr(),
         );
     };
@@ -2747,7 +2747,7 @@ unsafe extern "C" fn refer_if(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, left);
@@ -2771,7 +2771,7 @@ unsafe extern "C" fn refer_iftype(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"ast_id(ast) == TK_IFTYPE_SET\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1409 as libc::c_int as size_t,
+            1409 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"refer_iftype\0")).as_ptr(),
         );
     };
@@ -2797,7 +2797,7 @@ unsafe extern "C" fn refer_iftype(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children_0.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(left, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, left);
@@ -2821,7 +2821,7 @@ unsafe extern "C" fn refer_while(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_id(ast) == TK_WHILE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1442 as libc::c_int as size_t,
+            1442 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_while\0")).as_ptr(),
         );
     };
@@ -2842,7 +2842,7 @@ unsafe extern "C" fn refer_while(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         errorframe_report(&mut errorf, (*opt).check.errors);
         return 0 as libc::c_int != 0;
     }
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, body);
@@ -2866,7 +2866,7 @@ unsafe extern "C" fn refer_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_id(ast) == TK_REPEAT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1480 as libc::c_int as size_t,
+            1480 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"refer_repeat\0")).as_ptr(),
         );
     };
@@ -2887,7 +2887,7 @@ unsafe extern "C" fn refer_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         errorframe_report(&mut errorf, (*opt).check.errors);
         return 0 as libc::c_int != 0;
     }
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, body);
@@ -2913,7 +2913,7 @@ unsafe extern "C" fn refer_match(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_id(ast) == TK_MATCH\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1533 as libc::c_int as size_t,
+            1533 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_match\0")).as_ptr(),
         );
     };
@@ -2933,7 +2933,7 @@ unsafe extern "C" fn refer_match(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(cases, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, cases);
@@ -2959,7 +2959,7 @@ unsafe extern "C" fn refer_cases(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_id(ast) == TK_CASES\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1568 as libc::c_int as size_t,
+            1568 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_cases\0")).as_ptr(),
         );
     };
@@ -2972,7 +2972,7 @@ unsafe extern "C" fn refer_cases(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         );
         return 0 as libc::c_int != 0;
     }
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     while !the_case.is_null() {
         let mut pattern: ast_ptr_t = 0 as *mut ast_t;
         let mut guard: ast_ptr_t = 0 as *mut ast_t;
@@ -3009,7 +3009,7 @@ unsafe extern "C" fn refer_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1602 as libc::c_int as size_t,
+            1602 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"refer_try\0")).as_ptr(),
         );
     };
@@ -3029,7 +3029,7 @@ unsafe extern "C" fn refer_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(then_clause, body);
@@ -3061,7 +3061,7 @@ unsafe extern "C" fn refer_disposing_block(mut ast: *mut ast_t) -> bool {
             b"ast_id(ast) == TK_DISPOSING_BLOCK\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1640 as libc::c_int as size_t,
+            1640 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"refer_disposing_block\0"))
                 .as_ptr(),
         );
@@ -3076,7 +3076,7 @@ unsafe extern "C" fn refer_disposing_block(mut ast: *mut ast_t) -> bool {
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut branch_count: size_t = 0;
+    let mut branch_count: usize = 0;
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) == 0 {
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(dispose_clause, body);
@@ -3096,7 +3096,7 @@ unsafe extern "C" fn refer_recover(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_RECOVER\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1666 as libc::c_int as size_t,
+            1666 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"refer_recover\0"))
                 .as_ptr(),
         );
@@ -3122,7 +3122,7 @@ unsafe extern "C" fn refer_break(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_id(ast) == TK_BREAK\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1677 as libc::c_int as size_t,
+            1677 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_break\0")).as_ptr(),
         );
     };
@@ -3149,7 +3149,7 @@ unsafe extern "C" fn refer_break(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_sibling(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1695 as libc::c_int as size_t,
+            1695 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_break\0")).as_ptr(),
         );
     };
@@ -3164,7 +3164,7 @@ unsafe extern "C" fn refer_continue(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_CONTINUE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1704 as libc::c_int as size_t,
+            1704 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"refer_continue\0"))
                 .as_ptr(),
         );
@@ -3188,7 +3188,7 @@ unsafe extern "C" fn refer_continue(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_sibling(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1720 as libc::c_int as size_t,
+            1720 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"refer_continue\0"))
                 .as_ptr(),
         );
@@ -3204,7 +3204,7 @@ unsafe extern "C" fn refer_return(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_id(ast) == TK_RETURN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1729 as libc::c_int as size_t,
+            1729 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"refer_return\0")).as_ptr(),
         );
     };
@@ -3214,7 +3214,7 @@ unsafe extern "C" fn refer_return(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_sibling(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1732 as libc::c_int as size_t,
+            1732 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"refer_return\0")).as_ptr(),
         );
     };
@@ -3240,7 +3240,7 @@ unsafe extern "C" fn refer_error(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_sibling(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1751 as libc::c_int as size_t,
+            1751 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"refer_error\0")).as_ptr(),
         );
     };
@@ -3255,7 +3255,7 @@ unsafe extern "C" fn refer_compile_error(mut _opt: *mut pass_opt_t, mut ast: *mu
             b"ast_sibling(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0" as *const u8
                 as *const libc::c_char,
-            1761 as libc::c_int as size_t,
+            1761 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"refer_compile_error\0"))
                 .as_ptr(),
         );
@@ -3291,7 +3291,7 @@ pub unsafe extern "C" fn pass_pre_refer(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                     as *const u8 as *const libc::c_char,
-                1783 as libc::c_int as size_t,
+                1783 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"pass_pre_refer\0"))
                     .as_ptr(),
             );
@@ -3385,7 +3385,7 @@ pub unsafe extern "C" fn pass_refer(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/refer.c\0"
                     as *const u8 as *const libc::c_char,
-                1833 as libc::c_int as size_t,
+                1833 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pass_refer\0"))
                     .as_ptr(),
             );

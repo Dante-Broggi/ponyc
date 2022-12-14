@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -446,8 +446,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -899,20 +899,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -949,7 +949,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "147:1"]
@@ -957,7 +957,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -999,10 +999,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -1097,7 +1097,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1170,7 +1170,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1259,11 +1259,11 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "23:55"]
-        pub fn reach_types_next(map: *mut reach_types_t, i: *mut size_t) -> *mut reach_type_t;
+        pub fn reach_types_next(map: *mut reach_types_t, i: *mut usize) -> *mut reach_type_t;
         #[c2rust::src_loc = "24:65"]
         pub fn reach_type_cache_next(
             map: *mut reach_type_cache_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_type_t;
         #[c2rust::src_loc = "136:1"]
         pub fn reach_type(r: *mut reach_t, type_0: *mut ast_t) -> *mut reach_type_t;
@@ -1456,7 +1456,7 @@ pub mod codegen_h {
             c: *mut compile_t,
             fun: LLVMValueRef,
             args: *mut LLVMValueRef,
-            count: size_t,
+            count: usize,
             setcc: bool,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "289:1"]
@@ -1531,7 +1531,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1619,7 +1619,7 @@ pub mod gendesc_h {
         pub fn gendesc_vtable(
             c: *mut compile_t,
             desc: LLVMValueRef,
-            colour: size_t,
+            colour: usize,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "29:1"]
         pub fn gendesc_ptr_to_fields(
@@ -1633,7 +1633,7 @@ pub mod gendesc_h {
         pub fn gendesc_fieldinfo(
             c: *mut compile_t,
             desc: LLVMValueRef,
-            index: size_t,
+            index: usize,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "36:1"]
         pub fn gendesc_fieldptr(
@@ -1692,9 +1692,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:11"]
@@ -1705,7 +1705,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1841,7 +1841,7 @@ unsafe extern "C" fn tuple_is(
             b"ast_id(left_type) == TK_TUPLETYPE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            24 as libc::c_int as size_t,
+            24 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"tuple_is\0")).as_ptr(),
         );
     };
@@ -1851,7 +1851,7 @@ unsafe extern "C" fn tuple_is(
             b"ast_id(right_type) == TK_TUPLETYPE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            25 as libc::c_int as size_t,
+            25 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"tuple_is\0")).as_ptr(),
         );
     };
@@ -1862,7 +1862,7 @@ unsafe extern "C" fn tuple_is(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            26 as libc::c_int as size_t,
+            26 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"tuple_is\0")).as_ptr(),
         );
     };
@@ -1948,7 +1948,7 @@ unsafe extern "C" fn raw_is_box(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            88 as libc::c_int as size_t,
+            88 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"raw_is_box\0")).as_ptr(),
         );
     };
@@ -1960,7 +1960,7 @@ unsafe extern "C" fn raw_is_box(
             b"same_type != GEN_NOVALUE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            92 as libc::c_int as size_t,
+            92 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"raw_is_box\0")).as_ptr(),
         );
     };
@@ -2117,7 +2117,7 @@ unsafe extern "C" fn tuple_element_is_box_unboxed_element(
                         as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                         as *const u8 as *const libc::c_char,
-                    165 as libc::c_int as size_t,
+                    165 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 37], &[libc::c_char; 37]>(
                         b"tuple_element_is_box_unboxed_element\0",
                     ))
@@ -2232,7 +2232,7 @@ unsafe extern "C" fn tuple_is_box_element(
     } else if is_machine_word(l_field_type) {
         field_kind = SUBTYPE_KIND_NUMERIC as libc::c_int;
     }
-    let mut r_field_info: LLVMValueRef = gendesc_fieldinfo(c, r_desc, field_index as size_t);
+    let mut r_field_info: LLVMValueRef = gendesc_fieldinfo(c, r_desc, field_index as usize);
     let mut r_field_ptr: LLVMValueRef = gendesc_fieldptr(c, r_fields, r_field_info);
     let mut r_field_desc: LLVMValueRef = gendesc_fielddesc(c, r_field_info);
     let mut obj_ptr_ptr: LLVMTypeRef =
@@ -2345,7 +2345,7 @@ unsafe extern "C" fn tuple_is_box(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            302 as libc::c_int as size_t,
+            302 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"tuple_is_box\0")).as_ptr(),
         );
     };
@@ -2358,15 +2358,15 @@ unsafe extern "C" fn tuple_is_box(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            303 as libc::c_int as size_t,
+            303 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"tuple_is_box\0")).as_ptr(),
         );
     };
-    let mut cardinality: size_t = ast_childcount(left_type);
+    let mut cardinality: usize = ast_childcount(left_type);
     if check_cardinality as libc::c_int != 0 && !right_type.is_null() {
         check_cardinality = 0 as libc::c_int != 0;
         let mut r_sub: *mut reach_type_t = 0 as *mut reach_type_t;
-        let mut i: size_t = -(1 as libc::c_int) as size_t;
+        let mut i: usize = -(1 as libc::c_int) as usize;
         loop {
             r_sub = reach_type_cache_next(&mut (*right_type).subtypes, &mut i);
             if r_sub.is_null() {
@@ -2413,7 +2413,7 @@ unsafe extern "C" fn tuple_is_box(
                 b"rhs_boxed\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                     as *const u8 as *const libc::c_char,
-                349 as libc::c_int as size_t,
+                349 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"tuple_is_box\0"))
                     .as_ptr(),
             );
@@ -2510,7 +2510,7 @@ unsafe extern "C" fn box_is_box(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            408 as libc::c_int as size_t,
+            408 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"box_is_box\0")).as_ptr(),
         );
     };
@@ -2523,7 +2523,7 @@ unsafe extern "C" fn box_is_box(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            409 as libc::c_int as size_t,
+            409 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"box_is_box\0")).as_ptr(),
         );
     };
@@ -2559,11 +2559,11 @@ unsafe extern "C" fn box_is_box(
     let mut l_typeid: LLVMValueRef = 0 as LLVMValueRef;
     let mut has_unboxed_sub: bool =
         sub_kind & SUBTYPE_KIND_UNBOXED as libc::c_int != 0 as libc::c_int;
-    let mut mask_value: size_t = (if has_unboxed_sub as libc::c_int != 0 {
+    let mut mask_value: usize = (if has_unboxed_sub as libc::c_int != 0 {
         3 as libc::c_int
     } else {
         2 as libc::c_int
-    }) as size_t;
+    }) as usize;
     let mut boxed_mask: LLVMValueRef = LLVMConstInt(
         (*c).i32_0,
         mask_value as libc::c_ulonglong,
@@ -2753,12 +2753,12 @@ unsafe extern "C" fn box_is_box(
                 b"is_fn != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                     as *const u8 as *const libc::c_char,
-                524 as libc::c_int as size_t,
+                524 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"box_is_box\0"))
                     .as_ptr(),
             );
         };
-        let mut func: LLVMValueRef = gendesc_vtable(c, l_desc, (*is_fn).vtable_index as size_t);
+        let mut func: LLVMValueRef = gendesc_vtable(c, l_desc, (*is_fn).vtable_index as usize);
         let mut params: [LLVMTypeRef; 3] = [0 as *mut LLVMOpaqueType; 3];
         params[0 as libc::c_int as usize] = (*c).object_ptr;
         params[1 as libc::c_int as usize] = (*c).object_ptr;
@@ -2782,7 +2782,7 @@ unsafe extern "C" fn box_is_box(
             c,
             func,
             args.as_mut_ptr(),
-            3 as libc::c_int as size_t,
+            3 as libc::c_int as usize,
             1 as libc::c_int != 0,
         );
         LLVMBuildBr((*c).builder, post_block);
@@ -2867,7 +2867,7 @@ unsafe extern "C" fn gen_is_value(
             b"left_type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            571 as libc::c_int as size_t,
+            571 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"gen_is_value\0")).as_ptr(),
         );
     };
@@ -3034,7 +3034,7 @@ unsafe extern "C" fn gen_is_value(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            682 as libc::c_int as size_t,
+            682 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"gen_is_value\0")).as_ptr(),
         );
     };
@@ -3110,7 +3110,7 @@ pub unsafe extern "C" fn gen_is_tuple_fun(mut c: *mut compile_t, mut t: *mut rea
             b"t->underlying == TK_TUPLETYPE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                 as *const u8 as *const libc::c_char,
-            737 as libc::c_int as size_t,
+            737 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"gen_is_tuple_fun\0"))
                 .as_ptr(),
         );
@@ -3170,12 +3170,12 @@ pub unsafe extern "C" fn gen_numeric_size_table(mut c: *mut compile_t) -> LLVMVa
     if len == 0 as libc::c_int as libc::c_uint {
         return 0 as LLVMValueRef;
     }
-    let mut size: size_t = (len as libc::c_ulong)
+    let mut size: usize = (len as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut count: u32 = 0 as libc::c_int as u32;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     while count < len {
         t = reach_types_next(&mut (*(*c).reach).types, &mut i);
         if !t.is_null() {
@@ -3184,7 +3184,7 @@ pub unsafe extern "C" fn gen_numeric_size_table(mut c: *mut compile_t) -> LLVMVa
                 b"t != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genident.c\0"
                     as *const u8 as *const libc::c_char,
-                785 as libc::c_int as size_t,
+                785 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                     b"gen_numeric_size_table\0",
                 ))
@@ -3200,10 +3200,10 @@ pub unsafe extern "C" fn gen_numeric_size_table(mut c: *mut compile_t) -> LLVMVa
         if type_id.wrapping_rem(4 as libc::c_int as libc::c_uint)
             == 0 as libc::c_int as libc::c_uint
         {
-            let mut type_size: size_t = LLVMABISizeOfType(
+            let mut type_size: usize = LLVMABISizeOfType(
                 (*c).target_data,
                 (*((*t).c_type as *mut compile_type_t)).mem_type,
-            ) as size_t;
+            ) as usize;
             let ref mut fresh2 = *args.offset((type_id >> 2 as libc::c_int) as isize);
             *fresh2 = LLVMConstInt((*c).i32_0, type_size as libc::c_ulonglong, 0 as libc::c_int);
             count = count.wrapping_add(1);

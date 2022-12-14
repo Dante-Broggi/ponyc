@@ -38,7 +38,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:4"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h:4"]
 pub mod _sigset_t_h {
@@ -125,7 +125,7 @@ pub mod _iovec_t_h {
     #[c2rust::src_loc = "31:8"]
     pub struct iovec {
         pub iov_base: *mut libc::c_void,
-        pub iov_len: size_t,
+        pub iov_len: usize,
     }
     use super::stddef_h::size_t;
 }
@@ -147,16 +147,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -196,7 +196,7 @@ pub mod pony_h {
         #[c2rust::src_loc = "183:1"]
         pub fn pony_ctx() -> *mut pony_ctx_t;
         #[c2rust::src_loc = "262:1"]
-        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: size_t) -> *mut libc::c_void;
+        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "508:1"]
         pub fn pony_error();
     }
@@ -306,23 +306,23 @@ pub mod socket_h {
         #[c2rust::src_loc = "733:1"]
         pub fn listen(_: libc::c_int, _: libc::c_int) -> libc::c_int;
         #[c2rust::src_loc = "734:1"]
-        pub fn recv(_: libc::c_int, _: *mut libc::c_void, _: size_t, _: libc::c_int) -> ssize_t;
+        pub fn recv(_: libc::c_int, _: *mut libc::c_void, _: usize, _: libc::c_int) -> ssize_t;
         #[c2rust::src_loc = "735:1"]
         pub fn recvfrom(
             _: libc::c_int,
             _: *mut libc::c_void,
-            _: size_t,
+            _: usize,
             _: libc::c_int,
             _: *mut sockaddr,
             _: *mut socklen_t,
         ) -> ssize_t;
         #[c2rust::src_loc = "738:1"]
-        pub fn send(_: libc::c_int, _: *const libc::c_void, _: size_t, _: libc::c_int) -> ssize_t;
+        pub fn send(_: libc::c_int, _: *const libc::c_void, _: usize, _: libc::c_int) -> ssize_t;
         #[c2rust::src_loc = "740:1"]
         pub fn sendto(
             _: libc::c_int,
             _: *const libc::c_void,
-            _: size_t,
+            _: usize,
             _: libc::c_int,
             _: *const sockaddr,
             _: socklen_t,
@@ -1125,7 +1125,7 @@ pub unsafe extern "C" fn pony_os_nameinfo(
         return 0 as libc::c_int != 0;
     }
     let mut ctx: *mut pony_ctx_t = pony_ctx();
-    let mut hostlen: size_t = strlen(host.as_mut_ptr());
+    let mut hostlen: usize = strlen(host.as_mut_ptr());
     *rhost = pony_alloc(ctx, hostlen.wrapping_add(1 as libc::c_int as libc::c_ulong))
         as *mut libc::c_char;
     memcpy(
@@ -1133,7 +1133,7 @@ pub unsafe extern "C" fn pony_os_nameinfo(
         host.as_mut_ptr() as *const libc::c_void,
         hostlen.wrapping_add(1 as libc::c_int as libc::c_ulong),
     );
-    let mut servlen: size_t = strlen(serv.as_mut_ptr());
+    let mut servlen: usize = strlen(serv.as_mut_ptr());
     *rserv = pony_alloc(ctx, servlen.wrapping_add(1 as libc::c_int as libc::c_ulong))
         as *mut libc::c_char;
     memcpy(
@@ -1207,7 +1207,7 @@ pub unsafe extern "C" fn pony_os_ip_string(
     {
         return 0 as *mut libc::c_char;
     }
-    let mut dstlen: size_t = strlen(dst.as_mut_ptr());
+    let mut dstlen: usize = strlen(dst.as_mut_ptr());
     let mut result: *mut libc::c_char = pony_alloc(
         pony_ctx(),
         dstlen.wrapping_add(1 as libc::c_int as libc::c_ulong),
@@ -1297,58 +1297,58 @@ pub unsafe extern "C" fn pony_os_writev(
     mut ev: *mut asio_event_t,
     mut iov: *const iovec,
     mut iovcnt: libc::c_int,
-) -> size_t {
+) -> usize {
     let mut sent: ssize_t = writev((*ev).fd, iov, iovcnt);
     if sent < 0 as libc::c_int as libc::c_long {
         if *__error() == 35 as libc::c_int || *__error() == 35 as libc::c_int {
-            return 0 as libc::c_int as size_t;
+            return 0 as libc::c_int as usize;
         }
         pony_error();
     }
-    sent as size_t
+    sent as usize
 }
 #[no_mangle]
 #[c2rust::src_loc = "958:1"]
 pub unsafe extern "C" fn pony_os_send(
     mut ev: *mut asio_event_t,
     mut buf: *const libc::c_char,
-    mut len: size_t,
-) -> size_t {
+    mut len: usize,
+) -> usize {
     let mut sent: ssize_t = send((*ev).fd, buf as *const libc::c_void, len, 0 as libc::c_int);
     if sent < 0 as libc::c_int as libc::c_long {
         if *__error() == 35 as libc::c_int || *__error() == 35 as libc::c_int {
-            return 0 as libc::c_int as size_t;
+            return 0 as libc::c_int as usize;
         }
         pony_error();
     }
-    sent as size_t
+    sent as usize
 }
 #[no_mangle]
 #[c2rust::src_loc = "1000:1"]
 pub unsafe extern "C" fn pony_os_recv(
     mut ev: *mut asio_event_t,
     mut buf: *mut libc::c_char,
-    mut len: size_t,
-) -> size_t {
+    mut len: usize,
+) -> usize {
     let mut received: ssize_t = recv((*ev).fd, buf as *mut libc::c_void, len, 0 as libc::c_int);
     if received < 0 as libc::c_int as libc::c_long {
         if *__error() == 35 as libc::c_int || *__error() == 35 as libc::c_int {
-            return 0 as libc::c_int as size_t;
+            return 0 as libc::c_int as usize;
         }
         pony_error();
     } else if received == 0 as libc::c_int as libc::c_long {
         pony_error();
     }
-    return received as size_t;
+    return received as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1024:1"]
 pub unsafe extern "C" fn pony_os_sendto(
     mut fd: libc::c_int,
     mut buf: *const libc::c_char,
-    mut len: size_t,
+    mut len: usize,
     mut ipaddr: *mut ipaddress_t,
-) -> size_t {
+) -> usize {
     let mut addrlen: socklen_t = ponyint_address_length(ipaddr);
     if addrlen == -(1 as libc::c_int) as socklen_t {
         pony_error();
@@ -1363,20 +1363,20 @@ pub unsafe extern "C" fn pony_os_sendto(
     );
     if sent < 0 as libc::c_int as libc::c_long {
         if *__error() == 35 as libc::c_int || *__error() == 35 as libc::c_int {
-            return 0 as libc::c_int as size_t;
+            return 0 as libc::c_int as usize;
         }
         pony_error();
     }
-    sent as size_t
+    sent as usize
 }
 #[no_mangle]
 #[c2rust::src_loc = "1053:1"]
 pub unsafe extern "C" fn pony_os_recvfrom(
     mut ev: *mut asio_event_t,
     mut buf: *mut libc::c_char,
-    mut len: size_t,
+    mut len: usize,
     mut ipaddr: *mut ipaddress_t,
-) -> size_t {
+) -> usize {
     let mut addrlen: socklen_t =
         ::core::mem::size_of::<sockaddr_storage>() as libc::c_ulong as socklen_t;
     let mut recvd: ssize_t = recvfrom(
@@ -1389,13 +1389,13 @@ pub unsafe extern "C" fn pony_os_recvfrom(
     );
     if recvd < 0 as libc::c_int as libc::c_long {
         if *__error() == 35 as libc::c_int || *__error() == 35 as libc::c_int {
-            return 0 as libc::c_int as size_t;
+            return 0 as libc::c_int as usize;
         }
         pony_error();
     } else if recvd == 0 as libc::c_int as libc::c_long {
         pony_error();
     }
-    recvd as size_t
+    recvd as usize
 }
 #[no_mangle]
 #[c2rust::src_loc = "1081:1"]

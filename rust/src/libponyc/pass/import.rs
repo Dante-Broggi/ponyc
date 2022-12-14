@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -455,20 +455,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -501,7 +501,7 @@ pub mod symtab_h {
         pub name: *const libc::c_char,
         pub def: *mut ast_t,
         pub status: sym_status_t,
-        pub branch_count: size_t,
+        pub branch_count: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -515,7 +515,7 @@ pub mod symtab_h {
         #[c2rust::src_loc = "9:16"]
         pub type ast_t;
         #[c2rust::src_loc = "32:45"]
-        pub fn symtab_next(map: *mut symtab_t, i: *mut size_t) -> *mut symbol_t;
+        pub fn symtab_next(map: *mut symtab_t, i: *mut usize) -> *mut symbol_t;
         #[c2rust::src_loc = "42:1"]
         pub fn symtab_add(
             symtab: *mut symtab_t,
@@ -612,7 +612,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "111:1"]
         pub fn ast_parent(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "159:1"]
         pub fn ast_error(errors: *mut errors_t, ast: *mut ast_t, fmt: *const libc::c_char, _: ...);
         #[c2rust::src_loc = "161:1"]
@@ -661,10 +661,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -759,7 +759,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -808,7 +808,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -889,7 +889,7 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            11 as libc::c_int as size_t,
+            11 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
@@ -903,7 +903,7 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"import != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            17 as libc::c_int as size_t,
+            17 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
@@ -914,7 +914,7 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast_id(module) == TK_MODULE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            20 as libc::c_int as size_t,
+            20 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
@@ -926,19 +926,19 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            24 as libc::c_int as size_t,
+            24 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
     let mut pkg_symtab: *mut symtab_t = ast_get_symtab(package);
-    let mut uri_child: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as size_t);
+    let mut uri_child: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as usize);
     if !uri_child.is_null() {
     } else {
         ponyint_assert_fail(
             b"uri_child != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            28 as libc::c_int as size_t,
+            28 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
@@ -949,14 +949,14 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"uri != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            30 as libc::c_int as size_t,
+            30 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };
     let mut is_builtin: bool =
         strcmp(uri, b"builtin\0" as *const u8 as *const libc::c_char) == 0 as libc::c_int;
     let mut ok: bool = 1 as libc::c_int != 0;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sym: *mut symbol_t = 0 as *mut symbol_t;
     let mut src_symtab: *mut symtab_t = ast_get_symtab(import);
     if !src_symtab.is_null() {
@@ -965,7 +965,7 @@ unsafe extern "C" fn import_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"src_symtab != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/import.c\0" as *const u8
                 as *const libc::c_char,
-            38 as libc::c_int as size_t,
+            38 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"import_use\0")).as_ptr(),
         );
     };

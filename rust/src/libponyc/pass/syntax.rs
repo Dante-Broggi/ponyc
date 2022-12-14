@@ -4,12 +4,12 @@ pub mod _types_h {
     #[c2rust::src_loc = "72:1"]
     pub type __darwin_ct_rune_t = libc::c_int;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -536,7 +536,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "161:1"]
@@ -565,9 +565,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
     }
@@ -609,10 +609,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -707,7 +707,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -795,9 +795,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:10"]
@@ -808,7 +808,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1132,7 +1132,7 @@ unsafe extern "C" fn check_provides_type(
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            152 as libc::c_int as size_t,
+            152 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"check_provides_type\0"))
                 .as_ptr(),
         );
@@ -1143,7 +1143,7 @@ unsafe extern "C" fn check_provides_type(
             b"description != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            153 as libc::c_int as size_t,
+            153 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"check_provides_type\0"))
                 .as_ptr(),
         );
@@ -1227,7 +1227,7 @@ unsafe extern "C" fn check_permission(
             b"def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            201 as libc::c_int as size_t,
+            201 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"check_permission\0"))
                 .as_ptr(),
         );
@@ -1238,7 +1238,7 @@ unsafe extern "C" fn check_permission(
             b"actual != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            202 as libc::c_int as size_t,
+            202 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"check_permission\0"))
                 .as_ptr(),
         );
@@ -1249,7 +1249,7 @@ unsafe extern "C" fn check_permission(
             b"context != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            203 as libc::c_int as size_t,
+            203 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"check_permission\0"))
                 .as_ptr(),
         );
@@ -1265,7 +1265,7 @@ unsafe extern "C" fn check_permission(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            207 as libc::c_int as size_t,
+            207 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"check_permission\0"))
                 .as_ptr(),
         );
@@ -1308,7 +1308,7 @@ unsafe extern "C" fn check_method(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            230 as libc::c_int as size_t,
+            230 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"check_method\0")).as_ptr(),
         );
     };
@@ -1321,7 +1321,7 @@ unsafe extern "C" fn check_method(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            231 as libc::c_int as size_t,
+            231 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"check_method\0")).as_ptr(),
         );
     };
@@ -1442,7 +1442,7 @@ unsafe extern "C" fn check_members(
             b"members != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            285 as libc::c_int as size_t,
+            285 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"check_members\0"))
                 .as_ptr(),
         );
@@ -1454,7 +1454,7 @@ unsafe extern "C" fn check_members(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            286 as libc::c_int as size_t,
+            286 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"check_members\0"))
                 .as_ptr(),
         );
@@ -1479,7 +1479,7 @@ unsafe extern "C" fn check_members(
                 }
                 if ast_id(ast_parent(members)) as libc::c_uint
                     == TK_OBJECT as libc::c_int as libc::c_uint
-                    && ast_id(ast_childidx(member, 2 as libc::c_int as size_t)) as libc::c_uint
+                    && ast_id(ast_childidx(member, 2 as libc::c_int as usize)) as libc::c_uint
                         == TK_NONE as libc::c_int as libc::c_uint
                 {
                     ast_error(
@@ -1528,7 +1528,7 @@ unsafe extern "C" fn check_members(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0"
                             as *const u8 as *const libc::c_char,
-                        341 as libc::c_int as size_t,
+                        341 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(
                             b"check_members\0",
                         ))
@@ -1554,7 +1554,7 @@ unsafe extern "C" fn syntax_entity(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            356 as libc::c_int as size_t,
+            356 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"syntax_entity\0"))
                 .as_ptr(),
         );
@@ -1566,7 +1566,7 @@ unsafe extern "C" fn syntax_entity(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            357 as libc::c_int as size_t,
+            357 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"syntax_entity\0"))
                 .as_ptr(),
         );
@@ -1689,7 +1689,7 @@ unsafe extern "C" fn syntax_thistype(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            436 as libc::c_int as size_t,
+            436 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"syntax_thistype\0"))
                 .as_ptr(),
         );
@@ -1701,7 +1701,7 @@ unsafe extern "C" fn syntax_thistype(
             b"parent != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            438 as libc::c_int as size_t,
+            438 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"syntax_thistype\0"))
                 .as_ptr(),
         );
@@ -1749,7 +1749,7 @@ unsafe extern "C" fn syntax_arrow(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            475 as libc::c_int as size_t,
+            475 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_arrow\0")).as_ptr(),
         );
     };
@@ -1819,7 +1819,7 @@ unsafe extern "C" fn syntax_nominal(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            525 as libc::c_int as size_t,
+            525 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"syntax_nominal\0"))
                 .as_ptr(),
         );
@@ -1890,18 +1890,18 @@ unsafe extern "C" fn syntax_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            567 as libc::c_int as size_t,
+            567 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_match\0")).as_ptr(),
         );
     };
-    let mut cases: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as size_t);
+    let mut cases: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as usize);
     if !cases.is_null() {
     } else {
         ponyint_assert_fail(
             b"cases != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            571 as libc::c_int as size_t,
+            571 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_match\0")).as_ptr(),
         );
     };
@@ -1911,7 +1911,7 @@ unsafe extern "C" fn syntax_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast_id(cases) == TK_CASES\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            572 as libc::c_int as size_t,
+            572 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_match\0")).as_ptr(),
         );
     };
@@ -1922,7 +1922,7 @@ unsafe extern "C" fn syntax_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     while !(ast_sibling(case_ast)).is_null() {
         case_ast = ast_sibling(case_ast);
     }
-    let mut body: *mut ast_t = ast_childidx(case_ast, 2 as libc::c_int as size_t);
+    let mut body: *mut ast_t = ast_childidx(case_ast, 2 as libc::c_int as usize);
     if ast_id(body) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
         ast_error(
             (*opt).check.errors,
@@ -1945,7 +1945,7 @@ unsafe extern "C" fn syntax_ffi(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            598 as libc::c_int as size_t,
+            598 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"syntax_ffi\0")).as_ptr(),
         );
     };
@@ -1969,7 +1969,7 @@ unsafe extern "C" fn syntax_ffi(
         children.as_mut_ptr(),
     );
     if (ast_child(typeargs)).is_null() && is_declaration as libc::c_int != 0
-        || !(ast_childidx(typeargs, 1 as libc::c_int as size_t)).is_null()
+        || !(ast_childidx(typeargs, 1 as libc::c_int as usize)).is_null()
     {
         ast_error(
             (*opt).check.errors,
@@ -1982,14 +1982,14 @@ unsafe extern "C" fn syntax_ffi(
     let mut p: *mut ast_t = ast_child(ffi_args);
     while !p.is_null() {
         if ast_id(p) as libc::c_uint == TK_PARAM as libc::c_int as libc::c_uint {
-            let mut def_val: *mut ast_t = ast_childidx(p, 2 as libc::c_int as size_t);
+            let mut def_val: *mut ast_t = ast_childidx(p, 2 as libc::c_int as usize);
             if !def_val.is_null() {
             } else {
                 ponyint_assert_fail(
                     b"def_val != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0"
                         as *const u8 as *const libc::c_char,
-                    616 as libc::c_int as size_t,
+                    616 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"syntax_ffi\0"))
                         .as_ptr(),
                 );
@@ -2027,7 +2027,7 @@ unsafe extern "C" fn syntax_ffi_decl(
             b"ast_id(ast) == TK_FFIDECL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            640 as libc::c_int as size_t,
+            640 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"syntax_ffi_decl\0"))
                 .as_ptr(),
         );
@@ -2045,7 +2045,7 @@ unsafe extern "C" fn syntax_ffi_call(
             b"ast_id(ast) == TK_FFICALL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            646 as libc::c_int as size_t,
+            646 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"syntax_ffi_call\0"))
                 .as_ptr(),
         );
@@ -2097,7 +2097,7 @@ unsafe extern "C" fn syntax_ellipsis(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            685 as libc::c_int as size_t,
+            685 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"syntax_ellipsis\0"))
                 .as_ptr(),
         );
@@ -2110,7 +2110,7 @@ unsafe extern "C" fn syntax_ellipsis(
             b"fn != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            689 as libc::c_int as size_t,
+            689 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"syntax_ellipsis\0"))
                 .as_ptr(),
         );
@@ -2144,7 +2144,7 @@ unsafe extern "C" fn syntax_infix_expr(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            710 as libc::c_int as size_t,
+            710 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"syntax_infix_expr\0"))
                 .as_ptr(),
         );
@@ -2166,7 +2166,7 @@ unsafe extern "C" fn syntax_infix_expr(
             b"left != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            715 as libc::c_int as size_t,
+            715 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"syntax_infix_expr\0"))
                 .as_ptr(),
         );
@@ -2181,7 +2181,7 @@ unsafe extern "C" fn syntax_infix_expr(
             b"right != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            720 as libc::c_int as size_t,
+            720 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"syntax_infix_expr\0"))
                 .as_ptr(),
         );
@@ -2247,7 +2247,7 @@ unsafe extern "C" fn syntax_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_
 unsafe extern "C" fn syntax_return(
     mut opt: *mut pass_opt_t,
     mut ast: *mut ast_t,
-    mut max_value_count: size_t,
+    mut max_value_count: usize,
 ) -> ast_result_t {
     if !ast.is_null() {
     } else {
@@ -2255,7 +2255,7 @@ unsafe extern "C" fn syntax_return(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            764 as libc::c_int as size_t,
+            764 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"syntax_return\0"))
                 .as_ptr(),
         );
@@ -2270,12 +2270,12 @@ unsafe extern "C" fn syntax_return(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            767 as libc::c_int as size_t,
+            767 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"syntax_return\0"))
                 .as_ptr(),
         );
     };
-    let mut value_count: size_t = ast_childcount(value_seq);
+    let mut value_count: usize = ast_childcount(value_seq);
     if value_count > max_value_count {
         ast_error(
             (*opt).check.errors,
@@ -2351,7 +2351,7 @@ unsafe extern "C" fn syntax_semi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_parent(ast) != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            844 as libc::c_int as size_t,
+            844 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"syntax_semi\0")).as_ptr(),
         );
     };
@@ -2361,7 +2361,7 @@ unsafe extern "C" fn syntax_semi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"ast_id(ast_parent(ast)) == TK_SEQ\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            845 as libc::c_int as size_t,
+            845 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"syntax_semi\0")).as_ptr(),
         );
     };
@@ -2424,7 +2424,7 @@ unsafe extern "C" fn syntax_ifdef_cond(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            903 as libc::c_int as size_t,
+            903 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"syntax_ifdef_cond\0"))
                 .as_ptr(),
         );
@@ -2435,7 +2435,7 @@ unsafe extern "C" fn syntax_ifdef_cond(
             b"context != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            904 as libc::c_int as size_t,
+            904 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"syntax_ifdef_cond\0"))
                 .as_ptr(),
         );
@@ -2445,10 +2445,10 @@ unsafe extern "C" fn syntax_ifdef_cond(
         2 => {}
         5 => {
             let mut name: *const libc::c_char = ast_name(ast);
-            let mut len: size_t = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+            let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
             let mut lower_case: *mut libc::c_char =
                 ponyint_pool_alloc_size(len) as *mut libc::c_char;
-            let mut i: size_t = 0;
+            let mut i: usize = 0;
             while i < len {
                 *lower_case.offset(i as isize) =
                     tolower(*name.offset(i as isize) as libc::c_int) as libc::c_char;
@@ -2530,7 +2530,7 @@ unsafe extern "C" fn syntax_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            995 as libc::c_int as size_t,
+            995 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_ifdef\0")).as_ptr(),
         );
     };
@@ -2551,7 +2551,7 @@ unsafe extern "C" fn syntax_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1006 as libc::c_int as size_t,
+            1006 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"syntax_use\0")).as_ptr(),
         );
     };
@@ -2686,7 +2686,7 @@ unsafe extern "C" fn syntax_compile_intrinsic(
             b"ast_id(parent) == TK_SEQ\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1072 as libc::c_int as size_t,
+            1072 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"syntax_compile_intrinsic\0",
             ))
@@ -2735,7 +2735,7 @@ unsafe extern "C" fn syntax_compile_error(
             b"ast_id(parent) == TK_SEQ\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1113 as libc::c_int as size_t,
+            1113 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"syntax_compile_error\0"))
                 .as_ptr(),
         );
@@ -2786,7 +2786,7 @@ unsafe extern "C" fn syntax_lambda(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1149 as libc::c_int as size_t,
+            1149 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"syntax_lambda\0"))
                 .as_ptr(),
         );
@@ -2903,7 +2903,7 @@ unsafe extern "C" fn syntax_object(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"ast_id(ast) == TK_OBJECT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1226 as libc::c_int as size_t,
+            1226 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"syntax_object\0"))
                 .as_ptr(),
         );
@@ -2942,7 +2942,7 @@ unsafe extern "C" fn syntax_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
             b"ast_id(ast) == TK_FUN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1243 as libc::c_int as size_t,
+            1243 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"syntax_fun\0")).as_ptr(),
         );
     };
@@ -3035,7 +3035,7 @@ unsafe extern "C" fn check_annotation_location(
                 let mut grandparent: *mut ast_t = ast_parent(parent);
                 if !(ast_id(grandparent) as libc::c_uint
                     == TK_REPEAT as libc::c_int as libc::c_uint
-                    && ast_childidx(grandparent, 1 as libc::c_int as size_t) == parent)
+                    && ast_childidx(grandparent, 1 as libc::c_int as usize) == parent)
                 {
                     ast_error(
                         (*opt).check.errors,
@@ -3098,7 +3098,7 @@ unsafe extern "C" fn syntax_annotation(
             b"ast_id(ast) == TK_ANNOTATION\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1392 as libc::c_int as size_t,
+            1392 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"syntax_annotation\0"))
                 .as_ptr(),
         );
@@ -3141,7 +3141,7 @@ unsafe extern "C" fn syntax_as(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
             b"ast_id(ast) == TK_AS\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1420 as libc::c_int as size_t,
+            1420 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"syntax_as\0")).as_ptr(),
         );
     };
@@ -3185,7 +3185,7 @@ pub unsafe extern "C" fn pass_syntax(
             b"astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1443 as libc::c_int as size_t,
+            1443 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"pass_syntax\0")).as_ptr(),
         );
     };
@@ -3196,7 +3196,7 @@ pub unsafe extern "C" fn pass_syntax(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/syntax.c\0" as *const u8
                 as *const libc::c_char,
-            1445 as libc::c_int as size_t,
+            1445 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"pass_syntax\0")).as_ptr(),
         );
     };
@@ -3255,10 +3255,10 @@ pub unsafe extern "C" fn pass_syntax(
             r = syntax_consume(options, ast);
         }
         103 | 104 => {
-            r = syntax_return(options, ast, 1 as libc::c_int as size_t);
+            r = syntax_return(options, ast, 1 as libc::c_int as usize);
         }
         105 | 127 => {
-            r = syntax_return(options, ast, 0 as libc::c_int as size_t);
+            r = syntax_return(options, ast, 0 as libc::c_int as usize);
         }
         85 | 84 => {
             r = syntax_local(options, ast);

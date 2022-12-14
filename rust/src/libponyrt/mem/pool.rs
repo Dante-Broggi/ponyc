@@ -12,7 +12,7 @@ pub mod internal {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
@@ -28,7 +28,7 @@ pub mod platform_h {
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
-    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> u32 {
+    pub unsafe extern "C" fn __pony_clzzu(mut x: usize) -> u32 {
         __pony_clzll(x as u64)
     }
     use super::stddef_h::size_t;
@@ -38,7 +38,7 @@ pub mod alloc_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "7:1"]
-        pub fn ponyint_virt_alloc(bytes: size_t) -> *mut libc::c_void;
+        pub fn ponyint_virt_alloc(bytes: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/pony/detail/atomics.h:6"]
@@ -63,7 +63,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -92,7 +92,7 @@ use self::string_h::memcpy;
 #[c2rust::src_loc = "45:16"]
 pub struct pool_local_t {
     pub pool: *mut pool_item_t,
-    pub length: size_t,
+    pub length: usize,
     pub start: *mut libc::c_char,
     pub end: *mut libc::c_char,
 }
@@ -106,8 +106,8 @@ pub struct pool_item_t {
 #[repr(C)]
 #[c2rust::src_loc = "64:16"]
 pub struct pool_global_t {
-    pub size: size_t,
-    pub count: size_t,
+    pub size: usize,
+    pub count: usize,
     pub central: aba_protected_pool_central_t,
 }
 #[derive(Copy, Clone)]
@@ -137,7 +137,7 @@ pub struct pool_central_t {
 pub struct pool_block_t {
     pub prev: *mut pool_block_t,
     pub c2rust_unnamed: C2RustUnnamed_0,
-    pub size: size_t,
+    pub size: usize,
     pub acquired: AtomicBool,
 }
 #[repr(C)]
@@ -151,17 +151,17 @@ pub union C2RustUnnamed_0 {
 #[c2rust::src_loc = "89:16"]
 pub struct pool_block_header_t {
     pub head: *mut pool_block_t,
-    pub total_size: size_t,
-    pub largest_size: size_t,
+    pub total_size: usize,
+    pub largest_size: usize,
 }
 #[c2rust::src_loc = "98:22"]
 static mut pool_global: [pool_global_t; 16] = [
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 0 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 0 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 0 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -176,10 +176,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 1 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 1 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 1 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -194,10 +194,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 2 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 2 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 2 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -212,10 +212,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 3 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 3 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 3 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -230,10 +230,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 4 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 4 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 4 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -248,10 +248,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 5 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 5 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 5 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -266,10 +266,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 6 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 6 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 6 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -284,10 +284,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 7 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 7 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 7 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -302,10 +302,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 8 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 8 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 8 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -320,10 +320,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 9 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 9 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 9 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -338,10 +338,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 10 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 10 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 10 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -356,10 +356,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 11 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 11 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 11 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -374,10 +374,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 12 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 12 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 12 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -392,10 +392,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 13 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 13 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 13 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -410,10 +410,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 14 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 14 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 14 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -428,10 +428,10 @@ static mut pool_global: [pool_global_t; 16] = [
     },
     {
         let mut init = pool_global_t {
-            size: (((1 as libc::c_int) << 5 as libc::c_int) << 15 as libc::c_int) as size_t,
+            size: (((1 as libc::c_int) << 5 as libc::c_int) << 15 as libc::c_int) as usize,
             count: (((1 as libc::c_int) << 20 as libc::c_int)
                 / (((1 as libc::c_int) << 5 as libc::c_int) << 15 as libc::c_int))
-                as size_t,
+                as usize,
             central: aba_protected_pool_central_t {
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
@@ -540,7 +540,7 @@ unsafe extern "C" fn pool_block_push(mut block: *mut pool_block_t) {
     in_pool_block_global.fetch_sub(1, Release);
 }
 #[c2rust::src_loc = "471:1"]
-unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
+unsafe extern "C" fn pool_block_pull(mut size: usize) -> *mut pool_block_t {
     let mut block: *mut pool_block_t = (&mut pool_block_global.c2rust_unnamed.global).load(Relaxed);
     if block.is_null() {
         return 0 as *mut pool_block_t;
@@ -587,7 +587,7 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
             b"size <= block->size\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.c\0" as *const u8
                 as *const libc::c_char,
-            570 as libc::c_int as size_t,
+            570 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"pool_block_pull\0"))
                 .as_ptr(),
         );
@@ -595,16 +595,16 @@ unsafe extern "C" fn pool_block_pull(mut size: size_t) -> *mut pool_block_t {
     block
 }
 #[c2rust::src_loc = "580:1"]
-unsafe extern "C" fn pool_block_get(mut size: size_t) -> *mut libc::c_void {
+unsafe extern "C" fn pool_block_get(mut size: usize) -> *mut libc::c_void {
     if pool_block_header.largest_size >= size {
         let mut block: *mut pool_block_t = pool_block_header.head;
         while !block.is_null() {
             if (*block).size > size {
-                let mut rem: size_t = ((*block).size).wrapping_sub(size);
+                let mut rem: usize = ((*block).size).wrapping_sub(size);
                 (*block).size = rem;
                 pool_block_header.total_size = (pool_block_header.total_size as libc::c_ulong)
-                    .wrapping_sub(size) as size_t
-                    as size_t;
+                    .wrapping_sub(size) as usize
+                    as usize;
                 if !((*block).prev).is_null() && (*(*block).prev).size > (*block).size {
                     if ((*block).c2rust_unnamed.next).is_null() {
                         pool_block_header.largest_size = (*(*block).prev).size;
@@ -627,7 +627,7 @@ unsafe extern "C" fn pool_block_get(mut size: size_t) -> *mut libc::c_void {
                     pool_block_remove(block);
                     pool_block_header.total_size = (pool_block_header.total_size as libc::c_ulong)
                         .wrapping_sub(size)
-                        as size_t as size_t;
+                        as usize as usize;
                     return block as *mut libc::c_void;
                 }
             }
@@ -639,7 +639,7 @@ unsafe extern "C" fn pool_block_get(mut size: size_t) -> *mut libc::c_void {
                 b"false\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.c\0" as *const u8
                     as *const libc::c_char,
-                629 as libc::c_int as size_t,
+                629 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"pool_block_get\0"))
                     .as_ptr(),
             );
@@ -652,18 +652,18 @@ unsafe extern "C" fn pool_block_get(mut size: size_t) -> *mut libc::c_void {
     if size == (*block_0).size {
         return block_0 as *mut libc::c_void;
     }
-    let mut rem_0: size_t = ((*block_0).size).wrapping_sub(size);
+    let mut rem_0: usize = ((*block_0).size).wrapping_sub(size);
     (*block_0).size = rem_0;
     pool_block_insert(block_0);
     pool_block_header.total_size =
-        (pool_block_header.total_size as libc::c_ulong).wrapping_add(rem_0) as size_t as size_t;
+        (pool_block_header.total_size as libc::c_ulong).wrapping_add(rem_0) as usize as usize;
     if pool_block_header.largest_size < rem_0 {
         pool_block_header.largest_size = rem_0;
     }
     (block_0 as *mut libc::c_char).offset(rem_0 as isize) as *mut libc::c_void
 }
 #[c2rust::src_loc = "651:1"]
-unsafe extern "C" fn pool_alloc_pages(mut size: size_t) -> *mut libc::c_void {
+unsafe extern "C" fn pool_alloc_pages(mut size: usize) -> *mut libc::c_void {
     let mut p: *mut libc::c_void = pool_block_get(size);
     if !p.is_null() {
         return p;
@@ -672,9 +672,9 @@ unsafe extern "C" fn pool_alloc_pages(mut size: size_t) -> *mut libc::c_void {
         return ponyint_virt_alloc(size);
     }
     let mut block: *mut pool_block_t = ponyint_virt_alloc(
-        (128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as size_t,
+        (128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as usize,
     ) as *mut pool_block_t;
-    let mut rem: size_t = ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int)
+    let mut rem: usize = ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int)
         as libc::c_ulong)
         .wrapping_sub(size);
     (*block).size = rem;
@@ -684,7 +684,7 @@ unsafe extern "C" fn pool_alloc_pages(mut size: size_t) -> *mut libc::c_void {
     *fresh7 = 0 as *mut pool_block_t;
     pool_block_insert(block);
     pool_block_header.total_size =
-        (pool_block_header.total_size as libc::c_ulong).wrapping_add(rem) as size_t as size_t;
+        (pool_block_header.total_size as libc::c_ulong).wrapping_add(rem) as usize as usize;
     if pool_block_header.largest_size < rem {
         pool_block_header.largest_size = rem;
     }
@@ -693,7 +693,7 @@ unsafe extern "C" fn pool_alloc_pages(mut size: size_t) -> *mut libc::c_void {
 #[c2rust::src_loc = "676:1"]
 unsafe extern "C" fn todo() {}
 #[c2rust::src_loc = "678:1"]
-unsafe extern "C" fn pool_free_pages(mut p: *mut libc::c_void, mut size: size_t) {
+unsafe extern "C" fn pool_free_pages(mut p: *mut libc::c_void, mut size: usize) {
     if pool_block_header.total_size
         >= (128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as libc::c_ulong
     {
@@ -707,7 +707,7 @@ unsafe extern "C" fn pool_free_pages(mut p: *mut libc::c_void, mut size: size_t)
     (*block).size = size;
     pool_block_insert(block);
     pool_block_header.total_size =
-        (pool_block_header.total_size as libc::c_ulong).wrapping_add(size) as size_t as size_t;
+        (pool_block_header.total_size as libc::c_ulong).wrapping_add(size) as usize as usize;
     if pool_block_header.largest_size < size {
         pool_block_header.largest_size = size;
     }
@@ -718,7 +718,7 @@ unsafe extern "C" fn pool_push(mut thread: *mut pool_local_t, mut global: *mut p
     (*p).length = (*thread).length;
     let ref mut fresh10 = (*thread).pool;
     *fresh10 = 0 as *mut pool_item_t;
-    (*thread).length = 0 as libc::c_int as size_t;
+    (*thread).length = 0 as libc::c_int as usize;
     if (*p).length > 0 as libc::c_int as libc::c_ulong && (*p).length <= (*global).count {
     } else {
         ponyint_assert_fail(
@@ -726,7 +726,7 @@ unsafe extern "C" fn pool_push(mut thread: *mut pool_local_t, mut global: *mut p
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.c\0" as *const u8
                 as *const libc::c_char,
-            705 as libc::c_int as size_t,
+            705 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pool_push\0")).as_ptr(),
         );
     };
@@ -816,7 +816,7 @@ unsafe extern "C" fn pool_pull(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.c\0" as *const u8
                 as *const libc::c_char,
-            764 as libc::c_int as size_t,
+            764 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pool_pull\0")).as_ptr(),
         );
     };
@@ -826,7 +826,7 @@ unsafe extern "C" fn pool_pull(
     return p;
 }
 #[c2rust::src_loc = "773:1"]
-unsafe extern "C" fn pool_get(mut pool: *mut pool_local_t, mut index: size_t) -> *mut libc::c_void {
+unsafe extern "C" fn pool_get(mut pool: *mut pool_local_t, mut index: usize) -> *mut libc::c_void {
     let mut thread: *mut pool_local_t = &mut *pool.offset(index as isize) as *mut pool_local_t;
     let mut global: *mut pool_global_t =
         &mut *pool_global.as_mut_ptr().offset(index as isize) as *mut pool_global_t;
@@ -850,7 +850,7 @@ unsafe extern "C" fn pool_get(mut pool: *mut pool_local_t, mut index: size_t) ->
             return p_0;
         }
         let mut mem: *mut libc::c_char =
-            pool_get(pool, (10 as libc::c_int - 5 as libc::c_int) as size_t) as *mut libc::c_char;
+            pool_get(pool, (10 as libc::c_int - 5 as libc::c_int) as usize) as *mut libc::c_char;
         let ref mut fresh18 = (*thread).start;
         *fresh18 = mem.offset((*global).size as isize);
         let ref mut fresh19 = (*thread).end;
@@ -861,21 +861,21 @@ unsafe extern "C" fn pool_get(mut pool: *mut pool_local_t, mut index: size_t) ->
 }
 #[no_mangle]
 #[c2rust::src_loc = "819:1"]
-pub unsafe extern "C" fn ponyint_pool_alloc(mut index: size_t) -> *mut libc::c_void {
+pub unsafe extern "C" fn ponyint_pool_alloc(mut index: usize) -> *mut libc::c_void {
     let mut pool: *mut pool_local_t = pool_local.as_mut_ptr();
     let mut p: *mut libc::c_void = pool_get(pool, index);
     p
 }
 #[no_mangle]
 #[c2rust::src_loc = "838:1"]
-pub unsafe extern "C" fn ponyint_pool_free(mut index: size_t, mut p: *mut libc::c_void) {
+pub unsafe extern "C" fn ponyint_pool_free(mut index: usize, mut p: *mut libc::c_void) {
     if index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
     } else {
         ponyint_assert_fail(
             b"index < POOL_COUNT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.c\0" as *const u8
                 as *const libc::c_char,
-            845 as libc::c_int as size_t,
+            845 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_pool_free\0"))
                 .as_ptr(),
         );
@@ -893,7 +893,7 @@ pub unsafe extern "C" fn ponyint_pool_free(mut index: size_t, mut p: *mut libc::
             b"thread->length < global->count\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.c\0" as *const u8
                 as *const libc::c_char,
-            854 as libc::c_int as size_t,
+            854 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_pool_free\0"))
                 .as_ptr(),
         );
@@ -907,14 +907,14 @@ pub unsafe extern "C" fn ponyint_pool_free(mut index: size_t, mut p: *mut libc::
     *fresh22 = (*fresh22).wrapping_add(1);
 }
 #[c2rust::src_loc = "866:1"]
-unsafe extern "C" fn pool_alloc_size(mut size: size_t) -> *mut libc::c_void {
+unsafe extern "C" fn pool_alloc_size(mut size: usize) -> *mut libc::c_void {
     let mut p: *mut libc::c_void = pool_alloc_pages(size);
     p
 }
 #[no_mangle]
 #[c2rust::src_loc = "884:1"]
-pub unsafe extern "C" fn ponyint_pool_alloc_size(mut size: size_t) -> *mut libc::c_void {
-    let mut index: size_t = ponyint_pool_index(size);
+pub unsafe extern "C" fn ponyint_pool_alloc_size(mut size: usize) -> *mut libc::c_void {
+    let mut index: usize = ponyint_pool_index(size);
     if index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
         return ponyint_pool_alloc(index);
     }
@@ -923,13 +923,13 @@ pub unsafe extern "C" fn ponyint_pool_alloc_size(mut size: size_t) -> *mut libc:
     p
 }
 #[c2rust::src_loc = "897:1"]
-unsafe extern "C" fn pool_free_size(mut size: size_t, mut p: *mut libc::c_void) {
+unsafe extern "C" fn pool_free_size(mut size: usize, mut p: *mut libc::c_void) {
     pool_free_pages(p, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "913:1"]
-pub unsafe extern "C" fn ponyint_pool_free_size(mut size: size_t, mut p: *mut libc::c_void) {
-    let mut index: size_t = ponyint_pool_index(size);
+pub unsafe extern "C" fn ponyint_pool_free_size(mut size: usize, mut p: *mut libc::c_void) {
+    let mut index: usize = ponyint_pool_index(size);
     if index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
         return ponyint_pool_free(index, p);
     }
@@ -939,16 +939,16 @@ pub unsafe extern "C" fn ponyint_pool_free_size(mut size: size_t, mut p: *mut li
 #[no_mangle]
 #[c2rust::src_loc = "924:1"]
 pub unsafe extern "C" fn ponyint_pool_realloc_size(
-    mut old_size: size_t,
-    mut new_size: size_t,
+    mut old_size: usize,
+    mut new_size: usize,
     mut p: *mut libc::c_void,
 ) -> *mut libc::c_void {
     if p.is_null() {
         return ponyint_pool_alloc_size(new_size);
     }
-    let mut old_index: size_t = ponyint_pool_index(old_size);
-    let mut new_index: size_t = ponyint_pool_index(new_size);
-    let mut old_adj_size: size_t = 0;
+    let mut old_index: usize = ponyint_pool_index(old_size);
+    let mut new_index: usize = ponyint_pool_index(new_size);
+    let mut old_adj_size: usize = 0;
     let mut new_p: *mut libc::c_void = 0 as *mut libc::c_void;
     if new_index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
         if old_index == new_index {
@@ -956,7 +956,7 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
         }
         new_p = ponyint_pool_alloc(new_index);
     } else {
-        let mut new_adj_size: size_t = ponyint_pool_adjust_size(new_size);
+        let mut new_adj_size: usize = ponyint_pool_adjust_size(new_size);
         if old_index >= (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
             old_adj_size = ponyint_pool_adjust_size(old_size);
             if old_adj_size == new_adj_size {
@@ -984,7 +984,7 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
 #[no_mangle]
 #[c2rust::src_loc = "968:1"]
 pub unsafe extern "C" fn ponyint_pool_thread_cleanup() {
-    let mut index: size_t = 0;
+    let mut index: usize = 0;
     while index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
         let mut thread: *mut pool_local_t =
             &mut *pool_local.as_mut_ptr().offset(index as isize) as *mut pool_local_t;
@@ -1016,35 +1016,35 @@ pub unsafe extern "C" fn ponyint_pool_thread_cleanup() {
         pool_block_push(block);
         block = next;
     }
-    pool_block_header.total_size = 0 as libc::c_int as size_t;
-    pool_block_header.largest_size = 0 as libc::c_int as size_t;
+    pool_block_header.total_size = 0 as libc::c_int as usize;
+    pool_block_header.largest_size = 0 as libc::c_int as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1004:1"]
-pub unsafe extern "C" fn ponyint_pool_index(mut size: size_t) -> size_t {
+pub unsafe extern "C" fn ponyint_pool_index(mut size: usize) -> usize {
     if size > ((1 as libc::c_int) << 5 as libc::c_int) as libc::c_ulong {
-        return ((64 as libc::c_int - 5 as libc::c_int) as size_t)
+        return ((64 as libc::c_int - 5 as libc::c_int) as usize)
             .wrapping_sub(__pony_clzzu(size) as libc::c_ulong)
             .wrapping_sub(
                 (size & size.wrapping_sub(1 as libc::c_int as libc::c_ulong) == 0) as libc::c_int
                     as libc::c_ulong,
             );
     }
-    return 0 as libc::c_int as size_t;
+    return 0 as libc::c_int as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1020:1"]
-pub unsafe extern "C" fn ponyint_pool_used_size(mut size: size_t) -> size_t {
-    let mut index: size_t = ponyint_pool_index(size);
+pub unsafe extern "C" fn ponyint_pool_used_size(mut size: usize) -> usize {
+    let mut index: usize = ponyint_pool_index(size);
     if index < (20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong {
-        return (1 as libc::c_int as size_t)
+        return (1 as libc::c_int as usize)
             << (5 as libc::c_int as libc::c_ulong).wrapping_add(index);
     }
     ponyint_pool_adjust_size(size)
 }
 #[no_mangle]
 #[c2rust::src_loc = "1030:1"]
-pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: size_t) -> size_t {
+pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: usize) -> usize {
     if size & (((1 as libc::c_int) << 10 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
         != 0 as libc::c_int as libc::c_ulong
     {

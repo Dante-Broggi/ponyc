@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -473,13 +473,13 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -491,8 +491,8 @@ pub mod printbuf_h {
     #[c2rust::src_loc = "10:16"]
     pub struct printbuf_t {
         pub m: *mut libc::c_char,
-        pub size: size_t,
-        pub offset: size_t,
+        pub size: usize,
+        pub offset: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -535,7 +535,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -667,7 +667,7 @@ unsafe extern "C" fn type_append(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genname.c\0"
                 as *const u8 as *const libc::c_char,
-            63 as libc::c_int as size_t,
+            63 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"type_append\0")).as_ptr(),
         );
     };
@@ -704,7 +704,7 @@ unsafe extern "C" fn stringtab_two(
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genname.c\0"
                 as *const u8 as *const libc::c_char,
-            94 as libc::c_int as size_t,
+            94 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"stringtab_two\0"))
                 .as_ptr(),
         );

@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
@@ -266,9 +266,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.h:5"]
@@ -297,7 +297,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -319,9 +319,9 @@ pub mod unistd_h {
         #[c2rust::src_loc = "470:1"]
         pub fn pipe(_: *mut libc::c_int) -> libc::c_int;
         #[c2rust::src_loc = "472:1"]
-        pub fn read(_: libc::c_int, _: *mut libc::c_void, _: size_t) -> ssize_t;
+        pub fn read(_: libc::c_int, _: *mut libc::c_void, _: usize) -> ssize_t;
         #[c2rust::src_loc = "496:1"]
-        pub fn write(__fd: libc::c_int, __buf: *const libc::c_void, __nbyte: size_t) -> ssize_t;
+        pub fn write(__fd: libc::c_int, __buf: *const libc::c_void, __nbyte: usize) -> ssize_t;
     }
 }
 pub use self::_intptr_t_h::intptr_t;
@@ -393,7 +393,7 @@ unsafe extern "C" fn macro__EV_SET(
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_asio_backend_init() -> *mut asio_backend_t {
     let mut b: *mut asio_backend_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut asio_backend_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut asio_backend_t;
     memset(
         b as *mut libc::c_void,
         0 as libc::c_int,
@@ -402,7 +402,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_init() -> *mut asio_backend_t {
     ponyint_messageq_init(&mut (*b).q);
     (*b).kq = kqueue();
     if (*b).kq == -(1 as libc::c_int) {
-        ponyint_pool_free(0 as libc::c_int as size_t, b as *mut libc::c_void);
+        ponyint_pool_free(0 as libc::c_int as usize, b as *mut libc::c_void);
         return 0 as *mut asio_backend_t;
     }
     pipe(((*b).wakeup).as_mut_ptr());
@@ -447,7 +447,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_final(mut b: *mut asio_backend_t) 
     write(
         (*b).wakeup[1 as libc::c_int as usize],
         &mut c as *mut libc::c_char as *const libc::c_void,
-        1 as libc::c_int as size_t,
+        1 as libc::c_int as usize,
     );
 }
 #[c2rust::src_loc = "94:1"]
@@ -471,7 +471,7 @@ unsafe extern "C" fn retry_loop(mut b: *mut asio_backend_t) {
     write(
         (*b).wakeup[1 as libc::c_int as usize],
         &mut c as *mut libc::c_char as *const libc::c_void,
-        1 as libc::c_int as size_t,
+        1 as libc::c_int as usize,
     );
 }
 #[no_mangle]
@@ -487,7 +487,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_read(mut ev: *mut asio_even
                 b"0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0"
                     as *const u8 as *const libc::c_char,
-                121 as libc::c_int as size_t,
+                121 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 33], &[libc::c_char; 33]>(
                     b"pony_asio_event_resubscribe_read\0",
                 ))
@@ -503,7 +503,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_read(mut ev: *mut asio_even
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0" as *const u8
                 as *const libc::c_char,
-            126 as libc::c_int as size_t,
+            126 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 33], &[libc::c_char; 33]>(
                 b"pony_asio_event_resubscribe_read\0",
             ))
@@ -564,7 +564,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_write(mut ev: *mut asio_eve
                 b"0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0"
                     as *const u8 as *const libc::c_char,
-                152 as libc::c_int as size_t,
+                152 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 34], &[libc::c_char; 34]>(
                     b"pony_asio_event_resubscribe_write\0",
                 ))
@@ -580,7 +580,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_write(mut ev: *mut asio_eve
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0" as *const u8
                 as *const libc::c_char,
-            157 as libc::c_int as size_t,
+            157 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 34], &[libc::c_char; 34]>(
                 b"pony_asio_event_resubscribe_write\0",
             ))
@@ -642,7 +642,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0" as *const u8
                 as *const libc::c_char,
-            182 as libc::c_int as size_t,
+            182 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 30], &[libc::c_char; 30]>(
                 b"ponyint_asio_backend_dispatch\0",
             ))
@@ -677,7 +677,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
                 read(
                     (*b).wakeup[0 as libc::c_int as usize],
                     &mut terminate as *mut libc::c_char as *mut libc::c_void,
-                    1 as libc::c_int as size_t,
+                    1 as libc::c_int as usize,
                 );
                 if terminate as libc::c_int == 1 as libc::c_int {
                     close((*b).kq);
@@ -751,7 +751,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
         handle_queue(b);
     }
     ponyint_messageq_destroy(&mut (*b).q, 1 as libc::c_int != 0);
-    ponyint_pool_free(0 as libc::c_int as size_t, b as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, b as *mut libc::c_void);
     pony_unregister_thread();
     return 0 as *mut libc::c_void;
 }
@@ -768,7 +768,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
                 b"0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0"
                     as *const u8 as *const libc::c_char,
-                301 as libc::c_int as size_t,
+                301 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                     b"pony_asio_event_subscribe\0",
                 ))
@@ -784,7 +784,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0" as *const u8
                 as *const libc::c_char,
-            306 as libc::c_int as size_t,
+            306 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                 b"pony_asio_event_subscribe\0",
             ))
@@ -902,7 +902,7 @@ pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut 
                 b"0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0"
                     as *const u8 as *const libc::c_char,
-                380 as libc::c_int as size_t,
+                380 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                     b"pony_asio_event_setnsec\0",
                 ))
@@ -918,7 +918,7 @@ pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut 
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0" as *const u8
                 as *const libc::c_char,
-            385 as libc::c_int as size_t,
+            385 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                 b"pony_asio_event_setnsec\0",
             ))
@@ -970,7 +970,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
                 b"0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0"
                     as *const u8 as *const libc::c_char,
-                414 as libc::c_int as size_t,
+                414 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
                     b"pony_asio_event_unsubscribe\0",
                 ))
@@ -986,7 +986,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/asio/kqueue.c\0" as *const u8
                 as *const libc::c_char,
-            419 as libc::c_int as size_t,
+            419 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
                 b"pony_asio_event_unsubscribe\0",
             ))

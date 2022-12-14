@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -577,7 +577,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "54:34"]
         pub fn astlist_data(list: *mut astlist_t) -> *mut ast_t;
         #[c2rust::src_loc = "54:1"]
-        pub fn astlist_length(list: *mut astlist_t) -> size_t;
+        pub fn astlist_length(list: *mut astlist_t) -> usize;
         #[c2rust::src_loc = "54:1"]
         pub fn astlist_free(list: *mut astlist_t);
         #[c2rust::src_loc = "59:1"]
@@ -611,9 +611,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -648,7 +648,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -690,10 +690,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -788,7 +788,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1012,7 +1012,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1130,8 +1130,8 @@ unsafe extern "C" fn build_array_type(
         b"Array\0" as *const u8 as *const libc::c_char,
         typeargs,
     );
-    ast_setid(ast_childidx(array_type, 3 as libc::c_int as size_t), cap);
-    ast_setid(ast_childidx(array_type, 4 as libc::c_int as size_t), eph);
+    ast_setid(ast_childidx(array_type, 3 as libc::c_int as usize), cap);
+    ast_setid(ast_childidx(array_type, 4 as libc::c_int as usize), eph);
     return array_type;
 }
 #[c2rust::src_loc = "34:1"]
@@ -1139,7 +1139,7 @@ unsafe extern "C" fn strip_this_arrow(mut opt: *mut pass_opt_t, mut ast: *mut as
     if ast_id(ast) as libc::c_uint == TK_ARROW as libc::c_int as libc::c_uint
         && ast_id(ast_child(ast)) as libc::c_uint == TK_THISTYPE as libc::c_int as libc::c_uint
     {
-        return ast_childidx(ast, 1 as libc::c_int as size_t);
+        return ast_childidx(ast, 1 as libc::c_int as usize);
     }
     if ast_id(ast) as libc::c_uint == TK_TUPLETYPE as libc::c_int as libc::c_uint {
         let mut new_ast: *mut ast_t = ast_from(ast, TK_TUPLETYPE);
@@ -1196,15 +1196,15 @@ unsafe extern "C" fn detect_apply_element_type(
         return 0 as *mut ast_t;
     }
     let mut param: *mut ast_t = ast_child(params);
-    let mut param_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as size_t);
-    if ast_name(ast_childidx(param_type, 1 as libc::c_int as size_t))
+    let mut param_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as usize);
+    if ast_name(ast_childidx(param_type, 1 as libc::c_int as usize))
         != stringtab(b"USize\0" as *const u8 as *const libc::c_char)
     {
         return 0 as *mut ast_t;
     }
     let mut elem_type: *mut ast_t = ret_type;
-    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
-    let mut typeargs: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as size_t);
+    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
+    let mut typeargs: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as usize);
     if ast_id(typeparams) as libc::c_uint == TK_TYPEPARAMS as libc::c_int as libc::c_uint {
         elem_type = reify(elem_type, typeparams, typeargs, opt, 1 as libc::c_int != 0);
     }
@@ -1254,16 +1254,16 @@ unsafe extern "C" fn detect_values_element_type(
         return 0 as *mut ast_t;
     }
     if ast_id(ret_type) as libc::c_uint != TK_NOMINAL as libc::c_int as libc::c_uint
-        || ast_name(ast_childidx(ret_type, 1 as libc::c_int as size_t))
+        || ast_name(ast_childidx(ret_type, 1 as libc::c_int as usize))
             != stringtab(b"Iterator\0" as *const u8 as *const libc::c_char)
-        || ast_childcount(ast_childidx(ret_type, 2 as libc::c_int as size_t))
+        || ast_childcount(ast_childidx(ret_type, 2 as libc::c_int as usize))
             != 1 as libc::c_int as libc::c_ulong
     {
         return 0 as *mut ast_t;
     }
-    let mut elem_type: *mut ast_t = ast_child(ast_childidx(ret_type, 2 as libc::c_int as size_t));
-    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
-    let mut typeargs: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as size_t);
+    let mut elem_type: *mut ast_t = ast_child(ast_childidx(ret_type, 2 as libc::c_int as usize));
+    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
+    let mut typeargs: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as usize);
     if ast_id(typeparams) as libc::c_uint == TK_TYPEPARAMS as libc::c_int as libc::c_uint {
         elem_type = reify(elem_type, typeparams, typeargs, opt, 1 as libc::c_int != 0);
     }
@@ -1271,7 +1271,7 @@ unsafe extern "C" fn detect_values_element_type(
         && ast_id(ast_child(elem_type)) as libc::c_uint
             == TK_THISTYPE as libc::c_int as libc::c_uint
     {
-        elem_type = ast_childidx(elem_type, 1 as libc::c_int as size_t);
+        elem_type = ast_childidx(elem_type, 1 as libc::c_int as usize);
     }
     elem_type
 }
@@ -1330,7 +1330,7 @@ unsafe extern "C" fn find_possible_element_types(
             *list = astlist_push(*list, elem_type);
         }
         17 => {
-            find_possible_element_types(opt, ast_childidx(ast, 1_i32 as size_t), list);
+            find_possible_element_types(opt, ast_childidx(ast, 1_i32 as usize), list);
         }
         187 => {
             let mut def_0: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1340,14 +1340,14 @@ unsafe extern "C" fn find_possible_element_types(
                     b"ast_id(def) == TK_TYPEPARAM\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/array.c\0"
                         as *const u8 as *const libc::c_char,
-                    179 as libc::c_int as size_t,
+                    179 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
                         b"find_possible_element_types\0",
                     ))
                     .as_ptr(),
                 );
             };
-            find_possible_element_types(opt, ast_childidx(def_0, 1_i32 as size_t), list);
+            find_possible_element_types(opt, ast_childidx(def_0, 1_i32 as usize), list);
         }
         149 | 56 => {
             let mut c: *mut ast_t = ast_child(ast);
@@ -1394,7 +1394,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
         17 => {
             find_possible_iterator_element_types(
                 opt,
-                ast_childidx(ast, 1 as libc::c_int as size_t),
+                ast_childidx(ast, 1 as libc::c_int as usize),
                 list,
             );
         }
@@ -1406,7 +1406,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
                     b"ast_id(def) == TK_TYPEPARAM\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/array.c\0"
                         as *const u8 as *const libc::c_char,
-                    220 as libc::c_int as size_t,
+                    220 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 37], &[libc::c_char; 37]>(
                         b"find_possible_iterator_element_types\0",
                     ))
@@ -1415,7 +1415,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
             };
             find_possible_iterator_element_types(
                 opt,
-                ast_childidx(def, 1 as libc::c_int as size_t),
+                ast_childidx(def, 1 as libc::c_int as usize),
                 list,
             );
         }
@@ -1507,7 +1507,7 @@ unsafe extern "C" fn infer_element_type(
             let mut cursor_type: *mut ast_t =
                 consume_type(astlist_data(cursor), TK_NONE, 0 as libc::c_int != 0);
             let mut supertype_of_all: bool = 1 as libc::c_int != 0;
-            let mut elem: *mut ast_t = ast_child(ast_childidx(ast, 1 as libc::c_int as size_t));
+            let mut elem: *mut ast_t = ast_child(ast_childidx(ast, 1 as libc::c_int as usize));
             while !elem.is_null() {
                 if ast_visit(
                     &mut elem,
@@ -1573,7 +1573,7 @@ pub unsafe extern "C" fn expr_pre_array(
             b"ast_id(ast) == TK_ARRAY\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/array.c\0" as *const u8
                 as *const libc::c_char,
-            363 as libc::c_int as size_t,
+            363 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"expr_pre_array\0"))
                 .as_ptr(),
         );
@@ -1691,7 +1691,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
             b"ast_id(ast) == TK_ARRAY\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/array.c\0" as *const u8
                 as *const libc::c_char,
-            417 as libc::c_int as size_t,
+            417 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"expr_array\0")).as_ptr(),
         );
     };
@@ -1705,7 +1705,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut size: size_t = ast_childcount(elements);
+    let mut size: usize = ast_childcount(elements);
     if ast_id(type_spec) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
         type_0 = type_spec;
         told_type = 1 as libc::c_int != 0;
@@ -2010,7 +2010,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     }
     ast_swap(ast, call);
     *astp = call;
-    elements = ast_childidx(ast, 1 as libc::c_int as size_t);
+    elements = ast_childidx(ast, 1 as libc::c_int as usize);
     let mut ele_0: *mut ast_t = ast_child(elements);
     while !ele_0.is_null() {
         let mut append_chain: *mut ast_t = 0 as *mut ast_t;

@@ -12,7 +12,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:4"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h:4"]
 pub mod _off_t_h {
@@ -42,14 +42,14 @@ pub mod mman_h {
         #[c2rust::src_loc = "238:1"]
         pub fn mmap(
             _: *mut libc::c_void,
-            _: size_t,
+            _: usize,
             _: libc::c_int,
             _: libc::c_int,
             _: libc::c_int,
             _: off_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "247:1"]
-        pub fn munmap(_: *mut libc::c_void, _: size_t) -> libc::c_int;
+        pub fn munmap(_: *mut libc::c_void, _: usize) -> libc::c_int;
     }
 }
 pub use self::_off_t_h::off_t;
@@ -60,7 +60,7 @@ use self::stdlib_h::abort;
 pub use self::sys__types_h::__darwin_off_t;
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]
-pub unsafe extern "C" fn ponyint_virt_alloc(mut bytes: size_t) -> *mut libc::c_void {
+pub unsafe extern "C" fn ponyint_virt_alloc(mut bytes: usize) -> *mut libc::c_void {
     let mut p: *mut libc::c_void = 0 as *mut libc::c_void;
     let mut ok: bool = 1 as libc::c_int != 0;
     p = mmap(
@@ -82,6 +82,6 @@ pub unsafe extern "C" fn ponyint_virt_alloc(mut bytes: size_t) -> *mut libc::c_v
 }
 #[no_mangle]
 #[c2rust::src_loc = "58:1"]
-pub unsafe extern "C" fn ponyint_virt_free(mut p: *mut libc::c_void, mut bytes: size_t) {
+pub unsafe extern "C" fn ponyint_virt_free(mut p: *mut libc::c_void, mut bytes: usize) {
     munmap(p, bytes);
 }

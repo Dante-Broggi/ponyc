@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -319,8 +319,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -783,20 +783,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -853,10 +853,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -951,7 +951,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1015,7 +1015,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1298,7 +1298,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1369,9 +1369,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "139:1"]
@@ -1418,7 +1418,7 @@ pub mod gendesc_h {
         pub fn gendesc_fieldinfo(
             c: *mut compile_t,
             desc: LLVMValueRef,
-            index: size_t,
+            index: usize,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "36:1"]
         pub fn gendesc_fieldptr(
@@ -1491,7 +1491,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1650,7 +1650,7 @@ unsafe extern "C" fn trace_union_machine_word(mut a: trace_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            71 as libc::c_int as size_t,
+            71 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"trace_union_machine_word\0",
             ))
@@ -1675,7 +1675,7 @@ unsafe extern "C" fn trace_union_primitive(mut a: trace_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            102 as libc::c_int as size_t,
+            102 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"trace_union_primitive\0"))
                 .as_ptr(),
         );
@@ -1695,7 +1695,7 @@ unsafe extern "C" fn trace_union_val(mut a: trace_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            127 as libc::c_int as size_t,
+            127 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"trace_union_val\0"))
                 .as_ptr(),
         );
@@ -1715,7 +1715,7 @@ unsafe extern "C" fn trace_union_mut(mut a: trace_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            152 as libc::c_int as size_t,
+            152 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"trace_union_mut\0"))
                 .as_ptr(),
         );
@@ -1735,7 +1735,7 @@ unsafe extern "C" fn trace_union_tag(mut a: trace_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            177 as libc::c_int as size_t,
+            177 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"trace_union_tag\0"))
                 .as_ptr(),
         );
@@ -1759,7 +1759,7 @@ unsafe extern "C" fn trace_type_union(mut type_0: *mut ast_t) -> trace_t {
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                             as *const u8 as *const libc::c_char,
-                        199 as libc::c_int as size_t,
+                        199 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 17],
                             &[libc::c_char; 17],
@@ -1792,7 +1792,7 @@ unsafe extern "C" fn trace_type_union(mut type_0: *mut ast_t) -> trace_t {
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                             as *const u8 as *const libc::c_char,
-                        231 as libc::c_int as size_t,
+                        231 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 17],
                             &[libc::c_char; 17],
@@ -1822,7 +1822,7 @@ unsafe extern "C" fn trace_type_isect(mut type_0: *mut ast_t) -> trace_t {
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                             as *const u8 as *const libc::c_char,
-                        254 as libc::c_int as size_t,
+                        254 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 17],
                             &[libc::c_char; 17],
@@ -1855,7 +1855,7 @@ unsafe extern "C" fn trace_type_isect(mut type_0: *mut ast_t) -> trace_t {
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                             as *const u8 as *const libc::c_char,
-                        284 as libc::c_int as size_t,
+                        284 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 17],
                             &[libc::c_char; 17],
@@ -1911,7 +1911,7 @@ unsafe extern "C" fn trace_type_nominal(mut type_0: *mut ast_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            347 as libc::c_int as size_t,
+            347 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"trace_type_nominal\0"))
                 .as_ptr(),
         );
@@ -1933,7 +1933,7 @@ unsafe extern "C" fn trace_type(mut type_0: *mut ast_t) -> trace_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            370 as libc::c_int as size_t,
+            370 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"trace_type\0")).as_ptr(),
         );
     };
@@ -1992,7 +1992,7 @@ unsafe extern "C" fn trace_type_dst_cap(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                         as *const u8 as *const libc::c_char,
-                    461 as libc::c_int as size_t,
+                    461 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                         b"trace_type_dst_cap\0",
                     ))
@@ -2008,7 +2008,7 @@ unsafe extern "C" fn trace_type_dst_cap(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                         as *const u8 as *const libc::c_char,
-                    465 as libc::c_int as size_t,
+                    465 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                         b"trace_type_dst_cap\0",
                     ))
@@ -2026,7 +2026,7 @@ unsafe extern "C" fn trace_nullable_pointer(
     mut object: LLVMValueRef,
     mut type_0: *mut ast_t,
 ) {
-    let mut type_args: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as size_t);
+    let mut type_args: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
     let mut elem: *mut ast_t = ast_child(type_args);
     let mut test: LLVMValueRef = LLVMBuildIsNull(
         (*c).builder,
@@ -2121,7 +2121,7 @@ unsafe extern "C" fn trace_cap_nominal(
             b"ast_id(type) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            519 as libc::c_int as size_t,
+            519 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"trace_cap_nominal\0"))
                 .as_ptr(),
         );
@@ -2160,7 +2160,7 @@ unsafe extern "C" fn trace_cap_nominal(
             b"ast_id(cap) == TK_TAG\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            569 as libc::c_int as size_t,
+            569 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"trace_cap_nominal\0"))
                 .as_ptr(),
         );
@@ -2188,7 +2188,7 @@ unsafe extern "C" fn trace_static(
             b"ast_id(src_type) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            582 as libc::c_int as size_t,
+            582 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"trace_static\0")).as_ptr(),
         );
     };
@@ -2200,7 +2200,7 @@ unsafe extern "C" fn trace_static(
             b"mutability != -1\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            585 as libc::c_int as size_t,
+            585 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"trace_static\0")).as_ptr(),
         );
     };
@@ -2241,7 +2241,7 @@ unsafe extern "C" fn trace_tuple(
                 b"src_child == NULL && dst_child == NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                     as *const u8 as *const libc::c_char,
-                612 as libc::c_int as size_t,
+                612 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"trace_tuple\0"))
                     .as_ptr(),
             );
@@ -2257,7 +2257,7 @@ unsafe extern "C" fn trace_tuple(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                     as *const u8 as *const libc::c_char,
-                618 as libc::c_int as size_t,
+                618 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"trace_tuple\0"))
                     .as_ptr(),
             );
@@ -2303,9 +2303,9 @@ unsafe extern "C" fn trace_dynamic_tuple(
     mut orig: *mut ast_t,
     mut tuple: *mut ast_t,
 ) {
-    let mut cardinality: size_t = ast_childcount(type_0);
+    let mut cardinality: usize = ast_childcount(type_0);
     let mut dontcare: *mut ast_t = ast_from(type_0, TK_TUPLETYPE);
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < cardinality {
         ast_append(dontcare, ast_from(type_0, TK_DONTCARETYPE));
         i = i.wrapping_add(1);
@@ -2339,7 +2339,7 @@ unsafe extern "C" fn trace_dynamic_tuple(
         LLVMBuildBr((*c).builder, is_true);
     }
     LLVMPositionBuilderAtEnd((*c).builder, is_true);
-    let mut index: size_t = 0;
+    let mut index: usize = 0;
     let mut child: *mut ast_t = ast_child(type_0);
     let mut dc_child: *mut ast_t = ast_child(dontcare);
     while !child.is_null() {
@@ -2397,7 +2397,7 @@ unsafe extern "C" fn trace_dynamic_nominal(
             b"ast_id(type) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                 as *const u8 as *const libc::c_char,
-            776 as libc::c_int as size_t,
+            776 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"trace_dynamic_nominal\0"))
                 .as_ptr(),
         );
@@ -2486,7 +2486,7 @@ pub unsafe extern "C" fn gentrace_needed(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                         as *const u8 as *const libc::c_char,
-                    872 as libc::c_int as size_t,
+                    872 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"gentrace_needed\0",
                     ))
@@ -2523,7 +2523,7 @@ pub unsafe extern "C" fn gentrace_needed(
                             as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                             as *const u8 as *const libc::c_char,
-                        902 as libc::c_int as size_t,
+                        902 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 16],
                             &[libc::c_char; 16],
@@ -2591,7 +2591,7 @@ pub unsafe extern "C" fn gentrace(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gentrace.c\0"
                         as *const u8 as *const libc::c_char,
-                    964 as libc::c_int as size_t,
+                    964 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"gentrace\0"))
                         .as_ptr(),
                 );

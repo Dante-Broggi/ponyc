@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -298,7 +298,7 @@ pub mod Core_h {
         #[c2rust::src_loc = "589:1"]
         pub fn LLVMGetEnumAttributeKindForName(
             Name: *const libc::c_char,
-            SLen: size_t,
+            SLen: usize,
         ) -> libc::c_uint;
         #[c2rust::src_loc = "595:1"]
         pub fn LLVMCreateEnumAttribute(
@@ -310,9 +310,9 @@ pub mod Core_h {
         pub fn LLVMGetInlineAsm(
             Ty: LLVMTypeRef,
             AsmString: *const libc::c_char,
-            AsmStringSize: size_t,
+            AsmStringSize: usize,
             Constraints: *const libc::c_char,
-            ConstraintsSize: size_t,
+            ConstraintsSize: usize,
             HasSideEffects: LLVMBool,
             IsAlignStack: LLVMBool,
             Dialect: LLVMInlineAsmDialect,
@@ -1087,20 +1087,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -1161,7 +1161,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -1175,7 +1175,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -1217,10 +1217,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -1315,7 +1315,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1379,7 +1379,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1492,7 +1492,7 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "19:59"]
-        pub fn reach_methods_next(map: *mut reach_methods_t, i: *mut size_t)
+        pub fn reach_methods_next(map: *mut reach_methods_t, i: *mut usize)
             -> *mut reach_method_t;
         #[c2rust::src_loc = "133:1"]
         pub fn reach(
@@ -1763,7 +1763,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1995,7 +1995,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -2200,7 +2200,7 @@ unsafe extern "C" fn generic_function(
     if n.is_null() {
         return;
     }
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
     loop {
         m = reach_methods_next(&mut (*n).r_methods, &mut i);
@@ -2305,7 +2305,7 @@ unsafe extern "C" fn pointer_alloc(
         params.as_mut_ptr(),
         2 as libc::c_int as libc::c_uint,
     );
-    let mut size: size_t = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as size_t;
+    let mut size: usize = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, size as libc::c_ulonglong, 0 as libc::c_int);
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
@@ -2400,7 +2400,7 @@ unsafe extern "C" fn pointer_realloc(
         params.as_mut_ptr(),
         3 as libc::c_int as libc::c_uint,
     );
-    let mut size: size_t = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as size_t;
+    let mut size: usize = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, size as libc::c_ulonglong, 0 as libc::c_int);
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
@@ -2577,7 +2577,7 @@ unsafe extern "C" fn pointer_apply(
     );
     let mut result: LLVMValueRef =
         LLVMBuildLoad_P((*c).builder, loc, b"\0" as *const u8 as *const libc::c_char);
-    let mut tcap: *mut ast_t = ast_childidx((*t).ast, 3 as libc::c_int as size_t);
+    let mut tcap: *mut ast_t = ast_childidx((*t).ast, 3 as libc::c_int as usize);
     let mut tmp_cap: token_id = ast_id(tcap);
     ast_setid(tcap, cap);
     ast_setid(tcap, tmp_cap);
@@ -2714,7 +2714,7 @@ unsafe extern "C" fn pointer_element_size(
         &mut (*c_t).use_type,
         1 as libc::c_int as libc::c_uint,
     );
-    let mut size: size_t = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as size_t;
+    let mut size: usize = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, size as libc::c_ulonglong, 0 as libc::c_int);
     LLVMBuildRet((*c).builder, l_size);
@@ -2747,7 +2747,7 @@ unsafe extern "C" fn pointer_insert(
         params.as_mut_ptr(),
         3 as libc::c_int as libc::c_uint,
     );
-    let mut size: size_t = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as size_t;
+    let mut size: usize = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, size as libc::c_ulonglong, 0 as libc::c_int);
     let mut ptr: LLVMValueRef = LLVMGetParam((*c_m).func, 0 as libc::c_int as libc::c_uint);
@@ -2810,7 +2810,7 @@ unsafe extern "C" fn pointer_delete(
         params.as_mut_ptr(),
         3 as libc::c_int as libc::c_uint,
     );
-    let mut size: size_t = LLVMABISizeOfType((*c).target_data, (*c_t_elem).mem_type) as size_t;
+    let mut size: usize = LLVMABISizeOfType((*c).target_data, (*c_t_elem).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, size as libc::c_ulonglong, 0 as libc::c_int);
     let mut ptr: LLVMValueRef = LLVMGetParam((*c_m).func, 0 as libc::c_int as libc::c_uint);
@@ -2882,7 +2882,7 @@ unsafe extern "C" fn pointer_copy_to(
         params.as_mut_ptr(),
         3 as libc::c_int as libc::c_uint,
     );
-    let mut size: size_t = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as size_t;
+    let mut size: usize = LLVMABISizeOfType((*c).target_data, (*t_elem).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, size as libc::c_ulonglong, 0 as libc::c_int);
     let mut ptr: LLVMValueRef = LLVMGetParam((*c_m).func, 0 as libc::c_int as libc::c_uint);
@@ -3023,7 +3023,7 @@ unsafe extern "C" fn pointer_lt(mut c: *mut compile_t, mut t: *mut reach_type_t)
 #[no_mangle]
 #[c2rust::src_loc = "460:1"]
 pub unsafe extern "C" fn genprim_pointer_methods(mut c: *mut compile_t, mut t: *mut reach_type_t) {
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     let mut t_elem: *mut reach_type_t = reach_type((*c).reach, typearg);
     let mut c_t_elem: *mut compile_type_t = (*t_elem).c_type as *mut compile_type_t;
@@ -3238,7 +3238,7 @@ pub unsafe extern "C" fn genprim_nullable_pointer_methods(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) {
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     let mut t_elem: *mut compile_type_t =
         (*reach_type((*c).reach, typearg)).c_type as *mut compile_type_t;
@@ -3475,7 +3475,7 @@ unsafe extern "C" fn trace_array_elements(
     mut object: LLVMValueRef,
     mut pointer: LLVMValueRef,
 ) {
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     if !gentrace_needed(c, typearg, typearg) {
         return;
@@ -3654,11 +3654,11 @@ pub unsafe extern "C" fn genprim_array_serialise_trace(
     );
     LLVMBuildCondBr((*c).builder, cond, trace_block, post_block);
     LLVMPositionBuilderAtEnd((*c).builder, trace_block);
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     let mut t_elem: *mut compile_type_t =
         (*reach_type((*c).reach, typearg)).c_type as *mut compile_type_t;
-    let mut abisize: size_t = LLVMABISizeOfType((*c).target_data, (*t_elem).use_type) as size_t;
+    let mut abisize: usize = LLVMABISizeOfType((*c).target_data, (*t_elem).use_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, abisize as libc::c_ulonglong, 0 as libc::c_int);
     let mut pointer: LLVMValueRef = field_value(c, object, 3 as libc::c_int);
@@ -3790,11 +3790,11 @@ pub unsafe extern "C" fn genprim_array_serialise(mut c: *mut compile_t, mut t: *
         1 as libc::c_int as libc::c_uint,
         b"\0" as *const u8 as *const libc::c_char,
     );
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     let mut t_elem: *mut reach_type_t = reach_type((*c).reach, typearg);
     let mut c_t_e: *mut compile_type_t = (*t_elem).c_type as *mut compile_type_t;
-    let mut abisize: size_t = LLVMABISizeOfType((*c).target_data, (*c_t_e).mem_type) as size_t;
+    let mut abisize: usize = LLVMABISizeOfType((*c).target_data, (*c_t_e).mem_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, abisize as libc::c_ulonglong, 0 as libc::c_int);
     if (*t_elem).underlying as libc::c_uint == TK_PRIMITIVE as libc::c_int as libc::c_uint
@@ -3956,11 +3956,11 @@ pub unsafe extern "C" fn genprim_array_deserialise(
         (*c).intptr,
         b"\0" as *const u8 as *const libc::c_char,
     );
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     let mut t_elem: *mut reach_type_t = reach_type((*c).reach, typearg);
     let mut c_t_e: *mut compile_type_t = (*t_elem).c_type as *mut compile_type_t;
-    let mut abisize: size_t = LLVMABISizeOfType((*c).target_data, (*c_t_e).use_type) as size_t;
+    let mut abisize: usize = LLVMABISizeOfType((*c).target_data, (*c_t_e).use_type) as usize;
     let mut l_size: LLVMValueRef =
         LLVMConstInt((*c).intptr, abisize as libc::c_ulonglong, 0 as libc::c_int);
     let mut args: [LLVMValueRef; 3] = [0 as *mut LLVMOpaqueValue; 3];
@@ -6377,7 +6377,7 @@ unsafe extern "C" fn number_conversions(mut c: *mut compile_t) {
             b"conv != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genprim.c\0"
                 as *const u8 as *const libc::c_char,
-            1808 as libc::c_int as size_t,
+            1808 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"number_conversions\0"))
                 .as_ptr(),
         );
@@ -6752,9 +6752,9 @@ unsafe extern "C" fn make_cpuid(mut c: *mut compile_t) {
         let mut cpuid: LLVMValueRef = LLVMGetInlineAsm(
             f_type,
             b"cpuid\0" as *const u8 as *const libc::c_char,
-            5 as libc::c_int as size_t,
+            5 as libc::c_int as usize,
             b"={ax},={bx},={cx},={dx},{ax}\0" as *const u8 as *const libc::c_char,
-            28 as libc::c_int as size_t,
+            28 as libc::c_int as usize,
             0 as libc::c_int,
             0 as libc::c_int,
             LLVMInlineAsmDialectATT,
@@ -6848,7 +6848,7 @@ unsafe extern "C" fn make_signature_array(
     mut signature: *const libc::c_char,
 ) -> LLVMValueRef {
     let mut args: [LLVMValueRef; 64] = [0 as *mut LLVMOpaqueValue; 64];
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < 64 as libc::c_int as libc::c_ulong {
         args[i as usize] = LLVMConstInt(
             (*c).i8_0,
@@ -6925,7 +6925,7 @@ pub unsafe extern "C" fn genprim_signature(mut c: *mut compile_t) {
             b"def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genprim.c\0"
                 as *const u8 as *const libc::c_char,
-            2050 as libc::c_int as size_t,
+            2050 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"genprim_signature\0"))
                 .as_ptr(),
         );
@@ -6937,7 +6937,7 @@ pub unsafe extern "C" fn genprim_signature(mut c: *mut compile_t) {
             b"program != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genprim.c\0"
                 as *const u8 as *const libc::c_char,
-            2053 as libc::c_int as size_t,
+            2053 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"genprim_signature\0"))
                 .as_ptr(),
         );

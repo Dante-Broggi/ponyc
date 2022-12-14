@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -573,9 +573,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "120:1"]
         pub fn ast_get(
             ast: *mut ast_t,
@@ -606,7 +606,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -648,10 +648,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -746,7 +746,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -898,7 +898,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1259,7 +1259,7 @@ unsafe extern "C" fn is_sub_cap_and_eph(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            186 as libc::c_int as size_t,
+            186 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"is_sub_cap_and_eph\0"))
                 .as_ptr(),
         );
@@ -1279,7 +1279,7 @@ unsafe extern "C" fn is_eq_typeargs(
             b"ast_id(a) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            193 as libc::c_int as size_t,
+            193 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"is_eq_typeargs\0"))
                 .as_ptr(),
         );
@@ -1290,13 +1290,13 @@ unsafe extern "C" fn is_eq_typeargs(
             b"ast_id(b) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            194 as libc::c_int as size_t,
+            194 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"is_eq_typeargs\0"))
                 .as_ptr(),
         );
     };
-    let mut a_arg: *mut ast_t = ast_child(ast_childidx(a, 2 as libc::c_int as size_t));
-    let mut b_arg: *mut ast_t = ast_child(ast_childidx(b, 2 as libc::c_int as size_t));
+    let mut a_arg: *mut ast_t = ast_child(ast_childidx(a, 2 as libc::c_int as usize));
+    let mut b_arg: *mut ast_t = ast_child(ast_childidx(b, 2 as libc::c_int as usize));
     let mut ret: bool = 1 as libc::c_int != 0;
     while !a_arg.is_null() && !b_arg.is_null() {
         if !is_eqtype(a_arg, b_arg, errorf, opt) {
@@ -1422,7 +1422,7 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
                         as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                         as *const u8 as *const libc::c_char,
-                    277 as libc::c_int as size_t,
+                    277 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                         b"is_reified_fun_sub_fun\0",
                     ))
@@ -1462,9 +1462,9 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     let mut super_typeparam: *mut ast_t = ast_child(super_typeparams);
     while !sub_typeparam.is_null() && !super_typeparam.is_null() {
         let mut sub_constraint: *mut ast_t =
-            ast_childidx(sub_typeparam, 1 as libc::c_int as size_t);
+            ast_childidx(sub_typeparam, 1 as libc::c_int as usize);
         let mut super_constraint: *mut ast_t =
-            ast_childidx(super_typeparam, 1 as libc::c_int as size_t);
+            ast_childidx(super_typeparam, 1 as libc::c_int as usize);
         if !is_x_sub_x(super_constraint, sub_constraint, CHECK_CAP_EQ, errorf, opt) {
             if !errorf.is_null() {
                 ast_error_frame(
@@ -1485,12 +1485,12 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     let mut super_param: *mut ast_t = ast_child(super_params);
     while !sub_param.is_null() && !super_param.is_null() {
         let mut sub_type: *mut ast_t = consume_type(
-            ast_childidx(sub_param, 1 as libc::c_int as size_t),
+            ast_childidx(sub_param, 1 as libc::c_int as usize),
             TK_NONE,
             0 as libc::c_int != 0,
         );
         let mut super_type: *mut ast_t = consume_type(
-            ast_childidx(super_param, 1 as libc::c_int as size_t),
+            ast_childidx(super_param, 1 as libc::c_int as usize),
             TK_NONE,
             0 as libc::c_int != 0,
         );
@@ -1549,7 +1549,7 @@ unsafe extern "C" fn is_fun_sub_fun(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                         as *const u8 as *const libc::c_char,
-                    402 as libc::c_int as size_t,
+                    402 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"is_fun_sub_fun\0",
                     ))
@@ -1568,7 +1568,7 @@ unsafe extern "C" fn is_fun_sub_fun(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                         as *const u8 as *const libc::c_char,
-                    414 as libc::c_int as size_t,
+                    414 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"is_fun_sub_fun\0",
                     ))
@@ -2046,7 +2046,7 @@ unsafe extern "C" fn is_tuple_sub_x(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            796 as libc::c_int as size_t,
+            796 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"is_tuple_sub_x\0"))
                 .as_ptr(),
         );
@@ -2065,7 +2065,7 @@ unsafe extern "C" fn is_nominal_sub_entity(
     let mut super_def: *mut ast_t = ast_data(super_0) as *mut ast_t;
     let mut ret: bool = 1 as libc::c_int != 0;
     if is_bare(sub) as libc::c_int != 0 && is_pointer(super_0) as libc::c_int != 0 {
-        let mut super_typeargs: *mut ast_t = ast_childidx(super_0, 2 as libc::c_int as size_t);
+        let mut super_typeargs: *mut ast_t = ast_childidx(super_0, 2 as libc::c_int as usize);
         let mut super_typearg: *mut ast_t = ast_child(super_typeargs);
         if is_none(super_typearg) {
             return 1 as libc::c_int != 0;
@@ -2113,7 +2113,7 @@ unsafe extern "C" fn is_nominal_sub_structural(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            855 as libc::c_int as size_t,
+            855 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                 b"is_nominal_sub_structural\0",
             ))
@@ -2150,15 +2150,15 @@ unsafe extern "C" fn is_nominal_sub_structural(
         return 0 as libc::c_int != 0;
     }
     let mut ret: bool = 1 as libc::c_int != 0;
-    let mut sub_typeargs: *mut ast_t = ast_childidx(sub, 2 as libc::c_int as size_t);
-    let mut sub_typeparams: *mut ast_t = ast_childidx(sub_def, 1 as libc::c_int as size_t);
-    let mut super_typeargs: *mut ast_t = ast_childidx(super_0, 2 as libc::c_int as size_t);
-    let mut super_typeparams: *mut ast_t = ast_childidx(super_def, 1 as libc::c_int as size_t);
-    let mut super_members: *mut ast_t = ast_childidx(super_def, 4 as libc::c_int as size_t);
+    let mut sub_typeargs: *mut ast_t = ast_childidx(sub, 2 as libc::c_int as usize);
+    let mut sub_typeparams: *mut ast_t = ast_childidx(sub_def, 1 as libc::c_int as usize);
+    let mut super_typeargs: *mut ast_t = ast_childidx(super_0, 2 as libc::c_int as usize);
+    let mut super_typeparams: *mut ast_t = ast_childidx(super_def, 1 as libc::c_int as usize);
+    let mut super_members: *mut ast_t = ast_childidx(super_def, 4 as libc::c_int as usize);
     let mut super_member: *mut ast_t = ast_child(super_members);
     while !super_member.is_null() {
         let mut super_member_id: *mut ast_t =
-            ast_childidx(super_member, 1 as libc::c_int as size_t);
+            ast_childidx(super_member, 1 as libc::c_int as usize);
         let mut sub_member: *mut ast_t =
             ast_get(sub_def, ast_name(super_member_id), 0 as *mut sym_status_t);
         if sub_member.is_null()
@@ -2188,7 +2188,7 @@ unsafe extern "C" fn is_nominal_sub_structural(
                     b"r_sub_member != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                         as *const u8 as *const libc::c_char,
-                    918 as libc::c_int as size_t,
+                    918 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                         b"is_nominal_sub_structural\0",
                     ))
@@ -2203,7 +2203,7 @@ unsafe extern "C" fn is_nominal_sub_structural(
                     b"r_super_member != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                         as *const u8 as *const libc::c_char,
-                    923 as libc::c_int as size_t,
+                    923 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                         b"is_nominal_sub_structural\0",
                     ))
@@ -2273,7 +2273,7 @@ unsafe extern "C" fn nominal_provides_trait(
             b"!is_bare(trait)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            976 as libc::c_int as size_t,
+            976 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"nominal_provides_trait\0",
             ))
@@ -2312,7 +2312,7 @@ unsafe extern "C" fn nominal_provides_trait(
             .wrapping_sub(1 as libc::c_int as libc::c_ulong),
         children.as_mut_ptr(),
     );
-    let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
     let mut t_pkg: ast_ptr_t = 0 as *mut ast_t;
     let mut t_name: ast_ptr_t = 0 as *mut ast_t;
     let mut t_typeparams: ast_ptr_t = 0 as *mut ast_t;
@@ -2345,7 +2345,7 @@ unsafe extern "C" fn nominal_provides_trait(
                 b"r_child != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                     as *const u8 as *const libc::c_char,
-                1006 as libc::c_int as size_t,
+                1006 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                     b"nominal_provides_trait\0",
                 ))
@@ -2469,7 +2469,7 @@ unsafe extern "C" fn is_nominal_sub_trait(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1121 as libc::c_int as size_t,
+            1121 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"is_nominal_sub_trait\0"))
                 .as_ptr(),
         );
@@ -2506,7 +2506,7 @@ unsafe extern "C" fn is_nominal_sub_nominal(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0"
                         as *const u8 as *const libc::c_char,
-                    1154 as libc::c_int as size_t,
+                    1154 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                         b"is_nominal_sub_nominal\0",
                     ))
@@ -2572,7 +2572,7 @@ unsafe extern "C" fn is_x_sub_arrow(
     if check_cap as libc::c_uint == CHECK_CAP_IGNORE as libc::c_int as libc::c_uint {
         return is_x_sub_x(
             sub,
-            ast_childidx(super_0, 1 as libc::c_int as size_t),
+            ast_childidx(super_0, 1 as libc::c_int as usize),
             CHECK_CAP_IGNORE,
             errorf,
             opt,
@@ -2580,7 +2580,7 @@ unsafe extern "C" fn is_x_sub_arrow(
     }
     if !is_x_sub_x(
         sub,
-        ast_childidx(super_0, 1 as libc::c_int as size_t),
+        ast_childidx(super_0, 1 as libc::c_int as usize),
         CHECK_CAP_IGNORE,
         errorf,
         opt,
@@ -2675,7 +2675,7 @@ unsafe extern "C" fn is_nominal_sub_x(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1314 as libc::c_int as size_t,
+            1314 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"is_nominal_sub_x\0"))
                 .as_ptr(),
         );
@@ -2727,7 +2727,7 @@ unsafe extern "C" fn is_typeparam_sub_arrow(
     if check_cap as libc::c_uint == CHECK_CAP_IGNORE as libc::c_int as libc::c_uint {
         return is_typeparam_sub_x(
             sub,
-            ast_childidx(super_0, 1 as libc::c_int as size_t),
+            ast_childidx(super_0, 1 as libc::c_int as usize),
             CHECK_CAP_IGNORE,
             errorf,
             opt,
@@ -2735,7 +2735,7 @@ unsafe extern "C" fn is_typeparam_sub_arrow(
     }
     if !is_typeparam_sub_x(
         sub,
-        ast_childidx(super_0, 1 as libc::c_int as size_t),
+        ast_childidx(super_0, 1 as libc::c_int as usize),
         CHECK_CAP_IGNORE,
         errorf,
         opt,
@@ -2791,7 +2791,7 @@ unsafe extern "C" fn is_typeparam_base_sub_x(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1435 as libc::c_int as size_t,
+            1435 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                 b"is_typeparam_base_sub_x\0",
             ))
@@ -2856,7 +2856,7 @@ unsafe extern "C" fn is_arrow_sub_nominal(
 ) -> bool {
     if check_cap as libc::c_uint == CHECK_CAP_IGNORE as libc::c_int as libc::c_uint {
         return is_x_sub_x(
-            ast_childidx(sub, 1 as libc::c_int as size_t),
+            ast_childidx(sub, 1 as libc::c_int as usize),
             super_0,
             CHECK_CAP_IGNORE,
             errorf,
@@ -2864,7 +2864,7 @@ unsafe extern "C" fn is_arrow_sub_nominal(
         );
     }
     if !is_x_sub_x(
-        ast_childidx(sub, 1 as libc::c_int as size_t),
+        ast_childidx(sub, 1 as libc::c_int as usize),
         super_0,
         CHECK_CAP_IGNORE,
         errorf,
@@ -2900,7 +2900,7 @@ unsafe extern "C" fn is_arrow_sub_typeparam(
 ) -> bool {
     if check_cap as libc::c_uint == CHECK_CAP_IGNORE as libc::c_int as libc::c_uint {
         return is_x_sub_x(
-            ast_childidx(sub, 1 as libc::c_int as size_t),
+            ast_childidx(sub, 1 as libc::c_int as usize),
             super_0,
             CHECK_CAP_IGNORE,
             errorf,
@@ -2908,7 +2908,7 @@ unsafe extern "C" fn is_arrow_sub_typeparam(
         );
     }
     if !is_x_sub_x(
-        ast_childidx(sub, 1 as libc::c_int as size_t),
+        ast_childidx(sub, 1 as libc::c_int as usize),
         super_0,
         CHECK_CAP_IGNORE,
         errorf,
@@ -2936,16 +2936,16 @@ unsafe extern "C" fn is_arrow_sub_arrow(
 ) -> bool {
     if check_cap as libc::c_uint == CHECK_CAP_IGNORE as libc::c_int as libc::c_uint {
         return is_x_sub_x(
-            ast_childidx(sub, 1 as libc::c_int as size_t),
-            ast_childidx(super_0, 1 as libc::c_int as size_t),
+            ast_childidx(sub, 1 as libc::c_int as usize),
+            ast_childidx(super_0, 1 as libc::c_int as usize),
             CHECK_CAP_IGNORE,
             errorf,
             opt,
         );
     }
     if !is_x_sub_x(
-        ast_childidx(sub, 1 as libc::c_int as size_t),
-        ast_childidx(super_0, 1 as libc::c_int as size_t),
+        ast_childidx(sub, 1 as libc::c_int as usize),
+        ast_childidx(super_0, 1 as libc::c_int as usize),
         CHECK_CAP_IGNORE,
         errorf,
         opt,
@@ -3020,7 +3020,7 @@ unsafe extern "C" fn is_arrow_sub_x(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1661 as libc::c_int as size_t,
+            1661 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"is_arrow_sub_x\0"))
                 .as_ptr(),
         );
@@ -3041,7 +3041,7 @@ unsafe extern "C" fn is_x_sub_x(
             b"sub != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1668 as libc::c_int as size_t,
+            1668 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"is_x_sub_x\0")).as_ptr(),
         );
     };
@@ -3051,7 +3051,7 @@ unsafe extern "C" fn is_x_sub_x(
             b"super != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1669 as libc::c_int as size_t,
+            1669 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"is_x_sub_x\0")).as_ptr(),
         );
     };
@@ -3076,7 +3076,7 @@ unsafe extern "C" fn is_x_sub_x(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1702 as libc::c_int as size_t,
+            1702 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"is_x_sub_x\0")).as_ptr(),
         );
     };
@@ -3147,7 +3147,7 @@ pub unsafe extern "C" fn is_sub_provides(
             b"ast_id(type) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1738 as libc::c_int as size_t,
+            1738 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"is_sub_provides\0"))
                 .as_ptr(),
         );
@@ -3164,7 +3164,7 @@ pub unsafe extern "C" fn is_literal(mut type_0: *mut ast_t, mut name: *const lib
         return 0 as libc::c_int != 0;
     }
     return strcmp(
-        ast_name(ast_childidx(type_0, 1 as libc::c_int as size_t)),
+        ast_name(ast_childidx(type_0, 1 as libc::c_int as usize)),
         name,
     ) == 0;
 }
@@ -3268,7 +3268,7 @@ pub unsafe extern "C" fn is_constructable(mut type_0: *mut ast_t) -> bool {
             let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;
             match ast_id(def) as libc::c_uint {
                 72 | 73 => {
-                    let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as size_t);
+                    let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as usize);
                     let mut member: *mut ast_t = ast_child(members);
                     while !member.is_null() {
                         if ast_id(member) as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint {
@@ -3283,7 +3283,7 @@ pub unsafe extern "C" fn is_constructable(mut type_0: *mut ast_t) -> bool {
             }
         }
         187 => return is_constructable(typeparam_constraint(type_0)),
-        17 => return is_constructable(ast_childidx(type_0, 1 as libc::c_int as size_t)),
+        17 => return is_constructable(ast_childidx(type_0, 1 as libc::c_int as usize)),
         _ => {}
     }
     if 0 as libc::c_int != 0 {
@@ -3292,7 +3292,7 @@ pub unsafe extern "C" fn is_constructable(mut type_0: *mut ast_t) -> bool {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1894 as libc::c_int as size_t,
+            1894 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"is_constructable\0"))
                 .as_ptr(),
         );
@@ -3326,7 +3326,7 @@ pub unsafe extern "C" fn is_concrete(mut type_0: *mut ast_t) -> bool {
             }
         }
         187 => return is_constructable(typeparam_constraint(type_0)),
-        17 => return is_concrete(ast_childidx(type_0, 1 as libc::c_int as size_t)),
+        17 => return is_concrete(ast_childidx(type_0, 1 as libc::c_int as usize)),
         _ => {}
     }
     if 0 as libc::c_int != 0 {
@@ -3335,7 +3335,7 @@ pub unsafe extern "C" fn is_concrete(mut type_0: *mut ast_t) -> bool {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            1954 as libc::c_int as size_t,
+            1954 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"is_concrete\0")).as_ptr(),
         );
     };
@@ -3367,7 +3367,7 @@ pub unsafe extern "C" fn is_known(mut type_0: *mut ast_t) -> bool {
                 _ => {}
             }
         }
-        17 => return is_known(ast_childidx(type_0, 1 as libc::c_int as size_t)),
+        17 => return is_known(ast_childidx(type_0, 1 as libc::c_int as usize)),
         187 => return is_known(typeparam_constraint(type_0)),
         _ => {}
     }
@@ -3377,7 +3377,7 @@ pub unsafe extern "C" fn is_known(mut type_0: *mut ast_t) -> bool {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            2014 as libc::c_int as size_t,
+            2014 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"is_known\0")).as_ptr(),
         );
     };
@@ -3404,7 +3404,7 @@ pub unsafe extern "C" fn is_bare(mut type_0: *mut ast_t) -> bool {
             let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;
             return ast_has_annotation(def, b"ponyint_bare\0" as *const u8 as *const libc::c_char);
         }
-        17 => return is_bare(ast_childidx(type_0, 1 as libc::c_int as size_t)),
+        17 => return is_bare(ast_childidx(type_0, 1 as libc::c_int as usize)),
         187 | 153 | 157 | 158 | 156 => return 0 as libc::c_int != 0,
         _ => {}
     }
@@ -3414,7 +3414,7 @@ pub unsafe extern "C" fn is_bare(mut type_0: *mut ast_t) -> bool {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            2060 as libc::c_int as size_t,
+            2060 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"is_bare\0")).as_ptr(),
         );
     };
@@ -3448,7 +3448,7 @@ pub unsafe extern "C" fn is_top_type(mut type_0: *mut ast_t, mut ignore_cap: boo
             if ast_id(def) as libc::c_uint != TK_INTERFACE as libc::c_int as libc::c_uint {
                 return 0 as libc::c_int != 0;
             }
-            let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as size_t);
+            let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as usize);
             if ast_childcount(members) != 0 as libc::c_int as libc::c_ulong {
                 return 0 as libc::c_int != 0;
             }
@@ -3457,7 +3457,7 @@ pub unsafe extern "C" fn is_top_type(mut type_0: *mut ast_t, mut ignore_cap: boo
         17 => {
             if ignore_cap {
                 return is_top_type(
-                    ast_childidx(type_0, 1 as libc::c_int as size_t),
+                    ast_childidx(type_0, 1 as libc::c_int as usize),
                     1 as libc::c_int != 0,
                 );
             }
@@ -3478,7 +3478,7 @@ pub unsafe extern "C" fn is_top_type(mut type_0: *mut ast_t, mut ignore_cap: boo
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            2133 as libc::c_int as size_t,
+            2133 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"is_top_type\0")).as_ptr(),
         );
     };
@@ -3516,7 +3516,7 @@ pub unsafe extern "C" fn is_entity(mut type_0: *mut ast_t, mut entity: token_id)
             let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;
             return ast_id(def) as libc::c_uint == entity as libc::c_uint;
         }
-        17 => return is_entity(ast_childidx(type_0, 1 as libc::c_int as size_t), entity),
+        17 => return is_entity(ast_childidx(type_0, 1 as libc::c_int as usize), entity),
         187 => return is_entity(typeparam_constraint(type_0), entity),
         _ => {}
     }
@@ -3526,7 +3526,7 @@ pub unsafe extern "C" fn is_entity(mut type_0: *mut ast_t, mut entity: token_id)
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/subtype.c\0" as *const u8
                 as *const libc::c_char,
-            2192 as libc::c_int as size_t,
+            2192 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"is_entity\0")).as_ptr(),
         );
     };

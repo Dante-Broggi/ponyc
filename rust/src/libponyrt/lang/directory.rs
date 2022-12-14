@@ -23,7 +23,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/dirent.h:3"]
 pub mod dirent_h {
@@ -74,7 +74,7 @@ pub mod pony_h {
         #[c2rust::src_loc = "183:1"]
         pub fn pony_ctx() -> *mut pony_ctx_t;
         #[c2rust::src_loc = "262:1"]
-        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: size_t) -> *mut libc::c_void;
+        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h:3"]
@@ -111,7 +111,7 @@ pub mod unistd_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "449:1"]
-        pub fn getcwd(_: *mut libc::c_char, _: size_t) -> *mut libc::c_char;
+        pub fn getcwd(_: *mut libc::c_char, _: usize) -> *mut libc::c_char;
     }
 }
 use self::_malloc_h::free;
@@ -133,7 +133,7 @@ pub unsafe extern "C" fn pony_os_eexist() -> libc::c_int {
     return 17 as libc::c_int;
 }
 #[c2rust::src_loc = "31:1"]
-unsafe extern "C" fn skip_entry(mut entry: *const libc::c_char, mut len: size_t) -> bool {
+unsafe extern "C" fn skip_entry(mut entry: *const libc::c_char, mut len: usize) -> bool {
     if len == 1 as libc::c_int as libc::c_ulong
         && *entry.offset(0 as libc::c_int as isize) as libc::c_int == '.' as i32
     {
@@ -153,7 +153,7 @@ pub unsafe extern "C" fn pony_os_cwd() -> *mut libc::c_char {
     let mut cwd: *const libc::c_char = { ::core::intrinsics::atomic_load_relaxed(&mut cwd_cache) };
     if cwd.is_null() {
         let mut cwd_alloc: *mut libc::c_char = 0 as *mut libc::c_char;
-        cwd_alloc = getcwd(0 as *mut libc::c_char, 0 as libc::c_int as size_t);
+        cwd_alloc = getcwd(0 as *mut libc::c_char, 0 as libc::c_int as usize);
         if cwd_alloc.is_null() {
             cwd_alloc = strdup(b".\0" as *const u8 as *const libc::c_char);
         }
@@ -173,7 +173,7 @@ pub unsafe extern "C" fn pony_os_cwd() -> *mut libc::c_char {
     } else {
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
     }
-    let mut len: size_t = (strlen(cwd)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    let mut len: usize = (strlen(cwd)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut cstring: *mut libc::c_char = pony_alloc(pony_ctx(), len) as *mut libc::c_char;
     memcpy(
         cstring as *mut libc::c_void,
@@ -221,7 +221,7 @@ pub unsafe extern "C" fn ponyint_unix_readdir(mut dir: *mut DIR) -> *const libc:
         if d.is_null() {
             break;
         }
-        let mut len: size_t = (*d).d_namlen as size_t;
+        let mut len: usize = (*d).d_namlen as usize;
         if skip_entry(((*d).d_name).as_mut_ptr(), len) {
             continue;
         }

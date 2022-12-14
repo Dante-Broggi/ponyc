@@ -42,7 +42,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h:1"]
 pub mod _pthread_cond_t_h {
@@ -67,7 +67,7 @@ pub mod actor_h {
         pub sync_flags: u8,
         pub cycle_detector_critical: u8,
         pub heap: heap_t,
-        pub muted: size_t,
+        pub muted: usize,
         pub internal_flags: u8,
         pub gc: gc_t,
     }
@@ -93,7 +93,7 @@ pub mod gc_h {
     pub struct gc_t {
         pub mark: u32,
         pub rc_mark: u32,
-        pub rc: size_t,
+        pub rc: usize,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
@@ -119,7 +119,7 @@ pub mod delta_h {
         pub fn ponyint_deltamap_update(
             map: *mut deltamap_t,
             actor: *mut pony_actor_t,
-            rc: size_t,
+            rc: usize,
         ) -> *mut deltamap_t;
         #[c2rust::src_loc = "21:1"]
         pub fn ponyint_deltamap_free(map: *mut deltamap_t);
@@ -131,8 +131,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -141,10 +141,10 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:1"]
@@ -160,7 +160,7 @@ pub mod actormap_h {
     #[c2rust::src_loc = "12:16"]
     pub struct actorref_t {
         pub actor: *mut pony_actor_t,
-        pub rc: size_t,
+        pub rc: usize,
         pub mark: u32,
         pub map: objectmap_t,
     }
@@ -184,11 +184,11 @@ pub mod actormap_h {
         #[c2rust::src_loc = "27:1"]
         pub fn ponyint_actormap_destroy(map: *mut actormap_t);
         #[c2rust::src_loc = "27:1"]
-        pub fn ponyint_actormap_clearindex(map: *mut actormap_t, index: size_t);
+        pub fn ponyint_actormap_clearindex(map: *mut actormap_t, index: usize);
         #[c2rust::src_loc = "27:1"]
-        pub fn ponyint_actormap_size(map: *mut actormap_t) -> size_t;
+        pub fn ponyint_actormap_size(map: *mut actormap_t) -> usize;
         #[c2rust::src_loc = "27:47"]
-        pub fn ponyint_actormap_next(map: *mut actormap_t, i: *mut size_t) -> *mut actorref_t;
+        pub fn ponyint_actormap_next(map: *mut actormap_t, i: *mut usize) -> *mut actorref_t;
         #[c2rust::src_loc = "31:1"]
         pub fn ponyint_actormap_getorput(
             map: *mut actormap_t,
@@ -218,7 +218,7 @@ pub mod objectmap_h {
     #[c2rust::src_loc = "9:16"]
     pub struct object_t {
         pub address: *mut libc::c_void,
-        pub rc: size_t,
+        pub rc: usize,
         pub mark: u32,
         pub immutable: bool,
         pub type_0: *const pony_type_t,
@@ -230,12 +230,12 @@ pub mod objectmap_h {
         #[c2rust::src_loc = "18:1"]
         pub fn ponyint_objectmap_destroy(map: *mut objectmap_t);
         #[c2rust::src_loc = "18:49"]
-        pub fn ponyint_objectmap_next(map: *mut objectmap_t, i: *mut size_t) -> *mut object_t;
+        pub fn ponyint_objectmap_next(map: *mut objectmap_t, i: *mut usize) -> *mut object_t;
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_objectmap_getobject(
             map: *mut objectmap_t,
             address: *mut libc::c_void,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut object_t;
         #[c2rust::src_loc = "22:1"]
         pub fn ponyint_objectmap_getorput(
@@ -257,8 +257,8 @@ pub mod heap_h {
         pub small_free: [*mut chunk_t; 5],
         pub small_full: [*mut chunk_t; 5],
         pub large: *mut chunk_t,
-        pub used: size_t,
-        pub next_gc: size_t,
+        pub used: usize,
+        pub next_gc: usize,
     }
     use super::actor_h::pony_actor_t;
     use super::stddef_h::size_t;
@@ -266,7 +266,7 @@ pub mod heap_h {
         #[c2rust::src_loc = "18:16"]
         pub type chunk_t;
         #[c2rust::src_loc = "70:1"]
-        pub fn ponyint_heap_used(heap: *mut heap_t, size: size_t);
+        pub fn ponyint_heap_used(heap: *mut heap_t, size: usize);
         #[c2rust::src_loc = "83:1"]
         pub fn ponyint_heap_mark(chunk: *mut chunk_t, p: *mut libc::c_void) -> bool;
         #[c2rust::src_loc = "89:1"]
@@ -274,7 +274,7 @@ pub mod heap_h {
         #[c2rust::src_loc = "103:1"]
         pub fn ponyint_heap_owner(chunk: *mut chunk_t) -> *mut pony_actor_t;
         #[c2rust::src_loc = "105:1"]
-        pub fn ponyint_heap_size(chunk: *mut chunk_t) -> size_t;
+        pub fn ponyint_heap_size(chunk: *mut chunk_t) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.h:2"]
@@ -320,10 +320,10 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -332,7 +332,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -371,7 +371,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -428,7 +428,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -511,7 +511,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -581,8 +581,8 @@ unsafe extern "C" fn acquire_actor(mut ctx: *mut pony_ctx_t, mut actor: *mut pon
     let mut aref: *mut actorref_t =
         ponyint_actormap_getorput(&mut (*ctx).acquire, actor, 0 as libc::c_int as u32);
     let ref mut fresh0 = (*aref).rc;
-    *fresh0 = (*fresh0 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong) as size_t
-        as size_t;
+    *fresh0 = (*fresh0 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong) as usize
+        as usize;
 }
 #[c2rust::src_loc = "19:1"]
 unsafe extern "C" fn acquire_object(
@@ -597,8 +597,8 @@ unsafe extern "C" fn acquire_object(
     let mut obj: *mut object_t =
         ponyint_actorref_getorput(aref, address, type_0, 0 as libc::c_int as u32);
     let ref mut fresh1 = (*obj).rc;
-    *fresh1 = (*fresh1 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong) as size_t
-        as size_t;
+    *fresh1 = (*fresh1 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong) as usize
+        as usize;
     (*obj).immutable = immutable;
 }
 #[c2rust::src_loc = "30:1"]
@@ -632,7 +632,7 @@ unsafe extern "C" fn recv_local_actor(mut gc: *mut gc_t) {
                 b"gc->rc > 0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                     as *const libc::c_char,
-                55 as libc::c_int as size_t,
+                55 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"recv_local_actor\0"))
                     .as_ptr(),
             );
@@ -654,7 +654,7 @@ unsafe extern "C" fn release_local_actor(mut gc: *mut gc_t) {
             b"gc->rc > 0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                 as *const libc::c_char,
-            67 as libc::c_int as size_t,
+            67 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"release_local_actor\0"))
                 .as_ptr(),
         );
@@ -676,7 +676,7 @@ unsafe extern "C" fn send_remote_actor(
         let ref mut fresh8 = (*aref).rc;
         *fresh8 = (*fresh8 as libc::c_ulong)
             .wrapping_add((256 as libc::c_int - 1 as libc::c_int) as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         acquire_actor(ctx, (*aref).actor);
     } else {
         let ref mut fresh9 = (*aref).rc;
@@ -699,7 +699,7 @@ unsafe extern "C" fn recv_remote_actor(
     if (*aref).rc == 0 as libc::c_int as libc::c_ulong {
         ponyint_heap_used(
             ponyint_actor_heap((*ctx).current),
-            1024 as libc::c_int as size_t,
+            1024 as libc::c_int as usize,
         );
     }
     (*aref).mark = (*gc).mark;
@@ -721,13 +721,13 @@ unsafe extern "C" fn mark_remote_actor(
     }
     ponyint_heap_used(
         ponyint_actor_heap((*ctx).current),
-        1024 as libc::c_int as size_t,
+        1024 as libc::c_int as usize,
     );
     (*aref).mark = (*gc).mark;
     if (*aref).rc == 0 as libc::c_int as libc::c_ulong {
         let ref mut fresh13 = (*aref).rc;
         *fresh13 = (*fresh13 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         acquire_actor(ctx, (*aref).actor);
         if !ponyint_actor_getnoblock() {
             let ref mut fresh14 = (*gc).delta;
@@ -743,8 +743,8 @@ unsafe extern "C" fn acq_or_rel_remote_actor(
     let mut aref: *mut actorref_t =
         ponyint_actormap_getorput(&mut (*ctx).acquire, actor, 0 as libc::c_int as u32);
     let ref mut fresh15 = (*aref).rc;
-    *fresh15 = (*fresh15 as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as size_t
-        as size_t;
+    *fresh15 = (*fresh15 as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as usize
+        as usize;
 }
 #[c2rust::src_loc = "139:1"]
 unsafe extern "C" fn send_local_object(
@@ -783,7 +783,7 @@ unsafe extern "C" fn recv_local_object(
     mut t: *const pony_type_t,
     mut mutability: libc::c_int,
 ) {
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut gc: *mut gc_t = ponyint_actor_gc((*ctx).current);
     let mut obj: *mut object_t = ponyint_objectmap_getobject(&mut (*gc).local, p, &mut index);
     if !obj.is_null() {
@@ -792,7 +792,7 @@ unsafe extern "C" fn recv_local_object(
             b"obj != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                 as *const libc::c_char,
-            172 as libc::c_int as size_t,
+            172 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"recv_local_object\0"))
                 .as_ptr(),
         );
@@ -875,7 +875,7 @@ unsafe extern "C" fn release_local_object(
     mut t: *const pony_type_t,
     mut mutability: libc::c_int,
 ) {
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut gc: *mut gc_t = ponyint_actor_gc((*ctx).current);
     let mut obj: *mut object_t = ponyint_objectmap_getobject(&mut (*gc).local, p, &mut index);
     if !obj.is_null() {
@@ -884,7 +884,7 @@ unsafe extern "C" fn release_local_object(
             b"obj != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                 as *const libc::c_char,
-            240 as libc::c_int as size_t,
+            240 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"release_local_object\0"))
                 .as_ptr(),
         );
@@ -934,7 +934,7 @@ unsafe extern "C" fn send_remote_object(
         let ref mut fresh20 = (*obj).rc;
         *fresh20 = (*fresh20 as libc::c_ulong)
             .wrapping_add((256 as libc::c_int - 1 as libc::c_int) as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         (*obj).immutable = 1 as libc::c_int != 0;
         acquire_object(ctx, actor, p, 1 as libc::c_int != 0);
         mutability = PONY_TRACE_MUTABLE as libc::c_int;
@@ -945,7 +945,7 @@ unsafe extern "C" fn send_remote_object(
         let ref mut fresh21 = (*obj).rc;
         *fresh21 = (*fresh21 as libc::c_ulong)
             .wrapping_add((256 as libc::c_int - 1 as libc::c_int) as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         acquire_object(ctx, actor, p, (*obj).immutable);
     } else {
         let ref mut fresh22 = (*obj).rc;
@@ -981,7 +981,7 @@ unsafe extern "C" fn recv_remote_object(
         if mutability == PONY_TRACE_IMMUTABLE as libc::c_int {
             ponyint_heap_used(
                 ponyint_actor_heap((*ctx).current),
-                1024 as libc::c_int as size_t,
+                1024 as libc::c_int as usize,
             );
         }
     }
@@ -1022,7 +1022,7 @@ unsafe extern "C" fn mark_remote_object(
     if mutability == PONY_TRACE_IMMUTABLE as libc::c_int {
         ponyint_heap_used(
             ponyint_actor_heap((*ctx).current),
-            1024 as libc::c_int as size_t,
+            1024 as libc::c_int as usize,
         );
     }
     mark_remote_actor(ctx, gc, aref);
@@ -1033,7 +1033,7 @@ unsafe extern "C" fn mark_remote_object(
     {
         let ref mut fresh24 = (*obj).rc;
         *fresh24 = (*fresh24 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         (*obj).immutable = 1 as libc::c_int != 0;
         acquire_object(ctx, actor, p, 1 as libc::c_int != 0);
         mutability = PONY_TRACE_MUTABLE as libc::c_int;
@@ -1043,7 +1043,7 @@ unsafe extern "C" fn mark_remote_object(
         }
         let ref mut fresh25 = (*obj).rc;
         *fresh25 = (*fresh25 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         acquire_object(ctx, actor, p, (*obj).immutable);
     }
     if mutability == PONY_TRACE_MUTABLE as libc::c_int {
@@ -1294,18 +1294,18 @@ pub unsafe extern "C" fn ponyint_gc_createactor(
     let mut gc: *mut gc_t = ponyint_actor_gc(current);
     let mut aref: *mut actorref_t =
         ponyint_actormap_getorput(&mut (*gc).foreign, actor, (*gc).mark);
-    (*aref).rc = 256 as libc::c_int as size_t;
+    (*aref).rc = 256 as libc::c_int as usize;
     if !ponyint_actor_getnoblock() {
         let ref mut fresh27 = (*gc).delta;
         *fresh27 = ponyint_deltamap_update((*gc).delta, actor, (*aref).rc);
     }
-    ponyint_heap_used(ponyint_actor_heap(current), 1024 as libc::c_int as size_t);
+    ponyint_heap_used(ponyint_actor_heap(current), 1024 as libc::c_int as usize);
 }
 #[no_mangle]
 #[c2rust::src_loc = "645:1"]
 pub unsafe extern "C" fn ponyint_gc_markimmutable(mut ctx: *mut pony_ctx_t, mut gc: *mut gc_t) {
     let mut map: *mut objectmap_t = &mut (*gc).local;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = 0 as *mut object_t;
     loop {
         obj = ponyint_objectmap_next(map, &mut i);
@@ -1372,11 +1372,11 @@ pub unsafe extern "C" fn ponyint_gc_sweep(mut ctx: *mut pony_ctx_t, mut gc: *mut
 #[no_mangle]
 #[c2rust::src_loc = "718:1"]
 pub unsafe extern "C" fn ponyint_gc_acquire(mut gc: *mut gc_t, mut aref: *mut actorref_t) -> bool {
-    let mut rc: size_t = (*aref).rc;
+    let mut rc: usize = (*aref).rc;
     let ref mut fresh33 = (*gc).rc;
-    *fresh33 = (*fresh33 as libc::c_ulong).wrapping_add(rc) as size_t as size_t;
+    *fresh33 = (*fresh33 as libc::c_ulong).wrapping_add(rc) as usize as usize;
     let mut map: *mut objectmap_t = &mut (*aref).map;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = 0 as *mut object_t;
     loop {
         obj = ponyint_objectmap_next(map, &mut i);
@@ -1386,7 +1386,7 @@ pub unsafe extern "C" fn ponyint_gc_acquire(mut gc: *mut gc_t, mut aref: *mut ac
         let mut obj_local: *mut object_t =
             ponyint_objectmap_getorput(&mut (*gc).local, (*obj).address, (*obj).type_0, (*gc).mark);
         let ref mut fresh34 = (*obj_local).rc;
-        *fresh34 = (*fresh34 as libc::c_ulong).wrapping_add((*obj).rc) as size_t as size_t;
+        *fresh34 = (*fresh34 as libc::c_ulong).wrapping_add((*obj).rc) as usize as usize;
         if (*obj).immutable {
             (*obj_local).immutable = 1 as libc::c_int != 0;
         }
@@ -1397,24 +1397,24 @@ pub unsafe extern "C" fn ponyint_gc_acquire(mut gc: *mut gc_t, mut aref: *mut ac
 #[no_mangle]
 #[c2rust::src_loc = "744:1"]
 pub unsafe extern "C" fn ponyint_gc_release(mut gc: *mut gc_t, mut aref: *mut actorref_t) -> bool {
-    let mut rc: size_t = (*aref).rc;
+    let mut rc: usize = (*aref).rc;
     if (*gc).rc >= rc {
     } else {
         ponyint_assert_fail(
             b"gc->rc >= rc\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                 as *const libc::c_char,
-            747 as libc::c_int as size_t,
+            747 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"ponyint_gc_release\0"))
                 .as_ptr(),
         );
     };
     let ref mut fresh35 = (*gc).rc;
-    *fresh35 = (*fresh35 as libc::c_ulong).wrapping_sub(rc) as size_t as size_t;
+    *fresh35 = (*fresh35 as libc::c_ulong).wrapping_sub(rc) as usize as usize;
     let mut map: *mut objectmap_t = &mut (*aref).map;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = 0 as *mut object_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     loop {
         obj = ponyint_objectmap_next(map, &mut i);
         if obj.is_null() {
@@ -1429,7 +1429,7 @@ pub unsafe extern "C" fn ponyint_gc_release(mut gc: *mut gc_t, mut aref: *mut ac
                 b"obj_local->rc >= obj->rc\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                     as *const libc::c_char,
-                760 as libc::c_int as size_t,
+                760 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                     b"ponyint_gc_release\0",
                 ))
@@ -1437,14 +1437,14 @@ pub unsafe extern "C" fn ponyint_gc_release(mut gc: *mut gc_t, mut aref: *mut ac
             );
         };
         let ref mut fresh36 = (*obj_local).rc;
-        *fresh36 = (*fresh36 as libc::c_ulong).wrapping_sub((*obj).rc) as size_t as size_t;
+        *fresh36 = (*fresh36 as libc::c_ulong).wrapping_sub((*obj).rc) as usize as usize;
     }
     ponyint_actorref_free(aref);
     return rc > 0 as libc::c_int as libc::c_ulong;
 }
 #[no_mangle]
 #[c2rust::src_loc = "768:1"]
-pub unsafe extern "C" fn ponyint_gc_rc(mut gc: *mut gc_t) -> size_t {
+pub unsafe extern "C" fn ponyint_gc_rc(mut gc: *mut gc_t) -> usize {
     return (*gc).rc;
 }
 #[no_mangle]
@@ -1458,7 +1458,7 @@ pub unsafe extern "C" fn ponyint_gc_delta(mut gc: *mut gc_t) -> *mut deltamap_t 
 #[no_mangle]
 #[c2rust::src_loc = "780:1"]
 pub unsafe extern "C" fn ponyint_gc_sendacquire(mut ctx: *mut pony_ctx_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut aref: *mut actorref_t = 0 as *mut actorref_t;
     loop {
         aref = ponyint_actormap_next(&mut (*ctx).acquire, &mut i);
@@ -1479,7 +1479,7 @@ pub unsafe extern "C" fn ponyint_gc_sendacquire(mut ctx: *mut pony_ctx_t) {
             b"ponyint_actormap_size(&ctx->acquire) == 0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                 as *const libc::c_char,
-            798 as libc::c_int as size_t,
+            798 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"ponyint_gc_sendacquire\0",
             ))
@@ -1502,7 +1502,7 @@ pub unsafe extern "C" fn ponyint_gc_sendrelease(mut ctx: *mut pony_ctx_t, mut gc
 #[no_mangle]
 #[c2rust::src_loc = "822:1"]
 pub unsafe extern "C" fn ponyint_gc_sendrelease_manual(mut ctx: *mut pony_ctx_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut aref: *mut actorref_t = 0 as *mut actorref_t;
     loop {
         aref = ponyint_actormap_next(&mut (*ctx).acquire, &mut i);
@@ -1523,7 +1523,7 @@ pub unsafe extern "C" fn ponyint_gc_sendrelease_manual(mut ctx: *mut pony_ctx_t)
             b"ponyint_actormap_size(&ctx->acquire) == 0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.c\0" as *const u8
                 as *const libc::c_char,
-            840 as libc::c_int as size_t,
+            840 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 30], &[libc::c_char; 30]>(
                 b"ponyint_gc_sendrelease_manual\0",
             ))

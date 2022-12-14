@@ -8,7 +8,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "49:1"]
     pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -30,7 +30,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/dirent.h:1"]
@@ -110,9 +110,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:3"]
@@ -193,11 +193,11 @@ pub unsafe extern "C" fn pony_dir_entry_next(mut dir: *mut DIR) -> *mut dirent {
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
 pub unsafe extern "C" fn pony_mkdir(mut path: *const libc::c_char) {
-    let mut path_len: size_t = strlen(path);
+    let mut path_len: usize = strlen(path);
     let mut buf: *mut libc::c_char =
         ponyint_pool_alloc_size(path_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
             as *mut libc::c_char;
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < path_len {
         *buf.offset(i as isize) = *path.offset(i as isize);
         if *path.offset(i as isize) as libc::c_int == '/' as i32 {
@@ -224,7 +224,7 @@ pub unsafe extern "C" fn remove_ext(
     mut path: *const libc::c_char,
     mut dot: libc::c_char,
     mut sep: libc::c_char,
-    mut allocated_size: *mut size_t,
+    mut allocated_size: *mut usize,
 ) -> *mut libc::c_char {
     let mut retstr: *mut libc::c_char = 0 as *mut libc::c_char;
     let mut lastdot: *mut libc::c_char = 0 as *mut libc::c_char;

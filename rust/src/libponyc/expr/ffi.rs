@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -507,9 +507,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "147:1"]
@@ -528,7 +528,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -570,10 +570,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -668,7 +668,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -777,7 +777,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -861,7 +861,7 @@ pub unsafe extern "C" fn void_star_param(
             b"param_type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/ffi.c\0" as *const u8
                 as *const libc::c_char,
-            12 as libc::c_int as size_t,
+            12 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"void_star_param\0"))
                 .as_ptr(),
         );
@@ -872,7 +872,7 @@ pub unsafe extern "C" fn void_star_param(
             b"arg_type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/ffi.c\0" as *const u8
                 as *const libc::c_char,
-            13 as libc::c_int as size_t,
+            13 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"void_star_param\0"))
                 .as_ptr(),
         );
@@ -880,14 +880,14 @@ pub unsafe extern "C" fn void_star_param(
     if !is_pointer(param_type) {
         return 0 as libc::c_int != 0;
     }
-    let mut type_args: *mut ast_t = ast_childidx(param_type, 2 as libc::c_int as size_t);
+    let mut type_args: *mut ast_t = ast_childidx(param_type, 2 as libc::c_int as usize);
     if ast_childcount(type_args) != 1 as libc::c_int as libc::c_ulong
         || !is_none(ast_child(type_args))
     {
         return 0 as libc::c_int != 0;
     }
     while ast_id(arg_type) as libc::c_uint == TK_ARROW as libc::c_int as libc::c_uint {
-        arg_type = ast_childidx(arg_type, 1 as libc::c_int as size_t);
+        arg_type = ast_childidx(arg_type, 1 as libc::c_int as usize);
     }
     if is_pointer(arg_type) as libc::c_int != 0
         || is_nullable_pointer(arg_type) as libc::c_int != 0
@@ -909,7 +909,7 @@ unsafe extern "C" fn declared_ffi(
             b"call != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/ffi.c\0" as *const u8
                 as *const libc::c_char,
-            38 as libc::c_int as size_t,
+            38 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"declared_ffi\0")).as_ptr(),
         );
     };
@@ -919,7 +919,7 @@ unsafe extern "C" fn declared_ffi(
             b"decl != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/ffi.c\0" as *const u8
                 as *const libc::c_char,
-            39 as libc::c_int as size_t,
+            39 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"declared_ffi\0")).as_ptr(),
         );
     };
@@ -929,7 +929,7 @@ unsafe extern "C" fn declared_ffi(
             b"ast_id(decl) == TK_FFIDECL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/ffi.c\0" as *const u8
                 as *const libc::c_char,
-            40 as libc::c_int as size_t,
+            40 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"declared_ffi\0")).as_ptr(),
         );
     };
@@ -979,7 +979,7 @@ unsafe extern "C" fn declared_ffi(
         && !param.is_null()
         && ast_id(param) as libc::c_uint != TK_ELLIPSIS as libc::c_int as libc::c_uint
     {
-        let mut p_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as size_t);
+        let mut p_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as usize);
         if !coerce_literals(&mut arg, p_type, opt) {
             return 0 as libc::c_int != 0;
         }
@@ -1129,7 +1129,7 @@ pub unsafe extern "C" fn expr_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/ffi.c\0" as *const u8
                 as *const libc::c_char,
-            157 as libc::c_int as size_t,
+            157 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"expr_ffi\0")).as_ptr(),
         );
     };

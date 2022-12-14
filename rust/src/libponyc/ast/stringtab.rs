@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
     #[c2rust::src_loc = "121:1"]
     pub type __darwin_ssize_t = libc::c_long;
 }
@@ -14,7 +14,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
@@ -35,7 +35,7 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:1"]
-        pub fn ponyint_hash_block(p: *const libc::c_void, len: size_t) -> size_t;
+        pub fn ponyint_hash_block(p: *const libc::c_void, len: usize) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
@@ -56,16 +56,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -169,7 +169,7 @@ pub mod list_h {
         #[c2rust::src_loc = "40:1"]
         pub fn ponyint_list_reverse(list: *mut list_t) -> *mut list_t;
         #[c2rust::src_loc = "42:1"]
-        pub fn ponyint_list_length(list: *mut list_t) -> size_t;
+        pub fn ponyint_list_length(list: *mut list_t) -> usize;
         #[c2rust::src_loc = "44:1"]
         pub fn ponyint_list_free(list: *mut list_t, f: free_fn);
     }
@@ -191,8 +191,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -201,15 +201,15 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::_size_t_h::size_t;
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -218,50 +218,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -270,7 +270,7 @@ pub mod hash_h {
 pub mod serialise_h {
     #[c2rust::src_loc = "20:1"]
     pub type deserialise_raw_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, usize) -> *mut libc::c_void>;
     use super::_size_t_h::size_t;
     use super::_uintptr_t_h::uintptr_t;
     use super::pony_h::{pony_ctx_t, pony_type_t};
@@ -288,7 +288,7 @@ pub mod serialise_h {
             offset: uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:3"]
@@ -296,13 +296,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:7"]
@@ -375,8 +375,8 @@ pub struct strtable_t {
 #[c2rust::src_loc = "18:16"]
 pub struct stringtab_entry_t {
     pub str_0: *const libc::c_char,
-    pub len: size_t,
-    pub buf_size: size_t,
+    pub len: usize,
+    pub buf_size: usize,
 }
 #[c2rust::src_loc = "42:1"]
 pub type strtable_cmp_fn =
@@ -400,7 +400,7 @@ pub unsafe extern "C" fn strlist_subset(mut a: *mut strlist_t, mut b: *mut strli
 }
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]
-pub unsafe extern "C" fn strlist_length(mut list: *mut strlist_t) -> size_t {
+pub unsafe extern "C" fn strlist_length(mut list: *mut strlist_t) -> usize {
     ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
@@ -512,7 +512,7 @@ pub unsafe extern "C" fn strlist_find(
     ) as *const libc::c_char
 }
 #[c2rust::src_loc = "25:1"]
-unsafe extern "C" fn stringtab_hash(mut a: *mut stringtab_entry_t) -> size_t {
+unsafe extern "C" fn stringtab_hash(mut a: *mut stringtab_entry_t) -> usize {
     ponyint_hash_block((*a).str_0 as *const libc::c_void, (*a).len)
 }
 #[c2rust::src_loc = "30:1"]
@@ -533,7 +533,7 @@ unsafe extern "C" fn stringtab_free(mut a: *mut stringtab_entry_t) {
         (*a).buf_size,
         (*a).str_0 as *mut libc::c_char as *mut libc::c_void,
     );
-    ponyint_pool_free(0 as libc::c_int as size_t, a as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, a as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
@@ -547,22 +547,22 @@ pub unsafe extern "C" fn strtable_destroy(mut map: *mut strtable_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
-pub unsafe extern "C" fn strtable_init(mut map: *mut strtable_t, mut size: size_t) {
+pub unsafe extern "C" fn strtable_init(mut map: *mut strtable_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
-pub unsafe extern "C" fn strtable_removeindex(mut map: *mut strtable_t, mut index: size_t) {
+pub unsafe extern "C" fn strtable_removeindex(mut map: *mut strtable_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
-pub unsafe extern "C" fn strtable_clearindex(mut map: *mut strtable_t, mut index: size_t) {
+pub unsafe extern "C" fn strtable_clearindex(mut map: *mut strtable_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
-pub unsafe extern "C" fn strtable_size(mut map: *mut strtable_t) -> size_t {
+pub unsafe extern "C" fn strtable_size(mut map: *mut strtable_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -584,7 +584,7 @@ pub unsafe extern "C" fn strtable_optimize(mut map: *mut strtable_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
-pub unsafe extern "C" fn strtable_alloc_size(mut map: *mut strtable_t) -> size_t {
+pub unsafe extern "C" fn strtable_alloc_size(mut map: *mut strtable_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -592,7 +592,7 @@ pub unsafe extern "C" fn strtable_alloc_size(mut map: *mut strtable_t) -> size_t
 pub unsafe extern "C" fn strtable_putindex(
     mut map: *mut strtable_t,
     mut entry: *mut stringtab_entry_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: strtable_cmp_fn = Some(
         stringtab_cmp
@@ -608,14 +608,14 @@ pub unsafe extern "C" fn strtable_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:1"]
-pub unsafe extern "C" fn strtable_mem_size(mut map: *mut strtable_t) -> size_t {
+pub unsafe extern "C" fn strtable_mem_size(mut map: *mut strtable_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "42:38"]
 pub unsafe extern "C" fn strtable_next(
     mut map: *mut strtable_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut stringtab_entry_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -643,7 +643,7 @@ pub unsafe extern "C" fn strtable_remove(
 pub unsafe extern "C" fn strtable_get(
     mut map: *mut strtable_t,
     mut key: *mut stringtab_entry_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut stringtab_entry_t {
     let mut cmpf: strtable_cmp_fn = Some(
         stringtab_cmp
@@ -686,7 +686,7 @@ static mut table: strtable_t = strtable_t {
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn stringtab_init() {
-    strtable_init(&mut table, 4096 as libc::c_int as size_t);
+    strtable_init(&mut table, 4096 as libc::c_int as usize);
 }
 #[no_mangle]
 #[c2rust::src_loc = "52:1"]
@@ -700,7 +700,7 @@ pub unsafe extern "C" fn stringtab(mut string: *const libc::c_char) -> *const li
 #[c2rust::src_loc = "60:1"]
 pub unsafe extern "C" fn stringtab_len(
     mut string: *const libc::c_char,
-    mut len: size_t,
+    mut len: usize,
 ) -> *const libc::c_char {
     if string.is_null() {
         return 0 as *const libc::c_char;
@@ -709,11 +709,11 @@ pub unsafe extern "C" fn stringtab_len(
         let mut init = stringtab_entry_t {
             str_0: string,
             len: len,
-            buf_size: 0 as libc::c_int as size_t,
+            buf_size: 0 as libc::c_int as usize,
         };
         init
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut n: *mut stringtab_entry_t = strtable_get(&mut table, &mut key, &mut index);
     if !n.is_null() {
         return (*n).str_0;
@@ -723,7 +723,7 @@ pub unsafe extern "C" fn stringtab_len(
             as *mut libc::c_char;
     memcpy(dst as *mut libc::c_void, string as *const libc::c_void, len);
     *dst.offset(len as isize) = '\0' as i32 as libc::c_char;
-    n = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut stringtab_entry_t;
+    n = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut stringtab_entry_t;
     let ref mut fresh0 = (*n).str_0;
     *fresh0 = dst;
     (*n).len = len;
@@ -735,27 +735,27 @@ pub unsafe extern "C" fn stringtab_len(
 #[c2rust::src_loc = "87:1"]
 pub unsafe extern "C" fn stringtab_consume(
     mut string: *const libc::c_char,
-    mut buf_size: size_t,
+    mut buf_size: usize,
 ) -> *const libc::c_char {
     if string.is_null() {
         return 0 as *const libc::c_char;
     }
-    let mut len: size_t = strlen(string);
+    let mut len: usize = strlen(string);
     let mut key: stringtab_entry_t = {
         let mut init = stringtab_entry_t {
             str_0: string,
             len: len,
-            buf_size: 0 as libc::c_int as size_t,
+            buf_size: 0 as libc::c_int as usize,
         };
         init
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut n: *mut stringtab_entry_t = strtable_get(&mut table, &mut key, &mut index);
     if !n.is_null() {
         ponyint_pool_free_size(buf_size, string as *mut libc::c_void);
         return (*n).str_0;
     }
-    n = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut stringtab_entry_t;
+    n = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut stringtab_entry_t;
     let ref mut fresh1 = (*n).str_0;
     *fresh1 = string;
     (*n).len = len;
@@ -778,7 +778,7 @@ unsafe extern "C" fn string_serialise(
     mut _ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut string: *const libc::c_char = object as *const libc::c_char;
@@ -806,7 +806,7 @@ static mut string_pony: _pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -833,7 +833,7 @@ pub unsafe extern "C" fn string_trace(mut ctx: *mut pony_ctx_t, mut string: *con
 pub unsafe extern "C" fn string_trace_len(
     mut ctx: *mut pony_ctx_t,
     mut string: *const libc::c_char,
-    mut len: size_t,
+    mut len: usize,
 ) {
     string_pony.size = len.wrapping_add(1 as libc::c_int as libc::c_ulong) as u32;
     pony_traceknown(
@@ -846,9 +846,9 @@ pub unsafe extern "C" fn string_trace_len(
 #[c2rust::src_loc = "163:1"]
 unsafe extern "C" fn string_deserialise(
     mut buf: *mut libc::c_void,
-    mut remaining_size: size_t,
+    mut remaining_size: usize,
 ) -> *mut libc::c_void {
-    let mut len: size_t = 1 as libc::c_int as size_t;
+    let mut len: usize = 1 as libc::c_int as usize;
     loop {
         if len >= remaining_size {
             return 0 as *mut libc::c_void;
@@ -875,7 +875,7 @@ pub unsafe extern "C" fn string_deserialise_offset(
         offset,
         Some(
             string_deserialise
-                as unsafe extern "C" fn(*mut libc::c_void, size_t) -> *mut libc::c_void,
+                as unsafe extern "C" fn(*mut libc::c_void, usize) -> *mut libc::c_void,
         ),
     ) as *const libc::c_char;
 }
@@ -902,7 +902,7 @@ unsafe extern "C" fn strlist_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut list: *mut strlist_t = object as *mut strlist_t;
@@ -942,7 +942,7 @@ static mut strlist_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

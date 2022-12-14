@@ -2,14 +2,14 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
     #[c2rust::src_loc = "121:1"]
     pub type __darwin_ssize_t = libc::c_long;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
@@ -99,7 +99,7 @@ pub mod list_h {
         #[c2rust::src_loc = "40:1"]
         pub fn ponyint_list_reverse(list: *mut list_t) -> *mut list_t;
         #[c2rust::src_loc = "42:1"]
-        pub fn ponyint_list_length(list: *mut list_t) -> size_t;
+        pub fn ponyint_list_length(list: *mut list_t) -> usize;
         #[c2rust::src_loc = "44:1"]
         pub fn ponyint_list_free(list: *mut list_t, f: free_fn);
     }
@@ -150,10 +150,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -248,7 +248,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -314,9 +314,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:7"]
@@ -327,7 +327,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -439,7 +439,7 @@ unsafe extern "C" fn plugin_free(mut p: *mut plugin_t) {
             b"opt_for_free != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/plugin/plugin.c\0" as *const u8
                 as *const libc::c_char,
-            59 as libc::c_int as size_t,
+            59 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"plugin_free\0")).as_ptr(),
         );
     };
@@ -447,7 +447,7 @@ unsafe extern "C" fn plugin_free(mut p: *mut plugin_t) {
         ((*p).final_fn).expect("non-null function pointer")(opt_for_free, (*p).user_data);
     }
     dlclose((*p).handle);
-    ponyint_pool_free(2 as libc::c_int as size_t, p as *mut libc::c_void);
+    ponyint_pool_free(2 as libc::c_int as usize, p as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:1"]
@@ -493,7 +493,7 @@ pub unsafe extern "C" fn plugins_equals(mut a: *mut plugins_t, mut b: *mut plugi
 }
 #[no_mangle]
 #[c2rust::src_loc = "69:1"]
-pub unsafe extern "C" fn plugins_length(mut list: *mut plugins_t) -> size_t {
+pub unsafe extern "C" fn plugins_length(mut list: *mut plugins_t) -> usize {
     ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
@@ -581,7 +581,7 @@ unsafe extern "C" fn load_plugin(mut path: *const libc::c_char, mut opt: *mut pa
         );
         return 0 as libc::c_int != 0;
     }
-    let mut p: *mut plugin_t = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut plugin_t;
+    let mut p: *mut plugin_t = ponyint_pool_alloc(2 as libc::c_int as usize) as *mut plugin_t;
     let ref mut fresh0 = (*p).handle;
     *fresh0 = handle;
     let ref mut fresh1 = (*p).path;
@@ -627,7 +627,7 @@ unsafe extern "C" fn load_plugin(mut path: *const libc::c_char, mut opt: *mut pa
         && !((*p).init_fn).expect("non-null function pointer")(opt, &mut (*p).user_data)
     {
         dlclose((*p).handle);
-        ponyint_pool_free(2 as libc::c_int as size_t, p as *mut libc::c_void);
+        ponyint_pool_free(2 as libc::c_int as usize, p as *mut libc::c_void);
         return 0 as libc::c_int != 0;
     }
     let ref mut fresh10 = (*opt).plugins;

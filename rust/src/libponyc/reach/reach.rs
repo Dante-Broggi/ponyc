@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
@@ -12,7 +12,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
@@ -54,10 +54,10 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -66,7 +66,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -105,7 +105,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
     use super::pony_h::_pony_type_t;
@@ -117,8 +117,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -576,26 +576,26 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_hash_str(str: *const libc::c_char) -> size_t;
+        pub fn ponyint_hash_str(str: *const libc::c_char) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -605,7 +605,7 @@ pub mod hash_h {
     use super::source_h::pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -614,50 +614,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "124:1"]
@@ -671,7 +671,7 @@ pub mod hash_h {
             ctx: *mut pony_ctx_t,
             object: *mut libc::c_void,
             buf: *mut libc::c_void,
-            offset: size_t,
+            offset: usize,
         );
         #[c2rust::src_loc = "130:1"]
         pub fn ponyint_hashmap_deserialise(
@@ -782,13 +782,13 @@ pub mod ast_h {
         #[c2rust::src_loc = "68:1"]
         pub fn ast_set_scope(ast: *mut ast_t, scope: *mut ast_t);
         #[c2rust::src_loc = "71:1"]
-        pub fn ast_setpos(ast: *mut ast_t, source: *mut source_t, line: size_t, pos: size_t);
+        pub fn ast_setpos(ast: *mut ast_t, source: *mut source_t, line: usize, pos: usize);
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "74:1"]
-        pub fn ast_line(ast: *mut ast_t) -> size_t;
+        pub fn ast_line(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "75:1"]
-        pub fn ast_pos(ast: *mut ast_t) -> size_t;
+        pub fn ast_pos(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "78:1"]
         pub fn ast_data(ast: *mut ast_t) -> *mut libc::c_void;
         #[c2rust::src_loc = "88:1"]
@@ -800,9 +800,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -822,7 +822,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "223:1"]
@@ -866,10 +866,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -964,7 +964,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1078,7 +1078,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1195,8 +1195,8 @@ pub mod printbuf_h {
     #[c2rust::src_loc = "10:16"]
     pub struct printbuf_t {
         pub m: *mut libc::c_char,
-        pub size: size_t,
-        pub offset: size_t,
+        pub size: usize,
+        pub offset: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -1322,13 +1322,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:10"]
@@ -1339,14 +1339,14 @@ pub mod serialise_h {
     use super::source_h::pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
         #[c2rust::src_loc = "37:1"]
-        pub fn pony_serialise_reserve(ctx: *mut pony_ctx_t, p: *mut libc::c_void, size: size_t);
+        pub fn pony_serialise_reserve(ctx: *mut pony_ctx_t, p: *mut libc::c_void, size: usize);
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
             offset: uintptr_t,
-            size: size_t,
+            size: usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
@@ -1364,7 +1364,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1533,7 +1533,7 @@ pub unsafe extern "C" fn reach_method_stack_pop(
         as *mut reach_method_stack_t
 }
 #[c2rust::src_loc = "30:1"]
-unsafe extern "C" fn reach_method_hash(mut m: *mut reach_method_t) -> size_t {
+unsafe extern "C" fn reach_method_hash(mut m: *mut reach_method_t) -> usize {
     ponyint_hash_str((*m).name)
 }
 #[c2rust::src_loc = "35:1"]
@@ -1565,7 +1565,7 @@ pub unsafe extern "C" fn reach_methods_destroy(mut map: *mut reach_methods_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
-pub unsafe extern "C" fn reach_methods_init(mut map: *mut reach_methods_t, mut size: size_t) {
+pub unsafe extern "C" fn reach_methods_init(mut map: *mut reach_methods_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -1573,7 +1573,7 @@ pub unsafe extern "C" fn reach_methods_init(mut map: *mut reach_methods_t, mut s
 pub unsafe extern "C" fn reach_methods_putindex(
     mut map: *mut reach_methods_t,
     mut entry: *mut reach_method_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: reach_methods_cmp_fn = Some(
         reach_method_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
@@ -1606,7 +1606,7 @@ static mut reach_methods_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -1628,7 +1628,7 @@ static mut reach_methods_pony: pony_type_t = unsafe {
 };
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
-pub unsafe extern "C" fn reach_methods_mem_size(mut map: *mut reach_methods_t) -> size_t {
+pub unsafe extern "C" fn reach_methods_mem_size(mut map: *mut reach_methods_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1646,7 +1646,7 @@ pub unsafe extern "C" fn reach_methods_deserialise(
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
-pub unsafe extern "C" fn reach_methods_alloc_size(mut map: *mut reach_methods_t) -> size_t {
+pub unsafe extern "C" fn reach_methods_alloc_size(mut map: *mut reach_methods_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1660,7 +1660,7 @@ pub unsafe extern "C" fn reach_methods_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
@@ -1669,7 +1669,7 @@ pub unsafe extern "C" fn reach_methods_serialise(
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_clearindex(
     mut map: *mut reach_methods_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -1677,13 +1677,13 @@ pub unsafe extern "C" fn reach_methods_clearindex(
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn reach_methods_removeindex(
     mut map: *mut reach_methods_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
-pub unsafe extern "C" fn reach_methods_size(mut map: *mut reach_methods_t) -> size_t {
+pub unsafe extern "C" fn reach_methods_size(mut map: *mut reach_methods_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1715,7 +1715,7 @@ pub unsafe extern "C" fn reach_methods_remove(
 pub unsafe extern "C" fn reach_methods_get(
     mut map: *mut reach_methods_t,
     mut key: *mut reach_method_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut reach_method_t {
     let mut cmpf: reach_methods_cmp_fn = Some(
         reach_method_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
@@ -1732,7 +1732,7 @@ pub unsafe extern "C" fn reach_methods_get(
 #[c2rust::src_loc = "40:58"]
 pub unsafe extern "C" fn reach_methods_next(
     mut map: *mut reach_methods_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut reach_method_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -1755,7 +1755,7 @@ pub unsafe extern "C" fn reach_methods_put(
     ) as *mut reach_method_t
 }
 #[c2rust::src_loc = "43:1"]
-unsafe extern "C" fn reach_mangled_hash(mut m: *mut reach_method_t) -> size_t {
+unsafe extern "C" fn reach_mangled_hash(mut m: *mut reach_method_t) -> usize {
     ponyint_hash_str((*m).mangled_name)
 }
 #[c2rust::src_loc = "48:1"]
@@ -1783,11 +1783,11 @@ unsafe extern "C" fn reach_mangled_free(mut m: *mut reach_method_t) {
         ast_free_unattached((*m).typeargs);
     }
     deferred_reify_free((*m).fun);
-    ponyint_pool_free(2 as libc::c_int as size_t, m as *mut libc::c_void);
+    ponyint_pool_free(2 as libc::c_int as usize, m as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
-pub unsafe extern "C" fn reach_mangled_init(mut map: *mut reach_mangled_t, mut size: size_t) {
+pub unsafe extern "C" fn reach_mangled_init(mut map: *mut reach_mangled_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -1804,21 +1804,21 @@ pub unsafe extern "C" fn reach_mangled_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
-pub unsafe extern "C" fn reach_mangled_alloc_size(mut map: *mut reach_mangled_t) -> size_t {
+pub unsafe extern "C" fn reach_mangled_alloc_size(mut map: *mut reach_mangled_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
 pub unsafe extern "C" fn reach_mangled_removeindex(
     mut map: *mut reach_mangled_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -1842,7 +1842,7 @@ static mut reach_mangled_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -1866,7 +1866,7 @@ static mut reach_mangled_pony: pony_type_t = unsafe {
 #[c2rust::src_loc = "70:1"]
 pub unsafe extern "C" fn reach_mangled_clearindex(
     mut map: *mut reach_mangled_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -1877,7 +1877,7 @@ pub unsafe extern "C" fn reach_mangled_pony_type() -> *const pony_type_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
-pub unsafe extern "C" fn reach_mangled_mem_size(mut map: *mut reach_mangled_t) -> size_t {
+pub unsafe extern "C" fn reach_mangled_mem_size(mut map: *mut reach_mangled_t) -> usize {
     return ponyint_hashmap_mem_size(map as *mut hashmap_t);
 }
 #[no_mangle]
@@ -1895,7 +1895,7 @@ pub unsafe extern "C" fn reach_mangled_destroy(mut map: *mut reach_mangled_t) {
 pub unsafe extern "C" fn reach_mangled_putindex(
     mut map: *mut reach_mangled_t,
     mut entry: *mut reach_method_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: reach_mangled_cmp_fn = Some(
         reach_mangled_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
@@ -1934,7 +1934,7 @@ pub unsafe extern "C" fn reach_mangled_fill_ratio(mut map: *mut hashmap_t) -> li
 }
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
-pub unsafe extern "C" fn reach_mangled_size(mut map: *mut reach_mangled_t) -> size_t {
+pub unsafe extern "C" fn reach_mangled_size(mut map: *mut reach_mangled_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1942,7 +1942,7 @@ pub unsafe extern "C" fn reach_mangled_size(mut map: *mut reach_mangled_t) -> si
 pub unsafe extern "C" fn reach_mangled_get(
     mut map: *mut reach_mangled_t,
     mut key: *mut reach_method_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut reach_method_t {
     let mut cmpf: reach_mangled_cmp_fn = Some(
         reach_mangled_cmp as unsafe extern "C" fn(*mut reach_method_t, *mut reach_method_t) -> bool,
@@ -1991,14 +1991,14 @@ pub unsafe extern "C" fn reach_mangled_put(
 #[c2rust::src_loc = "70:58"]
 pub unsafe extern "C" fn reach_mangled_next(
     mut map: *mut reach_mangled_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut reach_method_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
         as *mut reach_method_t
 }
 #[c2rust::src_loc = "74:1"]
-unsafe extern "C" fn reach_method_name_hash(mut n: *mut reach_method_name_t) -> size_t {
+unsafe extern "C" fn reach_method_name_hash(mut n: *mut reach_method_name_t) -> usize {
     ponyint_hash_str((*n).name)
 }
 #[c2rust::src_loc = "79:1"]
@@ -2012,11 +2012,11 @@ unsafe extern "C" fn reach_method_name_cmp(
 unsafe extern "C" fn reach_method_name_free(mut n: *mut reach_method_name_t) {
     reach_methods_destroy(&mut (*n).r_methods);
     reach_mangled_destroy(&mut (*n).r_mangled);
-    ponyint_pool_free(2 as libc::c_int as size_t, n as *mut libc::c_void);
+    ponyint_pool_free(2 as libc::c_int as usize, n as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
-pub unsafe extern "C" fn reach_method_names_mem_size(mut map: *mut reach_method_names_t) -> size_t {
+pub unsafe extern "C" fn reach_method_names_mem_size(mut map: *mut reach_method_names_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2046,7 +2046,7 @@ pub unsafe extern "C" fn reach_method_names_optimize(mut map: *mut reach_method_
 pub unsafe extern "C" fn reach_method_names_putindex(
     mut map: *mut reach_method_names_t,
     mut entry: *mut reach_method_name_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: reach_method_names_cmp_fn = Some(
         reach_method_name_cmp
@@ -2064,7 +2064,7 @@ pub unsafe extern "C" fn reach_method_names_putindex(
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_removeindex(
     mut map: *mut reach_method_names_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -2072,13 +2072,13 @@ pub unsafe extern "C" fn reach_method_names_removeindex(
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_clearindex(
     mut map: *mut reach_method_names_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
-pub unsafe extern "C" fn reach_method_names_size(mut map: *mut reach_method_names_t) -> size_t {
+pub unsafe extern "C" fn reach_method_names_size(mut map: *mut reach_method_names_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2100,7 +2100,7 @@ pub unsafe extern "C" fn reach_method_names_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
@@ -2117,7 +2117,7 @@ pub unsafe extern "C" fn reach_method_names_serialise_trace(
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_alloc_size(
     mut map: *mut reach_method_names_t,
-) -> size_t {
+) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2145,7 +2145,7 @@ static mut reach_method_names_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -2169,7 +2169,7 @@ static mut reach_method_names_pony: pony_type_t = unsafe {
 #[c2rust::src_loc = "92:1"]
 pub unsafe extern "C" fn reach_method_names_init(
     mut map: *mut reach_method_names_t,
-    mut size: size_t,
+    mut size: usize,
 ) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
@@ -2177,7 +2177,7 @@ pub unsafe extern "C" fn reach_method_names_init(
 #[c2rust::src_loc = "93:3"]
 pub unsafe extern "C" fn reach_method_names_next(
     mut map: *mut reach_method_names_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut reach_method_name_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -2188,7 +2188,7 @@ pub unsafe extern "C" fn reach_method_names_next(
 pub unsafe extern "C" fn reach_method_names_get(
     mut map: *mut reach_method_names_t,
     mut key: *mut reach_method_name_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut reach_method_name_t {
     let mut cmpf: reach_method_names_cmp_fn = Some(
         reach_method_name_cmp
@@ -2237,7 +2237,7 @@ pub unsafe extern "C" fn reach_method_names_remove(
     ) as *mut reach_method_name_t
 }
 #[c2rust::src_loc = "96:1"]
-unsafe extern "C" fn reach_type_hash(mut t: *mut reach_type_t) -> size_t {
+unsafe extern "C" fn reach_type_hash(mut t: *mut reach_type_t) -> usize {
     ponyint_hash_str((*t).name)
 }
 #[c2rust::src_loc = "101:1"]
@@ -2270,11 +2270,11 @@ unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
             (*t).c_type as *mut libc::c_void,
         );
     }
-    ponyint_pool_free(3 as libc::c_int as size_t, t as *mut libc::c_void);
+    ponyint_pool_free(3 as libc::c_int as usize, t as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
-pub unsafe extern "C" fn reach_types_mem_size(mut map: *mut reach_types_t) -> size_t {
+pub unsafe extern "C" fn reach_types_mem_size(mut map: *mut reach_types_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2289,7 +2289,7 @@ pub unsafe extern "C" fn reach_types_destroy(mut map: *mut reach_types_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
-pub unsafe extern "C" fn reach_types_init(mut map: *mut reach_types_t, mut size: size_t) {
+pub unsafe extern "C" fn reach_types_init(mut map: *mut reach_types_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -2310,7 +2310,7 @@ pub unsafe extern "C" fn reach_types_pony_type() -> *const pony_type_t {
 pub unsafe extern "C" fn reach_types_putindex(
     mut map: *mut reach_types_t,
     mut entry: *mut reach_type_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: reach_types_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
@@ -2329,7 +2329,7 @@ pub unsafe extern "C" fn reach_types_fill_ratio(mut map: *mut hashmap_t) -> libc
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
-pub unsafe extern "C" fn reach_types_clearindex(mut map: *mut reach_types_t, mut index: size_t) {
+pub unsafe extern "C" fn reach_types_clearindex(mut map: *mut reach_types_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
@@ -2338,14 +2338,14 @@ pub unsafe extern "C" fn reach_types_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
-pub unsafe extern "C" fn reach_types_alloc_size(mut map: *mut reach_types_t) -> size_t {
+pub unsafe extern "C" fn reach_types_alloc_size(mut map: *mut reach_types_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2360,12 +2360,12 @@ pub unsafe extern "C" fn reach_types_optimize(mut map: *mut reach_types_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
-pub unsafe extern "C" fn reach_types_removeindex(mut map: *mut reach_types_t, mut index: size_t) {
+pub unsafe extern "C" fn reach_types_removeindex(mut map: *mut reach_types_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]
-pub unsafe extern "C" fn reach_types_size(mut map: *mut reach_types_t) -> size_t {
+pub unsafe extern "C" fn reach_types_size(mut map: *mut reach_types_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2396,7 +2396,7 @@ static mut reach_types_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -2436,7 +2436,7 @@ pub unsafe extern "C" fn reach_types_remove(
 pub unsafe extern "C" fn reach_types_get(
     mut map: *mut reach_types_t,
     mut key: *mut reach_type_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut reach_type_t {
     let mut cmpf: reach_types_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
@@ -2452,7 +2452,7 @@ pub unsafe extern "C" fn reach_types_get(
 #[c2rust::src_loc = "129:54"]
 pub unsafe extern "C" fn reach_types_next(
     mut map: *mut reach_types_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut reach_type_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -2475,7 +2475,7 @@ pub unsafe extern "C" fn reach_types_put(
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
-pub unsafe extern "C" fn reach_type_cache_init(mut map: *mut reach_type_cache_t, mut size: size_t) {
+pub unsafe extern "C" fn reach_type_cache_init(mut map: *mut reach_type_cache_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -2484,7 +2484,7 @@ pub unsafe extern "C" fn reach_type_cache_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
@@ -2534,7 +2534,7 @@ static mut reach_type_cache_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -2561,12 +2561,12 @@ pub unsafe extern "C" fn reach_type_cache_pony_type() -> *const pony_type_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
-pub unsafe extern "C" fn reach_type_cache_alloc_size(mut map: *mut reach_type_cache_t) -> size_t {
+pub unsafe extern "C" fn reach_type_cache_alloc_size(mut map: *mut reach_type_cache_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
-pub unsafe extern "C" fn reach_type_cache_mem_size(mut map: *mut reach_type_cache_t) -> size_t {
+pub unsafe extern "C" fn reach_type_cache_mem_size(mut map: *mut reach_type_cache_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2576,14 +2576,14 @@ pub unsafe extern "C" fn reach_type_cache_fill_ratio(mut map: *mut hashmap_t) ->
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
-pub unsafe extern "C" fn reach_type_cache_size(mut map: *mut reach_type_cache_t) -> size_t {
+pub unsafe extern "C" fn reach_type_cache_size(mut map: *mut reach_type_cache_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_clearindex(
     mut map: *mut reach_type_cache_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -2591,7 +2591,7 @@ pub unsafe extern "C" fn reach_type_cache_clearindex(
 #[c2rust::src_loc = "132:1"]
 pub unsafe extern "C" fn reach_type_cache_removeindex(
     mut map: *mut reach_type_cache_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -2610,7 +2610,7 @@ pub unsafe extern "C" fn reach_type_cache_optimize(mut map: *mut reach_type_cach
 pub unsafe extern "C" fn reach_type_cache_putindex(
     mut map: *mut reach_type_cache_t,
     mut entry: *mut reach_type_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: reach_type_cache_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
@@ -2627,7 +2627,7 @@ pub unsafe extern "C" fn reach_type_cache_putindex(
 pub unsafe extern "C" fn reach_type_cache_get(
     mut map: *mut reach_type_cache_t,
     mut key: *mut reach_type_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut reach_type_t {
     let mut cmpf: reach_type_cache_cmp_fn =
         Some(reach_type_cmp as unsafe extern "C" fn(*mut reach_type_t, *mut reach_type_t) -> bool);
@@ -2658,7 +2658,7 @@ pub unsafe extern "C" fn reach_type_cache_remove(
 #[c2rust::src_loc = "132:64"]
 pub unsafe extern "C" fn reach_type_cache_next(
     mut map: *mut reach_type_cache_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut reach_type_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -2702,7 +2702,7 @@ unsafe extern "C" fn reach_rmethod(
         c_method: 0 as *mut compile_opaque_t,
     };
     k.name = name;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     return reach_methods_get(&mut (*n).r_methods, &mut k, &mut index);
 }
 #[c2rust::src_loc = "143:1"]
@@ -2713,11 +2713,11 @@ unsafe extern "C" fn add_method_name(
 ) -> *mut reach_method_name_t {
     let mut n: *mut reach_method_name_t = reach_method_name(t, name);
     if n.is_null() {
-        n = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut reach_method_name_t;
+        n = ponyint_pool_alloc(2 as libc::c_int as usize) as *mut reach_method_name_t;
         let ref mut fresh1 = (*n).name;
         *fresh1 = name;
-        reach_methods_init(&mut (*n).r_methods, 0 as libc::c_int as size_t);
-        reach_mangled_init(&mut (*n).r_mangled, 0 as libc::c_int as size_t);
+        reach_methods_init(&mut (*n).r_methods, 0 as libc::c_int as usize);
+        reach_mangled_init(&mut (*n).r_mangled, 0 as libc::c_int as usize);
         reach_method_names_put(&mut (*t).methods, n);
         if internal {
             (*n).id = TK_FUN;
@@ -2741,7 +2741,7 @@ unsafe extern "C" fn set_method_types(
     mut m: *mut reach_method_t,
     mut opt: *mut pass_opt_t,
 ) {
-    let mut params: *mut ast_t = ast_childidx((*(*m).fun).ast, 3 as libc::c_int as size_t);
+    let mut params: *mut ast_t = ast_childidx((*(*m).fun).ast, 3 as libc::c_int as usize);
     let mut result: *mut ast_t = ast_sibling(params);
     (*m).param_count = ast_childcount(params);
     if (*m).param_count > 0 as libc::c_int as libc::c_ulong {
@@ -2751,7 +2751,7 @@ unsafe extern "C" fn set_method_types(
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         ) as *mut reach_param_t;
         let mut param: *mut ast_t = ast_child(params);
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while !param.is_null() {
             let mut p_type: *mut ast_t = deferred_reify((*m).fun, ast_type(param), opt);
             ast_set_scope(p_type, 0 as *mut ast_t);
@@ -2781,7 +2781,7 @@ unsafe extern "C" fn set_method_types(
 unsafe extern "C" fn make_mangled_name(mut m: *mut reach_method_t) -> *const libc::c_char {
     let mut buf: *mut printbuf_t = printbuf_new();
     printbuf(buf, b"%s_\0" as *const u8 as *const libc::c_char, (*m).name);
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < (*m).param_count {
         printbuf(
             buf,
@@ -2835,12 +2835,12 @@ unsafe extern "C" fn add_rmethod_to_subtype(
         opt,
         0 as libc::c_int != 0,
     );
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut mangled: *mut reach_method_t = reach_mangled_get(&mut (*n2).r_mangled, m, &mut index);
     if !mangled.is_null() {
         return;
     }
-    mangled = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut reach_method_t;
+    mangled = ponyint_pool_alloc(2 as libc::c_int as usize) as *mut reach_method_t;
     memset(
         mangled as *mut libc::c_void,
         0 as libc::c_int,
@@ -2892,7 +2892,7 @@ unsafe extern "C" fn add_rmethod_to_subtypes(
             b"!m->internal\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0" as *const u8
                 as *const libc::c_char,
-            288 as libc::c_int as size_t,
+            288 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                 b"add_rmethod_to_subtypes\0",
             ))
@@ -2901,7 +2901,7 @@ unsafe extern "C" fn add_rmethod_to_subtypes(
     };
     match (*t).underlying as libc::c_uint {
         149 | 72 | 73 => {
-            let mut i: size_t = -(1 as libc::c_int) as size_t;
+            let mut i: usize = -(1 as libc::c_int) as usize;
             let mut t2: *mut reach_type_t = 0 as *mut reach_type_t;
             loop {
                 t2 = reach_type_cache_next(&mut (*t).subtypes, &mut i);
@@ -2948,7 +2948,7 @@ unsafe extern "C" fn add_rmethod(
     if !m.is_null() {
         return m;
     }
-    m = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut reach_method_t;
+    m = ponyint_pool_alloc(2 as libc::c_int as usize) as *mut reach_method_t;
     memset(
         m as *mut libc::c_void,
         0 as libc::c_int,
@@ -2970,7 +2970,7 @@ unsafe extern "C" fn add_rmethod(
                 b"fun != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                     as *const u8 as *const libc::c_char,
-                353 as libc::c_int as size_t,
+                353 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"add_rmethod\0"))
                     .as_ptr(),
             );
@@ -2981,7 +2981,7 @@ unsafe extern "C" fn add_rmethod(
         ast_set_scope((*fun).thistype, (*t).ast);
         ast_free_unattached(r_ast);
         if !typeargs.is_null() {
-            let mut typeparams: *mut ast_t = ast_childidx((*fun).ast, 2 as libc::c_int as size_t);
+            let mut typeparams: *mut ast_t = ast_childidx((*fun).ast, 2 as libc::c_int as usize);
             deferred_reify_add_method_typeparams(fun, typeparams, typeargs, opt);
             let ref mut fresh16 = (*m).typeargs;
             *fresh16 = (*fun).method_typeargs;
@@ -3010,14 +3010,14 @@ unsafe extern "C" fn add_methods_to_type(
     mut to: *mut reach_type_t,
     mut opt: *mut pass_opt_t,
 ) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
     loop {
         n = reach_method_names_next(&mut (*from).methods, &mut i);
         if n.is_null() {
             break;
         }
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
         loop {
             m = reach_mangled_next(&mut (*n).r_mangled, &mut j);
@@ -3047,7 +3047,7 @@ unsafe extern "C" fn add_types_to_trait(
     mut t: *mut reach_type_t,
     mut opt: *mut pass_opt_t,
 ) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut t2: *mut reach_type_t = 0 as *mut reach_type_t;
     let mut interface: bool = 0 as libc::c_int != 0;
     match ast_id((*t).ast) as libc::c_uint {
@@ -3131,7 +3131,7 @@ unsafe extern "C" fn add_traits_to_type(
     mut t: *mut reach_type_t,
     mut opt: *mut pass_opt_t,
 ) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut t2: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         t2 = reach_types_next(&mut (*r).types, &mut i);
@@ -3236,7 +3236,7 @@ unsafe extern "C" fn embed_has_finaliser(
     if !(ast_get(def, str_final, 0 as *mut sym_status_t)).is_null() {
         return 1 as libc::c_int != 0;
     }
-    let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as size_t);
+    let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as usize);
     let mut member: *mut ast_t = ast_child(members);
     while !member.is_null() {
         if ast_id(member) as libc::c_uint == TK_EMBED as libc::c_int as libc::c_uint
@@ -3255,9 +3255,9 @@ unsafe extern "C" fn add_fields(
     mut opt: *mut pass_opt_t,
 ) {
     let mut def: *mut ast_t = ast_data((*t).ast) as *mut ast_t;
-    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as size_t);
-    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
-    let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx((*t).ast, 2 as libc::c_int as usize);
+    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
+    let mut members: *mut ast_t = ast_childidx(def, 4 as libc::c_int as usize);
     let mut member: *mut ast_t = ast_child(members);
     while !member.is_null() {
         match ast_id(member) as libc::c_uint {
@@ -3278,7 +3278,7 @@ unsafe extern "C" fn add_fields(
             .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
     ) as *mut reach_field_t;
     member = ast_child(members);
-    let mut index: size_t = 0;
+    let mut index: usize = 0;
     let mut str_final: *const libc::c_char =
         stringtab(b"_final\0" as *const u8 as *const libc::c_char);
     let mut has_finaliser: bool = !(ast_get(def, str_final, 0 as *mut sym_status_t)).is_null();
@@ -3298,7 +3298,7 @@ unsafe extern "C" fn add_fields(
                         b"member_lookup != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                             as *const u8 as *const libc::c_char,
-                        664 as libc::c_int as size_t,
+                        664 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                             b"add_fields\0",
                         ))
@@ -3395,7 +3395,7 @@ unsafe extern "C" fn add_reach_type(
     mut type_0: *mut ast_t,
 ) -> *mut reach_type_t {
     let mut t: *mut reach_type_t =
-        ponyint_pool_alloc(3 as libc::c_int as size_t) as *mut reach_type_t;
+        ponyint_pool_alloc(3 as libc::c_int as usize) as *mut reach_type_t;
     memset(
         t as *mut libc::c_void,
         0 as libc::c_int,
@@ -3412,8 +3412,8 @@ unsafe extern "C" fn add_reach_type(
     (*t).type_id = -(1 as libc::c_int) as u32;
     ast_set_scope((*t).ast, 0 as *mut ast_t);
     ast_set_scope((*t).ast_cap, 0 as *mut ast_t);
-    reach_method_names_init(&mut (*t).methods, 0 as libc::c_int as size_t);
-    reach_type_cache_init(&mut (*t).subtypes, 0 as libc::c_int as size_t);
+    reach_method_names_init(&mut (*t).methods, 0 as libc::c_int as usize);
+    reach_type_cache_init(&mut (*t).subtypes, 0 as libc::c_int as usize);
     reach_types_put(&mut (*r).types, t);
     return t;
 }
@@ -3479,7 +3479,7 @@ unsafe extern "C" fn add_tuple(
         (*t).field_count,
     );
     let mut child: *mut ast_t = ast_child((*t).ast_cap);
-    let mut index: size_t = 0;
+    let mut index: usize = 0;
     while !child.is_null() {
         let ref mut fresh42 = (*((*t).fields).offset(index as isize)).ast;
         *fresh42 = ast_dup(child);
@@ -3616,7 +3616,7 @@ unsafe extern "C" fn add_nominal(
     if is_bare(type_0) {
         bare = 1 as libc::c_int != 0;
         let mut bare_method: *mut ast_t = 0 as *mut ast_t;
-        let mut member: *mut ast_t = ast_child(ast_childidx(def, 4 as libc::c_int as size_t));
+        let mut member: *mut ast_t = ast_child(ast_childidx(def, 4 as libc::c_int as usize));
         while !member.is_null() {
             if ast_id(member) as libc::c_uint == TK_FUN as libc::c_int as libc::c_uint
                 && ast_id(ast_child(member)) as libc::c_uint == TK_AT as libc::c_int as libc::c_uint
@@ -3627,7 +3627,7 @@ unsafe extern "C" fn add_nominal(
                         b"bare_method == NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                             as *const u8 as *const libc::c_char,
-                        901 as libc::c_int as size_t,
+                        901 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(
                             b"add_nominal\0",
                         ))
@@ -3644,7 +3644,7 @@ unsafe extern "C" fn add_nominal(
                 b"bare_method != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                     as *const u8 as *const libc::c_char,
-                911 as libc::c_int as size_t,
+                911 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"add_nominal\0"))
                     .as_ptr(),
             );
@@ -3667,7 +3667,7 @@ unsafe extern "C" fn add_nominal(
                 b"ast_id(typeparams) == TK_NONE\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                     as *const u8 as *const libc::c_char,
-                913 as libc::c_int as size_t,
+                913 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"add_nominal\0"))
                     .as_ptr(),
             );
@@ -3770,7 +3770,7 @@ unsafe extern "C" fn add_type(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                         as *const u8 as *const libc::c_char,
-                    995 as libc::c_int as size_t,
+                    995 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"add_type\0"))
                         .as_ptr(),
                 );
@@ -3921,7 +3921,7 @@ unsafe extern "C" fn reachable_ffi(
             b"decl != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0" as *const u8
                 as *const libc::c_char,
-            1105 as libc::c_int as size_t,
+            1105 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"reachable_ffi\0"))
                 .as_ptr(),
         );
@@ -3947,7 +3947,7 @@ unsafe extern "C" fn reachable_ffi(
         children.as_mut_ptr(),
     );
     let mut reified: bool = false;
-    let mut return_typeargs: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as size_t);
+    let mut return_typeargs: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as usize);
     if (ast_child(return_typeargs)).is_null() {
         return_typeargs = decl_ret_typeargs;
         reified = 0 as libc::c_int != 0;
@@ -3962,7 +3962,7 @@ unsafe extern "C" fn reachable_ffi(
         if ast_id(arg) as libc::c_uint != TK_ELLIPSIS as libc::c_int as libc::c_uint {
             let mut type_0: *mut ast_t = ast_type(arg);
             if type_0.is_null() {
-                type_0 = ast_childidx(arg, 1 as libc::c_int as size_t);
+                type_0 = ast_childidx(arg, 1 as libc::c_int as usize);
             }
             add_type(r, type_0, opt);
         }
@@ -4047,7 +4047,7 @@ unsafe extern "C" fn reachable_expr(
                     b"ast_id(cond) == TK_SEQ\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                         as *const u8 as *const libc::c_char,
-                    1205 as libc::c_int as size_t,
+                    1205 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"reachable_expr\0",
                     ))
@@ -4189,7 +4189,7 @@ unsafe extern "C" fn reachable_method(
                     b"n->cap == TK_BOX\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/reach.c\0"
                         as *const u8 as *const libc::c_char,
-                    1335 as libc::c_int as size_t,
+                    1335 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(
                         b"reachable_method\0",
                     ))
@@ -4232,14 +4232,14 @@ unsafe extern "C" fn handle_method_stack(mut r: *mut reach_t, mut opt: *mut pass
         let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
         let ref mut fresh66 = (*r).method_stack;
         *fresh66 = reach_method_stack_pop((*r).method_stack, &mut m);
-        let mut body: *mut ast_t = ast_childidx((*(*m).fun).ast, 6 as libc::c_int as size_t);
+        let mut body: *mut ast_t = ast_childidx((*(*m).fun).ast, 6 as libc::c_int as usize);
         reachable_expr(r, (*m).fun, body, opt);
     }
 }
 #[no_mangle]
 #[c2rust::src_loc = "1387:1"]
 pub unsafe extern "C" fn reach_new() -> *mut reach_t {
-    let mut r: *mut reach_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut reach_t;
+    let mut r: *mut reach_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut reach_t;
     let ref mut fresh67 = (*r).method_stack;
     *fresh67 = 0 as *mut reach_method_stack_t;
     (*r).object_type_count = 0 as libc::c_int as u32;
@@ -4247,7 +4247,7 @@ pub unsafe extern "C" fn reach_new() -> *mut reach_t {
     (*r).tuple_type_count = 0 as libc::c_int as u32;
     (*r).total_type_count = 0 as libc::c_int as u32;
     (*r).trait_type_count = 0 as libc::c_int as u32;
-    reach_types_init(&mut (*r).types, 64 as libc::c_int as size_t);
+    reach_types_init(&mut (*r).types, 64 as libc::c_int as usize);
     return r;
 }
 #[no_mangle]
@@ -4257,7 +4257,7 @@ pub unsafe extern "C" fn reach_free(mut r: *mut reach_t) {
         return;
     }
     reach_types_destroy(&mut (*r).types);
-    ponyint_pool_free(1 as libc::c_int as size_t, r as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, r as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "1409:1"]
@@ -4316,7 +4316,7 @@ pub unsafe extern "C" fn reach_type(
         c_type: 0 as *mut compile_opaque_t,
     };
     k.name = genname_type(type_0);
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     return reach_types_get(&mut (*r).types, &mut k, &mut index);
 }
 #[no_mangle]
@@ -4357,7 +4357,7 @@ pub unsafe extern "C" fn reach_type_name(
         c_type: 0 as *mut compile_opaque_t,
     };
     k.name = stringtab(name);
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     return reach_types_get(&mut (*r).types, &mut k, &mut index);
 }
 #[no_mangle]
@@ -4420,7 +4420,7 @@ pub unsafe extern "C" fn reach_method_name(
         internal: false,
     };
     k.name = name;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     return reach_method_names_get(&mut (*t).methods, &mut k, &mut index);
 }
 #[no_mangle]
@@ -4459,7 +4459,7 @@ pub unsafe extern "C" fn reach_max_type_id(mut r: *mut reach_t) -> u32 {
 #[c2rust::src_loc = "1500:1"]
 pub unsafe extern "C" fn reach_dump(mut r: *mut reach_t) {
     printf(b"REACH\n\0" as *const u8 as *const libc::c_char);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         t = reach_types_next(&mut (*r).types, &mut i);
@@ -4472,7 +4472,7 @@ pub unsafe extern "C" fn reach_dump(mut r: *mut reach_t) {
             (*t).name,
             (*t).mangle,
         );
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
         printf(
             b"    vtable: %d\n\0" as *const u8 as *const libc::c_char,
@@ -4483,7 +4483,7 @@ pub unsafe extern "C" fn reach_dump(mut r: *mut reach_t) {
             if n.is_null() {
                 break;
             }
-            let mut k: size_t = -(1 as libc::c_int) as size_t;
+            let mut k: usize = -(1 as libc::c_int) as usize;
             let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
             loop {
                 m = reach_mangled_next(&mut (*n).r_mangled, &mut k);
@@ -4497,7 +4497,7 @@ pub unsafe extern "C" fn reach_dump(mut r: *mut reach_t) {
                 );
             }
         }
-        j = -(1 as libc::c_int) as size_t;
+        j = -(1 as libc::c_int) as usize;
         let mut t2: *mut reach_type_t = 0 as *mut reach_type_t;
         loop {
             t2 = reach_type_cache_next(&mut (*t).subtypes, &mut j);
@@ -4536,7 +4536,7 @@ unsafe extern "C" fn reach_param_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut p: *mut reach_param_t = object as *mut reach_param_t;
@@ -4584,7 +4584,7 @@ static mut reach_param_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4649,7 +4649,7 @@ unsafe extern "C" fn reach_method_serialise_trace(
             ((*m).param_count)
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         );
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < (*m).param_count {
             reach_param_serialise_trace(
                 ctx,
@@ -4672,7 +4672,7 @@ unsafe extern "C" fn reach_method_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut m: *mut reach_method_t = object as *mut reach_method_t;
@@ -4708,8 +4708,8 @@ unsafe extern "C" fn reach_method_serialise(
     let ref mut fresh80 = (*dst).params;
     *fresh80 = pony_serialise_offset(ctx, (*m).params as *mut libc::c_void) as *mut reach_param_t;
     if !((*m).params).is_null() {
-        let mut param_offset: size_t = (*dst).params as size_t;
-        let mut i: size_t = 0;
+        let mut param_offset: usize = (*dst).params as usize;
+        let mut i: usize = 0;
         while i < (*m).param_count {
             reach_param_serialise(
                 ctx,
@@ -4720,7 +4720,7 @@ unsafe extern "C" fn reach_method_serialise(
             );
             param_offset = (param_offset as libc::c_ulong)
                 .wrapping_add(::core::mem::size_of::<reach_param_t>() as libc::c_ulong)
-                as size_t as size_t;
+                as usize as usize;
             i = i.wrapping_add(1);
         }
     }
@@ -4758,7 +4758,7 @@ unsafe extern "C" fn reach_method_deserialise(
             ((*m).param_count)
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         ) as *mut reach_param_t;
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < (*m).param_count {
             reach_param_deserialise(
                 ctx,
@@ -4794,7 +4794,7 @@ static mut reach_method_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4840,7 +4840,7 @@ unsafe extern "C" fn reach_method_name_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut n: *mut reach_method_name_t = object as *mut reach_method_name_t;
@@ -4904,7 +4904,7 @@ static mut reach_method_name_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4953,7 +4953,7 @@ unsafe extern "C" fn reach_field_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut f: *mut reach_field_t = object as *mut reach_field_t;
@@ -4996,7 +4996,7 @@ static mut reach_field_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -5064,7 +5064,7 @@ unsafe extern "C" fn reach_type_serialise_trace(
             ((*t).field_count as libc::c_ulong)
                 .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
         );
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < (*t).field_count as libc::c_ulong {
             reach_field_serialise_trace(
                 ctx,
@@ -5079,7 +5079,7 @@ unsafe extern "C" fn reach_type_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut t: *mut reach_type_t = object as *mut reach_type_t;
@@ -5120,8 +5120,8 @@ unsafe extern "C" fn reach_type_serialise(
     let ref mut fresh103 = (*dst).fields;
     *fresh103 = pony_serialise_offset(ctx, (*t).fields as *mut libc::c_void) as *mut reach_field_t;
     if !((*t).fields).is_null() {
-        let mut field_offset: size_t = (*dst).fields as size_t;
-        let mut i: size_t = 0;
+        let mut field_offset: usize = (*dst).fields as usize;
+        let mut i: usize = 0;
         while i < (*t).field_count as libc::c_ulong {
             reach_field_serialise(
                 ctx,
@@ -5132,7 +5132,7 @@ unsafe extern "C" fn reach_type_serialise(
             );
             field_offset = (field_offset as libc::c_ulong)
                 .wrapping_add(::core::mem::size_of::<reach_field_t>() as libc::c_ulong)
-                as size_t as size_t;
+                as usize as usize;
             i = i.wrapping_add(1);
         }
     }
@@ -5174,7 +5174,7 @@ unsafe extern "C" fn reach_type_deserialise(
             ((*t).field_count as libc::c_ulong)
                 .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
         ) as *mut reach_field_t;
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < (*t).field_count as libc::c_ulong {
             reach_field_deserialise(
                 ctx,
@@ -5207,7 +5207,7 @@ static mut reach_type_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -5248,7 +5248,7 @@ unsafe extern "C" fn reach_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut r: *mut reach_t = object as *mut reach_t;
@@ -5296,7 +5296,7 @@ static mut reach_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -463,7 +463,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "59:1"]
@@ -555,7 +555,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -645,7 +645,7 @@ unsafe extern "C" fn alias_single(mut type_0: *mut ast_t) -> *mut ast_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            56 as libc::c_int as size_t,
+            56 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"alias_single\0")).as_ptr(),
         );
     };
@@ -726,7 +726,7 @@ unsafe extern "C" fn recover_single(
                             b"0\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                                 as *const u8 as *const libc::c_char,
-                            151 as libc::c_int as size_t,
+                            151 as libc::c_int as usize,
                             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                                 b"recover_single\0",
                             ))
@@ -754,7 +754,7 @@ unsafe extern "C" fn recover_single(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                         as *const u8 as *const libc::c_char,
-                    170 as libc::c_int as size_t,
+                    170 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"recover_single\0",
                     ))
@@ -886,7 +886,7 @@ pub unsafe extern "C" fn alias(mut type_0: *mut ast_t) -> *mut ast_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            293 as libc::c_int as size_t,
+            293 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"alias\0")).as_ptr(),
         );
     };
@@ -997,7 +997,7 @@ pub unsafe extern "C" fn consume_type(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            393 as libc::c_int as size_t,
+            393 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"consume_type\0")).as_ptr(),
         );
     };
@@ -1018,7 +1018,7 @@ unsafe extern "C" fn recover_complex(
                     b"false\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                         as *const u8 as *const libc::c_char,
-                    411 as libc::c_int as size_t,
+                    411 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"recover_complex\0",
                     ))
@@ -1085,7 +1085,7 @@ unsafe extern "C" fn recover_type_inner(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            482 as libc::c_int as size_t,
+            482 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"recover_type_inner\0"))
                 .as_ptr(),
         );
@@ -1126,7 +1126,7 @@ pub unsafe extern "C" fn chain_type(
                             b"fun_cap == TK_TAG\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                                 as *const u8 as *const libc::c_char,
-                            533 as libc::c_int as size_t,
+                            533 as libc::c_int as usize,
                             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                                 b"chain_type\0",
                             ))
@@ -1147,7 +1147,7 @@ pub unsafe extern "C" fn chain_type(
                             as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                             as *const u8 as *const libc::c_char,
-                        541 as libc::c_int as size_t,
+                        541 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                             b"chain_type\0",
                         ))
@@ -1162,7 +1162,7 @@ pub unsafe extern "C" fn chain_type(
                     b"ast_id(eph) == TK_EPHEMERAL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                         as *const u8 as *const libc::c_char,
-                    547 as libc::c_int as size_t,
+                    547 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"chain_type\0"))
                         .as_ptr(),
                 );
@@ -1188,7 +1188,7 @@ pub unsafe extern "C" fn chain_type(
                             b"false\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0"
                                 as *const u8 as *const libc::c_char,
-                            585 as libc::c_int as size_t,
+                            585 as libc::c_int as usize,
                             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                                 b"chain_type\0",
                             ))
@@ -1226,7 +1226,7 @@ pub unsafe extern "C" fn chain_type(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            613 as libc::c_int as size_t,
+            613 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"chain_type\0")).as_ptr(),
         );
     };
@@ -1302,7 +1302,7 @@ pub unsafe extern "C" fn sendable(mut type_0: *mut ast_t) -> bool {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            671 as libc::c_int as size_t,
+            671 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"sendable\0")).as_ptr(),
         );
     };
@@ -1378,7 +1378,7 @@ pub unsafe extern "C" fn immutable_or_opaque(mut type_0: *mut ast_t) -> bool {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/alias.c\0" as *const u8
                 as *const libc::c_char,
-            729 as libc::c_int as size_t,
+            729 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"immutable_or_opaque\0"))
                 .as_ptr(),
         );

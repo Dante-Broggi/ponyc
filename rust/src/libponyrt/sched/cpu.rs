@@ -57,7 +57,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:4"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:4"]
 pub mod _timespec_h {
@@ -192,7 +192,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -264,10 +264,10 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -276,7 +276,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -304,8 +304,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -314,10 +314,10 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:26"]
@@ -326,7 +326,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -402,9 +402,9 @@ pub mod sysctl_h {
         pub fn sysctlbyname(
             _: *const libc::c_char,
             _: *mut libc::c_void,
-            _: *mut size_t,
+            _: *mut usize,
             _: *mut libc::c_void,
-            _: size_t,
+            _: usize,
         ) -> libc::c_int;
     }
 }
@@ -448,13 +448,13 @@ use core::arch::asm;
 #[c2rust::src_loc = "40:1"]
 unsafe extern "C" fn property(mut key: *const libc::c_char) -> u32 {
     let mut value: libc::c_int = 0 as libc::c_int;
-    let mut len: size_t = ::core::mem::size_of::<libc::c_int>() as libc::c_ulong;
+    let mut len: usize = ::core::mem::size_of::<libc::c_int>() as libc::c_ulong;
     let mut err: libc::c_int = sysctlbyname(
         key,
         &mut value as *mut libc::c_int as *mut libc::c_void,
         &mut len,
         0 as *mut libc::c_void,
-        0 as libc::c_int as size_t,
+        0 as libc::c_int as usize,
     );
     return (if err == 0 as libc::c_int {
         value

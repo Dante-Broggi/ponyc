@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -545,7 +545,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -572,7 +572,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -614,10 +614,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -712,7 +712,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -875,7 +875,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -979,7 +979,7 @@ unsafe extern "C" fn downcast_iso_trn_receiver_to_ref(mut receiver: *mut ast_t) 
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/lookup.c\0"
                         as *const u8 as *const libc::c_char,
-                    51 as libc::c_int as size_t,
+                    51 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 33], &[libc::c_char; 33]>(
                         b"downcast_iso_trn_receiver_to_ref\0",
                     ))
@@ -1006,7 +1006,7 @@ unsafe extern "C" fn lookup_nominal(
             b"ast_id(type) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/lookup.c\0" as *const u8
                 as *const libc::c_char,
-            59 as libc::c_int as size_t,
+            59 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"lookup_nominal\0"))
                 .as_ptr(),
         );
@@ -1117,7 +1117,7 @@ unsafe extern "C" fn lookup_nominal(
                             {
                                 return 0 as *mut deferred_reification_t;
                             }
-                            def_arg = ast_childidx(param, 2 as libc::c_int as size_t);
+                            def_arg = ast_childidx(param, 2 as libc::c_int as usize);
                             if !coerce_literals(&mut def_arg, type_1, opt) {
                                 return 0 as *mut deferred_reification_t;
                             }
@@ -1182,7 +1182,7 @@ unsafe extern "C" fn lookup_nominal(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/lookup.c\0"
                             as *const u8 as *const libc::c_char,
-                        180 as libc::c_int as size_t,
+                        180 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                             b"lookup_nominal\0",
                         ))
@@ -1218,7 +1218,7 @@ unsafe extern "C" fn lookup_nominal(
                             b"0\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/lookup.c\0"
                                 as *const u8 as *const libc::c_char,
-                            208 as libc::c_int as size_t,
+                            208 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 15],
                                 &[libc::c_char; 15],
@@ -1239,7 +1239,7 @@ unsafe extern "C" fn lookup_nominal(
             return 0 as *mut deferred_reification_t;
         }
     }
-    let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
     let mut orig_initial: *mut ast_t = orig;
     if ast_id(find) as libc::c_uint == TK_FUN as libc::c_int as libc::c_uint
         && ast_id(ast_child(find)) as libc::c_uint == TK_BOX as libc::c_int as libc::c_uint
@@ -1264,7 +1264,7 @@ unsafe extern "C" fn lookup_typeparam(
     mut allow_private: bool,
 ) -> *mut deferred_reification_t {
     let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;
-    let mut constraint: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
+    let mut constraint: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
     let mut constraint_def: *mut ast_t = ast_data(constraint) as *mut ast_t;
     if def == constraint_def {
         if errors {
@@ -1639,7 +1639,7 @@ unsafe extern "C" fn lookup_base(
                 opt,
                 from,
                 orig,
-                ast_childidx(type_0, 1 as libc::c_int as size_t),
+                ast_childidx(type_0, 1 as libc::c_int as usize),
                 name,
                 errors,
                 allow_private,
@@ -1668,7 +1668,7 @@ unsafe extern "C" fn lookup_base(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/lookup.c\0" as *const u8
                 as *const libc::c_char,
-            556 as libc::c_int as size_t,
+            556 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"lookup_base\0")).as_ptr(),
         );
     };

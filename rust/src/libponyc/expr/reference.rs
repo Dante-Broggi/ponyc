@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -579,11 +579,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "114:1"]
         pub fn ast_childlast(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "136:1"]
@@ -621,7 +621,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -663,10 +663,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -761,7 +761,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1062,7 +1062,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1175,7 +1175,7 @@ unsafe extern "C" fn check_provides(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            49 as libc::c_int as size_t,
+            49 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"check_provides\0"))
                 .as_ptr(),
         );
@@ -1346,7 +1346,7 @@ pub unsafe extern "C" fn expr_param(mut opt: *mut pass_opt_t, mut ast: *mut ast_
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                         as *const u8 as *const libc::c_char,
-                    178 as libc::c_int as size_t,
+                    178 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"expr_param\0"))
                         .as_ptr(),
                 );
@@ -1415,7 +1415,7 @@ unsafe extern "C" fn expr_contained_in_recover(
                         b"def != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                             as *const u8 as *const libc::c_char,
-                        230 as libc::c_int as size_t,
+                        230 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                             b"expr_contained_in_recover\0",
                         ))
@@ -1432,7 +1432,7 @@ unsafe extern "C" fn expr_contained_in_recover(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                             as *const u8 as *const libc::c_char,
-                        235 as libc::c_int as size_t,
+                        235 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                             b"expr_contained_in_recover\0",
                         ))
@@ -1519,7 +1519,7 @@ pub unsafe extern "C" fn expr_fieldref(
                 parent = ast_parent(parent);
             }
             if ast_id(parent) as libc::c_uint == TK_ASSIGN as libc::c_int as libc::c_uint
-                && ast_childidx(parent, 1 as libc::c_int as size_t) != current
+                && ast_childidx(parent, 1 as libc::c_int as usize) != current
             {
                 let mut frame_0: errorframe_t = 0 as errorframe_t;
                 ast_error_frame(
@@ -1548,7 +1548,7 @@ pub unsafe extern "C" fn expr_typeref(mut opt: *mut pass_opt_t, mut astp: *mut *
             b"ast_id(ast) == TK_TYPEREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            327 as libc::c_int as size_t,
+            327 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"expr_typeref\0")).as_ptr(),
         );
     };
@@ -1617,7 +1617,7 @@ pub unsafe extern "C" fn expr_typeref(mut opt: *mut pass_opt_t, mut astp: *mut *
                         b"ast_id(type) == TK_FUNTYPE\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                             as *const u8 as *const libc::c_char,
-                        389 as libc::c_int as size_t,
+                        389 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(
                             b"expr_typeref\0",
                         ))
@@ -1706,7 +1706,7 @@ pub unsafe extern "C" fn expr_dontcareref(mut opt: *mut pass_opt_t, mut ast: *mu
             b"ast_id(ast) == TK_DONTCAREREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            465 as libc::c_int as size_t,
+            465 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"expr_dontcareref\0"))
                 .as_ptr(),
         );
@@ -1731,7 +1731,7 @@ pub unsafe extern "C" fn expr_local(mut _opt: *mut pass_opt_t, mut ast: *mut ast
             b"ast_type(ast) != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            482 as libc::c_int as size_t,
+            482 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"expr_local\0")).as_ptr(),
         );
     };
@@ -1749,7 +1749,7 @@ pub unsafe extern "C" fn expr_localref(mut opt: *mut pass_opt_t, mut ast: *mut a
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            489 as libc::c_int as size_t,
+            489 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"expr_localref\0"))
                 .as_ptr(),
         );
@@ -1761,7 +1761,7 @@ pub unsafe extern "C" fn expr_localref(mut opt: *mut pass_opt_t, mut ast: *mut a
             b"def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            492 as libc::c_int as size_t,
+            492 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"expr_localref\0"))
                 .as_ptr(),
         );
@@ -1805,7 +1805,7 @@ pub unsafe extern "C" fn expr_localref(mut opt: *mut pass_opt_t, mut ast: *mut a
                         parent = ast_parent(parent);
                     }
                     if ast_id(parent) as libc::c_uint == TK_ASSIGN as libc::c_int as libc::c_uint
-                        && ast_childidx(parent, 1 as libc::c_int as size_t) != current
+                        && ast_childidx(parent, 1 as libc::c_int as usize) != current
                     {
                         ast_error(
                             (*opt).check.errors,
@@ -1841,7 +1841,7 @@ pub unsafe extern "C" fn expr_paramref(mut opt: *mut pass_opt_t, mut ast: *mut a
             b"ast_id(ast) == TK_PARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            556 as libc::c_int as size_t,
+            556 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"expr_paramref\0"))
                 .as_ptr(),
         );
@@ -1853,7 +1853,7 @@ pub unsafe extern "C" fn expr_paramref(mut opt: *mut pass_opt_t, mut ast: *mut a
             b"def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            559 as libc::c_int as size_t,
+            559 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"expr_paramref\0"))
                 .as_ptr(),
         );
@@ -1998,7 +1998,7 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
                         as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                         as *const u8 as *const libc::c_char,
-                    673 as libc::c_int as size_t,
+                    673 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"expr_addressof\0",
                     ))
@@ -2008,7 +2008,7 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
             let mut r_def: *mut ast_t = deferred_reify_method_def(def, (*def).ast, opt);
             let mut bare: bool =
                 ast_id(ast_child(r_def)) as libc::c_uint == TK_AT as libc::c_int as libc::c_uint;
-            let mut params: *mut ast_t = ast_childidx(r_def, 3 as libc::c_int as size_t);
+            let mut params: *mut ast_t = ast_childidx(r_def, 3 as libc::c_int as usize);
             let mut result: *mut ast_t = ast_sibling(params);
             let mut partial: *mut ast_t = ast_sibling(result);
             let mut lambdatype_params: *mut ast_t = ast_from(params, TK_NONE);
@@ -2017,7 +2017,7 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
                 let mut param: *mut ast_t = ast_child(params);
                 while !param.is_null() {
                     let mut param_type: *mut ast_t =
-                        ast_childidx(param, 1 as libc::c_int as size_t);
+                        ast_childidx(param, 1 as libc::c_int as usize);
                     ast_append(lambdatype_params, param_type);
                     param = ast_sibling(param);
                 }
@@ -2221,10 +2221,10 @@ pub unsafe extern "C" fn expr_this(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         nominal = type_0;
         arrow_0 = 0 as libc::c_int != 0;
     } else {
-        nominal = ast_childidx(type_0, 1 as libc::c_int as size_t);
+        nominal = ast_childidx(type_0, 1 as libc::c_int as usize);
         arrow_0 = 1 as libc::c_int != 0;
     }
-    let mut typeargs: *mut ast_t = ast_childidx(nominal, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx(nominal, 2 as libc::c_int as usize);
     let mut typearg: *mut ast_t = ast_child(typeargs);
     while !typearg.is_null() {
         if !expr_nominal(opt, &mut typearg) {
@@ -2260,7 +2260,7 @@ pub unsafe extern "C" fn expr_this(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
                     b"def != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                         as *const u8 as *const libc::c_char,
-                    853 as libc::c_int as size_t,
+                    853 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"expr_this\0"))
                         .as_ptr(),
                 );
@@ -2345,7 +2345,7 @@ pub unsafe extern "C" fn expr_nominal(mut opt: *mut pass_opt_t, mut astp: *mut *
             b"def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                 as *const u8 as *const libc::c_char,
-            946 as libc::c_int as size_t,
+            946 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"expr_nominal\0")).as_ptr(),
         );
     };
@@ -2354,8 +2354,8 @@ pub unsafe extern "C" fn expr_nominal(mut opt: *mut pass_opt_t, mut astp: *mut *
     {
         return 1 as libc::c_int != 0;
     }
-    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
-    let mut typeargs: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as size_t);
+    let mut typeparams: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
+    let mut typeargs: *mut ast_t = ast_childidx(ast, 2 as libc::c_int as usize);
     if !reify_defaults(typeparams, typeargs, 1 as libc::c_int != 0, opt) {
         return 0 as libc::c_int != 0;
     }
@@ -2366,7 +2366,7 @@ pub unsafe extern "C" fn expr_nominal(mut opt: *mut pass_opt_t, mut astp: *mut *
                 b"ast_childcount(typeargs) == 1\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                     as *const u8 as *const libc::c_char,
-                964 as libc::c_int as size_t,
+                964 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"expr_nominal\0"))
                     .as_ptr(),
             );
@@ -2383,7 +2383,7 @@ pub unsafe extern "C" fn expr_nominal(mut opt: *mut pass_opt_t, mut astp: *mut *
                         b"def != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                             as *const u8 as *const libc::c_char,
-                        974 as libc::c_int as size_t,
+                        974 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(
                             b"expr_nominal\0",
                         ))
@@ -2400,7 +2400,7 @@ pub unsafe extern "C" fn expr_nominal(mut opt: *mut pass_opt_t, mut astp: *mut *
                         b"def != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/reference.c\0"
                             as *const u8 as *const libc::c_char,
-                        983 as libc::c_int as size_t,
+                        983 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(
                             b"expr_nominal\0",
                         ))

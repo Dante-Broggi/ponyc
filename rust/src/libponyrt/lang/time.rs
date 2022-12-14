@@ -12,7 +12,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
     #[c2rust::src_loc = "74:1"]
     pub type wchar_t = libc::c_int;
 }
@@ -46,10 +46,10 @@ pub mod time_h {
         #[c2rust::src_loc = "116:1"]
         pub fn strftime(
             _: *mut libc::c_char,
-            _: size_t,
+            _: usize,
             _: *const libc::c_char,
             _: *const tm,
-        ) -> size_t;
+        ) -> usize;
         #[c2rust::src_loc = "127:1"]
         pub fn gmtime_r(_: *const time_t, _: *mut tm) -> *mut tm;
         #[c2rust::src_loc = "138:1"]
@@ -74,16 +74,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -123,7 +123,7 @@ pub mod pony_h {
         #[c2rust::src_loc = "183:1"]
         pub fn pony_ctx() -> *mut pony_ctx_t;
         #[c2rust::src_loc = "262:1"]
-        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: size_t) -> *mut libc::c_void;
+        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "508:1"]
         pub fn pony_error();
     }
@@ -260,7 +260,7 @@ pub unsafe extern "C" fn ponyint_formattime(
         || strcmp(fmt, b"%p\0" as *const u8 as *const libc::c_char) == 0
         || strcmp(fmt, b"%P\0" as *const u8 as *const libc::c_char) == 0
     {
-        buffer = pony_alloc(ctx, 1 as libc::c_int as size_t) as *mut libc::c_char;
+        buffer = pony_alloc(ctx, 1 as libc::c_int as usize) as *mut libc::c_char;
         *buffer.offset(0 as libc::c_int as isize) = '\0' as i32 as libc::c_char;
         return buffer;
     }
@@ -278,8 +278,8 @@ pub unsafe extern "C" fn ponyint_formattime(
         tm_zone: 0 as *mut libc::c_char,
     };
     date_to_tm(date, &mut tm);
-    let mut len: size_t = 64 as libc::c_int as size_t;
-    let mut r: size_t = 0;
+    let mut len: usize = 64 as libc::c_int as usize;
+    let mut r: usize = 0;
     while r == 0 as libc::c_int as libc::c_ulong {
         buffer = pony_alloc(ctx, len) as *mut libc::c_char;
         r = strftime(buffer, len, fmt, &mut tm);

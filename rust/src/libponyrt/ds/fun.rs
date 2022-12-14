@@ -7,7 +7,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/platform.h:1"]
 pub mod platform_h {
@@ -18,7 +18,7 @@ pub mod platform_h {
     }
     #[inline]
     #[c2rust::src_loc = "327:1"]
-    pub unsafe extern "C" fn __pony_clzzu(mut x: size_t) -> u32 {
+    pub unsafe extern "C" fn __pony_clzzu(mut x: usize) -> u32 {
         __pony_clzll(x as u64)
     }
     use super::stddef_h::size_t;
@@ -57,7 +57,7 @@ static mut the_key: [libc::c_uchar; 16] = [
 unsafe extern "C" fn siphash24(
     mut key: *const libc::c_uchar,
     mut in_0: *const libc::c_uchar,
-    mut len: size_t,
+    mut len: usize,
 ) -> u64 {
     let mut k0: u64 = *(key as *mut u64);
     let mut k1: u64 = *(key.offset(8 as libc::c_int as isize) as *mut u64);
@@ -263,23 +263,23 @@ unsafe extern "C" fn siphash24(
 }
 #[no_mangle]
 #[c2rust::src_loc = "138:1"]
-pub unsafe extern "C" fn ponyint_hash_block(mut p: *const libc::c_void, mut len: size_t) -> size_t {
-    return siphash24(the_key.as_ptr(), p as *const libc::c_uchar, len) as size_t;
+pub unsafe extern "C" fn ponyint_hash_block(mut p: *const libc::c_void, mut len: usize) -> usize {
+    return siphash24(the_key.as_ptr(), p as *const libc::c_uchar, len) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "147:1"]
-pub unsafe extern "C" fn ponyint_hash_block64(mut p: *const libc::c_void, mut len: size_t) -> u64 {
+pub unsafe extern "C" fn ponyint_hash_block64(mut p: *const libc::c_void, mut len: usize) -> u64 {
     return siphash24(the_key.as_ptr(), p as *const libc::c_uchar, len);
 }
 #[no_mangle]
 #[c2rust::src_loc = "152:1"]
-pub unsafe extern "C" fn ponyint_hash_str(mut str: *const libc::c_char) -> size_t {
-    return siphash24(the_key.as_ptr(), str as *const libc::c_uchar, strlen(str)) as size_t;
+pub unsafe extern "C" fn ponyint_hash_str(mut str: *const libc::c_char) -> usize {
+    return siphash24(the_key.as_ptr(), str as *const libc::c_uchar, strlen(str)) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "161:1"]
-pub unsafe extern "C" fn ponyint_hash_ptr(mut p: *const libc::c_void) -> size_t {
-    return ponyint_hash_int64(p as uintptr_t as u64) as size_t;
+pub unsafe extern "C" fn ponyint_hash_ptr(mut p: *const libc::c_void) -> usize {
+    return ponyint_hash_int64(p as uintptr_t as u64) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "170:1"]
@@ -312,19 +312,19 @@ pub unsafe extern "C" fn ponyint_hash_int32(mut key: u32) -> u32 {
 }
 #[no_mangle]
 #[c2rust::src_loc = "194:1"]
-pub unsafe extern "C" fn ponyint_hash_size(mut key: size_t) -> size_t {
-    return ponyint_hash_int64(key as u64) as size_t;
+pub unsafe extern "C" fn ponyint_hash_size(mut key: usize) -> usize {
+    return ponyint_hash_int64(key as u64) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "203:1"]
-pub unsafe extern "C" fn ponyint_next_pow2(mut i: size_t) -> size_t {
+pub unsafe extern "C" fn ponyint_next_pow2(mut i: usize) -> usize {
     i = i.wrapping_sub(1);
     if i == 0 as libc::c_int as libc::c_ulong {
-        i = 64 as libc::c_int as size_t;
+        i = 64 as libc::c_int as usize;
     } else {
-        i = __pony_clzzu(i) as size_t;
+        i = __pony_clzzu(i) as usize;
     }
-    return (1 as libc::c_int as size_t)
+    return (1 as libc::c_int as usize)
         << (if i == 0 as libc::c_int as libc::c_ulong {
             0 as libc::c_int as libc::c_ulong
         } else {

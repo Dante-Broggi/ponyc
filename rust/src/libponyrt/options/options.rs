@@ -28,7 +28,7 @@ pub mod options_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:3"]
 pub mod ponyassert_h {
@@ -38,7 +38,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -113,7 +113,7 @@ unsafe extern "C" fn parse_option_name(mut s: *mut opt_state_t) {
 }
 #[c2rust::src_loc = "41:1"]
 unsafe extern "C" fn find_match(mut s: *mut opt_state_t) -> *const opt_arg_t {
-    let mut match_length: size_t = 0;
+    let mut match_length: usize = 0;
     let mut match_name: *const libc::c_char = 0 as *const libc::c_char;
     let mut match_0: *const opt_arg_t = 0 as *const opt_arg_t;
     parse_option_name(s);
@@ -121,10 +121,10 @@ unsafe extern "C" fn find_match(mut s: *mut opt_state_t) -> *const opt_arg_t {
     while !end_reached(p) {
         if (*s).match_type == 1 as libc::c_int {
             match_name = (*p).long_opt;
-            match_length = ((*s).opt_end).offset_from((*s).opt_start) as libc::c_long as size_t;
+            match_length = ((*s).opt_end).offset_from((*s).opt_start) as libc::c_long as usize;
         } else {
             match_name = &(*p).short_opt;
-            match_length = 1 as libc::c_int as size_t;
+            match_length = 1 as libc::c_int as usize;
         }
         if strncmp(match_name, (*s).opt_start, match_length) == 0 {
             if (*s).match_type == 2 as libc::c_int || match_length == strlen(match_name) {
@@ -170,7 +170,7 @@ unsafe extern "C" fn strip_accepted_opts(mut s: *mut opt_state_t) {
                 b"*s->argc >= s->idx\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/options/options.c\0"
                     as *const u8 as *const libc::c_char,
-                107 as libc::c_int as size_t,
+                107 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(
                     b"strip_accepted_opts\0",
                 ))

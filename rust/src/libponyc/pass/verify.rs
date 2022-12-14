@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,7 +17,7 @@ pub mod error_h {
         #[c2rust::src_loc = "36:16"]
         pub type errors_t;
         #[c2rust::src_loc = "63:1"]
-        pub fn errors_get_count(errors: *mut errors_t) -> size_t;
+        pub fn errors_get_count(errors: *mut errors_t) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -464,26 +464,26 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "30:1"]
-        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> size_t;
+        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -491,7 +491,7 @@ pub mod hash_h {
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -500,50 +500,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -564,7 +564,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "20:1"]
         pub fn stringtab_consume(
             string: *const libc::c_char,
-            buf_size: size_t,
+            buf_size: usize,
         ) -> *const libc::c_char;
     }
 }
@@ -663,7 +663,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -705,10 +705,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -803,7 +803,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -922,7 +922,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -932,11 +932,11 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:14"]
@@ -1127,7 +1127,7 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
                     b"ast_sibling(child) == NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                         as *const u8 as *const libc::c_char,
-                    89 as libc::c_int as size_t,
+                    89 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                         b"verify_assign_lvalue\0",
                     ))
@@ -1141,7 +1141,7 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "100:1"]
-unsafe extern "C" fn funref_hash(mut key: *mut ast_t) -> size_t {
+unsafe extern "C" fn funref_hash(mut key: *mut ast_t) -> usize {
     ponyint_hash_ptr(key as *const libc::c_void)
 }
 #[c2rust::src_loc = "105:1"]
@@ -1159,7 +1159,7 @@ pub unsafe extern "C" fn consume_funs_destroy(mut map: *mut consume_funs_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
-pub unsafe extern "C" fn consume_funs_init(mut map: *mut consume_funs_t, mut size: size_t) {
+pub unsafe extern "C" fn consume_funs_init(mut map: *mut consume_funs_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -1167,7 +1167,7 @@ pub unsafe extern "C" fn consume_funs_init(mut map: *mut consume_funs_t, mut siz
 pub unsafe extern "C" fn consume_funs_putindex(
     mut map: *mut consume_funs_t,
     mut entry: *mut ast_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: consume_funs_cmp_fn =
         Some(funref_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
@@ -1181,17 +1181,17 @@ pub unsafe extern "C" fn consume_funs_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
-pub unsafe extern "C" fn consume_funs_removeindex(mut map: *mut consume_funs_t, mut index: size_t) {
+pub unsafe extern "C" fn consume_funs_removeindex(mut map: *mut consume_funs_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
-pub unsafe extern "C" fn consume_funs_clearindex(mut map: *mut consume_funs_t, mut index: size_t) {
+pub unsafe extern "C" fn consume_funs_clearindex(mut map: *mut consume_funs_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
-pub unsafe extern "C" fn consume_funs_size(mut map: *mut consume_funs_t) -> size_t {
+pub unsafe extern "C" fn consume_funs_size(mut map: *mut consume_funs_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1201,12 +1201,12 @@ pub unsafe extern "C" fn consume_funs_fill_ratio(mut map: *mut hashmap_t) -> lib
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
-pub unsafe extern "C" fn consume_funs_mem_size(mut map: *mut consume_funs_t) -> size_t {
+pub unsafe extern "C" fn consume_funs_mem_size(mut map: *mut consume_funs_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "112:1"]
-pub unsafe extern "C" fn consume_funs_alloc_size(mut map: *mut consume_funs_t) -> size_t {
+pub unsafe extern "C" fn consume_funs_alloc_size(mut map: *mut consume_funs_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1223,7 +1223,7 @@ pub unsafe extern "C" fn consume_funs_optimize(mut map: *mut consume_funs_t) {
 #[c2rust::src_loc = "112:46"]
 pub unsafe extern "C" fn consume_funs_next(
     mut map: *mut consume_funs_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut ast_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut ast_t
@@ -1263,7 +1263,7 @@ pub unsafe extern "C" fn consume_funs_put(
 pub unsafe extern "C" fn consume_funs_get(
     mut map: *mut consume_funs_t,
     mut key: *mut ast_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut ast_t {
     let mut cmpf: consume_funs_cmp_fn =
         Some(funref_cmp as unsafe extern "C" fn(*mut ast_t, *mut ast_t) -> bool);
@@ -1278,7 +1278,7 @@ pub unsafe extern "C" fn consume_funs_get(
 #[c2rust::src_loc = "123:1"]
 unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_char {
     let mut def: *mut ast_t = 0 as *mut ast_t;
-    let mut len: size_t = 0;
+    let mut len: usize = 0;
     let mut temp_ast: *mut ast_t = ast;
     def = ast_data(temp_ast) as *mut ast_t;
     while def.is_null() {
@@ -1296,7 +1296,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         temp_ast = left;
         len = (len as libc::c_ulong)
             .wrapping_add((strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
-            as size_t as size_t;
+            as usize as usize;
     }
     match ast_id(temp_ast) as libc::c_uint {
         19 => {
@@ -1313,8 +1313,8 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             );
             if ast_id(left_0) as libc::c_uint == TK_THIS as libc::c_int as libc::c_uint {
                 temp_ast = right_0;
-                len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as size_t
-                    as size_t;
+                len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize
+                    as usize;
             } else {
                 if 0 as libc::c_int != 0 {
                 } else {
@@ -1322,7 +1322,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                             as *const u8 as *const libc::c_char,
-                        151 as libc::c_int as size_t,
+                        151 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                             b"get_multi_ref_name\0",
                         ))
@@ -1334,17 +1334,17 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         193 | 192 | 194 | 184 => {
             temp_ast = ast_sibling(ast_child(temp_ast));
             len =
-                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as size_t as size_t;
+                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
         }
         198 | 197 | 196 => {
             temp_ast = ast_child(temp_ast);
             len =
-                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as size_t as size_t;
+                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
-            len = (len as libc::c_ulong).wrapping_sub(1 as libc::c_int as libc::c_ulong) as size_t
-                as size_t;
+            len = (len as libc::c_ulong).wrapping_sub(1 as libc::c_int as libc::c_ulong) as usize
+                as usize;
         }
         _ => {
             if 0 as libc::c_int != 0 {
@@ -1353,7 +1353,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                         as *const u8 as *const libc::c_char,
-                    186 as libc::c_int as size_t,
+                    186 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                         b"get_multi_ref_name\0",
                     ))
@@ -1364,20 +1364,20 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
     }
     len = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
-    let mut offset: size_t = 0;
+    let mut offset: usize = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
-    let mut slen: size_t = strlen(name);
+    let mut slen: usize = strlen(name);
     memcpy(
         buf.offset(offset as isize) as *mut libc::c_void,
         name as *const libc::c_void,
         slen,
     );
-    offset = (offset as libc::c_ulong).wrapping_add(slen) as size_t as size_t;
+    offset = (offset as libc::c_ulong).wrapping_add(slen) as usize as usize;
     temp_ast = ast_parent(temp_ast);
     while temp_ast != ast {
         *buf.offset(offset as isize) = '.' as i32 as libc::c_char;
-        offset = (offset as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as size_t
-            as size_t;
+        offset = (offset as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as usize
+            as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
         slen = strlen(name);
@@ -1386,7 +1386,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             name as *const libc::c_void,
             slen,
         );
-        offset = (offset as libc::c_ulong).wrapping_add(slen) as size_t as size_t;
+        offset = (offset as libc::c_ulong).wrapping_add(slen) as usize as usize;
         temp_ast = ast_parent(temp_ast);
     }
     if offset.wrapping_add(1 as libc::c_int as libc::c_ulong) == len {
@@ -1395,7 +1395,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             b"(offset + 1) == len\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0" as *const u8
                 as *const libc::c_char,
-            213 as libc::c_int as size_t,
+            213 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"get_multi_ref_name\0"))
                 .as_ptr(),
         );
@@ -1415,7 +1415,7 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                 as *const u8 as *const libc::c_char,
-            222 as libc::c_int as size_t,
+            222 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"get_fun_def\0"))
                 .as_ptr(),
         );
@@ -1454,7 +1454,7 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             b"method_def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0" as *const u8
                 as *const libc::c_char,
-            234 as libc::c_int as size_t,
+            234 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"get_fun_def\0")).as_ptr(),
         );
     };
@@ -1470,7 +1470,7 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                 as *const u8 as *const libc::c_char,
-            240 as libc::c_int as size_t,
+            240 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"get_fun_def\0"))
                 .as_ptr(),
         );
@@ -1511,7 +1511,7 @@ unsafe extern "C" fn verify_fun_field_not_referenced(
                 );
                 return 0 as libc::c_int != 0;
             }
-            let mut index: size_t = -(1 as libc::c_int) as size_t;
+            let mut index: usize = -(1 as libc::c_int) as usize;
             let mut fref: *mut ast_t = consume_funs_get(consume_funs_map, fun_def, &mut index);
             if fref.is_null() {
                 consume_funs_putindex(consume_funs_map, fun_def, index);
@@ -1548,7 +1548,7 @@ unsafe extern "C" fn verify_fun_field_not_referenced(
                             b"0\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                                 as *const u8 as *const libc::c_char,
-                            320 as libc::c_int as size_t,
+                            320 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 32],
                                 &[libc::c_char; 32],
@@ -1636,7 +1636,7 @@ unsafe extern "C" fn verify_consume_field_not_referenced(
     let mut tk: token_id = ast_id(ast);
     if tk as libc::c_uint == TK_CONSUME as libc::c_int as libc::c_uint {
         let mut consume_funs_map: *mut consume_funs_t =
-            ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut consume_funs_t;
+            ponyint_pool_alloc(0 as libc::c_int as usize) as *mut consume_funs_t;
         memset(
             consume_funs_map as *mut libc::c_void,
             0 as libc::c_int,
@@ -1667,7 +1667,7 @@ unsafe extern "C" fn verify_consume_field_not_referenced(
             ) {
                 consume_funs_destroy(consume_funs_map);
                 ponyint_pool_free(
-                    0 as libc::c_int as size_t,
+                    0 as libc::c_int as usize,
                     consume_funs_map as *mut libc::c_void,
                 );
                 ast_error_continue(
@@ -1681,7 +1681,7 @@ unsafe extern "C" fn verify_consume_field_not_referenced(
         }
         consume_funs_destroy(consume_funs_map);
         ponyint_pool_free(
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
             consume_funs_map as *mut libc::c_void,
         );
         return 1 as libc::c_int != 0;
@@ -1753,7 +1753,7 @@ unsafe extern "C" fn verify_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"ast_id(ast) == TK_ASSIGN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0" as *const u8
                 as *const libc::c_char,
-            505 as libc::c_int as size_t,
+            505 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"verify_assign\0"))
                 .as_ptr(),
         );
@@ -1787,7 +1787,7 @@ unsafe extern "C" fn is_creating_object(mut ast: *mut ast_t) -> bool {
             b"ast_id(ast) == TK_CALL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0" as *const u8
                 as *const libc::c_char,
-            533 as libc::c_int as size_t,
+            533 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"is_creating_object\0"))
                 .as_ptr(),
         );
@@ -1802,7 +1802,7 @@ unsafe extern "C" fn is_creating_object(mut ast: *mut ast_t) -> bool {
                     b"ast_id(receiver) == TK_TYPEREF\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                         as *const u8 as *const libc::c_char,
-                    558 as libc::c_int as size_t,
+                    558 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                         b"is_creating_object\0",
                     ))
@@ -1868,7 +1868,7 @@ unsafe extern "C" fn verify_is(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0" as *const u8
                 as *const libc::c_char,
-            611 as libc::c_int as size_t,
+            611 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"verify_is\0")).as_ptr(),
         );
     };
@@ -1940,7 +1940,7 @@ pub unsafe extern "C" fn pass_verify(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/verify.c\0"
                     as *const u8 as *const libc::c_char,
-                650 as libc::c_int as size_t,
+                650 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"pass_verify\0"))
                     .as_ptr(),
             );

@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
@@ -25,7 +25,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -485,11 +485,11 @@ pub mod token_h {
         #[c2rust::src_loc = "354:1"]
         pub fn token_source(token: *mut token_t) -> *mut source_t;
         #[c2rust::src_loc = "357:1"]
-        pub fn token_line_number(token: *mut token_t) -> size_t;
+        pub fn token_line_number(token: *mut token_t) -> usize;
         #[c2rust::src_loc = "360:1"]
-        pub fn token_line_position(token: *mut token_t) -> size_t;
+        pub fn token_line_position(token: *mut token_t) -> usize;
         #[c2rust::src_loc = "391:1"]
-        pub fn token_set_pos(token: *mut token_t, source: *mut source_t, line: size_t, pos: size_t);
+        pub fn token_set_pos(token: *mut token_t, source: *mut source_t, line: usize, pos: usize);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.h:1"]
@@ -590,8 +590,8 @@ pub mod parserapi_h {
         pub scope: bool,
         pub deferred: bool,
         pub deferred_id: token_id,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
     }
     #[c2rust::src_loc = "98:1"]
     pub type builder_fn_t = Option<unsafe extern "C" fn(*mut rule_state_t, *mut ast_t) -> ()>;
@@ -612,7 +612,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -670,13 +670,13 @@ pub mod error_h {
     use super::source_h::source_t;
     extern "C" {
         #[c2rust::src_loc = "63:1"]
-        pub fn errors_get_count(errors: *mut errors_t) -> size_t;
+        pub fn errors_get_count(errors: *mut errors_t) -> usize;
         #[c2rust::src_loc = "79:1"]
         pub fn error(
             errors: *mut errors_t,
             source: *mut source_t,
-            line: size_t,
-            pos: size_t,
+            line: usize,
+            pos: usize,
             fmt: *const libc::c_char,
             _: ...
         );
@@ -684,8 +684,8 @@ pub mod error_h {
         pub fn error_continue(
             errors: *mut errors_t,
             source: *mut source_t,
-            line: size_t,
-            pos: size_t,
+            line: usize,
+            pos: usize,
             fmt: *const libc::c_char,
             _: ...
         );
@@ -696,9 +696,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 pub use self::_size_t_h::size_t;
@@ -819,7 +819,7 @@ unsafe extern "C" fn syntax_error(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            73 as libc::c_int as size_t,
+            73 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_error\0")).as_ptr(),
         );
     };
@@ -829,7 +829,7 @@ unsafe extern "C" fn syntax_error(
             b"expected != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            74 as libc::c_int as size_t,
+            74 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_error\0")).as_ptr(),
         );
     };
@@ -839,7 +839,7 @@ unsafe extern "C" fn syntax_error(
             b"parser->token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            75 as libc::c_int as size_t,
+            75 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_error\0")).as_ptr(),
         );
     };
@@ -868,7 +868,7 @@ unsafe extern "C" fn syntax_error(
                 b"ast != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0"
                     as *const u8 as *const libc::c_char,
-                92 as libc::c_int as size_t,
+                92 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"syntax_error\0"))
                     .as_ptr(),
             );
@@ -897,7 +897,7 @@ unsafe extern "C" fn default_builder(mut state: *mut rule_state_t, mut new_ast: 
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            108 as libc::c_int as size_t,
+            108 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"default_builder\0"))
                 .as_ptr(),
         );
@@ -908,7 +908,7 @@ unsafe extern "C" fn default_builder(mut state: *mut rule_state_t, mut new_ast: 
             b"new_ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            109 as libc::c_int as size_t,
+            109 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"default_builder\0"))
                 .as_ptr(),
         );
@@ -942,7 +942,7 @@ pub unsafe extern "C" fn infix_builder(mut state: *mut rule_state_t, mut new_ast
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            136 as libc::c_int as size_t,
+            136 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"infix_builder\0"))
                 .as_ptr(),
         );
@@ -953,7 +953,7 @@ pub unsafe extern "C" fn infix_builder(mut state: *mut rule_state_t, mut new_ast
             b"new_ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            137 as libc::c_int as size_t,
+            137 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"infix_builder\0"))
                 .as_ptr(),
         );
@@ -976,7 +976,7 @@ pub unsafe extern "C" fn infix_reverse_builder(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            148 as libc::c_int as size_t,
+            148 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"infix_reverse_builder\0"))
                 .as_ptr(),
         );
@@ -987,7 +987,7 @@ pub unsafe extern "C" fn infix_reverse_builder(
             b"new_ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            149 as libc::c_int as size_t,
+            149 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"infix_reverse_builder\0"))
                 .as_ptr(),
         );
@@ -1004,7 +1004,7 @@ unsafe extern "C" fn annotation_builder(mut state: *mut rule_state_t, mut new_as
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            161 as libc::c_int as size_t,
+            161 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"annotation_builder\0"))
                 .as_ptr(),
         );
@@ -1015,7 +1015,7 @@ unsafe extern "C" fn annotation_builder(mut state: *mut rule_state_t, mut new_as
             b"new_ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            162 as libc::c_int as size_t,
+            162 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"annotation_builder\0"))
                 .as_ptr(),
         );
@@ -1030,7 +1030,7 @@ unsafe extern "C" fn process_deferred_ast(mut parser: *mut parser_t, mut state: 
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            173 as libc::c_int as size_t,
+            173 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"process_deferred_ast\0"))
                 .as_ptr(),
         );
@@ -1041,7 +1041,7 @@ unsafe extern "C" fn process_deferred_ast(mut parser: *mut parser_t, mut state: 
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            174 as libc::c_int as size_t,
+            174 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"process_deferred_ast\0"))
                 .as_ptr(),
         );
@@ -1072,7 +1072,7 @@ unsafe extern "C" fn add_ast(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            190 as libc::c_int as size_t,
+            190 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"add_ast\0")).as_ptr(),
         );
     };
@@ -1082,7 +1082,7 @@ unsafe extern "C" fn add_ast(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            191 as libc::c_int as size_t,
+            191 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"add_ast\0")).as_ptr(),
         );
     };
@@ -1092,7 +1092,7 @@ unsafe extern "C" fn add_ast(
             b"new_ast != NULL && new_ast != PARSE_ERROR\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            192 as libc::c_int as size_t,
+            192 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"add_ast\0")).as_ptr(),
         );
     };
@@ -1102,7 +1102,7 @@ unsafe extern "C" fn add_ast(
             b"build_fn != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            193 as libc::c_int as size_t,
+            193 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"add_ast\0")).as_ptr(),
         );
     };
@@ -1133,7 +1133,7 @@ pub unsafe extern "C" fn add_deferrable_ast(
             b"token_for_pos != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            218 as libc::c_int as size_t,
+            218 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"add_deferrable_ast\0"))
                 .as_ptr(),
         );
@@ -1160,7 +1160,7 @@ unsafe extern "C" fn ditch_restart(mut parser: *mut parser_t, mut state: *mut ru
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            238 as libc::c_int as size_t,
+            238 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"ditch_restart\0"))
                 .as_ptr(),
         );
@@ -1171,7 +1171,7 @@ unsafe extern "C" fn ditch_restart(mut parser: *mut parser_t, mut state: *mut ru
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            239 as libc::c_int as size_t,
+            239 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"ditch_restart\0"))
                 .as_ptr(),
         );
@@ -1182,7 +1182,7 @@ unsafe extern "C" fn ditch_restart(mut parser: *mut parser_t, mut state: *mut ru
             b"state->restart != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            240 as libc::c_int as size_t,
+            240 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"ditch_restart\0"))
                 .as_ptr(),
         );
@@ -1233,7 +1233,7 @@ unsafe extern "C" fn propogate_error(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            274 as libc::c_int as size_t,
+            274 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"propogate_error\0"))
                 .as_ptr(),
         );
@@ -1244,7 +1244,7 @@ unsafe extern "C" fn propogate_error(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            275 as libc::c_int as size_t,
+            275 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"propogate_error\0"))
                 .as_ptr(),
         );
@@ -1280,7 +1280,7 @@ unsafe extern "C" fn handle_found(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            306 as libc::c_int as size_t,
+            306 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"handle_found\0")).as_ptr(),
         );
     };
@@ -1290,7 +1290,7 @@ unsafe extern "C" fn handle_found(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            307 as libc::c_int as size_t,
+            307 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"handle_found\0")).as_ptr(),
         );
     };
@@ -1327,7 +1327,7 @@ unsafe extern "C" fn handle_not_found(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            342 as libc::c_int as size_t,
+            342 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"handle_not_found\0"))
                 .as_ptr(),
         );
@@ -1338,7 +1338,7 @@ unsafe extern "C" fn handle_not_found(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            343 as libc::c_int as size_t,
+            343 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"handle_not_found\0"))
                 .as_ptr(),
         );
@@ -1349,7 +1349,7 @@ unsafe extern "C" fn handle_not_found(
             b"desc != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            344 as libc::c_int as size_t,
+            344 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"handle_not_found\0"))
                 .as_ptr(),
         );
@@ -1412,7 +1412,7 @@ pub unsafe extern "C" fn parse_token_set(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            410 as libc::c_int as size_t,
+            410 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"parse_token_set\0"))
                 .as_ptr(),
         );
@@ -1423,7 +1423,7 @@ pub unsafe extern "C" fn parse_token_set(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            411 as libc::c_int as size_t,
+            411 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"parse_token_set\0"))
                 .as_ptr(),
         );
@@ -1434,7 +1434,7 @@ pub unsafe extern "C" fn parse_token_set(
             b"id_set != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            412 as libc::c_int as size_t,
+            412 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"parse_token_set\0"))
                 .as_ptr(),
         );
@@ -1476,15 +1476,15 @@ pub unsafe extern "C" fn parse_token_set(
                     b"parser->token != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0"
                         as *const u8 as *const libc::c_char,
-                    436 as libc::c_int as size_t,
+                    436 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"parse_token_set\0",
                     ))
                     .as_ptr(),
                 );
             };
-            let mut last_token_line: size_t = token_line_number((*parser).last_token);
-            let mut next_token_line: size_t = token_line_number((*parser).token);
+            let mut last_token_line: usize = token_line_number((*parser).last_token);
+            let mut next_token_line: usize = token_line_number((*parser).token);
             let mut is_newline: bool = next_token_line != last_token_line;
             if !out_found.is_null() {
                 *out_found = is_newline;
@@ -1553,7 +1553,7 @@ pub unsafe extern "C" fn parse_rule_set(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            492 as libc::c_int as size_t,
+            492 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"parse_rule_set\0"))
                 .as_ptr(),
         );
@@ -1564,7 +1564,7 @@ pub unsafe extern "C" fn parse_rule_set(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            493 as libc::c_int as size_t,
+            493 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"parse_rule_set\0"))
                 .as_ptr(),
         );
@@ -1575,7 +1575,7 @@ pub unsafe extern "C" fn parse_rule_set(
             b"desc != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            494 as libc::c_int as size_t,
+            494 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"parse_rule_set\0"))
                 .as_ptr(),
         );
@@ -1586,7 +1586,7 @@ pub unsafe extern "C" fn parse_rule_set(
             b"rule_set != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            495 as libc::c_int as size_t,
+            495 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"parse_rule_set\0"))
                 .as_ptr(),
         );
@@ -1643,7 +1643,7 @@ pub unsafe extern "C" fn parse_set_next_flags(mut parser: *mut parser_t, mut fla
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            534 as libc::c_int as size_t,
+            534 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"parse_set_next_flags\0"))
                 .as_ptr(),
         );
@@ -1662,7 +1662,7 @@ pub unsafe extern "C" fn parse_rule_complete(
             b"parser != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            550 as libc::c_int as size_t,
+            550 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"parse_rule_complete\0"))
                 .as_ptr(),
         );
@@ -1673,7 +1673,7 @@ pub unsafe extern "C" fn parse_rule_complete(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            551 as libc::c_int as size_t,
+            551 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"parse_rule_complete\0"))
                 .as_ptr(),
         );
@@ -1728,7 +1728,7 @@ pub unsafe extern "C" fn parse_rule_complete(
             b"parser->token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            587 as libc::c_int as size_t,
+            587 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"parse_rule_complete\0"))
                 .as_ptr(),
         );
@@ -1764,7 +1764,7 @@ pub unsafe extern "C" fn parse(
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            605 as libc::c_int as size_t,
+            605 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"parse\0")).as_ptr(),
         );
     };
@@ -1774,7 +1774,7 @@ pub unsafe extern "C" fn parse(
             b"source != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            606 as libc::c_int as size_t,
+            606 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"parse\0")).as_ptr(),
         );
     };
@@ -1784,7 +1784,7 @@ pub unsafe extern "C" fn parse(
             b"expected != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            607 as libc::c_int as size_t,
+            607 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"parse\0")).as_ptr(),
         );
     };
@@ -1792,7 +1792,7 @@ pub unsafe extern "C" fn parse(
     if lexer.is_null() {
         return 0 as libc::c_int != 0;
     }
-    let mut parser: *mut parser_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut parser_t;
+    let mut parser: *mut parser_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut parser_t;
     let ref mut fresh14 = (*parser).source;
     *fresh14 = source;
     let ref mut fresh15 = (*parser).lexer;
@@ -1809,7 +1809,7 @@ pub unsafe extern "C" fn parse(
     let ref mut fresh19 = (*parser).errors;
     *fresh19 = errors;
     (*parser).trace_enable = trace;
-    let error_count: size_t = errors_get_count(errors);
+    let error_count: usize = errors_get_count(errors);
     let mut build_fn: builder_fn_t = None;
     let mut ast: *mut ast_t =
         start.expect("non-null function pointer")(parser, &mut build_fn, expected);
@@ -1830,7 +1830,7 @@ pub unsafe extern "C" fn parse(
     }
     lexer_close(lexer);
     token_free((*parser).token);
-    ponyint_pool_free(1 as libc::c_int as size_t, parser as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, parser as *mut libc::c_void);
     if ast.is_null() {
         source_close(source);
         return 0 as libc::c_int != 0;
@@ -1841,7 +1841,7 @@ pub unsafe extern "C" fn parse(
             b"ast_id(ast) == TK_MODULE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            665 as libc::c_int as size_t,
+            665 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"parse\0")).as_ptr(),
         );
     };
@@ -1851,7 +1851,7 @@ pub unsafe extern "C" fn parse(
             b"ast_data(ast) == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parserapi.c\0" as *const u8
                 as *const libc::c_char,
-            666 as libc::c_int as size_t,
+            666 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"parse\0")).as_ptr(),
         );
     };

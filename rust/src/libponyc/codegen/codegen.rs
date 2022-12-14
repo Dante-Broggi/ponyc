@@ -12,7 +12,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "49:1"]
     pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
     #[c2rust::src_loc = "122:1"]
     pub type __darwin_time_t = libc::c_long;
 }
@@ -38,7 +38,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:1"]
@@ -395,7 +395,7 @@ pub mod Core_h {
         #[c2rust::src_loc = "589:1"]
         pub fn LLVMGetEnumAttributeKindForName(
             Name: *const libc::c_char,
-            SLen: size_t,
+            SLen: usize,
         ) -> libc::c_uint;
         #[c2rust::src_loc = "595:1"]
         pub fn LLVMCreateEnumAttribute(
@@ -819,29 +819,29 @@ pub mod DebugInfo_h {
             Lang: LLVMDWARFSourceLanguage,
             FileRef: LLVMMetadataRef,
             Producer: *const libc::c_char,
-            ProducerLen: size_t,
+            ProducerLen: usize,
             isOptimized: LLVMBool,
             Flags: *const libc::c_char,
-            FlagsLen: size_t,
+            FlagsLen: usize,
             RuntimeVer: libc::c_uint,
             SplitName: *const libc::c_char,
-            SplitNameLen: size_t,
+            SplitNameLen: usize,
             Kind: LLVMDWARFEmissionKind,
             DWOId: libc::c_uint,
             SplitDebugInlining: LLVMBool,
             DebugInfoForProfiling: LLVMBool,
             SysRoot: *const libc::c_char,
-            SysRootLen: size_t,
+            SysRootLen: usize,
             SDK: *const libc::c_char,
-            SDKLen: size_t,
+            SDKLen: usize,
         ) -> LLVMMetadataRef;
         #[c2rust::src_loc = "292:1"]
         pub fn LLVMDIBuilderCreateFile(
             Builder: LLVMDIBuilderRef,
             Filename: *const libc::c_char,
-            FilenameLen: size_t,
+            FilenameLen: usize,
             Directory: *const libc::c_char,
-            DirectoryLen: size_t,
+            DirectoryLen: usize,
         ) -> LLVMMetadataRef;
         #[c2rust::src_loc = "366:1"]
         pub fn LLVMDIBuilderCreateLexicalBlock(
@@ -867,8 +867,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -877,15 +877,15 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::_size_t_h::size_t;
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -894,50 +894,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -965,7 +965,7 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "30:1"]
-        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> size_t;
+        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/symtab.h:1"]
@@ -1008,7 +1008,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "20:1"]
         pub fn stringtab_consume(
             string: *const libc::c_char,
-            buf_size: size_t,
+            buf_size: usize,
         ) -> *const libc::c_char;
     }
 }
@@ -1049,10 +1049,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -1147,7 +1147,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1418,11 +1418,11 @@ pub mod codegen_h {
         #[c2rust::src_loc = "74:1"]
         pub fn ffi_decls_destroy(map: *mut ffi_decls_t);
         #[c2rust::src_loc = "74:1"]
-        pub fn ffi_decls_init(map: *mut ffi_decls_t, size: size_t);
+        pub fn ffi_decls_init(map: *mut ffi_decls_t, size: usize);
         #[c2rust::src_loc = "68:1"]
         pub fn genned_strings_destroy(map: *mut genned_strings_t);
         #[c2rust::src_loc = "68:1"]
-        pub fn genned_strings_init(map: *mut genned_strings_t, size: size_t);
+        pub fn genned_strings_init(map: *mut genned_strings_t, size: usize);
         #[c2rust::src_loc = "43:1"]
         pub fn LLVMBuildCall_P(
             B: LLVMBuilderRef,
@@ -1564,9 +1564,9 @@ pub mod ast_h {
     use super::symtab_h::{ast_t, sym_status_t};
     extern "C" {
         #[c2rust::src_loc = "74:1"]
-        pub fn ast_line(ast: *mut ast_t) -> size_t;
+        pub fn ast_line(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "75:1"]
-        pub fn ast_pos(ast: *mut ast_t) -> size_t;
+        pub fn ast_pos(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
@@ -1706,13 +1706,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Initialization.h:20"]
@@ -1958,7 +1958,7 @@ pub type compile_locals_free_fn = Option<unsafe extern "C" fn(*mut compile_local
 pub type compile_locals_cmp_fn =
     Option<unsafe extern "C" fn(*mut compile_local_t, *mut compile_local_t) -> bool>;
 #[c2rust::src_loc = "32:1"]
-unsafe extern "C" fn compile_local_hash(mut p: *mut compile_local_t) -> size_t {
+unsafe extern "C" fn compile_local_hash(mut p: *mut compile_local_t) -> usize {
     ponyint_hash_ptr((*p).name as *const libc::c_void)
 }
 #[c2rust::src_loc = "37:1"]
@@ -1970,7 +1970,7 @@ unsafe extern "C" fn compile_local_cmp(
 }
 #[c2rust::src_loc = "42:1"]
 unsafe extern "C" fn compile_local_free(mut p: *mut compile_local_t) {
-    ponyint_pool_free(0 as libc::c_int as size_t, p as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, p as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
@@ -1984,20 +1984,20 @@ pub unsafe extern "C" fn compile_locals_destroy(mut map: *mut compile_locals_t) 
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
-pub unsafe extern "C" fn compile_locals_init(mut map: *mut compile_locals_t, mut size: size_t) {
+pub unsafe extern "C" fn compile_locals_init(mut map: *mut compile_locals_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn compile_locals_removeindex(
     mut map: *mut compile_locals_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
-pub unsafe extern "C" fn compile_locals_alloc_size(mut map: *mut compile_locals_t) -> size_t {
+pub unsafe extern "C" fn compile_locals_alloc_size(mut map: *mut compile_locals_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2009,7 +2009,7 @@ pub unsafe extern "C" fn compile_locals_fill_ratio(mut map: *mut hashmap_t) -> l
 #[c2rust::src_loc = "47:1"]
 pub unsafe extern "C" fn compile_locals_clearindex(
     mut map: *mut compile_locals_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -2018,7 +2018,7 @@ pub unsafe extern "C" fn compile_locals_clearindex(
 pub unsafe extern "C" fn compile_locals_putindex(
     mut map: *mut compile_locals_t,
     mut entry: *mut compile_local_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: compile_locals_cmp_fn = Some(
         compile_local_cmp
@@ -2046,12 +2046,12 @@ pub unsafe extern "C" fn compile_locals_optimize(mut map: *mut compile_locals_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
-pub unsafe extern "C" fn compile_locals_mem_size(mut map: *mut compile_locals_t) -> size_t {
+pub unsafe extern "C" fn compile_locals_mem_size(mut map: *mut compile_locals_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "47:1"]
-pub unsafe extern "C" fn compile_locals_size(mut map: *mut compile_locals_t) -> size_t {
+pub unsafe extern "C" fn compile_locals_size(mut map: *mut compile_locals_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2075,7 +2075,7 @@ pub unsafe extern "C" fn compile_locals_remove(
 #[c2rust::src_loc = "47:50"]
 pub unsafe extern "C" fn compile_locals_next(
     mut map: *mut compile_locals_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut compile_local_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -2103,7 +2103,7 @@ pub unsafe extern "C" fn compile_locals_put(
 pub unsafe extern "C" fn compile_locals_get(
     mut map: *mut compile_locals_t,
     mut key: *mut compile_local_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut compile_local_t {
     let mut cmpf: compile_locals_cmp_fn = Some(
         compile_local_cmp
@@ -2127,13 +2127,13 @@ unsafe extern "C" fn fatal_error(mut reason: *const libc::c_char) {
 #[c2rust::src_loc = "55:1"]
 unsafe extern "C" fn push_frame(mut c: *mut compile_t) -> *mut compile_frame_t {
     let mut frame: *mut compile_frame_t =
-        ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut compile_frame_t;
+        ponyint_pool_alloc(2 as libc::c_int as usize) as *mut compile_frame_t;
     memset(
         frame as *mut libc::c_void,
         0 as libc::c_int,
         ::core::mem::size_of::<compile_frame_t>() as libc::c_ulong,
     );
-    compile_locals_init(&mut (*frame).locals, 0 as libc::c_int as size_t);
+    compile_locals_init(&mut (*frame).locals, 0 as libc::c_int as usize);
     if !((*c).frame).is_null() {
         let ref mut fresh0 = (*frame).prev;
         *fresh0 = (*c).frame;
@@ -2148,7 +2148,7 @@ unsafe extern "C" fn pop_frame(mut c: *mut compile_t) {
     compile_locals_destroy(&mut (*frame).locals);
     let ref mut fresh2 = (*c).frame;
     *fresh2 = (*frame).prev;
-    ponyint_pool_free(2 as libc::c_int as size_t, frame as *mut libc::c_void);
+    ponyint_pool_free(2 as libc::c_int as usize, frame as *mut libc::c_void);
 }
 #[c2rust::src_loc = "77:1"]
 unsafe extern "C" fn make_machine(mut opt: *mut pass_opt_t) -> LLVMTargetMachineRef {
@@ -3457,15 +3457,15 @@ unsafe extern "C" fn init_module(
         },
         0 as libc::c_int as libc::c_uint,
         b"\0" as *const u8 as *const libc::c_char,
-        0 as libc::c_int as size_t,
+        0 as libc::c_int as usize,
         LLVMDWARFEmissionFull,
         0 as libc::c_int as libc::c_uint,
         0 as libc::c_int,
         0 as libc::c_int,
         b"\0" as *const u8 as *const libc::c_char,
-        0 as libc::c_int as size_t,
+        0 as libc::c_int as usize,
         b"\0" as *const u8 as *const libc::c_char,
-        0 as libc::c_int as size_t,
+        0 as libc::c_int as usize,
     );
     let ref mut fresh108 = (*c).frame;
     *fresh108 = 0 as *mut compile_frame_t;
@@ -3520,18 +3520,18 @@ unsafe extern "C" fn process_llvm_args(mut opt: *mut pass_opt_t) {
     if ((*opt).llvm_args).is_null() {
         return;
     }
-    let mut raw_opt_str_size: size_t =
+    let mut raw_opt_str_size: usize =
         (strlen((*opt).llvm_args)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buffer: *mut libc::c_char = malloc(
         (::core::mem::size_of::<libc::c_char>() as libc::c_ulong).wrapping_mul(raw_opt_str_size),
     ) as *mut libc::c_char;
     strncpy(buffer, (*opt).llvm_args, raw_opt_str_size);
-    let mut argv_buf_size: size_t = 4 as libc::c_int as size_t;
+    let mut argv_buf_size: usize = 4 as libc::c_int as usize;
     let mut argv_buffer: *mut *const libc::c_char = malloc(
         (::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong)
             .wrapping_mul(argv_buf_size),
     ) as *mut *const libc::c_char;
-    let mut token_counter: size_t = 0;
+    let mut token_counter: usize = 0;
     let fresh111 = token_counter;
     token_counter = token_counter.wrapping_add(1);
     let ref mut fresh112 = *argv_buffer.offset(fresh111 as isize);
@@ -3802,8 +3802,8 @@ pub unsafe extern "C" fn codegen(mut program: *mut ast_t, mut opt: *mut pass_opt
         0 as libc::c_int,
         ::core::mem::size_of::<compile_t>() as libc::c_ulong,
     );
-    genned_strings_init(&mut c.strings, 64 as libc::c_int as size_t);
-    ffi_decls_init(&mut c.ffi_decls, 64 as libc::c_int as size_t);
+    genned_strings_init(&mut c.strings, 64 as libc::c_int as usize);
+    ffi_decls_init(&mut c.ffi_decls, 64 as libc::c_int as usize);
     if !init_module(&mut c, program, opt) {
         return 0 as libc::c_int != 0;
     }
@@ -3827,8 +3827,8 @@ pub unsafe extern "C" fn codegen_gen_test(
             0 as libc::c_int,
             ::core::mem::size_of::<compile_t>() as libc::c_ulong,
         );
-        genned_strings_init(&mut (*c).strings, 64 as libc::c_int as size_t);
-        ffi_decls_init(&mut (*c).ffi_decls, 64 as libc::c_int as size_t);
+        genned_strings_init(&mut (*c).strings, 64 as libc::c_int as usize);
+        ffi_decls_init(&mut (*c).ffi_decls, 64 as libc::c_int as usize);
         if !init_module(c, program, opt) {
             return 0 as libc::c_int != 0;
         }
@@ -3917,7 +3917,7 @@ pub unsafe extern "C" fn codegen_addfun(
             if LLVMGetTypeKind(elem) as libc::c_uint
                 == LLVMStructTypeKind as libc::c_int as libc::c_uint
             {
-                let mut size: size_t = LLVMABISizeOfType((*c).target_data, elem) as size_t;
+                let mut size: usize = LLVMABISizeOfType((*c).target_data, elem) as usize;
                 let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
                 let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
                     b"dereferenceable\0" as *const u8 as *const libc::c_char,
@@ -4014,7 +4014,7 @@ pub unsafe extern "C" fn codegen_local_lifetime_start(
         alive: false,
     };
     k.name = name;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     while !frame.is_null() {
         let mut p: *mut compile_local_t =
             compile_locals_get(&mut (*frame).locals, &mut k, &mut index);
@@ -4042,7 +4042,7 @@ pub unsafe extern "C" fn codegen_local_lifetime_end(
         alive: false,
     };
     k.name = name;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     while !frame.is_null() {
         let mut p: *mut compile_local_t =
             compile_locals_get(&mut (*frame).locals, &mut k, &mut index);
@@ -4062,7 +4062,7 @@ pub unsafe extern "C" fn codegen_local_lifetime_end(
 pub unsafe extern "C" fn codegen_scope_lifetime_end(mut c: *mut compile_t) {
     if !(*(*c).frame).early_termination {
         let mut frame: *mut compile_frame_t = (*c).frame;
-        let mut i: size_t = -(1 as libc::c_int) as size_t;
+        let mut i: usize = -(1 as libc::c_int) as usize;
         let mut p: *mut compile_local_t = 0 as *mut compile_local_t;
         loop {
             p = compile_locals_next(&mut (*frame).locals, &mut i);
@@ -4177,7 +4177,7 @@ pub unsafe extern "C" fn codegen_getlocal(
         alive: false,
     };
     k.name = name;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     while !frame.is_null() {
         let mut p: *mut compile_local_t =
             compile_locals_get(&mut (*frame).locals, &mut k, &mut index);
@@ -4199,7 +4199,7 @@ pub unsafe extern "C" fn codegen_setlocal(
     mut alloca: LLVMValueRef,
 ) {
     let mut p: *mut compile_local_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut compile_local_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut compile_local_t;
     let ref mut fresh153 = (*p).name;
     *fresh153 = name;
     let ref mut fresh154 = (*p).alloca;
@@ -4264,7 +4264,7 @@ pub unsafe extern "C" fn codegen_call(
     mut c: *mut compile_t,
     mut fun: LLVMValueRef,
     mut args: *mut LLVMValueRef,
-    mut count: size_t,
+    mut count: usize,
     mut setcc: bool,
 ) -> LLVMValueRef {
     let mut result: LLVMValueRef = LLVMBuildCall_P(
@@ -4284,7 +4284,7 @@ pub unsafe extern "C" fn codegen_call(
 pub unsafe extern "C" fn codegen_string(
     mut c: *mut compile_t,
     mut str: *const libc::c_char,
-    mut len: size_t,
+    mut len: usize,
 ) -> LLVMValueRef {
     let mut str_val: LLVMValueRef = LLVMConstStringInContext(
         (*c).context,
@@ -4324,7 +4324,7 @@ pub unsafe extern "C" fn suffix_filename(
     mut file: *const libc::c_char,
     mut extension: *const libc::c_char,
 ) -> *const libc::c_char {
-    let mut len: size_t = (strlen(dir))
+    let mut len: usize = (strlen(dir))
         .wrapping_add(strlen(prefix))
         .wrapping_add(strlen(file))
         .wrapping_add(strlen(extension))

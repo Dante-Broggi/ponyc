@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/stack.h:1"]
 pub mod stack_h {
@@ -20,9 +20,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:3"]
@@ -33,7 +33,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -44,7 +44,7 @@ pub use self::stack_h::Stack;
 pub use self::stddef_h::size_t;
 #[c2rust::src_loc = "5:1"]
 unsafe extern "C" fn stack_new(mut prev: *mut Stack, mut data: *mut libc::c_void) -> *mut Stack {
-    let mut stack: *mut Stack = ponyint_pool_alloc(4 as libc::c_int as size_t) as *mut Stack;
+    let mut stack: *mut Stack = ponyint_pool_alloc(4 as libc::c_int as usize) as *mut Stack;
     (*stack).index = 1 as libc::c_int;
     let ref mut fresh0 = (*stack).data[0 as libc::c_int as usize];
     *fresh0 = data;
@@ -64,7 +64,7 @@ pub unsafe extern "C" fn ponyint_stack_pop(
             b"stack != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/stack.c\0" as *const u8
                 as *const libc::c_char,
-            17 as libc::c_int as size_t,
+            17 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_stack_pop\0"))
                 .as_ptr(),
         );
@@ -75,7 +75,7 @@ pub unsafe extern "C" fn ponyint_stack_pop(
             b"data != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/stack.c\0" as *const u8
                 as *const libc::c_char,
-            18 as libc::c_int as size_t,
+            18 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_stack_pop\0"))
                 .as_ptr(),
         );
@@ -85,7 +85,7 @@ pub unsafe extern "C" fn ponyint_stack_pop(
     *data = (*stack).data[(*stack).index as usize];
     if (*stack).index == 0 as libc::c_int {
         let mut prev: *mut Stack = (*stack).prev;
-        ponyint_pool_free(4 as libc::c_int as size_t, stack as *mut libc::c_void);
+        ponyint_pool_free(4 as libc::c_int as usize, stack as *mut libc::c_void);
         return prev;
     }
     stack

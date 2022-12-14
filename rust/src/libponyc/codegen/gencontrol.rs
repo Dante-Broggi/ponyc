@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -339,8 +339,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -792,20 +792,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -888,23 +888,23 @@ pub mod ast_h {
         #[c2rust::src_loc = "105:1"]
         pub fn ast_has_annotation(ast: *mut ast_t, name: *const libc::c_char) -> bool;
         #[c2rust::src_loc = "109:1"]
-        pub fn ast_error_handling_clause(ast: *mut ast_t, clause: *mut size_t) -> *mut ast_t;
+        pub fn ast_error_handling_clause(ast: *mut ast_t, clause: *mut usize) -> *mut ast_t;
         #[c2rust::src_loc = "111:1"]
         pub fn ast_parent(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "118:1"]
-        pub fn ast_index(ast: *mut ast_t) -> size_t;
+        pub fn ast_index(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "147:1"]
         pub fn ast_free_unattached(ast: *mut ast_t);
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -946,10 +946,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -1044,7 +1044,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1117,7 +1117,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1413,7 +1413,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1493,11 +1493,11 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "34:1"]
-        pub fn ponyint_pool_index(size: size_t) -> size_t;
+        pub fn ponyint_pool_index(size: usize) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:9"]
@@ -1508,7 +1508,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -2044,7 +2044,7 @@ pub unsafe extern "C" fn gen_repeat(mut c: *mut compile_t, mut ast: *mut ast_t) 
 #[no_mangle]
 #[c2rust::src_loc = "451:1"]
 pub unsafe extern "C" fn gen_recover(mut c: *mut compile_t, mut ast: *mut ast_t) -> LLVMValueRef {
-    let mut body: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as size_t);
+    let mut body: *mut ast_t = ast_childidx(ast, 1 as libc::c_int as usize);
     let mut ret: LLVMValueRef = gen_expr(c, body);
     if is_result_needed(ast) {
         let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -2070,7 +2070,7 @@ unsafe extern "C" fn gen_then_clauses(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/gencontrol.c\0"
                 as *const u8 as *const libc::c_char,
-            474 as libc::c_int as size_t,
+            474 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"gen_then_clauses\0"))
                 .as_ptr(),
         );
@@ -2087,12 +2087,12 @@ unsafe extern "C" fn gen_then_clauses(
             88 | 90 | 89 => return,
             124 | 125 => {
                 if ast_index(last) != 2 as libc::c_int as libc::c_ulong {
-                    gen_expr(c, ast_childidx(parent, 2 as libc::c_int as size_t));
+                    gen_expr(c, ast_childidx(parent, 2 as libc::c_int as usize));
                 }
             }
             206 => {
                 if ast_index(last) != 1 as libc::c_int as libc::c_ulong {
-                    gen_expr(c, ast_childidx(parent, 1 as libc::c_int as size_t));
+                    gen_expr(c, ast_childidx(parent, 1 as libc::c_int as usize));
                 }
             }
             _ => {}
@@ -2476,7 +2476,7 @@ pub unsafe extern "C" fn gen_disposing_block(
 #[no_mangle]
 #[c2rust::src_loc = "895:1"]
 pub unsafe extern "C" fn gen_error(mut c: *mut compile_t, mut ast: *mut ast_t) -> LLVMValueRef {
-    let mut clause: size_t = 0;
+    let mut clause: usize = 0;
     let mut error_handler_expr: *mut ast_t = ast_error_handling_clause(ast, &mut clause);
     if !error_handler_expr.is_null() {
         match ast_id(error_handler_expr) as libc::c_uint {
@@ -2484,7 +2484,7 @@ pub unsafe extern "C" fn gen_error(mut c: *mut compile_t, mut ast: *mut ast_t) -
                 if !error_handler_expr.is_null() && clause == 1 as libc::c_int as libc::c_ulong {
                     gen_expr(
                         c,
-                        ast_childidx(error_handler_expr, 2 as libc::c_int as size_t),
+                        ast_childidx(error_handler_expr, 2 as libc::c_int as usize),
                     );
                 }
             }
@@ -2492,7 +2492,7 @@ pub unsafe extern "C" fn gen_error(mut c: *mut compile_t, mut ast: *mut ast_t) -
                 if !error_handler_expr.is_null() && clause == 0 as libc::c_int as libc::c_ulong {
                     gen_expr(
                         c,
-                        ast_childidx(error_handler_expr, 1 as libc::c_int as size_t),
+                        ast_childidx(error_handler_expr, 1 as libc::c_int as usize),
                     );
                 }
             }
@@ -2513,7 +2513,7 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
     mut weights: *mut libc::c_uint,
     mut count: libc::c_uint,
 ) {
-    let mut alloc_index: size_t = ponyint_pool_index(
+    let mut alloc_index: usize = ponyint_pool_index(
         (count.wrapping_add(1 as libc::c_int as libc::c_uint) as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong),
     );
@@ -2527,7 +2527,7 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
         (::core::mem::size_of::<[libc::c_char; 15]>() as libc::c_ulong)
             .wrapping_sub(1 as libc::c_int as libc::c_ulong) as libc::c_uint,
     );
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < count as libc::c_ulong {
         let ref mut fresh1 =
             *params.offset(i.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize);

@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -70,10 +70,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -168,7 +168,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -809,14 +809,14 @@ unsafe extern "C" fn usage() {
 #[c2rust::src_loc = "202:1"]
 unsafe extern "C" fn print_passes() {
     printf(b"  \0" as *const u8 as *const libc::c_char);
-    let mut cur_len: size_t = 2 as libc::c_int as size_t;
+    let mut cur_len: usize = 2 as libc::c_int as usize;
     let mut p: pass_id = PASS_PARSE;
     while (p as libc::c_uint) < PASS_ALL as libc::c_int as libc::c_uint {
         let mut name: *const libc::c_char = pass_name(p);
-        let mut len: size_t = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
         if cur_len.wrapping_add(len) < 80 as libc::c_int as libc::c_ulong {
             printf(b"%s,\0" as *const u8 as *const libc::c_char, name);
-            cur_len = (cur_len as libc::c_ulong).wrapping_add(len) as size_t as size_t;
+            cur_len = (cur_len as libc::c_ulong).wrapping_add(len) as usize as usize;
         } else {
             printf(b"\n  %s,\0" as *const u8 as *const libc::c_char, name);
             cur_len = len.wrapping_add(2 as libc::c_int as libc::c_ulong);
@@ -978,7 +978,7 @@ pub unsafe extern "C" fn ponyc_opt_process(
                 (*opt).parse_trace = 1 as libc::c_int != 0;
             }
             29 => {
-                (*opt).ast_print_width = atoi((*s).arg_val) as size_t;
+                (*opt).ast_print_width = atoi((*s).arg_val) as usize;
             }
             30 => {
                 errors_set_immediate((*opt).check.errors, 1 as libc::c_int != 0);

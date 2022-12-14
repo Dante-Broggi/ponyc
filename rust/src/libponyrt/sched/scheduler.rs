@@ -93,7 +93,7 @@ pub mod _intptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h:3"]
 pub mod _pthread_cond_t_h {
@@ -229,7 +229,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -255,14 +255,14 @@ pub mod scheduler_h {
         pub mem_allocated: i64,
         pub mem_used_actors: i64,
         pub mem_allocated_actors: i64,
-        pub created_actors_counter: size_t,
-        pub destroyed_actors_counter: size_t,
-        pub actor_app_cpu: size_t,
-        pub actor_gc_mark_cpu: size_t,
-        pub actor_gc_sweep_cpu: size_t,
-        pub actor_system_cpu: size_t,
-        pub msg_cpu: size_t,
-        pub misc_cpu: size_t,
+        pub created_actors_counter: usize,
+        pub destroyed_actors_counter: usize,
+        pub actor_app_cpu: usize,
+        pub actor_gc_mark_cpu: usize,
+        pub actor_gc_sweep_cpu: usize,
+        pub actor_system_cpu: usize,
+        pub msg_cpu: usize,
+        pub misc_cpu: usize,
     }
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
@@ -342,10 +342,10 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -354,7 +354,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -405,30 +405,30 @@ pub mod mutemap_h {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_muteref_alloc(key: *mut pony_actor_t) -> *mut muteref_t;
         #[c2rust::src_loc = "18:1"]
-        pub fn ponyint_mutemap_size(map: *mut mutemap_t) -> size_t;
+        pub fn ponyint_mutemap_size(map: *mut mutemap_t) -> usize;
         #[c2rust::src_loc = "18:1"]
-        pub fn ponyint_mutemap_removeindex(map: *mut mutemap_t, index: size_t);
+        pub fn ponyint_mutemap_removeindex(map: *mut mutemap_t, index: usize);
         #[c2rust::src_loc = "18:1"]
-        pub fn ponyint_mutemap_putindex(map: *mut mutemap_t, entry: *mut muteref_t, index: size_t);
+        pub fn ponyint_mutemap_putindex(map: *mut mutemap_t, entry: *mut muteref_t, index: usize);
         #[c2rust::src_loc = "18:45"]
         pub fn ponyint_mutemap_get(
             map: *mut mutemap_t,
             key: *mut muteref_t,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut muteref_t;
         #[c2rust::src_loc = "10:45"]
-        pub fn ponyint_muteset_next(map: *mut muteset_t, i: *mut size_t) -> *mut pony_actor_t;
+        pub fn ponyint_muteset_next(map: *mut muteset_t, i: *mut usize) -> *mut pony_actor_t;
         #[c2rust::src_loc = "10:1"]
         pub fn ponyint_muteset_putindex(
             map: *mut muteset_t,
             entry: *mut pony_actor_t,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "10:45"]
         pub fn ponyint_muteset_get(
             map: *mut muteset_t,
             key: *mut pony_actor_t,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut pony_actor_t;
     }
 }
@@ -438,8 +438,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -448,10 +448,10 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:3"]
@@ -460,7 +460,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -489,7 +489,7 @@ pub mod gc_h {
     pub struct gc_t {
         pub mark: u32,
         pub rc_mark: u32,
-        pub rc: size_t,
+        pub rc: usize,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
@@ -514,7 +514,7 @@ pub mod actor_h {
         pub sync_flags: u8,
         pub cycle_detector_critical: u8,
         pub heap: heap_t,
-        pub muted: size_t,
+        pub muted: usize,
         pub internal_flags: u8,
         pub gc: gc_t,
     }
@@ -566,8 +566,8 @@ pub mod heap_h {
         pub small_free: [*mut chunk_t; 5],
         pub small_full: [*mut chunk_t; 5],
         pub large: *mut chunk_t,
-        pub used: size_t,
-        pub next_gc: size_t,
+        pub used: usize,
+        pub next_gc: usize,
     }
     use super::stddef_h::size_t;
     extern "C" {
@@ -597,15 +597,15 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "32:1"]
         pub fn ponyint_pool_thread_cleanup();
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/pthread.h:3"]
@@ -692,7 +692,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1122,7 +1122,7 @@ unsafe extern "C" fn suspend_scheduler(
             b"sched_count == sched_count_check\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                 as *const u8 as *const libc::c_char,
-            586 as libc::c_int as size_t,
+            586 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"suspend_scheduler\0"))
                 .as_ptr(),
         );
@@ -1216,7 +1216,7 @@ unsafe extern "C" fn perhaps_suspend_scheduler(
                     b"sched->index == 0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                         as *const u8 as *const libc::c_char,
-                    759 as libc::c_int as size_t,
+                    759 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                         b"perhaps_suspend_scheduler\0",
                     ))
@@ -1229,7 +1229,7 @@ unsafe extern "C" fn perhaps_suspend_scheduler(
                     b"!sched->asio_noisy\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                         as *const u8 as *const libc::c_char,
-                    760 as libc::c_int as size_t,
+                    760 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                         b"perhaps_suspend_scheduler\0",
                     ))
@@ -1287,7 +1287,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
                         as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                         as *const u8 as *const libc::c_char,
-                    864 as libc::c_int as size_t,
+                    864 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"steal\0")).as_ptr(),
                 );
             };
@@ -1332,7 +1332,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
                         as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                         as *const u8 as *const libc::c_char,
-                    906 as libc::c_int as size_t,
+                    906 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"steal\0")).as_ptr(),
                 );
             };
@@ -1436,7 +1436,7 @@ unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
                         b"pop(sched) == NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                             as *const u8 as *const libc::c_char,
-                        1055 as libc::c_int as size_t,
+                        1055 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 4],
                             &[libc::c_char; 4],
@@ -1535,7 +1535,7 @@ unsafe extern "C" fn ponyint_sched_shutdown() {
         ponyint_mpmcq_destroy(&mut (*scheduler.offset(i_0 as isize)).q);
         pthread_cond_destroy((*scheduler.offset(i_0 as isize)).sleep_object);
         ponyint_pool_free(
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
             (*scheduler.offset(i_0 as isize)).sleep_object as *mut libc::c_void,
         );
         let ref mut fresh10 = (*scheduler.offset(i_0 as isize)).sleep_object;
@@ -1605,14 +1605,14 @@ pub unsafe extern "C" fn ponyint_sched_init(
     let mut i: u32 = 0 as libc::c_int as u32;
     while i < scheduler_count {
         let ref mut fresh11 = (*scheduler.offset(i as isize)).sleep_object;
-        *fresh11 = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut pthread_cond_t;
+        *fresh11 = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut pthread_cond_t;
         let mut ret: libc::c_int = pthread_cond_init(
             (*scheduler.offset(i as isize)).sleep_object,
             0 as *const pthread_condattr_t,
         );
         if ret != 0 as libc::c_int {
             ponyint_pool_free(
-                1 as libc::c_int as size_t,
+                1 as libc::c_int as usize,
                 (*scheduler.offset(i as isize)).sleep_object as *mut libc::c_void,
             );
             let ref mut fresh12 = (*scheduler.offset(i as isize)).sleep_object;
@@ -1718,7 +1718,7 @@ pub unsafe extern "C" fn pony_register_thread() {
     if !this_scheduler.is_null() {
         return;
     }
-    this_scheduler = ponyint_pool_alloc(4 as libc::c_int as size_t) as *mut scheduler_t;
+    this_scheduler = ponyint_pool_alloc(4 as libc::c_int as usize) as *mut scheduler_t;
     memset(
         this_scheduler as *mut libc::c_void,
         0 as libc::c_int,
@@ -1735,7 +1735,7 @@ pub unsafe extern "C" fn pony_unregister_thread() {
         return;
     }
     ponyint_pool_free(
-        4 as libc::c_int as size_t,
+        4 as libc::c_int as usize,
         this_scheduler as *mut libc::c_void,
     );
     this_scheduler = 0 as *mut scheduler_t;
@@ -1750,7 +1750,7 @@ pub unsafe extern "C" fn pony_ctx() -> *mut pony_ctx_t {
             b"this_scheduler != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                 as *const u8 as *const libc::c_char,
-            1415 as libc::c_int as size_t,
+            1415 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"pony_ctx\0")).as_ptr(),
         );
     };
@@ -1822,13 +1822,13 @@ pub unsafe extern "C" fn ponyint_sched_mute(
             b"sender != recv\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                 as *const u8 as *const libc::c_char,
-            1538 as libc::c_int as size_t,
+            1538 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"ponyint_sched_mute\0"))
                 .as_ptr(),
         );
     };
     let mut sched: *mut scheduler_t = (*ctx).scheduler;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut key: muteref_t = muteref_t {
         key: 0 as *mut pony_actor_t,
         value: muteset_t {
@@ -1847,7 +1847,7 @@ pub unsafe extern "C" fn ponyint_sched_mute(
         mref = ponyint_muteref_alloc(recv);
         ponyint_mutemap_putindex(&mut (*sched).mute_mapping, mref, index);
     }
-    let mut index2: size_t = -(1 as libc::c_int) as size_t;
+    let mut index2: usize = -(1 as libc::c_int) as usize;
     let mut r: *mut pony_actor_t = ponyint_muteset_get(&mut (*mref).value, sender, &mut index2);
     if r.is_null() {
         ponyint_muteset_putindex(&mut (*mref).value, sender, index2);
@@ -1885,9 +1885,9 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
     mut ctx: *mut pony_ctx_t,
     mut actor: *mut pony_actor_t,
 ) -> bool {
-    let mut actors_rescheduled: size_t = 0;
+    let mut actors_rescheduled: usize = 0;
     let mut sched: *mut scheduler_t = (*ctx).scheduler;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut key: muteref_t = muteref_t {
         key: 0 as *mut pony_actor_t,
         value: muteset_t {
@@ -1903,7 +1903,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
     let mut mref: *mut muteref_t =
         ponyint_mutemap_get(&mut (*sched).mute_mapping, &mut key, &mut index);
     if !mref.is_null() {
-        let mut i: size_t = -(1 as libc::c_int) as size_t;
+        let mut i: usize = -(1 as libc::c_int) as usize;
         let mut muted: *mut pony_actor_t = 0 as *mut pony_actor_t;
         let mut needs_unmuting: *mut actorstack_t = 0 as *mut actorstack_t;
         loop {
@@ -1917,7 +1917,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
                     b"muted->muted > 0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.c\0"
                         as *const u8 as *const libc::c_char,
-                    1632 as libc::c_int as size_t,
+                    1632 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 29], &[libc::c_char; 29]>(
                         b"ponyint_sched_unmute_senders\0",
                     ))
