@@ -41,7 +41,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:1"]
 pub mod _timespec_h {
@@ -164,16 +164,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -266,7 +266,7 @@ pub struct pony_stat_t {
     pub inode: u64,
     pub uid: u32,
     pub gid: u32,
-    pub size: size_t,
+    pub size: usize,
     pub access_time: i64,
     pub access_time_nsec: i64,
     pub modified_time: i64,
@@ -290,7 +290,7 @@ unsafe extern "C" fn unix_file_type(mut p: *mut pony_stat_t, mut st: *mut stat) 
     (*p).pipe = ((*st).st_mode as libc::c_int & 0o170000 as libc::c_int == 0o10000 as libc::c_int)
         as libc::c_int
         != 0 as libc::c_int;
-    (*p).size = (*st).st_size as size_t;
+    (*p).size = (*st).st_size as usize;
 }
 #[c2rust::src_loc = "115:1"]
 unsafe extern "C" fn unix_stat(mut p: *mut pony_stat_t, mut st: *mut stat) {
@@ -333,7 +333,7 @@ unsafe extern "C" fn unix_stat(mut p: *mut pony_stat_t, mut st: *mut stat) {
 unsafe extern "C" fn unix_symlink(mut r: libc::c_int, mut p: *mut pony_stat_t, mut st: *mut stat) {
     if r != 0 as libc::c_int {
         (*p).broken = 1 as libc::c_int != 0;
-        (*p).size = 0 as libc::c_int as size_t;
+        (*p).size = 0 as libc::c_int as usize;
     } else {
         unix_file_type(p, st);
     };

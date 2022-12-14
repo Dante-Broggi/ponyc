@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -812,20 +812,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -902,10 +902,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -1000,7 +1000,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1068,7 +1068,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1368,14 +1368,14 @@ pub mod codegen_h {
         pub fn codegen_string(
             c: *mut compile_t,
             str: *const libc::c_char,
-            len: size_t,
+            len: usize,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "291:1"]
         pub fn codegen_call(
             c: *mut compile_t,
             fun: LLVMValueRef,
             args: *mut LLVMValueRef,
-            count: size_t,
+            count: usize,
             setcc: bool,
         ) -> LLVMValueRef;
         #[c2rust::src_loc = "289:1"]
@@ -1421,7 +1421,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1628,11 +1628,11 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "34:1"]
-        pub fn ponyint_pool_index(size: size_t) -> size_t;
+        pub fn ponyint_pool_index(size: usize) -> usize;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:16"]
@@ -1998,7 +1998,7 @@ pub unsafe extern "C" fn gen_main(
         c,
         (*((*m).c_method as *mut compile_method_t)).func,
         env_args.as_mut_ptr(),
-        4 as libc::c_int as size_t,
+        4 as libc::c_int as usize,
         1 as libc::c_int != 0,
     );
     let mut env: LLVMValueRef = env_args[0 as libc::c_int as usize];
@@ -2024,7 +2024,7 @@ pub unsafe extern "C" fn gen_main(
     );
     let mut msg_type_ptr: LLVMTypeRef = LLVMPointerType(msg_type, 0 as libc::c_int as libc::c_uint);
     let mut index: u32 = reach_vtable_index(t_main, (*c).str_create);
-    let mut msg_size: size_t = LLVMABISizeOfType((*c).target_data, msg_type) as size_t;
+    let mut msg_size: usize = LLVMABISizeOfType((*c).target_data, msg_type) as usize;
     args[0 as libc::c_int as usize] = LLVMConstInt(
         (*c).i32_0,
         ponyint_pool_index(msg_size) as libc::c_ulonglong,
@@ -2245,14 +2245,14 @@ unsafe extern "C" fn link_exe(
         b"\0" as *const u8 as *const libc::c_char,
     );
     let mut lib_args: *const libc::c_char = program_lib_args(program);
-    let mut arch_len: size_t = arch.offset_from((*(*c).opt).triple) as libc::c_long as size_t;
+    let mut arch_len: usize = arch.offset_from((*(*c).opt).triple) as libc::c_long as usize;
     let mut linker: *const libc::c_char = if !((*(*c).opt).linker).is_null() {
         (*(*c).opt).linker as *const libc::c_char
     } else {
         b"ld\0" as *const u8 as *const libc::c_char
     };
     let mut sanitizer_arg: *const libc::c_char = b"\0" as *const u8 as *const libc::c_char;
-    let mut ld_len: size_t = (256 as libc::c_int as libc::c_ulong)
+    let mut ld_len: usize = (256 as libc::c_int as libc::c_ulong)
         .wrapping_add(arch_len)
         .wrapping_add(strlen(linker))
         .wrapping_add(strlen(file_exe))
@@ -2293,7 +2293,7 @@ unsafe extern "C" fn link_exe(
     }
     ponyint_pool_free_size(ld_len, ld_cmd as *mut libc::c_void);
     if !(*(*c).opt).strip_debug {
-        let mut dsym_len: size_t =
+        let mut dsym_len: usize =
             (16 as libc::c_int as libc::c_ulong).wrapping_add(strlen(file_exe));
         let mut dsym_cmd: *mut libc::c_char =
             ponyint_pool_alloc_size(dsym_len) as *mut libc::c_char;

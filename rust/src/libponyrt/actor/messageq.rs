@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
@@ -43,9 +43,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:5"]
@@ -56,7 +56,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -77,9 +77,9 @@ use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_free};
 pub use self::stddef_h::size_t;
 #[c2rust::src_loc = "15:1"]
-unsafe extern "C" fn messageq_size_debug(mut q: *mut messageq_t) -> size_t {
+unsafe extern "C" fn messageq_size_debug(mut q: *mut messageq_t) -> usize {
     let mut tail: *mut pony_msg_t = (*q).tail;
-    let mut count: size_t = 0;
+    let mut count: usize = 0;
     while !({ ::core::intrinsics::atomic_load_relaxed(&mut (*tail).next as *mut *mut pony_msg_t) })
         .is_null()
     {
@@ -138,7 +138,7 @@ unsafe extern "C" fn messageq_push_single(
 #[c2rust::src_loc = "81:1"]
 pub unsafe extern "C" fn ponyint_messageq_init(mut q: *mut messageq_t) {
     let mut stub: *mut pony_msg_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut pony_msg_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut pony_msg_t;
     (*stub).index = 0 as libc::c_int as u32;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*stub).next, 0 as *mut pony_msg_t);
@@ -174,7 +174,7 @@ pub unsafe extern "C" fn ponyint_messageq_destroy(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.c\0"
                 as *const u8 as *const libc::c_char,
-            108 as libc::c_int as size_t,
+            108 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 25],
                 &[libc::c_char; 25],
@@ -182,7 +182,7 @@ pub unsafe extern "C" fn ponyint_messageq_destroy(
                 .as_ptr(),
         );
     };
-    ponyint_pool_free((*tail).index as size_t, tail as *mut libc::c_void);
+    ponyint_pool_free((*tail).index as usize, tail as *mut libc::c_void);
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, 0 as *mut pony_msg_t);
         // compile_error!("Builtin is not supposed to be used")
@@ -242,7 +242,7 @@ pub unsafe extern "C" fn ponyint_actor_messageq_pop(mut q: *mut messageq_t) -> *
         let ref mut fresh2 = (*q).tail;
         *fresh2 = next;
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
-        ponyint_pool_free((*tail).index as size_t, tail as *mut libc::c_void);
+        ponyint_pool_free((*tail).index as usize, tail as *mut libc::c_void);
     }
     next
 }
@@ -261,7 +261,7 @@ pub unsafe extern "C" fn ponyint_thread_messageq_pop(mut q: *mut messageq_t) -> 
         let ref mut fresh3 = (*q).tail;
         *fresh3 = next;
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
-        ponyint_pool_free((*tail).index as size_t, tail as *mut libc::c_void);
+        ponyint_pool_free((*tail).index as usize, tail as *mut libc::c_void);
     }
     next
 }

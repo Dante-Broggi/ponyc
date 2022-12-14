@@ -10,7 +10,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "49:1"]
     pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -32,7 +32,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/dirent.h:1"]
@@ -132,7 +132,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
 }
@@ -611,19 +611,19 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "74:1"]
-        pub fn ast_line(ast: *mut ast_t) -> size_t;
+        pub fn ast_line(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "76:1"]
         pub fn ast_source(ast: *mut ast_t) -> *mut source_t;
         #[c2rust::src_loc = "78:1"]
@@ -679,10 +679,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -777,7 +777,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -816,8 +816,8 @@ pub mod printbuf_h {
     #[c2rust::src_loc = "10:16"]
     pub struct printbuf_t {
         pub m: *mut libc::c_char,
-        pub size: size_t,
-        pub offset: size_t,
+        pub size: usize,
+        pub offset: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -877,7 +877,7 @@ pub mod paths_h {
             path: *const libc::c_char,
             dot: libc::c_char,
             sep: libc::c_char,
-            allocated_size: *mut size_t,
+            allocated_size: *mut usize,
         ) -> *mut libc::c_char;
     }
 }
@@ -911,13 +911,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:6"]
@@ -928,7 +928,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1033,9 +1033,9 @@ pub struct docgen_t {
     pub sub_dir: *const libc::c_char,
     pub assets_dir: *const libc::c_char,
     pub doc_source_dir: *mut libc::c_char,
-    pub base_dir_buf_len: size_t,
-    pub sub_dir_buf_len: size_t,
-    pub assets_dir_buf_len: size_t,
+    pub base_dir_buf_len: usize,
+    pub sub_dir_buf_len: usize,
+    pub assets_dir_buf_len: usize,
     pub errors: *mut errors_t,
     pub included_sources: *mut doc_sources_t,
 }
@@ -1045,11 +1045,11 @@ pub struct docgen_t {
 pub struct doc_sources_t {
     pub source: *const source_t,
     pub filename: *const libc::c_char,
-    pub filename_alloc_size: size_t,
+    pub filename_alloc_size: usize,
     pub doc_path: *const libc::c_char,
-    pub doc_path_alloc_size: size_t,
+    pub doc_path_alloc_size: usize,
     pub file_path: *const libc::c_char,
-    pub file_path_alloc_size: size_t,
+    pub file_path_alloc_size: usize,
     pub next: *mut doc_sources_t,
 }
 #[derive(Copy, Clone)]
@@ -1074,7 +1074,7 @@ unsafe extern "C" fn doc_list_free(mut list: *mut ast_list_t) {
             b"list != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            82 as libc::c_int as size_t,
+            82 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_list_free\0"))
                 .as_ptr(),
         );
@@ -1082,7 +1082,7 @@ unsafe extern "C" fn doc_list_free(mut list: *mut ast_list_t) {
     let mut p: *mut ast_list_t = (*list).next;
     while !p.is_null() {
         let mut next: *mut ast_list_t = (*p).next;
-        ponyint_pool_free(0 as libc::c_int as size_t, p as *mut libc::c_void);
+        ponyint_pool_free(0 as libc::c_int as usize, p as *mut libc::c_void);
         p = next;
     }
 }
@@ -1099,7 +1099,7 @@ unsafe extern "C" fn doc_list_add(
             b"list != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            98 as libc::c_int as size_t,
+            98 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_list_add\0")).as_ptr(),
         );
     };
@@ -1109,11 +1109,11 @@ unsafe extern "C" fn doc_list_add(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            99 as libc::c_int as size_t,
+            99 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_list_add\0")).as_ptr(),
         );
     };
-    let mut n: *mut ast_list_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut ast_list_t;
+    let mut n: *mut ast_list_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut ast_list_t;
     let ref mut fresh0 = (*n).ast;
     *fresh0 = ast;
     let ref mut fresh1 = (*n).name;
@@ -1129,7 +1129,7 @@ unsafe extern "C" fn doc_list_add(
                 b"p->name != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                112 as libc::c_int as size_t,
+                112 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_list_add\0"))
                     .as_ptr(),
             );
@@ -1155,7 +1155,7 @@ unsafe extern "C" fn is_package_for_testing(mut name: *const libc::c_char) -> bo
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            131 as libc::c_int as size_t,
+            131 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"is_package_for_testing\0",
             ))
@@ -1169,7 +1169,7 @@ unsafe extern "C" fn is_package_for_testing(mut name: *const libc::c_char) -> bo
 unsafe extern "C" fn doc_list_add_named(
     mut list: *mut ast_list_t,
     mut ast: *mut ast_t,
-    mut id_index: size_t,
+    mut id_index: usize,
     mut allow_public: bool,
     mut allow_private: bool,
     mut sort: bool,
@@ -1180,7 +1180,7 @@ unsafe extern "C" fn doc_list_add_named(
             b"list != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            144 as libc::c_int as size_t,
+            144 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"doc_list_add_named\0"))
                 .as_ptr(),
         );
@@ -1191,7 +1191,7 @@ unsafe extern "C" fn doc_list_add_named(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            145 as libc::c_int as size_t,
+            145 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"doc_list_add_named\0"))
                 .as_ptr(),
         );
@@ -1206,7 +1206,7 @@ unsafe extern "C" fn doc_list_add_named(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            151 as libc::c_int as size_t,
+            151 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"doc_list_add_named\0"))
                 .as_ptr(),
         );
@@ -1233,7 +1233,7 @@ unsafe extern "C" fn doc_cat(
     mut c: *const libc::c_char,
     mut d: *const libc::c_char,
     mut e: *const libc::c_char,
-    mut out_buf_size: *mut size_t,
+    mut out_buf_size: *mut usize,
 ) -> *mut libc::c_char {
     if !a.is_null() {
     } else {
@@ -1241,7 +1241,7 @@ unsafe extern "C" fn doc_cat(
             b"a != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            182 as libc::c_int as size_t,
+            182 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
@@ -1251,7 +1251,7 @@ unsafe extern "C" fn doc_cat(
             b"b != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            183 as libc::c_int as size_t,
+            183 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
@@ -1261,7 +1261,7 @@ unsafe extern "C" fn doc_cat(
             b"c != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            184 as libc::c_int as size_t,
+            184 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
@@ -1271,7 +1271,7 @@ unsafe extern "C" fn doc_cat(
             b"d != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            185 as libc::c_int as size_t,
+            185 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
@@ -1281,7 +1281,7 @@ unsafe extern "C" fn doc_cat(
             b"e != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            186 as libc::c_int as size_t,
+            186 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
@@ -1291,16 +1291,16 @@ unsafe extern "C" fn doc_cat(
             b"out_buf_size != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            187 as libc::c_int as size_t,
+            187 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
-    let mut a_len: size_t = strlen(a);
-    let mut b_len: size_t = strlen(b);
-    let mut c_len: size_t = strlen(c);
-    let mut d_len: size_t = strlen(d);
-    let mut e_len: size_t = strlen(e);
-    let mut buf_len: size_t = a_len
+    let mut a_len: usize = strlen(a);
+    let mut b_len: usize = strlen(b);
+    let mut c_len: usize = strlen(c);
+    let mut d_len: usize = strlen(d);
+    let mut e_len: usize = strlen(e);
+    let mut buf_len: usize = a_len
         .wrapping_add(b_len)
         .wrapping_add(c_len)
         .wrapping_add(d_len)
@@ -1337,7 +1337,7 @@ unsafe extern "C" fn doc_cat(
             b"p == (buffer + buf_len)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            207 as libc::c_int as size_t,
+            207 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
@@ -1348,7 +1348,7 @@ unsafe extern "C" fn doc_cat(
 unsafe extern "C" fn write_tqfn(
     mut type_0: *mut ast_t,
     mut type_name: *const libc::c_char,
-    mut out_size: *mut size_t,
+    mut out_size: *mut usize,
 ) -> *mut libc::c_char {
     if !type_0.is_null() {
     } else {
@@ -1356,7 +1356,7 @@ unsafe extern "C" fn write_tqfn(
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            228 as libc::c_int as size_t,
+            228 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"write_tqfn\0")).as_ptr(),
         );
     };
@@ -1366,7 +1366,7 @@ unsafe extern "C" fn write_tqfn(
             b"out_size != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            229 as libc::c_int as size_t,
+            229 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"write_tqfn\0")).as_ptr(),
         );
     };
@@ -1377,7 +1377,7 @@ unsafe extern "C" fn write_tqfn(
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            232 as libc::c_int as size_t,
+            232 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"write_tqfn\0")).as_ptr(),
         );
     };
@@ -1391,7 +1391,7 @@ unsafe extern "C" fn write_tqfn(
             b"pkg_qual_name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            240 as libc::c_int as size_t,
+            240 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"write_tqfn\0")).as_ptr(),
         );
     };
@@ -1401,7 +1401,7 @@ unsafe extern "C" fn write_tqfn(
             b"type_name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            241 as libc::c_int as size_t,
+            241 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"write_tqfn\0")).as_ptr(),
         );
     };
@@ -1436,7 +1436,7 @@ unsafe extern "C" fn doc_open_file_(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            262 as libc::c_int as size_t,
+            262 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"doc_open_file_\0"))
                 .as_ptr(),
         );
@@ -1447,7 +1447,7 @@ unsafe extern "C" fn doc_open_file_(
             b"filename != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            263 as libc::c_int as size_t,
+            263 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"doc_open_file_\0"))
                 .as_ptr(),
         );
@@ -1458,12 +1458,12 @@ unsafe extern "C" fn doc_open_file_(
             b"extn != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            264 as libc::c_int as size_t,
+            264 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"doc_open_file_\0"))
                 .as_ptr(),
         );
     };
-    let mut buf_len: size_t = 0;
+    let mut buf_len: usize = 0;
     let mut buffer: *mut libc::c_char = doc_cat(
         dir,
         filename,
@@ -1548,7 +1548,7 @@ unsafe extern "C" fn doc_type(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            348 as libc::c_int as size_t,
+            348 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"doc_type\0")).as_ptr(),
         );
     };
@@ -1558,7 +1558,7 @@ unsafe extern "C" fn doc_type(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            349 as libc::c_int as size_t,
+            349 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"doc_type\0")).as_ptr(),
         );
     };
@@ -1568,7 +1568,7 @@ unsafe extern "C" fn doc_type(
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            350 as libc::c_int as size_t,
+            350 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"doc_type\0")).as_ptr(),
         );
     };
@@ -1607,12 +1607,12 @@ unsafe extern "C" fn doc_type(
                         b"target != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                             as *const u8 as *const libc::c_char,
-                        367 as libc::c_int as size_t,
+                        367 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"doc_type\0"))
                             .as_ptr(),
                     );
                 };
-                let mut link_len: size_t = 0;
+                let mut link_len: usize = 0;
                 let mut tqfn: *mut libc::c_char =
                     write_tqfn(target, 0 as *const libc::c_char, &mut link_len);
                 fprintf(
@@ -1770,7 +1770,7 @@ unsafe extern "C" fn doc_type(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                         as *const u8 as *const libc::c_char,
-                    442 as libc::c_int as size_t,
+                    442 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"doc_type\0"))
                         .as_ptr(),
                 );
@@ -1795,7 +1795,7 @@ unsafe extern "C" fn doc_type_list(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            453 as libc::c_int as size_t,
+            453 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_type_list\0"))
                 .as_ptr(),
         );
@@ -1806,7 +1806,7 @@ unsafe extern "C" fn doc_type_list(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            454 as libc::c_int as size_t,
+            454 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_type_list\0"))
                 .as_ptr(),
         );
@@ -1817,7 +1817,7 @@ unsafe extern "C" fn doc_type_list(
             b"list != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            455 as libc::c_int as size_t,
+            455 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_type_list\0"))
                 .as_ptr(),
         );
@@ -1828,7 +1828,7 @@ unsafe extern "C" fn doc_type_list(
             b"preamble != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            456 as libc::c_int as size_t,
+            456 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_type_list\0"))
                 .as_ptr(),
         );
@@ -1839,7 +1839,7 @@ unsafe extern "C" fn doc_type_list(
             b"separator != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            457 as libc::c_int as size_t,
+            457 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_type_list\0"))
                 .as_ptr(),
         );
@@ -1850,7 +1850,7 @@ unsafe extern "C" fn doc_type_list(
             b"postamble != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            458 as libc::c_int as size_t,
+            458 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"doc_type_list\0"))
                 .as_ptr(),
         );
@@ -1901,7 +1901,7 @@ unsafe extern "C" fn add_source_code_link(mut docgen: *mut docgen_t, mut elem: *
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            488 as libc::c_int as size_t,
+            488 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"add_source_code_link\0"))
                 .as_ptr(),
         );
@@ -1912,7 +1912,7 @@ unsafe extern "C" fn add_source_code_link(mut docgen: *mut docgen_t, mut elem: *
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            489 as libc::c_int as size_t,
+            489 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"add_source_code_link\0"))
                 .as_ptr(),
         );
@@ -1950,7 +1950,7 @@ unsafe extern "C" fn doc_fields(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            515 as libc::c_int as size_t,
+            515 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_fields\0")).as_ptr(),
         );
     };
@@ -1960,7 +1960,7 @@ unsafe extern "C" fn doc_fields(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            516 as libc::c_int as size_t,
+            516 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_fields\0")).as_ptr(),
         );
     };
@@ -1970,7 +1970,7 @@ unsafe extern "C" fn doc_fields(
             b"fields != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            517 as libc::c_int as size_t,
+            517 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_fields\0")).as_ptr(),
         );
     };
@@ -1980,7 +1980,7 @@ unsafe extern "C" fn doc_fields(
             b"title != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            518 as libc::c_int as size_t,
+            518 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_fields\0")).as_ptr(),
         );
     };
@@ -2001,7 +2001,7 @@ unsafe extern "C" fn doc_fields(
                 b"field != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                528 as libc::c_int as size_t,
+                528 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_fields\0"))
                     .as_ptr(),
             );
@@ -2031,7 +2031,7 @@ unsafe extern "C" fn doc_fields(
                 b"name != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                532 as libc::c_int as size_t,
+                532 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_fields\0"))
                     .as_ptr(),
             );
@@ -2054,7 +2054,7 @@ unsafe extern "C" fn doc_fields(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                             as *const u8 as *const libc::c_char,
-                        542 as libc::c_int as size_t,
+                        542 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                             b"doc_fields\0",
                         ))
@@ -2109,7 +2109,7 @@ unsafe extern "C" fn doc_type_params(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            562 as libc::c_int as size_t,
+            562 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"doc_type_params\0"))
                 .as_ptr(),
         );
@@ -2120,7 +2120,7 @@ unsafe extern "C" fn doc_type_params(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            563 as libc::c_int as size_t,
+            563 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"doc_type_params\0"))
                 .as_ptr(),
         );
@@ -2131,7 +2131,7 @@ unsafe extern "C" fn doc_type_params(
             b"t_params != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            564 as libc::c_int as size_t,
+            564 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"doc_type_params\0"))
                 .as_ptr(),
         );
@@ -2145,7 +2145,7 @@ unsafe extern "C" fn doc_type_params(
             b"ast_id(t_params) == TK_TYPEPARAMS\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            569 as libc::c_int as size_t,
+            569 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"doc_type_params\0"))
                 .as_ptr(),
         );
@@ -2193,7 +2193,7 @@ unsafe extern "C" fn doc_type_params(
                 b"name != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                584 as libc::c_int as size_t,
+                584 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"doc_type_params\0"))
                     .as_ptr(),
             );
@@ -2243,7 +2243,7 @@ unsafe extern "C" fn code_block_doc_params(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            608 as libc::c_int as size_t,
+            608 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"code_block_doc_params\0"))
                 .as_ptr(),
         );
@@ -2254,7 +2254,7 @@ unsafe extern "C" fn code_block_doc_params(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            609 as libc::c_int as size_t,
+            609 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"code_block_doc_params\0"))
                 .as_ptr(),
         );
@@ -2265,7 +2265,7 @@ unsafe extern "C" fn code_block_doc_params(
             b"params != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            610 as libc::c_int as size_t,
+            610 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"code_block_doc_params\0"))
                 .as_ptr(),
         );
@@ -2307,7 +2307,7 @@ unsafe extern "C" fn code_block_doc_params(
                 b"name != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                624 as libc::c_int as size_t,
+                624 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(
                     b"code_block_doc_params\0",
                 ))
@@ -2363,7 +2363,7 @@ unsafe extern "C" fn list_doc_params(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            651 as libc::c_int as size_t,
+            651 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"list_doc_params\0"))
                 .as_ptr(),
         );
@@ -2374,7 +2374,7 @@ unsafe extern "C" fn list_doc_params(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            652 as libc::c_int as size_t,
+            652 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"list_doc_params\0"))
                 .as_ptr(),
         );
@@ -2385,7 +2385,7 @@ unsafe extern "C" fn list_doc_params(
             b"params != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            653 as libc::c_int as size_t,
+            653 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"list_doc_params\0"))
                 .as_ptr(),
         );
@@ -2422,7 +2422,7 @@ unsafe extern "C" fn list_doc_params(
                 b"name != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                666 as libc::c_int as size_t,
+                666 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"list_doc_params\0"))
                     .as_ptr(),
             );
@@ -2480,7 +2480,7 @@ unsafe extern "C" fn doc_method(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            696 as libc::c_int as size_t,
+            696 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_method\0")).as_ptr(),
         );
     };
@@ -2490,7 +2490,7 @@ unsafe extern "C" fn doc_method(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            697 as libc::c_int as size_t,
+            697 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_method\0")).as_ptr(),
         );
     };
@@ -2500,7 +2500,7 @@ unsafe extern "C" fn doc_method(
             b"method != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            698 as libc::c_int as size_t,
+            698 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_method\0")).as_ptr(),
         );
     };
@@ -2537,7 +2537,7 @@ unsafe extern "C" fn doc_method(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            703 as libc::c_int as size_t,
+            703 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_method\0")).as_ptr(),
         );
     };
@@ -2672,7 +2672,7 @@ unsafe extern "C" fn doc_methods(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            770 as libc::c_int as size_t,
+            770 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_methods\0")).as_ptr(),
         );
     };
@@ -2682,7 +2682,7 @@ unsafe extern "C" fn doc_methods(
             b"docgen->type_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            771 as libc::c_int as size_t,
+            771 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_methods\0")).as_ptr(),
         );
     };
@@ -2692,7 +2692,7 @@ unsafe extern "C" fn doc_methods(
             b"methods != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            772 as libc::c_int as size_t,
+            772 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_methods\0")).as_ptr(),
         );
     };
@@ -2702,7 +2702,7 @@ unsafe extern "C" fn doc_methods(
             b"variety != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            773 as libc::c_int as size_t,
+            773 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_methods\0")).as_ptr(),
         );
     };
@@ -2724,9 +2724,9 @@ unsafe extern "C" fn doc_methods(
 unsafe extern "C" fn concat(
     mut s1: *const libc::c_char,
     mut s2: *const libc::c_char,
-    mut allocated_size: *mut size_t,
+    mut allocated_size: *mut usize,
 ) -> *mut libc::c_char {
-    let mut str_size: size_t = (strlen(s1))
+    let mut str_size: usize = (strlen(s1))
         .wrapping_add(strlen(s2))
         .wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut result: *mut libc::c_char = ponyint_pool_alloc_size(str_size) as *mut libc::c_char;
@@ -2749,7 +2749,7 @@ unsafe extern "C" fn copy_source_to_doc_src(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            797 as libc::c_int as size_t,
+            797 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"copy_source_to_doc_src\0",
             ))
@@ -2762,7 +2762,7 @@ unsafe extern "C" fn copy_source_to_doc_src(
             b"source != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            798 as libc::c_int as size_t,
+            798 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"copy_source_to_doc_src\0",
             ))
@@ -2775,7 +2775,7 @@ unsafe extern "C" fn copy_source_to_doc_src(
             b"package_name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            799 as libc::c_int as size_t,
+            799 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"copy_source_to_doc_src\0",
             ))
@@ -2788,19 +2788,19 @@ unsafe extern "C" fn copy_source_to_doc_src(
     let mut filename_copy: [libc::c_char; 1024] = [0; 1024];
     strcpy(filename_copy.as_mut_ptr(), (*source).file);
     let mut just_filename: *const libc::c_char = get_file_name(filename_copy.as_mut_ptr());
-    let mut filename_alloc_size: size_t =
+    let mut filename_alloc_size: usize =
         (strlen(just_filename)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut filename: *mut libc::c_char =
         ponyint_pool_alloc_size(filename_alloc_size) as *mut libc::c_char;
     strcpy(filename, just_filename);
-    let mut filename_without_ext_alloc_size: size_t = 0;
+    let mut filename_without_ext_alloc_size: usize = 0;
     let mut filename_without_ext: *const libc::c_char = remove_ext(
         filename,
         '.' as i32 as libc::c_char,
         0 as libc::c_int as libc::c_char,
         &mut filename_without_ext_alloc_size,
     );
-    let mut filename_md_extension_alloc_size: size_t = 0;
+    let mut filename_md_extension_alloc_size: usize = 0;
     let mut filename_md_extension: *const libc::c_char = concat(
         filename_without_ext,
         b".md\0" as *const u8 as *const libc::c_char,
@@ -2813,25 +2813,25 @@ unsafe extern "C" fn copy_source_to_doc_src(
         source_dir.as_mut_ptr(),
     );
     pony_mkdir(source_dir.as_mut_ptr());
-    let mut file_path_alloc_size: size_t = 1024 as libc::c_int as size_t;
+    let mut file_path_alloc_size: usize = 1024 as libc::c_int as usize;
     let mut path: *mut libc::c_char =
-        ponyint_pool_alloc_size(1024 as libc::c_int as size_t) as *mut libc::c_char;
+        ponyint_pool_alloc_size(1024 as libc::c_int as usize) as *mut libc::c_char;
     path_cat(source_dir.as_mut_ptr(), filename_md_extension, path);
-    let mut old_ptr_alloc_size: size_t = 0;
+    let mut old_ptr_alloc_size: usize = 0;
     let mut doc_source_dir_relative: *const libc::c_char = concat(
         b"src/\0" as *const u8 as *const libc::c_char,
         package_name,
         &mut old_ptr_alloc_size,
     );
     let mut old_ptr: *const libc::c_char = doc_source_dir_relative;
-    let mut doc_source_dir_relative_alloc_size: size_t = 0;
+    let mut doc_source_dir_relative_alloc_size: usize = 0;
     doc_source_dir_relative = concat(
         doc_source_dir_relative,
         b"/\0" as *const u8 as *const libc::c_char,
         &mut doc_source_dir_relative_alloc_size,
     );
     ponyint_pool_free_size(old_ptr_alloc_size, old_ptr as *mut libc::c_void);
-    let mut doc_path_alloc_size: size_t = 0;
+    let mut doc_path_alloc_size: usize = 0;
     let mut doc_path: *const libc::c_char = concat(
         doc_source_dir_relative,
         filename_md_extension,
@@ -2901,9 +2901,9 @@ unsafe extern "C" fn copy_source_to_doc_src(
 #[c2rust::src_loc = "890:1"]
 unsafe extern "C" fn replace_path_separator(
     mut path: *const libc::c_char,
-    mut name_len: *mut size_t,
+    mut name_len: *mut usize,
 ) -> *mut libc::c_char {
-    let mut str_len: size_t = strlen(path);
+    let mut str_len: usize = strlen(path);
     *name_len = str_len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(*name_len) as *mut libc::c_char;
     memcpy(
@@ -2936,7 +2936,7 @@ unsafe extern "C" fn include_source_if_needed(
             b"source != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            916 as libc::c_int as size_t,
+            916 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"include_source_if_needed\0",
             ))
@@ -2949,7 +2949,7 @@ unsafe extern "C" fn include_source_if_needed(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            917 as libc::c_int as size_t,
+            917 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"include_source_if_needed\0",
             ))
@@ -2963,7 +2963,7 @@ unsafe extern "C" fn include_source_if_needed(
             b"source_path != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            919 as libc::c_int as size_t,
+            919 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"include_source_if_needed\0",
             ))
@@ -2984,7 +2984,7 @@ unsafe extern "C" fn include_source_if_needed(
                     b"current_source != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                         as *const u8 as *const libc::c_char,
-                    928 as libc::c_int as size_t,
+                    928 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                         b"include_source_if_needed\0",
                     ))
@@ -2997,7 +2997,7 @@ unsafe extern "C" fn include_source_if_needed(
                     b"current_source->source != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                         as *const u8 as *const libc::c_char,
-                    929 as libc::c_int as size_t,
+                    929 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                         b"include_source_if_needed\0",
                     ))
@@ -3010,7 +3010,7 @@ unsafe extern "C" fn include_source_if_needed(
                     b"current_source->source->file != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                         as *const u8 as *const libc::c_char,
-                    930 as libc::c_int as size_t,
+                    930 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                         b"include_source_if_needed\0",
                     ))
@@ -3042,7 +3042,7 @@ unsafe extern "C" fn doc_entity(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            948 as libc::c_int as size_t,
+            948 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3052,7 +3052,7 @@ unsafe extern "C" fn doc_entity(
             b"docgen->index_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            949 as libc::c_int as size_t,
+            949 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3062,7 +3062,7 @@ unsafe extern "C" fn doc_entity(
             b"docgen->package_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            950 as libc::c_int as size_t,
+            950 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3072,7 +3072,7 @@ unsafe extern "C" fn doc_entity(
             b"docgen->public_types != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            951 as libc::c_int as size_t,
+            951 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3082,7 +3082,7 @@ unsafe extern "C" fn doc_entity(
             b"docgen->private_types != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            952 as libc::c_int as size_t,
+            952 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3092,7 +3092,7 @@ unsafe extern "C" fn doc_entity(
             b"docgen->type_file == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            953 as libc::c_int as size_t,
+            953 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3102,7 +3102,7 @@ unsafe extern "C" fn doc_entity(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            954 as libc::c_int as size_t,
+            954 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3112,7 +3112,7 @@ unsafe extern "C" fn doc_entity(
     {
         package = ast_parent(package);
     }
-    let mut package_name_len: size_t = 0;
+    let mut package_name_len: usize = 0;
     let mut package_name: *mut libc::c_char =
         replace_path_separator(package_qualified_name(package), &mut package_name_len);
     let mut source: *mut source_t = ast_source(ast);
@@ -3120,7 +3120,7 @@ unsafe extern "C" fn doc_entity(
         include_source_if_needed(docgen, source, package_name);
     }
     ponyint_pool_free_size(package_name_len, package_name as *mut libc::c_void);
-    let mut tqfn_len: size_t = 0;
+    let mut tqfn_len: usize = 0;
     let mut tqfn: *mut libc::c_char = write_tqfn(ast, 0 as *const libc::c_char, &mut tqfn_len);
     let ref mut fresh15 = (*docgen).type_file;
     *fresh15 = doc_open_file(
@@ -3163,7 +3163,7 @@ unsafe extern "C" fn doc_entity(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            989 as libc::c_int as size_t,
+            989 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"doc_entity\0")).as_ptr(),
         );
     };
@@ -3327,7 +3327,7 @@ unsafe extern "C" fn doc_entity(
                 doc_list_add_named(
                     &mut pub_fields,
                     p,
-                    0 as libc::c_int as size_t,
+                    0 as libc::c_int as usize,
                     1 as libc::c_int != 0,
                     0 as libc::c_int != 0,
                     0 as libc::c_int != 0,
@@ -3337,7 +3337,7 @@ unsafe extern "C" fn doc_entity(
                 doc_list_add_named(
                     &mut news,
                     p,
-                    1 as libc::c_int as size_t,
+                    1 as libc::c_int as usize,
                     1 as libc::c_int != 0,
                     (*docgen_opt).include_private,
                     0 as libc::c_int != 0,
@@ -3347,7 +3347,7 @@ unsafe extern "C" fn doc_entity(
                 doc_list_add_named(
                     &mut pub_bes,
                     p,
-                    1 as libc::c_int as size_t,
+                    1 as libc::c_int as usize,
                     1 as libc::c_int != 0,
                     0 as libc::c_int != 0,
                     0 as libc::c_int != 0,
@@ -3355,7 +3355,7 @@ unsafe extern "C" fn doc_entity(
                 doc_list_add_named(
                     &mut priv_bes,
                     p,
-                    1 as libc::c_int as size_t,
+                    1 as libc::c_int as usize,
                     0 as libc::c_int != 0,
                     (*docgen_opt).include_private,
                     0 as libc::c_int != 0,
@@ -3365,7 +3365,7 @@ unsafe extern "C" fn doc_entity(
                 doc_list_add_named(
                     &mut pub_funs,
                     p,
-                    1 as libc::c_int as size_t,
+                    1 as libc::c_int as usize,
                     1 as libc::c_int != 0,
                     0 as libc::c_int != 0,
                     0 as libc::c_int != 0,
@@ -3373,7 +3373,7 @@ unsafe extern "C" fn doc_entity(
                 doc_list_add_named(
                     &mut priv_funs,
                     p,
-                    1 as libc::c_int as size_t,
+                    1 as libc::c_int as usize,
                     0 as libc::c_int != 0,
                     (*docgen_opt).include_private,
                     0 as libc::c_int != 0,
@@ -3386,7 +3386,7 @@ unsafe extern "C" fn doc_entity(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                             as *const u8 as *const libc::c_char,
-                        1070 as libc::c_int as size_t,
+                        1070 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                             b"doc_entity\0",
                         ))
@@ -3455,7 +3455,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1100 as libc::c_int as size_t,
+            1100 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3466,7 +3466,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen->index_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1101 as libc::c_int as size_t,
+            1101 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3477,7 +3477,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen->home_file != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1102 as libc::c_int as size_t,
+            1102 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3488,7 +3488,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen->package_file == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1103 as libc::c_int as size_t,
+            1103 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3499,7 +3499,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen->public_types == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1104 as libc::c_int as size_t,
+            1104 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3510,7 +3510,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen->private_types == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1105 as libc::c_int as size_t,
+            1105 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3521,7 +3521,7 @@ unsafe extern "C" fn doc_package_home(
             b"docgen->type_file == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1106 as libc::c_int as size_t,
+            1106 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3532,7 +3532,7 @@ unsafe extern "C" fn doc_package_home(
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1107 as libc::c_int as size_t,
+            1107 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
@@ -3543,12 +3543,12 @@ unsafe extern "C" fn doc_package_home(
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1108 as libc::c_int as size_t,
+            1108 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                 .as_ptr(),
         );
     };
-    let mut tqfn_len: size_t = 0;
+    let mut tqfn_len: usize = 0;
     let mut tqfn: *mut libc::c_char = write_tqfn(
         package,
         b"-index\0" as *const u8 as *const libc::c_char,
@@ -3587,7 +3587,7 @@ unsafe extern "C" fn doc_package_home(
                 b"ast_id(doc_string) == TK_STRING\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                1133 as libc::c_int as size_t,
+                1133 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"doc_package_home\0"))
                     .as_ptr(),
             );
@@ -3626,7 +3626,7 @@ unsafe extern "C" fn doc_package(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1155 as libc::c_int as size_t,
+            1155 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0")).as_ptr(),
         );
     };
@@ -3636,7 +3636,7 @@ unsafe extern "C" fn doc_package(
             b"ast_id(ast) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1156 as libc::c_int as size_t,
+            1156 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0")).as_ptr(),
         );
     };
@@ -3646,7 +3646,7 @@ unsafe extern "C" fn doc_package(
             b"docgen->package_file == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1157 as libc::c_int as size_t,
+            1157 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0")).as_ptr(),
         );
     };
@@ -3656,7 +3656,7 @@ unsafe extern "C" fn doc_package(
             b"docgen->public_types == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1158 as libc::c_int as size_t,
+            1158 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0")).as_ptr(),
         );
     };
@@ -3666,7 +3666,7 @@ unsafe extern "C" fn doc_package(
             b"docgen->private_types == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1159 as libc::c_int as size_t,
+            1159 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0")).as_ptr(),
         );
     };
@@ -3688,7 +3688,7 @@ unsafe extern "C" fn doc_package(
                     b"package_doc == NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                         as *const u8 as *const libc::c_char,
-                    1170 as libc::c_int as size_t,
+                    1170 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0"))
                         .as_ptr(),
                 );
@@ -3701,7 +3701,7 @@ unsafe extern "C" fn doc_package(
                     b"ast_id(m) == TK_MODULE\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                         as *const u8 as *const libc::c_char,
-                    1175 as libc::c_int as size_t,
+                    1175 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_package\0"))
                         .as_ptr(),
                 );
@@ -3723,7 +3723,7 @@ unsafe extern "C" fn doc_package(
                                 as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                                 as *const u8 as *const libc::c_char,
-                            1184 as libc::c_int as size_t,
+                            1184 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 12],
                                 &[libc::c_char; 12],
@@ -3734,7 +3734,7 @@ unsafe extern "C" fn doc_package(
                     doc_list_add_named(
                         &mut types,
                         t,
-                        0 as libc::c_int as size_t,
+                        0 as libc::c_int as usize,
                         1 as libc::c_int != 0,
                         (*docgen_opt).include_private,
                         1 as libc::c_int != 0,
@@ -3797,7 +3797,7 @@ unsafe extern "C" fn doc_packages(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1224 as libc::c_int as size_t,
+            1224 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_packages\0")).as_ptr(),
         );
     };
@@ -3807,7 +3807,7 @@ unsafe extern "C" fn doc_packages(
             b"ast_id(ast) == TK_PROGRAM\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1225 as libc::c_int as size_t,
+            1225 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_packages\0")).as_ptr(),
         );
     };
@@ -3818,7 +3818,7 @@ unsafe extern "C" fn doc_packages(
             b"package_1 != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1229 as libc::c_int as size_t,
+            1229 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_packages\0")).as_ptr(),
         );
     };
@@ -3838,7 +3838,7 @@ unsafe extern "C" fn doc_packages(
                 b"ast_id(p) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0"
                     as *const u8 as *const libc::c_char,
-                1236 as libc::c_int as size_t,
+                1236 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"doc_packages\0"))
                     .as_ptr(),
             );
@@ -3871,7 +3871,7 @@ unsafe extern "C" fn doc_rm_star(mut path: *const libc::c_char) {
             b"path != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1261 as libc::c_int as size_t,
+            1261 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"doc_rm_star\0")).as_ptr(),
         );
     };
@@ -3894,7 +3894,7 @@ unsafe extern "C" fn doc_rm_star(mut path: *const libc::c_char) {
         if strcmp(name, b".\0" as *const u8 as *const libc::c_char) != 0 as libc::c_int
             && strcmp(name, b"..\0" as *const u8 as *const libc::c_char) != 0 as libc::c_int
         {
-            let mut buf_len: size_t = 0;
+            let mut buf_len: usize = 0;
             let mut buf: *mut libc::c_char = doc_cat(
                 path,
                 name,
@@ -3921,7 +3921,7 @@ unsafe extern "C" fn doc_setup_dirs(
             b"docgen != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1310 as libc::c_int as size_t,
+            1310 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"doc_setup_dirs\0"))
                 .as_ptr(),
         );
@@ -3932,7 +3932,7 @@ unsafe extern "C" fn doc_setup_dirs(
             b"program != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1311 as libc::c_int as size_t,
+            1311 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"doc_setup_dirs\0"))
                 .as_ptr(),
         );
@@ -3943,7 +3943,7 @@ unsafe extern "C" fn doc_setup_dirs(
             b"opt != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1312 as libc::c_int as size_t,
+            1312 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"doc_setup_dirs\0"))
                 .as_ptr(),
         );
@@ -3978,7 +3978,7 @@ unsafe extern "C" fn doc_setup_dirs(
         &mut (*docgen).assets_dir_buf_len,
     );
     let ref mut fresh31 = (*docgen).doc_source_dir;
-    *fresh31 = ponyint_pool_alloc_size(1024 as libc::c_int as size_t) as *mut libc::c_char;
+    *fresh31 = ponyint_pool_alloc_size(1024 as libc::c_int as usize) as *mut libc::c_char;
     path_cat(
         (*docgen).base_dir,
         b"docs/src\0" as *const u8 as *const libc::c_char,
@@ -4009,7 +4009,7 @@ pub unsafe extern "C" fn generate_docs(mut program: *mut ast_t, mut options: *mu
             b"program != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/docgen.c\0" as *const u8
                 as *const libc::c_char,
-            1352 as libc::c_int as size_t,
+            1352 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"generate_docs\0"))
                 .as_ptr(),
         );

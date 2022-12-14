@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -489,7 +489,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -553,7 +553,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -649,7 +649,7 @@ pub unsafe extern "C" fn viewpoint_type(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                         as *const u8 as *const libc::c_char,
-                    72 as libc::c_int as size_t,
+                    72 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"viewpoint_type\0",
                     ))
@@ -699,7 +699,7 @@ pub unsafe extern "C" fn viewpoint_type(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                         as *const u8 as *const libc::c_char,
-                    126 as libc::c_int as size_t,
+                    126 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"viewpoint_type\0",
                     ))
@@ -762,7 +762,7 @@ pub unsafe extern "C" fn viewpoint_upper(mut type_0: *mut ast_t) -> *mut ast_t {
             b"ast_id(type) == TK_ARROW\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            157 as libc::c_int as size_t,
+            157 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"viewpoint_upper\0"))
                 .as_ptr(),
         );
@@ -793,7 +793,7 @@ pub unsafe extern "C" fn viewpoint_upper(mut type_0: *mut ast_t) -> *mut ast_t {
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                         as *const u8 as *const libc::c_char,
-                    176 as libc::c_int as size_t,
+                    176 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"viewpoint_upper\0",
                     ))
@@ -825,7 +825,7 @@ pub unsafe extern "C" fn viewpoint_upper(mut type_0: *mut ast_t) -> *mut ast_t {
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                         as *const u8 as *const libc::c_char,
-                    210 as libc::c_int as size_t,
+                    210 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"viewpoint_upper\0",
                     ))
@@ -857,7 +857,7 @@ pub unsafe extern "C" fn viewpoint_lower(mut type_0: *mut ast_t) -> *mut ast_t {
             b"ast_id(type) == TK_ARROW\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            239 as libc::c_int as size_t,
+            239 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"viewpoint_lower\0"))
                 .as_ptr(),
         );
@@ -888,7 +888,7 @@ pub unsafe extern "C" fn viewpoint_lower(mut type_0: *mut ast_t) -> *mut ast_t {
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                         as *const u8 as *const libc::c_char,
-                    258 as libc::c_int as size_t,
+                    258 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"viewpoint_lower\0",
                     ))
@@ -920,7 +920,7 @@ pub unsafe extern "C" fn viewpoint_lower(mut type_0: *mut ast_t) -> *mut ast_t {
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                         as *const u8 as *const libc::c_char,
-                    292 as libc::c_int as size_t,
+                    292 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                         b"viewpoint_lower\0",
                     ))
@@ -1009,7 +1009,7 @@ unsafe extern "C" fn replace_type(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                             as *const u8 as *const libc::c_char,
-                        378 as libc::c_int as size_t,
+                        378 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(
                             b"replace_type\0",
                         ))
@@ -1050,7 +1050,7 @@ pub unsafe extern "C" fn viewpoint_replace(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            395 as libc::c_int as size_t,
+            395 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"viewpoint_replace\0"))
                 .as_ptr(),
         );
@@ -1101,7 +1101,7 @@ pub unsafe extern "C" fn viewpoint_reifytypeparam(
             b"ast_id(typeparamref) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            426 as libc::c_int as size_t,
+            426 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"viewpoint_reifytypeparam\0",
             ))
@@ -1167,7 +1167,7 @@ pub unsafe extern "C" fn viewpoint_reifytypeparam(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            490 as libc::c_int as size_t,
+            490 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 25], &[libc::c_char; 25]>(
                 b"viewpoint_reifytypeparam\0",
             ))
@@ -1214,7 +1214,7 @@ pub unsafe extern "C" fn viewpoint_reifypair(
             b"ast_id(a) == TK_ARROW\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            515 as libc::c_int as size_t,
+            515 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"viewpoint_reifypair\0"))
                 .as_ptr(),
         );
@@ -1225,7 +1225,7 @@ pub unsafe extern "C" fn viewpoint_reifypair(
             b"ast_id(b) == TK_ARROW\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/viewpoint.c\0"
                 as *const u8 as *const libc::c_char,
-            516 as libc::c_int as size_t,
+            516 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"viewpoint_reifypair\0"))
                 .as_ptr(),
         );

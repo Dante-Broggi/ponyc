@@ -20,7 +20,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "72:1"]
     pub type __darwin_ct_rune_t = libc::c_int;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
     #[c2rust::src_loc = "106:1"]
     pub type __darwin_wchar_t = libc::c_int;
     #[c2rust::src_loc = "111:1"]
@@ -29,7 +29,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
@@ -40,7 +40,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
 }
@@ -62,8 +62,8 @@ pub mod error_h {
         pub fn errorv(
             errors: *mut errors_t,
             source: *mut source_t,
-            line: size_t,
-            pos: size_t,
+            line: usize,
+            pos: usize,
             fmt: *const libc::c_char,
             ap: ::core::ffi::VaList,
         );
@@ -532,13 +532,13 @@ pub mod token_h {
         #[c2rust::src_loc = "282:1"]
         pub fn token_new(id: token_id) -> *mut token_t;
         #[c2rust::src_loc = "380:1"]
-        pub fn token_set_string(token: *mut token_t, value: *const libc::c_char, length: size_t);
+        pub fn token_set_string(token: *mut token_t, value: *const libc::c_char, length: usize);
         #[c2rust::src_loc = "383:1"]
         pub fn token_set_float(token: *mut token_t, value: libc::c_double);
         #[c2rust::src_loc = "386:1"]
         pub fn token_set_int(token: *mut token_t, value: *mut lexint_t);
         #[c2rust::src_loc = "391:1"]
-        pub fn token_set_pos(token: *mut token_t, source: *mut source_t, line: size_t, pos: size_t);
+        pub fn token_set_pos(token: *mut token_t, source: *mut source_t, line: usize, pos: usize);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/runetype.h:10"]
@@ -552,7 +552,7 @@ pub mod runetype_h {
         pub __sgetrune: Option<
             unsafe extern "C" fn(
                 *const libc::c_char,
-                __darwin_size_t,
+                usize,
                 *mut *const libc::c_char,
             ) -> __darwin_rune_t,
         >,
@@ -560,7 +560,7 @@ pub mod runetype_h {
             unsafe extern "C" fn(
                 __darwin_rune_t,
                 *mut libc::c_char,
-                __darwin_size_t,
+                usize,
                 *mut *mut libc::c_char,
             ) -> libc::c_int,
         >,
@@ -612,7 +612,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "14:1"]
         pub fn stringtab(string_0: *const libc::c_char) -> *const libc::c_char;
         #[c2rust::src_loc = "15:1"]
-        pub fn stringtab_len(string_0: *const libc::c_char, len: size_t) -> *const libc::c_char;
+        pub fn stringtab_len(string_0: *const libc::c_char, len: usize) -> *const libc::c_char;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:6"]
@@ -620,15 +620,15 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_pool_realloc_size(
-            old_size: size_t,
-            new_size: size_t,
+            old_size: usize,
+            new_size: usize,
             p: *mut libc::c_void,
         ) -> *mut libc::c_void;
     }
@@ -641,7 +641,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -748,7 +748,7 @@ pub use self::_ctype_h::{
 };
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{
-    __darwin_ct_rune_t, __darwin_rune_t, __darwin_size_t, __darwin_wchar_t, __uint32_t,
+    __darwin_ct_rune_t, __darwin_rune_t, usize, __darwin_wchar_t, __uint32_t,
 };
 use self::error_h::{errors_t, errorv};
 pub use self::internal::{__builtin_va_list, __va_list_tag};
@@ -804,16 +804,16 @@ pub struct lexer_t {
     pub source: *mut source_t,
     pub errors: *mut errors_t,
     pub allow_test_symbols: bool,
-    pub ptr: size_t,
-    pub len: size_t,
-    pub line: size_t,
-    pub pos: size_t,
+    pub ptr: usize,
+    pub len: usize,
+    pub line: usize,
+    pub pos: usize,
     pub newline: bool,
-    pub token_line: size_t,
-    pub token_pos: size_t,
+    pub token_line: usize,
+    pub token_pos: usize,
     pub buffer: *mut libc::c_char,
-    pub buflen: size_t,
-    pub alloc: size_t,
+    pub buflen: usize,
+    pub alloc: usize,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -2304,8 +2304,8 @@ static mut abstract_0: [lextoken_t; 72] = [
 #[c2rust::src_loc = "319:1"]
 unsafe extern "C" fn lex_error_at(
     mut lexer: *mut lexer_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
     mut fmt: *const libc::c_char,
     mut args: ...
 ) {
@@ -2344,7 +2344,7 @@ unsafe extern "C" fn is_eof(mut lexer: *mut lexer_t) -> bool {
 #[c2rust::src_loc = "347:1"]
 unsafe extern "C" fn append_to_token(mut lexer: *mut lexer_t, mut c: libc::c_char) {
     if (*lexer).buflen >= (*lexer).alloc {
-        let mut new_len: size_t = if (*lexer).alloc > 0 as libc::c_int as libc::c_ulong {
+        let mut new_len: usize = if (*lexer).alloc > 0 as libc::c_int as libc::c_ulong {
             (*lexer).alloc << 1 as libc::c_int
         } else {
             64 as libc::c_int as libc::c_ulong
@@ -2377,7 +2377,7 @@ unsafe extern "C" fn make_token_with_text(
         token_set_string(
             t,
             stringtab(b"\0" as *const u8 as *const libc::c_char),
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
         );
     } else {
         token_set_string(
@@ -2389,14 +2389,14 @@ unsafe extern "C" fn make_token_with_text(
     return t;
 }
 #[c2rust::src_loc = "389:1"]
-unsafe extern "C" fn consume_chars(mut lexer: *mut lexer_t, mut count: size_t) {
+unsafe extern "C" fn consume_chars(mut lexer: *mut lexer_t, mut count: usize) {
     if (*lexer).len >= count {
     } else {
         ponyint_assert_fail(
             b"lexer->len >= count\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.c\0" as *const u8
                 as *const libc::c_char,
-            391 as libc::c_int as size_t,
+            391 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"consume_chars\0"))
                 .as_ptr(),
         );
@@ -2407,14 +2407,14 @@ unsafe extern "C" fn consume_chars(mut lexer: *mut lexer_t, mut count: size_t) {
     if *((*(*lexer).source).m).offset((*lexer).ptr as isize) as libc::c_int == '\n' as i32 {
         let ref mut fresh2 = (*lexer).line;
         *fresh2 = (*fresh2).wrapping_add(1);
-        (*lexer).pos = 0 as libc::c_int as size_t;
+        (*lexer).pos = 0 as libc::c_int as usize;
     }
     let ref mut fresh3 = (*lexer).ptr;
-    *fresh3 = (*fresh3 as libc::c_ulong).wrapping_add(count) as size_t as size_t;
+    *fresh3 = (*fresh3 as libc::c_ulong).wrapping_add(count) as usize as usize;
     let ref mut fresh4 = (*lexer).len;
-    *fresh4 = (*fresh4 as libc::c_ulong).wrapping_sub(count) as size_t as size_t;
+    *fresh4 = (*fresh4 as libc::c_ulong).wrapping_sub(count) as usize as usize;
     let ref mut fresh5 = (*lexer).pos;
-    *fresh5 = (*fresh5 as libc::c_ulong).wrapping_add(count) as size_t as size_t;
+    *fresh5 = (*fresh5 as libc::c_ulong).wrapping_add(count) as usize as usize;
 }
 #[c2rust::src_loc = "409:1"]
 unsafe extern "C" fn look(mut lexer: *mut lexer_t) -> libc::c_char {
@@ -2424,7 +2424,7 @@ unsafe extern "C" fn look(mut lexer: *mut lexer_t) -> libc::c_char {
     return *((*(*lexer).source).m).offset((*lexer).ptr as isize);
 }
 #[c2rust::src_loc = "419:1"]
-unsafe extern "C" fn lookn(mut lexer: *mut lexer_t, mut chars: size_t) -> libc::c_char {
+unsafe extern "C" fn lookn(mut lexer: *mut lexer_t, mut chars: usize) -> libc::c_char {
     if (*lexer).len < chars {
         return '\0' as i32 as libc::c_char;
     }
@@ -2441,14 +2441,14 @@ unsafe extern "C" fn literal_doesnt_terminate(mut lexer: *mut lexer_t) -> *mut t
         b"Literal doesn't terminate\0" as *const u8 as *const libc::c_char,
     );
     let ref mut fresh6 = (*lexer).ptr;
-    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add((*lexer).len) as size_t as size_t;
-    (*lexer).len = 0 as libc::c_int as size_t;
+    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add((*lexer).len) as usize as usize;
+    (*lexer).len = 0 as libc::c_int as usize;
     return make_token(lexer, TK_LEX_ERROR);
 }
 #[c2rust::src_loc = "440:1"]
 unsafe extern "C" fn nested_comment(mut lexer: *mut lexer_t) -> *mut token_t {
-    consume_chars(lexer, 2 as libc::c_int as size_t);
-    let mut depth: size_t = 1 as libc::c_int as size_t;
+    consume_chars(lexer, 2 as libc::c_int as usize);
+    let mut depth: usize = 1 as libc::c_int as usize;
     while depth > 0 as libc::c_int as libc::c_ulong {
         if (*lexer).len <= 1 as libc::c_int as libc::c_ulong {
             lex_error(
@@ -2456,22 +2456,22 @@ unsafe extern "C" fn nested_comment(mut lexer: *mut lexer_t) -> *mut token_t {
                 b"Nested comment doesn't terminate\0" as *const u8 as *const libc::c_char,
             );
             let ref mut fresh7 = (*lexer).ptr;
-            *fresh7 = (*fresh7 as libc::c_ulong).wrapping_add((*lexer).len) as size_t as size_t;
-            (*lexer).len = 0 as libc::c_int as size_t;
+            *fresh7 = (*fresh7 as libc::c_ulong).wrapping_add((*lexer).len) as usize as usize;
+            (*lexer).len = 0 as libc::c_int as usize;
             return make_token(lexer, TK_LEX_ERROR);
         }
         if look(lexer) as libc::c_int == '*' as i32
-            && lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '/' as i32
+            && lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '/' as i32
         {
-            consume_chars(lexer, 2 as libc::c_int as size_t);
+            consume_chars(lexer, 2 as libc::c_int as usize);
             depth = depth.wrapping_sub(1);
         } else if look(lexer) as libc::c_int == '/' as i32
-            && lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '*' as i32
+            && lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '*' as i32
         {
-            consume_chars(lexer, 2 as libc::c_int as size_t);
+            consume_chars(lexer, 2 as libc::c_int as usize);
             depth = depth.wrapping_add(1);
         } else {
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
         }
     }
     (*lexer).newline = 0 as libc::c_int != 0;
@@ -2479,25 +2479,25 @@ unsafe extern "C" fn nested_comment(mut lexer: *mut lexer_t) -> *mut token_t {
 }
 #[c2rust::src_loc = "478:1"]
 unsafe extern "C" fn line_comment(mut lexer: *mut lexer_t) -> *mut token_t {
-    consume_chars(lexer, 2 as libc::c_int as size_t);
+    consume_chars(lexer, 2 as libc::c_int as usize);
     while !is_eof(lexer) && look(lexer) as libc::c_int != '\n' as i32 {
-        consume_chars(lexer, 1 as libc::c_int as size_t);
+        consume_chars(lexer, 1 as libc::c_int as usize);
     }
     return 0 as *mut token_t;
 }
 #[c2rust::src_loc = "492:1"]
 unsafe extern "C" fn slash(mut lexer: *mut lexer_t) -> *mut token_t {
-    if lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '*' as i32 {
+    if lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '*' as i32 {
         return nested_comment(lexer);
     }
-    if lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '/' as i32 {
+    if lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '/' as i32 {
         return line_comment(lexer);
     }
-    if lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '~' as i32 {
-        consume_chars(lexer, 2 as libc::c_int as size_t);
+    if lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '~' as i32 {
+        consume_chars(lexer, 2 as libc::c_int as usize);
         return make_token(lexer, TK_DIVIDE_TILDE);
     }
-    consume_chars(lexer, 1 as libc::c_int as size_t);
+    consume_chars(lexer, 1 as libc::c_int as usize);
     return make_token(lexer, TK_DIVIDE);
 }
 #[c2rust::src_loc = "517:1"]
@@ -2520,7 +2520,7 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
     {
         let ref mut fresh8 = (*lexer).buflen;
         *fresh8 = (*fresh8 as libc::c_ulong).wrapping_sub(2 as libc::c_int as libc::c_ulong)
-            as size_t as size_t;
+            as usize as usize;
         memmove(
             &mut *buf.offset(0 as libc::c_int as isize) as *mut libc::c_char as *mut libc::c_void,
             &mut *buf.offset(2 as libc::c_int as isize) as *mut libc::c_char as *const libc::c_void,
@@ -2535,11 +2535,11 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
             (*lexer).buflen,
         );
     }
-    let mut ws: size_t = (*lexer).buflen;
-    let mut ws_this_line: size_t = 0;
+    let mut ws: usize = (*lexer).buflen;
+    let mut ws_this_line: usize = 0;
     let mut in_leading_ws: bool = 1 as libc::c_int != 0;
     let mut has_non_ws: bool = 0 as libc::c_int != 0;
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < (*lexer).buflen {
         let mut c: libc::c_char = *((*lexer).buffer).offset(i as isize);
         if in_leading_ws {
@@ -2556,7 +2556,7 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
             }
         }
         if c as libc::c_int == '\n' as i32 {
-            ws_this_line = 0 as libc::c_int as size_t;
+            ws_this_line = 0 as libc::c_int as usize;
             has_non_ws = 0 as libc::c_int != 0;
             in_leading_ws = 1 as libc::c_int != 0;
         }
@@ -2565,18 +2565,18 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
     if ws > 0 as libc::c_int as libc::c_ulong {
         let mut line_start: *mut libc::c_char = (*lexer).buffer;
         let mut compacted: *mut libc::c_char = (*lexer).buffer;
-        let mut rem: size_t = (*lexer).buflen;
+        let mut rem: usize = (*lexer).buflen;
         while rem > 0 as libc::c_int as libc::c_ulong {
             let mut line_end: *mut libc::c_char =
                 memchr(line_start as *const libc::c_void, '\n' as i32, rem) as *mut libc::c_char;
-            let mut line_len: size_t = if line_end.is_null() {
+            let mut line_len: usize = if line_end.is_null() {
                 rem
             } else {
                 (line_end.offset_from(line_start) as libc::c_long
-                    + 1 as libc::c_int as libc::c_long) as size_t
+                    + 1 as libc::c_int as libc::c_long) as usize
             };
             if line_start != line_end {
-                let mut trim: size_t = if line_len < ws { line_len } else { ws };
+                let mut trim: usize = if line_len < ws { line_len } else { ws };
                 memmove(
                     compacted as *mut libc::c_void,
                     line_start.offset(trim as isize) as *const libc::c_void,
@@ -2592,17 +2592,17 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
                 compacted = compacted.offset(line_len as isize);
             }
             line_start = line_start.offset(line_len as isize);
-            rem = (rem as libc::c_ulong).wrapping_sub(line_len) as size_t as size_t;
+            rem = (rem as libc::c_ulong).wrapping_sub(line_len) as usize as usize;
         }
-        (*lexer).buflen = compacted.offset_from((*lexer).buffer) as libc::c_long as size_t;
+        (*lexer).buflen = compacted.offset_from((*lexer).buffer) as libc::c_long as usize;
     }
-    let mut trim_0: size_t = 0;
-    let mut i_0: size_t = ((*lexer).buflen).wrapping_sub(1 as libc::c_int as libc::c_ulong);
+    let mut trim_0: usize = 0;
+    let mut i_0: usize = ((*lexer).buflen).wrapping_sub(1 as libc::c_int as libc::c_ulong);
     while i_0 > 0 as libc::c_int as libc::c_ulong {
         let mut c_0: libc::c_char = *((*lexer).buffer).offset(i_0 as isize);
         if c_0 as libc::c_int == '\n' as i32 {
             let ref mut fresh10 = (*lexer).buflen;
-            *fresh10 = (*fresh10 as libc::c_ulong).wrapping_sub(trim_0) as size_t as size_t;
+            *fresh10 = (*fresh10 as libc::c_ulong).wrapping_sub(trim_0) as usize as usize;
             break;
         } else {
             if !(isspace(c_0 as libc::c_int) != 0) {
@@ -2615,8 +2615,8 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
 }
 #[c2rust::src_loc = "630:1"]
 unsafe extern "C" fn triple_string(mut lexer: *mut lexer_t) -> *mut token_t {
-    consume_chars(lexer, 3 as libc::c_int as size_t);
-    let mut start_line: size_t = (*lexer).line;
+    consume_chars(lexer, 3 as libc::c_int as usize);
+    let mut start_line: usize = (*lexer).line;
     let mut non_space_on_first_line: bool = 0 as libc::c_int != 0;
     loop {
         if is_eof(lexer) {
@@ -2624,13 +2624,13 @@ unsafe extern "C" fn triple_string(mut lexer: *mut lexer_t) -> *mut token_t {
         }
         let mut c: libc::c_char = look(lexer);
         if c as libc::c_int == '"' as i32
-            && lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '"' as i32
-            && lookn(lexer, 3 as libc::c_int as size_t) as libc::c_int == '"' as i32
+            && lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '"' as i32
+            && lookn(lexer, 3 as libc::c_int as usize) as libc::c_int == '"' as i32
         {
-            consume_chars(lexer, 3 as libc::c_int as size_t);
+            consume_chars(lexer, 3 as libc::c_int as usize);
             while look(lexer) as libc::c_int == '"' as i32 {
                 append_to_token(lexer, '"' as i32 as libc::c_char);
-                consume_chars(lexer, 1 as libc::c_int as size_t);
+                consume_chars(lexer, 1 as libc::c_int as usize);
             }
             if (*lexer).line > start_line && non_space_on_first_line as libc::c_int != 0 {
                 lex_error(
@@ -2646,7 +2646,7 @@ unsafe extern "C" fn triple_string(mut lexer: *mut lexer_t) -> *mut token_t {
         if (*lexer).line == start_line && isspace(c as libc::c_int) == 0 {
             non_space_on_first_line = 1 as libc::c_int != 0;
         }
-        consume_chars(lexer, 1 as libc::c_int as size_t);
+        consume_chars(lexer, 1 as libc::c_int as usize);
         append_to_token(lexer, c);
     }
 }
@@ -2671,7 +2671,7 @@ unsafe extern "C" fn read_hex_escape(
             return -text_len;
         }
         text_len += 1;
-        consume_chars(lexer, 1 as libc::c_int as size_t);
+        consume_chars(lexer, 1 as libc::c_int as usize);
         value = (value << 4 as libc::c_int).wrapping_add(digit as libc::c_uint);
         i += 1;
     }
@@ -2685,10 +2685,10 @@ unsafe extern "C" fn escape(
 ) -> libc::c_int {
     let mut start: *const libc::c_char =
         &mut *((*(*lexer).source).m).offset((*lexer).ptr as isize) as *mut libc::c_char;
-    let mut line: size_t = (*lexer).line;
-    let mut pos: size_t = (*lexer).pos;
-    let mut c: libc::c_char = lookn(lexer, 2 as libc::c_int as size_t);
-    consume_chars(lexer, 2 as libc::c_int as size_t);
+    let mut line: usize = (*lexer).line;
+    let mut pos: usize = (*lexer).pos;
+    let mut c: libc::c_char = lookn(lexer, 2 as libc::c_int as usize);
+    consume_chars(lexer, 2 as libc::c_int as usize);
     let mut value: libc::c_int = -(2 as libc::c_int);
     let mut hex_digits: libc::c_int = 0 as libc::c_int;
     match c as libc::c_int {
@@ -2795,7 +2795,7 @@ unsafe extern "C" fn append_utf8(mut lexer: *mut lexer_t, mut value: libc::c_int
             b"value >= 0 && value <= 0x10FFFF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.c\0" as *const u8
                 as *const libc::c_char,
-            798 as libc::c_int as size_t,
+            798 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"append_utf8\0")).as_ptr(),
         );
     };
@@ -2845,19 +2845,19 @@ unsafe extern "C" fn append_utf8(mut lexer: *mut lexer_t, mut value: libc::c_int
 }
 #[c2rust::src_loc = "827:1"]
 unsafe extern "C" fn string(mut lexer: *mut lexer_t) -> *mut token_t {
-    if lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int == '"' as i32
-        && lookn(lexer, 3 as libc::c_int as size_t) as libc::c_int == '"' as i32
+    if lookn(lexer, 2 as libc::c_int as usize) as libc::c_int == '"' as i32
+        && lookn(lexer, 3 as libc::c_int as usize) as libc::c_int == '"' as i32
     {
         return triple_string(lexer);
     }
-    consume_chars(lexer, 1 as libc::c_int as size_t);
+    consume_chars(lexer, 1 as libc::c_int as usize);
     loop {
         if is_eof(lexer) {
             return literal_doesnt_terminate(lexer);
         }
         let mut c: libc::c_char = look(lexer);
         if c as libc::c_int == '"' as i32 {
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
             return make_token_with_text(lexer, TK_STRING);
         }
         if c as libc::c_int == '\\' as i32 {
@@ -2868,14 +2868,14 @@ unsafe extern "C" fn string(mut lexer: *mut lexer_t) -> *mut token_t {
             }
         } else {
             append_to_token(lexer, c);
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
         }
     }
 }
 #[c2rust::src_loc = "866:1"]
 unsafe extern "C" fn character(mut lexer: *mut lexer_t) -> *mut token_t {
-    consume_chars(lexer, 1 as libc::c_int as size_t);
-    let mut chars_consumed: size_t = 0;
+    consume_chars(lexer, 1 as libc::c_int as usize);
+    let mut chars_consumed: usize = 0;
     let mut value: lexint_t = lexint_t { low: 0, high: 0 };
     lexint_zero(&mut value);
     loop {
@@ -2885,7 +2885,7 @@ unsafe extern "C" fn character(mut lexer: *mut lexer_t) -> *mut token_t {
         let mut c: libc::c_int = look(lexer) as libc::c_int & 0xff as libc::c_int;
         if c == '\'' as i32 {
             let mut t: *mut token_t = 0 as *mut token_t;
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
             if chars_consumed == 0 as libc::c_int as libc::c_ulong {
                 lex_error(
                     lexer,
@@ -2901,7 +2901,7 @@ unsafe extern "C" fn character(mut lexer: *mut lexer_t) -> *mut token_t {
         if c == '\\' as i32 {
             c = escape(lexer, 0 as libc::c_int != 0, 0 as libc::c_int != 0);
         } else {
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
         }
         chars_consumed = chars_consumed.wrapping_add(1);
         if c >= 0 as libc::c_int {
@@ -2933,7 +2933,7 @@ unsafe extern "C" fn lex_integer(
                 return 0 as libc::c_int != 0;
             }
             previous_underscore = 1 as libc::c_int != 0;
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
         } else {
             if end_on_e as libc::c_int != 0
                 && (c as libc::c_int == 'e' as i32 || c as libc::c_int == 'E' as i32)
@@ -2967,7 +2967,7 @@ unsafe extern "C" fn lex_integer(
                 return 0 as libc::c_int != 0;
             }
             previous_underscore = 0 as libc::c_int != 0;
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
             digit_count = digit_count.wrapping_add(1);
         }
     }
@@ -3013,18 +3013,18 @@ unsafe extern "C" fn real(
             b"c == '.' || c == 'e' || c == 'E'\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.c\0" as *const u8
                 as *const libc::c_char,
-            1009 as libc::c_int as size_t,
+            1009 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 5], &[libc::c_char; 5]>(b"real\0")).as_ptr(),
         );
     };
     if c as libc::c_int == '.' as i32 {
-        c = lookn(lexer, 2 as libc::c_int as size_t);
+        c = lookn(lexer, 2 as libc::c_int as usize);
         if (c as libc::c_int) < '0' as i32 || c as libc::c_int > '9' as i32 {
             let mut t: *mut token_t = make_token(lexer, TK_INT);
             token_set_int(t, integral_value);
             return t;
         }
-        consume_chars(lexer, 1 as libc::c_int as size_t);
+        consume_chars(lexer, 1 as libc::c_int as usize);
         if !lex_integer(
             lexer,
             10 as libc::c_int as u32,
@@ -3037,10 +3037,10 @@ unsafe extern "C" fn real(
         }
     }
     if look(lexer) as libc::c_int == 'e' as i32 || look(lexer) as libc::c_int == 'E' as i32 {
-        consume_chars(lexer, 1 as libc::c_int as size_t);
+        consume_chars(lexer, 1 as libc::c_int as usize);
         if look(lexer) as libc::c_int == '+' as i32 || look(lexer) as libc::c_int == '-' as i32 {
             exp_neg = look(lexer) as libc::c_int == '-' as i32;
-            consume_chars(lexer, 1 as libc::c_int as size_t);
+            consume_chars(lexer, 1 as libc::c_int as usize);
         }
         if !lex_integer(
             lexer,
@@ -3088,9 +3088,9 @@ unsafe extern "C" fn nondecimal_number(
 #[c2rust::src_loc = "1081:1"]
 unsafe extern "C" fn number(mut lexer: *mut lexer_t) -> *mut token_t {
     if look(lexer) as libc::c_int == '0' as i32 {
-        match lookn(lexer, 2 as libc::c_int as size_t) as libc::c_int {
+        match lookn(lexer, 2 as libc::c_int as usize) as libc::c_int {
             120 | 88 => {
-                consume_chars(lexer, 2 as libc::c_int as size_t);
+                consume_chars(lexer, 2 as libc::c_int as usize);
                 return nondecimal_number(
                     lexer,
                     16 as libc::c_int,
@@ -3098,7 +3098,7 @@ unsafe extern "C" fn number(mut lexer: *mut lexer_t) -> *mut token_t {
                 );
             }
             98 | 66 => {
-                consume_chars(lexer, 2 as libc::c_int as size_t);
+                consume_chars(lexer, 2 as libc::c_int as usize);
                 return nondecimal_number(
                     lexer,
                     2 as libc::c_int,
@@ -3131,8 +3131,8 @@ unsafe extern "C" fn number(mut lexer: *mut lexer_t) -> *mut token_t {
     return t;
 }
 #[c2rust::src_loc = "1120:1"]
-unsafe extern "C" fn read_id(mut lexer: *mut lexer_t) -> size_t {
-    let mut len: size_t = 0;
+unsafe extern "C" fn read_id(mut lexer: *mut lexer_t) -> usize {
+    let mut len: usize = 0;
     let mut c: libc::c_char = 0;
     loop {
         c = lookn(lexer, len.wrapping_add(1 as libc::c_int as libc::c_ulong));
@@ -3152,7 +3152,7 @@ unsafe extern "C" fn read_id(mut lexer: *mut lexer_t) -> size_t {
 }
 #[c2rust::src_loc = "1152:1"]
 unsafe extern "C" fn keyword(mut lexer: *mut lexer_t, mut allow_identifiers: bool) -> *mut token_t {
-    let mut len: size_t = read_id(lexer);
+    let mut len: usize = read_id(lexer);
     let mut p: *const lextoken_t = keywords.as_ptr();
     while !((*p).text).is_null() {
         if strcmp((*lexer).buffer, (*p).text) == 0 {
@@ -3170,7 +3170,7 @@ unsafe extern "C" fn keyword(mut lexer: *mut lexer_t, mut allow_identifiers: boo
 #[c2rust::src_loc = "1176:1"]
 unsafe extern "C" fn hash(mut lexer: *mut lexer_t) -> *mut token_t {
     append_to_token(lexer, look(lexer));
-    consume_chars(lexer, 1 as libc::c_int as size_t);
+    consume_chars(lexer, 1 as libc::c_int as usize);
     let mut t: *mut token_t = keyword(lexer, 0 as libc::c_int != 0);
     if !t.is_null() {
         return t;
@@ -3180,7 +3180,7 @@ unsafe extern "C" fn hash(mut lexer: *mut lexer_t) -> *mut token_t {
 #[c2rust::src_loc = "1191:1"]
 unsafe extern "C" fn dollar(mut lexer: *mut lexer_t) -> *mut token_t {
     append_to_token(lexer, look(lexer));
-    consume_chars(lexer, 1 as libc::c_int as size_t);
+    consume_chars(lexer, 1 as libc::c_int as usize);
     if (*lexer).allow_test_symbols {
         let mut t: *mut token_t = keyword(lexer, 1 as libc::c_int != 0);
         if !t.is_null() {
@@ -3209,7 +3209,7 @@ unsafe extern "C" fn newline_symbols(mut raw_token: token_id, mut newline: bool)
 #[c2rust::src_loc = "1233:1"]
 unsafe extern "C" fn symbol(mut lexer: *mut lexer_t) -> *mut token_t {
     let mut sym: [libc::c_char; 3] = [0; 3];
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < ::core::mem::size_of::<[libc::c_char; 3]>() as libc::c_ulong {
         sym[i as usize] = lookn(lexer, i.wrapping_add(1 as libc::c_int as libc::c_ulong));
         i = i.wrapping_add(1);
@@ -3222,7 +3222,7 @@ unsafe extern "C" fn symbol(mut lexer: *mut lexer_t) -> *mut token_t {
             || *symbol_0.offset(i_0 as isize) as libc::c_int == sym[i_0 as usize] as libc::c_int
         {
             if *symbol_0.offset(i_0 as isize) as libc::c_int == '\0' as i32 {
-                consume_chars(lexer, i_0 as size_t);
+                consume_chars(lexer, i_0 as usize);
                 return make_token(lexer, newline_symbols((*p).id, (*lexer).newline));
             }
             i_0 += 1;
@@ -3234,7 +3234,7 @@ unsafe extern "C" fn symbol(mut lexer: *mut lexer_t) -> *mut token_t {
         b"Unrecognized character: %c\0" as *const u8 as *const libc::c_char,
         sym[0 as libc::c_int as usize] as libc::c_int,
     );
-    consume_chars(lexer, 1 as libc::c_int as size_t);
+    consume_chars(lexer, 1 as libc::c_int as usize);
     return make_token(lexer, TK_LEX_ERROR);
 }
 #[no_mangle]
@@ -3250,11 +3250,11 @@ pub unsafe extern "C" fn lexer_open(
             b"source != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.c\0" as *const u8
                 as *const libc::c_char,
-            1263 as libc::c_int as size_t,
+            1263 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"lexer_open\0")).as_ptr(),
         );
     };
-    let mut lexer: *mut lexer_t = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut lexer_t;
+    let mut lexer: *mut lexer_t = ponyint_pool_alloc(2 as libc::c_int as usize) as *mut lexer_t;
     memset(
         lexer as *mut libc::c_void,
         0 as libc::c_int,
@@ -3266,8 +3266,8 @@ pub unsafe extern "C" fn lexer_open(
     *fresh13 = errors;
     (*lexer).allow_test_symbols = allow_test_symbols;
     (*lexer).len = ((*source).len).wrapping_sub(1 as libc::c_int as libc::c_ulong);
-    (*lexer).line = 1 as libc::c_int as size_t;
-    (*lexer).pos = 1 as libc::c_int as size_t;
+    (*lexer).line = 1 as libc::c_int as usize;
+    (*lexer).pos = 1 as libc::c_int as usize;
     (*lexer).newline = 1 as libc::c_int != 0;
     return lexer;
 }
@@ -3280,7 +3280,7 @@ pub unsafe extern "C" fn lexer_close(mut lexer: *mut lexer_t) {
     if !((*lexer).buffer).is_null() {
         ponyint_pool_free_size((*lexer).alloc, (*lexer).buffer as *mut libc::c_void);
     }
-    ponyint_pool_free(2 as libc::c_int as size_t, lexer as *mut libc::c_void);
+    ponyint_pool_free(2 as libc::c_int as usize, lexer as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "1292:1"]
@@ -3291,7 +3291,7 @@ pub unsafe extern "C" fn lexer_next(mut lexer: *mut lexer_t) -> *mut token_t {
             b"lexer != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.c\0" as *const u8
                 as *const libc::c_char,
-            1294 as libc::c_int as size_t,
+            1294 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"lexer_next\0")).as_ptr(),
         );
     };
@@ -3299,7 +3299,7 @@ pub unsafe extern "C" fn lexer_next(mut lexer: *mut lexer_t) -> *mut token_t {
     while t.is_null() {
         (*lexer).token_line = (*lexer).line;
         (*lexer).token_pos = (*lexer).pos;
-        (*lexer).buflen = 0 as libc::c_int as size_t;
+        (*lexer).buflen = 0 as libc::c_int as usize;
         if is_eof(lexer) {
             t = make_token(lexer, TK_EOF);
             break;
@@ -3308,10 +3308,10 @@ pub unsafe extern "C" fn lexer_next(mut lexer: *mut lexer_t) -> *mut token_t {
             match c as libc::c_int {
                 10 => {
                     (*lexer).newline = 1 as libc::c_int != 0;
-                    consume_chars(lexer, 1 as libc::c_int as size_t);
+                    consume_chars(lexer, 1 as libc::c_int as usize);
                 }
                 13 | 9 | 32 => {
-                    consume_chars(lexer, 1 as libc::c_int as size_t);
+                    consume_chars(lexer, 1 as libc::c_int as usize);
                 }
                 47 => {
                     t = slash(lexer);
@@ -3339,7 +3339,7 @@ pub unsafe extern "C" fn lexer_next(mut lexer: *mut lexer_t) -> *mut token_t {
                                 b"t != NULL\0" as *const u8 as *const libc::c_char,
                                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexer.c\0"
                                     as *const u8 as *const libc::c_char,
-                                1353 as libc::c_int as size_t,
+                                1353 as libc::c_int as usize,
                                 (*::core::mem::transmute::<
                                     &[u8; 11],
                                     &[libc::c_char; 11],

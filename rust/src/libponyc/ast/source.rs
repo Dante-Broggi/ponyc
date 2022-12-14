@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
     #[c2rust::src_loc = "121:1"]
     pub type __darwin_ssize_t = libc::c_long;
 }
@@ -21,7 +21,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
@@ -69,10 +69,10 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -81,7 +81,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -104,7 +104,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
     use super::pony_h::_pony_type_t;
@@ -203,13 +203,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:4"]
@@ -219,15 +219,15 @@ pub mod serialise_h {
     use super::pony_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
             offset: uintptr_t,
-            size: size_t,
+            size: usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "37:1"]
-        pub fn pony_serialise_reserve(ctx: *mut pony_ctx_t, p: *mut libc::c_void, size: size_t);
+        pub fn pony_serialise_reserve(ctx: *mut pony_ctx_t, p: *mut libc::c_void, size: usize);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:7"]
@@ -281,13 +281,13 @@ pub unsafe extern "C" fn source_open(
         return 0 as *mut source_t;
     }
     fseek(fp, 0 as libc::c_int as libc::c_long, 0 as libc::c_int);
-    let mut source: *mut source_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut source_t;
+    let mut source: *mut source_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut source_t;
     let ref mut fresh0 = (*source).file;
     *fresh0 = stringtab(file);
     let ref mut fresh1 = (*source).m;
-    *fresh1 = ponyint_pool_alloc_size((size + 1 as libc::c_int as libc::c_long) as size_t)
+    *fresh1 = ponyint_pool_alloc_size((size + 1 as libc::c_int as libc::c_long) as usize)
         as *mut libc::c_char;
-    (*source).len = (size + 1 as libc::c_int as libc::c_long) as size_t;
+    (*source).len = (size + 1 as libc::c_int as libc::c_long) as usize;
     let mut read: ssize_t = fread(
         (*source).m as *mut libc::c_void,
         ::core::mem::size_of::<libc::c_char>() as libc::c_ulong,
@@ -298,7 +298,7 @@ pub unsafe extern "C" fn source_open(
     if read < size {
         *error_msgp = b"failed to read entire file\0" as *const u8 as *const libc::c_char;
         ponyint_pool_free_size((*source).len, (*source).m as *mut libc::c_void);
-        ponyint_pool_free(0 as libc::c_int as size_t, source as *mut libc::c_void);
+        ponyint_pool_free(0 as libc::c_int as usize, source as *mut libc::c_void);
         fclose(fp);
         return 0 as *mut source_t;
     }
@@ -308,7 +308,7 @@ pub unsafe extern "C" fn source_open(
 #[no_mangle]
 #[c2rust::src_loc = "54:1"]
 pub unsafe extern "C" fn source_open_string(mut source_code: *const libc::c_char) -> *mut source_t {
-    let mut source: *mut source_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut source_t;
+    let mut source: *mut source_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut source_t;
     let ref mut fresh2 = (*source).file;
     *fresh2 = 0 as *const libc::c_char;
     (*source).len = (strlen(source_code)).wrapping_add(1 as libc::c_int as libc::c_ulong);
@@ -330,7 +330,7 @@ pub unsafe extern "C" fn source_close(mut source: *mut source_t) {
     if !((*source).m).is_null() {
         ponyint_pool_free_size((*source).len, (*source).m as *mut libc::c_void);
     }
-    ponyint_pool_free(0 as libc::c_int as size_t, source as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, source as *mut libc::c_void);
 }
 #[c2rust::src_loc = "79:1"]
 unsafe extern "C" fn source_serialise_trace(
@@ -348,7 +348,7 @@ unsafe extern "C" fn source_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut source: *mut source_t = object as *mut source_t;
@@ -391,7 +391,7 @@ static mut source_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

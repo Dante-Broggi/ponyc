@@ -7,7 +7,7 @@ pub mod internal {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:3"]
 pub mod _types_h {
@@ -66,7 +66,7 @@ pub mod actor_h {
         pub sync_flags: u8,
         pub cycle_detector_critical: u8,
         pub heap: heap_t,
-        pub muted: size_t,
+        pub muted: usize,
         pub internal_flags: u8,
         pub gc: gc_t,
     }
@@ -74,22 +74,22 @@ pub mod actor_h {
     #[repr(C)]
     #[c2rust::src_loc = "31:16"]
     pub struct actorstats_t {
-        pub heap_mem_allocated: size_t,
-        pub heap_mem_used: size_t,
-        pub heap_num_allocated: size_t,
-        pub heap_realloc_counter: size_t,
-        pub heap_alloc_counter: size_t,
-        pub heap_free_counter: size_t,
-        pub heap_gc_counter: size_t,
-        pub system_cpu: size_t,
-        pub app_cpu: size_t,
-        pub gc_mark_cpu: size_t,
-        pub gc_sweep_cpu: size_t,
-        pub messages_sent_counter: size_t,
-        pub system_messages_processed_counter: size_t,
-        pub app_messages_processed_counter: size_t,
-        pub foreign_actormap_objectmap_mem_used: size_t,
-        pub foreign_actormap_objectmap_mem_allocated: size_t,
+        pub heap_mem_allocated: usize,
+        pub heap_mem_used: usize,
+        pub heap_num_allocated: usize,
+        pub heap_realloc_counter: usize,
+        pub heap_alloc_counter: usize,
+        pub heap_free_counter: usize,
+        pub heap_gc_counter: usize,
+        pub system_cpu: usize,
+        pub app_cpu: usize,
+        pub gc_mark_cpu: usize,
+        pub gc_sweep_cpu: usize,
+        pub messages_sent_counter: usize,
+        pub system_messages_processed_counter: usize,
+        pub app_messages_processed_counter: usize,
+        pub foreign_actormap_objectmap_mem_used: usize,
+        pub foreign_actormap_objectmap_mem_allocated: usize,
     }
     use super::gc_h::gc_t;
     use super::heap_h::heap_t;
@@ -105,7 +105,7 @@ pub mod gc_h {
     pub struct gc_t {
         pub mark: u32,
         pub rc_mark: u32,
-        pub rc: size_t,
+        pub rc: usize,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
@@ -149,8 +149,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -159,10 +159,10 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:3"]
@@ -178,7 +178,7 @@ pub mod actormap_h {
     #[c2rust::src_loc = "12:16"]
     pub struct actorref_t {
         pub actor: *mut pony_actor_t,
-        pub rc: size_t,
+        pub rc: usize,
         pub mark: u32,
         pub map: objectmap_t,
     }
@@ -206,8 +206,8 @@ pub mod heap_h {
         pub small_free: [*mut chunk_t; 5],
         pub small_full: [*mut chunk_t; 5],
         pub large: *mut chunk_t,
-        pub used: size_t,
-        pub next_gc: size_t,
+        pub used: usize,
+        pub next_gc: usize,
     }
     #[c2rust::src_loc = "32:3"]
     pub const TRACK_NO_FINALISERS: C2RustUnnamed_0 = 0;
@@ -226,7 +226,7 @@ pub mod heap_h {
         pub fn ponyint_heap_alloc(
             actor: *mut pony_actor_t,
             heap: *mut heap_t,
-            size: size_t,
+            size: usize,
             track_finalisers_mask: u32,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "54:1"]
@@ -240,7 +240,7 @@ pub mod heap_h {
         pub fn ponyint_heap_alloc_large(
             actor: *mut pony_actor_t,
             heap: *mut heap_t,
-            size: size_t,
+            size: usize,
             track_finalisers_mask: u32,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "63:1"]
@@ -248,8 +248,8 @@ pub mod heap_h {
             actor: *mut pony_actor_t,
             heap: *mut heap_t,
             p: *mut libc::c_void,
-            size: size_t,
-            copy: size_t,
+            size: usize,
+            copy: usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "96:1"]
         pub fn ponyint_heap_endgc(heap: *mut heap_t);
@@ -337,10 +337,10 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -349,7 +349,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -390,7 +390,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -459,7 +459,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -533,13 +533,13 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "34:1"]
-        pub fn ponyint_pool_index(size: size_t) -> size_t;
+        pub fn ponyint_pool_index(size: usize) -> usize;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.h:7"]
@@ -553,7 +553,7 @@ pub mod cycle_h {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_cycle_unblock(actor: *mut pony_actor_t);
         #[c2rust::src_loc = "22:1"]
-        pub fn ponyint_cycle_ack(token: size_t);
+        pub fn ponyint_cycle_ack(token: usize);
         #[c2rust::src_loc = "26:1"]
         pub fn ponyint_is_cycle(actor: *mut pony_actor_t) -> bool;
     }
@@ -576,7 +576,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -756,7 +756,7 @@ unsafe extern "C" fn actor_setoverloaded(mut actor: *mut pony_actor_t) {
             b"!ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            172 as libc::c_int as size_t,
+            172 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"actor_setoverloaded\0"))
                 .as_ptr(),
         );
@@ -870,7 +870,7 @@ unsafe extern "C" fn send_block(mut ctx: *mut pony_ctx_t, mut actor: *mut pony_a
             b"ctx->current == actor\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            300 as libc::c_int as size_t,
+            300 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"send_block\0")).as_ptr(),
         );
     };
@@ -894,7 +894,7 @@ unsafe extern "C" fn handle_message(
                     b"!ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    335 as libc::c_int as size_t,
+                    335 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -917,7 +917,7 @@ unsafe extern "C" fn handle_message(
                     b"!ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    362 as libc::c_int as size_t,
+                    362 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -940,7 +940,7 @@ unsafe extern "C" fn handle_message(
                     b"ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    389 as libc::c_int as size_t,
+                    389 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -964,7 +964,7 @@ unsafe extern "C" fn handle_message(
                     b"!ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    402 as libc::c_int as size_t,
+                    402 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -973,7 +973,7 @@ unsafe extern "C" fn handle_message(
             };
             if has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8) {
                 let mut m_1: *mut pony_msgi_t = msg as *mut pony_msgi_t;
-                ponyint_cycle_ack((*m_1).i as size_t);
+                ponyint_cycle_ack((*m_1).i as usize);
             }
             return 0 as libc::c_int != 0;
         }
@@ -984,7 +984,7 @@ unsafe extern "C" fn handle_message(
                     b"!ponyint_actor_pendingdestroy(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    424 as libc::c_int as size_t,
+                    424 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -997,7 +997,7 @@ unsafe extern "C" fn handle_message(
                     b"!ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    426 as libc::c_int as size_t,
+                    426 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -1019,7 +1019,7 @@ unsafe extern "C" fn handle_message(
                     b"ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    447 as libc::c_int as size_t,
+                    447 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -1043,7 +1043,7 @@ unsafe extern "C" fn handle_message(
                     b"ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    460 as libc::c_int as size_t,
+                    460 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -1067,7 +1067,7 @@ unsafe extern "C" fn handle_message(
                     b"ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    473 as libc::c_int as size_t,
+                    473 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -1091,7 +1091,7 @@ unsafe extern "C" fn handle_message(
                     b"ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    486 as libc::c_int as size_t,
+                    486 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -1115,7 +1115,7 @@ unsafe extern "C" fn handle_message(
                     b"!ponyint_is_cycle(actor)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                         as *const u8 as *const libc::c_char,
-                    499 as libc::c_int as size_t,
+                    499 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"handle_message\0",
                     ))
@@ -1165,16 +1165,16 @@ pub unsafe extern "C" fn ponyint_actor_run(
             b"!has_sync_flag(actor, SYNC_FLAG_MUTED)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            559 as libc::c_int as size_t,
+            559 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_actor_run\0"))
                 .as_ptr(),
         );
     };
     let ref mut fresh0 = (*ctx).current;
     *fresh0 = actor;
-    let mut batch: size_t = 100 as libc::c_int as size_t;
+    let mut batch: usize = 100 as libc::c_int as usize;
     let mut msg: *mut pony_msg_t = 0 as *mut pony_msg_t;
-    let mut app: size_t = 0;
+    let mut app: usize = 0;
     if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
         set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8);
     }
@@ -1208,7 +1208,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
             b"app < batch\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            642 as libc::c_int as size_t,
+            642 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_actor_run\0"))
                 .as_ptr(),
         );
@@ -1219,7 +1219,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
             b"!has_sync_flag(actor, SYNC_FLAG_MUTED)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            643 as libc::c_int as size_t,
+            643 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"ponyint_actor_run\0"))
                 .as_ptr(),
         );
@@ -1252,7 +1252,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
                             b"empty\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                                 as *const u8 as *const libc::c_char,
-                            698 as libc::c_int as size_t,
+                            698 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 18],
                                 &[libc::c_char; 18],
@@ -1277,7 +1277,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
                             b"empty\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0"
                                 as *const u8 as *const libc::c_char,
-                            750 as libc::c_int as size_t,
+                            750 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 18],
                                 &[libc::c_char; 18],
@@ -1311,7 +1311,7 @@ pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
             b"has_sync_flag(actor, SYNC_FLAG_PENDINGDESTROY)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            788 as libc::c_int as size_t,
+            788 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"ponyint_actor_destroy\0"))
                 .as_ptr(),
         );
@@ -1328,7 +1328,7 @@ pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
     ponyint_gc_destroy(&mut (*actor).gc);
     ponyint_heap_destroy(&mut (*actor).heap);
     ponyint_pool_free_size(
-        (*(*actor).type_0).size as size_t,
+        (*(*actor).type_0).size as usize,
         actor as *mut libc::c_void,
     );
 }
@@ -1406,12 +1406,12 @@ pub unsafe extern "C" fn pony_create(
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            887 as libc::c_int as size_t,
+            887 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"pony_create\0")).as_ptr(),
         );
     };
     let mut actor: *mut pony_actor_t =
-        ponyint_pool_alloc_size((*type_0).size as size_t) as *mut pony_actor_t;
+        ponyint_pool_alloc_size((*type_0).size as usize) as *mut pony_actor_t;
     memset(
         actor as *mut libc::c_void,
         0 as libc::c_int,
@@ -1423,10 +1423,10 @@ pub unsafe extern "C" fn pony_create(
     ponyint_heap_init(&mut (*actor).heap);
     ponyint_gc_done(&mut (*actor).gc);
     if !((*ctx).current).is_null() && !orphaned {
-        (*actor).gc.rc = 256 as libc::c_int as size_t;
+        (*actor).gc.rc = 256 as libc::c_int as usize;
         ponyint_gc_createactor((*ctx).current, actor);
     } else {
-        (*actor).gc.rc = 0 as libc::c_int as size_t;
+        (*actor).gc.rc = 0 as libc::c_int as usize;
     }
     macro__DTRACE(
         b"ACTOR_ALLOC\0" as *const u8 as *const libc::c_char,
@@ -1445,7 +1445,7 @@ pub unsafe extern "C" fn ponyint_destroy(mut _ctx: *mut pony_ctx_t, mut actor: *
 #[no_mangle]
 #[c2rust::src_loc = "938:1"]
 pub unsafe extern "C" fn pony_alloc_msg(mut index: u32, mut id: u32) -> *mut pony_msg_t {
-    let mut msg: *mut pony_msg_t = ponyint_pool_alloc(index as size_t) as *mut pony_msg_t;
+    let mut msg: *mut pony_msg_t = ponyint_pool_alloc(index as usize) as *mut pony_msg_t;
     (*msg).index = index;
     (*msg).id = id;
     ({
@@ -1456,7 +1456,7 @@ pub unsafe extern "C" fn pony_alloc_msg(mut index: u32, mut id: u32) -> *mut pon
 }
 #[no_mangle]
 #[c2rust::src_loc = "961:1"]
-pub unsafe extern "C" fn pony_alloc_msg_size(mut size: size_t, mut id: u32) -> *mut pony_msg_t {
+pub unsafe extern "C" fn pony_alloc_msg_size(mut size: usize, mut id: u32) -> *mut pony_msg_t {
     return pony_alloc_msg(ponyint_pool_index(size) as u32, id);
 }
 #[no_mangle]
@@ -1474,7 +1474,7 @@ pub unsafe extern "C" fn pony_sendv(
             b"well_formed_msg_chain(first, last)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            972 as libc::c_int as size_t,
+            972 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pony_sendv\0")).as_ptr(),
         );
     };
@@ -1484,7 +1484,7 @@ pub unsafe extern "C" fn pony_sendv(
             b"!ponyint_actor_pendingdestroy(to)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            976 as libc::c_int as size_t,
+            976 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pony_sendv\0")).as_ptr(),
         );
     };
@@ -1534,7 +1534,7 @@ pub unsafe extern "C" fn pony_sendv_single(
             b"well_formed_msg_chain(first, last)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1015 as libc::c_int as size_t,
+            1015 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"pony_sendv_single\0"))
                 .as_ptr(),
         );
@@ -1545,7 +1545,7 @@ pub unsafe extern "C" fn pony_sendv_single(
             b"!ponyint_actor_pendingdestroy(to)\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1019 as libc::c_int as size_t,
+            1019 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"pony_sendv_single\0"))
                 .as_ptr(),
         );
@@ -1593,7 +1593,7 @@ pub unsafe extern "C" fn pony_chain(mut prev: *mut pony_msg_t, mut next: *mut po
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1056 as libc::c_int as size_t,
+            1056 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pony_chain\0")).as_ptr(),
         );
     };
@@ -1659,7 +1659,7 @@ pub unsafe extern "C" fn pony_sendi(
 #[c2rust::src_loc = "1101:1"]
 pub unsafe extern "C" fn pony_alloc(
     mut ctx: *mut pony_ctx_t,
-    mut size: size_t,
+    mut size: usize,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1667,7 +1667,7 @@ pub unsafe extern "C" fn pony_alloc(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1103 as libc::c_int as size_t,
+            1103 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"pony_alloc\0")).as_ptr(),
         );
     };
@@ -1696,7 +1696,7 @@ pub unsafe extern "C" fn pony_alloc_small(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1112 as libc::c_int as size_t,
+            1112 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"pony_alloc_small\0"))
                 .as_ptr(),
         );
@@ -1718,7 +1718,7 @@ pub unsafe extern "C" fn pony_alloc_small(
 #[c2rust::src_loc = "1119:1"]
 pub unsafe extern "C" fn pony_alloc_large(
     mut ctx: *mut pony_ctx_t,
-    mut size: size_t,
+    mut size: usize,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1726,7 +1726,7 @@ pub unsafe extern "C" fn pony_alloc_large(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1121 as libc::c_int as size_t,
+            1121 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"pony_alloc_large\0"))
                 .as_ptr(),
         );
@@ -1749,8 +1749,8 @@ pub unsafe extern "C" fn pony_alloc_large(
 pub unsafe extern "C" fn pony_realloc(
     mut ctx: *mut pony_ctx_t,
     mut p: *mut libc::c_void,
-    mut size: size_t,
-    mut copy: size_t,
+    mut size: usize,
+    mut copy: usize,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1758,7 +1758,7 @@ pub unsafe extern "C" fn pony_realloc(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1130 as libc::c_int as size_t,
+            1130 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"pony_realloc\0")).as_ptr(),
         );
     };
@@ -1774,7 +1774,7 @@ pub unsafe extern "C" fn pony_realloc(
 #[c2rust::src_loc = "1136:1"]
 pub unsafe extern "C" fn pony_alloc_final(
     mut ctx: *mut pony_ctx_t,
-    mut size: size_t,
+    mut size: usize,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1782,7 +1782,7 @@ pub unsafe extern "C" fn pony_alloc_final(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1138 as libc::c_int as size_t,
+            1138 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"pony_alloc_final\0"))
                 .as_ptr(),
         );
@@ -1812,7 +1812,7 @@ pub unsafe extern "C" fn pony_alloc_small_final(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1147 as libc::c_int as size_t,
+            1147 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"pony_alloc_small_final\0",
             ))
@@ -1836,7 +1836,7 @@ pub unsafe extern "C" fn pony_alloc_small_final(
 #[c2rust::src_loc = "1154:1"]
 pub unsafe extern "C" fn pony_alloc_large_final(
     mut ctx: *mut pony_ctx_t,
-    mut size: size_t,
+    mut size: usize,
 ) -> *mut libc::c_void {
     if !((*ctx).current).is_null() {
     } else {
@@ -1844,7 +1844,7 @@ pub unsafe extern "C" fn pony_alloc_large_final(
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1156 as libc::c_int as size_t,
+            1156 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"pony_alloc_large_final\0",
             ))
@@ -1873,12 +1873,12 @@ pub unsafe extern "C" fn pony_triggergc(mut ctx: *mut pony_ctx_t) {
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1165 as libc::c_int as size_t,
+            1165 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"pony_triggergc\0"))
                 .as_ptr(),
         );
     };
-    (*(*ctx).current).heap.next_gc = 0 as libc::c_int as size_t;
+    (*(*ctx).current).heap.next_gc = 0 as libc::c_int as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1169:1"]
@@ -1895,7 +1895,7 @@ pub unsafe extern "C" fn pony_poll(mut ctx: *mut pony_ctx_t) {
             b"ctx->current != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.c\0" as *const u8
                 as *const libc::c_char,
-            1178 as libc::c_int as size_t,
+            1178 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pony_poll\0")).as_ptr(),
         );
     };

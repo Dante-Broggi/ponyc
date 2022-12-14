@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -591,7 +591,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "94:1"]
         pub fn ast_name(ast: *mut ast_t) -> *const libc::c_char;
         #[c2rust::src_loc = "96:1"]
-        pub fn ast_name_len(ast: *mut ast_t) -> size_t;
+        pub fn ast_name_len(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "97:1"]
         pub fn ast_set_name(ast: *mut ast_t, name: *const libc::c_char);
         #[c2rust::src_loc = "98:1"]
@@ -603,7 +603,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -652,7 +652,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -694,10 +694,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -792,7 +792,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -885,9 +885,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:11"]
@@ -898,7 +898,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -987,7 +987,7 @@ unsafe extern "C" fn is_method(mut ast: *mut ast_t) -> bool {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            69 as libc::c_int as size_t,
+            69 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"is_method\0")).as_ptr(),
         );
     };
@@ -1004,12 +1004,12 @@ unsafe extern "C" fn attach_method_t(mut method: *mut ast_t) -> *mut method_t {
             b"method != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            79 as libc::c_int as size_t,
+            79 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"attach_method_t\0"))
                 .as_ptr(),
         );
     };
-    let mut p: *mut method_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut method_t;
+    let mut p: *mut method_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut method_t;
     let ref mut fresh0 = (*p).body_donor;
     *fresh0 = 0 as *mut ast_t;
     let ref mut fresh1 = (*p).trait_ref;
@@ -1027,19 +1027,19 @@ unsafe extern "C" fn setup_local_methods(mut ast: *mut ast_t) {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            95 as libc::c_int as size_t,
+            95 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"setup_local_methods\0"))
                 .as_ptr(),
         );
     };
-    let mut members: *mut ast_t = ast_childidx(ast, 4 as libc::c_int as size_t);
+    let mut members: *mut ast_t = ast_childidx(ast, 4 as libc::c_int as usize);
     if !members.is_null() {
     } else {
         ponyint_assert_fail(
             b"members != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            98 as libc::c_int as size_t,
+            98 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"setup_local_methods\0"))
                 .as_ptr(),
         );
@@ -1049,7 +1049,7 @@ unsafe extern "C" fn setup_local_methods(mut ast: *mut ast_t) {
         if is_method(p) {
             let mut info: *mut method_t = attach_method_t(p);
             (*info).local_define = 1 as libc::c_int != 0;
-            if ast_id(ast_childidx(p, 6 as libc::c_int as size_t)) as libc::c_uint
+            if ast_id(ast_childidx(p, 6 as libc::c_int as usize)) as libc::c_uint
                 != TK_NONE as libc::c_int as libc::c_uint
             {
                 let ref mut fresh2 = (*info).body_donor;
@@ -1067,18 +1067,18 @@ unsafe extern "C" fn tidy_up(mut entity: *mut ast_t) {
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            117 as libc::c_int as size_t,
+            117 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"tidy_up\0")).as_ptr(),
         );
     };
-    let mut members: *mut ast_t = ast_childidx(entity, 4 as libc::c_int as size_t);
+    let mut members: *mut ast_t = ast_childidx(entity, 4 as libc::c_int as usize);
     if !members.is_null() {
     } else {
         ponyint_assert_fail(
             b"members != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            120 as libc::c_int as size_t,
+            120 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"tidy_up\0")).as_ptr(),
         );
     };
@@ -1092,13 +1092,13 @@ unsafe extern "C" fn tidy_up(mut entity: *mut ast_t) {
                     b"info != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    127 as libc::c_int as size_t,
+                    127 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"tidy_up\0"))
                         .as_ptr(),
                 );
             };
             let mut body_donor: *mut ast_t = (*info).body_donor;
-            ponyint_pool_free(0 as libc::c_int as size_t, info as *mut libc::c_void);
+            ponyint_pool_free(0 as libc::c_int as usize, info as *mut libc::c_void);
             if body_donor.is_null() {
                 body_donor = entity;
             }
@@ -1138,14 +1138,14 @@ unsafe extern "C" fn compare_signatures(mut sig_a: *mut ast_t, mut sig_b: *mut a
             return 1 as libc::c_int != 0;
         }
         5 | 8 => {
-            let mut a_len: size_t = ast_name_len(sig_a);
-            let mut b_len: size_t = ast_name_len(sig_b);
+            let mut a_len: usize = ast_name_len(sig_a);
+            let mut b_len: usize = ast_name_len(sig_b);
             if a_len != b_len {
                 return 0 as libc::c_int != 0;
             }
             let mut a_text: *const libc::c_char = ast_name(sig_a);
             let mut b_text: *const libc::c_char = ast_name(sig_b);
-            let mut i_0: size_t = 0;
+            let mut i_0: usize = 0;
             while i_0 < a_len {
                 if *a_text.offset(i_0 as isize) as libc::c_int
                     != *b_text.offset(i_0 as isize) as libc::c_int
@@ -1191,7 +1191,7 @@ unsafe extern "C" fn reify_provides_type(
             b"method != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            241 as libc::c_int as size_t,
+            241 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"reify_provides_type\0"))
                 .as_ptr(),
         );
@@ -1202,7 +1202,7 @@ unsafe extern "C" fn reify_provides_type(
             b"trait_ref != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            242 as libc::c_int as size_t,
+            242 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"reify_provides_type\0"))
                 .as_ptr(),
         );
@@ -1214,13 +1214,13 @@ unsafe extern "C" fn reify_provides_type(
             b"trait_def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            247 as libc::c_int as size_t,
+            247 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"reify_provides_type\0"))
                 .as_ptr(),
         );
     };
-    let mut type_args: *mut ast_t = ast_childidx(trait_ref, 2 as libc::c_int as size_t);
-    let mut type_params: *mut ast_t = ast_childidx(trait_def, 1 as libc::c_int as size_t);
+    let mut type_args: *mut ast_t = ast_childidx(trait_ref, 2 as libc::c_int as usize);
+    let mut type_params: *mut ast_t = ast_childidx(trait_def, 1 as libc::c_int as usize);
     if !reify_defaults(type_params, type_args, 1 as libc::c_int != 0, opt) {
         return 0 as *mut ast_t;
     }
@@ -1267,7 +1267,7 @@ unsafe extern "C" fn find_method(
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            271 as libc::c_int as size_t,
+            271 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"find_method\0")).as_ptr(),
         );
     };
@@ -1277,7 +1277,7 @@ unsafe extern "C" fn find_method(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            272 as libc::c_int as size_t,
+            272 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"find_method\0")).as_ptr(),
         );
     };
@@ -1304,7 +1304,7 @@ unsafe extern "C" fn add_method(
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            297 as libc::c_int as size_t,
+            297 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"add_method\0")).as_ptr(),
         );
     };
@@ -1314,7 +1314,7 @@ unsafe extern "C" fn add_method(
             b"trait_ref != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            298 as libc::c_int as size_t,
+            298 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"add_method\0")).as_ptr(),
         );
     };
@@ -1324,7 +1324,7 @@ unsafe extern "C" fn add_method(
             b"basis_method != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            299 as libc::c_int as size_t,
+            299 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"add_method\0")).as_ptr(),
         );
     };
@@ -1334,12 +1334,12 @@ unsafe extern "C" fn add_method(
             b"adjective != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            300 as libc::c_int as size_t,
+            300 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"add_method\0")).as_ptr(),
         );
     };
     let mut name: *const libc::c_char =
-        ast_name(ast_childidx(basis_method, 1 as libc::c_int as size_t));
+        ast_name(ast_childidx(basis_method, 1 as libc::c_int as usize));
     if ast_id(basis_method) as libc::c_uint == TK_BE as libc::c_int as libc::c_uint {
         match ast_id(entity) as libc::c_uint {
             74 => {
@@ -1387,7 +1387,7 @@ unsafe extern "C" fn add_method(
                     as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                     as *const u8 as *const libc::c_char,
-                337 as libc::c_int as size_t,
+                337 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"add_method\0"))
                     .as_ptr(),
             );
@@ -1411,7 +1411,7 @@ unsafe extern "C" fn add_method(
         let mut clash_name: *const libc::c_char = b"\0" as *const u8 as *const libc::c_char;
         match ast_id(case_clash) as libc::c_uint {
             89 | 90 | 88 => {
-                clash_name = ast_name(ast_childidx(case_clash, 1 as libc::c_int as size_t));
+                clash_name = ast_name(ast_childidx(case_clash, 1 as libc::c_int as usize));
             }
             85 | 84 | 86 => {
                 clash_name = ast_name(ast_child(case_clash));
@@ -1423,7 +1423,7 @@ unsafe extern "C" fn add_method(
                         b"0\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                             as *const u8 as *const libc::c_char,
-                        368 as libc::c_int as size_t,
+                        368 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(
                             b"add_method\0",
                         ))
@@ -1479,7 +1479,7 @@ unsafe extern "C" fn add_method(
         ast_settype(doc, 0 as *mut ast_t);
     }
     let mut local: *mut ast_t = ast_append(
-        ast_childidx(entity, 4 as libc::c_int as size_t),
+        ast_childidx(entity, 4 as libc::c_int as usize),
         basis_method,
     );
     ast_set(entity, name, local, SYM_DEFINED, 0 as libc::c_int != 0);
@@ -1510,7 +1510,7 @@ unsafe extern "C" fn rescope(
                     b"ast_child(ast) != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    421 as libc::c_int as size_t,
+                    421 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"rescope\0"))
                         .as_ptr(),
                 );
@@ -1530,7 +1530,7 @@ unsafe extern "C" fn rescope(
                     b"ast_child(ast) != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    429 as libc::c_int as size_t,
+                    429 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"rescope\0"))
                         .as_ptr(),
                 );
@@ -1552,7 +1552,7 @@ unsafe extern "C" fn rescope(
                         b"ast_child(typeparam) != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                             as *const u8 as *const libc::c_char,
-                        439 as libc::c_int as size_t,
+                        439 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"rescope\0"))
                             .as_ptr(),
                     );
@@ -1574,7 +1574,7 @@ unsafe extern "C" fn rescope(
                     b"ast_child(ast) != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    449 as libc::c_int as size_t,
+                    449 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"rescope\0"))
                         .as_ptr(),
                 );
@@ -1600,7 +1600,7 @@ unsafe extern "C" fn add_method_from_trait(
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            472 as libc::c_int as size_t,
+            472 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"add_method_from_trait\0"))
                 .as_ptr(),
         );
@@ -1611,7 +1611,7 @@ unsafe extern "C" fn add_method_from_trait(
             b"method != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            473 as libc::c_int as size_t,
+            473 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"add_method_from_trait\0"))
                 .as_ptr(),
         );
@@ -1622,7 +1622,7 @@ unsafe extern "C" fn add_method_from_trait(
             b"trait_ref != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            474 as libc::c_int as size_t,
+            474 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"add_method_from_trait\0"))
                 .as_ptr(),
         );
@@ -1664,7 +1664,7 @@ unsafe extern "C" fn add_method_from_trait(
         if m.is_null() {
             return 0 as libc::c_int != 0;
         }
-        if ast_id(ast_childidx(m, 6 as libc::c_int as size_t)) as libc::c_uint
+        if ast_id(ast_childidx(m, 6 as libc::c_int as usize)) as libc::c_uint
             != TK_NONE as libc::c_int as libc::c_uint
         {
             ast_visit(
@@ -1687,7 +1687,7 @@ unsafe extern "C" fn add_method_from_trait(
             b"info != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            498 as libc::c_int as size_t,
+            498 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"add_method_from_trait\0"))
                 .as_ptr(),
         );
@@ -1705,7 +1705,7 @@ unsafe extern "C" fn add_method_from_trait(
                 b"info->trait_ref != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                     as *const u8 as *const libc::c_char,
-                510 as libc::c_int as size_t,
+                510 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(
                     b"add_method_from_trait\0",
                 ))
@@ -1734,7 +1734,7 @@ unsafe extern "C" fn add_method_from_trait(
         (*info).failed = 1 as libc::c_int != 0;
         return 0 as libc::c_int != 0;
     }
-    let mut existing_body: *mut ast_t = ast_childidx(existing_method, 6 as libc::c_int as size_t);
+    let mut existing_body: *mut ast_t = ast_childidx(existing_method, 6 as libc::c_int as usize);
     let mut multiple_bodies: bool = !((*info).body_donor).is_null()
         && ast_id(method_body) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
         && (*info).body_donor != ast_data(method) as *mut ast_t;
@@ -1761,7 +1761,7 @@ unsafe extern "C" fn add_method_from_trait(
             b"ast_id(existing_body) == TK_NONE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            555 as libc::c_int as size_t,
+            555 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"add_method_from_trait\0"))
                 .as_ptr(),
         );
@@ -1788,12 +1788,12 @@ unsafe extern "C" fn provided_methods(mut entity: *mut ast_t, mut opt: *mut pass
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            569 as libc::c_int as size_t,
+            569 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"provided_methods\0"))
                 .as_ptr(),
         );
     };
-    let mut provides: *mut ast_t = ast_childidx(entity, 3 as libc::c_int as size_t);
+    let mut provides: *mut ast_t = ast_childidx(entity, 3 as libc::c_int as usize);
     let mut r: bool = 1 as libc::c_int != 0;
     let mut trait_ref: *mut ast_t = ast_child(provides);
     while !trait_ref.is_null() {
@@ -1804,7 +1804,7 @@ unsafe extern "C" fn provided_methods(mut entity: *mut ast_t, mut opt: *mut pass
                 b"trait != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                     as *const u8 as *const libc::c_char,
-                579 as libc::c_int as size_t,
+                579 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"provided_methods\0"))
                     .as_ptr(),
             );
@@ -1812,7 +1812,7 @@ unsafe extern "C" fn provided_methods(mut entity: *mut ast_t, mut opt: *mut pass
         if !trait_entity(trait_0, opt) {
             return 0 as libc::c_int != 0;
         }
-        let mut members: *mut ast_t = ast_childidx(trait_0, 4 as libc::c_int as size_t);
+        let mut members: *mut ast_t = ast_childidx(trait_0, 4 as libc::c_int as usize);
         let mut method: *mut ast_t = ast_child(members);
         while !method.is_null() {
             if is_method(method) as libc::c_int != 0 {
@@ -1821,7 +1821,7 @@ unsafe extern "C" fn provided_methods(mut entity: *mut ast_t, mut opt: *mut pass
                     b"is_method(method)\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    590 as libc::c_int as size_t,
+                    590 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(
                         b"provided_methods\0",
                     ))
@@ -1854,7 +1854,7 @@ unsafe extern "C" fn check_concrete_bodies(
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            616 as libc::c_int as size_t,
+            616 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"check_concrete_bodies\0"))
                 .as_ptr(),
         );
@@ -1868,14 +1868,14 @@ unsafe extern "C" fn check_concrete_bodies(
         return 1 as libc::c_int != 0;
     }
     let mut r: bool = 1 as libc::c_int != 0;
-    let mut members: *mut ast_t = ast_childidx(entity, 4 as libc::c_int as size_t);
+    let mut members: *mut ast_t = ast_childidx(entity, 4 as libc::c_int as usize);
     if !members.is_null() {
     } else {
         ponyint_assert_fail(
             b"members != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            625 as libc::c_int as size_t,
+            625 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"check_concrete_bodies\0"))
                 .as_ptr(),
         );
@@ -1890,7 +1890,7 @@ unsafe extern "C" fn check_concrete_bodies(
                     b"info != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    632 as libc::c_int as size_t,
+                    632 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(
                         b"check_concrete_bodies\0",
                     ))
@@ -1899,7 +1899,7 @@ unsafe extern "C" fn check_concrete_bodies(
             };
             if !(*info).failed {
                 let mut name: *const libc::c_char =
-                    ast_name(ast_childidx(p, 1 as libc::c_int as size_t));
+                    ast_name(ast_childidx(p, 1 as libc::c_int as usize));
                 if ast_checkflag(p, AST_FLAG_AMBIGUOUS as libc::c_int as u32) != 0 {
                     ast_error(
                         (*opt).check.errors,
@@ -1917,7 +1917,7 @@ unsafe extern "C" fn check_concrete_bodies(
                                 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                                 as *const u8 as *const libc::c_char,
-                            648 as libc::c_int as size_t,
+                            648 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 22],
                                 &[libc::c_char; 22],
@@ -1947,7 +1947,7 @@ unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            664 as libc::c_int as size_t,
+            664 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"trait_entity\0")).as_ptr(),
         );
     };
@@ -1980,7 +1980,7 @@ unsafe extern "C" fn trait_entity(mut entity: *mut ast_t, mut opt: *mut pass_opt
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    691 as libc::c_int as size_t,
+                    691 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"trait_entity\0"))
                         .as_ptr(),
                 );
@@ -2004,7 +2004,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
             b"entity != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            712 as libc::c_int as size_t,
+            712 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"embed_fields\0")).as_ptr(),
         );
     };
@@ -2037,7 +2037,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    738 as libc::c_int as size_t,
+                    738 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"embed_fields\0"))
                         .as_ptr(),
                 );
@@ -2086,7 +2086,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
                     b"def != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0"
                         as *const u8 as *const libc::c_char,
-                    751 as libc::c_int as size_t,
+                    751 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"embed_fields\0"))
                         .as_ptr(),
                 );
@@ -2109,7 +2109,7 @@ unsafe extern "C" fn local_types(mut ast: *mut ast_t) {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            772 as libc::c_int as size_t,
+            772 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"local_types\0")).as_ptr(),
         );
     };
@@ -2129,7 +2129,7 @@ unsafe extern "C" fn local_types(mut ast: *mut ast_t) {
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            777 as libc::c_int as size_t,
+            777 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"local_types\0")).as_ptr(),
         );
     };
@@ -2151,7 +2151,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/traits.c\0" as *const u8
                 as *const libc::c_char,
-            795 as libc::c_int as size_t,
+            795 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"add_comparable\0"))
                 .as_ptr(),
         );

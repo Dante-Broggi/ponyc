@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -701,20 +701,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -771,10 +771,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -869,7 +869,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -933,7 +933,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1045,15 +1045,15 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "20:59"]
-        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut size_t)
+        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize)
             -> *mut reach_method_t;
         #[c2rust::src_loc = "22:3"]
         pub fn reach_method_names_next(
             map: *mut reach_method_names_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_method_name_t;
         #[c2rust::src_loc = "23:55"]
-        pub fn reach_types_next(map: *mut reach_types_t, i: *mut size_t) -> *mut reach_type_t;
+        pub fn reach_types_next(map: *mut reach_types_t, i: *mut usize) -> *mut reach_type_t;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/printbuf.h:1"]
@@ -1063,8 +1063,8 @@ pub mod printbuf_h {
     #[c2rust::src_loc = "10:16"]
     pub struct printbuf_t {
         pub m: *mut libc::c_char,
-        pub size: size_t,
-        pub offset: size_t,
+        pub size: usize,
+        pub offset: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -1293,7 +1293,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genname.h:2"]
@@ -1323,9 +1323,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:10"]
@@ -1539,7 +1539,7 @@ unsafe extern "C" fn print_pointer_type(
     mut buf: *mut printbuf_t,
     mut type_0: *mut ast_t,
 ) -> libc::c_int {
-    let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as size_t);
+    let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
     let mut elem: *mut ast_t = ast_child(typeargs);
     if is_pointer(elem) as libc::c_int != 0 || is_nullable_pointer(elem) as libc::c_int != 0 {
         return print_pointer_type(c, buf, elem) + 1 as libc::c_int;
@@ -1569,10 +1569,10 @@ unsafe extern "C" fn print_params(
     mut c: *mut compile_t,
     mut buf: *mut printbuf_t,
     mut params: *mut reach_param_t,
-    mut param_count: size_t,
+    mut param_count: usize,
     mut initial_comma: bool,
 ) {
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < param_count {
         if initial_comma {
             printbuf(buf, b", \0" as *const u8 as *const libc::c_char);
@@ -1581,8 +1581,8 @@ unsafe extern "C" fn print_params(
         }
         print_type_name(c, buf, (*(*params.offset(i as isize)).type_0).ast_cap);
         let mut name: *const libc::c_char = (*params.offset(i as isize)).name;
-        let mut len: size_t = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
-        let mut buf_size: size_t = len;
+        let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        let mut buf_size: usize = len;
         let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
         memcpy(
             buffer as *mut libc::c_void,
@@ -1607,14 +1607,14 @@ unsafe extern "C" fn should_emit_fun(mut m: *mut reach_method_t) -> bool {
     if (*m).internal {
         return 0 as libc::c_int != 0;
     }
-    let mut can_error: *mut ast_t = ast_childidx((*(*m).fun).ast, 5 as libc::c_int as size_t);
+    let mut can_error: *mut ast_t = ast_childidx((*(*m).fun).ast, 5 as libc::c_int as usize);
     if ast_id(can_error) as libc::c_uint == TK_QUESTION as libc::c_int as libc::c_uint {
         return 0 as libc::c_int != 0;
     }
     if (*(*m).result).underlying as libc::c_uint == TK_TUPLETYPE as libc::c_int as libc::c_uint {
         return 0 as libc::c_int != 0;
     }
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < (*m).param_count {
         if (*(*((*m).params).offset(i as isize)).type_0).underlying as libc::c_uint
             == TK_TUPLETYPE as libc::c_int as libc::c_uint
@@ -1635,7 +1635,7 @@ unsafe extern "C" fn print_method(
     if !should_emit_fun(m) {
         return;
     }
-    let mut docstring: *mut ast_t = ast_childidx((*(*m).fun).ast, 7 as libc::c_int as size_t);
+    let mut docstring: *mut ast_t = ast_childidx((*(*m).fun).ast, 7 as libc::c_int as usize);
     if ast_id(docstring) as libc::c_uint == TK_STRING as libc::c_int as libc::c_uint {
         printbuf(
             buf,
@@ -1678,14 +1678,14 @@ unsafe extern "C" fn print_methods(
     mut t: *mut reach_type_t,
     mut buf: *mut printbuf_t,
 ) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
     loop {
         n = reach_method_names_next(&mut (*t).methods, &mut i);
         if n.is_null() {
             break;
         }
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
         loop {
             m = reach_mangled_next(&mut (*n).r_mangled, &mut j);
@@ -1702,7 +1702,7 @@ unsafe extern "C" fn print_types(
     mut fp: *mut FILE,
     mut buf: *mut printbuf_t,
 ) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         t = reach_types_next(&mut (*(*c).reach).types, &mut i);
@@ -1711,7 +1711,7 @@ unsafe extern "C" fn print_types(
         }
         let mut def: *mut ast_t = ast_data((*t).ast) as *mut ast_t;
         if !def.is_null() {
-            let mut docstring: *mut ast_t = ast_childidx(def, 6 as libc::c_int as size_t);
+            let mut docstring: *mut ast_t = ast_childidx(def, 6 as libc::c_int as usize);
             if ast_id(docstring) as libc::c_uint == TK_STRING as libc::c_int as libc::c_uint {
                 fprintf(
                     fp,

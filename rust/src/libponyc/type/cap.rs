@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -480,7 +480,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "136:1"]
@@ -490,11 +490,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "139:1"]
         pub fn ast_append(parent: *mut ast_t, child: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "152:1"]
-        pub fn ast_print(ast: *mut ast_t, width: size_t);
+        pub fn ast_print(ast: *mut ast_t, width: usize);
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -536,10 +536,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -573,7 +573,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -684,7 +684,7 @@ pub unsafe extern "C" fn is_cap_sub_cap(
                                 b"0\0" as *const u8 as *const libc::c_char,
                                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0"
                                     as *const u8 as *const libc::c_char,
-                                101 as libc::c_int as size_t,
+                                101 as libc::c_int as usize,
                                 (*::core::mem::transmute::<
                                     &[u8; 15],
                                     &[libc::c_char; 15],
@@ -798,7 +798,7 @@ pub unsafe extern "C" fn is_cap_sub_cap_bound(
                                 b"0\0" as *const u8 as *const libc::c_char,
                                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0"
                                     as *const u8 as *const libc::c_char,
-                                285 as libc::c_int as size_t,
+                                285 as libc::c_int as usize,
                                 (*::core::mem::transmute::<
                                     &[u8; 21],
                                     &[libc::c_char; 21],
@@ -955,8 +955,8 @@ pub unsafe extern "C" fn is_cap_compat_cap(
 #[c2rust::src_loc = "530:1"]
 pub unsafe extern "C" fn cap_fetch(mut type_0: *mut ast_t) -> *mut ast_t {
     match ast_id(type_0) as libc::c_uint {
-        151 => return ast_childidx(type_0, 3 as libc::c_int as size_t),
-        187 => return ast_childidx(type_0, 1 as libc::c_int as size_t),
+        151 => return ast_childidx(type_0, 3 as libc::c_int as usize),
+        187 => return ast_childidx(type_0, 1 as libc::c_int as usize),
         _ => {}
     }
     if 0 as libc::c_int != 0 {
@@ -965,7 +965,7 @@ pub unsafe extern "C" fn cap_fetch(mut type_0: *mut ast_t) -> *mut ast_t {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0" as *const u8
                 as *const libc::c_char,
-            543 as libc::c_int as size_t,
+            543 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"cap_fetch\0")).as_ptr(),
         );
     };
@@ -1022,7 +1022,7 @@ pub unsafe extern "C" fn cap_dispatch(mut type_0: *mut ast_t) -> token_id {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0" as *const u8
                 as *const libc::c_char,
-            612 as libc::c_int as size_t,
+            612 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"cap_dispatch\0")).as_ptr(),
         );
     };
@@ -1122,7 +1122,7 @@ pub unsafe extern "C" fn cap_view_upper(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0"
                         as *const u8 as *const libc::c_char,
-                    757 as libc::c_int as size_t,
+                    757 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"cap_view_upper\0",
                     ))
@@ -1241,7 +1241,7 @@ pub unsafe extern "C" fn cap_view_lower(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0"
                         as *const u8 as *const libc::c_char,
-                    927 as libc::c_int as size_t,
+                    927 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(
                         b"cap_view_lower\0",
                     ))
@@ -1394,7 +1394,7 @@ pub unsafe extern "C" fn modified_cap(
                         b"eph == TK_NONE\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0"
                             as *const u8 as *const libc::c_char,
-                        1096 as libc::c_int as size_t,
+                        1096 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(
                             b"modified_cap\0",
                         ))
@@ -1408,14 +1408,14 @@ pub unsafe extern "C" fn modified_cap(
         }
         102 | 152 | 154 | 155 | 153 | 157 | 158 | 156 => return type_0,
         _ => {
-            ast_print(type_0, 80 as libc::c_int as size_t);
+            ast_print(type_0, 80 as libc::c_int as usize);
             if 0 as libc::c_int != 0 {
             } else {
                 ponyint_assert_fail(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0"
                         as *const u8 as *const libc::c_char,
-                    1119 as libc::c_int as size_t,
+                    1119 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"modified_cap\0"))
                         .as_ptr(),
                 );
@@ -1428,7 +1428,7 @@ pub unsafe extern "C" fn modified_cap(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/cap.c\0" as *const u8
                 as *const libc::c_char,
-            1123 as libc::c_int as size_t,
+            1123 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"modified_cap\0")).as_ptr(),
         );
     };

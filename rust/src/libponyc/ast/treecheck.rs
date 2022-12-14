@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.h:1"]
@@ -47,7 +47,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -151,10 +151,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -711,7 +711,7 @@ pub mod ast_h {
     use super::treecheck_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "154:1"]
-        pub fn ast_fprint(fp: *mut FILE, ast: *mut ast_t, width: size_t);
+        pub fn ast_fprint(fp: *mut FILE, ast: *mut ast_t, width: usize);
         #[c2rust::src_loc = "159:1"]
         pub fn ast_error(errors: *mut errors_t, ast: *mut ast_t, fmt: *const libc::c_char, _: ...);
         #[c2rust::src_loc = "93:1"]
@@ -729,7 +729,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:4"]
@@ -740,7 +740,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr_0: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -752,11 +752,11 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn check_root(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let rules: [check_fn_t; 3] = [
-            Some(program as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(module as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(program as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(module as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         check_from_list(ast, rules.as_ptr(), errors, print_width)
@@ -765,7 +765,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn program(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PROGRAM, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -777,7 +777,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -786,15 +786,15 @@ pub mod treecheckdef_h {
         state.scope = SCOPE_YES;
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(package as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(package as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -806,7 +806,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn package(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PACKAGE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -818,7 +818,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -827,30 +827,30 @@ pub mod treecheckdef_h {
         state.scope = SCOPE_YES;
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(module as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(module as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            0 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -862,7 +862,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn module(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_MODULE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -874,7 +874,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -883,30 +883,30 @@ pub mod treecheckdef_h {
         state.scope = SCOPE_YES;
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(use_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(use_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -914,7 +914,7 @@ pub mod treecheckdef_h {
         }
         let rules_1: [check_fn_t; 2] = [
             Some(
-                class_def as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                class_def as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -922,8 +922,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_1.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -935,7 +935,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn use_0(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_USE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -947,7 +947,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -955,52 +955,52 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(ffidecl as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(ffidecl as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 4] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1012,7 +1012,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ffidecl(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_FFIDECL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1024,7 +1024,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -1032,16 +1032,16 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         let rules: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1049,7 +1049,7 @@ pub mod treecheckdef_h {
         }
         let rules_0: [check_fn_t; 2] = [
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -1057,39 +1057,39 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 2] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1097,17 +1097,17 @@ pub mod treecheckdef_h {
         }
         let rules_3: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1119,7 +1119,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn class_def(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 8] = [
             TK_TYPE,
@@ -1140,7 +1140,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -1148,15 +1148,15 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1165,33 +1165,33 @@ pub mod treecheckdef_h {
         let rules_0: [check_fn_t; 3] = [
             Some(
                 type_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1199,65 +1199,65 @@ pub mod treecheckdef_h {
         }
         let rules_2: [check_fn_t; 3] = [
             Some(
-                provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 3] = [
-            Some(members as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(members as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_5: [check_fn_t; 3] = [
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_5.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1269,7 +1269,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn provides(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PROVIDES, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1281,22 +1281,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1308,7 +1308,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn members(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_MEMBERS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1320,37 +1320,37 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(field as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(field as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(method as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(method as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1362,7 +1362,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn field(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 4] = [TK_FLET, TK_FVAR, TK_EMBED, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1374,72 +1374,72 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1451,7 +1451,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn method(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 4] = [TK_FUN, TK_NEW, TK_BE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1463,7 +1463,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -1472,32 +1472,32 @@ pub mod treecheckdef_h {
         state.scope = SCOPE_YES;
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 4] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1506,49 +1506,49 @@ pub mod treecheckdef_h {
         let rules_1: [check_fn_t; 3] = [
             Some(
                 type_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1556,49 +1556,49 @@ pub mod treecheckdef_h {
         }
         let rules_4: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_5: [check_fn_t; 3] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_5.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_6: [check_fn_t; 3] = [
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_6.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1610,7 +1610,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_params(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TYPEPARAMS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1622,7 +1622,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -1631,7 +1631,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 2] = [
             Some(
                 type_param
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -1639,8 +1639,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1652,7 +1652,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_param(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TYPEPARAM, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1664,7 +1664,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -1672,47 +1672,47 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1724,7 +1724,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_args(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TYPEARGS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1736,22 +1736,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1763,7 +1763,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn params(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PARAMS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1775,22 +1775,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(param as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(param as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1798,7 +1798,7 @@ pub mod treecheckdef_h {
         }
         let rules_0: [check_fn_t; 2] = [
             Some(
-                ellipsis as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ellipsis as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -1806,8 +1806,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            0 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1819,7 +1819,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn param(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PARAM, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1831,55 +1831,55 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -1891,7 +1891,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn seq(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_SEQ, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1903,7 +1903,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -1911,26 +1911,26 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 6] = [
-            Some(jump as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(jump as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                intrinsic as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                intrinsic as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 compile_error
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(semi as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(semi as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1942,7 +1942,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn rawseq(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_SEQ, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -1954,33 +1954,33 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 6] = [
-            Some(jump as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(jump as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                intrinsic as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                intrinsic as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 compile_error
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(semi as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(semi as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -1992,7 +1992,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn seq_or_rawseq(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_SEQ, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2004,7 +2004,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -2012,26 +2012,26 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_MAYBE;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 6] = [
-            Some(jump as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(jump as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                intrinsic as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                intrinsic as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 compile_error
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(semi as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(semi as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -2043,7 +2043,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn jump(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 5] = [TK_RETURN, TK_BREAK, TK_CONTINUE, TK_ERROR, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2055,28 +2055,28 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 4] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2088,7 +2088,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn intrinsic(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_COMPILE_INTRINSIC, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2100,24 +2100,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2129,7 +2129,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn compile_error(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_COMPILE_ERROR, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2141,24 +2141,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2170,108 +2170,108 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn expr(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let rules: [check_fn_t; 47] = [
-            Some(local as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(binop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(isop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(local as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(binop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(isop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                assignop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                assignop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(asop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(tuple as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(consume as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(recover as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(prefix as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(dot as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(tilde as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(chain as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(qualify as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(asop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(tuple as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(consume as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(recover as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(prefix as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(dot as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(tilde as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(chain as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(qualify as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ffi_call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ffi_call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 match_capture
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(if_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(ifdef as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(if_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(ifdef as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                iftypeset as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                iftypeset as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                whileloop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                whileloop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(repeat as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(repeat as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                for_loop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                for_loop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(with as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(with as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 disposing_block
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(match_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(match_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                try_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                try_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(lambda as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(lambda as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 barelambda
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 array_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 object_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 int_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 float_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 bool_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 package_ref
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                location as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                location as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(ref_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(fun_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(ref_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(fun_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                type_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                field_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                field_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 tuple_elem_ref
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                local_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                local_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                param_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                param_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -2281,7 +2281,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn local(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 4] = [TK_LET, TK_VAR, TK_DONTCARE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2293,40 +2293,40 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2338,7 +2338,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn match_capture(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_MATCH_CAPTURE, TK_MATCH_DONTCARE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2350,39 +2350,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2394,7 +2394,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn binop(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 32] = [
             TK_PLUS,
@@ -2439,39 +2439,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2479,17 +2479,17 @@ pub mod treecheckdef_h {
         }
         let rules_1: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2501,7 +2501,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn isop(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_IS, TK_ISNT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2513,39 +2513,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2557,7 +2557,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn assignop(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ASSIGN, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2569,39 +2569,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2613,7 +2613,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn asop(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_AS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2625,39 +2625,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2669,7 +2669,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn tuple(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TUPLE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2681,24 +2681,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -2710,7 +2710,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn consume(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_CONSUME, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2722,41 +2722,41 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 4] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2768,7 +2768,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn recover(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_RECOVER, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2780,40 +2780,40 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2825,7 +2825,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn prefix(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 6] = [
             TK_NOT,
@@ -2844,24 +2844,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2873,7 +2873,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn dot(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_DOT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2885,37 +2885,37 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 4] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 int_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -2923,14 +2923,14 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
-        if ast_id(ast_childidx(ast, 0 as libc::c_int as size_t)) as libc::c_uint
+        if ast_id(ast_childidx(ast, 0 as libc::c_int as usize)) as libc::c_uint
             == TK_THIS as libc::c_int as libc::c_uint
         {
             state.has_data = 1 as libc::c_int != 0;
@@ -2941,7 +2941,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn tilde(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TILDE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -2953,39 +2953,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -2997,7 +2997,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn chain(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_CHAIN, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3009,39 +3009,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3053,7 +3053,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn qualify(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_QUALIFY, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3065,22 +3065,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3088,7 +3088,7 @@ pub mod treecheckdef_h {
         }
         let rules_0: [check_fn_t; 2] = [
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3096,8 +3096,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3109,7 +3109,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn call(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_CALL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3121,24 +3121,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3147,17 +3147,17 @@ pub mod treecheckdef_h {
         let rules_0: [check_fn_t; 3] = [
             Some(
                 positional_args
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3166,17 +3166,17 @@ pub mod treecheckdef_h {
         let rules_1: [check_fn_t; 3] = [
             Some(
                 named_args
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3184,17 +3184,17 @@ pub mod treecheckdef_h {
         }
         let rules_2: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3206,7 +3206,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ffi_call(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_FFICALL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3218,26 +3218,26 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(string as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3245,17 +3245,17 @@ pub mod treecheckdef_h {
         }
         let rules_0: [check_fn_t; 3] = [
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3264,17 +3264,17 @@ pub mod treecheckdef_h {
         let rules_1: [check_fn_t; 3] = [
             Some(
                 positional_args
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3283,17 +3283,17 @@ pub mod treecheckdef_h {
         let rules_2: [check_fn_t; 3] = [
             Some(
                 named_args
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3301,17 +3301,17 @@ pub mod treecheckdef_h {
         }
         let rules_3: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3323,7 +3323,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn positional_args(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_POSITIONALARGS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3335,7 +3335,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3344,7 +3344,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 2] = [
             Some(
                 seq_or_rawseq
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3352,8 +3352,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -3365,7 +3365,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn named_args(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_NAMEDARGS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3377,7 +3377,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3385,7 +3385,7 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
             Some(
-                named_arg as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                named_arg as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3393,8 +3393,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -3406,7 +3406,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn named_arg(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_NAMEDARG, TK_UPDATEARG, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3418,37 +3418,37 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3460,7 +3460,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ifdef(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_IFDEF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3472,7 +3472,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3480,12 +3480,12 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 3] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3493,50 +3493,50 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 4] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(ifdef as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(ifdef as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3544,8 +3544,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3557,19 +3557,19 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ifdef_cond(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let rules: [check_fn_t; 4] = [
             Some(
                 ifdef_infix
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                ifdef_not as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ifdef_not as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 ifdef_flag
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3579,7 +3579,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ifdef_infix(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_IFDEFAND, TK_IFDEFOR, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3591,7 +3591,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3600,7 +3600,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 2] = [
             Some(
                 ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3608,8 +3608,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3618,7 +3618,7 @@ pub mod treecheckdef_h {
         let rules_0: [check_fn_t; 2] = [
             Some(
                 ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3626,8 +3626,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3639,7 +3639,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ifdef_not(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_IFDEFNOT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3651,7 +3651,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3660,7 +3660,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 2] = [
             Some(
                 ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3668,8 +3668,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3681,7 +3681,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ifdef_flag(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_IFDEFFLAG, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3693,22 +3693,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3720,7 +3720,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn iftypeset(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_IFTYPE_SET, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3732,7 +3732,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3740,36 +3740,36 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(iftype as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(iftype as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 4] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                iftypeset as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                iftypeset as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3781,7 +3781,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn iftype(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_IFTYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3793,7 +3793,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3801,47 +3801,47 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3850,17 +3850,17 @@ pub mod treecheckdef_h {
         let rules_2: [check_fn_t; 3] = [
             Some(
                 type_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3872,7 +3872,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn if_expr(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_IF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3884,7 +3884,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3892,49 +3892,49 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 4] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(if_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(if_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -3946,7 +3946,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn whileloop(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_WHILE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -3958,7 +3958,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -3966,48 +3966,48 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4019,7 +4019,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn repeat(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_REPEAT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4031,7 +4031,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -4039,48 +4039,48 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4092,7 +4092,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn for_loop(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_FOR, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4104,70 +4104,70 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4179,7 +4179,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn with(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_WITH, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4191,39 +4191,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4235,7 +4235,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn disposing_block(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_DISPOSING_BLOCK, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4247,39 +4247,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4291,7 +4291,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn match_0(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_MATCH, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4303,7 +4303,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -4311,49 +4311,49 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(cases as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cases as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4365,7 +4365,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn cases(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_CASES, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4377,7 +4377,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -4385,11 +4385,11 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
             Some(
                 match_case
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -4397,8 +4397,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            0 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            0 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -4410,7 +4410,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn match_case(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_CASE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4422,7 +4422,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -4430,12 +4430,12 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.scope = SCOPE_YES;
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 3] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 no_case_expr
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -4443,40 +4443,40 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4488,7 +4488,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn no_case_expr(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_NONE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4500,14 +4500,14 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 = Some(
-            dontcare_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+            dontcare_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
         );
         return check_extras(ast, &mut state, errors, print_width);
     }
@@ -4515,7 +4515,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn try_expr(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_TRY, TK_TRY_NO_CHECK, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4527,56 +4527,56 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4588,7 +4588,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn lambda(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_LAMBDA, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4600,41 +4600,41 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4643,17 +4643,17 @@ pub mod treecheckdef_h {
         let rules_1: [check_fn_t; 3] = [
             Some(
                 type_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4662,17 +4662,17 @@ pub mod treecheckdef_h {
         let rules_2: [check_fn_t; 3] = [
             Some(
                 lambda_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4681,33 +4681,33 @@ pub mod treecheckdef_h {
         let rules_3: [check_fn_t; 3] = [
             Some(
                 lambda_captures
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4715,48 +4715,48 @@ pub mod treecheckdef_h {
         }
         let rules_5: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_5.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_6: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_6.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_7: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_7.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4768,7 +4768,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn lambda_params(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PARAMS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4780,7 +4780,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -4789,7 +4789,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 2] = [
             Some(
                 lambda_param
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -4797,8 +4797,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -4810,7 +4810,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn lambda_param(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PARAM, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4822,56 +4822,56 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(seq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4883,7 +4883,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn lambda_captures(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_LAMBDACAPTURES, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4895,7 +4895,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -4904,7 +4904,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 2] = [
             Some(
                 lambda_capture
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -4912,8 +4912,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -4925,7 +4925,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn lambda_capture(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_LAMBDACAPTURE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -4937,54 +4937,54 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -4996,7 +4996,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn barelambda(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_BARELAMBDA, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5008,103 +5008,103 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 3] = [
-            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 2] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 2] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5112,48 +5112,48 @@ pub mod treecheckdef_h {
         }
         let rules_5: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_5.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_6: [check_fn_t; 2] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_6.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_7: [check_fn_t; 3] = [
-            Some(cap_val as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap_val as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_7.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5165,7 +5165,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn array_literal(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ARRAY, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5177,39 +5177,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5221,7 +5221,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn object_literal(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_OBJECT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5233,7 +5233,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -5241,16 +5241,16 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5258,32 +5258,32 @@ pub mod treecheckdef_h {
         }
         let rules_0: [check_fn_t; 3] = [
             Some(
-                provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 2] = [
-            Some(members as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(members as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5295,7 +5295,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ref_0(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_REFERENCE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5307,24 +5307,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5336,7 +5336,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn package_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PACKAGEREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5348,7 +5348,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -5356,15 +5356,15 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5376,7 +5376,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn fun_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 7] = [
             TK_FUNREF,
@@ -5396,34 +5396,34 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -5431,8 +5431,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5444,7 +5444,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TYPEREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5456,45 +5456,45 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 3] = [
             Some(
                 package_ref
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5502,17 +5502,17 @@ pub mod treecheckdef_h {
         }
         let rules_1: [check_fn_t; 3] = [
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5524,7 +5524,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn field_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 4] = [TK_FVARREF, TK_FLETREF, TK_EMBEDREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5536,40 +5536,40 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5581,7 +5581,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn tuple_elem_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TUPLEELEMREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5593,24 +5593,24 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5619,7 +5619,7 @@ pub mod treecheckdef_h {
         let rules_0: [check_fn_t; 2] = [
             Some(
                 int_literal
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -5627,8 +5627,8 @@ pub mod treecheckdef_h {
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5640,7 +5640,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn local_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 4] = [TK_VARREF, TK_LETREF, TK_DONTCAREREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5652,40 +5652,40 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            0 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5697,7 +5697,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn param_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PARAMREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5709,25 +5709,25 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5739,64 +5739,64 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_0(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let rules: [check_fn_t; 17] = [
             Some(
                 type_infix
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 type_tuple
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 type_arrow
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                type_this as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_this as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(nominal as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(nominal as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 type_param_ref
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 dontcare_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                fun_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                fun_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 error_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 infer_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 lambda_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 barelambda_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 literal_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 opliteral_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 control_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -5806,7 +5806,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_infix(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_UNIONTYPE, TK_ISECTTYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5818,22 +5818,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -5845,7 +5845,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_tuple(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TUPLETYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5857,22 +5857,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -5884,7 +5884,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_arrow(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ARROW, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5896,37 +5896,37 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5938,7 +5938,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn fun_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_FUNTYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -5950,23 +5950,23 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(at as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -5975,49 +5975,49 @@ pub mod treecheckdef_h {
         let rules_0: [check_fn_t; 3] = [
             Some(
                 type_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(params as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6029,7 +6029,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn lambda_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_LAMBDATYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6041,39 +6041,39 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 3] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6082,17 +6082,17 @@ pub mod treecheckdef_h {
         let rules_1: [check_fn_t; 3] = [
             Some(
                 type_params
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6100,33 +6100,33 @@ pub mod treecheckdef_h {
         }
         let rules_2: [check_fn_t; 3] = [
             Some(
-                type_list as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_list as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6134,53 +6134,53 @@ pub mod treecheckdef_h {
         }
         let rules_4: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_5: [check_fn_t; 4] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(gencap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(gencap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_5.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_6: [check_fn_t; 4] = [
-            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_6.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6192,7 +6192,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn barelambda_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_BARELAMBDATYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6204,53 +6204,53 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 2] = [
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6258,33 +6258,33 @@ pub mod treecheckdef_h {
         }
         let rules_2: [check_fn_t; 3] = [
             Some(
-                type_list as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_list as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 3] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6292,52 +6292,52 @@ pub mod treecheckdef_h {
         }
         let rules_4: [check_fn_t; 3] = [
             Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_5: [check_fn_t; 3] = [
-            Some(cap_val as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap_val as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_5.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_6: [check_fn_t; 4] = [
-            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_6.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6349,7 +6349,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_list(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_PARAMS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6361,22 +6361,22 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            -(1 as libc::c_int) as size_t,
+            1 as libc::c_int as usize,
+            -(1 as libc::c_int) as usize,
             errors,
             print_width,
         ) {
@@ -6388,7 +6388,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn nominal(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_NOMINAL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6400,7 +6400,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6408,31 +6408,31 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6440,69 +6440,69 @@ pub mod treecheckdef_h {
         }
         let rules_1: [check_fn_t; 3] = [
             Some(
-                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                type_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 4] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(gencap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(gencap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_2.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 4] = [
-            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_3.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_4.as_ptr(),
-            0 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6514,7 +6514,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn type_param_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_TYPEPARAMREF, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6526,7 +6526,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6534,51 +6534,51 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         state.has_data = 1 as libc::c_int != 0;
         let rules: [check_fn_t; 2] = [
-            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(id as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 4] = [
-            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(gencap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(cap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(gencap as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_0.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 4] = [
-            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(aliased as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t,
+                ephemeral as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t),
+            Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
             ast,
             &mut state,
             rules_1.as_ptr(),
-            1 as libc::c_int as size_t,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
+            1 as libc::c_int as usize,
             errors,
             print_width,
         ) {
@@ -6590,7 +6590,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn at(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_AT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6602,7 +6602,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6614,7 +6614,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn bool_literal(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_TRUE, TK_FALSE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6626,21 +6626,21 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         return check_extras(ast, &mut state, errors, print_width);
     }
     #[c2rust::src_loc = "553:1"]
     pub unsafe extern "C" fn aliased(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ALIASED, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6652,7 +6652,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6664,7 +6664,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn cap(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 7] = [TK_ISO, TK_TRN, TK_REF, TK_VAL, TK_BOX, TK_TAG, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6676,7 +6676,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6688,7 +6688,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn cap_val(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_VAL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6700,7 +6700,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6712,7 +6712,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn control_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 9] = [
             TK_IF,
@@ -6734,7 +6734,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6746,7 +6746,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn dontcare_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_DONTCARETYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6758,7 +6758,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6770,7 +6770,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ellipsis(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ELLIPSIS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6782,7 +6782,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6794,7 +6794,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn ephemeral(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_EPHEMERAL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6806,7 +6806,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6818,7 +6818,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn error_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ERRORTYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6830,7 +6830,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6842,7 +6842,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn infer_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_INFERTYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6854,7 +6854,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6866,7 +6866,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn float_literal(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_FLOAT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6878,21 +6878,21 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         return check_extras(ast, &mut state, errors, print_width);
     }
     #[c2rust::src_loc = "564:1"]
     pub unsafe extern "C" fn gencap(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 6] = [
             TK_CAP_READ,
@@ -6911,7 +6911,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -6923,7 +6923,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn id(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_ID, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6935,14 +6935,14 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         state.has_data = 1 as libc::c_int != 0;
         return check_extras(ast, &mut state, errors, print_width);
     }
@@ -6950,7 +6950,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn int_literal(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_INT, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6962,21 +6962,21 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         return check_extras(ast, &mut state, errors, print_width);
     }
     #[c2rust::src_loc = "568:1"]
     pub unsafe extern "C" fn literal_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 3] = [TK_LITERAL, TK_LITERALBRANCH, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -6988,7 +6988,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -7000,7 +7000,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn location(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_LOCATION, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7012,21 +7012,21 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(nominal as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(nominal as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         return check_extras(ast, &mut state, errors, print_width);
     }
     #[c2rust::src_loc = "570:1"]
     pub unsafe extern "C" fn none(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_NONE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7038,7 +7038,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -7050,7 +7050,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn opliteral_type(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_OPERATORLITERAL, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7062,7 +7062,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -7075,7 +7075,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn question(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_QUESTION, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7087,7 +7087,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -7099,7 +7099,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn semi(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_SEMI, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7111,7 +7111,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -7123,7 +7123,7 @@ pub mod treecheckdef_h {
     pub unsafe extern "C" fn string(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_STRING, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7135,21 +7135,21 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         return check_extras(ast, &mut state, errors, print_width);
     }
     #[c2rust::src_loc = "575:1"]
     pub unsafe extern "C" fn this_ref(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_THIS, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7161,21 +7161,21 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
         };
         state.child = ast_child(ast);
         state.type_0 =
-            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t);
+            Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         return check_extras(ast, &mut state, errors, print_width);
     }
     #[c2rust::src_loc = "576:1"]
     pub unsafe extern "C" fn type_this(
         mut ast: *mut ast_t,
         mut errors: *mut errors_t,
-        mut print_width: size_t,
+        mut print_width: usize,
     ) -> check_res_t {
         let ids: [token_id; 2] = [TK_THISTYPE, TK_EOF];
         if !is_id_in_list(ast_id(ast), ids.as_ptr()) {
@@ -7187,7 +7187,7 @@ pub mod treecheckdef_h {
                 has_data: 0 as libc::c_int != 0,
                 type_0: None,
                 child: 0 as *mut ast_t,
-                child_index: 0 as libc::c_int as size_t,
+                child_index: 0 as libc::c_int as usize,
                 errors: errors,
             };
             init
@@ -7306,7 +7306,7 @@ pub const CHK_NOT_FOUND: check_res_t = 1;
 pub const CHK_OK: check_res_t = 0;
 #[c2rust::src_loc = "24:1"]
 pub type check_fn_t =
-    Option<unsafe extern "C" fn(*mut ast_t, *mut errors_t, size_t) -> check_res_t>;
+    Option<unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t>;
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "34:16"]
@@ -7315,7 +7315,7 @@ pub struct check_state_t {
     pub has_data: bool,
     pub type_0: check_fn_t,
     pub child: *mut ast_t,
-    pub child_index: size_t,
+    pub child_index: usize,
     pub errors: *mut errors_t,
 }
 #[c2rust::src_loc = "27:9"]
@@ -7334,7 +7334,7 @@ unsafe extern "C" fn error_preamble(mut ast: *mut ast_t) {
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            48 as libc::c_int as size_t,
+            48 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"error_preamble\0"))
                 .as_ptr(),
         );
@@ -7354,12 +7354,12 @@ unsafe extern "C" fn is_id_in_list(mut id_0: token_id, mut list: *const token_id
             b"list != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            59 as libc::c_int as size_t,
+            59 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"is_id_in_list\0"))
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while *list.offset(i as isize) as libc::c_uint != TK_EOF as libc::c_int as libc::c_uint {
         if *list.offset(i as isize) as libc::c_uint == id_0 as libc::c_uint {
             return 1 as libc::c_int != 0;
@@ -7373,7 +7373,7 @@ unsafe extern "C" fn check_from_list(
     mut ast: *mut ast_t,
     mut rules: *const check_fn_t,
     mut errors: *mut errors_t,
-    mut print_width: size_t,
+    mut print_width: usize,
 ) -> check_res_t {
     if !ast.is_null() {
     } else {
@@ -7381,7 +7381,7 @@ unsafe extern "C" fn check_from_list(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            74 as libc::c_int as size_t,
+            74 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"check_from_list\0"))
                 .as_ptr(),
         );
@@ -7392,7 +7392,7 @@ unsafe extern "C" fn check_from_list(
             b"rules != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            75 as libc::c_int as size_t,
+            75 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"check_from_list\0"))
                 .as_ptr(),
         );
@@ -7412,10 +7412,10 @@ unsafe extern "C" fn check_children(
     mut ast: *mut ast_t,
     mut state: *mut check_state_t,
     mut rules: *const check_fn_t,
-    mut min_count: size_t,
-    mut max_count: size_t,
+    mut min_count: usize,
+    mut max_count: usize,
     mut errors: *mut errors_t,
-    mut print_width: size_t,
+    mut print_width: usize,
 ) -> bool {
     if !ast.is_null() {
     } else {
@@ -7423,7 +7423,7 @@ unsafe extern "C" fn check_children(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            97 as libc::c_int as size_t,
+            97 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"check_children\0"))
                 .as_ptr(),
         );
@@ -7434,7 +7434,7 @@ unsafe extern "C" fn check_children(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            98 as libc::c_int as size_t,
+            98 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"check_children\0"))
                 .as_ptr(),
         );
@@ -7445,12 +7445,12 @@ unsafe extern "C" fn check_children(
             b"min_count <= max_count\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            99 as libc::c_int as size_t,
+            99 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"check_children\0"))
                 .as_ptr(),
         );
     };
-    let mut found_count: size_t = 0;
+    let mut found_count: usize = 0;
     while found_count < max_count && !((*state).child).is_null() {
         let mut r: check_res_t = check_from_list((*state).child, rules, errors, print_width);
         if r as libc::c_uint == CHK_ERROR as libc::c_int as libc::c_uint {
@@ -7508,7 +7508,7 @@ unsafe extern "C" fn check_extras(
     mut ast: *mut ast_t,
     mut state: *mut check_state_t,
     mut errors: *mut errors_t,
-    mut print_width: size_t,
+    mut print_width: usize,
 ) -> check_res_t {
     if !ast.is_null() {
     } else {
@@ -7516,7 +7516,7 @@ unsafe extern "C" fn check_extras(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            159 as libc::c_int as size_t,
+            159 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"check_extras\0")).as_ptr(),
         );
     };
@@ -7526,7 +7526,7 @@ unsafe extern "C" fn check_extras(
             b"state != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            160 as libc::c_int as size_t,
+            160 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"check_extras\0")).as_ptr(),
         );
     };
@@ -7642,7 +7642,7 @@ pub unsafe extern "C" fn check_tree(mut tree: *mut ast_t, mut opt: *mut pass_opt
             b"tree != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            335 as libc::c_int as size_t,
+            335 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"check_tree\0")).as_ptr(),
         );
     };
@@ -7653,7 +7653,7 @@ pub unsafe extern "C" fn check_tree(mut tree: *mut ast_t, mut opt: *mut pass_opt
             b"r != CHK_ERROR\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.c\0" as *const u8
                 as *const libc::c_char,
-            337 as libc::c_int as size_t,
+            337 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"check_tree\0")).as_ptr(),
         );
     };

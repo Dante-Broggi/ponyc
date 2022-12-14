@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -470,7 +470,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "73:1"]
@@ -480,7 +480,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/frame.h:1"]
@@ -520,10 +520,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -542,9 +542,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:5"]
@@ -555,7 +555,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -616,7 +616,7 @@ pub use self::token_h::{
 #[c2rust::src_loc = "8:1"]
 unsafe extern "C" fn push_frame(mut t: *mut typecheck_t) -> bool {
     let mut f: *mut typecheck_frame_t =
-        ponyint_pool_alloc(3 as libc::c_int as size_t) as *mut typecheck_frame_t;
+        ponyint_pool_alloc(3 as libc::c_int as usize) as *mut typecheck_frame_t;
     if !((*t).frame).is_null() {
         memcpy(
             f as *mut libc::c_void,
@@ -642,7 +642,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
     let mut pop: bool = 0 as libc::c_int != 0;
     if ast.is_null() {
         let mut f: *mut typecheck_frame_t =
-            ponyint_pool_alloc(3 as libc::c_int as size_t) as *mut typecheck_frame_t;
+            ponyint_pool_alloc(3 as libc::c_int as usize) as *mut typecheck_frame_t;
         memset(
             f as *mut libc::c_void,
             0 as libc::c_int,
@@ -835,7 +835,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     }
                 }
                 84 | 85 => {
-                    if ast_childidx(parent, 1 as libc::c_int as size_t) == ast {
+                    if ast_childidx(parent, 1 as libc::c_int as usize) == ast {
                         pop = push_frame(t);
                         let ref mut fresh30 = (*(*t).frame).local_type;
                         *fresh30 = ast;
@@ -1009,11 +1009,11 @@ pub unsafe extern "C" fn frame_pop(mut t: *mut typecheck_t) {
             b"f != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/frame.c\0" as *const u8
                 as *const libc::c_char,
-            297 as libc::c_int as size_t,
+            297 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"frame_pop\0")).as_ptr(),
         );
     };
     let ref mut fresh45 = (*t).frame;
     *fresh45 = (*f).prev;
-    ponyint_pool_free(3 as libc::c_int as size_t, f as *mut libc::c_void);
+    ponyint_pool_free(3 as libc::c_int as usize, f as *mut libc::c_void);
 }

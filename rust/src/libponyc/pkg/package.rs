@@ -19,7 +19,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "49:1"]
     pub type __uint64_t = u64;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
     #[c2rust::src_loc = "121:1"]
     pub type __darwin_ssize_t = libc::c_long;
     #[c2rust::src_loc = "122:1"]
@@ -91,7 +91,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:1"]
@@ -260,7 +260,7 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_hash_str(str: *const libc::c_char) -> size_t;
+        pub fn ponyint_hash_str(str: *const libc::c_char) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
@@ -304,10 +304,10 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -316,7 +316,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -356,7 +356,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -412,7 +412,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -424,8 +424,8 @@ pub mod serialise_h {
     #[c2rust::src_loc = "8:9"]
     pub struct ponyint_array_t {
         pub t: *const pony_type_t,
-        pub size: size_t,
-        pub alloc: size_t,
+        pub size: usize,
+        pub alloc: usize,
         pub ptr: *mut libc::c_char,
     }
     use super::_size_t_h::size_t;
@@ -435,7 +435,7 @@ pub mod serialise_h {
     use super::scheduler_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "37:1"]
-        pub fn pony_serialise_reserve(ctx: *mut pony_ctx_t, p: *mut libc::c_void, size: size_t);
+        pub fn pony_serialise_reserve(ctx: *mut pony_ctx_t, p: *mut libc::c_void, size: usize);
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
@@ -443,7 +443,7 @@ pub mod serialise_h {
             offset: uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
         #[c2rust::src_loc = "33:1"]
         pub fn pony_serialise(
             ctx: *mut pony_ctx_t,
@@ -457,7 +457,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
             offset: uintptr_t,
-            size: size_t,
+            size: usize,
         ) -> *mut libc::c_void;
     }
 }
@@ -467,8 +467,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -477,10 +477,10 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::_size_t_h::size_t;
     use super::fun_h::{cmp_fn, free_fn};
     use super::pony_h::pony_type_t;
@@ -493,7 +493,7 @@ pub mod hash_h {
             ctx: *mut pony_ctx_t,
             object: *mut libc::c_void,
             buf: *mut libc::c_void,
-            offset: size_t,
+            offset: usize,
         );
         #[c2rust::src_loc = "124:1"]
         pub fn ponyint_hashmap_serialise_trace(
@@ -508,36 +508,36 @@ pub mod hash_h {
             elem_type: *const pony_type_t,
         );
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "66:1"]
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "60:1"]
@@ -546,21 +546,21 @@ pub mod hash_h {
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:10"]
@@ -673,7 +673,7 @@ pub mod list_h {
         #[c2rust::src_loc = "40:1"]
         pub fn ponyint_list_reverse(list: *mut list_t) -> *mut list_t;
         #[c2rust::src_loc = "42:1"]
-        pub fn ponyint_list_length(list: *mut list_t) -> size_t;
+        pub fn ponyint_list_length(list: *mut list_t) -> usize;
         #[c2rust::src_loc = "44:1"]
         pub fn ponyint_list_free(list: *mut list_t, f: free_fn);
         #[c2rust::src_loc = "46:1"]
@@ -688,7 +688,7 @@ pub mod list_h {
             ctx: *mut pony_ctx_t,
             object: *mut libc::c_void,
             buf: *mut libc::c_void,
-            offset: size_t,
+            offset: usize,
         );
         #[c2rust::src_loc = "52:1"]
         pub fn ponyint_list_deserialise(
@@ -794,7 +794,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -913,10 +913,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -1009,7 +1009,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "20:1"]
         pub fn stringtab_consume(
             string: *const libc::c_char,
-            buf_size: size_t,
+            buf_size: usize,
         ) -> *const libc::c_char;
     }
 }
@@ -1581,7 +1581,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
     extern "C" {
@@ -1645,8 +1645,8 @@ pub mod stdlib_h {
         #[c2rust::src_loc = "160:1"]
         pub fn qsort(
             __base: *mut libc::c_void,
-            __nel: size_t,
-            __width: size_t,
+            __nel: usize,
+            __width: usize,
             __compar: Option<
                 unsafe extern "C" fn(*const libc::c_void, *const libc::c_void) -> libc::c_int,
             >,
@@ -1693,17 +1693,17 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_pool_realloc_size(
-            old_size: size_t,
-            new_size: size_t,
+            old_size: usize,
+            new_size: usize,
             p: *mut libc::c_void,
         ) -> *mut libc::c_void;
     }
@@ -1716,7 +1716,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1728,11 +1728,11 @@ pub mod blake2_h {
         #[c2rust::src_loc = "82:3"]
         pub fn blake2b(
             out: *mut libc::c_void,
-            outlen: size_t,
+            outlen: usize,
             in_0: *const libc::c_void,
-            inlen: size_t,
+            inlen: usize,
             key: *const libc::c_void,
-            keylen: size_t,
+            keylen: usize,
         ) -> libc::c_int;
     }
 }
@@ -1920,9 +1920,9 @@ pub struct package_t {
     pub ast: *mut ast_t,
     pub dependencies: package_set_t,
     pub group: *mut package_group_t,
-    pub group_index: size_t,
-    pub next_hygienic_id: size_t,
-    pub low_index: size_t,
+    pub group_index: usize,
+    pub next_hygienic_id: usize,
+    pub low_index: usize,
     pub allow_ffi: bool,
     pub on_stack: bool,
 }
@@ -1964,7 +1964,7 @@ pub type package_set_cmp_fn = Option<unsafe extern "C" fn(*mut package_t, *mut p
 pub struct package_signature_t {
     pub filename: *const libc::c_char,
     pub group: *mut package_group_t,
-    pub group_index: size_t,
+    pub group_index: usize,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -2024,7 +2024,7 @@ static mut package_group_list_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -2063,7 +2063,7 @@ pub unsafe extern "C" fn package_group_list_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_list_serialise(ctx, object, buf, offset);
@@ -2093,7 +2093,7 @@ pub unsafe extern "C" fn package_group_list_free(mut list: *mut package_group_li
 }
 #[no_mangle]
 #[c2rust::src_loc = "92:1"]
-pub unsafe extern "C" fn package_group_list_length(mut list: *mut package_group_list_t) -> size_t {
+pub unsafe extern "C" fn package_group_list_length(mut list: *mut package_group_list_t) -> usize {
     ponyint_list_length(list as *mut list_t)
 }
 #[no_mangle]
@@ -2203,7 +2203,7 @@ pub unsafe extern "C" fn package_group_list_data(
     ponyint_list_data(list as *mut list_t) as *mut package_group_t
 }
 #[c2rust::src_loc = "96:1"]
-unsafe extern "C" fn package_hash(mut pkg: *mut package_t) -> size_t {
+unsafe extern "C" fn package_hash(mut pkg: *mut package_t) -> usize {
     ponyint_hash_str((*pkg).qualified_name)
 }
 #[c2rust::src_loc = "105:1"]
@@ -2212,7 +2212,7 @@ unsafe extern "C" fn package_cmp(mut a: *mut package_t, mut b: *mut package_t) -
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
-pub unsafe extern "C" fn package_set_alloc_size(mut map: *mut package_set_t) -> size_t {
+pub unsafe extern "C" fn package_set_alloc_size(mut map: *mut package_set_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2244,7 +2244,7 @@ static mut package_set_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -2279,7 +2279,7 @@ pub unsafe extern "C" fn package_set_deserialise(
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
-pub unsafe extern "C" fn package_set_mem_size(mut map: *mut package_set_t) -> size_t {
+pub unsafe extern "C" fn package_set_mem_size(mut map: *mut package_set_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -2300,7 +2300,7 @@ pub unsafe extern "C" fn package_set_fill_ratio(mut map: *mut hashmap_t) -> libc
 pub unsafe extern "C" fn package_set_putindex(
     mut map: *mut package_set_t,
     mut entry: *mut package_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: package_set_cmp_fn =
         Some(package_cmp as unsafe extern "C" fn(*mut package_t, *mut package_t) -> bool);
@@ -2314,17 +2314,17 @@ pub unsafe extern "C" fn package_set_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
-pub unsafe extern "C" fn package_set_size(mut map: *mut package_set_t) -> size_t {
+pub unsafe extern "C" fn package_set_size(mut map: *mut package_set_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
-pub unsafe extern "C" fn package_set_init(mut map: *mut package_set_t, mut size: size_t) {
+pub unsafe extern "C" fn package_set_init(mut map: *mut package_set_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
-pub unsafe extern "C" fn package_set_clearindex(mut map: *mut package_set_t, mut index: size_t) {
+pub unsafe extern "C" fn package_set_clearindex(mut map: *mut package_set_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
@@ -2333,7 +2333,7 @@ pub unsafe extern "C" fn package_set_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     ponyint_hashmap_serialise(ctx, object, buf, offset);
@@ -2350,7 +2350,7 @@ pub unsafe extern "C" fn package_set_optimize(mut map: *mut package_set_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "111:1"]
-pub unsafe extern "C" fn package_set_removeindex(mut map: *mut package_set_t, mut index: size_t) {
+pub unsafe extern "C" fn package_set_removeindex(mut map: *mut package_set_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
@@ -2373,7 +2373,7 @@ pub unsafe extern "C" fn package_set_remove(
 pub unsafe extern "C" fn package_set_get(
     mut map: *mut package_set_t,
     mut key: *mut package_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut package_t {
     let mut cmpf: package_set_cmp_fn =
         Some(package_cmp as unsafe extern "C" fn(*mut package_t, *mut package_t) -> bool);
@@ -2389,7 +2389,7 @@ pub unsafe extern "C" fn package_set_get(
 #[c2rust::src_loc = "111:54"]
 pub unsafe extern "C" fn package_set_next(
     mut map: *mut package_set_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut package_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut package_t
@@ -2435,7 +2435,7 @@ unsafe extern "C" fn parse_source_file(
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            133 as libc::c_int as size_t,
+            133 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"parse_source_file\0"))
                 .as_ptr(),
         );
@@ -2446,7 +2446,7 @@ unsafe extern "C" fn parse_source_file(
             b"file_path != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            134 as libc::c_int as size_t,
+            134 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"parse_source_file\0"))
                 .as_ptr(),
         );
@@ -2457,7 +2457,7 @@ unsafe extern "C" fn parse_source_file(
             b"opt != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            135 as libc::c_int as size_t,
+            135 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"parse_source_file\0"))
                 .as_ptr(),
         );
@@ -2497,7 +2497,7 @@ unsafe extern "C" fn parse_source_code(
             b"src != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            161 as libc::c_int as size_t,
+            161 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"parse_source_code\0"))
                 .as_ptr(),
         );
@@ -2508,7 +2508,7 @@ unsafe extern "C" fn parse_source_code(
             b"opt != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            162 as libc::c_int as size_t,
+            162 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"parse_source_code\0"))
                 .as_ptr(),
         );
@@ -2523,7 +2523,7 @@ unsafe extern "C" fn parse_source_code(
             b"source != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            168 as libc::c_int as size_t,
+            168 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"parse_source_code\0"))
                 .as_ptr(),
         );
@@ -2537,13 +2537,13 @@ pub unsafe extern "C" fn path_cat(
     mut part2: *const libc::c_char,
     mut result: *mut libc::c_char,
 ) {
-    let mut len1: size_t = 0;
-    let mut lensep: size_t = 0;
+    let mut len1: usize = 0;
+    let mut lensep: usize = 0;
     if !part1.is_null() {
         len1 = strlen(part1);
-        lensep = 1 as libc::c_int as size_t;
+        lensep = 1 as libc::c_int as usize;
     }
-    let mut len2: size_t = strlen(part2);
+    let mut len2: usize = strlen(part2);
     if len1.wrapping_add(lensep).wrapping_add(len2) >= 1024 as libc::c_int as libc::c_ulong {
         *result.offset(0 as libc::c_int as isize) = '\0' as i32 as libc::c_char;
         return;
@@ -2621,8 +2621,8 @@ unsafe extern "C" fn parse_files_in_dir(
         }
         return 0 as libc::c_int != 0;
     }
-    let mut count: size_t = 0;
-    let mut buf_size: size_t = (4 as libc::c_int as libc::c_ulong)
+    let mut count: usize = 0;
+    let mut buf_size: usize = (4 as libc::c_int as libc::c_ulong)
         .wrapping_mul(::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong);
     let mut entries: *mut *const libc::c_char =
         ponyint_pool_alloc_size(buf_size) as *mut *const libc::c_char;
@@ -2643,7 +2643,7 @@ unsafe extern "C" fn parse_files_in_dir(
             if count.wrapping_mul(::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong)
                 == buf_size
             {
-                let mut new_buf_size: size_t =
+                let mut new_buf_size: usize =
                     buf_size.wrapping_mul(2 as libc::c_int as libc::c_ulong);
                 entries =
                     ponyint_pool_realloc_size(buf_size, new_buf_size, entries as *mut libc::c_void)
@@ -2667,7 +2667,7 @@ unsafe extern "C" fn parse_files_in_dir(
         ),
     );
     let mut r: bool = 1 as libc::c_int != 0;
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < count {
         let mut fullpath: [libc::c_char; 1024] = [0; 1024];
         path_cat(dir_path, *entries.offset(i as isize), fullpath.as_mut_ptr());
@@ -2743,7 +2743,7 @@ unsafe extern "C" fn is_root(mut path: *const libc::c_char) -> bool {
             b"path != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            317 as libc::c_int as size_t,
+            317 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"is_root\0")).as_ptr(),
         );
     };
@@ -2851,13 +2851,13 @@ unsafe extern "C" fn find_path(
 #[c2rust::src_loc = "446:1"]
 unsafe extern "C" fn id_to_string(
     mut prefix: *const libc::c_char,
-    mut id: size_t,
+    mut id: usize,
 ) -> *const libc::c_char {
     if prefix.is_null() {
         prefix = b"\0" as *const u8 as *const libc::c_char;
     }
-    let mut len: size_t = strlen(prefix);
-    let mut buf_size: size_t = len.wrapping_add(32 as libc::c_int as libc::c_ulong);
+    let mut len: usize = strlen(prefix);
+    let mut buf_size: usize = len.wrapping_add(32 as libc::c_int as libc::c_ulong);
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     snprintf(
         buffer,
@@ -2893,8 +2893,8 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
     {
         prefix = 1 as libc::c_int != 0;
     }
-    let mut len: size_t = strlen(string);
-    let mut buf_size: size_t = len
+    let mut len: usize = strlen(string);
+    let mut buf_size: usize = len
         .wrapping_add(prefix as libc::c_ulong)
         .wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
@@ -2906,7 +2906,7 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
     if prefix {
         *buf.offset(0 as libc::c_int as isize) = '_' as i32 as libc::c_char;
     }
-    let mut i: size_t = prefix as size_t;
+    let mut i: usize = prefix as usize;
     while i < len {
         if !(*buf.offset(i as isize) as libc::c_int == '_' as i32
             || *buf.offset(i as isize) as libc::c_int >= 'a' as i32
@@ -2930,10 +2930,10 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
 #[c2rust::src_loc = "518:1"]
 unsafe extern "C" fn symbol_suffix(
     mut symbol: *const libc::c_char,
-    mut suffix: size_t,
+    mut suffix: usize,
 ) -> *const libc::c_char {
-    let mut len: size_t = strlen(symbol);
-    let mut buf_size: size_t = len.wrapping_add(32 as libc::c_int as libc::c_ulong);
+    let mut len: usize = strlen(symbol);
+    let mut buf_size: usize = len.wrapping_add(32 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     snprintf(
         buf,
@@ -2950,7 +2950,7 @@ unsafe extern "C" fn create_package_symbol(
     mut filename: *const libc::c_char,
 ) -> *const libc::c_char {
     let mut symbol: *const libc::c_char = string_to_symbol(filename);
-    let mut suffix: size_t = 1 as libc::c_int as size_t;
+    let mut suffix: usize = 1 as libc::c_int as usize;
     while symbol_in_use(program, symbol) {
         symbol = symbol_suffix(symbol, suffix);
         suffix = suffix.wrapping_add(1);
@@ -2967,13 +2967,13 @@ pub unsafe extern "C" fn create_package(
 ) -> *mut ast_t {
     let mut package: *mut ast_t = ast_blank(TK_PACKAGE);
     let mut pkg_id: u32 = program_assign_pkg_id(program);
-    let mut pkg: *mut package_t = ponyint_pool_alloc(2 as libc::c_int as size_t) as *mut package_t;
+    let mut pkg: *mut package_t = ponyint_pool_alloc(2 as libc::c_int as usize) as *mut package_t;
     let ref mut fresh3 = (*pkg).path;
     *fresh3 = name;
     let ref mut fresh4 = (*pkg).qualified_name;
     *fresh4 = qualified_name;
     let ref mut fresh5 = (*pkg).id;
-    *fresh5 = id_to_string(0 as *const libc::c_char, pkg_id as size_t);
+    *fresh5 = id_to_string(0 as *const libc::c_char, pkg_id as usize);
     let mut p: *const libc::c_char = strrchr((*pkg).path, '/' as i32);
     if p.is_null() {
         p = (*pkg).path;
@@ -2991,12 +2991,12 @@ pub unsafe extern "C" fn create_package(
     }
     let ref mut fresh9 = (*pkg).ast;
     *fresh9 = package;
-    package_set_init(&mut (*pkg).dependencies, 1 as libc::c_int as size_t);
+    package_set_init(&mut (*pkg).dependencies, 1 as libc::c_int as usize);
     let ref mut fresh10 = (*pkg).group;
     *fresh10 = 0 as *mut package_group_t;
-    (*pkg).group_index = -(1 as libc::c_int) as size_t;
-    (*pkg).next_hygienic_id = 0 as libc::c_int as size_t;
-    (*pkg).low_index = -(1 as libc::c_int) as size_t;
+    (*pkg).group_index = -(1 as libc::c_int) as usize;
+    (*pkg).next_hygienic_id = 0 as libc::c_int as usize;
+    (*pkg).low_index = -(1 as libc::c_int) as usize;
     ast_setdata(package, pkg as *mut libc::c_void);
     ast_scope(package);
     ast_append(program, package);
@@ -3100,7 +3100,7 @@ unsafe extern "C" fn add_pony_installation_dir(
     } else {
         b"native\0" as *const u8 as *const libc::c_char
     };
-    let mut lib_len: size_t = (8 as libc::c_int as libc::c_ulong).wrapping_add(strlen(link_arch));
+    let mut lib_len: usize = (8 as libc::c_int as libc::c_ulong).wrapping_add(strlen(link_arch));
     let mut lib_path: *mut libc::c_char = ponyint_pool_alloc_size(lib_len) as *mut libc::c_char;
     snprintf(
         lib_path,
@@ -3232,9 +3232,9 @@ pub unsafe extern "C" fn handle_path_list(
     let mut ok: bool = 1 as libc::c_int != 0;
     loop {
         let mut p: *const libc::c_char = strchr(paths, ':' as i32);
-        let mut len: size_t = 0;
+        let mut len: usize = 0;
         if !p.is_null() {
-            len = p.offset_from(paths) as libc::c_long as size_t;
+            len = p.offset_from(paths) as libc::c_long as usize;
         } else {
             len = strlen(paths);
         }
@@ -3296,7 +3296,7 @@ pub unsafe extern "C" fn package_add_magic_src(
     mut opt: *mut pass_opt_t,
 ) {
     let mut n: *mut magic_package_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut magic_package_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut magic_package_t;
     let ref mut fresh15 = (*n).path;
     *fresh15 = stringtab(path);
     let ref mut fresh16 = (*n).src;
@@ -3316,7 +3316,7 @@ pub unsafe extern "C" fn package_add_magic_path(
     mut opt: *mut pass_opt_t,
 ) {
     let mut n: *mut magic_package_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut magic_package_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut magic_package_t;
     let ref mut fresh20 = (*n).path;
     *fresh20 = stringtab(path);
     let ref mut fresh21 = (*n).src;
@@ -3334,7 +3334,7 @@ pub unsafe extern "C" fn package_clear_magic(mut opt: *mut pass_opt_t) {
     let mut p: *mut magic_package_t = (*opt).magic_packages;
     while !p.is_null() {
         let mut next: *mut magic_package_t = (*p).next;
-        ponyint_pool_free(0 as libc::c_int as size_t, p as *mut libc::c_void);
+        ponyint_pool_free(0 as libc::c_int as usize, p as *mut libc::c_void);
         p = next;
     }
     let ref mut fresh25 = (*opt).magic_packages;
@@ -3381,7 +3381,7 @@ pub unsafe extern "C" fn package_load(
             b"from != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            927 as libc::c_int as size_t,
+            927 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"package_load\0")).as_ptr(),
         );
     };
@@ -3414,7 +3414,7 @@ pub unsafe extern "C" fn package_load(
             let mut parent_pkg: *mut package_t = ast_data(parent) as *mut package_t;
             if !parent_pkg.is_null() {
                 let mut package_path_0: *const libc::c_char = path;
-                let mut relatives: size_t = 0;
+                let mut relatives: usize = 0;
                 loop {
                     if strncmp(
                         b"../\0" as *const u8 as *const libc::c_char,
@@ -3425,7 +3425,7 @@ pub unsafe extern "C" fn package_load(
                         package_path_0 = package_path_0.offset(3 as libc::c_int as isize);
                         relatives = (relatives as libc::c_ulong)
                             .wrapping_add(1 as libc::c_int as libc::c_ulong)
-                            as size_t as size_t;
+                            as usize as usize;
                     } else {
                         if !(strncmp(
                             b"./\0" as *const u8 as *const libc::c_char,
@@ -3439,7 +3439,7 @@ pub unsafe extern "C" fn package_load(
                     }
                 }
                 let mut base_name: *const libc::c_char = (*parent_pkg).qualified_name;
-                let mut base_name_len: size_t = strlen(base_name);
+                let mut base_name_len: usize = strlen(base_name);
                 while relatives > 0 as libc::c_int as libc::c_ulong
                     && base_name_len > 0 as libc::c_int as libc::c_ulong
                 {
@@ -3450,14 +3450,14 @@ pub unsafe extern "C" fn package_load(
                     {
                         relatives = (relatives as libc::c_ulong)
                             .wrapping_sub(1 as libc::c_int as libc::c_ulong)
-                            as size_t as size_t;
+                            as usize as usize;
                     }
                     base_name_len = (base_name_len as libc::c_ulong)
                         .wrapping_sub(1 as libc::c_int as libc::c_ulong)
-                        as size_t as size_t;
+                        as usize as usize;
                 }
-                let mut package_path_len: size_t = strlen(package_path_0);
-                let mut len: size_t = base_name_len
+                let mut package_path_len: usize = strlen(package_path_0);
+                let mut len: usize = base_name_len
                     .wrapping_add(package_path_len)
                     .wrapping_add(2 as libc::c_int as libc::c_ulong);
                 let mut q_name: *mut libc::c_char =
@@ -3538,7 +3538,7 @@ pub unsafe extern "C" fn package_load(
 pub unsafe extern "C" fn package_free(mut package: *mut package_t) {
     if !package.is_null() {
         package_set_destroy(&mut (*package).dependencies);
-        ponyint_pool_free(2 as libc::c_int as size_t, package as *mut libc::c_void);
+        ponyint_pool_free(2 as libc::c_int as usize, package as *mut libc::c_void);
     }
 }
 #[no_mangle]
@@ -3565,7 +3565,7 @@ pub unsafe extern "C" fn package_path(mut package: *mut ast_t) -> *const libc::c
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1093 as libc::c_int as size_t,
+            1093 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"package_path\0")).as_ptr(),
         );
     };
@@ -3575,7 +3575,7 @@ pub unsafe extern "C" fn package_path(mut package: *mut ast_t) -> *const libc::c
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1094 as libc::c_int as size_t,
+            1094 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"package_path\0")).as_ptr(),
         );
     };
@@ -3591,7 +3591,7 @@ pub unsafe extern "C" fn package_qualified_name(mut package: *mut ast_t) -> *con
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1103 as libc::c_int as size_t,
+            1103 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"package_qualified_name\0",
             ))
@@ -3604,7 +3604,7 @@ pub unsafe extern "C" fn package_qualified_name(mut package: *mut ast_t) -> *con
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1104 as libc::c_int as size_t,
+            1104 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"package_qualified_name\0",
             ))
@@ -3623,7 +3623,7 @@ pub unsafe extern "C" fn package_filename(mut package: *mut ast_t) -> *const lib
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1113 as libc::c_int as size_t,
+            1113 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"package_filename\0"))
                 .as_ptr(),
         );
@@ -3634,7 +3634,7 @@ pub unsafe extern "C" fn package_filename(mut package: *mut ast_t) -> *const lib
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1114 as libc::c_int as size_t,
+            1114 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"package_filename\0"))
                 .as_ptr(),
         );
@@ -3646,7 +3646,7 @@ pub unsafe extern "C" fn package_filename(mut package: *mut ast_t) -> *const lib
             b"pkg != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1116 as libc::c_int as size_t,
+            1116 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"package_filename\0"))
                 .as_ptr(),
         );
@@ -3662,7 +3662,7 @@ pub unsafe extern "C" fn package_symbol(mut package: *mut ast_t) -> *const libc:
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1124 as libc::c_int as size_t,
+            1124 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"package_symbol\0"))
                 .as_ptr(),
         );
@@ -3673,7 +3673,7 @@ pub unsafe extern "C" fn package_symbol(mut package: *mut ast_t) -> *const libc:
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1125 as libc::c_int as size_t,
+            1125 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"package_symbol\0"))
                 .as_ptr(),
         );
@@ -3685,7 +3685,7 @@ pub unsafe extern "C" fn package_symbol(mut package: *mut ast_t) -> *const libc:
             b"pkg != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1127 as libc::c_int as size_t,
+            1127 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"package_symbol\0"))
                 .as_ptr(),
         );
@@ -3701,7 +3701,7 @@ pub unsafe extern "C" fn package_hygienic_id(mut t: *mut typecheck_t) -> *const 
             b"t->frame->package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1135 as libc::c_int as size_t,
+            1135 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"package_hygienic_id\0"))
                 .as_ptr(),
         );
@@ -3710,7 +3710,7 @@ pub unsafe extern "C" fn package_hygienic_id(mut t: *mut typecheck_t) -> *const 
     let ref mut fresh26 = (*pkg).next_hygienic_id;
     let fresh27 = *fresh26;
     *fresh26 = (*fresh26).wrapping_add(1);
-    let mut id: size_t = fresh27;
+    let mut id: usize = fresh27;
     return id_to_string((*pkg).id, id);
 }
 #[no_mangle]
@@ -3722,7 +3722,7 @@ pub unsafe extern "C" fn package_allow_ffi(mut t: *mut typecheck_t) -> bool {
             b"t->frame->package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1145 as libc::c_int as size_t,
+            1145 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"package_allow_ffi\0"))
                 .as_ptr(),
         );
@@ -3742,7 +3742,7 @@ pub unsafe extern "C" fn package_alias_from_id(
             b"ast_id(module) == TK_MODULE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1153 as libc::c_int as size_t,
+            1153 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"package_alias_from_id\0"))
                 .as_ptr(),
         );
@@ -3760,7 +3760,7 @@ pub unsafe extern "C" fn package_alias_from_id(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0"
                     as *const u8 as *const libc::c_char,
-                1161 as libc::c_int as size_t,
+                1161 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(
                     b"package_alias_from_id\0",
                 ))
@@ -3774,7 +3774,7 @@ pub unsafe extern "C" fn package_alias_from_id(
                 b"pkg != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0"
                     as *const u8 as *const libc::c_char,
-                1164 as libc::c_int as size_t,
+                1164 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(
                     b"package_alias_from_id\0",
                 ))
@@ -3796,7 +3796,7 @@ pub unsafe extern "C" fn package_alias_from_id(
             b"false\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1178 as libc::c_int as size_t,
+            1178 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"package_alias_from_id\0"))
                 .as_ptr(),
         );
@@ -3812,7 +3812,7 @@ pub unsafe extern "C" fn package_add_dependency(mut package: *mut ast_t, mut dep
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1185 as libc::c_int as size_t,
+            1185 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"package_add_dependency\0",
             ))
@@ -3825,7 +3825,7 @@ pub unsafe extern "C" fn package_add_dependency(mut package: *mut ast_t, mut dep
             b"ast_id(dep) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1186 as libc::c_int as size_t,
+            1186 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"package_add_dependency\0",
             ))
@@ -3843,7 +3843,7 @@ pub unsafe extern "C" fn package_add_dependency(mut package: *mut ast_t, mut dep
             b"pkg != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1194 as libc::c_int as size_t,
+            1194 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"package_add_dependency\0",
             ))
@@ -3856,14 +3856,14 @@ pub unsafe extern "C" fn package_add_dependency(mut package: *mut ast_t, mut dep
             b"pkg_dep != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1195 as libc::c_int as size_t,
+            1195 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
                 b"package_add_dependency\0",
             ))
             .as_ptr(),
         );
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut in_set: *mut package_t = package_set_get(&mut (*pkg).dependencies, pkg_dep, &mut index);
     if !in_set.is_null() {
         return;
@@ -3879,7 +3879,7 @@ pub unsafe extern "C" fn package_signature(mut package: *mut ast_t) -> *const li
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1209 as libc::c_int as size_t,
+            1209 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"package_signature\0"))
                 .as_ptr(),
         );
@@ -3891,7 +3891,7 @@ pub unsafe extern "C" fn package_signature(mut package: *mut ast_t) -> *const li
             b"pkg->group != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1212 as libc::c_int as size_t,
+            1212 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"package_signature\0"))
                 .as_ptr(),
         );
@@ -3900,26 +3900,26 @@ pub unsafe extern "C" fn package_signature(mut package: *mut ast_t) -> *const li
 }
 #[no_mangle]
 #[c2rust::src_loc = "1218:1"]
-pub unsafe extern "C" fn package_group_index(mut package: *mut ast_t) -> size_t {
+pub unsafe extern "C" fn package_group_index(mut package: *mut ast_t) -> usize {
     if ast_id(package) as libc::c_uint == TK_PACKAGE as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
             b"ast_id(package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1220 as libc::c_int as size_t,
+            1220 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"package_group_index\0"))
                 .as_ptr(),
         );
     };
     let mut pkg: *mut package_t = ast_data(package) as *mut package_t;
-    if (*pkg).group_index != -(1 as libc::c_int) as size_t {
+    if (*pkg).group_index != -(1 as libc::c_int) as usize {
     } else {
         ponyint_assert_fail(
             b"pkg->group_index != (size_t)-1\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1223 as libc::c_int as size_t,
+            1223 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"package_group_index\0"))
                 .as_ptr(),
         );
@@ -3930,10 +3930,10 @@ pub unsafe extern "C" fn package_group_index(mut package: *mut ast_t) -> size_t 
 #[c2rust::src_loc = "1229:1"]
 pub unsafe extern "C" fn package_group_new() -> *mut package_group_t {
     let mut group: *mut package_group_t =
-        ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut package_group_t;
+        ponyint_pool_alloc(1 as libc::c_int as usize) as *mut package_group_t;
     let ref mut fresh28 = (*group).signature;
     *fresh28 = 0 as *mut libc::c_char;
-    package_set_init(&mut (*group).members, 1 as libc::c_int as size_t);
+    package_set_init(&mut (*group).members, 1 as libc::c_int as usize);
     return group;
 }
 #[no_mangle]
@@ -3941,19 +3941,19 @@ pub unsafe extern "C" fn package_group_new() -> *mut package_group_t {
 pub unsafe extern "C" fn package_group_free(mut group: *mut package_group_t) {
     if !((*group).signature).is_null() {
         ponyint_pool_free_size(
-            64 as libc::c_int as size_t,
+            64 as libc::c_int as usize,
             (*group).signature as *mut libc::c_void,
         );
     }
     package_set_destroy(&mut (*group).members);
-    ponyint_pool_free(1 as libc::c_int as size_t, group as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, group as *mut libc::c_void);
 }
 #[c2rust::src_loc = "1248:1"]
 unsafe extern "C" fn make_dependency_group(
     mut package: *mut package_t,
     mut groups: *mut *mut package_group_list_t,
     mut stack: *mut *mut package_stack_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) {
     if !(*package).on_stack {
     } else {
@@ -3961,7 +3961,7 @@ unsafe extern "C" fn make_dependency_group(
             b"!package->on_stack\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1251 as libc::c_int as size_t,
+            1251 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"make_dependency_group\0"))
                 .as_ptr(),
         );
@@ -3973,14 +3973,14 @@ unsafe extern "C" fn make_dependency_group(
     (*package).group_index = *fresh30;
     *stack = package_stack_push(*stack, package);
     (*package).on_stack = 1 as libc::c_int != 0;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut dep: *mut package_t = 0 as *mut package_t;
     loop {
         dep = package_set_next(&mut (*package).dependencies, &mut i);
         if dep.is_null() {
             break;
         }
-        if (*dep).group_index == -(1 as libc::c_int) as size_t {
+        if (*dep).group_index == -(1 as libc::c_int) as usize {
             make_dependency_group(dep, groups, stack, index);
             if (*dep).low_index < (*package).low_index {
                 (*package).low_index = (*dep).low_index;
@@ -3992,7 +3992,7 @@ unsafe extern "C" fn make_dependency_group(
     if (*package).group_index == (*package).low_index {
         let mut group: *mut package_group_t = package_group_new();
         let mut member: *mut package_t = 0 as *mut package_t;
-        let mut i_0: size_t = 0;
+        let mut i_0: usize = 0;
         loop {
             *stack = package_stack_pop(*stack, &mut member);
             (*member).on_stack = 0 as libc::c_int != 0;
@@ -4016,7 +4016,7 @@ pub unsafe extern "C" fn package_dependency_groups(
 ) -> *mut package_group_list_t {
     let mut groups: *mut package_group_list_t = 0 as *mut package_group_list_t;
     let mut stack: *mut package_stack_t = 0 as *mut package_stack_t;
-    let mut index: size_t = 0;
+    let mut index: usize = 0;
     while !first_package.is_null() {
         if ast_id(first_package) as libc::c_uint == TK_PACKAGE as libc::c_int as libc::c_uint {
         } else {
@@ -4024,7 +4024,7 @@ pub unsafe extern "C" fn package_dependency_groups(
                 b"ast_id(first_package) == TK_PACKAGE\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0"
                     as *const u8 as *const libc::c_char,
-                1301 as libc::c_int as size_t,
+                1301 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                     b"package_dependency_groups\0",
                 ))
@@ -4032,7 +4032,7 @@ pub unsafe extern "C" fn package_dependency_groups(
             );
         };
         let mut package: *mut package_t = ast_data(first_package) as *mut package_t;
-        if (*package).group_index == -(1 as libc::c_int) as size_t {
+        if (*package).group_index == -(1 as libc::c_int) as usize {
             make_dependency_group(package, &mut groups, &mut stack, &mut index);
         }
         first_package = ast_sibling(first_package);
@@ -4043,7 +4043,7 @@ pub unsafe extern "C" fn package_dependency_groups(
             b"stack == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1310 as libc::c_int as size_t,
+            1310 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                 b"package_dependency_groups\0",
             ))
@@ -4054,7 +4054,7 @@ pub unsafe extern "C" fn package_dependency_groups(
 }
 #[c2rust::src_loc = "1315:1"]
 unsafe extern "C" fn print_signature(mut sig: *const libc::c_char) {
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < 64 as libc::c_int as libc::c_ulong {
         printf(
             b"%02hhX\0" as *const u8 as *const libc::c_char,
@@ -4074,7 +4074,7 @@ pub unsafe extern "C" fn package_group_dump(mut group: *mut package_group_t) {
             buckets: 0 as *mut hashmap_entry_t,
         },
     };
-    package_set_init(&mut deps, 1 as libc::c_int as size_t);
+    package_set_init(&mut deps, 1 as libc::c_int as usize);
     fputs(
         b"Signature: \0" as *const u8 as *const libc::c_char,
         __stdoutp,
@@ -4086,7 +4086,7 @@ pub unsafe extern "C" fn package_group_dump(mut group: *mut package_group_t) {
     }
     putchar('\n' as i32);
     puts(b"Members:\0" as *const u8 as *const libc::c_char);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut member: *mut package_t = 0 as *mut package_t;
     loop {
         member = package_set_next(&mut (*group).members, &mut i);
@@ -4097,17 +4097,17 @@ pub unsafe extern "C" fn package_group_dump(mut group: *mut package_group_t) {
             b"  %s\n\0" as *const u8 as *const libc::c_char,
             (*member).filename,
         );
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut dep: *mut package_t = 0 as *mut package_t;
         loop {
             dep = package_set_next(&mut (*member).dependencies, &mut j);
             if dep.is_null() {
                 break;
             }
-            let mut k: size_t = -(1 as libc::c_int) as size_t;
+            let mut k: usize = -(1 as libc::c_int) as usize;
             let mut in_set: *mut package_t = package_set_get(&mut (*group).members, dep, &mut k);
             if in_set.is_null() {
-                k = -(1 as libc::c_int) as size_t;
+                k = -(1 as libc::c_int) as usize;
                 in_set = package_set_get(&mut deps, dep, &mut k);
                 if in_set.is_null() {
                     package_set_putindex(&mut deps, dep, k);
@@ -4116,7 +4116,7 @@ pub unsafe extern "C" fn package_group_dump(mut group: *mut package_group_t) {
         }
     }
     puts(b"Dependencies:\0" as *const u8 as *const libc::c_char);
-    i = -(1 as libc::c_int) as size_t;
+    i = -(1 as libc::c_int) as usize;
     loop {
         member = package_set_next(&mut deps, &mut i);
         if member.is_null() {
@@ -4150,7 +4150,7 @@ unsafe extern "C" fn package_signature_serialise_trace(
 ) {
     let mut package: *mut package_t = object as *mut package_t;
     string_trace(ctx, (*package).filename);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut dep: *mut package_t = 0 as *mut package_t;
     loop {
         dep = package_set_next(&mut (*package).dependencies, &mut i);
@@ -4176,7 +4176,7 @@ unsafe extern "C" fn package_signature_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut package: *mut package_t = object as *mut package_t;
@@ -4212,7 +4212,7 @@ static mut package_dep_signature_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4254,7 +4254,7 @@ static mut package_signature_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4288,7 +4288,7 @@ unsafe extern "C" fn package_group_dep_signature_serialise_trace(
             b"group->signature != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1488 as libc::c_int as size_t,
+            1488 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 44], &[libc::c_char; 44]>(
                 b"package_group_dep_signature_serialise_trace\0",
             ))
@@ -4298,7 +4298,7 @@ unsafe extern "C" fn package_group_dep_signature_serialise_trace(
     pony_serialise_reserve(
         ctx,
         (*group).signature as *mut libc::c_void,
-        64 as libc::c_int as size_t,
+        64 as libc::c_int as usize,
     );
 }
 #[c2rust::src_loc = "1493:1"]
@@ -4313,14 +4313,14 @@ unsafe extern "C" fn package_group_signature_serialise_trace(
             b"group->signature == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1498 as libc::c_int as size_t,
+            1498 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 40], &[libc::c_char; 40]>(
                 b"package_group_signature_serialise_trace\0",
             ))
             .as_ptr(),
         );
     };
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut member: *mut package_t = 0 as *mut package_t;
     loop {
         member = package_set_next(&mut (*group).members, &mut i);
@@ -4340,7 +4340,7 @@ unsafe extern "C" fn package_group_signature_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut group: *mut package_group_t = object as *mut package_group_t;
@@ -4383,7 +4383,7 @@ static mut package_group_dep_signature_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4425,7 +4425,7 @@ static mut package_group_signature_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4448,7 +4448,7 @@ pub unsafe extern "C" fn package_group_signature_pony_type() -> *const pony_type
     return &package_group_signature_pony;
 }
 #[c2rust::src_loc = "1588:1"]
-unsafe extern "C" fn s_alloc_fn(mut _ctx: *mut pony_ctx_t, mut size: size_t) -> *mut libc::c_void {
+unsafe extern "C" fn s_alloc_fn(mut _ctx: *mut pony_ctx_t, mut size: usize) -> *mut libc::c_void {
     return ponyint_pool_alloc_size(size);
 }
 #[c2rust::src_loc = "1595:1"]
@@ -4459,7 +4459,7 @@ unsafe extern "C" fn s_throw_fn() {
             b"false\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0" as *const u8
                 as *const libc::c_char,
-            1597 as libc::c_int as size_t,
+            1597 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"s_throw_fn\0")).as_ptr(),
         );
     };
@@ -4515,13 +4515,13 @@ pub unsafe extern "C" fn package_group_signature(
             ::core::mem::size_of::<ponyint_array_t>() as libc::c_ulong,
         );
         let mut buf: *mut libc::c_char =
-            ponyint_pool_alloc_size(64 as libc::c_int as size_t) as *mut libc::c_char;
+            ponyint_pool_alloc_size(64 as libc::c_int as usize) as *mut libc::c_char;
         pony_serialise(
             &mut ctx,
             group as *mut libc::c_void,
             package_group_signature_pony_type(),
             &mut array,
-            Some(s_alloc_fn as unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void),
+            Some(s_alloc_fn as unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void),
             Some(::core::mem::transmute::<
                 unsafe extern "C" fn() -> (),
                 unsafe extern "C" fn() -> (),
@@ -4529,11 +4529,11 @@ pub unsafe extern "C" fn package_group_signature(
         );
         let mut status: libc::c_int = blake2b(
             buf as *mut libc::c_void,
-            64 as libc::c_int as size_t,
+            64 as libc::c_int as usize,
             array.ptr as *const libc::c_void,
             array.size,
             0 as *const libc::c_void,
-            0 as libc::c_int as size_t,
+            0 as libc::c_int as usize,
         );
         if status == 0 as libc::c_int {
         } else {
@@ -4541,7 +4541,7 @@ pub unsafe extern "C" fn package_group_signature(
                 b"status == 0\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.c\0"
                     as *const u8 as *const libc::c_char,
-                1616 as libc::c_int as size_t,
+                1616 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                     b"package_group_signature\0",
                 ))
@@ -4602,7 +4602,7 @@ unsafe extern "C" fn package_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut package: *mut package_t = object as *mut package_t;
@@ -4695,7 +4695,7 @@ static mut package_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -4730,7 +4730,7 @@ unsafe extern "C" fn package_group_serialise_trace(
         pony_serialise_reserve(
             ctx,
             (*group).signature as *mut libc::c_void,
-            64 as libc::c_int as size_t,
+            64 as libc::c_int as usize,
         );
     }
     package_set_serialise_trace(
@@ -4743,7 +4743,7 @@ unsafe extern "C" fn package_group_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut group: *mut package_group_t = object as *mut package_group_t;
@@ -4780,7 +4780,7 @@ unsafe extern "C" fn package_group_deserialise(
     *fresh55 = pony_deserialise_block(
         ctx,
         (*group).signature as uintptr_t,
-        64 as libc::c_int as size_t,
+        64 as libc::c_int as usize,
     ) as *mut libc::c_char;
     package_set_deserialise(
         ctx,
@@ -4807,7 +4807,7 @@ static mut package_group_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

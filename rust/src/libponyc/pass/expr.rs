@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -31,7 +31,7 @@ pub mod error_h {
         #[c2rust::src_loc = "36:16"]
         pub type errors_t;
         #[c2rust::src_loc = "63:1"]
-        pub fn errors_get_count(errors: *mut errors_t) -> size_t;
+        pub fn errors_get_count(errors: *mut errors_t) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -472,20 +472,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -548,11 +548,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "114:1"]
         pub fn ast_childlast(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "141:1"]
@@ -564,7 +564,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -606,10 +606,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -704,7 +704,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -975,7 +975,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1093,33 +1093,33 @@ pub unsafe extern "C" fn is_result_needed(mut ast: *mut ast_t) -> bool {
             return is_result_needed(parent);
         }
         110 => {
-            if ast_child(parent) == ast || ast_childidx(parent, 1 as libc::c_int as size_t) == ast {
+            if ast_child(parent) == ast || ast_childidx(parent, 1 as libc::c_int as usize) == ast {
                 return 0 as libc::c_int != 0;
             }
             return is_result_needed(parent);
         }
         118 => {
-            if ast_childidx(parent, 1 as libc::c_int as size_t) == ast {
+            if ast_childidx(parent, 1 as libc::c_int as usize) == ast {
                 return 1 as libc::c_int != 0;
             }
             return is_result_needed(parent);
         }
         181 => {
-            if ast_childidx(parent, 2 as libc::c_int as size_t) != ast {
+            if ast_childidx(parent, 2 as libc::c_int as usize) != ast {
                 return 1 as libc::c_int != 0;
             }
             return is_result_needed(parent);
         }
         180 | 111 | 124 | 125 | 107 | 206 => return is_result_needed(parent),
         88 => {
-            let mut type_0: *mut ast_t = ast_childidx(parent, 4 as libc::c_int as size_t);
+            let mut type_0: *mut ast_t = ast_childidx(parent, 4 as libc::c_int as usize);
             if ast_id(type_0) as libc::c_uint == TK_NOMINAL as libc::c_int as libc::c_uint {
             } else {
                 ponyint_assert_fail(
                     b"ast_id(type) == TK_NOMINAL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0"
                         as *const u8 as *const libc::c_char,
-                    96 as libc::c_int as size_t,
+                    96 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(
                         b"is_result_needed\0",
                     ))
@@ -1128,7 +1128,7 @@ pub unsafe extern "C" fn is_result_needed(mut ast: *mut ast_t) -> bool {
             };
             let mut pkg_name: *const libc::c_char = ast_name(ast_child(type_0));
             let mut type_name: *const libc::c_char =
-                ast_name(ast_childidx(type_0, 1 as libc::c_int as size_t));
+                ast_name(ast_childidx(type_0, 1 as libc::c_int as usize));
             if pkg_name == stringtab(b"$0\0" as *const u8 as *const libc::c_char) {
                 return is_numeric_primitive(type_name);
             }
@@ -1136,7 +1136,7 @@ pub unsafe extern "C" fn is_result_needed(mut ast: *mut ast_t) -> bool {
         }
         90 => return 0 as libc::c_int != 0,
         203 | 204 => {
-            if ast_childidx(parent, 0 as libc::c_int as size_t) == ast {
+            if ast_childidx(parent, 0 as libc::c_int as usize) == ast {
                 return is_result_needed(parent);
             }
             return 0 as libc::c_int != 0;
@@ -1173,7 +1173,7 @@ pub unsafe extern "C" fn is_method_result(mut t: *mut typecheck_t, mut ast: *mut
             current_block_14 = 10275258781883576179;
         }
         118 => {
-            if ast_childidx(parent, 1 as libc::c_int as size_t) == ast {
+            if ast_childidx(parent, 1 as libc::c_int as usize) == ast {
                 return 0 as libc::c_int != 0;
             }
             current_block_14 = 2668756484064249700;
@@ -1182,13 +1182,13 @@ pub unsafe extern "C" fn is_method_result(mut t: *mut typecheck_t, mut ast: *mut
             current_block_14 = 2668756484064249700;
         }
         124 | 125 => {
-            if ast_childidx(parent, 2 as libc::c_int as size_t) == ast {
+            if ast_childidx(parent, 2 as libc::c_int as usize) == ast {
                 return 0 as libc::c_int != 0;
             }
             current_block_14 = 2668756484064249700;
         }
         206 => {
-            if ast_childidx(parent, 1 as libc::c_int as size_t) == ast {
+            if ast_childidx(parent, 1 as libc::c_int as usize) == ast {
                 return 0 as libc::c_int != 0;
             }
             current_block_14 = 2668756484064249700;
@@ -1197,7 +1197,7 @@ pub unsafe extern "C" fn is_method_result(mut t: *mut typecheck_t, mut ast: *mut
     }
     match current_block_14 {
         10275258781883576179 => {
-            if ast_child(parent) == ast || ast_childidx(parent, 1 as libc::c_int as size_t) == ast {
+            if ast_child(parent) == ast || ast_childidx(parent, 1 as libc::c_int as usize) == ast {
                 return 0 as libc::c_int != 0;
             }
         }
@@ -1234,7 +1234,7 @@ pub unsafe extern "C" fn is_typecheck_error(mut type_0: *mut ast_t) -> bool {
 unsafe extern "C" fn find_tuple_type(
     mut opt: *mut pass_opt_t,
     mut ast: *mut ast_t,
-    mut child_count: size_t,
+    mut child_count: usize,
 ) -> *mut ast_t {
     if ast_id(ast) as libc::c_uint == TK_TUPLETYPE as libc::c_int as libc::c_uint
         && ast_childcount(ast) == child_count
@@ -1302,7 +1302,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                     b"ast == deflt\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0"
                         as *const u8 as *const libc::c_char,
-                    283 as libc::c_int as size_t,
+                    283 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                         b"find_antecedent_type\0",
                     ))
@@ -1329,7 +1329,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                     b"ast == seq\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0"
                         as *const u8 as *const libc::c_char,
-                    291 as libc::c_int as size_t,
+                    291 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                         b"find_antecedent_type\0",
                     ))
@@ -1390,7 +1390,7 @@ pub unsafe extern "C" fn find_antecedent_type(
             let mut param: *mut ast_t = ast_child(params);
             while !arg.is_null() && !param.is_null() {
                 if arg == ast {
-                    return ast_childidx(param, 1 as libc::c_int as size_t);
+                    return ast_childidx(param, 1 as libc::c_int as usize);
                 }
                 arg = ast_sibling(arg);
                 param = ast_sibling(param);
@@ -1409,7 +1409,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                     b"ast_id(funtype) == TK_FUNTYPE\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0"
                         as *const u8 as *const libc::c_char,
-                    358 as libc::c_int as size_t,
+                    358 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                         b"find_antecedent_type\0",
                     ))
@@ -1438,28 +1438,28 @@ pub unsafe extern "C" fn find_antecedent_type(
             let mut param_0: *mut ast_t = ast_child(params_0);
             while !param_0.is_null() {
                 if ast_name(ast_child(param_0)) == name {
-                    return ast_childidx(param_0, 1 as libc::c_int as size_t);
+                    return ast_childidx(param_0, 1 as libc::c_int as usize);
                 }
                 param_0 = ast_sibling(param_0);
             }
             return 0 as *mut ast_t;
         }
         89 => {
-            let mut body: *mut ast_t = ast_childidx(parent, 6 as libc::c_int as size_t);
+            let mut body: *mut ast_t = ast_childidx(parent, 6 as libc::c_int as usize);
             if ast == body {
             } else {
                 ponyint_assert_fail(
                     b"ast == body\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0"
                         as *const u8 as *const libc::c_char,
-                    381 as libc::c_int as size_t,
+                    381 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                         b"find_antecedent_type\0",
                     ))
                     .as_ptr(),
                 );
             };
-            let mut ret_type_1: *mut ast_t = ast_childidx(parent, 4 as libc::c_int as size_t);
+            let mut ret_type_1: *mut ast_t = ast_childidx(parent, 4 as libc::c_int as usize);
             if ast_id(ret_type_1) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
                 return 0 as *mut ast_t;
             }
@@ -1490,7 +1490,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                     b"ast_id(antecedent) == TK_TUPLETYPE\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0"
                         as *const u8 as *const libc::c_char,
-                    415 as libc::c_int as size_t,
+                    415 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                         b"find_antecedent_type\0",
                     ))
@@ -1763,7 +1763,7 @@ pub unsafe extern "C" fn pass_expr(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/expr.c\0" as *const u8
                     as *const libc::c_char,
-                661 as libc::c_int as size_t,
+                661 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"pass_expr\0"))
                     .as_ptr(),
             );

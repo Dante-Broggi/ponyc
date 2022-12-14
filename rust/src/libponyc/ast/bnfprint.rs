@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:3"]
@@ -467,9 +467,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:7"]
@@ -480,7 +480,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -576,7 +576,7 @@ static mut antlr_post: *const libc::c_char = b"// Rules of the form antlr_* are 
     as *const u8 as *const libc::c_char;
 #[c2rust::src_loc = "200:1"]
 unsafe extern "C" fn bnf_create(mut id: bnf_id) -> *mut bnf_t {
-    let mut b: *mut bnf_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut bnf_t;
+    let mut b: *mut bnf_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut bnf_t;
     memset(
         b as *mut libc::c_void,
         0 as libc::c_int,
@@ -592,7 +592,7 @@ unsafe extern "C" fn bnf_free(mut bnf: *mut bnf_t) {
     }
     bnf_free((*bnf).child);
     bnf_free((*bnf).sibling);
-    ponyint_pool_free(1 as libc::c_int as size_t, bnf as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, bnf as *mut libc::c_void);
 }
 #[c2rust::src_loc = "223:1"]
 unsafe extern "C" fn bnf_copy(
@@ -625,7 +625,7 @@ unsafe extern "C" fn bnf_add(mut bnf: *mut bnf_t, mut parent: *mut bnf_t) -> *mu
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            248 as libc::c_int as size_t,
+            248 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"bnf_add\0")).as_ptr(),
         );
     };
@@ -635,7 +635,7 @@ unsafe extern "C" fn bnf_add(mut bnf: *mut bnf_t, mut parent: *mut bnf_t) -> *mu
             b"parent != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            249 as libc::c_int as size_t,
+            249 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"bnf_add\0")).as_ptr(),
         );
     };
@@ -774,7 +774,7 @@ unsafe extern "C" fn bnf_print(mut bnf: *mut bnf_t, mut top_format: bool) {
                     b"false\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                         as *const u8 as *const libc::c_char,
-                    351 as libc::c_int as size_t,
+                    351 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"bnf_print\0"))
                         .as_ptr(),
                 );
@@ -795,7 +795,7 @@ unsafe extern "C" fn bnf_print_children(
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            363 as libc::c_int as size_t,
+            363 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"bnf_print_children\0"))
                 .as_ptr(),
         );
@@ -806,7 +806,7 @@ unsafe extern "C" fn bnf_print_children(
             b"separator != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            364 as libc::c_int as size_t,
+            364 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"bnf_print_children\0"))
                 .as_ptr(),
         );
@@ -818,7 +818,7 @@ unsafe extern "C" fn bnf_print_children(
             b"child != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            367 as libc::c_int as size_t,
+            367 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"bnf_print_children\0"))
                 .as_ptr(),
         );
@@ -850,7 +850,7 @@ unsafe extern "C" fn bnf_token_set(
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            390 as libc::c_int as size_t,
+            390 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"bnf_token_set\0"))
                 .as_ptr(),
         );
@@ -864,7 +864,7 @@ unsafe extern "C" fn bnf_token_set(
                 b"p != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                     as *const u8 as *const libc::c_char,
-                395 as libc::c_int as size_t,
+                395 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"bnf_token_set\0"))
                     .as_ptr(),
             );
@@ -916,7 +916,7 @@ unsafe extern "C" fn bnf_token_set(
                         b"p->name != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                             as *const u8 as *const libc::c_char,
-                        417 as libc::c_int as size_t,
+                        417 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(
                             b"bnf_token_set\0",
                         ))
@@ -943,7 +943,7 @@ unsafe extern "C" fn bnf_rule_set(mut bnf: *mut bnf_t, mut rules: *mut *const li
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            434 as libc::c_int as size_t,
+            434 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"bnf_rule_set\0")).as_ptr(),
         );
     };
@@ -956,7 +956,7 @@ unsafe extern "C" fn bnf_rule_set(mut bnf: *mut bnf_t, mut rules: *mut *const li
                 b"p != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                     as *const u8 as *const libc::c_char,
-                439 as libc::c_int as size_t,
+                439 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"bnf_rule_set\0"))
                     .as_ptr(),
             );
@@ -974,7 +974,7 @@ unsafe extern "C" fn bnf_use_child(mut bnf: *mut bnf_t) {
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            450 as libc::c_int as size_t,
+            450 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"bnf_use_child\0"))
                 .as_ptr(),
         );
@@ -985,7 +985,7 @@ unsafe extern "C" fn bnf_use_child(mut bnf: *mut bnf_t) {
             b"bnf->child != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            451 as libc::c_int as size_t,
+            451 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"bnf_use_child\0"))
                 .as_ptr(),
         );
@@ -1014,7 +1014,7 @@ unsafe extern "C" fn bnf_find_def(
             b"tree != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            469 as libc::c_int as size_t,
+            469 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"bnf_find_def\0")).as_ptr(),
         );
     };
@@ -1024,7 +1024,7 @@ unsafe extern "C" fn bnf_find_def(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            470 as libc::c_int as size_t,
+            470 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"bnf_find_def\0")).as_ptr(),
         );
     };
@@ -1041,7 +1041,7 @@ unsafe extern "C" fn bnf_find_def(
             b"false\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            479 as libc::c_int as size_t,
+            479 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"bnf_find_def\0")).as_ptr(),
         );
     };
@@ -1059,7 +1059,7 @@ unsafe extern "C" fn bnf_simplify_node(
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            490 as libc::c_int as size_t,
+            490 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"bnf_simplify_node\0"))
                 .as_ptr(),
         );
@@ -1070,7 +1070,7 @@ unsafe extern "C" fn bnf_simplify_node(
             b"out_changed != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            491 as libc::c_int as size_t,
+            491 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"bnf_simplify_node\0"))
                 .as_ptr(),
         );
@@ -1131,7 +1131,7 @@ unsafe extern "C" fn bnf_simplify_node(
                         b"def != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                             as *const u8 as *const libc::c_char,
-                        575 as libc::c_int as size_t,
+                        575 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(
                             b"bnf_simplify_node\0",
                         ))
@@ -1145,7 +1145,7 @@ unsafe extern "C" fn bnf_simplify_node(
                         b"rule != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                             as *const u8 as *const libc::c_char,
-                        578 as libc::c_int as size_t,
+                        578 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(
                             b"bnf_simplify_node\0",
                         ))
@@ -1174,7 +1174,7 @@ unsafe extern "C" fn bnf_simplify_node(
                                 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                                 as *const u8 as *const libc::c_char,
-                            595 as libc::c_int as size_t,
+                            595 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 18],
                                 &[libc::c_char; 18],
@@ -1203,7 +1203,7 @@ unsafe extern "C" fn bnf_simplify_children(
             b"parent != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            617 as libc::c_int as size_t,
+            617 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"bnf_simplify_children\0"))
                 .as_ptr(),
         );
@@ -1258,7 +1258,7 @@ unsafe extern "C" fn bnf_simplify(mut tree: *mut bnf_t) {
             b"tree != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            665 as libc::c_int as size_t,
+            665 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"bnf_simplify\0")).as_ptr(),
         );
     };
@@ -1276,7 +1276,7 @@ unsafe extern "C" fn bnf_avoid_antlr_bug(mut tree: *mut bnf_t, mut bnf: *mut bnf
             b"tree != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            680 as libc::c_int as size_t,
+            680 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"bnf_avoid_antlr_bug\0"))
                 .as_ptr(),
         );
@@ -1299,7 +1299,7 @@ unsafe extern "C" fn bnf_avoid_antlr_bug(mut tree: *mut bnf_t, mut bnf: *mut bnf
             b"or_node != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            695 as libc::c_int as size_t,
+            695 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"bnf_avoid_antlr_bug\0"))
                 .as_ptr(),
         );
@@ -1313,7 +1313,7 @@ unsafe extern "C" fn bnf_avoid_antlr_bug(mut tree: *mut bnf_t, mut bnf: *mut bnf
             b"or_node->child != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            700 as libc::c_int as size_t,
+            700 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"bnf_avoid_antlr_bug\0"))
                 .as_ptr(),
         );
@@ -1335,7 +1335,7 @@ unsafe extern "C" fn bnf_avoid_antlr_bug(mut tree: *mut bnf_t, mut bnf: *mut bnf
             b"tree->last_child != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            711 as libc::c_int as size_t,
+            711 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"bnf_avoid_antlr_bug\0"))
                 .as_ptr(),
         );
@@ -1363,7 +1363,7 @@ unsafe extern "C" fn bnf_mark_refd_defs(mut tree: *mut bnf_t, mut bnf: *mut bnf_
             b"tree != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            729 as libc::c_int as size_t,
+            729 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"bnf_mark_refd_defs\0"))
                 .as_ptr(),
         );
@@ -1374,7 +1374,7 @@ unsafe extern "C" fn bnf_mark_refd_defs(mut tree: *mut bnf_t, mut bnf: *mut bnf_
             b"bnf != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            730 as libc::c_int as size_t,
+            730 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"bnf_mark_refd_defs\0"))
                 .as_ptr(),
         );
@@ -1394,7 +1394,7 @@ unsafe extern "C" fn bnf_mark_refd_defs(mut tree: *mut bnf_t, mut bnf: *mut bnf_
                     b"rule != NULL\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0"
                         as *const u8 as *const libc::c_char,
-                    740 as libc::c_int as size_t,
+                    740 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                         b"bnf_mark_refd_defs\0",
                     ))
@@ -6009,7 +6009,7 @@ pub unsafe extern "C" fn print_grammar(mut antlr: bool, mut clean: bool) {
             b"tree != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/bnfprint.c\0" as *const u8
                 as *const libc::c_char,
-            878 as libc::c_int as size_t,
+            878 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"print_grammar\0"))
                 .as_ptr(),
         );

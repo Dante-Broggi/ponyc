@@ -7,7 +7,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/fun.h:1"]
 pub mod fun_h {
@@ -18,7 +18,7 @@ pub mod fun_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "30:1"]
-        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> size_t;
+        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
@@ -39,16 +39,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -90,20 +90,20 @@ pub mod pony_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -111,7 +111,7 @@ pub mod hash_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -120,50 +120,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -175,7 +175,7 @@ pub mod objectmap_h {
     #[c2rust::src_loc = "9:16"]
     pub struct object_t {
         pub address: *mut libc::c_void,
-        pub rc: size_t,
+        pub rc: usize,
         pub mark: u32,
         pub immutable: bool,
         pub type_0: *const pony_type_t,
@@ -204,9 +204,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pagemap.h:6"]
@@ -242,7 +242,7 @@ pub type ponyint_objectmap_free_fn = Option<unsafe extern "C" fn(*mut object_t) 
 pub type ponyint_objectmap_cmp_fn =
     Option<unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool>;
 #[c2rust::src_loc = "9:1"]
-unsafe extern "C" fn object_hash(mut obj: *mut object_t) -> size_t {
+unsafe extern "C" fn object_hash(mut obj: *mut object_t) -> usize {
     ponyint_hash_ptr((*obj).address)
 }
 #[c2rust::src_loc = "14:1"]
@@ -255,10 +255,10 @@ unsafe extern "C" fn object_alloc(
     mut type_0: *const pony_type_t,
     mut mark: u32,
 ) -> *mut object_t {
-    let mut obj: *mut object_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut object_t;
+    let mut obj: *mut object_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut object_t;
     let ref mut fresh0 = (*obj).address;
     *fresh0 = address;
-    (*obj).rc = 0 as libc::c_int as size_t;
+    (*obj).rc = 0 as libc::c_int as usize;
     (*obj).immutable = 0 as libc::c_int != 0;
     let ref mut fresh1 = (*obj).type_0;
     *fresh1 = type_0;
@@ -267,21 +267,21 @@ unsafe extern "C" fn object_alloc(
 }
 #[c2rust::src_loc = "32:1"]
 unsafe extern "C" fn object_free(mut obj: *mut object_t) {
-    ponyint_pool_free(0 as libc::c_int as size_t, obj as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, obj as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
-pub unsafe extern "C" fn ponyint_objectmap_init(mut map: *mut objectmap_t, mut size: size_t) {
+pub unsafe extern "C" fn ponyint_objectmap_init(mut map: *mut objectmap_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
-pub unsafe extern "C" fn ponyint_objectmap_alloc_size(mut map: *mut objectmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_objectmap_alloc_size(mut map: *mut objectmap_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
-pub unsafe extern "C" fn ponyint_objectmap_mem_size(mut map: *mut objectmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_objectmap_mem_size(mut map: *mut objectmap_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -311,14 +311,14 @@ pub unsafe extern "C" fn ponyint_objectmap_fill_ratio(mut map: *mut hashmap_t) -
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
-pub unsafe extern "C" fn ponyint_objectmap_size(mut map: *mut objectmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_objectmap_size(mut map: *mut objectmap_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_clearindex(
     mut map: *mut objectmap_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -326,7 +326,7 @@ pub unsafe extern "C" fn ponyint_objectmap_clearindex(
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn ponyint_objectmap_removeindex(
     mut map: *mut objectmap_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -335,7 +335,7 @@ pub unsafe extern "C" fn ponyint_objectmap_removeindex(
 pub unsafe extern "C" fn ponyint_objectmap_putindex(
     mut map: *mut objectmap_t,
     mut entry: *mut object_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: ponyint_objectmap_cmp_fn =
         Some(object_cmp as unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool);
@@ -382,7 +382,7 @@ pub unsafe extern "C" fn ponyint_objectmap_remove(
 pub unsafe extern "C" fn ponyint_objectmap_get(
     mut map: *mut objectmap_t,
     mut key: *mut object_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut object_t {
     let mut cmpf: ponyint_objectmap_cmp_fn =
         Some(object_cmp as unsafe extern "C" fn(*mut object_t, *mut object_t) -> bool);
@@ -398,7 +398,7 @@ pub unsafe extern "C" fn ponyint_objectmap_get(
 #[c2rust::src_loc = "37:48"]
 pub unsafe extern "C" fn ponyint_objectmap_next(
     mut map: *mut objectmap_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut object_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut object_t
@@ -408,7 +408,7 @@ pub unsafe extern "C" fn ponyint_objectmap_next(
 pub unsafe extern "C" fn ponyint_objectmap_getobject(
     mut map: *mut objectmap_t,
     mut address: *mut libc::c_void,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut object_t {
     let mut obj: object_t = object_t {
         address: 0 as *mut libc::c_void,
@@ -428,7 +428,7 @@ pub unsafe extern "C" fn ponyint_objectmap_getorput(
     mut type_0: *const pony_type_t,
     mut mark: u32,
 ) -> *mut object_t {
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = ponyint_objectmap_getobject(map, address, &mut index);
     if !obj.is_null() {
         return obj;
@@ -440,7 +440,7 @@ pub unsafe extern "C" fn ponyint_objectmap_getorput(
 #[no_mangle]
 #[c2rust::src_loc = "62:1"]
 pub unsafe extern "C" fn ponyint_objectmap_sweep(mut map: *mut objectmap_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = 0 as *mut object_t;
     let mut needs_optimize: bool = 0 as libc::c_int != 0;
     loop {

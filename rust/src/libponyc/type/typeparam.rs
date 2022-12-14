@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -515,9 +515,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -533,7 +533,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -575,10 +575,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -673,7 +673,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -732,7 +732,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -996,7 +996,7 @@ unsafe extern "C" fn cap_from_constraint(mut type_0: *mut ast_t) -> token_id {
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            338 as libc::c_int as size_t,
+            338 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"cap_from_constraint\0"))
                 .as_ptr(),
         );
@@ -1057,7 +1057,7 @@ unsafe extern "C" fn apply_cap_to_single(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                         as *const u8 as *const libc::c_char,
-                    438 as libc::c_int as size_t,
+                    438 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(
                         b"apply_cap_to_single\0",
                     ))
@@ -1096,7 +1096,7 @@ unsafe extern "C" fn apply_cap(
             b"0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            474 as libc::c_int as size_t,
+            474 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"apply_cap\0")).as_ptr(),
         );
     };
@@ -1137,13 +1137,13 @@ pub unsafe extern "C" fn typeparam_constraint(mut typeparamref: *mut ast_t) -> *
             b"ast_id(typeparamref) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            502 as libc::c_int as size_t,
+            502 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"typeparam_constraint\0"))
                 .as_ptr(),
         );
     };
     let mut def: *mut ast_t = ast_data(typeparamref) as *mut ast_t;
-    let mut constraint: *mut ast_t = ast_childidx(def, 1 as libc::c_int as size_t);
+    let mut constraint: *mut ast_t = ast_childidx(def, 1 as libc::c_int as usize);
     let mut def_list: *mut astlist_t = astlist_push(0 as *mut astlist_t, def);
     while ast_id(constraint) as libc::c_uint == TK_TYPEPARAMREF as libc::c_int as libc::c_uint {
         let mut constraint_def: *mut ast_t = ast_data(constraint) as *mut ast_t;
@@ -1152,7 +1152,7 @@ pub unsafe extern "C" fn typeparam_constraint(mut typeparamref: *mut ast_t) -> *
             break;
         } else {
             def_list = astlist_push(def_list, constraint_def);
-            constraint = ast_childidx(constraint_def, 1 as libc::c_int as size_t);
+            constraint = ast_childidx(constraint_def, 1 as libc::c_int as usize);
         }
     }
     astlist_free(def_list);
@@ -1167,7 +1167,7 @@ pub unsafe extern "C" fn typeparam_upper(mut typeparamref: *mut ast_t) -> *mut a
             b"ast_id(typeparamref) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            527 as libc::c_int as size_t,
+            527 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"typeparam_upper\0"))
                 .as_ptr(),
         );
@@ -1183,7 +1183,7 @@ pub unsafe extern "C" fn typeparam_lower(mut typeparamref: *mut ast_t) -> *mut a
             b"ast_id(typeparamref) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            533 as libc::c_int as size_t,
+            533 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"typeparam_lower\0"))
                 .as_ptr(),
         );
@@ -1203,7 +1203,7 @@ pub unsafe extern "C" fn typeparam_set_cap(mut typeparamref: *mut ast_t) {
             b"ast_id(typeparamref) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            546 as libc::c_int as size_t,
+            546 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"typeparam_set_cap\0"))
                 .as_ptr(),
         );
@@ -1231,7 +1231,7 @@ unsafe extern "C" fn typeparamref_current(mut typeparamref: *mut ast_t, mut scop
             b"ast_id(typeparamref) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                 as *const u8 as *const libc::c_char,
-            555 as libc::c_int as size_t,
+            555 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"typeparamref_current\0"))
                 .as_ptr(),
         );
@@ -1249,7 +1249,7 @@ unsafe extern "C" fn typeparam_current_inner(mut type_0: *mut ast_t, mut scope: 
     match ast_id(type_0) as libc::c_uint {
         187 => return typeparamref_current(type_0, scope),
         151 => {
-            let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as size_t);
+            let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
             let mut typearg: *mut ast_t = ast_child(typeargs);
             while !typearg.is_null() {
                 typeparam_current_inner(typearg, scope);
@@ -1285,7 +1285,7 @@ unsafe extern "C" fn typeparam_current_inner(mut type_0: *mut ast_t, mut scope: 
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/typeparam.c\0"
                         as *const u8 as *const libc::c_char,
-                    625 as libc::c_int as size_t,
+                    625 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                         b"typeparam_current_inner\0",
                     ))

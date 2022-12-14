@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
@@ -754,20 +754,20 @@ pub mod token_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -799,7 +799,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -841,10 +841,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -939,7 +939,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1003,7 +1003,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -1094,7 +1094,7 @@ pub mod reach_h {
         #[c2rust::src_loc = "24:65"]
         pub fn reach_type_cache_next(
             map: *mut reach_type_cache_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_type_t;
     }
 }
@@ -1318,7 +1318,7 @@ pub mod codegen_h {
             c: *mut compile_t,
             fun: LLVMValueRef,
             args: *mut LLVMValueRef,
-            count: size_t,
+            count: usize,
             setcc: bool,
         ) -> LLVMValueRef;
     }
@@ -1330,7 +1330,7 @@ pub mod gentype_h {
     #[c2rust::src_loc = "12:16"]
     pub struct compile_type_t {
         pub free_fn: compile_opaque_free_fn,
-        pub abi_size: size_t,
+        pub abi_size: usize,
         pub structure: LLVMTypeRef,
         pub structure_ptr: LLVMTypeRef,
         pub primitive: LLVMTypeRef,
@@ -1434,7 +1434,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1444,9 +1444,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 pub use self::ast_h::{ast_get_children, ast_name, ast_ptr_t};
@@ -1679,7 +1679,7 @@ unsafe extern "C" fn serialise(
         );
         let mut args: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
         let mut f_type: LLVMTypeRef = LLVMGetElementType(LLVMTypeOf((*c_t).custom_serialise_fn));
-        let mut buf_size: size_t = (2 as libc::c_int as libc::c_ulong)
+        let mut buf_size: usize = (2 as libc::c_int as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<*mut libc::c_void>() as libc::c_ulong);
         let mut params: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         LLVMGetParamTypes(f_type, params);
@@ -1699,7 +1699,7 @@ unsafe extern "C" fn serialise(
             c,
             (*c_t).custom_serialise_fn,
             args.as_mut_ptr(),
-            2 as libc::c_int as size_t,
+            2 as libc::c_int as usize,
             1 as libc::c_int != 0,
         );
         ponyint_pool_free_size(buf_size, params as *mut libc::c_void);
@@ -1732,7 +1732,7 @@ unsafe extern "C" fn serialise_bare_interface(
     mut ptr: LLVMValueRef,
     mut offset: LLVMValueRef,
 ) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut sub: *mut reach_type_t = reach_type_cache_next(&mut (*t).subtypes, &mut i);
     if sub.is_null() {
         return;
@@ -1845,7 +1845,7 @@ pub unsafe extern "C" fn genserialise_element(
                         b"false\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genserialise.c\0"
                             as *const u8 as *const libc::c_char,
-                        190 as libc::c_int as size_t,
+                        190 as libc::c_int as usize,
                         (*::core::mem::transmute::<
                             &[u8; 21],
                             &[libc::c_char; 21],
@@ -2059,7 +2059,7 @@ pub unsafe extern "C" fn gendeserialise_element(
                             b"false\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genserialise.c\0"
                                 as *const u8 as *const libc::c_char,
-                            338 as libc::c_int as size_t,
+                            338 as libc::c_int as usize,
                             (*::core::mem::transmute::<
                                 &[u8; 23],
                                 &[libc::c_char; 23],

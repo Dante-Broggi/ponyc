@@ -42,7 +42,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:5"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h:5"]
 pub mod _pthread_cond_t_h {
@@ -65,7 +65,7 @@ pub mod fun_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
-        pub fn ponyint_hash_size(key: size_t) -> size_t;
+        pub fn ponyint_hash_size(key: usize) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:5"]
@@ -109,10 +109,10 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -121,7 +121,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -163,7 +163,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -219,7 +219,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -231,13 +231,13 @@ pub mod serialise_h {
     #[c2rust::src_loc = "8:9"]
     pub struct ponyint_array_t {
         pub t: *const pony_type_t,
-        pub size: size_t,
-        pub alloc: size_t,
+        pub size: usize,
+        pub alloc: usize,
         pub ptr: *mut libc::c_char,
     }
     #[c2rust::src_loc = "20:1"]
     pub type deserialise_raw_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, usize) -> *mut libc::c_void>;
     use super::hash_h::hashmap_t;
     use super::pony_h::pony_type_t;
     use super::scheduler_h::pony_ctx_t;
@@ -249,8 +249,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -259,15 +259,15 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::fun_h::{cmp_fn, free_fn};
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -276,50 +276,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -404,9 +404,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:7"]
@@ -417,7 +417,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -487,12 +487,12 @@ pub type ponyint_serialise_free_fn = Option<unsafe extern "C" fn(*mut serialise_
 pub type ponyint_serialise_cmp_fn =
     Option<unsafe extern "C" fn(*mut serialise_t, *mut serialise_t) -> bool>;
 #[c2rust::src_loc = "21:15"]
-static mut desc_table_size: size_t = 0 as libc::c_int as size_t;
+static mut desc_table_size: usize = 0 as libc::c_int as usize;
 #[c2rust::src_loc = "22:22"]
 static mut desc_table: *mut *const pony_type_t =
     0 as *const *const pony_type_t as *mut *const pony_type_t;
 #[c2rust::src_loc = "35:1"]
-unsafe extern "C" fn serialise_hash(mut p: *mut serialise_t) -> size_t {
+unsafe extern "C" fn serialise_hash(mut p: *mut serialise_t) -> usize {
     ponyint_hash_size((*p).key)
 }
 #[c2rust::src_loc = "40:1"]
@@ -501,13 +501,13 @@ unsafe extern "C" fn serialise_cmp(mut a: *mut serialise_t, mut b: *mut serialis
 }
 #[c2rust::src_loc = "45:1"]
 unsafe extern "C" fn serialise_free(mut p: *mut serialise_t) {
-    ponyint_pool_free(0 as libc::c_int as size_t, p as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, p as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_serialise_removeindex(
     mut map: *mut ponyint_serialise_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -518,7 +518,7 @@ pub unsafe extern "C" fn ponyint_serialise_fill_ratio(mut map: *mut hashmap_t) -
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
-pub unsafe extern "C" fn ponyint_serialise_mem_size(mut map: *mut ponyint_serialise_t) -> size_t {
+pub unsafe extern "C" fn ponyint_serialise_mem_size(mut map: *mut ponyint_serialise_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -526,7 +526,7 @@ pub unsafe extern "C" fn ponyint_serialise_mem_size(mut map: *mut ponyint_serial
 pub unsafe extern "C" fn ponyint_serialise_putindex(
     mut map: *mut ponyint_serialise_t,
     mut entry: *mut serialise_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: ponyint_serialise_cmp_fn =
         Some(serialise_cmp as unsafe extern "C" fn(*mut serialise_t, *mut serialise_t) -> bool);
@@ -540,14 +540,14 @@ pub unsafe extern "C" fn ponyint_serialise_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
-pub unsafe extern "C" fn ponyint_serialise_alloc_size(mut map: *mut ponyint_serialise_t) -> size_t {
+pub unsafe extern "C" fn ponyint_serialise_alloc_size(mut map: *mut ponyint_serialise_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_serialise_clearindex(
     mut map: *mut ponyint_serialise_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -563,7 +563,7 @@ pub unsafe extern "C" fn ponyint_serialise_optimize(mut map: *mut ponyint_serial
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
-pub unsafe extern "C" fn ponyint_serialise_size(mut map: *mut ponyint_serialise_t) -> size_t {
+pub unsafe extern "C" fn ponyint_serialise_size(mut map: *mut ponyint_serialise_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -580,7 +580,7 @@ pub unsafe extern "C" fn ponyint_serialise_destroy(mut map: *mut ponyint_seriali
 #[c2rust::src_loc = "50:1"]
 pub unsafe extern "C" fn ponyint_serialise_init(
     mut map: *mut ponyint_serialise_t,
-    mut size: size_t,
+    mut size: usize,
 ) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
@@ -588,7 +588,7 @@ pub unsafe extern "C" fn ponyint_serialise_init(
 #[c2rust::src_loc = "51:3"]
 pub unsafe extern "C" fn ponyint_serialise_next(
     mut map: *mut ponyint_serialise_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut serialise_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -614,7 +614,7 @@ pub unsafe extern "C" fn ponyint_serialise_put(
 pub unsafe extern "C" fn ponyint_serialise_get(
     mut map: *mut ponyint_serialise_t,
     mut key: *mut serialise_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut serialise_t {
     let mut cmpf: ponyint_serialise_cmp_fn =
         Some(serialise_cmp as unsafe extern "C" fn(*mut serialise_t, *mut serialise_t) -> bool);
@@ -657,12 +657,12 @@ unsafe extern "C" fn recurse(
 #[c2rust::src_loc = "62:1"]
 unsafe extern "C" fn serialise_cleanup(mut ctx: *mut pony_ctx_t) {
     ponyint_gc_discardstack(ctx);
-    (*ctx).serialise_size = 0 as libc::c_int as size_t;
+    (*ctx).serialise_size = 0 as libc::c_int as usize;
     ponyint_serialise_destroy(&mut (*ctx).serialise);
 }
 #[c2rust::src_loc = "69:1"]
 unsafe extern "C" fn custom_deserialise(mut ctx: *mut pony_ctx_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = 0 as *mut serialise_t;
     loop {
         s = ponyint_serialise_next(&mut (*ctx).serialise, &mut i);
@@ -684,7 +684,7 @@ unsafe extern "C" fn custom_deserialise(mut ctx: *mut pony_ctx_t) {
 #[c2rust::src_loc = "84:1"]
 pub unsafe extern "C" fn ponyint_serialise_setup(
     mut table: *mut *const pony_type_t,
-    mut table_size: size_t,
+    mut table_size: usize,
 ) -> bool {
     let mut i: u32 = 0 as libc::c_int as u32;
     while (i as libc::c_ulong) < table_size {
@@ -695,7 +695,7 @@ pub unsafe extern "C" fn ponyint_serialise_setup(
                     b"table[i]->id == i\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.c\0"
                         as *const u8 as *const libc::c_char,
-                    90 as libc::c_int as size_t,
+                    90 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 24], &[libc::c_char; 24]>(
                         b"ponyint_serialise_setup\0",
                     ))
@@ -725,7 +725,7 @@ pub unsafe extern "C" fn ponyint_serialise_object(
         block: false,
     };
     k.key = p as uintptr_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = ponyint_serialise_get(&mut (*ctx).serialise, &mut k, &mut index);
     if !s.is_null() {
         if (*s).mutability != PONY_TRACE_OPAQUE as libc::c_int
@@ -734,7 +734,7 @@ pub unsafe extern "C" fn ponyint_serialise_object(
             return;
         }
     } else {
-        s = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut serialise_t;
+        s = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut serialise_t;
         (*s).key = p as uintptr_t;
         (*s).value = (*ctx).serialise_size;
         let ref mut fresh2 = (*s).t;
@@ -743,12 +743,12 @@ pub unsafe extern "C" fn ponyint_serialise_object(
         ponyint_serialise_putindex(&mut (*ctx).serialise, s, index);
         let ref mut fresh3 = (*ctx).serialise_size;
         *fresh3 =
-            (*fresh3 as libc::c_ulong).wrapping_add((*t).size as libc::c_ulong) as size_t as size_t;
+            (*fresh3 as libc::c_ulong).wrapping_add((*t).size as libc::c_ulong) as usize as usize;
         if ((*t).custom_serialise_space).is_some() {
             let ref mut fresh4 = (*ctx).serialise_size;
             *fresh4 = (*fresh4 as libc::c_ulong)
                 .wrapping_add(((*t).custom_serialise_space).expect("non-null function pointer")(p))
-                as size_t as size_t;
+                as usize as usize;
         }
     }
     (*s).mutability = mutability;
@@ -776,7 +776,7 @@ pub unsafe extern "C" fn ponyint_serialise_actor(
 pub unsafe extern "C" fn pony_serialise_reserve(
     mut ctx: *mut pony_ctx_t,
     mut p: *mut libc::c_void,
-    mut size: size_t,
+    mut size: usize,
 ) {
     let mut k: serialise_t = serialise_t {
         key: 0,
@@ -786,12 +786,12 @@ pub unsafe extern "C" fn pony_serialise_reserve(
         block: false,
     };
     k.key = p as uintptr_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = ponyint_serialise_get(&mut (*ctx).serialise, &mut k, &mut index);
     if !s.is_null() {
         return;
     }
-    s = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut serialise_t;
+    s = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut serialise_t;
     (*s).key = p as uintptr_t;
     (*s).value = (*ctx).serialise_size;
     let ref mut fresh5 = (*s).t;
@@ -800,16 +800,16 @@ pub unsafe extern "C" fn pony_serialise_reserve(
     (*s).block = 1 as libc::c_int != 0;
     ponyint_serialise_putindex(&mut (*ctx).serialise, s, index);
     let ref mut fresh6 = (*ctx).serialise_size;
-    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(size) as size_t as size_t;
+    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(size) as usize as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "175:1"]
 pub unsafe extern "C" fn pony_serialise_offset(
     mut ctx: *mut pony_ctx_t,
     mut p: *mut libc::c_void,
-) -> size_t {
+) -> usize {
     if p.is_null() {
-        return !(0 as libc::c_int) as size_t;
+        return !(0 as libc::c_int) as usize;
     }
     let mut k: serialise_t = serialise_t {
         key: 0,
@@ -819,20 +819,20 @@ pub unsafe extern "C" fn pony_serialise_offset(
         block: false,
     };
     k.key = p as uintptr_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = ponyint_serialise_get(&mut (*ctx).serialise, &mut k, &mut index);
     if !s.is_null() {
         if (*s).block as libc::c_int != 0 || !((*s).t).is_null() && ((*(*s).t).serialise).is_some()
         {
             return (*s).value;
         } else {
-            return !(0 as libc::c_int) as size_t;
+            return !(0 as libc::c_int) as usize;
         }
     }
     let mut t: *const pony_type_t = *(p as *mut *const pony_type_t);
-    return (*t).id as size_t
-        | (1 as libc::c_int as size_t)
-            << (::core::mem::size_of::<size_t>() as libc::c_ulong)
+    return (*t).id as usize
+        | (1 as libc::c_int as usize)
+            << (::core::mem::size_of::<usize>() as libc::c_ulong)
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
                 .wrapping_sub(1 as libc::c_int as libc::c_ulong);
 }
@@ -852,7 +852,7 @@ pub unsafe extern "C" fn pony_serialise(
             b"ctx->stack == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.c\0" as *const u8
                 as *const libc::c_char,
-            205 as libc::c_int as size_t,
+            205 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"pony_serialise\0"))
                 .as_ptr(),
         );
@@ -871,7 +871,7 @@ pub unsafe extern "C" fn pony_serialise(
     *fresh8 = Some(
         ponyint_serialise_actor as unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t) -> (),
     );
-    (*ctx).serialise_size = 0 as libc::c_int as size_t;
+    (*ctx).serialise_size = 0 as libc::c_int as usize;
     let ref mut fresh9 = (*ctx).serialise_alloc;
     *fresh9 = alloc_fn;
     let ref mut fresh10 = (*ctx).serialise_throw;
@@ -891,7 +891,7 @@ pub unsafe extern "C" fn pony_serialise(
         0 as libc::c_int,
         (*out).size,
     );
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = 0 as *mut serialise_t;
     loop {
         s = ponyint_serialise_next(&mut (*ctx).serialise, &mut i);
@@ -917,18 +917,18 @@ pub unsafe extern "C" fn pony_deserialise_offset(
     mut t: *const pony_type_t,
     mut offset: uintptr_t,
 ) -> *mut libc::c_void {
-    if offset == !(0 as libc::c_int) as size_t {
+    if offset == !(0 as libc::c_int) as usize {
         return 0 as *mut libc::c_void;
     }
     if offset
-        & (1 as libc::c_int as size_t)
-            << (::core::mem::size_of::<size_t>() as libc::c_ulong)
+        & (1 as libc::c_int as usize)
+            << (::core::mem::size_of::<usize>() as libc::c_ulong)
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
                 .wrapping_sub(1 as libc::c_int as libc::c_ulong)
         != 0 as libc::c_int as libc::c_ulong
     {
-        offset &= !((1 as libc::c_int as size_t)
-            << (::core::mem::size_of::<size_t>() as libc::c_ulong)
+        offset &= !((1 as libc::c_int as usize)
+            << (::core::mem::size_of::<usize>() as libc::c_ulong)
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
                 .wrapping_sub(1 as libc::c_int as libc::c_ulong));
         if offset > desc_table_size {
@@ -945,7 +945,7 @@ pub unsafe extern "C" fn pony_deserialise_offset(
         block: false,
     };
     k.key = offset;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = ponyint_serialise_get(&mut (*ctx).serialise, &mut k, &mut index);
     if !s.is_null() {
         return (*s).value as *mut libc::c_void;
@@ -977,11 +977,11 @@ pub unsafe extern "C" fn pony_deserialise_offset(
     let mut object: *mut libc::c_void = 0 as *mut libc::c_void;
     if ((*t).final_0).is_none() {
         object =
-            ((*ctx).serialise_alloc).expect("non-null function pointer")(ctx, (*t).size as size_t);
+            ((*ctx).serialise_alloc).expect("non-null function pointer")(ctx, (*t).size as usize);
     } else {
         object = ((*ctx).serialise_alloc_final).expect("non-null function pointer")(
             ctx,
-            (*t).size as size_t,
+            (*t).size as usize,
         );
     }
     memcpy(
@@ -989,7 +989,7 @@ pub unsafe extern "C" fn pony_deserialise_offset(
         ((*ctx).serialise_buffer as uintptr_t).wrapping_add(offset) as *mut libc::c_void,
         (*t).size as libc::c_ulong,
     );
-    s = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut serialise_t;
+    s = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut serialise_t;
     (*s).key = offset;
     (*s).value = object as uintptr_t;
     let ref mut fresh12 = (*s).t;
@@ -1007,9 +1007,9 @@ pub unsafe extern "C" fn pony_deserialise_offset(
 pub unsafe extern "C" fn pony_deserialise_block(
     mut ctx: *mut pony_ctx_t,
     mut offset: uintptr_t,
-    mut size: size_t,
+    mut size: usize,
 ) -> *mut libc::c_void {
-    if offset == !(0 as libc::c_int) as size_t {
+    if offset == !(0 as libc::c_int) as usize {
         return 0 as *mut libc::c_void;
     }
     if offset.wrapping_add(size) > (*ctx).serialise_size {
@@ -1035,7 +1035,7 @@ pub unsafe extern "C" fn pony_deserialise_raw(
     mut offset: uintptr_t,
     mut ds_fn: deserialise_raw_fn,
 ) -> *mut libc::c_void {
-    if offset == !(0 as libc::c_int) as size_t {
+    if offset == !(0 as libc::c_int) as usize {
         return 0 as *mut libc::c_void;
     }
     let mut k: serialise_t = serialise_t {
@@ -1046,7 +1046,7 @@ pub unsafe extern "C" fn pony_deserialise_raw(
         block: false,
     };
     k.key = offset;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = ponyint_serialise_get(&mut (*ctx).serialise, &mut k, &mut index);
     if !s.is_null() {
         return (*s).value as *mut libc::c_void;
@@ -1062,7 +1062,7 @@ pub unsafe extern "C" fn pony_deserialise_raw(
         )();
         abort();
     }
-    s = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut serialise_t;
+    s = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut serialise_t;
     (*s).key = offset;
     (*s).value = object as uintptr_t;
     let ref mut fresh13 = (*s).t;

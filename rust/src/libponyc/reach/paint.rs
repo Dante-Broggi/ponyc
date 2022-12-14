@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
@@ -454,26 +454,26 @@ pub mod fun_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_hash_str(str: *const libc::c_char) -> size_t;
+        pub fn ponyint_hash_str(str: *const libc::c_char) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/hash.h:1"]
 pub mod hash_h {
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -481,7 +481,7 @@ pub mod hash_h {
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -490,50 +490,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -577,7 +577,7 @@ pub mod reach_h {
         pub internal: bool,
         pub forwarding: bool,
         pub subordinate: *mut reach_method_t,
-        pub param_count: size_t,
+        pub param_count: usize,
         pub params: *mut reach_param_t,
         pub result: *mut reach_type_t,
         pub c_method: *mut compile_opaque_t,
@@ -675,18 +675,18 @@ pub mod reach_h {
     use super::token_h::token_id;
     extern "C" {
         #[c2rust::src_loc = "23:55"]
-        pub fn reach_types_next(map: *mut reach_types_t, i: *mut size_t) -> *mut reach_type_t;
+        pub fn reach_types_next(map: *mut reach_types_t, i: *mut usize) -> *mut reach_type_t;
         #[c2rust::src_loc = "23:1"]
-        pub fn reach_types_size(map: *mut reach_types_t) -> size_t;
+        pub fn reach_types_size(map: *mut reach_types_t) -> usize;
         #[c2rust::src_loc = "22:3"]
         pub fn reach_method_names_next(
             map: *mut reach_method_names_t,
-            i: *mut size_t,
+            i: *mut usize,
         ) -> *mut reach_method_name_t;
         #[c2rust::src_loc = "21:1"]
-        pub fn reach_method_names_size(map: *mut reach_method_names_t) -> size_t;
+        pub fn reach_method_names_size(map: *mut reach_method_names_t) -> usize;
         #[c2rust::src_loc = "20:59"]
-        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut size_t)
+        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize)
             -> *mut reach_method_t;
     }
 }
@@ -702,13 +702,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:4"]
@@ -719,7 +719,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -793,7 +793,7 @@ pub struct painter_t {
     pub names: name_records_t,
     pub colours: *mut colour_record_t,
     pub colour_next: *mut *mut colour_record_t,
-    pub typemap_size: size_t,
+    pub typemap_size: usize,
     pub colour_count: u32,
 }
 #[derive(Copy, Clone)]
@@ -818,14 +818,14 @@ pub type name_records_free_fn = Option<unsafe extern "C" fn(*mut name_record_t) 
 pub struct name_record_t {
     pub name: *const libc::c_char,
     pub colour: u32,
-    pub typemap_size: size_t,
+    pub typemap_size: usize,
     pub type_map: *mut u64,
 }
 #[c2rust::src_loc = "104:1"]
 pub type name_records_cmp_fn =
     Option<unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool>;
 #[c2rust::src_loc = "87:1"]
-unsafe extern "C" fn name_record_hash(mut p: *mut name_record_t) -> size_t {
+unsafe extern "C" fn name_record_hash(mut p: *mut name_record_t) -> usize {
     ponyint_hash_str((*p).name)
 }
 #[c2rust::src_loc = "92:1"]
@@ -838,7 +838,7 @@ unsafe extern "C" fn name_record_free(mut p: *mut name_record_t) {
         ((*p).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong),
         (*p).type_map as *mut libc::c_void,
     );
-    ponyint_pool_free(0 as libc::c_int as size_t, p as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, p as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
@@ -852,17 +852,17 @@ pub unsafe extern "C" fn name_records_destroy(mut map: *mut name_records_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
-pub unsafe extern "C" fn name_records_size(mut map: *mut name_records_t) -> size_t {
+pub unsafe extern "C" fn name_records_size(mut map: *mut name_records_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
-pub unsafe extern "C" fn name_records_alloc_size(mut map: *mut name_records_t) -> size_t {
+pub unsafe extern "C" fn name_records_alloc_size(mut map: *mut name_records_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
-pub unsafe extern "C" fn name_records_mem_size(mut map: *mut name_records_t) -> size_t {
+pub unsafe extern "C" fn name_records_mem_size(mut map: *mut name_records_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -881,7 +881,7 @@ pub unsafe extern "C" fn name_records_optimize(mut map: *mut name_records_t) {
 pub unsafe extern "C" fn name_records_putindex(
     mut map: *mut name_records_t,
     mut entry: *mut name_record_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: name_records_cmp_fn = Some(
         name_record_cmp as unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool,
@@ -901,17 +901,17 @@ pub unsafe extern "C" fn name_records_fill_ratio(mut map: *mut hashmap_t) -> lib
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
-pub unsafe extern "C" fn name_records_removeindex(mut map: *mut name_records_t, mut index: size_t) {
+pub unsafe extern "C" fn name_records_removeindex(mut map: *mut name_records_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
-pub unsafe extern "C" fn name_records_clearindex(mut map: *mut name_records_t, mut index: size_t) {
+pub unsafe extern "C" fn name_records_clearindex(mut map: *mut name_records_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "104:1"]
-pub unsafe extern "C" fn name_records_init(mut map: *mut name_records_t, mut size: size_t) {
+pub unsafe extern "C" fn name_records_init(mut map: *mut name_records_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -934,7 +934,7 @@ pub unsafe extern "C" fn name_records_remove(
 #[c2rust::src_loc = "104:46"]
 pub unsafe extern "C" fn name_records_next(
     mut map: *mut name_records_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut name_record_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -945,7 +945,7 @@ pub unsafe extern "C" fn name_records_next(
 pub unsafe extern "C" fn name_records_get(
     mut map: *mut name_records_t,
     mut key: *mut name_record_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut name_record_t {
     let mut cmpf: name_records_cmp_fn = Some(
         name_record_cmp as unsafe extern "C" fn(*mut name_record_t, *mut name_record_t) -> bool,
@@ -975,19 +975,19 @@ pub unsafe extern "C" fn name_records_put(
     ) as *mut name_record_t
 }
 #[c2rust::src_loc = "127:1"]
-unsafe extern "C" fn print_typemap(mut size: size_t, mut map: *mut u64) {
+unsafe extern "C" fn print_typemap(mut size: usize, mut map: *mut u64) {
     if !map.is_null() {
     } else {
         ponyint_assert_fail(
             b"map != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            129 as libc::c_int as size_t,
+            129 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"print_typemap\0"))
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < size {
         printf(b"  \0" as *const u8 as *const libc::c_char);
         let mut mask: u64 = 1 as libc::c_int as u64;
@@ -1015,7 +1015,7 @@ pub unsafe extern "C" fn painter_print(mut painter: *mut painter_t) {
             b"painter != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            146 as libc::c_int as size_t,
+            146 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"painter_print\0"))
                 .as_ptr(),
         );
@@ -1027,7 +1027,7 @@ pub unsafe extern "C" fn painter_print(mut painter: *mut painter_t) {
             .wrapping_mul(8 as libc::c_int as libc::c_ulong),
     );
     printf(b"Painter names:\n\0" as *const u8 as *const libc::c_char);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut name: *mut name_record_t = 0 as *mut name_record_t;
     loop {
         name = name_records_next(&mut (*painter).names, &mut i);
@@ -1074,7 +1074,7 @@ unsafe extern "C" fn add_name(
             b"painter != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            183 as libc::c_int as size_t,
+            183 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"add_name\0")).as_ptr(),
         );
     };
@@ -1084,14 +1084,14 @@ unsafe extern "C" fn add_name(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            184 as libc::c_int as size_t,
+            184 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"add_name\0")).as_ptr(),
         );
     };
-    let mut map_byte_count: size_t =
+    let mut map_byte_count: usize =
         ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     let mut n: *mut name_record_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut name_record_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut name_record_t;
     let ref mut fresh0 = (*n).name;
     *fresh0 = name;
     (*n).colour = -(1 as libc::c_int) as u32;
@@ -1114,14 +1114,14 @@ unsafe extern "C" fn add_colour(mut painter: *mut painter_t) -> *mut colour_reco
             b"painter != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            203 as libc::c_int as size_t,
+            203 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"add_colour\0")).as_ptr(),
         );
     };
-    let mut map_byte_count: size_t =
+    let mut map_byte_count: usize =
         ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     let mut n: *mut colour_record_t =
-        ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut colour_record_t;
+        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut colour_record_t;
     (*n).colour = (*painter).colour_count;
     let ref mut fresh2 = (*n).type_map;
     *fresh2 = ponyint_pool_alloc_size(map_byte_count) as *mut u64;
@@ -1149,12 +1149,12 @@ unsafe extern "C" fn find_name(
         let mut init = name_record_t {
             name: name,
             colour: 0 as libc::c_int as u32,
-            typemap_size: 0 as libc::c_int as size_t,
+            typemap_size: 0 as libc::c_int as usize,
             type_map: 0 as *mut u64,
         };
         init
     };
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     return name_records_get(&mut (*painter).names, &mut n, &mut index);
 }
 #[c2rust::src_loc = "232:1"]
@@ -1168,7 +1168,7 @@ unsafe extern "C" fn is_name_compatible(
             b"colour != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            234 as libc::c_int as size_t,
+            234 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"is_name_compatible\0"))
                 .as_ptr(),
         );
@@ -1179,12 +1179,12 @@ unsafe extern "C" fn is_name_compatible(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            235 as libc::c_int as size_t,
+            235 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"is_name_compatible\0"))
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < (*name).typemap_size {
         if *((*colour).type_map).offset(i as isize) & *((*name).type_map).offset(i as isize)
             != 0 as libc::c_int as libc::c_ulonglong
@@ -1206,7 +1206,7 @@ unsafe extern "C" fn assign_name_to_colour(
             b"colour != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            252 as libc::c_int as size_t,
+            252 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"assign_name_to_colour\0"))
                 .as_ptr(),
         );
@@ -1217,12 +1217,12 @@ unsafe extern "C" fn assign_name_to_colour(
             b"name != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            253 as libc::c_int as size_t,
+            253 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 22], &[libc::c_char; 22]>(b"assign_name_to_colour\0"))
                 .as_ptr(),
         );
     };
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < (*name).typemap_size {
         let ref mut fresh7 = *((*colour).type_map).offset(i as isize);
         *fresh7 |= *((*name).type_map).offset(i as isize);
@@ -1241,7 +1241,7 @@ unsafe extern "C" fn find_names_types_use(
             b"painter != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            266 as libc::c_int as size_t,
+            266 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"find_names_types_use\0"))
                 .as_ptr(),
         );
@@ -1252,13 +1252,13 @@ unsafe extern "C" fn find_names_types_use(
             b"types != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            267 as libc::c_int as size_t,
+            267 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(b"find_names_types_use\0"))
                 .as_ptr(),
         );
     };
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
-    let mut typemap_index: size_t = 0;
+    let mut i: usize = -(1 as libc::c_int) as usize;
+    let mut typemap_index: usize = 0;
     let mut typemap_mask: u64 = 1 as libc::c_int as u64;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
@@ -1275,21 +1275,21 @@ unsafe extern "C" fn find_names_types_use(
                 b"typemap_index < painter->typemap_size\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0"
                     as *const u8 as *const libc::c_char,
-                279 as libc::c_int as size_t,
+                279 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 21], &[libc::c_char; 21]>(
                     b"find_names_types_use\0",
                 ))
                 .as_ptr(),
             );
         };
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
         loop {
             n = reach_method_names_next(&mut (*t).methods, &mut j);
             if n.is_null() {
                 break;
             }
-            let mut k: size_t = -(1 as libc::c_int) as size_t;
+            let mut k: usize = -(1 as libc::c_int) as usize;
             let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
             loop {
                 m = reach_mangled_next(&mut (*n).r_mangled, &mut k);
@@ -1314,7 +1314,7 @@ unsafe extern "C" fn find_names_types_use(
 }
 #[c2rust::src_loc = "314:1"]
 unsafe extern "C" fn assign_colours_to_names(mut painter: *mut painter_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut name: *mut name_record_t = 0 as *mut name_record_t;
     loop {
         name = name_records_next(&mut (*painter).names, &mut i);
@@ -1345,7 +1345,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
             b"painter != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            348 as libc::c_int as size_t,
+            348 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"distribute_info\0"))
                 .as_ptr(),
         );
@@ -1356,12 +1356,12 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
             b"types != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            349 as libc::c_int as size_t,
+            349 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"distribute_info\0"))
                 .as_ptr(),
         );
     };
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
         t = reach_types_next(types, &mut i);
@@ -1373,7 +1373,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
         {
             continue;
         }
-        let mut j: size_t = -(1 as libc::c_int) as size_t;
+        let mut j: usize = -(1 as libc::c_int) as usize;
         let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
         let mut max_colour: u32 = 0 as libc::c_int as u32;
         loop {
@@ -1381,7 +1381,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
             if n.is_null() {
                 break;
             }
-            let mut k: size_t = -(1 as libc::c_int) as size_t;
+            let mut k: usize = -(1 as libc::c_int) as usize;
             let mut m: *mut reach_method_t = 0 as *mut reach_method_t;
             loop {
                 m = reach_mangled_next(&mut (*n).r_mangled, &mut k);
@@ -1396,7 +1396,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
                         b"name_rec != NULL\0" as *const u8 as *const libc::c_char,
                         b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0"
                             as *const u8 as *const libc::c_char,
-                        375 as libc::c_int as size_t,
+                        375 as libc::c_int as usize,
                         (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(
                             b"distribute_info\0",
                         ))
@@ -1421,18 +1421,18 @@ unsafe extern "C" fn painter_tidy(mut painter: *mut painter_t) {
             b"painter != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            394 as libc::c_int as size_t,
+            394 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"painter_tidy\0")).as_ptr(),
         );
     };
-    let mut map_byte_count: size_t =
+    let mut map_byte_count: usize =
         ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
     name_records_destroy(&mut (*painter).names);
     let mut c: *mut colour_record_t = (*painter).colours;
     while !c.is_null() {
         let mut next: *mut colour_record_t = (*c).next;
         ponyint_pool_free_size(map_byte_count, (*c).type_map as *mut libc::c_void);
-        ponyint_pool_free(0 as libc::c_int as size_t, c as *mut libc::c_void);
+        ponyint_pool_free(0 as libc::c_int as usize, c as *mut libc::c_void);
         c = next;
     }
 }
@@ -1445,11 +1445,11 @@ pub unsafe extern "C" fn paint(mut types: *mut reach_types_t) {
             b"types != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/reach/paint.c\0" as *const u8
                 as *const libc::c_char,
-            414 as libc::c_int as size_t,
+            414 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"paint\0")).as_ptr(),
         );
     };
-    let mut type_count: size_t = reach_types_size(types);
+    let mut type_count: usize = reach_types_size(types);
     if type_count == 0 as libc::c_int as libc::c_ulong {
         return;
     }
@@ -1467,7 +1467,7 @@ pub unsafe extern "C" fn paint(mut types: *mut reach_types_t) {
         typemap_size: 0,
         colour_count: 0,
     };
-    name_records_init(&mut painter.names, 8 as libc::c_int as size_t);
+    name_records_init(&mut painter.names, 8 as libc::c_int as usize);
     painter.colours = 0 as *mut colour_record_t;
     painter.colour_next = &mut painter.colours;
     painter.colour_count = 0 as libc::c_int as u32;

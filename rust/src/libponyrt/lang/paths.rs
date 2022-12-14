@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:2"]
 pub mod pony_h {
@@ -13,7 +13,7 @@ pub mod pony_h {
         #[c2rust::src_loc = "183:1"]
         pub fn pony_ctx() -> *mut pony_ctx_t;
         #[c2rust::src_loc = "262:1"]
-        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: size_t) -> *mut libc::c_void;
+        pub fn pony_alloc(ctx: *mut pony_ctx_t, size: usize) -> *mut libc::c_void;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h:1"]
@@ -47,7 +47,7 @@ pub unsafe extern "C" fn pony_os_realpath(mut path: *const libc::c_char) -> *mut
     if (realpath(path, resolved.as_mut_ptr())).is_null() {
         return 0 as *mut libc::c_char;
     }
-    let mut len: size_t =
+    let mut len: usize =
         (strlen(resolved.as_mut_ptr())).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut cstring: *mut libc::c_char = pony_alloc(pony_ctx(), len) as *mut libc::c_char;
     memcpy(

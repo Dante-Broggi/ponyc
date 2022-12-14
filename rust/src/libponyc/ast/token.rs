@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
@@ -12,7 +12,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/lexint.h:1"]
@@ -64,10 +64,10 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -76,7 +76,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -115,7 +115,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
     use super::pony_h::_pony_type_t;
@@ -574,9 +574,9 @@ pub mod stringtab_h {
     use super::pony_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "25:1"]
-        pub fn string_trace_len(ctx: *mut pony_ctx_t, string: *const libc::c_char, len: size_t);
+        pub fn string_trace_len(ctx: *mut pony_ctx_t, string: *const libc::c_char, len: usize);
         #[c2rust::src_loc = "15:1"]
-        pub fn stringtab_len(string: *const libc::c_char, len: size_t) -> *const libc::c_char;
+        pub fn stringtab_len(string: *const libc::c_char, len: usize) -> *const libc::c_char;
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
@@ -589,13 +589,13 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "27:22"]
-        pub fn ponyint_pool_alloc_size(size: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "28:1"]
-        pub fn ponyint_pool_free_size(size: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:4"]
@@ -606,7 +606,7 @@ pub mod serialise_h {
     use super::source_h::pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
@@ -623,7 +623,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -714,8 +714,8 @@ pub use self::token_h::{
 pub struct token_t {
     pub id: token_id,
     pub source: *mut source_t,
-    pub line: size_t,
-    pub pos: size_t,
+    pub line: usize,
+    pub pos: usize,
     pub printed: *mut libc::c_char,
     pub c2rust_unnamed: C2RustUnnamed_0,
     pub frozen: bool,
@@ -733,7 +733,7 @@ pub union C2RustUnnamed_0 {
 #[c2rust::src_loc = "21:5"]
 pub struct C2RustUnnamed_1 {
     pub string: *const libc::c_char,
-    pub str_length: size_t,
+    pub str_length: usize,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -755,12 +755,12 @@ pub union C2RustUnnamed_2 {
 #[c2rust::src_loc = "44:5"]
 pub struct C2RustUnnamed_3 {
     pub string: *const libc::c_char,
-    pub str_length: size_t,
+    pub str_length: usize,
 }
 #[no_mangle]
 #[c2rust::src_loc = "56:1"]
 pub unsafe extern "C" fn token_new(mut id: token_id) -> *mut token_t {
-    let mut t: *mut token_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut token_t;
+    let mut t: *mut token_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut token_t;
     memset(
         t as *mut libc::c_void,
         0 as libc::c_int,
@@ -778,11 +778,11 @@ pub unsafe extern "C" fn token_dup(mut token: *mut token_t) -> *mut token_t {
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            66 as libc::c_int as size_t,
+            66 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"token_dup\0")).as_ptr(),
         );
     };
-    let mut t: *mut token_t = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut token_t;
+    let mut t: *mut token_t = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut token_t;
     memcpy(
         t as *mut libc::c_void,
         token as *const libc::c_void,
@@ -811,11 +811,11 @@ pub unsafe extern "C" fn token_free(mut token: *mut token_t) {
     }
     if !((*token).printed).is_null() {
         ponyint_pool_free_size(
-            64 as libc::c_int as size_t,
+            64 as libc::c_int as usize,
             (*token).printed as *mut libc::c_void,
         );
     }
-    ponyint_pool_free(1 as libc::c_int as size_t, token as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, token as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "97:1"]
@@ -826,7 +826,7 @@ pub unsafe extern "C" fn token_freeze(mut token: *mut token_t) {
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            101 as libc::c_int as size_t,
+            101 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_freeze\0")).as_ptr(),
         );
     };
@@ -841,7 +841,7 @@ pub unsafe extern "C" fn token_get_id(mut token: *mut token_t) -> token_id {
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            111 as libc::c_int as size_t,
+            111 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_get_id\0")).as_ptr(),
         );
     };
@@ -856,7 +856,7 @@ pub unsafe extern "C" fn token_string(mut token: *mut token_t) -> *const libc::c
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            118 as libc::c_int as size_t,
+            118 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_string\0")).as_ptr(),
         );
     };
@@ -868,7 +868,7 @@ pub unsafe extern "C" fn token_string(mut token: *mut token_t) -> *const libc::c
             b"token->id == TK_STRING || token->id == TK_ID\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            119 as libc::c_int as size_t,
+            119 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_string\0")).as_ptr(),
         );
     };
@@ -876,14 +876,14 @@ pub unsafe extern "C" fn token_string(mut token: *mut token_t) -> *const libc::c
 }
 #[no_mangle]
 #[c2rust::src_loc = "124:1"]
-pub unsafe extern "C" fn token_string_len(mut token: *mut token_t) -> size_t {
+pub unsafe extern "C" fn token_string_len(mut token: *mut token_t) -> usize {
     if !token.is_null() {
     } else {
         ponyint_assert_fail(
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            126 as libc::c_int as size_t,
+            126 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"token_string_len\0"))
                 .as_ptr(),
         );
@@ -896,7 +896,7 @@ pub unsafe extern "C" fn token_string_len(mut token: *mut token_t) -> size_t {
             b"token->id == TK_STRING || token->id == TK_ID\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            127 as libc::c_int as size_t,
+            127 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"token_string_len\0"))
                 .as_ptr(),
         );
@@ -912,7 +912,7 @@ pub unsafe extern "C" fn token_float(mut token: *mut token_t) -> libc::c_double 
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            134 as libc::c_int as size_t,
+            134 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"token_float\0")).as_ptr(),
         );
     };
@@ -922,7 +922,7 @@ pub unsafe extern "C" fn token_float(mut token: *mut token_t) -> libc::c_double 
             b"token->id == TK_FLOAT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            135 as libc::c_int as size_t,
+            135 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"token_float\0")).as_ptr(),
         );
     };
@@ -937,7 +937,7 @@ pub unsafe extern "C" fn token_int(mut token: *mut token_t) -> *mut lexint_t {
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            142 as libc::c_int as size_t,
+            142 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"token_int\0")).as_ptr(),
         );
     };
@@ -947,7 +947,7 @@ pub unsafe extern "C" fn token_int(mut token: *mut token_t) -> *mut lexint_t {
             b"token->id == TK_INT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            143 as libc::c_int as size_t,
+            143 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"token_int\0")).as_ptr(),
         );
     };
@@ -962,7 +962,7 @@ pub unsafe extern "C" fn token_print(mut token: *mut token_t) -> *const libc::c_
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            150 as libc::c_int as size_t,
+            150 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"token_print\0")).as_ptr(),
         );
     };
@@ -972,7 +972,7 @@ pub unsafe extern "C" fn token_print(mut token: *mut token_t) -> *const libc::c_
         6 => {
             if ((*token).printed).is_null() {
                 let ref mut fresh1 = (*token).printed;
-                *fresh1 = ponyint_pool_alloc_size(64 as libc::c_int as size_t) as *mut libc::c_char;
+                *fresh1 = ponyint_pool_alloc_size(64 as libc::c_int as usize) as *mut libc::c_char;
             }
             snprintf(
                 (*token).printed,
@@ -985,7 +985,7 @@ pub unsafe extern "C" fn token_print(mut token: *mut token_t) -> *const libc::c_
         7 => {
             if ((*token).printed).is_null() {
                 let ref mut fresh2 = (*token).printed;
-                *fresh2 = ponyint_pool_alloc_size(64 as libc::c_int as size_t) as *mut libc::c_char;
+                *fresh2 = ponyint_pool_alloc_size(64 as libc::c_int as usize) as *mut libc::c_char;
             }
             let mut r: libc::c_int = snprintf(
                 (*token).printed,
@@ -996,7 +996,7 @@ pub unsafe extern "C" fn token_print(mut token: *mut token_t) -> *const libc::c_
             if strcspn(
                 (*token).printed,
                 b".e\0" as *const u8 as *const libc::c_char,
-            ) == r as size_t
+            ) == r as usize
             {
                 snprintf(
                     ((*token).printed).offset(r as isize),
@@ -1015,7 +1015,7 @@ pub unsafe extern "C" fn token_print(mut token: *mut token_t) -> *const libc::c_
     }
     if ((*token).printed).is_null() {
         let ref mut fresh3 = (*token).printed;
-        *fresh3 = ponyint_pool_alloc_size(64 as libc::c_int as size_t) as *mut libc::c_char;
+        *fresh3 = ponyint_pool_alloc_size(64 as libc::c_int as usize) as *mut libc::c_char;
     }
     snprintf(
         (*token).printed,
@@ -1034,13 +1034,13 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            203 as libc::c_int as size_t,
+            203 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"token_print_escaped\0"))
                 .as_ptr(),
         );
     };
     let mut str: *const libc::c_char = 0 as *const libc::c_char;
-    let mut str_len: size_t = 0;
+    let mut str_len: usize = 0;
     if (*token).id as libc::c_uint == TK_STRING as libc::c_int as libc::c_uint {
         str = (*token).c2rust_unnamed.c2rust_unnamed.string;
         str_len = (*token).c2rust_unnamed.c2rust_unnamed.str_length;
@@ -1048,8 +1048,8 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         str = token_print(token);
         str_len = strlen(str);
     }
-    let mut escapes: size_t = 0;
-    let mut idx: size_t = 0;
+    let mut escapes: usize = 0;
+    let mut idx: usize = 0;
     while idx < str_len {
         let mut c: libc::c_char = *str.offset(idx as isize);
         if c as libc::c_int == '"' as i32
@@ -1072,12 +1072,12 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         *copy.offset(str_len as isize) = 0 as libc::c_int as libc::c_char;
         return copy;
     }
-    let mut escaped_len: size_t = str_len.wrapping_add(escapes);
+    let mut escaped_len: usize = str_len.wrapping_add(escapes);
     let mut escaped: *mut libc::c_char =
         ponyint_pool_alloc_size(escaped_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
             as *mut libc::c_char;
-    let mut escaped_idx: size_t = 0;
-    let mut idx_0: size_t = 0;
+    let mut escaped_idx: usize = 0;
+    let mut idx_0: usize = 0;
     while idx_0 < str_len {
         let mut c_0: libc::c_char = *str.offset(idx_0 as isize);
         if c_0 as libc::c_int == '"' as i32 || c_0 as libc::c_int == '\\' as i32 {
@@ -1134,7 +1134,7 @@ pub unsafe extern "C" fn token_source(mut token: *mut token_t) -> *mut source_t 
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            284 as libc::c_int as size_t,
+            284 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_source\0")).as_ptr(),
         );
     };
@@ -1142,14 +1142,14 @@ pub unsafe extern "C" fn token_source(mut token: *mut token_t) -> *mut source_t 
 }
 #[no_mangle]
 #[c2rust::src_loc = "289:1"]
-pub unsafe extern "C" fn token_line_number(mut token: *mut token_t) -> size_t {
+pub unsafe extern "C" fn token_line_number(mut token: *mut token_t) -> usize {
     if !token.is_null() {
     } else {
         ponyint_assert_fail(
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            291 as libc::c_int as size_t,
+            291 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"token_line_number\0"))
                 .as_ptr(),
         );
@@ -1158,14 +1158,14 @@ pub unsafe extern "C" fn token_line_number(mut token: *mut token_t) -> size_t {
 }
 #[no_mangle]
 #[c2rust::src_loc = "296:1"]
-pub unsafe extern "C" fn token_line_position(mut token: *mut token_t) -> size_t {
+pub unsafe extern "C" fn token_line_position(mut token: *mut token_t) -> usize {
     if !token.is_null() {
     } else {
         ponyint_assert_fail(
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            298 as libc::c_int as size_t,
+            298 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"token_line_position\0"))
                 .as_ptr(),
         );
@@ -1181,7 +1181,7 @@ pub unsafe extern "C" fn token_set_id(mut token: *mut token_t, mut id: token_id)
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            307 as libc::c_int as size_t,
+            307 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_set_id\0")).as_ptr(),
         );
     };
@@ -1191,7 +1191,7 @@ pub unsafe extern "C" fn token_set_id(mut token: *mut token_t, mut id: token_id)
             b"!token->frozen\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            308 as libc::c_int as size_t,
+            308 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"token_set_id\0")).as_ptr(),
         );
     };
@@ -1202,7 +1202,7 @@ pub unsafe extern "C" fn token_set_id(mut token: *mut token_t, mut id: token_id)
 pub unsafe extern "C" fn token_set_string(
     mut token: *mut token_t,
     mut value: *const libc::c_char,
-    mut length: size_t,
+    mut length: usize,
 ) {
     if !token.is_null() {
     } else {
@@ -1210,7 +1210,7 @@ pub unsafe extern "C" fn token_set_string(
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            315 as libc::c_int as size_t,
+            315 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"token_set_string\0"))
                 .as_ptr(),
         );
@@ -1223,7 +1223,7 @@ pub unsafe extern "C" fn token_set_string(
             b"token->id == TK_STRING || token->id == TK_ID\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            316 as libc::c_int as size_t,
+            316 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"token_set_string\0"))
                 .as_ptr(),
         );
@@ -1234,7 +1234,7 @@ pub unsafe extern "C" fn token_set_string(
             b"!token->frozen\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            317 as libc::c_int as size_t,
+            317 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"token_set_string\0"))
                 .as_ptr(),
         );
@@ -1245,7 +1245,7 @@ pub unsafe extern "C" fn token_set_string(
             b"value != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            318 as libc::c_int as size_t,
+            318 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(b"token_set_string\0"))
                 .as_ptr(),
         );
@@ -1266,7 +1266,7 @@ pub unsafe extern "C" fn token_set_float(mut token: *mut token_t, mut value: lib
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            330 as libc::c_int as size_t,
+            330 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"token_set_float\0"))
                 .as_ptr(),
         );
@@ -1277,7 +1277,7 @@ pub unsafe extern "C" fn token_set_float(mut token: *mut token_t, mut value: lib
             b"token->id == TK_FLOAT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            331 as libc::c_int as size_t,
+            331 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"token_set_float\0"))
                 .as_ptr(),
         );
@@ -1288,7 +1288,7 @@ pub unsafe extern "C" fn token_set_float(mut token: *mut token_t, mut value: lib
             b"!token->frozen\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            332 as libc::c_int as size_t,
+            332 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"token_set_float\0"))
                 .as_ptr(),
         );
@@ -1304,7 +1304,7 @@ pub unsafe extern "C" fn token_set_int(mut token: *mut token_t, mut value: *mut 
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            339 as libc::c_int as size_t,
+            339 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"token_set_int\0"))
                 .as_ptr(),
         );
@@ -1315,7 +1315,7 @@ pub unsafe extern "C" fn token_set_int(mut token: *mut token_t, mut value: *mut 
             b"token->id == TK_INT\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            340 as libc::c_int as size_t,
+            340 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"token_set_int\0"))
                 .as_ptr(),
         );
@@ -1326,7 +1326,7 @@ pub unsafe extern "C" fn token_set_int(mut token: *mut token_t, mut value: *mut 
             b"!token->frozen\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            341 as libc::c_int as size_t,
+            341 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"token_set_int\0"))
                 .as_ptr(),
         );
@@ -1338,8 +1338,8 @@ pub unsafe extern "C" fn token_set_int(mut token: *mut token_t, mut value: *mut 
 pub unsafe extern "C" fn token_set_pos(
     mut token: *mut token_t,
     mut source: *mut source_t,
-    mut line: size_t,
-    mut pos: size_t,
+    mut line: usize,
+    mut pos: usize,
 ) {
     if !token.is_null() {
     } else {
@@ -1347,7 +1347,7 @@ pub unsafe extern "C" fn token_set_pos(
             b"token != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            348 as libc::c_int as size_t,
+            348 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"token_set_pos\0"))
                 .as_ptr(),
         );
@@ -1358,7 +1358,7 @@ pub unsafe extern "C" fn token_set_pos(
             b"!token->frozen\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            349 as libc::c_int as size_t,
+            349 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"token_set_pos\0"))
                 .as_ptr(),
         );
@@ -1391,7 +1391,7 @@ unsafe extern "C" fn token_signature_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut token: *mut token_t = object as *mut token_t;
@@ -1443,7 +1443,7 @@ static mut token_signature_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -1477,7 +1477,7 @@ unsafe extern "C" fn token_docstring_signature_serialise_trace(
             b"token->id == TK_STRING\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.c\0" as *const u8
                 as *const libc::c_char,
-            437 as libc::c_int as size_t,
+            437 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 42], &[libc::c_char; 42]>(
                 b"token_docstring_signature_serialise_trace\0",
             ))
@@ -1490,7 +1490,7 @@ unsafe extern "C" fn token_docstring_signature_serialise(
     mut _ctx: *mut pony_ctx_t,
     mut _object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut dst: *mut token_signature_t =
@@ -1522,7 +1522,7 @@ static mut token_docstring_signature_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),
@@ -1573,7 +1573,7 @@ unsafe extern "C" fn token_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut token: *mut token_t = object as *mut token_t;
@@ -1642,7 +1642,7 @@ static mut token_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

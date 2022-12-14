@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -17,8 +17,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -587,11 +587,11 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "114:1"]
         pub fn ast_childlast(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -629,7 +629,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -671,10 +671,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -769,7 +769,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -966,7 +966,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1087,21 +1087,21 @@ unsafe extern "C" fn case_expr_matches_type_alone(
             b"ast_id(eq_def) == TK_FUN\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            65 as libc::c_int as size_t,
+            65 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 29], &[libc::c_char; 29]>(
                 b"case_expr_matches_type_alone\0",
             ))
             .as_ptr(),
         );
     };
-    let mut eq_params: *mut ast_t = ast_childidx(eq_def, 3 as libc::c_int as size_t);
+    let mut eq_params: *mut ast_t = ast_childidx(eq_def, 3 as libc::c_int as usize);
     if ast_id(eq_params) as libc::c_uint == TK_PARAMS as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
             b"ast_id(eq_params) == TK_PARAMS\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            68 as libc::c_int as size_t,
+            68 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 29], &[libc::c_char; 29]>(
                 b"case_expr_matches_type_alone\0",
             ))
@@ -1114,21 +1114,21 @@ unsafe extern "C" fn case_expr_matches_type_alone(
             b"ast_childcount(eq_params) == 1\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            69 as libc::c_int as size_t,
+            69 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 29], &[libc::c_char; 29]>(
                 b"case_expr_matches_type_alone\0",
             ))
             .as_ptr(),
         );
     };
-    let mut eq_body: *mut ast_t = ast_childidx(eq_def, 6 as libc::c_int as size_t);
+    let mut eq_body: *mut ast_t = ast_childidx(eq_def, 6 as libc::c_int as usize);
     if ast_id(eq_body) as libc::c_uint == TK_SEQ as libc::c_int as libc::c_uint {
     } else {
         ponyint_assert_fail(
             b"ast_id(eq_body) == TK_SEQ\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            72 as libc::c_int as size_t,
+            72 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 29], &[libc::c_char; 29]>(
                 b"case_expr_matches_type_alone\0",
             ))
@@ -1139,14 +1139,14 @@ unsafe extern "C" fn case_expr_matches_type_alone(
         || ast_id(ast_child(eq_body)) as libc::c_uint != TK_IS as libc::c_int as libc::c_uint
         || ast_id(ast_child(ast_child(eq_body))) as libc::c_uint
             != TK_THIS as libc::c_int as libc::c_uint
-        || ast_id(ast_childidx(ast_child(eq_body), 1 as libc::c_int as size_t)) as libc::c_uint
+        || ast_id(ast_childidx(ast_child(eq_body), 1 as libc::c_int as usize)) as libc::c_uint
             != TK_PARAMREF as libc::c_int as libc::c_uint
     {
         return 0 as libc::c_int != 0;
     }
     let mut that_param_name: *const libc::c_char = ast_name(ast_child(ast_childidx(
         ast_child(eq_body),
-        1 as libc::c_int as size_t,
+        1 as libc::c_int as usize,
     )));
     if ast_name(ast_child(ast_child(eq_params))) != that_param_name {
         return 0 as libc::c_int != 0;
@@ -1165,7 +1165,7 @@ unsafe extern "C" fn is_match_exhaustive(
             b"expr_type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            99 as libc::c_int as size_t,
+            99 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"is_match_exhaustive\0"))
                 .as_ptr(),
         );
@@ -1176,7 +1176,7 @@ unsafe extern "C" fn is_match_exhaustive(
             b"ast_id(cases) == TK_CASES\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            100 as libc::c_int as size_t,
+            100 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"is_match_exhaustive\0"))
                 .as_ptr(),
         );
@@ -1233,7 +1233,7 @@ pub unsafe extern "C" fn expr_match(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_MATCH\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            154 as libc::c_int as size_t,
+            154 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"expr_match\0")).as_ptr(),
         );
     };
@@ -1399,7 +1399,7 @@ pub unsafe extern "C" fn expr_cases(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"ast_id(ast) == TK_CASES\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            260 as libc::c_int as size_t,
+            260 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"expr_cases\0")).as_ptr(),
         );
     };
@@ -1410,7 +1410,7 @@ pub unsafe extern "C" fn expr_cases(mut opt: *mut pass_opt_t, mut ast: *mut ast_
             b"the_case != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            262 as libc::c_int as size_t,
+            262 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"expr_cases\0")).as_ptr(),
         );
     };
@@ -1641,7 +1641,7 @@ unsafe extern "C" fn infer_pattern_type(
             b"pattern != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            455 as libc::c_int as size_t,
+            455 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"infer_pattern_type\0"))
                 .as_ptr(),
         );
@@ -1652,7 +1652,7 @@ unsafe extern "C" fn infer_pattern_type(
             b"match_expr_type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            456 as libc::c_int as size_t,
+            456 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"infer_pattern_type\0"))
                 .as_ptr(),
         );
@@ -1676,7 +1676,7 @@ pub unsafe extern "C" fn expr_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"opt != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            470 as libc::c_int as size_t,
+            470 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"expr_case\0")).as_ptr(),
         );
     };
@@ -1686,7 +1686,7 @@ pub unsafe extern "C" fn expr_case(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
             b"ast_id(ast) == TK_CASE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            471 as libc::c_int as size_t,
+            471 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"expr_case\0")).as_ptr(),
         );
     };
@@ -1844,7 +1844,7 @@ pub unsafe extern "C" fn expr_match_capture(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            588 as libc::c_int as size_t,
+            588 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"expr_match_capture\0"))
                 .as_ptr(),
         );
@@ -1868,7 +1868,7 @@ pub unsafe extern "C" fn expr_match_capture(
             b"type != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/expr/match.c\0" as *const u8
                 as *const libc::c_char,
-            595 as libc::c_int as size_t,
+            595 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"expr_match_capture\0"))
                 .as_ptr(),
         );

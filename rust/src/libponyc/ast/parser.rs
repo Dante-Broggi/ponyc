@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
@@ -18,7 +18,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
 }
@@ -534,13 +534,13 @@ pub mod ast_h {
         #[c2rust::src_loc = "89:1"]
         pub fn ast_setflag(ast: *mut ast_t, flag: u32);
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "144:1"]
         pub fn ast_reorder_children(
             ast: *mut ast_t,
-            new_order: *const size_t,
+            new_order: *const usize,
             shuffle_space: *mut *mut ast_t,
         );
     }
@@ -561,8 +561,8 @@ pub mod parserapi_h {
         pub scope: bool,
         pub deferred: bool,
         pub deferred_id: token_id,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
     }
     #[c2rust::src_loc = "98:1"]
     pub type builder_fn_t = Option<unsafe extern "C" fn(*mut rule_state_t, *mut ast_t) -> ()>;
@@ -630,7 +630,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -703,8 +703,8 @@ unsafe extern "C" fn provides(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -753,8 +753,8 @@ unsafe extern "C" fn defaultarg(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -804,8 +804,8 @@ unsafe extern "C" fn param(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -921,8 +921,8 @@ unsafe extern "C" fn ellipsis(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -959,8 +959,8 @@ unsafe extern "C" fn literal(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -997,8 +997,8 @@ unsafe extern "C" fn const_expr(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1059,8 +1059,8 @@ unsafe extern "C" fn typeargliteral(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1109,8 +1109,8 @@ unsafe extern "C" fn typeargconst(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1159,8 +1159,8 @@ unsafe extern "C" fn typearg(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1224,8 +1224,8 @@ unsafe extern "C" fn typeparam(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1345,8 +1345,8 @@ unsafe extern "C" fn params(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1455,8 +1455,8 @@ unsafe extern "C" fn typeparams(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1575,8 +1575,8 @@ unsafe extern "C" fn typeargs(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1695,8 +1695,8 @@ unsafe extern "C" fn cap(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1733,8 +1733,8 @@ unsafe extern "C" fn gencap(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1778,8 +1778,8 @@ unsafe extern "C" fn bare(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1816,8 +1816,8 @@ unsafe extern "C" fn nominal(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1866,10 +1866,10 @@ unsafe extern "C" fn nominal(
         }
     } else {
         add_deferrable_ast(parser, &mut state, TK_NONE, 0 as *mut token_t);
-        static mut order: [size_t; 2] = [1 as libc::c_int as size_t, 0 as libc::c_int as size_t];
+        static mut order: [usize; 2] = [1 as libc::c_int as usize, 0 as libc::c_int as usize];
         if ast_childcount(state.ast)
-            == (::core::mem::size_of::<[size_t; 2]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<size_t>() as libc::c_ulong)
+            == (::core::mem::size_of::<[usize; 2]>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<usize>() as libc::c_ulong)
         {
         } else {
             ponyint_assert_fail(
@@ -1877,7 +1877,7 @@ unsafe extern "C" fn nominal(
                     as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parser.c\0"
                     as *const u8 as *const libc::c_char,
-                181 as libc::c_int as size_t,
+                181 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"nominal\0")).as_ptr(),
             );
         };
@@ -1976,8 +1976,8 @@ unsafe extern "C" fn uniontype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2040,8 +2040,8 @@ unsafe extern "C" fn isecttype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2103,8 +2103,8 @@ unsafe extern "C" fn infixtype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2188,8 +2188,8 @@ unsafe extern "C" fn tupletype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2298,8 +2298,8 @@ unsafe extern "C" fn groupedtype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2399,8 +2399,8 @@ unsafe extern "C" fn thistype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2438,8 +2438,8 @@ unsafe extern "C" fn typelist(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2532,8 +2532,8 @@ unsafe extern "C" fn lambdatype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -2799,8 +2799,8 @@ unsafe extern "C" fn barelambdatype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3066,8 +3066,8 @@ unsafe extern "C" fn atomtype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3154,8 +3154,8 @@ unsafe extern "C" fn viewpoint(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3217,8 +3217,8 @@ unsafe extern "C" fn type_0(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3291,8 +3291,8 @@ unsafe extern "C" fn namedarg(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3387,8 +3387,8 @@ unsafe extern "C" fn named(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3494,8 +3494,8 @@ unsafe extern "C" fn positional(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3588,8 +3588,8 @@ unsafe extern "C" fn annotations(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3688,8 +3688,8 @@ unsafe extern "C" fn object(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3834,15 +3834,15 @@ unsafe extern "C" fn object(
         return r_5;
     }
     ast_setflag(
-        ast_childidx(state.ast, 0 as libc::c_int as size_t),
+        ast_childidx(state.ast, 0 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 1 as libc::c_int as size_t),
+        ast_childidx(state.ast, 1 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 2 as libc::c_int as size_t),
+        ast_childidx(state.ast, 2 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return parse_rule_complete(parser, &mut state);
@@ -3865,8 +3865,8 @@ unsafe extern "C" fn lambdaparam(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -3986,8 +3986,8 @@ unsafe extern "C" fn lambdaparams(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -4080,8 +4080,8 @@ unsafe extern "C" fn lambdacapture(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -4201,8 +4201,8 @@ unsafe extern "C" fn lambdacaptures(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -4337,8 +4337,8 @@ unsafe extern "C" fn lambda(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -4650,19 +4650,19 @@ unsafe extern "C" fn lambda(
         return r_14;
     }
     ast_setflag(
-        ast_childidx(state.ast, 2 as libc::c_int as size_t),
+        ast_childidx(state.ast, 2 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 3 as libc::c_int as size_t),
+        ast_childidx(state.ast, 3 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 5 as libc::c_int as size_t),
+        ast_childidx(state.ast, 5 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 7 as libc::c_int as size_t),
+        ast_childidx(state.ast, 7 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return parse_rule_complete(parser, &mut state);
@@ -4685,8 +4685,8 @@ unsafe extern "C" fn barelambda(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -4998,19 +4998,19 @@ unsafe extern "C" fn barelambda(
         return r_14;
     }
     ast_setflag(
-        ast_childidx(state.ast, 2 as libc::c_int as size_t),
+        ast_childidx(state.ast, 2 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 3 as libc::c_int as size_t),
+        ast_childidx(state.ast, 3 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 5 as libc::c_int as size_t),
+        ast_childidx(state.ast, 5 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     ast_setflag(
-        ast_childidx(state.ast, 7 as libc::c_int as size_t),
+        ast_childidx(state.ast, 7 as libc::c_int as usize),
         AST_FLAG_PRESERVE as libc::c_int as u32,
     );
     return parse_rule_complete(parser, &mut state);
@@ -5033,8 +5033,8 @@ unsafe extern "C" fn arraytype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5108,8 +5108,8 @@ unsafe extern "C" fn array(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5210,8 +5210,8 @@ unsafe extern "C" fn nextarray(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5312,8 +5312,8 @@ unsafe extern "C" fn tuple(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5422,8 +5422,8 @@ unsafe extern "C" fn groupedexpr(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5523,8 +5523,8 @@ unsafe extern "C" fn nextgroupedexpr(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5624,8 +5624,8 @@ unsafe extern "C" fn thisliteral(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5662,8 +5662,8 @@ unsafe extern "C" fn ref_0(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5701,8 +5701,8 @@ unsafe extern "C" fn location(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5739,8 +5739,8 @@ unsafe extern "C" fn ffi(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -5908,8 +5908,8 @@ unsafe extern "C" fn atom(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6051,8 +6051,8 @@ unsafe extern "C" fn caseatom(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6187,8 +6187,8 @@ unsafe extern "C" fn nextatom(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6330,8 +6330,8 @@ unsafe extern "C" fn dot(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6382,8 +6382,8 @@ unsafe extern "C" fn tilde(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6434,8 +6434,8 @@ unsafe extern "C" fn chain(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6486,8 +6486,8 @@ unsafe extern "C" fn qualify(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6537,8 +6537,8 @@ unsafe extern "C" fn call(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6654,8 +6654,8 @@ unsafe extern "C" fn postfix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6760,8 +6760,8 @@ unsafe extern "C" fn casepostfix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6867,8 +6867,8 @@ unsafe extern "C" fn nextpostfix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -6974,8 +6974,8 @@ unsafe extern "C" fn local(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7066,8 +7066,8 @@ unsafe extern "C" fn prefix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7149,8 +7149,8 @@ unsafe extern "C" fn caseprefix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7232,8 +7232,8 @@ unsafe extern "C" fn nextprefix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7307,8 +7307,8 @@ unsafe extern "C" fn parampattern(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7364,8 +7364,8 @@ unsafe extern "C" fn caseparampattern(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7421,8 +7421,8 @@ unsafe extern "C" fn nextparampattern(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7478,8 +7478,8 @@ unsafe extern "C" fn pattern(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7535,8 +7535,8 @@ unsafe extern "C" fn casepattern(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7592,8 +7592,8 @@ unsafe extern "C" fn nextpattern(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7649,8 +7649,8 @@ unsafe extern "C" fn idseqmulti(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7769,8 +7769,8 @@ unsafe extern "C" fn idseqsingle(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7809,8 +7809,8 @@ unsafe extern "C" fn idseq_in_seq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7867,8 +7867,8 @@ unsafe extern "C" fn idseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7924,8 +7924,8 @@ unsafe extern "C" fn elseclause(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -7986,8 +7986,8 @@ unsafe extern "C" fn elseif(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -8144,8 +8144,8 @@ unsafe extern "C" fn cond(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -8314,8 +8314,8 @@ unsafe extern "C" fn elseifdef(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -8493,15 +8493,15 @@ unsafe extern "C" fn elseifdef(
     if r_6 != 1 as libc::c_int as *mut ast_t {
         return r_6;
     }
-    static mut order: [size_t; 4] = [
-        0 as libc::c_int as size_t,
-        2 as libc::c_int as size_t,
-        3 as libc::c_int as size_t,
-        1 as libc::c_int as size_t,
+    static mut order: [usize; 4] = [
+        0 as libc::c_int as usize,
+        2 as libc::c_int as usize,
+        3 as libc::c_int as usize,
+        1 as libc::c_int as usize,
     ];
     if ast_childcount(state.ast)
-        == (::core::mem::size_of::<[size_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<size_t>() as libc::c_ulong)
+        == (::core::mem::size_of::<[usize; 4]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<usize>() as libc::c_ulong)
     {
     } else {
         ponyint_assert_fail(
@@ -8509,7 +8509,7 @@ unsafe extern "C" fn elseifdef(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parser.c\0" as *const u8
                 as *const libc::c_char,
-            754 as libc::c_int as size_t,
+            754 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"elseifdef\0")).as_ptr(),
         );
     };
@@ -8536,8 +8536,8 @@ unsafe extern "C" fn ifdef(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -8727,15 +8727,15 @@ unsafe extern "C" fn ifdef(
     if r_7 != 1 as libc::c_int as *mut ast_t {
         return r_7;
     }
-    static mut order: [size_t; 4] = [
-        0 as libc::c_int as size_t,
-        2 as libc::c_int as size_t,
-        3 as libc::c_int as size_t,
-        1 as libc::c_int as size_t,
+    static mut order: [usize; 4] = [
+        0 as libc::c_int as usize,
+        2 as libc::c_int as usize,
+        3 as libc::c_int as usize,
+        1 as libc::c_int as usize,
     ];
     if ast_childcount(state.ast)
-        == (::core::mem::size_of::<[size_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<size_t>() as libc::c_ulong)
+        == (::core::mem::size_of::<[usize; 4]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<usize>() as libc::c_ulong)
     {
     } else {
         ponyint_assert_fail(
@@ -8743,7 +8743,7 @@ unsafe extern "C" fn ifdef(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parser.c\0" as *const u8
                 as *const libc::c_char,
-            772 as libc::c_int as size_t,
+            772 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"ifdef\0")).as_ptr(),
         );
     };
@@ -8770,8 +8770,8 @@ unsafe extern "C" fn iftype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -8895,8 +8895,8 @@ unsafe extern "C" fn elseiftype(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9017,8 +9017,8 @@ unsafe extern "C" fn iftypeset(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9151,8 +9151,8 @@ unsafe extern "C" fn caseexpr(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9323,8 +9323,8 @@ unsafe extern "C" fn cases(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9378,8 +9378,8 @@ unsafe extern "C" fn match_0(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9544,8 +9544,8 @@ unsafe extern "C" fn whileloop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9722,8 +9722,8 @@ unsafe extern "C" fn repeat(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -9900,8 +9900,8 @@ unsafe extern "C" fn forloop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10115,8 +10115,8 @@ unsafe extern "C" fn withelem(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10202,8 +10202,8 @@ unsafe extern "C" fn withexpr(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10296,8 +10296,8 @@ unsafe extern "C" fn with(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10433,8 +10433,8 @@ unsafe extern "C" fn try_block(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10614,8 +10614,8 @@ unsafe extern "C" fn test_try_block(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10798,8 +10798,8 @@ unsafe extern "C" fn recover(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10921,8 +10921,8 @@ unsafe extern "C" fn test_aliased(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -10962,8 +10962,8 @@ unsafe extern "C" fn consume(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11055,8 +11055,8 @@ unsafe extern "C" fn test_prefix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11116,8 +11116,8 @@ unsafe extern "C" fn test_noseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11204,8 +11204,8 @@ unsafe extern "C" fn test_seq_scope(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11293,8 +11293,8 @@ unsafe extern "C" fn test_ifdef_flag(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11344,8 +11344,8 @@ unsafe extern "C" fn term(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11527,8 +11527,8 @@ unsafe extern "C" fn nextterm(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11710,8 +11710,8 @@ unsafe extern "C" fn asop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11773,8 +11773,8 @@ unsafe extern "C" fn binop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11862,10 +11862,10 @@ unsafe extern "C" fn binop(
     if r_1 != 1 as libc::c_int as *mut ast_t {
         return r_1;
     }
-    static mut order: [size_t; 2] = [1 as libc::c_int as size_t, 0 as libc::c_int as size_t];
+    static mut order: [usize; 2] = [1 as libc::c_int as usize, 0 as libc::c_int as usize];
     if ast_childcount(state.ast)
-        == (::core::mem::size_of::<[size_t; 2]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<size_t>() as libc::c_ulong)
+        == (::core::mem::size_of::<[usize; 2]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<usize>() as libc::c_ulong)
     {
     } else {
         ponyint_assert_fail(
@@ -11873,7 +11873,7 @@ unsafe extern "C" fn binop(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parser.c\0" as *const u8
                 as *const libc::c_char,
-            1043 as libc::c_int as size_t,
+            1043 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"binop\0")).as_ptr(),
         );
     };
@@ -11900,8 +11900,8 @@ unsafe extern "C" fn isop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -11962,8 +11962,8 @@ unsafe extern "C" fn test_binop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12024,8 +12024,8 @@ unsafe extern "C" fn infix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12122,8 +12122,8 @@ unsafe extern "C" fn nextinfix(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12221,8 +12221,8 @@ unsafe extern "C" fn assignop(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12284,8 +12284,8 @@ unsafe extern "C" fn assignment(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12358,8 +12358,8 @@ unsafe extern "C" fn nextassignment(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12432,8 +12432,8 @@ unsafe extern "C" fn jump(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12503,8 +12503,8 @@ unsafe extern "C" fn semi(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12579,8 +12579,8 @@ unsafe extern "C" fn semiexpr(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12659,8 +12659,8 @@ unsafe extern "C" fn nosemi(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12735,8 +12735,8 @@ unsafe extern "C" fn nextexprseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12819,8 +12819,8 @@ unsafe extern "C" fn exprseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12903,8 +12903,8 @@ unsafe extern "C" fn rawseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -12960,8 +12960,8 @@ unsafe extern "C" fn seq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13010,8 +13010,8 @@ unsafe extern "C" fn annotatedrawseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13092,8 +13092,8 @@ unsafe extern "C" fn annotatedseq(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13142,8 +13142,8 @@ unsafe extern "C" fn method(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13416,19 +13416,19 @@ unsafe extern "C" fn method(
             return r_12;
         }
     }
-    static mut order: [size_t; 8] = [
-        0 as libc::c_int as size_t,
-        1 as libc::c_int as size_t,
-        2 as libc::c_int as size_t,
-        3 as libc::c_int as size_t,
-        4 as libc::c_int as size_t,
-        5 as libc::c_int as size_t,
-        7 as libc::c_int as size_t,
-        6 as libc::c_int as size_t,
+    static mut order: [usize; 8] = [
+        0 as libc::c_int as usize,
+        1 as libc::c_int as usize,
+        2 as libc::c_int as usize,
+        3 as libc::c_int as usize,
+        4 as libc::c_int as usize,
+        5 as libc::c_int as usize,
+        7 as libc::c_int as usize,
+        6 as libc::c_int as usize,
     ];
     if ast_childcount(state.ast)
-        == (::core::mem::size_of::<[size_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<size_t>() as libc::c_ulong)
+        == (::core::mem::size_of::<[usize; 8]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<usize>() as libc::c_ulong)
     {
     } else {
         ponyint_assert_fail(
@@ -13436,7 +13436,7 @@ unsafe extern "C" fn method(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parser.c\0" as *const u8
                 as *const libc::c_char,
-            1179 as libc::c_int as size_t,
+            1179 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 7], &[libc::c_char; 7]>(b"method\0")).as_ptr(),
         );
     };
@@ -13463,8 +13463,8 @@ unsafe extern "C" fn field(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13612,8 +13612,8 @@ unsafe extern "C" fn members(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13694,8 +13694,8 @@ unsafe extern "C" fn class_def(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13914,18 +13914,18 @@ unsafe extern "C" fn class_def(
     if r_8 != 1 as libc::c_int as *mut ast_t {
         return r_8;
     }
-    static mut order: [size_t; 7] = [
-        2 as libc::c_int as size_t,
-        3 as libc::c_int as size_t,
-        1 as libc::c_int as size_t,
-        4 as libc::c_int as size_t,
-        6 as libc::c_int as size_t,
-        0 as libc::c_int as size_t,
-        5 as libc::c_int as size_t,
+    static mut order: [usize; 7] = [
+        2 as libc::c_int as usize,
+        3 as libc::c_int as usize,
+        1 as libc::c_int as usize,
+        4 as libc::c_int as usize,
+        6 as libc::c_int as usize,
+        0 as libc::c_int as usize,
+        5 as libc::c_int as usize,
     ];
     if ast_childcount(state.ast)
-        == (::core::mem::size_of::<[size_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<size_t>() as libc::c_ulong)
+        == (::core::mem::size_of::<[usize; 7]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<usize>() as libc::c_ulong)
     {
     } else {
         ponyint_assert_fail(
@@ -13933,7 +13933,7 @@ unsafe extern "C" fn class_def(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/parser.c\0" as *const u8
                 as *const libc::c_char,
-            1219 as libc::c_int as size_t,
+            1219 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"class_def\0")).as_ptr(),
         );
     };
@@ -13960,8 +13960,8 @@ unsafe extern "C" fn use_uri(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -13998,8 +13998,8 @@ unsafe extern "C" fn use_ffi(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -14143,8 +14143,8 @@ unsafe extern "C" fn use_name(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -14194,8 +14194,8 @@ unsafe extern "C" fn use_0(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };
@@ -14343,8 +14343,8 @@ unsafe extern "C" fn module(
             scope: 0 as libc::c_int != 0,
             deferred: 0 as libc::c_int != 0,
             deferred_id: TK_NONE,
-            line: 0 as libc::c_int as size_t,
-            pos: 0 as libc::c_int as size_t,
+            line: 0 as libc::c_int as usize,
+            pos: 0 as libc::c_int as usize,
         };
         init
     };

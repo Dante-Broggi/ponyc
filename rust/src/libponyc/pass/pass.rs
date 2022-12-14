@@ -4,7 +4,7 @@ pub mod _types_h {
     #[c2rust::src_loc = "48:1"]
     pub type __int64_t = libc::c_longlong;
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h:1"]
 pub mod sys__types_h {
@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:1"]
@@ -77,7 +77,7 @@ pub mod source_h {
     pub struct source_t {
         pub file: *const libc::c_char,
         pub m: *mut libc::c_char,
-        pub len: size_t,
+        pub len: usize,
     }
     use super::_size_t_h::size_t;
 }
@@ -657,10 +657,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -761,7 +761,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -1012,7 +1012,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1180,7 +1180,7 @@ pub unsafe extern "C" fn pass_opt_init(mut options: *mut pass_opt_t) {
     (*options).verbosity = VERBOSITY_INFO;
     let ref mut fresh0 = (*options).check.errors;
     *fresh0 = errors_alloc();
-    (*options).ast_print_width = 80 as libc::c_int as size_t;
+    (*options).ast_print_width = 80 as libc::c_int as usize;
     frame_push(&mut (*options).check, 0 as *mut ast_t);
 }
 #[no_mangle]
@@ -1197,7 +1197,7 @@ pub unsafe extern "C" fn pass_opt_done(mut options: *mut pass_opt_t) {
             b"options->check.frame == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            120 as libc::c_int as size_t,
+            120 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 14], &[libc::c_char; 14]>(b"pass_opt_done\0"))
                 .as_ptr(),
         );
@@ -1227,7 +1227,7 @@ unsafe extern "C" fn check_limit(
             b"astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            147 as libc::c_int as size_t,
+            147 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"check_limit\0")).as_ptr(),
         );
     };
@@ -1237,7 +1237,7 @@ unsafe extern "C" fn check_limit(
             b"*astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            148 as libc::c_int as size_t,
+            148 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"check_limit\0")).as_ptr(),
         );
     };
@@ -1247,7 +1247,7 @@ unsafe extern "C" fn check_limit(
             b"options != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            149 as libc::c_int as size_t,
+            149 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"check_limit\0")).as_ptr(),
         );
     };
@@ -1277,7 +1277,7 @@ unsafe extern "C" fn visit_pass(
             b"out_r != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            167 as libc::c_int as size_t,
+            167 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"visit_pass\0")).as_ptr(),
         );
     };
@@ -1341,7 +1341,7 @@ unsafe extern "C" fn ast_passes(
             b"astp != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            211 as libc::c_int as size_t,
+            211 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"ast_passes\0")).as_ptr(),
         );
     };
@@ -1571,7 +1571,7 @@ pub unsafe extern "C" fn ast_passes_type(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0"
                 as *const u8 as *const libc::c_char,
-            337 as libc::c_int as size_t,
+            337 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 16],
                 &[libc::c_char; 16],
@@ -1619,7 +1619,7 @@ pub unsafe extern "C" fn ast_pass_record(mut ast: *mut ast_t, mut pass: pass_id)
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            375 as libc::c_int as size_t,
+            375 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"ast_pass_record\0"))
                 .as_ptr(),
         );
@@ -1645,7 +1645,7 @@ pub unsafe extern "C" fn ast_visit(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            388 as libc::c_int as size_t,
+            388 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"ast_visit\0")).as_ptr(),
         );
     };
@@ -1655,7 +1655,7 @@ pub unsafe extern "C" fn ast_visit(
             b"*ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            389 as libc::c_int as size_t,
+            389 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"ast_visit\0")).as_ptr(),
         );
     };
@@ -1702,7 +1702,7 @@ pub unsafe extern "C" fn ast_visit(
                             b"0\0" as *const u8 as *const libc::c_char,
                             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0"
                                 as *const u8 as *const libc::c_char,
-                            444 as libc::c_int as size_t,
+                            444 as libc::c_int as usize,
                             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(
                                 b"ast_visit\0",
                             ))
@@ -1764,7 +1764,7 @@ pub unsafe extern "C" fn ast_visit_scope(
             b"module != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            500 as libc::c_int as size_t,
+            500 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"ast_visit_scope\0"))
                 .as_ptr(),
         );
@@ -1775,7 +1775,7 @@ pub unsafe extern "C" fn ast_visit_scope(
             b"package != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.c\0" as *const u8
                 as *const libc::c_char,
-            501 as libc::c_int as size_t,
+            501 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"ast_visit_scope\0"))
                 .as_ptr(),
         );

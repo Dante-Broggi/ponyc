@@ -53,7 +53,7 @@ pub mod _intptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:5"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h:5"]
 pub mod _pthread_cond_t_h {
@@ -76,9 +76,9 @@ pub mod fun_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "30:1"]
-        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> size_t;
+        pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
         #[c2rust::src_loc = "36:1"]
-        pub fn ponyint_hash_size(key: size_t) -> size_t;
+        pub fn ponyint_hash_size(key: usize) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.h:6"]
@@ -92,7 +92,7 @@ pub mod actor_h {
         pub sync_flags: u8,
         pub cycle_detector_critical: u8,
         pub heap: heap_t,
-        pub muted: size_t,
+        pub muted: usize,
         pub internal_flags: u8,
         pub gc: gc_t,
     }
@@ -140,7 +140,7 @@ pub mod gc_h {
     pub struct gc_t {
         pub mark: u32,
         pub rc_mark: u32,
-        pub rc: size_t,
+        pub rc: usize,
         pub local: objectmap_t,
         pub foreign: actormap_t,
         pub delta: *mut deltamap_t,
@@ -155,7 +155,7 @@ pub mod gc_h {
         #[c2rust::src_loc = "77:1"]
         pub fn ponyint_gc_delta(gc: *mut gc_t) -> *mut deltamap_t;
         #[c2rust::src_loc = "75:1"]
-        pub fn ponyint_gc_rc(gc: *mut gc_t) -> size_t;
+        pub fn ponyint_gc_rc(gc: *mut gc_t) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/delta.h:5"]
@@ -175,9 +175,9 @@ pub mod delta_h {
         #[c2rust::src_loc = "12:1"]
         pub fn ponyint_delta_actor(delta: *mut delta_t) -> *mut pony_actor_t;
         #[c2rust::src_loc = "14:1"]
-        pub fn ponyint_delta_rc(delta: *mut delta_t) -> size_t;
+        pub fn ponyint_delta_rc(delta: *mut delta_t) -> usize;
         #[c2rust::src_loc = "16:47"]
-        pub fn ponyint_deltamap_next(map: *mut deltamap_t, i: *mut size_t) -> *mut delta_t;
+        pub fn ponyint_deltamap_next(map: *mut deltamap_t, i: *mut usize) -> *mut delta_t;
         #[c2rust::src_loc = "21:1"]
         pub fn ponyint_deltamap_free(map: *mut deltamap_t);
     }
@@ -188,8 +188,8 @@ pub mod hash_h {
     #[repr(C)]
     #[c2rust::src_loc = "39:16"]
     pub struct hashmap_t {
-        pub count: size_t,
-        pub size: size_t,
+        pub count: usize,
+        pub size: usize,
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
@@ -198,15 +198,15 @@ pub mod hash_h {
     #[c2rust::src_loc = "28:16"]
     pub struct hashmap_entry_t {
         pub ptr: *mut libc::c_void,
-        pub hash: size_t,
+        pub hash: usize,
     }
     #[c2rust::src_loc = "16:1"]
-    pub type bitmap_t = size_t;
+    pub type bitmap_t = usize;
     use super::fun_h::{cmp_fn, free_fn};
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "51:1"]
-        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: size_t);
+        pub fn ponyint_hashmap_init(map: *mut hashmap_t, size: usize);
         #[c2rust::src_loc = "56:1"]
         pub fn ponyint_hashmap_destroy(map: *mut hashmap_t, free_elem: free_fn);
         #[c2rust::src_loc = "60:1"]
@@ -215,50 +215,50 @@ pub mod hash_h {
         pub fn ponyint_hashmap_get(
             map: *mut hashmap_t,
             key: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "73:1"]
         pub fn ponyint_hashmap_put(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "79:1"]
         pub fn ponyint_hashmap_putindex(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
-            index: size_t,
+            index: usize,
         );
         #[c2rust::src_loc = "86:1"]
         pub fn ponyint_hashmap_remove(
             map: *mut hashmap_t,
             entry: *mut libc::c_void,
-            hash: size_t,
+            hash: usize,
             cmp: cmp_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "93:1"]
-        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_removeindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "99:1"]
-        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: size_t);
+        pub fn ponyint_hashmap_clearindex(map: *mut hashmap_t, index: usize);
         #[c2rust::src_loc = "103:1"]
-        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "107:1"]
         pub fn ponyint_hashmap_fill_ratio(map: *mut hashmap_t) -> libc::c_double;
         #[c2rust::src_loc = "111:1"]
-        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_mem_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "115:1"]
-        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> size_t;
+        pub fn ponyint_hashmap_alloc_size(map: *mut hashmap_t) -> usize;
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
-            i: *mut size_t,
-            count: size_t,
+            i: *mut usize,
+            count: usize,
             item_bitmap: *mut bitmap_t,
-            size: size_t,
+            size: usize,
             buckets: *mut hashmap_entry_t,
         ) -> *mut libc::c_void;
     }
@@ -276,7 +276,7 @@ pub mod actormap_h {
     #[c2rust::src_loc = "12:16"]
     pub struct actorref_t {
         pub actor: *mut pony_actor_t,
-        pub rc: size_t,
+        pub rc: usize,
         pub mark: u32,
         pub map: objectmap_t,
     }
@@ -286,14 +286,14 @@ pub mod actormap_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "27:1"]
-        pub fn ponyint_actormap_size(map: *mut actormap_t) -> size_t;
+        pub fn ponyint_actormap_size(map: *mut actormap_t) -> usize;
         #[c2rust::src_loc = "27:47"]
-        pub fn ponyint_actormap_next(map: *mut actormap_t, i: *mut size_t) -> *mut actorref_t;
+        pub fn ponyint_actormap_next(map: *mut actormap_t, i: *mut usize) -> *mut actorref_t;
         #[c2rust::src_loc = "29:1"]
         pub fn ponyint_actormap_getactor(
             map: *mut actormap_t,
             actor: *mut pony_actor_t,
-            index: *mut size_t,
+            index: *mut usize,
         ) -> *mut actorref_t;
     }
 }
@@ -316,8 +316,8 @@ pub mod heap_h {
         pub small_free: [*mut chunk_t; 5],
         pub small_full: [*mut chunk_t; 5],
         pub large: *mut chunk_t,
-        pub used: size_t,
-        pub next_gc: size_t,
+        pub used: usize,
+        pub next_gc: usize,
     }
     use super::stddef_h::size_t;
     extern "C" {
@@ -383,10 +383,10 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -395,7 +395,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -461,7 +461,7 @@ pub mod scheduler_h {
         pub stack: *mut gcstack_t,
         pub acquire: actormap_t,
         pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: size_t,
+        pub serialise_size: usize,
         pub serialise: ponyint_serialise_t,
         pub serialise_alloc: serialise_alloc_fn,
         pub serialise_alloc_final: serialise_alloc_fn,
@@ -522,7 +522,7 @@ pub mod serialise_h {
     pub type serialise_throw_fn = Option<unsafe extern "C" fn() -> ()>;
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, size_t) -> *mut libc::c_void>;
+        Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "24:36"]
@@ -594,9 +594,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/cpu.h:7"]
@@ -614,7 +614,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -691,17 +691,17 @@ use self::string_h::memset;
 #[c2rust::src_loc = "285:16"]
 pub struct detector_t {
     pub pad: pony_actor_pad_t,
-    pub next_token: size_t,
-    pub detect_interval: size_t,
-    pub last_checked: size_t,
+    pub next_token: usize,
+    pub detect_interval: usize,
+    pub last_checked: usize,
     pub views: viewmap_t,
     pub deferred: viewmap_t,
     pub perceived: perceivedmap_t,
-    pub attempted: size_t,
-    pub detected: size_t,
-    pub collected: size_t,
-    pub created: size_t,
-    pub destroyed: size_t,
+    pub attempted: usize,
+    pub detected: usize,
+    pub collected: usize,
+    pub created: usize,
+    pub destroyed: usize,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
@@ -720,7 +720,7 @@ pub struct viewmap_t {
 #[c2rust::src_loc = "203:8"]
 pub struct view_t {
     pub actor: *mut pony_actor_t,
-    pub rc: size_t,
+    pub rc: usize,
     pub view_rc: u32,
     pub blocked: bool,
     pub deferred: bool,
@@ -732,8 +732,8 @@ pub struct view_t {
 #[repr(C)]
 #[c2rust::src_loc = "248:8"]
 pub struct perceived_t {
-    pub token: size_t,
-    pub ack: size_t,
+    pub token: usize,
+    pub ack: usize,
     pub map: viewmap_t,
 }
 #[derive(Copy, Clone)]
@@ -751,7 +751,7 @@ pub struct viewrefstack_t {}
 #[c2rust::src_loc = "154:16"]
 pub struct viewref_t {
     pub view: *mut view_t,
-    pub rc: size_t,
+    pub rc: usize,
 }
 #[c2rust::src_loc = "200:3"]
 pub const COLOR_WHITE: C2RustUnnamed_0 = 2;
@@ -774,7 +774,7 @@ pub type ponyint_viewrefmap_free_fn = Option<unsafe extern "C" fn(*mut viewref_t
 pub struct block_msg_t {
     pub msg: pony_msg_t,
     pub actor: *mut pony_actor_t,
-    pub rc: size_t,
+    pub rc: usize,
     pub delta: *mut deltamap_t,
 }
 #[c2rust::src_loc = "179:1"]
@@ -789,7 +789,7 @@ pub struct pendingdestroystack_t {}
 #[c2rust::src_loc = "196:1"]
 pub type C2RustUnnamed_0 = libc::c_uint;
 #[c2rust::src_loc = "160:1"]
-unsafe extern "C" fn viewref_hash(mut vref: *mut viewref_t) -> size_t {
+unsafe extern "C" fn viewref_hash(mut vref: *mut viewref_t) -> usize {
     ponyint_hash_ptr((*vref).view as *const libc::c_void)
 }
 #[c2rust::src_loc = "165:1"]
@@ -798,7 +798,7 @@ unsafe extern "C" fn viewref_cmp(mut a: *mut viewref_t, mut b: *mut viewref_t) -
 }
 #[c2rust::src_loc = "170:1"]
 unsafe extern "C" fn viewref_free(mut vref: *mut viewref_t) {
-    ponyint_pool_free(0 as libc::c_int as size_t, vref as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, vref as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "176:36"]
@@ -818,14 +818,14 @@ pub unsafe extern "C" fn ponyint_viewrefstack_push(
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
-pub unsafe extern "C" fn ponyint_viewrefmap_alloc_size(mut map: *mut viewrefmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_viewrefmap_alloc_size(mut map: *mut viewrefmap_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
 pub unsafe extern "C" fn ponyint_viewrefmap_removeindex(
     mut map: *mut viewrefmap_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -841,12 +841,12 @@ pub unsafe extern "C" fn ponyint_viewrefmap_optimize(mut map: *mut viewrefmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
-pub unsafe extern "C" fn ponyint_viewrefmap_size(mut map: *mut viewrefmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_viewrefmap_size(mut map: *mut viewrefmap_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
-pub unsafe extern "C" fn ponyint_viewrefmap_init(mut map: *mut viewrefmap_t, mut size: size_t) {
+pub unsafe extern "C" fn ponyint_viewrefmap_init(mut map: *mut viewrefmap_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
@@ -854,7 +854,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_init(mut map: *mut viewrefmap_t, mut
 pub unsafe extern "C" fn ponyint_viewrefmap_putindex(
     mut map: *mut viewrefmap_t,
     mut entry: *mut viewref_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: ponyint_viewrefmap_cmp_fn =
         Some(viewref_cmp as unsafe extern "C" fn(*mut viewref_t, *mut viewref_t) -> bool);
@@ -868,7 +868,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "179:1"]
-pub unsafe extern "C" fn ponyint_viewrefmap_mem_size(mut map: *mut viewrefmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_viewrefmap_mem_size(mut map: *mut viewrefmap_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -890,7 +890,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_destroy(mut map: *mut viewrefmap_t) 
 #[c2rust::src_loc = "179:1"]
 pub unsafe extern "C" fn ponyint_viewrefmap_clearindex(
     mut map: *mut viewrefmap_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
@@ -914,7 +914,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_remove(
 pub unsafe extern "C" fn ponyint_viewrefmap_get(
     mut map: *mut viewrefmap_t,
     mut key: *mut viewref_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut viewref_t {
     let mut cmpf: ponyint_viewrefmap_cmp_fn =
         Some(viewref_cmp as unsafe extern "C" fn(*mut viewref_t, *mut viewref_t) -> bool);
@@ -945,7 +945,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_put(
 #[c2rust::src_loc = "179:50"]
 pub unsafe extern "C" fn ponyint_viewrefmap_next(
     mut map: *mut viewrefmap_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut viewref_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut viewref_t
@@ -954,7 +954,7 @@ pub unsafe extern "C" fn ponyint_viewrefmap_next(
 #[c2rust::src_loc = "201:3"]
 pub static mut ponyint_color_t: C2RustUnnamed_0 = COLOR_BLACK;
 #[c2rust::src_loc = "215:1"]
-unsafe extern "C" fn view_hash(mut view: *mut view_t) -> size_t {
+unsafe extern "C" fn view_hash(mut view: *mut view_t) -> usize {
     ponyint_hash_ptr((*view).actor as *const libc::c_void)
 }
 #[c2rust::src_loc = "220:1"]
@@ -967,7 +967,7 @@ unsafe extern "C" fn view_free(mut view: *mut view_t) {
     *fresh0 = (*fresh0).wrapping_sub(1);
     if (*view).view_rc == 0 as libc::c_int as libc::c_uint {
         ponyint_viewrefmap_destroy(&mut (*view).map);
-        ponyint_pool_free(1 as libc::c_int as size_t, view as *mut libc::c_void);
+        ponyint_pool_free(1 as libc::c_int as usize, view as *mut libc::c_void);
     }
 }
 #[no_mangle]
@@ -980,7 +980,7 @@ pub unsafe extern "C" fn ponyint_viewmap_fill_ratio(mut map: *mut hashmap_t) -> 
 pub unsafe extern "C" fn ponyint_viewmap_putindex(
     mut map: *mut viewmap_t,
     mut entry: *mut view_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: ponyint_viewmap_cmp_fn =
         Some(view_cmp as unsafe extern "C" fn(*mut view_t, *mut view_t) -> bool);
@@ -994,7 +994,7 @@ pub unsafe extern "C" fn ponyint_viewmap_putindex(
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
-pub unsafe extern "C" fn ponyint_viewmap_clearindex(mut map: *mut viewmap_t, mut index: size_t) {
+pub unsafe extern "C" fn ponyint_viewmap_clearindex(mut map: *mut viewmap_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
@@ -1009,7 +1009,7 @@ pub unsafe extern "C" fn ponyint_viewmap_optimize(mut map: *mut viewmap_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
-pub unsafe extern "C" fn ponyint_viewmap_size(mut map: *mut viewmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_viewmap_size(mut map: *mut viewmap_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1023,22 +1023,22 @@ pub unsafe extern "C" fn ponyint_viewmap_destroy(mut map: *mut viewmap_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
-pub unsafe extern "C" fn ponyint_viewmap_mem_size(mut map: *mut viewmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_viewmap_mem_size(mut map: *mut viewmap_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
-pub unsafe extern "C" fn ponyint_viewmap_alloc_size(mut map: *mut viewmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_viewmap_alloc_size(mut map: *mut viewmap_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
-pub unsafe extern "C" fn ponyint_viewmap_init(mut map: *mut viewmap_t, mut size: size_t) {
+pub unsafe extern "C" fn ponyint_viewmap_init(mut map: *mut viewmap_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "246:1"]
-pub unsafe extern "C" fn ponyint_viewmap_removeindex(mut map: *mut viewmap_t, mut index: size_t) {
+pub unsafe extern "C" fn ponyint_viewmap_removeindex(mut map: *mut viewmap_t, mut index: usize) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
@@ -1046,7 +1046,7 @@ pub unsafe extern "C" fn ponyint_viewmap_removeindex(mut map: *mut viewmap_t, mu
 pub unsafe extern "C" fn ponyint_viewmap_get(
     mut map: *mut viewmap_t,
     mut key: *mut view_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut view_t {
     let mut cmpf: ponyint_viewmap_cmp_fn =
         Some(view_cmp as unsafe extern "C" fn(*mut view_t, *mut view_t) -> bool);
@@ -1092,13 +1092,13 @@ pub unsafe extern "C" fn ponyint_viewmap_remove(
 #[c2rust::src_loc = "246:44"]
 pub unsafe extern "C" fn ponyint_viewmap_next(
     mut map: *mut viewmap_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut view_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets) as *mut view_t
 }
 #[c2rust::src_loc = "255:1"]
-unsafe extern "C" fn perceived_hash(mut per: *mut perceived_t) -> size_t {
+unsafe extern "C" fn perceived_hash(mut per: *mut perceived_t) -> usize {
     ponyint_hash_size((*per).token)
 }
 #[c2rust::src_loc = "260:1"]
@@ -1108,7 +1108,7 @@ unsafe extern "C" fn perceived_cmp(mut a: *mut perceived_t, mut b: *mut perceive
 #[c2rust::src_loc = "269:1"]
 unsafe extern "C" fn perceived_free(mut per: *mut perceived_t) {
     ponyint_viewmap_destroy(&mut (*per).map);
-    ponyint_pool_free(1 as libc::c_int as size_t, per as *mut libc::c_void);
+    ponyint_pool_free(1 as libc::c_int as usize, per as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
@@ -1122,12 +1122,12 @@ pub unsafe extern "C" fn ponyint_perceivedmap_optimize(mut map: *mut perceivedma
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
-pub unsafe extern "C" fn ponyint_perceivedmap_alloc_size(mut map: *mut perceivedmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_perceivedmap_alloc_size(mut map: *mut perceivedmap_t) -> usize {
     ponyint_hashmap_alloc_size(map as *mut hashmap_t)
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
-pub unsafe extern "C" fn ponyint_perceivedmap_mem_size(mut map: *mut perceivedmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_perceivedmap_mem_size(mut map: *mut perceivedmap_t) -> usize {
     ponyint_hashmap_mem_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1139,7 +1139,7 @@ pub unsafe extern "C" fn ponyint_perceivedmap_fill_ratio(
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
-pub unsafe extern "C" fn ponyint_perceivedmap_size(mut map: *mut perceivedmap_t) -> size_t {
+pub unsafe extern "C" fn ponyint_perceivedmap_size(mut map: *mut perceivedmap_t) -> usize {
     ponyint_hashmap_size(map as *mut hashmap_t)
 }
 #[no_mangle]
@@ -1147,7 +1147,7 @@ pub unsafe extern "C" fn ponyint_perceivedmap_size(mut map: *mut perceivedmap_t)
 pub unsafe extern "C" fn ponyint_perceivedmap_putindex(
     mut map: *mut perceivedmap_t,
     mut entry: *mut perceived_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     let mut cmpf: ponyint_perceivedmap_cmp_fn =
         Some(perceived_cmp as unsafe extern "C" fn(*mut perceived_t, *mut perceived_t) -> bool);
@@ -1163,20 +1163,20 @@ pub unsafe extern "C" fn ponyint_perceivedmap_putindex(
 #[c2rust::src_loc = "279:1"]
 pub unsafe extern "C" fn ponyint_perceivedmap_clearindex(
     mut map: *mut perceivedmap_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
-pub unsafe extern "C" fn ponyint_perceivedmap_init(mut map: *mut perceivedmap_t, mut size: size_t) {
+pub unsafe extern "C" fn ponyint_perceivedmap_init(mut map: *mut perceivedmap_t, mut size: usize) {
     ponyint_hashmap_init(map as *mut hashmap_t, size);
 }
 #[no_mangle]
 #[c2rust::src_loc = "279:1"]
 pub unsafe extern "C" fn ponyint_perceivedmap_removeindex(
     mut map: *mut perceivedmap_t,
-    mut index: size_t,
+    mut index: usize,
 ) {
     ponyint_hashmap_removeindex(map as *mut hashmap_t, index);
 }
@@ -1210,7 +1210,7 @@ pub unsafe extern "C" fn ponyint_perceivedmap_put(
 pub unsafe extern "C" fn ponyint_perceivedmap_get(
     mut map: *mut perceivedmap_t,
     mut key: *mut perceived_t,
-    mut index: *mut size_t,
+    mut index: *mut usize,
 ) -> *mut perceived_t {
     let mut cmpf: ponyint_perceivedmap_cmp_fn =
         Some(perceived_cmp as unsafe extern "C" fn(*mut perceived_t, *mut perceived_t) -> bool);
@@ -1226,7 +1226,7 @@ pub unsafe extern "C" fn ponyint_perceivedmap_get(
 #[c2rust::src_loc = "279:54"]
 pub unsafe extern "C" fn ponyint_perceivedmap_next(
     mut map: *mut perceivedmap_t,
-    mut i: *mut size_t,
+    mut i: *mut usize,
 ) -> *mut perceived_t {
     let mut h: *mut hashmap_t = map as *mut hashmap_t;
     ponyint_hashmap_next(i, (*h).count, (*h).item_bitmap, (*h).size, (*h).buckets)
@@ -1278,7 +1278,7 @@ unsafe extern "C" fn get_view(
             b"actor != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            334 as libc::c_int as size_t,
+            334 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"get_view\0")).as_ptr(),
         );
     };
@@ -1300,10 +1300,10 @@ unsafe extern "C" fn get_view(
         perceived: 0 as *mut perceived_t,
     };
     key.actor = actor;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = ponyint_viewmap_get(&mut (*d).views, &mut key, &mut index);
     if view.is_null() && create as libc::c_int != 0 {
-        view = ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut view_t;
+        view = ponyint_pool_alloc(1 as libc::c_int as usize) as *mut view_t;
         memset(
             view as *mut libc::c_void,
             0 as libc::c_int,
@@ -1327,7 +1327,7 @@ unsafe extern "C" fn apply_delta(
     if map.is_null() {
         return;
     }
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut delta: *mut delta_t = 0 as *mut delta_t;
     loop {
         delta = ponyint_deltamap_next(map, &mut i);
@@ -1335,7 +1335,7 @@ unsafe extern "C" fn apply_delta(
             break;
         }
         let mut actor: *mut pony_actor_t = ponyint_delta_actor(delta);
-        let mut rc: size_t = ponyint_delta_rc(delta);
+        let mut rc: usize = ponyint_delta_rc(delta);
         let mut find: *mut view_t = get_view(d, actor, rc > 0 as libc::c_int as libc::c_ulong);
         if find.is_null() {
             continue;
@@ -1346,11 +1346,11 @@ unsafe extern "C" fn apply_delta(
         };
         key.view = find;
         if rc > 0 as libc::c_int as libc::c_ulong {
-            let mut index: size_t = -(1 as libc::c_int) as size_t;
+            let mut index: usize = -(1 as libc::c_int) as usize;
             let mut ref_0: *mut viewref_t =
                 ponyint_viewrefmap_get(&mut (*view).map, &mut key, &mut index);
             if ref_0.is_null() {
-                ref_0 = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut viewref_t;
+                ref_0 = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut viewref_t;
                 let ref mut fresh3 = (*ref_0).view;
                 *fresh3 = find;
                 ponyint_viewrefmap_putindex(&mut (*view).map, ref_0, index);
@@ -1372,7 +1372,7 @@ unsafe extern "C" fn apply_delta(
 unsafe extern "C" fn mark_grey(
     mut d: *mut detector_t,
     mut view: *mut view_t,
-    mut rc: size_t,
+    mut rc: usize,
 ) -> bool {
     if !(*view).blocked {
         return 0 as libc::c_int != 0;
@@ -1382,7 +1382,7 @@ unsafe extern "C" fn mark_grey(
         (*view).deferred = 0 as libc::c_int != 0;
     }
     let ref mut fresh5 = (*view).rc;
-    *fresh5 = (*fresh5 as libc::c_ulong).wrapping_sub(rc) as size_t as size_t;
+    *fresh5 = (*fresh5 as libc::c_ulong).wrapping_sub(rc) as usize as usize;
     if (*view).color as libc::c_int == COLOR_GREY as libc::c_int {
         return 0 as libc::c_int != 0;
     }
@@ -1392,7 +1392,7 @@ unsafe extern "C" fn mark_grey(
             b"view->color == COLOR_BLACK\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            465 as libc::c_int as size_t,
+            465 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"mark_grey\0")).as_ptr(),
         );
     };
@@ -1400,7 +1400,7 @@ unsafe extern "C" fn mark_grey(
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "470:1"]
-unsafe extern "C" fn scan_grey(mut d: *mut detector_t, mut view: *mut view_t, mut rc: size_t) {
+unsafe extern "C" fn scan_grey(mut d: *mut detector_t, mut view: *mut view_t, mut rc: usize) {
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
     let mut head: viewref_t = {
         let mut init = viewref_t { view: view, rc: rc };
@@ -1411,7 +1411,7 @@ unsafe extern "C" fn scan_grey(mut d: *mut detector_t, mut view: *mut view_t, mu
     while !stack.is_null() {
         stack = ponyint_viewrefstack_pop(stack, &mut ref_0);
         if mark_grey(d, (*ref_0).view, (*ref_0).rc) {
-            let mut i: size_t = -(1 as libc::c_int) as size_t;
+            let mut i: usize = -(1 as libc::c_int) as usize;
             let mut child: *mut viewref_t = 0 as *mut viewref_t;
             loop {
                 child = ponyint_viewrefmap_next(&mut (*(*ref_0).view).map, &mut i);
@@ -1426,7 +1426,7 @@ unsafe extern "C" fn scan_grey(mut d: *mut detector_t, mut view: *mut view_t, mu
 #[c2rust::src_loc = "491:1"]
 unsafe extern "C" fn mark_black(
     mut view: *mut view_t,
-    mut rc: size_t,
+    mut rc: usize,
     mut count: *mut libc::c_int,
 ) -> bool {
     if !(*view).blocked {
@@ -1436,7 +1436,7 @@ unsafe extern "C" fn mark_black(
                 b"view->color == COLOR_BLACK\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                495 as libc::c_int as size_t,
+                495 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"mark_black\0"))
                     .as_ptr(),
             );
@@ -1444,7 +1444,7 @@ unsafe extern "C" fn mark_black(
         return 0 as libc::c_int != 0;
     }
     let ref mut fresh6 = (*view).rc;
-    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(rc) as size_t as size_t;
+    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(rc) as usize as usize;
     if (*view).color as libc::c_int == COLOR_BLACK as libc::c_int {
         return 0 as libc::c_int != 0;
     }
@@ -1455,7 +1455,7 @@ unsafe extern "C" fn mark_black(
     return 1 as libc::c_int != 0;
 }
 #[c2rust::src_loc = "512:1"]
-unsafe extern "C" fn scan_black(mut view: *mut view_t, mut rc: size_t) -> libc::c_int {
+unsafe extern "C" fn scan_black(mut view: *mut view_t, mut rc: usize) -> libc::c_int {
     let mut count: libc::c_int = 0 as libc::c_int;
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
     let mut head: viewref_t = {
@@ -1467,7 +1467,7 @@ unsafe extern "C" fn scan_black(mut view: *mut view_t, mut rc: size_t) -> libc::
     while !stack.is_null() {
         stack = ponyint_viewrefstack_pop(stack, &mut ref_0);
         if mark_black((*ref_0).view, (*ref_0).rc, &mut count) {
-            let mut i: size_t = -(1 as libc::c_int) as size_t;
+            let mut i: usize = -(1 as libc::c_int) as usize;
             let mut child: *mut viewref_t = 0 as *mut viewref_t;
             loop {
                 child = ponyint_viewrefmap_next(&mut (*(*ref_0).view).map, &mut i);
@@ -1491,12 +1491,12 @@ unsafe extern "C" fn mark_white(mut view: *mut view_t, mut count: *mut libc::c_i
             b"view->blocked\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            542 as libc::c_int as size_t,
+            542 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"mark_white\0")).as_ptr(),
         );
     };
     if (*view).rc > 0 as libc::c_int as libc::c_ulong {
-        *count = *count - scan_black(view, 0 as libc::c_int as size_t);
+        *count = *count - scan_black(view, 0 as libc::c_int as usize);
         return 0 as libc::c_int != 0;
     }
     if ((*view).perceived).is_null() {
@@ -1505,7 +1505,7 @@ unsafe extern "C" fn mark_white(mut view: *mut view_t, mut count: *mut libc::c_i
             b"view->perceived == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            551 as libc::c_int as size_t,
+            551 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"mark_white\0")).as_ptr(),
         );
     };
@@ -1520,7 +1520,7 @@ unsafe extern "C" fn scan_white(mut view: *mut view_t) -> libc::c_int {
     let mut head: viewref_t = {
         let mut init = viewref_t {
             view: view,
-            rc: 0 as libc::c_int as size_t,
+            rc: 0 as libc::c_int as usize,
         };
         init
     };
@@ -1529,7 +1529,7 @@ unsafe extern "C" fn scan_white(mut view: *mut view_t) -> libc::c_int {
     while !stack.is_null() {
         stack = ponyint_viewrefstack_pop(stack, &mut ref_0);
         if mark_white((*ref_0).view, &mut count) {
-            let mut i: size_t = -(1 as libc::c_int) as size_t;
+            let mut i: usize = -(1 as libc::c_int) as usize;
             let mut child: *mut viewref_t = 0 as *mut viewref_t;
             loop {
                 child = ponyint_viewrefmap_next(&mut (*(*ref_0).view).map, &mut i);
@@ -1546,7 +1546,7 @@ unsafe extern "C" fn scan_white(mut view: *mut view_t) -> libc::c_int {
 unsafe extern "C" fn collect_view(
     mut per: *mut perceived_t,
     mut view: *mut view_t,
-    mut rc: size_t,
+    mut rc: usize,
     mut count: *mut libc::c_int,
 ) -> bool {
     if (*view).color as libc::c_int == COLOR_WHITE as libc::c_int {
@@ -1556,7 +1556,7 @@ unsafe extern "C" fn collect_view(
                 b"view->deferred == false\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                587 as libc::c_int as size_t,
+                587 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"collect_view\0"))
                     .as_ptr(),
             );
@@ -1567,7 +1567,7 @@ unsafe extern "C" fn collect_view(
                 b"view->perceived == NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                588 as libc::c_int as size_t,
+                588 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"collect_view\0"))
                     .as_ptr(),
             );
@@ -1582,7 +1582,7 @@ unsafe extern "C" fn collect_view(
 unsafe extern "C" fn collect_white(
     mut per: *mut perceived_t,
     mut view: *mut view_t,
-    mut rc: size_t,
+    mut rc: usize,
 ) -> libc::c_int {
     let mut count: libc::c_int = 0 as libc::c_int;
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
@@ -1595,7 +1595,7 @@ unsafe extern "C" fn collect_white(
     while !stack.is_null() {
         stack = ponyint_viewrefstack_pop(stack, &mut ref_0);
         if collect_view(per, (*ref_0).view, (*ref_0).rc, &mut count) {
-            let mut i: size_t = -(1 as libc::c_int) as size_t;
+            let mut i: usize = -(1 as libc::c_int) as usize;
             let mut child: *mut viewref_t = 0 as *mut viewref_t;
             loop {
                 child = ponyint_viewrefmap_next(&mut (*(*ref_0).view).map, &mut i);
@@ -1610,7 +1610,7 @@ unsafe extern "C" fn collect_white(
 }
 #[c2rust::src_loc = "636:1"]
 unsafe extern "C" fn send_conf(mut ctx: *mut pony_ctx_t, mut per: *mut perceived_t) {
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*per).map, &mut i);
@@ -1642,11 +1642,11 @@ unsafe extern "C" fn detect(
             b"view->perceived == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            665 as libc::c_int as size_t,
+            665 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 7], &[libc::c_char; 7]>(b"detect\0")).as_ptr(),
         );
     };
-    scan_grey(d, view, 0 as libc::c_int as size_t);
+    scan_grey(d, view, 0 as libc::c_int as usize);
     let mut count: libc::c_int = scan_white(view);
     if count >= 0 as libc::c_int {
     } else {
@@ -1654,7 +1654,7 @@ unsafe extern "C" fn detect(
             b"count >= 0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            669 as libc::c_int as size_t,
+            669 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 7], &[libc::c_char; 7]>(b"detect\0")).as_ptr(),
         );
     };
@@ -1664,33 +1664,33 @@ unsafe extern "C" fn detect(
     let ref mut fresh8 = (*d).detected;
     *fresh8 = (*fresh8).wrapping_add(1);
     let mut per: *mut perceived_t =
-        ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut perceived_t;
+        ponyint_pool_alloc(1 as libc::c_int as usize) as *mut perceived_t;
     let ref mut fresh9 = (*d).next_token;
     let fresh10 = *fresh9;
     *fresh9 = (*fresh9).wrapping_add(1);
     (*per).token = fresh10;
-    (*per).ack = 0 as libc::c_int as size_t;
-    ponyint_viewmap_init(&mut (*per).map, count as size_t);
+    (*per).ack = 0 as libc::c_int as usize;
+    ponyint_viewmap_init(&mut (*per).map, count as usize);
     ponyint_perceivedmap_put(&mut (*d).perceived, per);
-    let mut count2: libc::c_int = collect_white(per, view, 0 as libc::c_int as size_t);
+    let mut count2: libc::c_int = collect_white(per, view, 0 as libc::c_int as usize);
     if count2 == count {
     } else {
         ponyint_assert_fail(
             b"count2 == count\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            702 as libc::c_int as size_t,
+            702 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 7], &[libc::c_char; 7]>(b"detect\0")).as_ptr(),
         );
     };
-    if ponyint_viewmap_size(&mut (*per).map) == count as size_t {
+    if ponyint_viewmap_size(&mut (*per).map) == count as usize {
     } else {
         ponyint_assert_fail(
             b"ponyint_viewmap_size(&per->map) == (size_t)count\0" as *const u8
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            703 as libc::c_int as size_t,
+            703 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 7], &[libc::c_char; 7]>(b"detect\0")).as_ptr(),
         );
     };
@@ -1701,7 +1701,7 @@ unsafe extern "C" fn detect(
 unsafe extern "C" fn deferred(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t) {
     let ref mut fresh11 = (*d).attempted;
     *fresh11 = (*fresh11).wrapping_add(1);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*d).deferred, &mut i);
@@ -1714,7 +1714,7 @@ unsafe extern "C" fn deferred(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t) 
                 b"view->deferred == true\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                718 as libc::c_int as size_t,
+                718 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"deferred\0")).as_ptr(),
             );
         };
@@ -1730,7 +1730,7 @@ unsafe extern "C" fn expire(mut d: *mut detector_t, mut view: *mut view_t) {
     if per.is_null() {
         return;
     }
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut pview: *mut view_t = 0 as *mut view_t;
     loop {
         pview = ponyint_viewmap_next(&mut (*per).map, &mut i);
@@ -1752,7 +1752,7 @@ unsafe extern "C" fn collect(
     mut per: *mut perceived_t,
 ) {
     ponyint_perceivedmap_remove(&mut (*d).perceived, per);
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*per).map, &mut i);
@@ -1765,7 +1765,7 @@ unsafe extern "C" fn collect(
                 b"!ponyint_actor_pendingdestroy(view->actor)\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                761 as libc::c_int as size_t,
+                761 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"collect\0")).as_ptr(),
             );
         };
@@ -1775,7 +1775,7 @@ unsafe extern "C" fn collect(
                 b"view->perceived == per\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                763 as libc::c_int as size_t,
+                763 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"collect\0")).as_ptr(),
             );
         };
@@ -1785,7 +1785,7 @@ unsafe extern "C" fn collect(
         ponyint_actor_setpendingdestroy((*view).actor);
         ponyint_actor_final(ctx, (*view).actor);
     }
-    i = -(1 as libc::c_int) as size_t;
+    i = -(1 as libc::c_int) as usize;
     loop {
         view = ponyint_viewmap_next(&mut (*per).map, &mut i);
         if view.is_null() {
@@ -1793,7 +1793,7 @@ unsafe extern "C" fn collect(
         }
         ponyint_actor_sendrelease(ctx, (*view).actor);
     }
-    i = -(1 as libc::c_int) as size_t;
+    i = -(1 as libc::c_int) as usize;
     loop {
         view = ponyint_viewmap_next(&mut (*per).map, &mut i);
         if view.is_null() {
@@ -1805,16 +1805,16 @@ unsafe extern "C" fn collect(
     }
     let ref mut fresh14 = (*d).destroyed;
     *fresh14 = (*fresh14 as libc::c_ulong).wrapping_add(ponyint_viewmap_size(&mut (*per).map))
-        as size_t as size_t;
+        as usize as usize;
     perceived_free(per);
     let ref mut fresh15 = (*d).collected;
     *fresh15 = (*fresh15).wrapping_add(1);
 }
 #[c2rust::src_loc = "798:1"]
 unsafe extern "C" fn check_blocked(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t) {
-    let mut i: size_t = (*d).last_checked;
-    let mut total: size_t = ponyint_viewmap_size(&mut (*d).views);
-    let mut n: size_t = 0;
+    let mut i: usize = (*d).last_checked;
+    let mut total: usize = ponyint_viewmap_size(&mut (*d).views);
+    let mut n: usize = 0;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*d).views, &mut i);
@@ -1845,7 +1845,7 @@ unsafe extern "C" fn check_blocked(mut ctx: *mut pony_ctx_t, mut d: *mut detecto
         }
     }
     if view.is_null() {
-        (*d).last_checked = -(1 as libc::c_int) as size_t;
+        (*d).last_checked = -(1 as libc::c_int) as usize;
     } else {
         (*d).last_checked = i;
     }
@@ -1864,7 +1864,7 @@ unsafe extern "C" fn block(
     mut d: *mut detector_t,
     mut ctx: *mut pony_ctx_t,
     mut actor: *mut pony_actor_t,
-    mut rc: size_t,
+    mut rc: usize,
     mut map: *mut deltamap_t,
 ) {
     if rc == 0 as libc::c_int as libc::c_ulong {
@@ -1886,7 +1886,7 @@ unsafe extern "C" fn block(
                 b"ponyint_actor_pendingdestroy(actor)\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                     as *const libc::c_char,
-                906 as libc::c_int as size_t,
+                906 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"block\0")).as_ptr(),
             );
         };
@@ -1929,7 +1929,7 @@ unsafe extern "C" fn unblock(mut d: *mut detector_t, mut actor: *mut pony_actor_
         perceived: 0 as *mut perceived_t,
     };
     key.actor = actor;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = ponyint_viewmap_get(&mut (*d).views, &mut key, &mut index);
     if !view.is_null() {
     } else {
@@ -1937,7 +1937,7 @@ unsafe extern "C" fn unblock(mut d: *mut detector_t, mut actor: *mut pony_actor_
             b"view != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            962 as libc::c_int as size_t,
+            962 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"unblock\0")).as_ptr(),
         );
     };
@@ -1949,7 +1949,7 @@ unsafe extern "C" fn unblock(mut d: *mut detector_t, mut actor: *mut pony_actor_
     expire(d, view);
 }
 #[c2rust::src_loc = "978:1"]
-unsafe extern "C" fn ack(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t, mut token: size_t) {
+unsafe extern "C" fn ack(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t, mut token: usize) {
     let mut key: perceived_t = perceived_t {
         token: 0,
         ack: 0,
@@ -1963,7 +1963,7 @@ unsafe extern "C" fn ack(mut ctx: *mut pony_ctx_t, mut d: *mut detector_t, mut t
         },
     };
     key.token = token;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     let mut per: *mut perceived_t =
         ponyint_perceivedmap_get(&mut (*d).perceived, &mut key, &mut index);
     if per.is_null() {
@@ -2005,7 +2005,7 @@ unsafe extern "C" fn final_0(mut ctx: *mut pony_ctx_t, mut self_0: *mut pony_act
         }
     }
     let mut d: *mut detector_t = self_0 as *mut detector_t;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*d).views, &mut i);
@@ -2023,7 +2023,7 @@ unsafe extern "C" fn final_0(mut ctx: *mut pony_ctx_t, mut self_0: *mut pony_act
         stack = ponyint_pendingdestroystack_pop(stack, &mut actor);
         ponyint_actor_destroy(actor);
     }
-    i = -(1 as libc::c_int) as size_t;
+    i = -(1 as libc::c_int) as usize;
     loop {
         view = ponyint_viewmap_next(&mut (*d).deferred, &mut i);
         if view.is_null() {
@@ -2059,10 +2059,10 @@ unsafe extern "C" fn dump_view(mut view: *mut view_t) {
             b" DELTA\0" as *const u8 as *const libc::c_char
         },
     );
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut p: *mut viewref_t = 0 as *mut viewref_t;
     let mut aref: *mut actorref_t = 0 as *mut actorref_t;
-    let mut index: size_t = -(1 as libc::c_int) as size_t;
+    let mut index: usize = -(1 as libc::c_int) as usize;
     loop {
         p = ponyint_viewrefmap_next(&mut (*view).map, &mut i);
         if p.is_null() {
@@ -2097,7 +2097,7 @@ unsafe extern "C" fn dump_view(mut view: *mut view_t) {
         != ponyint_viewrefmap_size(&mut (*view).map)
     {
         printf(b"\t--- ERROR\n\0" as *const u8 as *const libc::c_char);
-        i = -(1 as libc::c_int) as size_t;
+        i = -(1 as libc::c_int) as usize;
         loop {
             aref = ponyint_actormap_next(&mut (*(*view).actor).gc.foreign, &mut i);
             if aref.is_null() {
@@ -2114,7 +2114,7 @@ unsafe extern "C" fn dump_view(mut view: *mut view_t) {
 #[c2rust::src_loc = "1123:1"]
 unsafe extern "C" fn dump_views() {
     let mut d: *mut detector_t = cycle_detector as *mut detector_t;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*d).views, &mut i);
@@ -2133,7 +2133,7 @@ unsafe extern "C" fn check_view(mut d: *mut detector_t, mut view: *mut view_t) {
         );
         return;
     }
-    scan_grey(d, view, 0 as libc::c_int as size_t);
+    scan_grey(d, view, 0 as libc::c_int as usize);
     let mut count: libc::c_int = scan_white(view);
     if count >= 0 as libc::c_int {
     } else {
@@ -2141,7 +2141,7 @@ unsafe extern "C" fn check_view(mut d: *mut detector_t, mut view: *mut view_t) {
             b"count >= 0\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            1145 as libc::c_int as size_t,
+            1145 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"check_view\0")).as_ptr(),
         );
     };
@@ -2158,7 +2158,7 @@ unsafe extern "C" fn check_view(mut d: *mut detector_t, mut view: *mut view_t) {
 #[c2rust::src_loc = "1150:1"]
 unsafe extern "C" fn check_views() {
     let mut d: *mut detector_t = cycle_detector as *mut detector_t;
-    let mut i: size_t = -(1 as libc::c_int) as size_t;
+    let mut i: usize = -(1 as libc::c_int) as usize;
     let mut view: *mut view_t = 0 as *mut view_t;
     loop {
         view = ponyint_viewmap_next(&mut (*d).views, &mut i);
@@ -2193,7 +2193,7 @@ unsafe extern "C" fn cycle_dispatch(
         }
         4294967294 => {
             let mut m_2: *mut pony_msgi_t = msg as *mut pony_msgi_t;
-            ack(ctx, d, (*m_2).i as size_t);
+            ack(ctx, d, (*m_2).i as usize);
         }
         _ => {
             dump_views();
@@ -2247,8 +2247,8 @@ pub unsafe extern "C" fn ponyint_cycle_create(mut ctx: *mut pony_ctx_t, mut dete
     ponyint_actor_setsystem(cycle_detector);
     let mut d: *mut detector_t = cycle_detector as *mut detector_t;
     (*d).detect_interval =
-        detect_interval.wrapping_mul(2000000 as libc::c_int as libc::c_uint) as size_t;
-    (*d).last_checked = -(1 as libc::c_int) as size_t;
+        detect_interval.wrapping_mul(2000000 as libc::c_int as libc::c_uint) as usize;
+    (*d).last_checked = -(1 as libc::c_int) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1268:1"]
@@ -2288,7 +2288,7 @@ pub unsafe extern "C" fn ponyint_cycle_block(mut actor: *mut pony_actor_t, mut g
             b"&actor->gc == gc\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            1297 as libc::c_int as size_t,
+            1297 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"ponyint_cycle_block\0"))
                 .as_ptr(),
         );
@@ -2309,7 +2309,7 @@ pub unsafe extern "C" fn ponyint_cycle_block(mut actor: *mut pony_actor_t, mut g
             b"gc->delta == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/cycle.c\0" as *const u8
                 as *const libc::c_char,
-            1311 as libc::c_int as size_t,
+            1311 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 20], &[libc::c_char; 20]>(b"ponyint_cycle_block\0"))
                 .as_ptr(),
         );
@@ -2335,7 +2335,7 @@ pub unsafe extern "C" fn ponyint_cycle_unblock(mut actor: *mut pony_actor_t) {
 }
 #[no_mangle]
 #[c2rust::src_loc = "1322:1"]
-pub unsafe extern "C" fn ponyint_cycle_ack(mut token: size_t) {
+pub unsafe extern "C" fn ponyint_cycle_ack(mut token: usize) {
     let mut ctx: *mut pony_ctx_t = ponyint_sched_get_inject_context();
     pony_sendi(
         ctx,

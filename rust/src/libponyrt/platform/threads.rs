@@ -55,7 +55,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:4"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h:4"]
 pub mod _pthread_attr_t_h {
@@ -116,7 +116,7 @@ pub mod pthread_h {
         #[c2rust::src_loc = "262:1"]
         pub fn pthread_attr_init(_: *mut pthread_attr_t) -> libc::c_int;
         #[c2rust::src_loc = "290:1"]
-        pub fn pthread_attr_setstacksize(_: *mut pthread_attr_t, _: size_t) -> libc::c_int;
+        pub fn pthread_attr_setstacksize(_: *mut pthread_attr_t, _: usize) -> libc::c_int;
         #[c2rust::src_loc = "308:1"]
         pub fn pthread_cond_signal(_: *mut pthread_cond_t) -> libc::c_int;
         #[c2rust::src_loc = "318:1"]
@@ -179,7 +179,7 @@ pub unsafe extern "C" fn ponyint_thread_create(
         && limit.rlim_cur >= 8192 as libc::c_int as rlim_t
     {
         if !setstack_called {
-            pthread_attr_setstacksize(&mut attr, limit.rlim_cur as size_t);
+            pthread_attr_setstacksize(&mut attr, limit.rlim_cur as usize);
         }
     } else {
         attr_p = 0 as *mut pthread_attr_t;

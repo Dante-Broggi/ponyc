@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -490,7 +490,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "159:1"]
@@ -538,10 +538,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -636,7 +636,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -731,7 +731,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -810,7 +810,7 @@ pub use self::use_h::use_handler_t;
 #[c2rust::src_loc = "23:16"]
 pub struct use_scheme_t {
     pub scheme: *const libc::c_char,
-    pub scheme_len: size_t,
+    pub scheme_len: usize,
     pub allow_name: bool,
     pub allow_guard: bool,
     pub handler: use_handler_t,
@@ -822,7 +822,7 @@ static mut handlers: [use_scheme_t; 5] = unsafe {
         {
             let mut init = use_scheme_t {
                 scheme: b"package:\0" as *const u8 as *const libc::c_char,
-                scheme_len: 8 as libc::c_int as size_t,
+                scheme_len: 8 as libc::c_int as usize,
                 allow_name: 1 as libc::c_int != 0,
                 allow_guard: 0 as libc::c_int != 0,
                 handler: Some(
@@ -840,7 +840,7 @@ static mut handlers: [use_scheme_t; 5] = unsafe {
         {
             let mut init = use_scheme_t {
                 scheme: b"lib:\0" as *const u8 as *const libc::c_char,
-                scheme_len: 4 as libc::c_int as size_t,
+                scheme_len: 4 as libc::c_int as usize,
                 allow_name: 0 as libc::c_int != 0,
                 allow_guard: 1 as libc::c_int != 0,
                 handler: Some(
@@ -858,7 +858,7 @@ static mut handlers: [use_scheme_t; 5] = unsafe {
         {
             let mut init = use_scheme_t {
                 scheme: b"path:\0" as *const u8 as *const libc::c_char,
-                scheme_len: 5 as libc::c_int as size_t,
+                scheme_len: 5 as libc::c_int as usize,
                 allow_name: 0 as libc::c_int != 0,
                 allow_guard: 1 as libc::c_int != 0,
                 handler: Some(
@@ -876,7 +876,7 @@ static mut handlers: [use_scheme_t; 5] = unsafe {
         {
             let mut init = use_scheme_t {
                 scheme: b"test:\0" as *const u8 as *const libc::c_char,
-                scheme_len: 5 as libc::c_int as size_t,
+                scheme_len: 5 as libc::c_int as usize,
                 allow_name: 0 as libc::c_int != 0,
                 allow_guard: 0 as libc::c_int != 0,
                 handler: None,
@@ -886,7 +886,7 @@ static mut handlers: [use_scheme_t; 5] = unsafe {
         {
             let mut init = use_scheme_t {
                 scheme: 0 as *const libc::c_char,
-                scheme_len: 0 as libc::c_int as size_t,
+                scheme_len: 0 as libc::c_int as usize,
                 allow_name: 0 as libc::c_int != 0,
                 allow_guard: 0 as libc::c_int != 0,
                 handler: None,
@@ -929,7 +929,7 @@ unsafe extern "C" fn find_handler(
             b"uri != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            62 as libc::c_int as size_t,
+            62 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"find_handler\0")).as_ptr(),
         );
     };
@@ -939,7 +939,7 @@ unsafe extern "C" fn find_handler(
             b"out_locator != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            63 as libc::c_int as size_t,
+            63 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"find_handler\0")).as_ptr(),
         );
     };
@@ -949,7 +949,7 @@ unsafe extern "C" fn find_handler(
             b"ast_id(uri) == TK_STRING\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            64 as libc::c_int as size_t,
+            64 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"find_handler\0")).as_ptr(),
         );
     };
@@ -959,8 +959,8 @@ unsafe extern "C" fn find_handler(
         *out_locator = stringtab(text);
         return 0 as libc::c_int;
     }
-    let mut scheme_len: size_t =
-        (colon.offset_from(text) as libc::c_long + 1 as libc::c_int as libc::c_long) as size_t;
+    let mut scheme_len: usize =
+        (colon.offset_from(text) as libc::c_long + 1 as libc::c_int as libc::c_long) as usize;
     let mut i: libc::c_int = 0 as libc::c_int;
     while !(handlers[i as usize].scheme).is_null() {
         if handlers[i as usize].scheme_len == scheme_len
@@ -998,7 +998,7 @@ unsafe extern "C" fn uri_command(
             b"uri != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            114 as libc::c_int as size_t,
+            114 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"uri_command\0")).as_ptr(),
         );
     };
@@ -1008,7 +1008,7 @@ unsafe extern "C" fn uri_command(
             b"alias != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            115 as libc::c_int as size_t,
+            115 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"uri_command\0")).as_ptr(),
         );
     };
@@ -1018,7 +1018,7 @@ unsafe extern "C" fn uri_command(
             b"guard != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            116 as libc::c_int as size_t,
+            116 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"uri_command\0")).as_ptr(),
         );
     };
@@ -1058,7 +1058,7 @@ unsafe extern "C" fn uri_command(
             b"handlers[index].handler != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            141 as libc::c_int as size_t,
+            141 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"uri_command\0")).as_ptr(),
         );
     };
@@ -1072,7 +1072,7 @@ unsafe extern "C" fn ffi_command(mut opt: *mut pass_opt_t, mut alias: *mut ast_t
             b"alias != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            149 as libc::c_int as size_t,
+            149 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"ffi_command\0")).as_ptr(),
         );
     };
@@ -1098,7 +1098,7 @@ pub unsafe extern "C" fn use_command(
             b"ast != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            163 as libc::c_int as size_t,
+            163 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"use_command\0")).as_ptr(),
         );
     };
@@ -1108,7 +1108,7 @@ pub unsafe extern "C" fn use_command(
             b"options != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            164 as libc::c_int as size_t,
+            164 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"use_command\0")).as_ptr(),
         );
     };
@@ -1130,7 +1130,7 @@ pub unsafe extern "C" fn use_command(
             b"spec != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            167 as libc::c_int as size_t,
+            167 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"use_command\0")).as_ptr(),
         );
     };
@@ -1140,7 +1140,7 @@ pub unsafe extern "C" fn use_command(
             b"guard != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0" as *const u8
                 as *const libc::c_char,
-            168 as libc::c_int as size_t,
+            168 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"use_command\0")).as_ptr(),
         );
     };
@@ -1162,7 +1162,7 @@ pub unsafe extern "C" fn use_command(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/use.c\0"
                         as *const u8 as *const libc::c_char,
-                    185 as libc::c_int as size_t,
+                    185 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"use_command\0"))
                         .as_ptr(),
                 );

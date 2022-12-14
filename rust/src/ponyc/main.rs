@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:1"]
 pub mod _stdio_h {
@@ -75,7 +75,7 @@ pub mod error_h {
         #[c2rust::src_loc = "36:16"]
         pub type errors_t;
         #[c2rust::src_loc = "63:1"]
-        pub fn errors_get_count(errors: *mut errors_t) -> size_t;
+        pub fn errors_get_count(errors: *mut errors_t) -> usize;
         #[c2rust::src_loc = "72:1"]
         pub fn errors_print(errors: *mut errors_t);
     }
@@ -133,10 +133,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -231,7 +231,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -379,7 +379,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "146:1"]
         pub fn ast_free(ast: *mut ast_t);
         #[c2rust::src_loc = "154:1"]
-        pub fn ast_fprint(fp: *mut FILE, ast: *mut ast_t, width: size_t);
+        pub fn ast_fprint(fp: *mut FILE, ast: *mut ast_t, width: usize);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pkg/package.h:4"]
@@ -448,8 +448,8 @@ pub use self::sys__types_h::__darwin_off_t;
 pub use self::ttycom_h::winsize;
 use self::unistd_h::isatty;
 #[c2rust::src_loc = "22:1"]
-unsafe extern "C" fn get_width() -> size_t {
-    let mut width: size_t = 80 as libc::c_int as size_t;
+unsafe extern "C" fn get_width() -> usize {
+    let mut width: usize = 80 as libc::c_int as usize;
     if isatty(1 as libc::c_int) != 0 {
         let mut ws: winsize = winsize {
             ws_row: 0,
@@ -469,7 +469,7 @@ unsafe extern "C" fn get_width() -> size_t {
         ) == 0 as libc::c_int
         {
             if ws.ws_col as libc::c_ulong > width {
-                width = ws.ws_col as size_t;
+                width = ws.ws_col as usize;
             }
         }
     }
@@ -553,19 +553,19 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
     opt.output = b".\0" as *const u8 as *const libc::c_char;
     opt.ast_print_width = get_width();
     opt.argv0 = *argv.offset(0 as libc::c_int as isize);
-    let mut args_size: size_t = 1 as libc::c_int as size_t;
+    let mut args_size: usize = 1 as libc::c_int as usize;
     let mut i: libc::c_int = 1 as libc::c_int;
     while i < argc {
         args_size = (args_size as libc::c_ulong).wrapping_add(
             (strlen(*argv.offset(i as isize))).wrapping_add(1 as libc::c_int as libc::c_ulong),
-        ) as size_t as size_t;
+        ) as usize as usize;
         i += 1;
     }
     opt.all_args = calloc(
         args_size,
         ::core::mem::size_of::<libc::c_char>() as libc::c_ulong,
     ) as *const libc::c_char;
-    let mut size_left: size_t = args_size;
+    let mut size_left: usize = args_size;
     let mut i_0: libc::c_int = 1 as libc::c_int;
     while i_0 < argc {
         strncat(
@@ -580,7 +580,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
         );
         size_left = (size_left as libc::c_ulong).wrapping_sub(
             (strlen(*argv.offset(i_0 as isize))).wrapping_add(1 as libc::c_int as libc::c_ulong),
-        ) as size_t as size_t;
+        ) as usize as usize;
         i_0 += 1;
     }
     let mut exit_code: ponyc_opt_process_t = EXIT_0;

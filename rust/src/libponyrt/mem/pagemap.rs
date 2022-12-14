@@ -7,7 +7,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pagemap.h:3"]
 pub mod pagemap_h {
@@ -21,9 +21,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:6"]
@@ -54,8 +54,8 @@ pub type pagemap_node_t = *mut libc::c_void;
 pub struct pagemap_level_t {
     pub shift: libc::c_int,
     pub mask: libc::c_int,
-    pub size: size_t,
-    pub size_index: size_t,
+    pub size: usize,
+    pub size_index: usize,
 }
 #[c2rust::src_loc = "53:30"]
 static mut level: [pagemap_level_t; 3] = [pagemap_level_t {
@@ -71,7 +71,7 @@ static mut root: pagemap_node_t = 0 as *const libc::c_void as *mut libc::c_void;
 pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *mut chunk_t {
     let mut next_node: *mut pagemap_node_t = &mut root;
     let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_acq(next_node) };
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < 3 as libc::c_int as libc::c_ulong {
         if node.is_null() {
             return 0 as *mut chunk_t;
@@ -91,7 +91,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
     mut chunk: *mut chunk_t,
 ) {
     let mut next_node: *mut pagemap_node_t = &mut root;
-    let mut i: size_t = 0;
+    let mut i: usize = 0;
     while i < 3 as libc::c_int as libc::c_ulong {
         let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_relaxed(next_node) };
         if node.is_null() {
@@ -128,7 +128,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
 pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
     mut addr: *const libc::c_void,
     mut chunk: *mut chunk_t,
-    mut size: size_t,
+    mut size: usize,
 ) {
     let mut next_node: *mut pagemap_node_t = 0 as *mut pagemap_node_t;
     let mut node: pagemap_node_t = 0 as *mut libc::c_void;
@@ -137,7 +137,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
     let mut addr_end: uintptr_t = (addr as uintptr_t).wrapping_add(size);
     while addr_ptr < addr_end {
         next_node = &mut root;
-        let mut i: size_t = 0;
+        let mut i: usize = 0;
         while i < 3 as libc::c_int as libc::c_ulong {
             node = ::core::intrinsics::atomic_load_relaxed(next_node);
             if node.is_null() {
@@ -204,7 +204,7 @@ unsafe extern "C" fn run_static_initializers() {
                             > 0 as libc::c_int) as libc::c_int)
                     as libc::c_ulong)
                     .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as libc::c_ulong),
-                size_index: 11 as libc::c_int as size_t,
+                size_index: 11 as libc::c_int as usize,
             };
             init
         },
@@ -223,7 +223,7 @@ unsafe extern "C" fn run_static_initializers() {
                             > 1 as libc::c_int) as libc::c_int)
                     as libc::c_ulong)
                     .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as libc::c_ulong),
-                size_index: 11 as libc::c_int as size_t,
+                size_index: 11 as libc::c_int as usize,
             };
             init
         },
@@ -237,7 +237,7 @@ unsafe extern "C" fn run_static_initializers() {
                     << (48 as libc::c_int - 10 as libc::c_int) / 3 as libc::c_int)
                     as libc::c_ulong)
                     .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as libc::c_ulong),
-                size_index: 10 as libc::c_int as size_t,
+                size_index: 10 as libc::c_int as usize,
             };
             init
         },

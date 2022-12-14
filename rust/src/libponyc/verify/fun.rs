@@ -2,12 +2,12 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
@@ -496,7 +496,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "73:1"]
         pub fn ast_id(ast: *mut ast_t) -> token_id;
         #[c2rust::src_loc = "75:1"]
-        pub fn ast_pos(ast: *mut ast_t) -> size_t;
+        pub fn ast_pos(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "78:1"]
         pub fn ast_data(ast: *mut ast_t) -> *mut libc::c_void;
         #[c2rust::src_loc = "80:1"]
@@ -510,9 +510,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "116:1"]
         pub fn ast_sibling(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "120:1"]
@@ -533,7 +533,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
     }
@@ -575,10 +575,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -673,7 +673,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -774,7 +774,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -975,7 +975,7 @@ unsafe extern "C" fn verify_main_runtime_override_defaults(
     }
     let mut param: *mut ast_t = ast_child(params);
     if !param.is_null() {
-        let mut p_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as size_t);
+        let mut p_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as usize);
         if !is_runtime_options(p_type) {
             ast_error(
                 (*opt).check.errors,
@@ -1093,7 +1093,7 @@ unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut 
     }
     let mut param: *mut ast_t = ast_child(params);
     if !param.is_null() {
-        let mut p_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as size_t);
+        let mut p_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as usize);
         if !is_env(p_type) {
             ast_error(
                 (*opt).check.errors,
@@ -1140,7 +1140,7 @@ unsafe extern "C" fn verify_primitive_init(mut opt: *mut pass_opt_t, mut ast: *m
     let mut ok: bool = 1 as libc::c_int != 0;
     if ast_id(ast_childidx(
         (*(*opt).check.frame).type_0,
-        1 as libc::c_int as size_t,
+        1 as libc::c_int as usize,
     )) as libc::c_uint
         != TK_NONE as libc::c_int as libc::c_uint
     {
@@ -1253,7 +1253,7 @@ unsafe extern "C" fn verify_any_final(mut opt: *mut pass_opt_t, mut ast: *mut as
         == TK_PRIMITIVE as libc::c_int as libc::c_uint
         && ast_id(ast_childidx(
             (*(*opt).check.frame).type_0,
-            1 as libc::c_int as size_t,
+            1 as libc::c_int as usize,
         )) as libc::c_uint
             != TK_NONE as libc::c_int as libc::c_uint
     {
@@ -1567,7 +1567,7 @@ unsafe extern "C" fn show_partiality(mut opt: *mut pass_opt_t, mut ast: *mut ast
                 b"child != NULL\0" as *const u8 as *const libc::c_char,
                 b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/verify/fun.c\0"
                     as *const u8 as *const libc::c_char,
-                468 as libc::c_int as size_t,
+                468 as libc::c_int as usize,
                 (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"show_partiality\0"))
                     .as_ptr(),
             );
@@ -1649,7 +1649,7 @@ pub unsafe extern "C" fn verify_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/verify/fun.c\0" as *const u8
                 as *const libc::c_char,
-            541 as libc::c_int as size_t,
+            541 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"verify_fun\0")).as_ptr(),
         );
     };

@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/i386/_types.h:1"]
 pub mod _types_h {
     #[c2rust::src_loc = "94:1"]
-    pub type __darwin_size_t = libc::c_ulong;
+    pub type __darwin_size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
@@ -12,7 +12,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
-    pub type size_t = __darwin_size_t;
+    pub type size_t = usize;
     use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
@@ -54,10 +54,10 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]
@@ -66,7 +66,7 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
@@ -108,8 +108,8 @@ pub mod error_h {
     #[c2rust::src_loc = "38:16"]
     pub struct errormsg_t {
         pub file: *const libc::c_char,
-        pub line: size_t,
-        pub pos: size_t,
+        pub line: usize,
+        pub pos: usize,
         pub msg: *const libc::c_char,
         pub source: *const libc::c_char,
         pub frame: *mut errormsg_t,
@@ -631,9 +631,9 @@ pub mod ast_h {
         #[c2rust::src_loc = "112:1"]
         pub fn ast_child(ast: *mut ast_t) -> *mut ast_t;
         #[c2rust::src_loc = "113:1"]
-        pub fn ast_childidx(ast: *mut ast_t, idx: size_t) -> *mut ast_t;
+        pub fn ast_childidx(ast: *mut ast_t, idx: usize) -> *mut ast_t;
         #[c2rust::src_loc = "115:1"]
-        pub fn ast_childcount(ast: *mut ast_t) -> size_t;
+        pub fn ast_childcount(ast: *mut ast_t) -> usize;
         #[c2rust::src_loc = "120:1"]
         pub fn ast_get(
             ast: *mut ast_t,
@@ -647,7 +647,7 @@ pub mod ast_h {
         #[c2rust::src_loc = "190:1"]
         pub fn ast_get_children(
             parent: *mut ast_t,
-            child_count: size_t,
+            child_count: usize,
             out_children: *mut *mut *mut ast_t,
         );
         #[c2rust::src_loc = "163:1"]
@@ -715,10 +715,10 @@ pub mod frame_h {
     #[repr(C)]
     #[c2rust::src_loc = "41:16"]
     pub struct typecheck_stats_t {
-        pub names_count: size_t,
-        pub default_caps_count: size_t,
-        pub heap_alloc: size_t,
-        pub stack_alloc: size_t,
+        pub names_count: usize,
+        pub default_caps_count: usize,
+        pub heap_alloc: usize,
+        pub stack_alloc: usize,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -813,7 +813,7 @@ pub mod pass_h {
         pub docs: bool,
         pub docs_private: bool,
         pub verbosity: verbosity_level,
-        pub ast_print_width: size_t,
+        pub ast_print_width: usize,
         pub allow_test_symbols: bool,
         pub parse_trace: bool,
         pub package_search_paths: *mut strlist_t,
@@ -915,9 +915,9 @@ pub mod pool_h {
     use super::_size_t_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:7"]
@@ -934,7 +934,7 @@ pub mod serialise_h {
             offset: uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:9"]
@@ -945,7 +945,7 @@ pub mod ponyassert_h {
         pub fn ponyint_assert_fail(
             expr: *const libc::c_char,
             file: *const libc::c_char,
-            line: size_t,
+            line: usize,
             func: *const libc::c_char,
         );
     }
@@ -1031,7 +1031,7 @@ unsafe extern "C" fn reify_typeparamref(
             b"ast_id(ast) == TK_TYPEPARAMREF\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            14 as libc::c_int as size_t,
+            14 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"reify_typeparamref\0"))
                 .as_ptr(),
         );
@@ -1042,7 +1042,7 @@ unsafe extern "C" fn reify_typeparamref(
             b"ast_id(typeparam) == TK_TYPEPARAM\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            15 as libc::c_int as size_t,
+            15 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"reify_typeparamref\0"))
                 .as_ptr(),
         );
@@ -1056,7 +1056,7 @@ unsafe extern "C" fn reify_typeparamref(
             b"ref_def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            25 as libc::c_int as size_t,
+            25 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"reify_typeparamref\0"))
                 .as_ptr(),
         );
@@ -1067,7 +1067,7 @@ unsafe extern "C" fn reify_typeparamref(
             b"typeparam != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            26 as libc::c_int as size_t,
+            26 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(b"reify_typeparamref\0"))
                 .as_ptr(),
         );
@@ -1075,7 +1075,7 @@ unsafe extern "C" fn reify_typeparamref(
     if ref_def != typeparam {
         return;
     }
-    match ast_id(ast_childidx(ast, 2 as libc::c_int as size_t)) as libc::c_uint {
+    match ast_id(ast_childidx(ast, 2 as libc::c_int as usize)) as libc::c_uint {
         57 => {
             let mut new_typearg: *mut ast_t = consume_type(typearg, TK_NONE, 1 as libc::c_int != 0);
             if !new_typearg.is_null() {
@@ -1093,7 +1093,7 @@ unsafe extern "C" fn reify_typeparamref(
                     b"0\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0"
                         as *const u8 as *const libc::c_char,
-                    61 as libc::c_int as size_t,
+                    61 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 19], &[libc::c_char; 19]>(
                         b"reify_typeparamref\0",
                     ))
@@ -1113,7 +1113,7 @@ unsafe extern "C" fn reify_arrow(mut astp: *mut *mut ast_t) {
             b"ast_id(ast) == TK_ARROW\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            70 as libc::c_int as size_t,
+            70 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 12], &[libc::c_char; 12]>(b"reify_arrow\0")).as_ptr(),
         );
     };
@@ -1160,7 +1160,7 @@ unsafe extern "C" fn reify_reference(
             b"ast_id(ast) == TK_REFERENCE\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            90 as libc::c_int as size_t,
+            90 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"reify_reference\0"))
                 .as_ptr(),
         );
@@ -1178,7 +1178,7 @@ unsafe extern "C" fn reify_reference(
             b"param_def != NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            101 as libc::c_int as size_t,
+            101 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 16], &[libc::c_char; 16]>(b"reify_reference\0"))
                 .as_ptr(),
         );
@@ -1238,7 +1238,7 @@ pub unsafe extern "C" fn reify_defaults(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            152 as libc::c_int as size_t,
+            152 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"reify_defaults\0"))
                 .as_ptr(),
         );
@@ -1252,13 +1252,13 @@ pub unsafe extern "C" fn reify_defaults(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            156 as libc::c_int as size_t,
+            156 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 15], &[libc::c_char; 15]>(b"reify_defaults\0"))
                 .as_ptr(),
         );
     };
-    let mut param_count: size_t = ast_childcount(typeparams);
-    let mut arg_count: size_t = ast_childcount(typeargs);
+    let mut param_count: usize = ast_childcount(typeparams);
+    let mut arg_count: usize = ast_childcount(typeargs);
     if param_count == arg_count {
         return 1 as libc::c_int != 0;
     }
@@ -1280,7 +1280,7 @@ pub unsafe extern "C" fn reify_defaults(
     ast_setid(typeargs, TK_TYPEARGS);
     let mut typeparam: *mut ast_t = ast_childidx(typeparams, arg_count);
     while !typeparam.is_null() {
-        let mut defarg: *mut ast_t = ast_childidx(typeparam, 2 as libc::c_int as size_t);
+        let mut defarg: *mut ast_t = ast_childidx(typeparam, 2 as libc::c_int as usize);
         if ast_id(defarg) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
             break;
         }
@@ -1322,7 +1322,7 @@ pub unsafe extern "C" fn reify(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            211 as libc::c_int as size_t,
+            211 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"reify\0")).as_ptr(),
         );
     };
@@ -1335,7 +1335,7 @@ pub unsafe extern "C" fn reify(
                 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            215 as libc::c_int as size_t,
+            215 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"reify\0")).as_ptr(),
         );
     };
@@ -1358,7 +1358,7 @@ pub unsafe extern "C" fn reify(
             b"typeparam == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            234 as libc::c_int as size_t,
+            234 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"reify\0")).as_ptr(),
         );
     };
@@ -1368,7 +1368,7 @@ pub unsafe extern "C" fn reify(
             b"typearg == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            235 as libc::c_int as size_t,
+            235 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 6], &[libc::c_char; 6]>(b"reify\0")).as_ptr(),
         );
     };
@@ -1391,7 +1391,7 @@ pub unsafe extern "C" fn reify_method_def(
                     b"false\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0"
                         as *const u8 as *const libc::c_char,
-                    250 as libc::c_int as size_t,
+                    250 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 17], &[libc::c_char; 17]>(
                         b"reify_method_def\0",
                     ))
@@ -1435,7 +1435,7 @@ pub unsafe extern "C" fn deferred_reify_new(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0"
                 as *const u8 as *const libc::c_char,
-            263 as libc::c_int as size_t,
+            263 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 19],
                 &[libc::c_char; 19],
@@ -1444,7 +1444,7 @@ pub unsafe extern "C" fn deferred_reify_new(
         );
     };
     let mut deferred: *mut deferred_reification_t =
-        ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut deferred_reification_t;
+        ponyint_pool_alloc(1 as libc::c_int as usize) as *mut deferred_reification_t;
     let ref mut fresh0 = (*deferred).ast;
     *fresh0 = ast;
     let ref mut fresh1 = (*deferred).type_typeparams;
@@ -1474,7 +1474,7 @@ pub unsafe extern "C" fn deferred_reify_add_method_typeparams(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            281 as libc::c_int as size_t,
+            281 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 37], &[libc::c_char; 37]>(
                 b"deferred_reify_add_method_typeparams\0",
             ))
@@ -1488,7 +1488,7 @@ pub unsafe extern "C" fn deferred_reify_add_method_typeparams(
                 as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0"
                 as *const u8 as *const libc::c_char,
-            284 as libc::c_int as size_t,
+            284 as libc::c_int as usize,
             (*::core::mem::transmute::<
                 &[u8; 37],
                 &[libc::c_char; 37],
@@ -1565,7 +1565,7 @@ pub unsafe extern "C" fn deferred_reify_method_def(
                     b"false\0" as *const u8 as *const libc::c_char,
                     b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0"
                         as *const u8 as *const libc::c_char,
-                    335 as libc::c_int as size_t,
+                    335 as libc::c_int as usize,
                     (*::core::mem::transmute::<&[u8; 26], &[libc::c_char; 26]>(
                         b"deferred_reify_method_def\0",
                     ))
@@ -1624,7 +1624,7 @@ pub unsafe extern "C" fn deferred_reify_dup(
         return 0 as *mut deferred_reification_t;
     }
     let mut copy: *mut deferred_reification_t =
-        ponyint_pool_alloc(1 as libc::c_int as size_t) as *mut deferred_reification_t;
+        ponyint_pool_alloc(1 as libc::c_int as usize) as *mut deferred_reification_t;
     let ref mut fresh8 = (*copy).ast;
     *fresh8 = (*deferred).ast;
     let ref mut fresh9 = (*copy).type_typeparams;
@@ -1648,7 +1648,7 @@ pub unsafe extern "C" fn deferred_reify_free(mut deferred: *mut deferred_reifica
         ast_free_unattached((*deferred).method_typeparams);
         ast_free_unattached((*deferred).method_typeargs);
         ast_free_unattached((*deferred).thistype);
-        ponyint_pool_free(1 as libc::c_int as size_t, deferred as *mut libc::c_void);
+        ponyint_pool_free(1 as libc::c_int as usize, deferred as *mut libc::c_void);
     }
 }
 #[no_mangle]
@@ -1699,7 +1699,7 @@ pub unsafe extern "C" fn check_constraints(
             }
             _ => {}
         }
-        let mut constraint: *mut ast_t = ast_childidx(typeparam, 1 as libc::c_int as size_t);
+        let mut constraint: *mut ast_t = ast_childidx(typeparam, 1 as libc::c_int as usize);
         let mut r_constraint: *mut ast_t =
             reify(constraint, typeparams, typeargs, opt, 1 as libc::c_int != 0);
         let mut info: errorframe_t = 0 as errorframe_t;
@@ -1768,7 +1768,7 @@ pub unsafe extern "C" fn check_constraints(
             b"typeparam == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            490 as libc::c_int as size_t,
+            490 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"check_constraints\0"))
                 .as_ptr(),
         );
@@ -1779,7 +1779,7 @@ pub unsafe extern "C" fn check_constraints(
             b"typearg == NULL\0" as *const u8 as *const libc::c_char,
             b"/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/type/reify.c\0" as *const u8
                 as *const libc::c_char,
-            491 as libc::c_int as size_t,
+            491 as libc::c_int as usize,
             (*::core::mem::transmute::<&[u8; 18], &[libc::c_char; 18]>(b"check_constraints\0"))
                 .as_ptr(),
         );
@@ -1844,7 +1844,7 @@ unsafe extern "C" fn deferred_reification_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
     mut _mutability: libc::c_int,
 ) {
     let mut d: *mut deferred_reification_t = object as *mut deferred_reification_t;
@@ -1908,7 +1908,7 @@ static mut deferred_reification_pony: pony_type_t = unsafe {
                         *mut pony_ctx_t,
                         *mut libc::c_void,
                         *mut libc::c_void,
-                        size_t,
+                        usize,
                         libc::c_int,
                     ) -> (),
             ),

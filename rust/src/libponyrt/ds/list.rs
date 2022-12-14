@@ -12,7 +12,7 @@ pub mod _uintptr_t_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
 pub mod _ssize_t_h {
@@ -48,16 +48,16 @@ pub mod pony_h {
             *mut pony_ctx_t,
             *mut libc::c_void,
             *mut libc::c_void,
-            size_t,
+            usize,
             libc::c_int,
         ) -> (),
     >;
     #[c2rust::src_loc = "95:1"]
     pub type pony_custom_serialise_space_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
-        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> size_t>;
+        Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
@@ -128,7 +128,7 @@ pub mod serialise_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
-        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> size_t;
+        pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
@@ -142,9 +142,9 @@ pub mod pool_h {
     use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "25:1"]
-        pub fn ponyint_pool_free(index: size_t, p: *mut libc::c_void);
+        pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
         #[c2rust::src_loc = "24:22"]
-        pub fn ponyint_pool_alloc(index: size_t) -> *mut libc::c_void;
+        pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
     }
 }
 pub use self::_ssize_t_h::ssize_t;
@@ -170,7 +170,7 @@ pub unsafe extern "C" fn ponyint_list_pop(
     let mut l: *mut list_t = list;
     list = (*l).next;
     *data = (*l).data;
-    ponyint_pool_free(0 as libc::c_int as size_t, l as *mut libc::c_void);
+    ponyint_pool_free(0 as libc::c_int as usize, l as *mut libc::c_void);
     return list;
 }
 #[no_mangle]
@@ -179,7 +179,7 @@ pub unsafe extern "C" fn ponyint_list_push(
     mut list: *mut list_t,
     mut data: *mut libc::c_void,
 ) -> *mut list_t {
-    let mut l: *mut list_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut list_t;
+    let mut l: *mut list_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut list_t;
     let ref mut fresh0 = (*l).data;
     *fresh0 = data;
     let ref mut fresh1 = (*l).next;
@@ -192,7 +192,7 @@ pub unsafe extern "C" fn ponyint_list_append(
     mut list: *mut list_t,
     mut data: *mut libc::c_void,
 ) -> *mut list_t {
-    let mut l: *mut list_t = ponyint_pool_alloc(0 as libc::c_int as size_t) as *mut list_t;
+    let mut l: *mut list_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut list_t;
     let ref mut fresh2 = (*l).data;
     *fresh2 = data;
     let ref mut fresh3 = (*l).next;
@@ -256,7 +256,7 @@ pub unsafe extern "C" fn ponyint_list_findindex(
     mut f: cmp_fn,
     mut data: *mut libc::c_void,
 ) -> ssize_t {
-    let mut index: size_t = 0;
+    let mut index: usize = 0;
     while !list.is_null() {
         if f.expect("non-null function pointer")(data, (*list).data) {
             return index as ssize_t;
@@ -330,8 +330,8 @@ pub unsafe extern "C" fn ponyint_list_reverse(mut list: *mut list_t) -> *mut lis
 }
 #[no_mangle]
 #[c2rust::src_loc = "153:1"]
-pub unsafe extern "C" fn ponyint_list_length(mut list: *mut list_t) -> size_t {
-    let mut len: size_t = 0;
+pub unsafe extern "C" fn ponyint_list_length(mut list: *mut list_t) -> usize {
+    let mut len: usize = 0;
     while !list.is_null() {
         len = len.wrapping_add(1);
         list = (*list).next;
@@ -347,7 +347,7 @@ pub unsafe extern "C" fn ponyint_list_free(mut list: *mut list_t, mut f: free_fn
         if f.is_some() {
             f.expect("non-null function pointer")((*list).data);
         }
-        ponyint_pool_free(0 as libc::c_int as size_t, list as *mut libc::c_void);
+        ponyint_pool_free(0 as libc::c_int as usize, list as *mut libc::c_void);
         list = next;
     }
 }
@@ -383,7 +383,7 @@ pub unsafe extern "C" fn ponyint_list_serialise(
     mut ctx: *mut pony_ctx_t,
     mut object: *mut libc::c_void,
     mut buf: *mut libc::c_void,
-    mut offset: size_t,
+    mut offset: usize,
 ) {
     let mut list: *mut list_t = object as *mut list_t;
     let mut dst: *mut list_t = (buf as uintptr_t).wrapping_add(offset) as *mut list_t;

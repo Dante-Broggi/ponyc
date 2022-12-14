@@ -15,7 +15,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
     #[c2rust::src_loc = "46:1"]
-    pub type size_t = libc::c_ulong;
+    pub type size_t = usize;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:3"]
 pub mod _timespec_h {
@@ -124,7 +124,7 @@ static mut assert_guard: AtomicBool = AtomicBool::new(false);
 pub unsafe extern "C" fn ponyint_assert_fail(
     mut expr: *const libc::c_char,
     mut file: *const libc::c_char,
-    mut line: size_t,
+    mut line: usize,
     mut func: *const libc::c_char,
 ) {
     while assert_guard.swap(true, AcqRel) {
