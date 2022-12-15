@@ -453,10 +453,8 @@ pub mod token_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/symtab.h:1"]
 pub mod symtab_h {
-    extern "C" {
-        #[c2rust::src_loc = "9:16"]
-        pub type ast_t;
-    }
+    #[c2rust::src_loc = "9:16"]
+    pub use crate::libponyc::ast::ast::ast_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/ast.h:1"]
 pub mod ast_h {

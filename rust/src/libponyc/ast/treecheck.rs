@@ -18,10 +18,8 @@ pub mod _size_t_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.h:1"]
 pub mod treecheck_h {
-    extern "C" {
-        #[c2rust::src_loc = "8:16"]
-        pub type ast_t;
-    }
+    #[c2rust::src_loc = "8:16"]
+    pub use crate::libponyc::ast::ast::ast_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.h:3"]
 pub mod pass_h {

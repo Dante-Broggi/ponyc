@@ -763,10 +763,8 @@ pub mod package_h {
     pub type path_fn = Option<unsafe extern "C" fn(*const libc::c_char, *mut pass_opt_t) -> bool>;
     use super::package_group_t;
     use super::pass_h::pass_opt_t;
-    extern "C" {
-        #[c2rust::src_loc = "17:16"]
-        pub type ast_t;
-    }
+    #[c2rust::src_loc = "17:16"]
+    pub use crate::libponyc::ast::ast::ast_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.h:2"]
 pub mod pass_h {

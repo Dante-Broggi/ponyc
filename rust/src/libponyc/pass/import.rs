@@ -504,10 +504,9 @@ pub mod symtab_h {
     #[c2rust::src_loc = "32:35"]
     pub use crate::libponyc::ast::symtab::symtab_t;
 
-    
+    #[c2rust::src_loc = "9:16"]
+    pub use crate::libponyc::ast::ast::ast_t;
     extern "C" {
-        #[c2rust::src_loc = "9:16"]
-        pub type ast_t;
         #[c2rust::src_loc = "32:45"]
         pub fn symtab_next(map: *mut symtab_t, i: *mut usize) -> *mut symbol_t;
         #[c2rust::src_loc = "42:1"]
