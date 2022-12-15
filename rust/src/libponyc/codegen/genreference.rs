@@ -1814,11 +1814,8 @@ pub mod gendesc_h {
         #[c2rust::src_loc = "19:1"]
         pub fn gendesc_typeid(c: *mut compile_t, desc: LLVMValueRef) -> LLVMValueRef;
         #[c2rust::src_loc = "27:1"]
-        pub fn gendesc_vtable(
-            c: *mut compile_t,
-            desc: LLVMValueRef,
-            colour: usize,
-        ) -> LLVMValueRef;
+        pub fn gendesc_vtable(c: *mut compile_t, desc: LLVMValueRef, colour: usize)
+            -> LLVMValueRef;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genexpr.h:5"]

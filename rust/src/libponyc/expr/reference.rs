@@ -2016,8 +2016,7 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
                 ast_setid(lambdatype_params, TK_PARAMS);
                 let mut param: *mut ast_t = ast_child(params);
                 while !param.is_null() {
-                    let mut param_type: *mut ast_t =
-                        ast_childidx(param, 1 as libc::c_int as usize);
+                    let mut param_type: *mut ast_t = ast_childidx(param, 1 as libc::c_int as usize);
                     ast_append(lambdatype_params, param_type);
                     param = ast_sibling(param);
                 }

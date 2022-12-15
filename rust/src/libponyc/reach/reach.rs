@@ -1667,10 +1667,7 @@ pub unsafe extern "C" fn reach_methods_serialise(
 }
 #[no_mangle]
 #[c2rust::src_loc = "40:1"]
-pub unsafe extern "C" fn reach_methods_clearindex(
-    mut map: *mut reach_methods_t,
-    mut index: usize,
-) {
+pub unsafe extern "C" fn reach_methods_clearindex(mut map: *mut reach_methods_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
@@ -1864,10 +1861,7 @@ static mut reach_mangled_pony: pony_type_t = unsafe {
 };
 #[no_mangle]
 #[c2rust::src_loc = "70:1"]
-pub unsafe extern "C" fn reach_mangled_clearindex(
-    mut map: *mut reach_mangled_t,
-    mut index: usize,
-) {
+pub unsafe extern "C" fn reach_mangled_clearindex(mut map: *mut reach_mangled_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]

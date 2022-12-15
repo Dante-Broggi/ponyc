@@ -1492,8 +1492,7 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "19:59"]
-        pub fn reach_methods_next(map: *mut reach_methods_t, i: *mut usize)
-            -> *mut reach_method_t;
+        pub fn reach_methods_next(map: *mut reach_methods_t, i: *mut usize) -> *mut reach_method_t;
         #[c2rust::src_loc = "133:1"]
         pub fn reach(
             r: *mut reach_t,

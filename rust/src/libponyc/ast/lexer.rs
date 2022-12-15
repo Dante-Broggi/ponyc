@@ -748,7 +748,7 @@ pub use self::_ctype_h::{
 };
 pub use self::_size_t_h::size_t;
 pub use self::_types_h::{
-    __darwin_ct_rune_t, __darwin_rune_t, usize, __darwin_wchar_t, __uint32_t,
+    __darwin_ct_rune_t, __darwin_rune_t, __darwin_wchar_t, __uint32_t,
 };
 use self::error_h::{errors_t, errorv};
 pub use self::internal::{__builtin_va_list, __va_list_tag};

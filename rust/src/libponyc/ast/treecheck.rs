@@ -989,8 +989,7 @@ pub mod treecheckdef_h {
         let rules_1: [check_fn_t; 4] = [
             Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_cond as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
@@ -1096,9 +1095,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -1198,9 +1195,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(
-                provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -1555,9 +1550,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -1630,8 +1623,7 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
             Some(
-                type_param
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                type_param as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -1797,9 +1789,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 2] = [
-            Some(
-                ellipsis as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(ellipsis as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
         if !check_children(
@@ -2065,9 +2055,7 @@ pub mod treecheckdef_h {
             Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 4] = [
             Some(rawseq as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
-            Some(
-                this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -2176,9 +2164,7 @@ pub mod treecheckdef_h {
             Some(local as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(binop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(isop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
-            Some(
-                assignop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(assignop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(asop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(tuple as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(consume as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
@@ -2189,9 +2175,7 @@ pub mod treecheckdef_h {
             Some(chain as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(qualify as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
-            Some(
-                ffi_call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(ffi_call as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 match_capture
                     as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
@@ -2205,22 +2189,17 @@ pub mod treecheckdef_h {
                 whileloop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(repeat as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
-            Some(
-                for_loop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(for_loop as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(with as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 disposing_block
                     as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(match_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
-            Some(
-                try_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(try_expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(lambda as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                barelambda
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                barelambda as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 array_literal
@@ -2249,17 +2228,11 @@ pub mod treecheckdef_h {
                 package_ref
                     as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
-            Some(
-                location as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
-            Some(
-                this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(location as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
+            Some(this_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(ref_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(fun_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
-            Some(
-                type_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(type_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
                 field_ref as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
@@ -2478,9 +2451,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_1: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -3165,8 +3136,7 @@ pub mod treecheckdef_h {
         }
         let rules_1: [check_fn_t; 3] = [
             Some(
-                named_args
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                named_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
@@ -3183,9 +3153,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_2: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -3282,8 +3250,7 @@ pub mod treecheckdef_h {
         }
         let rules_2: [check_fn_t; 3] = [
             Some(
-                named_args
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                named_args as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
@@ -3300,9 +3267,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_3: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -3484,8 +3449,7 @@ pub mod treecheckdef_h {
         let rules: [check_fn_t; 3] = [
             Some(expr as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_cond as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3535,8 +3499,7 @@ pub mod treecheckdef_h {
         let rules_2: [check_fn_t; 3] = [
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_cond as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3568,8 +3531,7 @@ pub mod treecheckdef_h {
                 ifdef_not as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                ifdef_flag
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_flag as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3599,8 +3561,7 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
             Some(
-                ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_cond as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3617,8 +3578,7 @@ pub mod treecheckdef_h {
         }
         let rules_0: [check_fn_t; 2] = [
             Some(
-                ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_cond as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -3659,8 +3619,7 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         let rules: [check_fn_t; 2] = [
             Some(
-                ifdef_cond
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                ifdef_cond as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -4388,8 +4347,7 @@ pub mod treecheckdef_h {
             Some(type_0 as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t);
         let rules: [check_fn_t; 2] = [
             Some(
-                match_case
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                match_case as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             None,
         ];
@@ -4714,9 +4672,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_5: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -5111,9 +5067,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_5: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -5257,9 +5211,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_0: [check_fn_t; 3] = [
-            Some(
-                provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(provides as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -5743,16 +5695,13 @@ pub mod treecheckdef_h {
     ) -> check_res_t {
         let rules: [check_fn_t; 17] = [
             Some(
-                type_infix
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                type_infix as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                type_tuple
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                type_tuple as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                type_arrow
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                type_arrow as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 type_this as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
@@ -5767,16 +5716,12 @@ pub mod treecheckdef_h {
                 dontcare_type
                     as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
+            Some(fun_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(
-                fun_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                error_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
-                error_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
-            Some(
-                infer_type
-                    as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
+                infer_type as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
             ),
             Some(
                 lambda_type
@@ -6133,9 +6078,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -6291,9 +6234,7 @@ pub mod treecheckdef_h {
             return CHK_ERROR;
         }
         let rules_4: [check_fn_t; 3] = [
-            Some(
-                question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t,
-            ),
+            Some(question as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             Some(none as unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t),
             None,
         ];
@@ -7305,8 +7246,7 @@ pub const CHK_NOT_FOUND: check_res_t = 1;
 #[c2rust::src_loc = "19:3"]
 pub const CHK_OK: check_res_t = 0;
 #[c2rust::src_loc = "24:1"]
-pub type check_fn_t =
-    Option<unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t>;
+pub type check_fn_t = Option<unsafe extern "C" fn(*mut ast_t, *mut errors_t, usize) -> check_res_t>;
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "34:16"]

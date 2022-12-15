@@ -516,10 +516,7 @@ pub unsafe extern "C" fn buildflagset_create() -> *mut buildflagset_t {
 pub unsafe extern "C" fn buildflagset_free(mut set: *mut buildflagset_t) {
     if !set.is_null() {
         flagtab_destroy((*set).flags);
-        ponyint_pool_free(
-            0 as libc::c_int as usize,
-            (*set).flags as *mut libc::c_void,
-        );
+        ponyint_pool_free(0 as libc::c_int as usize, (*set).flags as *mut libc::c_void);
         if (*set).buffer_size > 0 as libc::c_int as libc::c_ulong {
             ponyint_pool_free_size((*set).buffer_size, (*set).text_buffer as *mut libc::c_void);
         }

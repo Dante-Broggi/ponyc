@@ -1114,8 +1114,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         }
         197 | 196 | 184 | 198 => {
             temp_ast = ast_child(temp_ast);
-            len =
-                (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);

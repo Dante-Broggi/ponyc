@@ -1275,8 +1275,7 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "20:59"]
-        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize)
-            -> *mut reach_method_t;
+        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize) -> *mut reach_method_t;
         #[c2rust::src_loc = "24:65"]
         pub fn reach_type_cache_next(
             map: *mut reach_type_cache_t,
@@ -1731,11 +1730,8 @@ pub mod gendesc_h {
         #[c2rust::src_loc = "17:1"]
         pub fn gendesc_fetch(c: *mut compile_t, object: LLVMValueRef) -> LLVMValueRef;
         #[c2rust::src_loc = "27:1"]
-        pub fn gendesc_vtable(
-            c: *mut compile_t,
-            desc: LLVMValueRef,
-            colour: usize,
-        ) -> LLVMValueRef;
+        pub fn gendesc_vtable(c: *mut compile_t, desc: LLVMValueRef, colour: usize)
+            -> LLVMValueRef;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/codegen/genopt.h:8"]
@@ -3335,13 +3331,7 @@ pub unsafe extern "C" fn gen_call(mut c: *mut compile_t, mut ast: *mut ast_t) ->
                     !bare,
                 );
             } else {
-                r = codegen_call(
-                    c,
-                    func,
-                    args.offset(arg_offset as isize),
-                    i as usize,
-                    !bare,
-                );
+                r = codegen_call(c, func, args.offset(arg_offset as isize), i as usize, !bare);
             }
             if is_new_call {
                 let mut md: LLVMValueRef = LLVMMDNodeInContext(

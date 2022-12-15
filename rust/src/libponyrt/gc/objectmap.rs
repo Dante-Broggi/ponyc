@@ -316,10 +316,7 @@ pub unsafe extern "C" fn ponyint_objectmap_size(mut map: *mut objectmap_t) -> us
 }
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
-pub unsafe extern "C" fn ponyint_objectmap_clearindex(
-    mut map: *mut objectmap_t,
-    mut index: usize,
-) {
+pub unsafe extern "C" fn ponyint_objectmap_clearindex(mut map: *mut objectmap_t, mut index: usize) {
     ponyint_hashmap_clearindex(map as *mut hashmap_t, index);
 }
 #[no_mangle]
