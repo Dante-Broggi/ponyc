@@ -911,203 +911,175 @@ pub struct permission_def_t {
 #[c2rust::src_loc = "50:31"]
 static mut _entity_def: [permission_def_t; 7] = [
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"actor\0" as *const u8 as *const libc::c_char,
             permissions: b"X X N X\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"class\0" as *const u8 as *const libc::c_char,
             permissions: b"N X X N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"struct\0" as *const u8 as *const libc::c_char,
             permissions: b"N X X N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"primitive\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"trait\0" as *const u8 as *const libc::c_char,
             permissions: b"N N X N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"interface\0" as *const u8 as *const libc::c_char,
             permissions: b"N N X N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"type alias\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
 ];
 #[c2rust::src_loc = "71:31"]
 static mut _method_def: [permission_def_t; 21] = [
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"actor function\0" as *const u8 as *const libc::c_char,
             permissions: b"X X X X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"class function\0" as *const u8 as *const libc::c_char,
             permissions: b"X X X X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"struct function\0" as *const u8 as *const libc::c_char,
             permissions: b"X X X X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"primitive function\0" as *const u8 as *const libc::c_char,
             permissions: b"X X X X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"trait function\0" as *const u8 as *const libc::c_char,
             permissions: b"X X X X X\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"interface function\0" as *const u8 as *const libc::c_char,
             permissions: b"X X X X X\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"type alias function\0" as *const u8 as *const libc::c_char,
             permissions: 0 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"actor behaviour\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N N Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"class behaviour\0" as *const u8 as *const libc::c_char,
             permissions: 0 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"struct behaviour\0" as *const u8 as *const libc::c_char,
             permissions: 0 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"primitive behaviour\0" as *const u8 as *const libc::c_char,
             permissions: 0 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"trait behaviour\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N N X\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"interface behaviour\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N N X\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"type alias behaviour\0" as *const u8 as *const libc::c_char,
             permissions: 0 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"actor constructor\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N N Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"class constructor\0" as *const u8 as *const libc::c_char,
             permissions: b"X N N X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"struct constructor\0" as *const u8 as *const libc::c_char,
             permissions: b"X N N X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"primitive constructor\0" as *const u8 as *const libc::c_char,
             permissions: b"N N N X Y\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"trait constructor\0" as *const u8 as *const libc::c_char,
             permissions: b"X N N X N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"interface constructor\0" as *const u8 as *const libc::c_char,
             permissions: b"X N N X N\0" as *const u8 as *const libc::c_char,
-        };
-        init
+        }
     },
     {
-        let mut init = permission_def_t {
+        permission_def_t {
             desc: b"type alias constructor\0" as *const u8 as *const libc::c_char,
             permissions: 0 as *const libc::c_char,
-        };
-        init
+        }
     },
 ];
 #[c2rust::src_loc = "101:1"]
