@@ -834,7 +834,7 @@ pub unsafe extern "C" fn pony_serialise_offset(
         | (1 as libc::c_int as usize)
             << (::core::mem::size_of::<usize>() as libc::c_ulong)
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong);
+                .wrapping_sub(1);
 }
 #[no_mangle]
 #[c2rust::src_loc = "200:1"]
@@ -924,13 +924,13 @@ pub unsafe extern "C" fn pony_deserialise_offset(
         & (1 as libc::c_int as usize)
             << (::core::mem::size_of::<usize>() as libc::c_ulong)
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong)
-        != 0 as libc::c_int as libc::c_ulong
+                .wrapping_sub(1)
+        != 0
     {
         offset &= !((1 as libc::c_int as usize)
             << (::core::mem::size_of::<usize>() as libc::c_ulong)
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong));
+                .wrapping_sub(1));
         if offset > desc_table_size {
             return 0 as *mut libc::c_void;
         }

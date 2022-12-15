@@ -1417,7 +1417,7 @@ unsafe extern "C" fn chain_clear_cache(mut chain: *mut lit_chain_t) {
                 .as_ptr(),
         );
     };
-    while (*chain).cardinality != 0 as libc::c_int as libc::c_ulong {
+    while (*chain).cardinality != 0 {
         chain = (*chain).next;
     }
     let ref mut fresh4 = (*chain).formal;
@@ -1445,7 +1445,7 @@ unsafe extern "C" fn chain_add(
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"chain_add\0")).as_ptr(),
         );
     };
-    if cardinality != 0 as libc::c_int as libc::c_ulong {
+    if cardinality != 0 {
     } else {
         ponyint_assert_fail(
             b"cardinality != CHAIN_CARD_BASE\0" as *const u8 as *const libc::c_char,
@@ -1515,7 +1515,7 @@ unsafe extern "C" fn chain_remove(mut old_tail: *mut lit_chain_t) {
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"chain_remove\0")).as_ptr(),
         );
     };
-    if (*(*(*old_tail).next).next).cardinality == 0 as libc::c_int as libc::c_ulong {
+    if (*(*(*old_tail).next).next).cardinality == 0 {
     } else {
         ponyint_assert_fail(
             b"old_tail->next->next->cardinality == CHAIN_CARD_BASE\0" as *const u8
@@ -1953,7 +1953,7 @@ unsafe extern "C" fn uifset(
             }
         }
         187 => {
-            if (*chain).cardinality != 0 as libc::c_int as libc::c_ulong {
+            if (*chain).cardinality != 0 {
                 return 0 as libc::c_int;
             }
             uifset_formal_param(opt, type_0, chain)
@@ -1987,7 +1987,7 @@ unsafe extern "C" fn uifset(
                 };
                 return uifset(opt, ast_child(type_args), (*chain).next);
             }
-            if (*chain).cardinality != 0 as libc::c_int as libc::c_ulong {
+            if (*chain).cardinality != 0 {
                 return 0 as libc::c_int;
             }
             return uifset_simple_type(opt, type_0);
@@ -2032,7 +2032,7 @@ unsafe extern "C" fn uif_type(
             (*::core::mem::transmute::<&[u8; 9], &[libc::c_char; 9]>(b"uif_type\0")).as_ptr(),
         );
     };
-    if (*chain_head).cardinality == 0 as libc::c_int as libc::c_ulong {
+    if (*chain_head).cardinality == 0 {
     } else {
         ponyint_assert_fail(
             b"chain_head->cardinality == CHAIN_CARD_BASE\0" as *const u8 as *const libc::c_char,
@@ -2206,7 +2206,7 @@ unsafe extern "C" fn uif_type_from_chain(
         );
     };
     let mut chain_head: *mut lit_chain_t = chain;
-    while (*chain_head).cardinality != 0 as libc::c_int as libc::c_ulong {
+    while (*chain_head).cardinality != 0 {
         chain_head = (*chain_head).next;
     }
     if ((*chain_head).cached_type).is_null() {
@@ -2230,8 +2230,8 @@ unsafe extern "C" fn uif_type_from_chain(
         && (*chain_head).cached_uif_index >= 0 as libc::c_int
     {
         let mut i: libc::c_int = (*chain_head).cached_uif_index;
-        if _str_uif_types[i as usize].limit.low != 0 as libc::c_int as libc::c_ulonglong
-            || _str_uif_types[i as usize].limit.high != 0 as libc::c_int as libc::c_ulonglong
+        if _str_uif_types[i as usize].limit.low != 0
+            || _str_uif_types[i as usize].limit.high != 0
         {
             let mut neg_plus_one: bool = 0 as libc::c_int != 0;
             if _str_uif_types[i as usize].neg_plus_one {
@@ -2332,7 +2332,7 @@ unsafe extern "C" fn coerce_group(
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"coerce_group\0")).as_ptr(),
         );
     };
-    if cardinality != 0 as libc::c_int as libc::c_ulong {
+    if cardinality != 0 {
     } else {
         ponyint_assert_fail(
             b"cardinality != CHAIN_CARD_BASE\0" as *const u8 as *const libc::c_char,
@@ -2586,7 +2586,7 @@ unsafe extern "C" fn coerce_literal_to_type(
                 literal_expr,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut arg: *mut ast_t = ast_child(positional);
@@ -2785,7 +2785,7 @@ pub unsafe extern "C" fn literal_member_access(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !unify(receiver, opt, 1 as libc::c_int != 0) {
@@ -2865,7 +2865,7 @@ pub unsafe extern "C" fn literal_call(mut ast: *mut ast_t, mut opt: *mut pass_op
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut recv_type: *mut ast_t = ast_type(receiver);
@@ -2894,7 +2894,7 @@ pub unsafe extern "C" fn literal_call(mut ast: *mut ast_t, mut opt: *mut pass_op
             (*::core::mem::transmute::<&[u8; 13], &[libc::c_char; 13]>(b"literal_call\0")).as_ptr(),
         );
     };
-    if ast_childcount(named_args) != 0 as libc::c_int as libc::c_ulong {
+    if ast_childcount(named_args) != 0 {
         ast_error(
             (*opt).check.errors,
             named_args,
@@ -2969,7 +2969,7 @@ pub unsafe extern "C" fn literal_is(mut ast: *mut ast_t, mut opt: *mut pass_opt_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_type: *mut ast_t = ast_type(left);

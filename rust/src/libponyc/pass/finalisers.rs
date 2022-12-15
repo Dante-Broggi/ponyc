@@ -917,7 +917,7 @@ unsafe extern "C" fn check_call_send(mut ast: *mut ast_t, mut in_final: bool) ->
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut receiver: ast_ptr_t = 0 as *mut ast_t;
@@ -927,7 +927,7 @@ unsafe extern "C" fn check_call_send(mut ast: *mut ast_t, mut in_final: bool) ->
         lhs,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     match ast_id(receiver) as libc::c_uint {
@@ -987,7 +987,7 @@ unsafe extern "C" fn check_call_send(mut ast: *mut ast_t, mut in_final: bool) ->
         fun,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_1.as_mut_ptr(),
     );
     let mut r: libc::c_int = check_body_send(body, 0 as libc::c_int != 0);
@@ -1072,7 +1072,7 @@ unsafe extern "C" fn entity_finaliser(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut r: libc::c_int = check_body_send(body, 1 as libc::c_int != 0);

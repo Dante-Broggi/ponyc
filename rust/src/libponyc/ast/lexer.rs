@@ -2339,12 +2339,12 @@ unsafe extern "C" fn lex_error(
 }
 #[c2rust::src_loc = "340:1"]
 unsafe extern "C" fn is_eof(mut lexer: *mut lexer_t) -> bool {
-    return (*lexer).len == 0 as libc::c_int as libc::c_ulong;
+    return (*lexer).len == 0;
 }
 #[c2rust::src_loc = "347:1"]
 unsafe extern "C" fn append_to_token(mut lexer: *mut lexer_t, mut c: libc::c_char) {
     if (*lexer).buflen >= (*lexer).alloc {
-        let mut new_len: usize = if (*lexer).alloc > 0 as libc::c_int as libc::c_ulong {
+        let mut new_len: usize = if (*lexer).alloc > 0 {
             (*lexer).alloc << 1 as libc::c_int
         } else {
             64 as libc::c_int as libc::c_ulong
@@ -2401,7 +2401,7 @@ unsafe extern "C" fn consume_chars(mut lexer: *mut lexer_t, mut count: usize) {
                 .as_ptr(),
         );
     };
-    if count == 0 as libc::c_int as libc::c_ulong {
+    if count == 0 {
         return;
     }
     if *((*(*lexer).source).m).offset((*lexer).ptr as isize) as libc::c_int == '\n' as i32 {
@@ -2431,7 +2431,7 @@ unsafe extern "C" fn lookn(mut lexer: *mut lexer_t, mut chars: usize) -> libc::c
     return *((*(*lexer).source).m).offset(
         ((*lexer).ptr)
             .wrapping_add(chars)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong) as isize,
+            .wrapping_sub(1) as isize,
     );
 }
 #[c2rust::src_loc = "429:1"]
@@ -2449,7 +2449,7 @@ unsafe extern "C" fn literal_doesnt_terminate(mut lexer: *mut lexer_t) -> *mut t
 unsafe extern "C" fn nested_comment(mut lexer: *mut lexer_t) -> *mut token_t {
     consume_chars(lexer, 2 as libc::c_int as usize);
     let mut depth: usize = 1 as libc::c_int as usize;
-    while depth > 0 as libc::c_int as libc::c_ulong {
+    while depth > 0 {
         if (*lexer).len <= 1 as libc::c_int as libc::c_ulong {
             lex_error(
                 lexer,
@@ -2502,7 +2502,7 @@ unsafe extern "C" fn slash(mut lexer: *mut lexer_t) -> *mut token_t {
 }
 #[c2rust::src_loc = "517:1"]
 unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
-    if (*lexer).buflen == 0 as libc::c_int as libc::c_ulong {
+    if (*lexer).buflen == 0 {
         return;
     }
     if (memchr(
@@ -2562,11 +2562,11 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
         }
         i = i.wrapping_add(1);
     }
-    if ws > 0 as libc::c_int as libc::c_ulong {
+    if ws > 0 {
         let mut line_start: *mut libc::c_char = (*lexer).buffer;
         let mut compacted: *mut libc::c_char = (*lexer).buffer;
         let mut rem: usize = (*lexer).buflen;
-        while rem > 0 as libc::c_int as libc::c_ulong {
+        while rem > 0 {
             let mut line_end: *mut libc::c_char =
                 memchr(line_start as *const libc::c_void, '\n' as i32, rem) as *mut libc::c_char;
             let mut line_len: usize = if line_end.is_null() {
@@ -2597,8 +2597,8 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
         (*lexer).buflen = compacted.offset_from((*lexer).buffer) as libc::c_long as usize;
     }
     let mut trim_0: usize = 0;
-    let mut i_0: usize = ((*lexer).buflen).wrapping_sub(1 as libc::c_int as libc::c_ulong);
-    while i_0 > 0 as libc::c_int as libc::c_ulong {
+    let mut i_0: usize = ((*lexer).buflen).wrapping_sub(1);
+    while i_0 > 0 {
         let mut c_0: libc::c_char = *((*lexer).buffer).offset(i_0 as isize);
         if c_0 as libc::c_int == '\n' as i32 {
             let ref mut fresh10 = (*lexer).buflen;
@@ -2886,7 +2886,7 @@ unsafe extern "C" fn character(mut lexer: *mut lexer_t) -> *mut token_t {
         if c == '\'' as i32 {
             let mut t: *mut token_t = 0 as *mut token_t;
             consume_chars(lexer, 1 as libc::c_int as usize);
-            if chars_consumed == 0 as libc::c_int as libc::c_ulong {
+            if chars_consumed == 0 {
                 lex_error(
                     lexer,
                     b"Empty character literal\0" as *const u8 as *const libc::c_char,
@@ -3135,7 +3135,7 @@ unsafe extern "C" fn read_id(mut lexer: *mut lexer_t) -> usize {
     let mut len: usize = 0;
     let mut c: libc::c_char = 0;
     loop {
-        c = lookn(lexer, len.wrapping_add(1 as libc::c_int as libc::c_ulong));
+        c = lookn(lexer, len.wrapping_add(1));
         if c as libc::c_int != '_' as i32
             && c as libc::c_int != '\'' as i32
             && isalnum(c as libc::c_int) == 0
@@ -3161,7 +3161,7 @@ unsafe extern "C" fn keyword(mut lexer: *mut lexer_t, mut allow_identifiers: boo
         }
         p = p.offset(1);
     }
-    if allow_identifiers as libc::c_int != 0 && len > 0 as libc::c_int as libc::c_ulong {
+    if allow_identifiers as libc::c_int != 0 && len > 0 {
         consume_chars(lexer, len);
         return make_token_with_text(lexer, TK_ID);
     }
@@ -3211,7 +3211,7 @@ unsafe extern "C" fn symbol(mut lexer: *mut lexer_t) -> *mut token_t {
     let mut sym: [libc::c_char; 3] = [0; 3];
     let mut i: usize = 0;
     while i < ::core::mem::size_of::<[libc::c_char; 3]>() as libc::c_ulong {
-        sym[i as usize] = lookn(lexer, i.wrapping_add(1 as libc::c_int as libc::c_ulong));
+        sym[i as usize] = lookn(lexer, i.wrapping_add(1));
         i = i.wrapping_add(1);
     }
     let mut p: *const lextoken_t = symbols.as_ptr();
@@ -3265,7 +3265,7 @@ pub unsafe extern "C" fn lexer_open(
     let ref mut fresh13 = (*lexer).errors;
     *fresh13 = errors;
     (*lexer).allow_test_symbols = allow_test_symbols;
-    (*lexer).len = ((*source).len).wrapping_sub(1 as libc::c_int as libc::c_ulong);
+    (*lexer).len = ((*source).len).wrapping_sub(1);
     (*lexer).line = 1 as libc::c_int as usize;
     (*lexer).pos = 1 as libc::c_int as usize;
     (*lexer).newline = 1 as libc::c_int != 0;

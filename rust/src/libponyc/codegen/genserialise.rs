@@ -2001,7 +2001,7 @@ unsafe extern "C" fn deserialise_bare_interface(mut c: *mut compile_t, mut ptr: 
     let mut args: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
     args[0 as libc::c_int as usize] = LLVMConstInt(
         (*c).i32_0,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     args[1 as libc::c_int as usize] = LLVMBuildPtrToInt(
@@ -2158,7 +2158,7 @@ pub unsafe extern "C" fn genserialise(mut c: *mut compile_t, mut t: *mut reach_t
                 (*t).ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut package: *const libc::c_char = ast_name(pkg);
@@ -2181,7 +2181,7 @@ pub unsafe extern "C" fn genserialise(mut c: *mut compile_t, mut t: *mut reach_t
                 (*t).ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             let mut package_0: *const libc::c_char = ast_name(pkg_0);

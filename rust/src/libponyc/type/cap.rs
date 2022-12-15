@@ -1342,7 +1342,7 @@ pub unsafe extern "C" fn modified_cap(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut new_left: *mut ast_t = modified_cap(left, mutation);

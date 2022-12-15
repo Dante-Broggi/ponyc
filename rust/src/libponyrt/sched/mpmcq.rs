@@ -189,7 +189,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_pop(mut q: *mut mpmcq_t) -> *mut libc::c_
         }
         xchg.c2rust_unnamed.object = next;
         xchg.c2rust_unnamed.counter =
-            (cmp.c2rust_unnamed.counter).wrapping_add(1 as libc::c_int as libc::c_ulong);
+            (cmp.c2rust_unnamed.counter).wrapping_add(1);
         if {
             let fresh2 = ::core::intrinsics::atomic_cxchg_acqrel(
                 &mut (*q).tail.raw as *mut i128,

@@ -280,7 +280,7 @@ unsafe extern "C" fn error_print_msg(
             indent,
             (*e).file,
         );
-        if (*e).line != 0 as libc::c_int as libc::c_ulong {
+        if (*e).line != 0 {
             fprintf(
                 fp,
                 b"%zu:%zu: \0" as *const u8 as *const libc::c_char,
@@ -301,7 +301,7 @@ unsafe extern "C" fn error_print_msg(
         );
         fprintf(fp, b"%s\0" as *const u8 as *const libc::c_char, indent);
         let mut i: usize = 0;
-        while i < ((*e).pos).wrapping_sub(1 as libc::c_int as libc::c_ulong) {
+        while i < ((*e).pos).wrapping_sub(1) {
             if *((*e).source).offset(i as isize) as libc::c_int == '\t' as i32 {
                 fprintf(fp, b"\t\0" as *const u8 as *const libc::c_char);
             } else {
@@ -406,7 +406,7 @@ unsafe extern "C" fn make_errorv(
     (*e).pos = pos;
     let ref mut fresh10 = (*e).msg;
     *fresh10 = stringtab(buf.as_mut_ptr());
-    if !source.is_null() && line != 0 as libc::c_int as libc::c_ulong {
+    if !source.is_null() && line != 0 {
         let mut tline: usize = 1 as libc::c_int as usize;
         let mut tpos: usize = 0;
         while tline < (*e).line && tpos < (*source).len {
@@ -424,7 +424,7 @@ unsafe extern "C" fn make_errorv(
         let mut len: usize = tpos.wrapping_sub(start);
         if len >= ::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong {
             len = (::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong);
+                .wrapping_sub(1);
         }
         memcpy(
             buf.as_mut_ptr() as *mut libc::c_void,

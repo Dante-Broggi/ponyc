@@ -1085,7 +1085,7 @@ unsafe extern "C" fn apply_cap(
                 }
                 child = next;
             }
-            return ast_childcount(type_0) > 0 as libc::c_int as libc::c_ulong;
+            return ast_childcount(type_0) > 0;
         }
         151 | 187 => return apply_cap_to_single(type_0, tcap, teph),
         _ => {}
@@ -1116,7 +1116,7 @@ unsafe extern "C" fn constraint_cap(mut typeparamref: *mut ast_t) -> *mut ast_t 
         typeparamref,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut tcap: token_id = ast_id(cap);
@@ -1216,7 +1216,7 @@ pub unsafe extern "C" fn typeparam_set_cap(mut typeparamref: *mut ast_t) {
         typeparamref,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut constraint: *mut ast_t = typeparam_constraint(typeparamref);
@@ -1271,7 +1271,7 @@ unsafe extern "C" fn typeparam_current_inner(mut type_0: *mut ast_t, mut scope: 
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             typeparam_current_inner(left, scope);

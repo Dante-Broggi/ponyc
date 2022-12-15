@@ -1776,7 +1776,7 @@ unsafe extern "C" fn create_main(
     );
     args[2 as libc::c_int as usize] = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     let mut actor: LLVMValueRef = gencall_runtime(
@@ -1847,7 +1847,7 @@ unsafe extern "C" fn make_lang_features_init(mut c: *mut compile_t) -> LLVMValue
         (*c).builder,
         LLVMConstInt(
             boolean,
-            1 as libc::c_int as libc::c_ulonglong,
+            1,
             0 as libc::c_int,
         ),
         field,
@@ -1862,7 +1862,7 @@ unsafe extern "C" fn make_lang_features_init(mut c: *mut compile_t) -> LLVMValue
         (*c).builder,
         LLVMConstInt(
             boolean,
-            1 as libc::c_int as libc::c_ulonglong,
+            1,
             0 as libc::c_int,
         ),
         field,
@@ -2099,7 +2099,7 @@ pub unsafe extern "C" fn gen_main(
     args[3 as libc::c_int as usize] = msg;
     args[4 as libc::c_int as usize] = LLVMConstInt(
         (*c).i1,
-        1 as libc::c_int as libc::c_ulonglong,
+        1,
         0 as libc::c_int,
     );
     gencall_runtime(
@@ -2111,7 +2111,7 @@ pub unsafe extern "C" fn gen_main(
     );
     args[0 as libc::c_int as usize] = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     args[1 as libc::c_int as usize] = LLVMConstNull(LLVMPointerType(
@@ -2135,7 +2135,7 @@ pub unsafe extern "C" fn gen_main(
         c,
         error_msg_str.as_ptr(),
         (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
     );
     gencall_runtime(
         c,
@@ -2329,7 +2329,7 @@ pub unsafe extern "C" fn genexe(mut c: *mut compile_t, mut program: *mut ast_t) 
     let mut env_class: *const libc::c_char = (*c).str_Env;
     let mut package_name: *const libc::c_char = (*c).filename;
     if !((*(*c).opt).bin_name).is_null()
-        && libc::strlen((*(*c).opt).bin_name) > 0 as libc::c_int as libc::c_ulong
+        && libc::strlen((*(*c).opt).bin_name) > 0
     {
         let ref mut fresh0 = (*c).filename;
         *fresh0 = (*(*c).opt).bin_name;

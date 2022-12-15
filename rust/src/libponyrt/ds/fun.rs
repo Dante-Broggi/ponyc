@@ -319,14 +319,14 @@ pub unsafe extern "C" fn ponyint_hash_size(mut key: usize) -> usize {
 #[c2rust::src_loc = "203:1"]
 pub unsafe extern "C" fn ponyint_next_pow2(mut i: usize) -> usize {
     i = i.wrapping_sub(1);
-    if i == 0 as libc::c_int as libc::c_ulong {
+    if i == 0 {
         i = 64 as libc::c_int as usize;
     } else {
         i = __pony_clzzu(i) as usize;
     }
     return (1 as libc::c_int as usize)
-        << (if i == 0 as libc::c_int as libc::c_ulong {
-            0 as libc::c_int as libc::c_ulong
+        << (if i == 0 {
+            0
         } else {
             (64 as libc::c_int as libc::c_ulong).wrapping_sub(i)
         });

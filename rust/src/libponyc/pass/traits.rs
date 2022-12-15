@@ -1251,7 +1251,7 @@ unsafe extern "C" fn reify_provides_type(
         reified,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     return reified;
@@ -1470,7 +1470,7 @@ unsafe extern "C" fn add_method(
         basis_method,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(doc) as libc::c_uint == TK_STRING as libc::c_int as libc::c_uint {
@@ -1648,7 +1648,7 @@ unsafe extern "C" fn add_method_from_trait(
         method,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut method_name: *const libc::c_char = ast_name(id);
@@ -2062,7 +2062,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
         entity,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut member: *mut ast_t = ast_child(members);
@@ -2076,7 +2076,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
                 member,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             let mut def: *mut ast_t = ast_data(f_type) as *mut ast_t;
@@ -2120,7 +2120,7 @@ unsafe extern "C" fn local_types(mut ast: *mut ast_t) {
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !type_0.is_null() {
@@ -2173,7 +2173,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = ast_from(typeparams, TK_NONE);

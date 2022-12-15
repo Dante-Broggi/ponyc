@@ -940,7 +940,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if ast_id(question) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -975,7 +975,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if ast_id(question_0) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -1003,7 +1003,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
             cond_normalise(&mut child);
@@ -1233,7 +1233,7 @@ unsafe extern "C" fn cond_eval(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             return cond_eval(left, config, release, opt) as libc::c_int != 0
@@ -1248,7 +1248,7 @@ unsafe extern "C" fn cond_eval(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             return cond_eval(left_0, config, release, opt) as libc::c_int != 0
@@ -1316,7 +1316,7 @@ unsafe extern "C" fn find_flags_in_cond(mut ast: *mut ast_t, mut config: *mut bu
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             find_flags_in_cond(left, config);
@@ -1400,7 +1400,7 @@ unsafe extern "C" fn find_decl_flags(
                     use_0,
                     (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children.as_mut_ptr(),
                 );
                 if ast_id(decl) as libc::c_uint == TK_FFIDECL as libc::c_int as libc::c_uint
@@ -1497,7 +1497,7 @@ unsafe extern "C" fn find_decl_for_config(
                     use_0,
                     (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children.as_mut_ptr(),
                 );
                 if ast_id(decl) as libc::c_uint == TK_FFIDECL as libc::c_int as libc::c_uint

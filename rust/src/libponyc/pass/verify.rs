@@ -1052,7 +1052,7 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if ast_id(left) as libc::c_uint != TK_THIS as libc::c_int as libc::c_uint {
@@ -1081,7 +1081,7 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if ast_id(left_0) as libc::c_uint != TK_THIS as libc::c_int as libc::c_uint {
@@ -1289,13 +1289,13 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             temp_ast,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         def = ast_data(left) as *mut ast_t;
         temp_ast = left;
         len = (len as libc::c_ulong)
-            .wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
+            .wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1))
             as usize as usize;
     }
     match ast_id(temp_ast) as libc::c_uint {
@@ -1308,7 +1308,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
                 temp_ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if ast_id(left_0) as libc::c_uint == TK_THIS as libc::c_int as libc::c_uint {
@@ -1341,7 +1341,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
-            len = (len as libc::c_ulong).wrapping_sub(1 as libc::c_int as libc::c_ulong) as usize
+            len = (len as libc::c_ulong).wrapping_sub(1) as usize
                 as usize;
         }
         _ => {
@@ -1360,7 +1360,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             };
         }
     }
-    len = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
+    len = len.wrapping_add(1);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     let mut offset: usize = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
@@ -1374,7 +1374,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
     temp_ast = ast_parent(temp_ast);
     while temp_ast != ast {
         *buf.offset(offset as isize) = '.' as i32 as libc::c_char;
-        offset = (offset as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as usize
+        offset = (offset as libc::c_ulong).wrapping_add(1) as usize
             as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
@@ -1387,7 +1387,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         offset = (offset as libc::c_ulong).wrapping_add(slen) as usize as usize;
         temp_ast = ast_parent(temp_ast);
     }
-    if offset.wrapping_add(1 as libc::c_int as libc::c_ulong) == len {
+    if offset.wrapping_add(1) == len {
     } else {
         ponyint_assert_fail(
             b"(offset + 1) == len\0" as *const u8 as *const libc::c_char,
@@ -1425,7 +1425,7 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(receiver) as libc::c_uint == ast_id(ast) as libc::c_uint {
@@ -1435,7 +1435,7 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
             receiver,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
     }
@@ -1763,7 +1763,7 @@ unsafe extern "C" fn verify_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !verify_assign_lvalue(opt, left) {
@@ -1877,7 +1877,7 @@ unsafe extern "C" fn verify_is(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     ast_inheritflags(ast);
@@ -1931,7 +1931,7 @@ pub unsafe extern "C" fn pass_verify(
         }
     }
     if !r {
-        if errors_get_count((*options).check.errors) > 0 as libc::c_int as libc::c_ulong {
+        if errors_get_count((*options).check.errors) > 0 {
         } else {
             ponyint_assert_fail(
                 b"errors_get_count(options->check.errors) > 0\0" as *const u8

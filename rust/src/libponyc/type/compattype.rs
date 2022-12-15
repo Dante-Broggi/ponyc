@@ -579,7 +579,7 @@ unsafe extern "C" fn is_nominal_compat_nominal(mut a: *mut ast_t, mut b: *mut as
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut b_pkg: ast_ptr_t = 0 as *mut ast_t;
@@ -599,7 +599,7 @@ unsafe extern "C" fn is_nominal_compat_nominal(mut a: *mut ast_t, mut b: *mut as
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph))
@@ -623,7 +623,7 @@ unsafe extern "C" fn is_nominal_compat_typeparam(mut a: *mut ast_t, mut b: *mut 
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut b_id: ast_ptr_t = 0 as *mut ast_t;
@@ -635,7 +635,7 @@ unsafe extern "C" fn is_nominal_compat_typeparam(mut a: *mut ast_t, mut b: *mut 
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph))
@@ -651,7 +651,7 @@ unsafe extern "C" fn is_typeparam_compat_typeparam(mut a: *mut ast_t, mut b: *mu
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut b_id: ast_ptr_t = 0 as *mut ast_t;
@@ -663,7 +663,7 @@ unsafe extern "C" fn is_typeparam_compat_typeparam(mut a: *mut ast_t, mut b: *mu
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     return is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph));

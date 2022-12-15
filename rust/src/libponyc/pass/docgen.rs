@@ -1305,26 +1305,26 @@ unsafe extern "C" fn doc_cat(
         .wrapping_add(c_len)
         .wrapping_add(d_len)
         .wrapping_add(e_len)
-        .wrapping_add(1 as libc::c_int as libc::c_ulong);
+        .wrapping_add(1);
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_len) as *mut libc::c_char;
     let mut p: *mut libc::c_char = buffer;
-    if a_len > 0 as libc::c_int as libc::c_ulong {
+    if a_len > 0 {
         memcpy(p as *mut libc::c_void, a as *const libc::c_void, a_len);
         p = p.offset(a_len as isize);
     }
-    if b_len > 0 as libc::c_int as libc::c_ulong {
+    if b_len > 0 {
         memcpy(p as *mut libc::c_void, b as *const libc::c_void, b_len);
         p = p.offset(b_len as isize);
     }
-    if c_len > 0 as libc::c_int as libc::c_ulong {
+    if c_len > 0 {
         memcpy(p as *mut libc::c_void, c as *const libc::c_void, c_len);
         p = p.offset(c_len as isize);
     }
-    if d_len > 0 as libc::c_int as libc::c_ulong {
+    if d_len > 0 {
         memcpy(p as *mut libc::c_void, d as *const libc::c_void, d_len);
         p = p.offset(d_len as isize);
     }
-    if e_len > 0 as libc::c_int as libc::c_ulong {
+    if e_len > 0 {
         memcpy(p as *mut libc::c_void, e as *const libc::c_void, e_len);
         p = p.offset(e_len as isize);
     }
@@ -1591,7 +1591,7 @@ unsafe extern "C" fn doc_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut type_id_name: *const libc::c_char = ast_name(id);
@@ -1715,7 +1715,7 @@ unsafe extern "C" fn doc_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             fprintf(
@@ -1740,7 +1740,7 @@ unsafe extern "C" fn doc_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
             doc_type(docgen, docgen_opt, left, generate_links, break_lines);
@@ -2021,7 +2021,7 @@ unsafe extern "C" fn doc_fields(
             field,
             (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         let mut name: *const libc::c_char = ast_name(id);
@@ -2183,7 +2183,7 @@ unsafe extern "C" fn doc_type_params(
             t_param,
             (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         let mut name: *const libc::c_char = ast_name(id);
@@ -2297,7 +2297,7 @@ unsafe extern "C" fn code_block_doc_params(
             param,
             (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         let mut name: *const libc::c_char = ast_name(id);
@@ -2412,7 +2412,7 @@ unsafe extern "C" fn list_doc_params(
             param,
             (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         let mut name: *const libc::c_char = ast_name(id);
@@ -2527,7 +2527,7 @@ unsafe extern "C" fn doc_method(
         method,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut name: *const libc::c_char = ast_name(id);
@@ -2728,12 +2728,12 @@ unsafe extern "C" fn concat(
 ) -> *mut libc::c_char {
     let mut str_size: usize = (libc::strlen(s1))
         .wrapping_add(libc::strlen(s2))
-        .wrapping_add(1 as libc::c_int as libc::c_ulong);
+        .wrapping_add(1);
     let mut result: *mut libc::c_char = ponyint_pool_alloc_size(str_size) as *mut libc::c_char;
     *allocated_size = str_size;
     strcpy(result, s1);
     strcat(result, s2);
-    *result.offset(str_size.wrapping_sub(1 as libc::c_int as libc::c_ulong) as isize) =
+    *result.offset(str_size.wrapping_sub(1) as isize) =
         '\0' as i32 as libc::c_char;
     return result;
 }
@@ -2789,7 +2789,7 @@ unsafe extern "C" fn copy_source_to_doc_src(
     strcpy(filename_copy.as_mut_ptr(), (*source).file);
     let mut just_filename: *const libc::c_char = get_file_name(filename_copy.as_mut_ptr());
     let mut filename_alloc_size: usize =
-        (libc::strlen(just_filename)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        (libc::strlen(just_filename)).wrapping_add(1);
     let mut filename: *mut libc::c_char =
         ponyint_pool_alloc_size(filename_alloc_size) as *mut libc::c_char;
     strcpy(filename, just_filename);
@@ -2904,7 +2904,7 @@ unsafe extern "C" fn replace_path_separator(
     mut name_len: *mut usize,
 ) -> *mut libc::c_char {
     let mut str_len: usize = libc::strlen(path);
-    *name_len = str_len.wrapping_add(1 as libc::c_int as libc::c_ulong);
+    *name_len = str_len.wrapping_add(1);
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(*name_len) as *mut libc::c_char;
     memcpy(
         buffer as *mut libc::c_void,
@@ -3153,7 +3153,7 @@ unsafe extern "C" fn doc_entity(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut name: *const libc::c_char = ast_name(id);
@@ -3751,7 +3751,7 @@ unsafe extern "C" fn doc_package(
         doc_entity(docgen, docgen_opt, (*p).ast);
         p = (*p).next;
     }
-    if (*(*docgen).public_types).offset > 0 as libc::c_int as libc::c_ulong {
+    if (*(*docgen).public_types).offset > 0 {
         fprintf(
             (*docgen).package_file,
             b"\n\n## Public Types\n\n\0" as *const u8 as *const libc::c_char,
@@ -3763,7 +3763,7 @@ unsafe extern "C" fn doc_package(
         );
     }
     if (*docgen_opt).include_private as libc::c_int != 0
-        && (*(*docgen).private_types).offset > 0 as libc::c_int as libc::c_ulong
+        && (*(*docgen).private_types).offset > 0
     {
         fprintf(
             (*docgen).package_file,

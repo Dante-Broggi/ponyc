@@ -2061,7 +2061,7 @@ unsafe extern "C" fn tuple_indices_push(mut ti: *mut call_tuple_indices_t, mut i
 }
 #[c2rust::src_loc = "54:1"]
 unsafe extern "C" fn tuple_indices_pop(mut ti: *mut call_tuple_indices_t) -> usize {
-    if (*ti).count > 0 as libc::c_int as libc::c_ulong {
+    if (*ti).count > 0 {
     } else {
         ponyint_assert_fail(
             b"ti->count > 0\0" as *const u8 as *const libc::c_char,
@@ -2275,7 +2275,7 @@ unsafe extern "C" fn special_case_operator(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut left: ast_ptr_t = 0 as *mut ast_t;
@@ -2285,7 +2285,7 @@ unsafe extern "C" fn special_case_operator(
         postfix,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut right: *mut ast_t = ast_child(positional);
@@ -2387,7 +2387,7 @@ unsafe extern "C" fn special_case_platform(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut receiver: ast_ptr_t = 0 as *mut ast_t;
@@ -2397,7 +2397,7 @@ unsafe extern "C" fn special_case_platform(
         postfix,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut method_name: *const libc::c_char = ast_name(method);
@@ -2441,7 +2441,7 @@ unsafe extern "C" fn special_case_call(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(postfix) as libc::c_uint != TK_FUNREF as libc::c_int as libc::c_uint
@@ -2456,7 +2456,7 @@ unsafe extern "C" fn special_case_call(
         postfix,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut receiver_type: *mut ast_t =
@@ -2470,7 +2470,7 @@ unsafe extern "C" fn special_case_call(
             receiver_type,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_1.as_mut_ptr(),
         );
         if ast_name(package) == (*c).str_builtin {
@@ -2652,7 +2652,7 @@ unsafe extern "C" fn find_embed_constructor_receiver(mut call: *mut ast_t) -> *m
         {
             parent = current;
             if ast_id(current) as libc::c_uint == TK_TUPLE as libc::c_int as libc::c_uint {
-                if tuple_indices.count == 0 as libc::c_int as libc::c_ulong {
+                if tuple_indices.count == 0 {
                     break;
                 }
                 let mut index: usize = tuple_indices_pop(&mut tuple_indices);
@@ -2740,7 +2740,7 @@ pub unsafe extern "C" fn gen_funptr(mut c: *mut compile_t, mut ast: *mut ast_t) 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = 0 as *mut ast_t;
@@ -2753,7 +2753,7 @@ pub unsafe extern "C" fn gen_funptr(mut c: *mut compile_t, mut ast: *mut ast_t) 
                 receiver,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
         }
@@ -2828,7 +2828,7 @@ pub unsafe extern "C" fn gen_send_message(
         ponyint_pool_alloc_size(params_buf_size) as *mut LLVMTypeRef;
     LLVMGetStructElementTypes((*c_m).msg_type, param_types);
     let mut args_buf_size: usize = ((*m).param_count)
-        .wrapping_add(1 as libc::c_int as libc::c_ulong)
+        .wrapping_add(1)
         .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
     let mut cast_args: *mut LLVMValueRef =
         ponyint_pool_alloc_size(args_buf_size) as *mut LLVMValueRef;
@@ -2843,11 +2843,11 @@ pub unsafe extern "C" fn gen_send_message(
         let ref mut fresh7 = *arg_types.offset(i as isize);
         *fresh7 = deferred_reify(reify, ast_type(arg_ast), (*c).opt);
         let ref mut fresh8 =
-            *cast_args.offset(i.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize);
+            *cast_args.offset(i.wrapping_add(1) as isize);
         *fresh8 = gen_assign_cast(
             c,
             *param_types.offset(i.wrapping_add(3 as libc::c_int as libc::c_ulong) as isize),
-            *args.offset(i.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize),
+            *args.offset(i.wrapping_add(1) as isize),
             *arg_types.offset(i as isize),
         );
         arg_ast = ast_sibling(arg_ast);
@@ -2935,8 +2935,8 @@ pub unsafe extern "C" fn gen_send_message(
             gentrace(
                 c,
                 ctx,
-                *args.offset(i_2.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize),
-                *cast_args.offset(i_2.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize),
+                *args.offset(i_2.wrapping_add(1) as isize),
+                *cast_args.offset(i_2.wrapping_add(1) as isize),
                 *arg_types.offset(i_2 as isize),
                 (*((*m).params).offset(i_2 as isize)).ast,
             );
@@ -2966,7 +2966,7 @@ pub unsafe extern "C" fn gen_send_message(
     msg_args[3 as libc::c_int as usize] = msg;
     msg_args[4 as libc::c_int as usize] = LLVMConstInt(
         (*c).i1,
-        1 as libc::c_int as libc::c_ulonglong,
+        1,
         0 as libc::c_int,
     );
     let mut send: LLVMValueRef = 0 as *mut LLVMOpaqueValue;
@@ -3141,7 +3141,7 @@ pub unsafe extern "C" fn gen_call(mut c: *mut compile_t, mut ast: *mut ast_t) ->
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut receiver: ast_ptr_t = 0 as *mut ast_t;
@@ -3151,7 +3151,7 @@ pub unsafe extern "C" fn gen_call(mut c: *mut compile_t, mut ast: *mut ast_t) ->
         postfix,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = 0 as *mut ast_t;
@@ -3165,7 +3165,7 @@ pub unsafe extern "C" fn gen_call(mut c: *mut compile_t, mut ast: *mut ast_t) ->
                 receiver,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
         }
@@ -3188,7 +3188,7 @@ pub unsafe extern "C" fn gen_call(mut c: *mut compile_t, mut ast: *mut ast_t) ->
     let mut m: *mut reach_method_t = reach_method(t, cap, method_name, typeargs);
     ast_free_unattached(type_0);
     ast_free_unattached(typeargs);
-    let mut count: usize = ((*m).param_count).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    let mut count: usize = ((*m).param_count).wrapping_add(1);
     let mut buf_size: usize =
         count.wrapping_mul(::core::mem::size_of::<*mut libc::c_void>() as libc::c_ulong);
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
@@ -3379,7 +3379,7 @@ pub unsafe extern "C" fn gen_pattern_eq(
             pattern_type,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         if ast_name(package) == (*c).str_builtin {
@@ -3682,7 +3682,7 @@ pub unsafe extern "C" fn gen_ffi(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut err: bool =
@@ -3748,7 +3748,7 @@ pub unsafe extern "C" fn gen_ffi(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
             decl,
             (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
         err = ast_id(decl_err) as libc::c_uint == TK_QUESTION as libc::c_int as libc::c_uint;
@@ -4006,7 +4006,7 @@ pub unsafe extern "C" fn gencall_allocstruct(
     let mut result: LLVMValueRef = 0 as *mut LLVMOpaqueValue;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut size: usize = (*c_t).abi_size;
-    if size == 0 as libc::c_int as libc::c_ulong {
+    if size == 0 {
         size = 1 as libc::c_int as usize;
     }
     if size <= ((1 as libc::c_int) << 10 as libc::c_int - 1 as libc::c_int) as libc::c_ulong {
@@ -4102,7 +4102,7 @@ pub unsafe extern "C" fn gencall_memcpy(
     args[2 as libc::c_int as usize] = n;
     args[3 as libc::c_int as usize] = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     LLVMBuildCall_P(
@@ -4128,7 +4128,7 @@ pub unsafe extern "C" fn gencall_memmove(
     args[2 as libc::c_int as usize] = n;
     args[3 as libc::c_int as usize] = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     LLVMBuildCall_P(

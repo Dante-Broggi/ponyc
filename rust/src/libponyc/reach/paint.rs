@@ -990,10 +990,10 @@ unsafe extern "C" fn print_typemap(mut size: usize, mut map: *mut u64) {
     while i < size {
         printf(b"  \0" as *const u8 as *const libc::c_char);
         let mut mask: u64 = 1 as libc::c_int as u64;
-        while mask != 0 as libc::c_int as libc::c_ulonglong {
+        while mask != 0 {
             printf(
                 b"%c\0" as *const u8 as *const libc::c_char,
-                if *map.offset(i as isize) & mask == 0 as libc::c_int as libc::c_ulonglong {
+                if *map.offset(i as isize) & mask == 0 {
                     '.' as i32
                 } else {
                     'T' as i32
@@ -1186,7 +1186,7 @@ unsafe extern "C" fn is_name_compatible(
     let mut i: usize = 0;
     while i < (*name).typemap_size {
         if *((*colour).type_map).offset(i as isize) & *((*name).type_map).offset(i as isize)
-            != 0 as libc::c_int as libc::c_ulonglong
+            != 0
         {
             return 0 as libc::c_int != 0;
         }
@@ -1305,7 +1305,7 @@ unsafe extern "C" fn find_names_types_use(
             }
         }
         typemap_mask <<= 1 as libc::c_int;
-        if typemap_mask == 0 as libc::c_int as libc::c_ulonglong {
+        if typemap_mask == 0 {
             typemap_mask = 1 as libc::c_int as u64;
             typemap_index = typemap_index.wrapping_add(1);
         }
@@ -1367,7 +1367,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
         if t.is_null() {
             break;
         }
-        if reach_method_names_size(&mut (*t).methods) == 0 as libc::c_int as libc::c_ulong
+        if reach_method_names_size(&mut (*t).methods) == 0
             || !((*t).bare_method).is_null()
         {
             continue;
@@ -1449,7 +1449,7 @@ pub unsafe extern "C" fn paint(mut types: *mut reach_types_t) {
         );
     };
     let mut type_count: usize = reach_types_size(types);
-    if type_count == 0 as libc::c_int as libc::c_ulong {
+    if type_count == 0 {
         return;
     }
     let mut painter: painter_t = painter_t {
@@ -1471,9 +1471,9 @@ pub unsafe extern "C" fn paint(mut types: *mut reach_types_t) {
     painter.colour_next = &mut painter.colours;
     painter.colour_count = 0 as libc::c_int as u32;
     painter.typemap_size = type_count
-        .wrapping_sub(1 as libc::c_int as libc::c_ulong)
+        .wrapping_sub(1)
         .wrapping_div(64 as libc::c_int as libc::c_ulong)
-        .wrapping_add(1 as libc::c_int as libc::c_ulong);
+        .wrapping_add(1);
     find_names_types_use(&mut painter, types);
     assign_colours_to_names(&mut painter);
     distribute_info(&mut painter, types);

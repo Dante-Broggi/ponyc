@@ -1006,7 +1006,7 @@ unsafe extern "C" fn handle_message(
             };
             if has_internal_flag(actor, FLAG_BLOCKED as libc::c_int as u8) as libc::c_int != 0
                 && !has_internal_flag(actor, FLAG_BLOCKED_SENT as libc::c_int as u8)
-                && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong
+                && (*actor).gc.rc > 0
             {
                 send_block(ctx, actor);
             }
@@ -1139,7 +1139,7 @@ unsafe extern "C" fn handle_message(
 }
 #[c2rust::src_loc = "514:1"]
 unsafe extern "C" fn maybe_should_mute(mut actor: *mut pony_actor_t) -> bool {
-    if (*actor).muted > 0 as libc::c_int as libc::c_ulong {
+    if (*actor).muted > 0 {
         mute_actor(actor);
         return 1 as libc::c_int != 0;
     }
@@ -1175,7 +1175,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
     let mut batch: usize = 100 as libc::c_int as usize;
     let mut msg: *mut pony_msg_t = 0 as *mut pony_msg_t;
     let mut app: usize = 0;
-    if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
+    if !actor_noblock && (*actor).gc.rc > 0 {
         set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8);
     }
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*actor).q.head) };
@@ -1185,7 +1185,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
             break;
         }
         let mut app_msg: bool = handle_message(ctx, actor, msg);
-        if !actor_noblock && (*actor).gc.rc > 0 as libc::c_int as libc::c_ulong {
+        if !actor_noblock && (*actor).gc.rc > 0 {
             set_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8);
         }
         if app_msg {
@@ -1228,7 +1228,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
         actor_unsetoverloaded(actor);
     }
     try_gc(ctx, actor);
-    if app > 0 as libc::c_int as libc::c_ulong {
+    if app > 0 {
         return 1 as libc::c_int != 0;
     }
     if !has_internal_flag(
@@ -1240,7 +1240,7 @@ pub unsafe extern "C" fn ponyint_actor_run(
         set_internal_flag(actor, FLAG_BLOCKED as libc::c_int as u8);
     }
     if has_internal_flag(actor, FLAG_BLOCKED as libc::c_int as u8) {
-        if (*actor).gc.rc == 0 as libc::c_int as libc::c_ulong {
+        if (*actor).gc.rc == 0 {
             if actor_noblock as libc::c_int != 0
                 || !has_internal_flag(actor, FLAG_RC_OVER_ZERO_SEEN as libc::c_int as u8)
             {

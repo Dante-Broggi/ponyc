@@ -1764,7 +1764,7 @@ unsafe extern "C" fn reach_mangled_cmp(
 }
 #[c2rust::src_loc = "53:1"]
 unsafe extern "C" fn reach_mangled_free(mut m: *mut reach_method_t) {
-    if (*m).param_count > 0 as libc::c_int as libc::c_ulong {
+    if (*m).param_count > 0 {
         ponyint_pool_free_size(
             ((*m).param_count)
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
@@ -2738,7 +2738,7 @@ unsafe extern "C" fn set_method_types(
     let mut params: *mut ast_t = ast_childidx((*(*m).fun).ast, 3 as libc::c_int as usize);
     let mut result: *mut ast_t = ast_sibling(params);
     (*m).param_count = ast_childcount(params);
-    if (*m).param_count > 0 as libc::c_int as libc::c_ulong {
+    if (*m).param_count > 0 {
         let ref mut fresh2 = (*m).params;
         *fresh2 = ponyint_pool_alloc_size(
             ((*m).param_count)
@@ -3515,7 +3515,7 @@ unsafe extern "C" fn add_nominal(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut typearg: *mut ast_t = ast_child(typeargs);
@@ -3652,7 +3652,7 @@ unsafe extern "C" fn add_nominal(
             bare_method,
             (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
         if ast_id(typeparams) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -3791,7 +3791,7 @@ unsafe extern "C" fn reachable_pattern(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut r_type: *mut ast_t = deferred_reify(reify_0, type_0, opt);
@@ -3835,7 +3835,7 @@ unsafe extern "C" fn reachable_fun(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = 0 as *mut ast_t;
@@ -3848,7 +3848,7 @@ unsafe extern "C" fn reachable_fun(
                 receiver,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
         }
@@ -3896,7 +3896,7 @@ unsafe extern "C" fn reachable_call(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     reachable_fun(r, reify_0, postfix, opt);
@@ -3937,7 +3937,7 @@ unsafe extern "C" fn reachable_ffi(
         decl,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut reified: bool = false;
@@ -4002,7 +4002,7 @@ unsafe extern "C" fn reachable_expr(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             reachable_pattern(r, reify_0, pattern, opt);
@@ -4032,7 +4032,7 @@ unsafe extern "C" fn reachable_expr(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if ast_id(cond) as libc::c_uint == TK_SEQ as libc::c_int as libc::c_uint {
@@ -4077,7 +4077,7 @@ unsafe extern "C" fn reachable_expr(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
             let mut sub: ast_ptr_t = 0 as *mut ast_t;
@@ -4089,7 +4089,7 @@ unsafe extern "C" fn reachable_expr(
                 left_clause,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_2.as_mut_ptr(),
             );
             if is_result_needed(ast) as libc::c_int != 0
@@ -4128,7 +4128,7 @@ unsafe extern "C" fn reachable_expr(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_3.as_mut_ptr(),
             );
             let mut type_5: *mut ast_t = deferred_reify(reify_0, ast_type(left_0), opt);
@@ -4744,7 +4744,7 @@ unsafe extern "C" fn reach_method_deserialise(
     let ref mut fresh88 = (*m).subordinate;
     *fresh88 = pony_deserialise_offset(ctx, reach_method_pony_type(), (*m).subordinate as uintptr_t)
         as *mut reach_method_t;
-    if (*m).param_count > 0 as libc::c_int as libc::c_ulong {
+    if (*m).param_count > 0 {
         let ref mut fresh89 = (*m).params;
         *fresh89 = pony_deserialise_block(
             ctx,

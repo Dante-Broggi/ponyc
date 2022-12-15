@@ -811,7 +811,7 @@ unsafe extern "C" fn completeness_match(mut _opt: *mut pass_opt_t, mut ast: *mut
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut branch_count: usize = 0;
@@ -825,7 +825,7 @@ unsafe extern "C" fn completeness_match(mut _opt: *mut pass_opt_t, mut ast: *mut
         branch_count = branch_count.wrapping_add(1);
         ast_inheritbranch(ast, else_clause);
     }
-    if branch_count == 0 as libc::c_int as libc::c_ulong {
+    if branch_count == 0 {
         ast_setflag(ast, AST_FLAG_JUMPS_AWAY as libc::c_int as u32);
     }
     ast_consolidate_branches(ast, branch_count);

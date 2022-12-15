@@ -1092,7 +1092,7 @@ unsafe extern "C" fn append_to_args(mut program: *mut program_t, mut text: *cons
     let mut text_len: usize = libc::strlen(text);
     let mut new_len: usize = ((*program).lib_args_size)
         .wrapping_add(text_len)
-        .wrapping_add(1 as libc::c_int as libc::c_ulong);
+        .wrapping_add(1);
     if new_len > (*program).lib_args_alloced {
         let mut new_alloc: usize = (2 as libc::c_int as libc::c_ulong).wrapping_mul(new_len);
         let mut new_args: *mut libc::c_char =
@@ -1100,7 +1100,7 @@ unsafe extern "C" fn append_to_args(mut program: *mut program_t, mut text: *cons
         memcpy(
             new_args as *mut libc::c_void,
             (*program).lib_args as *const libc::c_void,
-            ((*program).lib_args_size).wrapping_add(1 as libc::c_int as libc::c_ulong),
+            ((*program).lib_args_size).wrapping_add(1),
         );
         ponyint_pool_free_size(
             (*program).lib_args_alloced,
@@ -1111,7 +1111,7 @@ unsafe extern "C" fn append_to_args(mut program: *mut program_t, mut text: *cons
         (*program).lib_args_alloced = new_alloc;
     }
     strcat((*program).lib_args, text);
-    (*program).lib_args_size = new_len.wrapping_sub(1 as libc::c_int as libc::c_ulong);
+    (*program).lib_args_size = new_len.wrapping_sub(1);
 }
 #[no_mangle]
 #[c2rust::src_loc = "49:1"]
@@ -1245,7 +1245,7 @@ unsafe extern "C" fn quoted_locator(
         locator as *const libc::c_void,
         len,
     );
-    *quoted.offset(len.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize) =
+    *quoted.offset(len.wrapping_add(1) as isize) =
         '"' as i32 as libc::c_char;
     *quoted.offset(len.wrapping_add(2 as libc::c_int as libc::c_ulong) as isize) =
         '\0' as i32 as libc::c_char;
@@ -1758,7 +1758,7 @@ unsafe extern "C" fn program_serialise_trace(
         pony_serialise_reserve(
             ctx,
             (*program).lib_args as *mut libc::c_void,
-            ((*program).lib_args_size).wrapping_add(1 as libc::c_int as libc::c_ulong),
+            ((*program).lib_args_size).wrapping_add(1),
         );
     }
 }
@@ -1796,7 +1796,7 @@ unsafe extern "C" fn program_serialise(
     *fresh16 = pony_serialise_offset(ctx, (*program).libs as *mut libc::c_void) as *mut strlist_t;
     (*dst).lib_args_size = (*program).lib_args_size;
     (*dst).lib_args_alloced =
-        ((*program).lib_args_size).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        ((*program).lib_args_size).wrapping_add(1);
     ptr_offset = pony_serialise_offset(ctx, (*program).lib_args as *mut libc::c_void);
     let ref mut fresh17 = (*dst).lib_args;
     *fresh17 = ptr_offset as *mut libc::c_char;
@@ -1806,7 +1806,7 @@ unsafe extern "C" fn program_serialise(
         memcpy(
             dst_lib as *mut libc::c_void,
             (*program).lib_args as *const libc::c_void,
-            ((*program).lib_args_size).wrapping_add(1 as libc::c_int as libc::c_ulong),
+            ((*program).lib_args_size).wrapping_add(1),
         );
     }
 }
@@ -1834,7 +1834,7 @@ unsafe extern "C" fn program_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
     let ref mut fresh22 = (*program).lib_args;
     *fresh22 = pony_deserialise_block(
         ctx,
-        (*program).lib_args as uintptr_t,
+        (*program).lib_args as libc::uintptr_t,
         ((*program).lib_args_size).wrapping_add(1 as libc::c_int as libc::c_ulong),
     ) as *mut libc::c_char;
 }

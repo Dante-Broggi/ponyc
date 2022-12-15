@@ -1275,7 +1275,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if rhs != ast {
@@ -1293,7 +1293,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if ast == deflt {
@@ -1320,7 +1320,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
             if ast == seq {
@@ -1383,7 +1383,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                 funtype,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_2.as_mut_ptr(),
             );
             let mut arg: *mut ast_t = ast_child(parent);
@@ -1431,7 +1431,7 @@ pub unsafe extern "C" fn find_antecedent_type(
                 funtype_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_3.as_mut_ptr(),
             );
             let mut name: *const libc::c_char = ast_name(ast_child(parent));
@@ -1756,7 +1756,7 @@ pub unsafe extern "C" fn pass_expr(
         _ => {}
     }
     if !r {
-        if errors_get_count((*options).check.errors) > 0 as libc::c_int as libc::c_ulong {
+        if errors_get_count((*options).check.errors) > 0 {
         } else {
             ponyint_assert_fail(
                 b"errors_get_count(options->check.errors) > 0\0" as *const u8

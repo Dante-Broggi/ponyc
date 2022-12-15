@@ -517,7 +517,7 @@ pub unsafe extern "C" fn buildflagset_free(mut set: *mut buildflagset_t) {
     if !set.is_null() {
         flagtab_destroy((*set).flags);
         ponyint_pool_free(0 as libc::c_int as usize, (*set).flags as *mut libc::c_void);
-        if (*set).buffer_size > 0 as libc::c_int as libc::c_ulong {
+        if (*set).buffer_size > 0 {
             ponyint_pool_free_size((*set).buffer_size, (*set).text_buffer as *mut libc::c_void);
         }
         ponyint_pool_free(1 as libc::c_int as usize, set as *mut libc::c_void);
@@ -1015,7 +1015,7 @@ unsafe extern "C" fn print_str(
     if (*pointer).offset(len as isize) < ((*set).text_buffer).offset((*set).buffer_size as isize) {
         snprintf(
             *pointer,
-            len.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            len.wrapping_add(1),
             b"%s\0" as *const u8 as *const libc::c_char,
             s,
         );
@@ -1134,7 +1134,7 @@ pub unsafe extern "C" fn buildflagset_print(mut set: *mut buildflagset_t) -> *co
     let mut size_needed: usize = (p.offset_from((*set).text_buffer) as libc::c_long
         + 1 as libc::c_int as libc::c_long) as usize;
     if size_needed > (*set).buffer_size {
-        if (*set).buffer_size > 0 as libc::c_int as libc::c_ulong {
+        if (*set).buffer_size > 0 {
             ponyint_pool_free_size((*set).buffer_size, (*set).text_buffer as *mut libc::c_void);
         }
         let ref mut fresh6 = (*set).text_buffer;
@@ -1155,7 +1155,7 @@ pub unsafe extern "C" fn buildflagset_print(mut set: *mut buildflagset_t) -> *co
         );
     };
     *((*set).text_buffer)
-        .offset(size_needed.wrapping_sub(1 as libc::c_int as libc::c_ulong) as isize) =
+        .offset(size_needed.wrapping_sub(1) as isize) =
         '\0' as i32 as libc::c_char;
     return (*set).text_buffer;
 }
@@ -1225,12 +1225,12 @@ pub unsafe extern "C" fn remove_build_flags(mut flags: *mut *const libc::c_char)
         let mut found: *mut flag_t = flagtab_remove(_user_flags, &mut f1);
         if !found.is_null() {
             flag_free(found);
-            removed = (removed as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong)
+            removed = (removed as libc::c_ulong).wrapping_add(1)
                 as usize as usize;
         }
         next = next.offset(1 as libc::c_int as isize);
     }
-    return removed > 0 as libc::c_int as libc::c_ulong;
+    return removed > 0;
 }
 #[no_mangle]
 #[c2rust::src_loc = "632:1"]

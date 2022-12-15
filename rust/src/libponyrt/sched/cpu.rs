@@ -525,7 +525,7 @@ pub unsafe extern "C" fn ponyint_cpu_affinity(mut cpu: u32) {
 #[c2rust::src_loc = "325:1"]
 pub unsafe extern "C" fn ponyint_cpu_core_pause(mut tsc: u64, mut tsc2: u64, mut yield_0: bool) {
     let mut diff: u64 = ponyint_cpu_tick_diff(tsc, tsc2);
-    if diff < 10000000 as libc::c_int as libc::c_ulonglong {
+    if diff < 10000000 {
         return;
     }
     if yield_0 {
@@ -540,7 +540,7 @@ pub unsafe extern "C" fn ponyint_cpu_core_pause(mut tsc: u64, mut tsc2: u64, mut
             ts.tv_nsec = 30000000 as libc::c_int as libc::c_long;
         } else if diff > 3000000000 as libc::c_long as libc::c_ulonglong {
             ts.tv_nsec = 10000000 as libc::c_int as libc::c_long;
-        } else if diff > 1000000000 as libc::c_int as libc::c_ulonglong {
+        } else if diff > 1000000000 {
             ts.tv_nsec = 1000000 as libc::c_int as libc::c_long;
         } else {
             ts.tv_nsec = 100000 as libc::c_int as libc::c_long;

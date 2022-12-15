@@ -1414,7 +1414,7 @@ unsafe extern "C" fn is_arrow_match_x(
         operand,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(left) as libc::c_uint == TK_THISTYPE as libc::c_int as libc::c_uint {
@@ -1509,7 +1509,7 @@ unsafe extern "C" fn is_nominal_match_entity(
         operand,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut p_pkg: ast_ptr_t = 0 as *mut ast_t;
@@ -1529,7 +1529,7 @@ unsafe extern "C" fn is_nominal_match_entity(
         pattern,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut provides: bool = is_subtype_ignore_cap(pattern, operand, 0 as *mut errorframe_t, opt);
@@ -1623,7 +1623,7 @@ unsafe extern "C" fn is_entity_match_trait(
         operand,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut p_pkg: ast_ptr_t = 0 as *mut ast_t;
@@ -1643,7 +1643,7 @@ unsafe extern "C" fn is_entity_match_trait(
         pattern,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut provides: bool = is_subtype_ignore_cap(operand, pattern, 0 as *mut errorframe_t, opt);
@@ -1706,7 +1706,7 @@ unsafe extern "C" fn is_trait_match_trait(
         operand,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut p_pkg: ast_ptr_t = 0 as *mut ast_t;
@@ -1726,7 +1726,7 @@ unsafe extern "C" fn is_trait_match_trait(
         pattern,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     if !is_cap_sub_cap(ast_id(o_cap), TK_EPHEMERAL, ast_id(p_cap), ast_id(p_eph)) {

@@ -1336,7 +1336,7 @@ unsafe extern "C" fn apply_delta(
         }
         let mut actor: *mut pony_actor_t = ponyint_delta_actor(delta);
         let mut rc: usize = ponyint_delta_rc(delta);
-        let mut find: *mut view_t = get_view(d, actor, rc > 0 as libc::c_int as libc::c_ulong);
+        let mut find: *mut view_t = get_view(d, actor, rc > 0);
         if find.is_null() {
             continue;
         }
@@ -1345,7 +1345,7 @@ unsafe extern "C" fn apply_delta(
             rc: 0,
         };
         key.view = find;
-        if rc > 0 as libc::c_int as libc::c_ulong {
+        if rc > 0 {
             let mut index: usize = -(1 as libc::c_int) as usize;
             let mut ref_0: *mut viewref_t =
                 ponyint_viewrefmap_get(&mut (*view).map, &mut key, &mut index);
@@ -1495,7 +1495,7 @@ unsafe extern "C" fn mark_white(mut view: *mut view_t, mut count: *mut libc::c_i
             (*::core::mem::transmute::<&[u8; 11], &[libc::c_char; 11]>(b"mark_white\0")).as_ptr(),
         );
     };
-    if (*view).rc > 0 as libc::c_int as libc::c_ulong {
+    if (*view).rc > 0 {
         *count = *count - scan_black(view, 0 as libc::c_int as usize);
         return 0 as libc::c_int != 0;
     }
@@ -1867,7 +1867,7 @@ unsafe extern "C" fn block(
     mut rc: usize,
     mut map: *mut deltamap_t,
 ) {
-    if rc == 0 as libc::c_int as libc::c_ulong {
+    if rc == 0 {
         let mut view: *mut view_t = get_view(d, actor, 0 as libc::c_int != 0);
         if !view.is_null() {
             if (*view).deferred {

@@ -1821,7 +1821,7 @@ unsafe extern "C" fn eq_param_type(mut c: *mut compile_t, mut pattern: *mut ast_
         (*fun).ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut param: *mut ast_t = ast_child(params);
@@ -2617,7 +2617,7 @@ pub unsafe extern "C" fn gen_match(mut c: *mut compile_t, mut ast: *mut ast_t) -
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut phi_type: LLVMTypeRef = 0 as LLVMTypeRef;
@@ -2676,7 +2676,7 @@ pub unsafe extern "C" fn gen_match(mut c: *mut compile_t, mut ast: *mut ast_t) -
             the_case,
             (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
         LLVMPositionBuilderAtEnd((*c).builder, pattern_block);

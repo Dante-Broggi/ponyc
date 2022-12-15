@@ -2006,7 +2006,7 @@ unsafe extern "C" fn make_opaque_struct(mut c: *mut compile_t, mut t: *mut reach
                 (*t).ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut package: *const libc::c_char = ast_name(pkg);
@@ -2224,7 +2224,7 @@ unsafe extern "C" fn make_debug_prototype(mut c: *mut compile_t, mut t: *mut rea
         *fresh53 = LLVMDIBuilderCreatePointerType(
             (*c).di,
             (*c_t).di_type_embed,
-            size_bytes.wrapping_mul(8 as libc::c_int as libc::c_ulonglong),
+            size_bytes.wrapping_mul(8),
             align_bytes.wrapping_mul(8 as libc::c_int as libc::c_uint),
             0 as libc::c_int as libc::c_uint,
             0 as *const libc::c_char,
@@ -2653,7 +2653,7 @@ unsafe extern "C" fn make_intrinsic_methods(mut c: *mut compile_t, mut t: *mut r
         (*t).ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut package: *const libc::c_char = ast_name(pkg);
@@ -2684,7 +2684,7 @@ unsafe extern "C" fn make_trace(mut c: *mut compile_t, mut t: *mut reach_type_t)
             (*t).ast,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         let mut package: *const libc::c_char = ast_name(pkg);

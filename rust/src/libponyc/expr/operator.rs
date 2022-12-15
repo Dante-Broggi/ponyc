@@ -1498,7 +1498,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_type: *mut ast_t = ast_type(left);
@@ -1516,7 +1516,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
     }
     let mut r_type: *mut ast_t = ast_type(right);
     if is_typecheck_error(r_type) {
-        if errors_get_count((*opt).check.errors) == 0 as libc::c_int as libc::c_ulong {
+        if errors_get_count((*opt).check.errors) == 0 {
             ast_error(
                 (*opt).check.errors,
                 right,
@@ -1549,7 +1549,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
                 left,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             fl_type = ast_type(field);
@@ -2072,7 +2072,7 @@ pub unsafe extern "C" fn expr_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut a
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut expr_type: *mut ast_t = ast_type(expr);
@@ -2287,7 +2287,7 @@ pub unsafe extern "C" fn expr_consume(mut opt: *mut pass_opt_t, mut ast: *mut as
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(term) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint

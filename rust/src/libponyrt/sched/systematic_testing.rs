@@ -509,7 +509,7 @@ pub unsafe extern "C" fn ponyint_systematic_testing_init(
         >(systematic_testing_mut_init))),
     );
     waiting_to_start_count.store(0, Relaxed);
-    if 0 as libc::c_int as libc::c_ulonglong == random_seed {
+    if 0 == random_seed {
         random_seed = ponyint_cpu_tick();
     }
     srand(random_seed as libc::c_int as libc::c_uint);

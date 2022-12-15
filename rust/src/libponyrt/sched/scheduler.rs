@@ -1293,9 +1293,9 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
             };
             if steal_attempts < current_active_scheduler_count {
                 steal_attempts = steal_attempts.wrapping_add(1);
-            } else if clocks_elapsed > 1000000 as libc::c_int as libc::c_ulonglong
+            } else if clocks_elapsed > 1000000
                 && ponyint_mutemap_size(&mut (*sched).mute_mapping)
-                    == 0 as libc::c_int as libc::c_ulong
+                    == 0
             {
                 if clocks_elapsed > scheduler_suspend_threshold {
                     current_active_scheduler_count = get_active_scheduler_count();
@@ -1453,7 +1453,7 @@ unsafe extern "C" fn run(mut sched: *mut scheduler_t) {
                 b"(uintptr_t)actor\0" as *const u8 as *const libc::c_char,
             );
         }
-        if ponyint_mutemap_size(&mut (*sched).mute_mapping) > 0 as libc::c_int as libc::c_ulong {
+        if ponyint_mutemap_size(&mut (*sched).mute_mapping) > 0 {
             ponyint_sched_maybe_wakeup((*sched).index);
         }
         let mut reschedule: bool =
@@ -1911,7 +1911,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
             if muted.is_null() {
                 break;
             }
-            if (*muted).muted > 0 as libc::c_int as libc::c_ulong {
+            if (*muted).muted > 0 {
             } else {
                 ponyint_assert_fail(
                     b"muted->muted > 0\0" as *const u8 as *const libc::c_char,
@@ -1926,7 +1926,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
             };
             let ref mut fresh17 = (*muted).muted;
             *fresh17 = (*fresh17).wrapping_sub(1);
-            if (*muted).muted == 0 as libc::c_int as libc::c_ulong {
+            if (*muted).muted == 0 {
                 needs_unmuting = ponyint_actorstack_push(needs_unmuting, muted);
             }
         }
@@ -1947,7 +1947,7 @@ pub unsafe extern "C" fn ponyint_sched_unmute_senders(
             ponyint_sched_start_global_unmute((*(*ctx).scheduler).index as u32, to_unmute);
         }
     }
-    return actors_rescheduled > 0 as libc::c_int as libc::c_ulong;
+    return actors_rescheduled > 0;
 }
 #[no_mangle]
 #[c2rust::src_loc = "1673:1"]

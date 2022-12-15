@@ -1273,7 +1273,7 @@ pub unsafe extern "C" fn type_for_class(
         def,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = 0 as *mut ast_t;
@@ -1423,7 +1423,7 @@ pub unsafe extern "C" fn type_for_fun(mut ast: *mut ast_t) -> *mut ast_t {
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut fcap: token_id = ast_id(cap);
@@ -1523,7 +1523,7 @@ pub unsafe extern "C" fn type_isect_fun(
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut b_cap: ast_ptr_t = 0 as *mut ast_t;
@@ -1545,7 +1545,7 @@ pub unsafe extern "C" fn type_isect_fun(
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     if ast_name(a_id) != ast_name(b_id) {
@@ -1681,7 +1681,7 @@ pub unsafe extern "C" fn set_cap_and_ephemeral(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if cap as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
@@ -1701,7 +1701,7 @@ pub unsafe extern "C" fn set_cap_and_ephemeral(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if cap as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {

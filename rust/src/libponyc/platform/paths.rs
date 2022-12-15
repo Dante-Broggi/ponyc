@@ -195,13 +195,13 @@ pub unsafe extern "C" fn pony_dir_entry_next(mut dir: *mut DIR) -> *mut dirent {
 pub unsafe extern "C" fn pony_mkdir(mut path: *const libc::c_char) {
     let mut path_len: usize = libc::strlen(path);
     let mut buf: *mut libc::c_char =
-        ponyint_pool_alloc_size(path_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
+        ponyint_pool_alloc_size(path_len.wrapping_add(1))
             as *mut libc::c_char;
     let mut i: usize = 0;
     while i < path_len {
         *buf.offset(i as isize) = *path.offset(i as isize);
         if *path.offset(i as isize) as libc::c_int == '/' as i32 {
-            *buf.offset(i.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize) =
+            *buf.offset(i.wrapping_add(1) as isize) =
                 '\0' as i32 as libc::c_char;
             mkdir(buf, 0o777 as libc::c_int as mode_t);
         }
@@ -209,7 +209,7 @@ pub unsafe extern "C" fn pony_mkdir(mut path: *const libc::c_char) {
     }
     mkdir(path, 0o777 as libc::c_int as mode_t);
     ponyint_pool_free_size(
-        path_len.wrapping_add(1 as libc::c_int as libc::c_ulong),
+        path_len.wrapping_add(1),
         buf as *mut libc::c_void,
     );
 }
@@ -232,7 +232,7 @@ pub unsafe extern "C" fn remove_ext(
     if path.is_null() {
         return 0 as *mut libc::c_char;
     }
-    *allocated_size = (libc::strlen(path)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    *allocated_size = (libc::strlen(path)).wrapping_add(1);
     retstr = ponyint_pool_alloc_size(*allocated_size) as *mut libc::c_char;
     strcpy(retstr, path);
     lastdot = strrchr(retstr, dot as libc::c_int);

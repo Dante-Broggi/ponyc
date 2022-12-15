@@ -1569,7 +1569,7 @@ unsafe extern "C" fn print_extended(
         print(
             fp,
             ast_annotation(ast),
-            indent.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            indent.wrapping_add(1),
             SPECIAL_ANNOTATION,
             width,
         );
@@ -1578,7 +1578,7 @@ unsafe extern "C" fn print_extended(
         print(
             fp,
             child,
-            indent.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            indent.wrapping_add(1),
             NOT_SPECIAL,
             width,
         );
@@ -1588,7 +1588,7 @@ unsafe extern "C" fn print_extended(
         print(
             fp,
             ast_type(ast),
-            indent.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            indent.wrapping_add(1),
             SPECIAL_TYPE,
             width,
         );
@@ -1671,7 +1671,7 @@ unsafe extern "C" fn print_verbose(
         print_verbose(
             fp,
             ast_annotation(ast),
-            indent.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            indent.wrapping_add(1),
             SPECIAL_ANNOTATION,
         );
     }
@@ -1679,7 +1679,7 @@ unsafe extern "C" fn print_verbose(
         print_verbose(
             fp,
             child,
-            indent.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            indent.wrapping_add(1),
             NOT_SPECIAL,
         );
         child = (*child).sibling;
@@ -1688,7 +1688,7 @@ unsafe extern "C" fn print_verbose(
         print_verbose(
             fp,
             ast_type(ast),
-            indent.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            indent.wrapping_add(1),
             SPECIAL_TYPE,
         );
     }
@@ -3139,7 +3139,7 @@ pub unsafe extern "C" fn ast_childidx(mut ast: *mut ast_t, mut idx: usize) -> *m
         );
     };
     let mut child: *mut ast_t = (*ast).child;
-    while !child.is_null() && idx > 0 as libc::c_int as libc::c_ulong {
+    while !child.is_null() && idx > 0 {
         child = (*child).sibling;
         idx = idx.wrapping_sub(1);
     }
@@ -4572,7 +4572,7 @@ unsafe extern "C" fn print_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut origpkg: *mut ast_t = ast_sibling(ephemeral);
@@ -4661,7 +4661,7 @@ unsafe extern "C" fn print_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             printbuf(
@@ -4695,7 +4695,7 @@ unsafe extern "C" fn print_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
             print_type(buffer, left, print_cap);
@@ -4856,7 +4856,7 @@ pub unsafe extern "C" fn ast_get_children(
                 .as_ptr(),
         );
     };
-    if child_count > 0 as libc::c_int as libc::c_ulong {
+    if child_count > 0 {
     } else {
         ponyint_assert_fail(
             b"child_count > 0\0" as *const u8 as *const libc::c_char,
@@ -4918,7 +4918,7 @@ pub unsafe extern "C" fn ast_extract_children(
                 .as_ptr(),
         );
     };
-    if child_count > 0 as libc::c_int as libc::c_ulong {
+    if child_count > 0 {
     } else {
         ponyint_assert_fail(
             b"child_count > 0\0" as *const u8 as *const libc::c_char,
