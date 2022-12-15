@@ -147,23 +147,8 @@ pub mod pony_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.h:6"]
 pub mod scheduler_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "60:16"]
-    pub struct pony_ctx_t {
-        pub scheduler: *mut scheduler_t,
-        pub current: *mut pony_actor_t,
-        pub trace_object: trace_object_fn,
-        pub trace_actor: trace_actor_fn,
-        pub stack: *mut gcstack_t,
-        pub acquire: actormap_t,
-        pub serialise_buffer: *mut libc::c_void,
-        pub serialise_size: usize,
-        pub serialise: ponyint_serialise_t,
-        pub serialise_alloc: serialise_alloc_fn,
-        pub serialise_alloc_final: serialise_alloc_fn,
-        pub serialise_throw: serialise_throw_fn,
-    }
+    pub use crate::libponyrt::sched::scheduler::pony_ctx_t;
     #[c2rust::src_loc = "33:1"]
     pub type trace_actor_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t) -> ()>;
@@ -177,11 +162,8 @@ pub mod scheduler_h {
         ) -> (),
     >;
 
-    use super::actormap_h::actormap_t;
-    use super::gc_h::gcstack_t;
-
     use super::pony_h::{pony_actor_t, pony_type_t};
-    use super::serialise_h::{ponyint_serialise_t, serialise_alloc_fn, serialise_throw_fn};
+
     #[c2rust::src_loc = "84:8"]
     pub use crate::libponyrt::sched::scheduler::scheduler_t;
 }
