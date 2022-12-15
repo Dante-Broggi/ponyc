@@ -2445,7 +2445,7 @@ unsafe extern "C" fn syntax_ifdef_cond(
         2 => {}
         5 => {
             let mut name: *const libc::c_char = ast_name(ast);
-            let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+            let mut len: usize = (libc::strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
             let mut lower_case: *mut libc::c_char =
                 ponyint_pool_alloc_size(len) as *mut libc::c_char;
             let mut i: usize = 0;
@@ -3109,7 +3109,7 @@ unsafe extern "C" fn syntax_annotation(
     let mut child: *mut ast_t = ast_child(ast);
     while !child.is_null() {
         let mut str: *const libc::c_char = ast_name(child);
-        if strlen(str)
+        if libc::strlen(str)
             >= (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
                 .wrapping_sub(1 as libc::c_int as libc::c_ulong)
             && strncmp(

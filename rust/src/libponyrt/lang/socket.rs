@@ -1125,7 +1125,7 @@ pub unsafe extern "C" fn pony_os_nameinfo(
         return 0 as libc::c_int != 0;
     }
     let mut ctx: *mut pony_ctx_t = pony_ctx();
-    let mut hostlen: usize = strlen(host.as_mut_ptr());
+    let mut hostlen: usize = libc::strlen(host.as_mut_ptr());
     *rhost = pony_alloc(ctx, hostlen.wrapping_add(1 as libc::c_int as libc::c_ulong))
         as *mut libc::c_char;
     memcpy(
@@ -1133,7 +1133,7 @@ pub unsafe extern "C" fn pony_os_nameinfo(
         host.as_mut_ptr() as *const libc::c_void,
         hostlen.wrapping_add(1 as libc::c_int as libc::c_ulong),
     );
-    let mut servlen: usize = strlen(serv.as_mut_ptr());
+    let mut servlen: usize = libc::strlen(serv.as_mut_ptr());
     *rserv = pony_alloc(ctx, servlen.wrapping_add(1 as libc::c_int as libc::c_ulong))
         as *mut libc::c_char;
     memcpy(
@@ -1207,7 +1207,7 @@ pub unsafe extern "C" fn pony_os_ip_string(
     {
         return 0 as *mut libc::c_char;
     }
-    let mut dstlen: usize = strlen(dst.as_mut_ptr());
+    let mut dstlen: usize = libc::strlen(dst.as_mut_ptr());
     let mut result: *mut libc::c_char = pony_alloc(
         pony_ctx(),
         dstlen.wrapping_add(1 as libc::c_int as libc::c_ulong),

@@ -1011,7 +1011,7 @@ unsafe extern "C" fn print_str(
             (*::core::mem::transmute::<&[u8; 10], &[libc::c_char; 10]>(b"print_str\0")).as_ptr(),
         );
     };
-    let mut len: usize = strlen(s);
+    let mut len: usize = libc::strlen(s);
     if (*pointer).offset(len as isize) < ((*set).text_buffer).offset((*set).buffer_size as isize) {
         snprintf(
             *pointer,

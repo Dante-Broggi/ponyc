@@ -127,7 +127,7 @@ unsafe extern "C" fn find_match(mut s: *mut opt_state_t) -> *const opt_arg_t {
             match_length = 1 as libc::c_int as usize;
         }
         if strncmp(match_name, (*s).opt_start, match_length) == 0 {
-            if (*s).match_type == 2 as libc::c_int || match_length == strlen(match_name) {
+            if (*s).match_type == 2 as libc::c_int || match_length == libc::strlen(match_name) {
                 if !match_0.is_null() && (*match_0).id != (*p).id {
                     return 1 as libc::c_int as *mut opt_arg_t;
                 }
@@ -196,7 +196,7 @@ unsafe extern "C" fn parse_long_opt_arg(mut s: *mut opt_state_t) {
         let ref mut fresh5 = (*s).arg_val;
         *fresh5 = ((*s).opt_end).offset(1 as libc::c_int as isize);
         let ref mut fresh6 = (*s).opt_start;
-        *fresh6 = (*fresh6).offset(strlen((*s).opt_start) as isize);
+        *fresh6 = (*fresh6).offset(libc::strlen((*s).opt_start) as isize);
     } else if *(*((*s).argv).offset(((*s).idx + 1 as libc::c_int) as isize))
         .offset(0 as libc::c_int as isize) as libc::c_int
         != '-' as i32
@@ -204,7 +204,7 @@ unsafe extern "C" fn parse_long_opt_arg(mut s: *mut opt_state_t) {
         let ref mut fresh7 = (*s).arg_val;
         *fresh7 = *((*s).argv).offset(((*s).idx + 1 as libc::c_int) as isize);
         let ref mut fresh8 = (*s).opt_start;
-        *fresh8 = (*fresh8).offset(strlen((*s).opt_start) as isize);
+        *fresh8 = (*fresh8).offset(libc::strlen((*s).opt_start) as isize);
         if *(*((*s).argv).offset(((*s).idx + 1 as libc::c_int) as isize))
             .offset(0 as libc::c_int as isize)
             != 0
@@ -220,7 +220,7 @@ unsafe extern "C" fn parse_short_opt_arg(mut s: *mut opt_state_t) {
         let ref mut fresh10 = (*s).arg_val;
         *fresh10 = (*s).opt_end;
         let ref mut fresh11 = (*s).opt_start;
-        *fresh11 = (*fresh11).offset(strlen((*s).opt_start) as isize);
+        *fresh11 = (*fresh11).offset(libc::strlen((*s).opt_start) as isize);
     } else if *(*s).opt_start as libc::c_int != '-' as i32 {
         let ref mut fresh12 = (*s).arg_val;
         *fresh12 = *((*s).argv).offset(((*s).idx + 1 as libc::c_int) as isize);
@@ -228,7 +228,7 @@ unsafe extern "C" fn parse_short_opt_arg(mut s: *mut opt_state_t) {
         let ref mut fresh13 = (*s).arg_val;
         *fresh13 = ((*s).opt_start).offset(1 as libc::c_int as isize);
         let ref mut fresh14 = (*s).opt_start;
-        *fresh14 = (*fresh14).offset(strlen((*s).opt_start) as isize);
+        *fresh14 = (*fresh14).offset(libc::strlen((*s).opt_start) as isize);
     }
     let ref mut fresh15 = (*s).remove;
     *fresh15 += 1;
@@ -238,7 +238,7 @@ unsafe extern "C" fn parse_short_opt(mut s: *mut opt_state_t) {
     memmove(
         (*s).opt_start as *mut libc::c_void,
         ((*s).opt_start).offset(1 as libc::c_int as isize) as *const libc::c_void,
-        strlen((*s).opt_start),
+        libc::strlen((*s).opt_start),
     );
     if *(*s).opt_start != 0 {
         let ref mut fresh16 = (*s).opt_start;
@@ -296,7 +296,7 @@ pub unsafe extern "C" fn ponyint_opt_next(mut s: *mut opt_state_t) -> libc::c_in
     let mut m: *const opt_arg_t = find_match(s);
     if m.is_null() {
         let ref mut fresh26 = (*s).opt_start;
-        *fresh26 = (*fresh26).offset(strlen((*s).opt_start) as isize);
+        *fresh26 = (*fresh26).offset(libc::strlen((*s).opt_start) as isize);
         return ponyint_opt_next(s);
     } else {
         if m == 1 as libc::c_int as *mut opt_arg_t as *const opt_arg_t {

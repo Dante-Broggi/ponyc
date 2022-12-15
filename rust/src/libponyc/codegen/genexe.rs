@@ -2254,11 +2254,11 @@ unsafe extern "C" fn link_exe(
     let mut sanitizer_arg: *const libc::c_char = b"\0" as *const u8 as *const libc::c_char;
     let mut ld_len: usize = (256 as libc::c_int as libc::c_ulong)
         .wrapping_add(arch_len)
-        .wrapping_add(strlen(linker))
-        .wrapping_add(strlen(file_exe))
-        .wrapping_add(strlen(file_o))
-        .wrapping_add(strlen(lib_args))
-        .wrapping_add(strlen(sanitizer_arg));
+        .wrapping_add(libc::strlen(linker))
+        .wrapping_add(libc::strlen(file_exe))
+        .wrapping_add(libc::strlen(file_o))
+        .wrapping_add(libc::strlen(lib_args))
+        .wrapping_add(libc::strlen(sanitizer_arg));
     let mut ld_cmd: *mut libc::c_char = ponyint_pool_alloc_size(ld_len) as *mut libc::c_char;
     snprintf(
         ld_cmd,
@@ -2294,7 +2294,7 @@ unsafe extern "C" fn link_exe(
     ponyint_pool_free_size(ld_len, ld_cmd as *mut libc::c_void);
     if !(*(*c).opt).strip_debug {
         let mut dsym_len: usize =
-            (16 as libc::c_int as libc::c_ulong).wrapping_add(strlen(file_exe));
+            (16 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(file_exe));
         let mut dsym_cmd: *mut libc::c_char =
             ponyint_pool_alloc_size(dsym_len) as *mut libc::c_char;
         snprintf(
@@ -2329,7 +2329,7 @@ pub unsafe extern "C" fn genexe(mut c: *mut compile_t, mut program: *mut ast_t) 
     let mut env_class: *const libc::c_char = (*c).str_Env;
     let mut package_name: *const libc::c_char = (*c).filename;
     if !((*(*c).opt).bin_name).is_null()
-        && strlen((*(*c).opt).bin_name) > 0 as libc::c_int as libc::c_ulong
+        && libc::strlen((*(*c).opt).bin_name) > 0 as libc::c_int as libc::c_ulong
     {
         let ref mut fresh0 = (*c).filename;
         *fresh0 = (*(*c).opt).bin_name;

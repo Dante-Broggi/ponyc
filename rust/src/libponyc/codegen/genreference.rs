@@ -2491,7 +2491,7 @@ pub unsafe extern "C" fn gen_localdecl(mut c: *mut compile_t, mut ast: *mut ast_
         (*c).di,
         scope,
         name,
-        strlen(name),
+        libc::strlen(name),
         file,
         ast_line(ast) as libc::c_uint,
         (*c_t).di_type,

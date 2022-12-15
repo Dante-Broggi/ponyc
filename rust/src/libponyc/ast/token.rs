@@ -1046,7 +1046,7 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         str_len = (*token).c2rust_unnamed.c2rust_unnamed.str_length;
     } else {
         str = token_print(token);
-        str_len = strlen(str);
+        str_len = libc::strlen(str);
     }
     let mut escapes: usize = 0;
     let mut idx: usize = 0;
@@ -1251,7 +1251,7 @@ pub unsafe extern "C" fn token_set_string(
         );
     };
     if length == 0 as libc::c_int as libc::c_ulong {
-        length = strlen(value);
+        length = libc::strlen(value);
     }
     let ref mut fresh10 = (*token).c2rust_unnamed.c2rust_unnamed.string;
     *fresh10 = stringtab_len(value, length);

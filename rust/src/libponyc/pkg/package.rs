@@ -2540,10 +2540,10 @@ pub unsafe extern "C" fn path_cat(
     let mut len1: usize = 0;
     let mut lensep: usize = 0;
     if !part1.is_null() {
-        len1 = strlen(part1);
+        len1 = libc::strlen(part1);
         lensep = 1 as libc::c_int as usize;
     }
-    let mut len2: usize = strlen(part2);
+    let mut len2: usize = libc::strlen(part2);
     if len1.wrapping_add(lensep).wrapping_add(len2) >= 1024 as libc::c_int as libc::c_ulong {
         *result.offset(0 as libc::c_int as isize) = '\0' as i32 as libc::c_char;
         return;
@@ -2856,7 +2856,7 @@ unsafe extern "C" fn id_to_string(
     if prefix.is_null() {
         prefix = b"\0" as *const u8 as *const libc::c_char;
     }
-    let mut len: usize = strlen(prefix);
+    let mut len: usize = libc::strlen(prefix);
     let mut buf_size: usize = len.wrapping_add(32 as libc::c_int as libc::c_ulong);
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     snprintf(
@@ -2893,7 +2893,7 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
     {
         prefix = 1 as libc::c_int != 0;
     }
-    let mut len: usize = strlen(string);
+    let mut len: usize = libc::strlen(string);
     let mut buf_size: usize = len
         .wrapping_add(prefix as libc::c_ulong)
         .wrapping_add(1 as libc::c_int as libc::c_ulong);
@@ -2932,7 +2932,7 @@ unsafe extern "C" fn symbol_suffix(
     mut symbol: *const libc::c_char,
     mut suffix: usize,
 ) -> *const libc::c_char {
-    let mut len: usize = strlen(symbol);
+    let mut len: usize = libc::strlen(symbol);
     let mut buf_size: usize = len.wrapping_add(32 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     snprintf(
@@ -3071,7 +3071,7 @@ unsafe extern "C" fn add_relative_path(
     mut opt: *mut pass_opt_t,
 ) -> bool {
     let mut buf: [libc::c_char; 1024] = [0; 1024];
-    if (strlen(path)).wrapping_add(strlen(relpath)) >= 1024 as libc::c_int as libc::c_ulong {
+    if (libc::strlen(path)).wrapping_add(libc::strlen(relpath)) >= 1024 as libc::c_int as libc::c_ulong {
         return 0 as libc::c_int != 0;
     }
     strcpy(buf.as_mut_ptr(), path);
@@ -3100,7 +3100,7 @@ unsafe extern "C" fn add_pony_installation_dir(
     } else {
         b"native\0" as *const u8 as *const libc::c_char
     };
-    let mut lib_len: usize = (8 as libc::c_int as libc::c_ulong).wrapping_add(strlen(link_arch));
+    let mut lib_len: usize = (8 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(link_arch));
     let mut lib_path: *mut libc::c_char = ponyint_pool_alloc_size(lib_len) as *mut libc::c_char;
     snprintf(
         lib_path,
@@ -3113,7 +3113,7 @@ unsafe extern "C" fn add_pony_installation_dir(
     if !success {
         return 0 as libc::c_int != 0;
     }
-    lib_len = (5 as libc::c_int as libc::c_ulong).wrapping_add(strlen(link_arch));
+    lib_len = (5 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(link_arch));
     lib_path = ponyint_pool_alloc_size(lib_len) as *mut libc::c_char;
     snprintf(
         lib_path,
@@ -3236,7 +3236,7 @@ pub unsafe extern "C" fn handle_path_list(
         if !p.is_null() {
             len = p.offset_from(paths) as libc::c_long as usize;
         } else {
-            len = strlen(paths);
+            len = libc::strlen(paths);
         }
         if len >= 1024 as libc::c_int as libc::c_ulong {
             errorf(
@@ -3439,7 +3439,7 @@ pub unsafe extern "C" fn package_load(
                     }
                 }
                 let mut base_name: *const libc::c_char = (*parent_pkg).qualified_name;
-                let mut base_name_len: usize = strlen(base_name);
+                let mut base_name_len: usize = libc::strlen(base_name);
                 while relatives > 0 as libc::c_int as libc::c_ulong
                     && base_name_len > 0 as libc::c_int as libc::c_ulong
                 {
@@ -3456,7 +3456,7 @@ pub unsafe extern "C" fn package_load(
                         .wrapping_sub(1 as libc::c_int as libc::c_ulong)
                         as usize as usize;
                 }
-                let mut package_path_len: usize = strlen(package_path_0);
+                let mut package_path_len: usize = libc::strlen(package_path_0);
                 let mut len: usize = base_name_len
                     .wrapping_add(package_path_len)
                     .wrapping_add(2 as libc::c_int as libc::c_ulong);

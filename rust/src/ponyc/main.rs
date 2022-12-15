@@ -557,7 +557,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
     let mut i: libc::c_int = 1 as libc::c_int;
     while i < argc {
         args_size = (args_size as libc::c_ulong).wrapping_add(
-            (strlen(*argv.offset(i as isize))).wrapping_add(1 as libc::c_int as libc::c_ulong),
+            (libc::strlen(*argv.offset(i as isize))).wrapping_add(1 as libc::c_int as libc::c_ulong),
         ) as usize as usize;
         i += 1;
     }
@@ -579,7 +579,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
             1 as libc::c_int as libc::c_ulong,
         );
         size_left = (size_left as libc::c_ulong).wrapping_sub(
-            (strlen(*argv.offset(i_0 as isize))).wrapping_add(1 as libc::c_int as libc::c_ulong),
+            (libc::strlen(*argv.offset(i_0 as isize))).wrapping_add(1 as libc::c_int as libc::c_ulong),
         ) as usize as usize;
         i_0 += 1;
     }

@@ -1295,7 +1295,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         def = ast_data(left) as *mut ast_t;
         temp_ast = left;
         len = (len as libc::c_ulong)
-            .wrapping_add((strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
+            .wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
             as usize as usize;
     }
     match ast_id(temp_ast) as libc::c_uint {
@@ -1313,7 +1313,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             );
             if ast_id(left_0) as libc::c_uint == TK_THIS as libc::c_int as libc::c_uint {
                 temp_ast = right_0;
-                len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize
+                len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize
                     as usize;
             } else {
                 if 0 as libc::c_int != 0 {
@@ -1333,11 +1333,11 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         }
         193 | 192 | 194 | 184 => {
             temp_ast = ast_sibling(ast_child(temp_ast));
-            len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize as usize;
         }
         198 | 197 | 196 => {
             temp_ast = ast_child(temp_ast);
-            len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
@@ -1364,7 +1364,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     let mut offset: usize = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
-    let mut slen: usize = strlen(name);
+    let mut slen: usize = libc::strlen(name);
     memcpy(
         buf.offset(offset as isize) as *mut libc::c_void,
         name as *const libc::c_void,
@@ -1378,7 +1378,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
-        slen = strlen(name);
+        slen = libc::strlen(name);
         memcpy(
             buf.offset(offset as isize) as *mut libc::c_void,
             name as *const libc::c_void,
