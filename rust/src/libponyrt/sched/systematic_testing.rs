@@ -6,62 +6,7 @@ pub mod internal {
     pub type __int128_t = i128;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h:3"]
-pub mod _pthread_types_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "57:8"]
-    pub struct __darwin_pthread_handler_rec {
-        pub __routine: Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>,
-        pub __arg: *mut libc::c_void,
-        pub __next: *mut __darwin_pthread_handler_rec,
-    }
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "68:8"]
-    pub struct _opaque_pthread_cond_t {
-        pub __sig: libc::c_long,
-        pub __opaque: [libc::c_char; 40],
-    }
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "78:8"]
-    pub struct _opaque_pthread_mutex_t {
-        pub __sig: libc::c_long,
-        pub __opaque: [libc::c_char; 56],
-    }
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "83:8"]
-    pub struct _opaque_pthread_mutexattr_t {
-        pub __sig: libc::c_long,
-        pub __opaque: [libc::c_char; 8],
-    }
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "88:8"]
-    pub struct _opaque_pthread_once_t {
-        pub __sig: libc::c_long,
-        pub __opaque: [libc::c_char; 8],
-    }
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "103:8"]
-    pub struct _opaque_pthread_t {
-        pub __sig: libc::c_long,
-        pub __cleanup_stack: *mut __darwin_pthread_handler_rec,
-        pub __opaque: [libc::c_char; 8176],
-    }
-    #[c2rust::src_loc = "110:1"]
-    pub type __darwin_pthread_cond_t = _opaque_pthread_cond_t;
-    #[c2rust::src_loc = "113:1"]
-    pub type __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
-    #[c2rust::src_loc = "114:1"]
-    pub type __darwin_pthread_mutexattr_t = _opaque_pthread_mutexattr_t;
-    #[c2rust::src_loc = "115:1"]
-    pub type __darwin_pthread_once_t = _opaque_pthread_once_t;
-    #[c2rust::src_loc = "118:1"]
-    pub type __darwin_pthread_t = *mut _opaque_pthread_t;
-}
+pub use crate::libponyrt::sched::scheduler::_pthread_types_h;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
@@ -133,27 +78,8 @@ pub mod mpmcq_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.h:3"]
 pub mod scheduler_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "84:8"]
-    pub struct scheduler_t {
-        pub tid: pthread_t,
-        pub index: i32,
-        pub cpu: u32,
-        pub node: u32,
-        pub terminate: bool,
-        pub asio_stoppable: bool,
-        pub asio_noisy: bool,
-        pub sleep_object: *mut pthread_cond_t,
-        pub last_victim: *mut scheduler_t,
-        pub ctx: pony_ctx_t,
-        pub block_count: u32,
-        pub ack_token: i32,
-        pub ack_count: u32,
-        pub mute_mapping: mutemap_t,
-        pub q: mpmcq_t,
-        pub mq: messageq_t,
-    }
+    pub use crate::libponyrt::sched::scheduler::scheduler_t;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "60:16"]
@@ -183,13 +109,10 @@ pub mod scheduler_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_pthread_cond_t_h::pthread_cond_t;
-    use super::_pthread_t_h::pthread_t;
+
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
-    use super::messageq_h::messageq_t;
-    use super::mpmcq_h::mpmcq_t;
-    use super::mutemap_h::mutemap_t;
+
     use super::pony_h::{pony_actor_t, pony_type_t};
     use super::serialise_h::{ponyint_serialise_t, serialise_alloc_fn, serialise_throw_fn};
 

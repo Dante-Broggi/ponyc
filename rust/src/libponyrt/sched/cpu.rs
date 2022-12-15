@@ -160,27 +160,8 @@ pub mod mpmcq_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/scheduler.h:26"]
 pub mod scheduler_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "84:8"]
-    pub struct scheduler_t {
-        pub tid: pthread_t,
-        pub index: i32,
-        pub cpu: u32,
-        pub node: u32,
-        pub terminate: bool,
-        pub asio_stoppable: bool,
-        pub asio_noisy: bool,
-        pub sleep_object: *mut pthread_cond_t,
-        pub last_victim: *mut scheduler_t,
-        pub ctx: pony_ctx_t,
-        pub block_count: u32,
-        pub ack_token: i32,
-        pub ack_count: u32,
-        pub mute_mapping: mutemap_t,
-        pub q: mpmcq_t,
-        pub mq: messageq_t,
-    }
+    pub use crate::libponyrt::sched::scheduler::scheduler_t;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "60:16"]
@@ -210,13 +191,10 @@ pub mod scheduler_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_pthread_cond_t_h::pthread_cond_t;
-    use super::_pthread_t_h::pthread_t;
+
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
-    use super::messageq_h::messageq_t;
-    use super::mpmcq_h::mpmcq_t;
-    use super::mutemap_h::mutemap_t;
+
     use super::pony_h::{pony_actor_t, pony_type_t};
     use super::serialise_h::{ponyint_serialise_t, serialise_alloc_fn, serialise_throw_fn};
 }
