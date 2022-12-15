@@ -649,13 +649,13 @@ unsafe extern "C" fn map_any_to_loopback(mut addr: *mut sockaddr) -> bool {
             if memcmp(
                 &mut (*in_1).sin6_addr as *mut in6_addr as *const libc::c_void,
                 &in6addr_any as *const in6_addr as *const libc::c_void,
-                ::core::mem::size_of::<in6_addr>(),
+                ::core::mem::size_of::<in6_addr>().try_into().unwrap(),
             ) == 0 as libc::c_int
             {
                 memcpy(
                     &mut (*in_1).sin6_addr as *mut in6_addr as *mut libc::c_void,
                     &in6addr_loopback as *const in6_addr as *const libc::c_void,
-                    ::core::mem::size_of::<in6_addr>(),
+                    ::core::mem::size_of::<in6_addr>().try_into().unwrap(),
                 );
                 return 1 as libc::c_int != 0;
             }
@@ -686,7 +686,7 @@ unsafe extern "C" fn os_addrinfo_intern(
     memset(
         &mut hints as *mut addrinfo as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<addrinfo>(),
+        ::core::mem::size_of::<addrinfo>().try_into().unwrap(),
     );
     hints.ai_flags = 0x400 as libc::c_int;
     hints.ai_family = family;
@@ -1130,14 +1130,14 @@ pub unsafe extern "C" fn pony_os_nameinfo(
     memcpy(
         *rhost as *mut libc::c_void,
         host.as_mut_ptr() as *const libc::c_void,
-        hostlen.wrapping_add(1),
+        hostlen.wrapping_add(1).try_into().unwrap(),
     );
     let mut servlen: usize = libc::strlen(serv.as_mut_ptr());
     *rserv = pony_alloc(ctx, servlen.wrapping_add(1)) as *mut libc::c_char;
     memcpy(
         *rserv as *mut libc::c_void,
         serv.as_mut_ptr() as *const libc::c_void,
-        servlen.wrapping_add(1),
+        servlen.wrapping_add(1).try_into().unwrap(),
     );
     return 1 as libc::c_int != 0;
 }
@@ -1211,7 +1211,7 @@ pub unsafe extern "C" fn pony_os_ip_string(
     memcpy(
         result as *mut libc::c_void,
         dst.as_mut_ptr() as *const libc::c_void,
-        dstlen.wrapping_add(1),
+        dstlen.wrapping_add(1).try_into().unwrap(),
     );
     result
 }
@@ -1637,7 +1637,7 @@ unsafe extern "C" fn multicast_change(
                 &mut req_0.ipv6mr_multiaddr as *mut in6_addr as *mut libc::c_void,
                 &mut (*((*rg).ai_addr as *mut sockaddr_in6)).sin6_addr as *mut in6_addr
                     as *const libc::c_void,
-                ::core::mem::size_of::<in6_addr>(),
+                ::core::mem::size_of::<in6_addr>().try_into().unwrap(),
             );
             req_0.ipv6mr_interface = interface;
             if join {
@@ -2033,7 +2033,7 @@ pub unsafe extern "C" fn pony_os_sockopt_option(mut option: libc::c_int) -> libc
         1007 => return (0xf as libc::c_int) << 2 as libc::c_int,
         1008 => {
             return (((0xf as libc::c_int) << 2 as libc::c_int) as libc::c_ulong)
-                .wrapping_sub(::core::mem::size_of::<tcphdr>()) as libc::c_int;
+                .wrapping_sub(::core::mem::size_of::<tcphdr>().try_into().unwrap()) as libc::c_int;
         }
         1009 => return 0x2 as libc::c_int,
         1010 => return 65535 as libc::c_int,

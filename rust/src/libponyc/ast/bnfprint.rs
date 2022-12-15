@@ -580,7 +580,7 @@ unsafe extern "C" fn bnf_create(mut id: bnf_id) -> *mut bnf_t {
     memset(
         b as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<bnf_t>(),
+        ::core::mem::size_of::<bnf_t>().try_into().unwrap(),
     );
     (*b).id = id;
     b

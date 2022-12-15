@@ -955,7 +955,7 @@ unsafe extern "C" fn verify_main_runtime_override_defaults(
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 1 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         if ast_pos(params) == ast_pos(type_0) {
             ast_error(
                 (*opt).check.errors,
@@ -1042,8 +1042,8 @@ unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = ast_parent(ast_parent(ast));
@@ -1073,7 +1073,7 @@ unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut 
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 1 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         if ast_pos(params) == ast_pos(type_0) {
             ast_error(
                 (*opt).check.errors,
@@ -1130,8 +1130,8 @@ unsafe extern "C" fn verify_primitive_init(mut opt: *mut pass_opt_t, mut ast: *m
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if strcmp(ast_name(id), b"_init\0" as *const u8 as *const libc::c_char) != 0 {
@@ -1450,7 +1450,7 @@ unsafe extern "C" fn verify_serialiser(mut opt: *mut pass_opt_t, mut ast: *mut a
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 1 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         ast_error(
             (*opt).check.errors,
             params,
@@ -1526,7 +1526,7 @@ unsafe extern "C" fn verify_deserialiser(mut opt: *mut pass_opt_t, mut ast: *mut
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 1 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         ast_error(
             (*opt).check.errors,
             params,

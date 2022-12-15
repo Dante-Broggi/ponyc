@@ -674,7 +674,7 @@ unsafe extern "C" fn custom_deserialise(mut ctx: *mut pony_ctx_t) {
                 (*s).value as *mut libc::c_void,
                 ((*ctx).serialise_buffer as libc::uintptr_t)
                     .wrapping_add((*s).key)
-                    .wrapping_add((*(*s).t).size as libc::c_ulong)
+                    .wrapping_add(((*(*s).t).size as libc::c_ulong).try_into().unwrap())
                     as *mut libc::c_void,
             );
         }
@@ -687,7 +687,7 @@ pub unsafe extern "C" fn ponyint_serialise_setup(
     mut table_size: usize,
 ) -> bool {
     let mut i: u32 = 0 as libc::c_int as u32;
-    while (i as libc::c_ulong) < table_size {
+    while (i as libc::c_ulong) < table_size.try_into().unwrap() {
         if !(*table.offset(i as isize)).is_null() {
             if (**table.offset(i as isize)).id == i {
             } else {
@@ -747,7 +747,7 @@ pub unsafe extern "C" fn ponyint_serialise_object(
         if ((*t).custom_serialise_space).is_some() {
             let ref mut fresh4 = (*ctx).serialise_size;
             *fresh4 = (*fresh4 as libc::c_ulong)
-                .wrapping_add(((*t).custom_serialise_space).expect("non-null function pointer")(p))
+                .wrapping_add(((*t).custom_serialise_space).expect("non-null function pointer")(p).try_into().unwrap())
                 as usize as usize;
         }
     }
@@ -800,7 +800,7 @@ pub unsafe extern "C" fn pony_serialise_reserve(
     (*s).block = 1 as libc::c_int != 0;
     ponyint_serialise_putindex(&mut (*ctx).serialise, s, index);
     let ref mut fresh6 = (*ctx).serialise_size;
-    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(size) as usize as usize;
+    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(size.try_into().unwrap()) as usize as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "175:1"]
@@ -833,7 +833,7 @@ pub unsafe extern "C" fn pony_serialise_offset(
     return (*t).id as usize
         | (1 as libc::c_int as usize)
             << (::core::mem::size_of::<usize>())
-                .wrapping_mul(8 as libc::c_int as libc::c_ulong)
+                .wrapping_mul((8 as libc::c_int as libc::c_ulong).try_into().unwrap())
                 .wrapping_sub(1);
 }
 #[no_mangle]
@@ -889,7 +889,7 @@ pub unsafe extern "C" fn pony_serialise(
     memset(
         (*out).ptr as *mut libc::c_void,
         0 as libc::c_int,
-        (*out).size,
+        (*out).size.try_into().unwrap(),
     );
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut s: *mut serialise_t = 0 as *mut serialise_t;
@@ -923,13 +923,13 @@ pub unsafe extern "C" fn pony_deserialise_offset(
     if offset
         & (1 as libc::c_int as usize)
             << (::core::mem::size_of::<usize>())
-                .wrapping_mul(8 as libc::c_int as libc::c_ulong)
+                .wrapping_mul((8 as libc::c_int as libc::c_ulong).try_into().unwrap())
                 .wrapping_sub(1)
         != 0
     {
         offset &= !((1 as libc::c_int as usize)
             << (::core::mem::size_of::<usize>())
-                .wrapping_mul(8 as libc::c_int as libc::c_ulong)
+                .wrapping_mul((8 as libc::c_int as libc::c_ulong).try_into().unwrap())
                 .wrapping_sub(1));
         if offset > desc_table_size {
             return 0 as *mut libc::c_void;
@@ -965,7 +965,7 @@ pub unsafe extern "C" fn pony_deserialise_offset(
     if !((*t).instance).is_null() {
         return (*t).instance;
     }
-    if offset.wrapping_add((*t).size as libc::c_ulong) > (*ctx).serialise_size {
+    if offset.wrapping_add(((*t).size as libc::c_ulong).try_into().unwrap()) > (*ctx).serialise_size {
         serialise_cleanup(ctx);
         ::core::mem::transmute::<_, fn()>(
             ((*ctx).serialise_throw).expect("non-null function pointer"),
@@ -1022,7 +1022,7 @@ pub unsafe extern "C" fn pony_deserialise_block(
     memcpy(
         block,
         ((*ctx).serialise_buffer as libc::uintptr_t).wrapping_add(offset) as *mut libc::c_void,
-        size,
+        size.try_into().unwrap(),
     );
     block
 }

@@ -672,7 +672,7 @@ unsafe extern "C" fn send_remote_actor(
         return;
     }
     (*aref).mark = (*gc).mark;
-    if (*aref).rc <= 1 as libc::c_int as libc::c_ulong {
+    if (*aref).rc <= (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let ref mut fresh8 = (*aref).rc;
         *fresh8 = (*fresh8 as libc::c_ulong)
             .wrapping_add((256 as libc::c_int - 1 as libc::c_int) as libc::c_ulong)
@@ -934,7 +934,7 @@ unsafe extern "C" fn send_remote_object(
         (*obj).immutable = 1 as libc::c_int != 0;
         acquire_object(ctx, actor, p, 1 as libc::c_int != 0);
         mutability = PONY_TRACE_MUTABLE as libc::c_int;
-    } else if (*obj).rc <= 1 as libc::c_int as libc::c_ulong {
+    } else if (*obj).rc <= (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         if mutability == PONY_TRACE_IMMUTABLE as libc::c_int {
             (*obj).immutable = 1 as libc::c_int != 0;
         }
@@ -1367,7 +1367,7 @@ pub unsafe extern "C" fn ponyint_gc_sweep(mut ctx: *mut pony_ctx_t, mut gc: *mut
 pub unsafe extern "C" fn ponyint_gc_acquire(mut gc: *mut gc_t, mut aref: *mut actorref_t) -> bool {
     let mut rc: usize = (*aref).rc;
     let ref mut fresh33 = (*gc).rc;
-    *fresh33 = (*fresh33 as libc::c_ulong).wrapping_add(rc) as usize as usize;
+    *fresh33 = (*fresh33 as libc::c_ulong).wrapping_add(rc.try_into().unwrap()) as usize as usize;
     let mut map: *mut objectmap_t = &mut (*aref).map;
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = 0 as *mut object_t;
@@ -1379,7 +1379,7 @@ pub unsafe extern "C" fn ponyint_gc_acquire(mut gc: *mut gc_t, mut aref: *mut ac
         let mut obj_local: *mut object_t =
             ponyint_objectmap_getorput(&mut (*gc).local, (*obj).address, (*obj).type_0, (*gc).mark);
         let ref mut fresh34 = (*obj_local).rc;
-        *fresh34 = (*fresh34 as libc::c_ulong).wrapping_add((*obj).rc) as usize as usize;
+        *fresh34 = (*fresh34 as libc::c_ulong).wrapping_add((*obj).rc.try_into().unwrap()) as usize as usize;
         if (*obj).immutable {
             (*obj_local).immutable = 1 as libc::c_int != 0;
         }
@@ -1403,7 +1403,7 @@ pub unsafe extern "C" fn ponyint_gc_release(mut gc: *mut gc_t, mut aref: *mut ac
         );
     };
     let ref mut fresh35 = (*gc).rc;
-    *fresh35 = (*fresh35 as libc::c_ulong).wrapping_sub(rc) as usize as usize;
+    *fresh35 = (*fresh35 as libc::c_ulong).wrapping_sub(rc.try_into().unwrap()) as usize as usize;
     let mut map: *mut objectmap_t = &mut (*aref).map;
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut obj: *mut object_t = 0 as *mut object_t;
@@ -1430,7 +1430,7 @@ pub unsafe extern "C" fn ponyint_gc_release(mut gc: *mut gc_t, mut aref: *mut ac
             );
         };
         let ref mut fresh36 = (*obj_local).rc;
-        *fresh36 = (*fresh36 as libc::c_ulong).wrapping_sub((*obj).rc) as usize as usize;
+        *fresh36 = (*fresh36 as libc::c_ulong).wrapping_sub((*obj).rc.try_into().unwrap()) as usize as usize;
     }
     ponyint_actorref_free(aref);
     return rc > 0;

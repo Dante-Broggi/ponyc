@@ -916,8 +916,8 @@ unsafe extern "C" fn check_call_send(mut ast: *mut ast_t, mut in_final: bool) ->
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut receiver: ast_ptr_t = 0 as *mut ast_t;
@@ -926,8 +926,8 @@ unsafe extern "C" fn check_call_send(mut ast: *mut ast_t, mut in_final: bool) ->
     ast_get_children(
         lhs,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children_0.as_mut_ptr(),
     );
     match ast_id(receiver) as libc::c_uint {

@@ -72,7 +72,7 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
     let mut next_node: *mut pagemap_node_t = &mut root;
     let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_acq(next_node) };
     let mut i: usize = 0;
-    while i < 3 as libc::c_int as libc::c_ulong {
+    while i < (3 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         if node.is_null() {
             return 0 as *mut chunk_t;
         }
@@ -92,11 +92,11 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
 ) {
     let mut next_node: *mut pagemap_node_t = &mut root;
     let mut i: usize = 0;
-    while i < 3 as libc::c_int as libc::c_ulong {
+    while i < (3 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_relaxed(next_node) };
         if node.is_null() {
             let mut new_node: pagemap_node_t = ponyint_pool_alloc(level[i as usize].size_index);
-            memset(new_node, 0 as libc::c_int, level[i as usize].size);
+            memset(new_node, 0 as libc::c_int, level[i as usize].size.try_into().unwrap());
             if !({
                 let fresh0 = ::core::intrinsics::atomic_cxchg_acqrel(
                     next_node,
@@ -138,12 +138,12 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
     while addr_ptr < addr_end {
         next_node = &mut root;
         let mut i: usize = 0;
-        while i < 3 as libc::c_int as libc::c_ulong {
+        while i < (3 as libc::c_int as libc::c_ulong).try_into().unwrap() {
             node = ::core::intrinsics::atomic_load_relaxed(next_node);
             if node.is_null() {
                 let mut new_node: *mut libc::c_void =
                     ponyint_pool_alloc(level[i as usize].size_index);
-                memset(new_node, 0 as libc::c_int, level[i as usize].size);
+                memset(new_node, 0 as libc::c_int, level[i as usize].size.try_into().unwrap());
                 if !({
                     let fresh1 = ::core::intrinsics::atomic_cxchg_acqrel(
                         next_node,

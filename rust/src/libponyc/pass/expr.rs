@@ -1274,8 +1274,8 @@ pub unsafe extern "C" fn find_antecedent_type(
             ast_get_children(
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             if rhs != ast {
@@ -1319,8 +1319,8 @@ pub unsafe extern "C" fn find_antecedent_type(
             ast_get_children(
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_1.as_mut_ptr(),
             );
             if ast == seq {
@@ -1382,8 +1382,8 @@ pub unsafe extern "C" fn find_antecedent_type(
             ast_get_children(
                 funtype,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_2.as_mut_ptr(),
             );
             let mut arg: *mut ast_t = ast_child(parent);
@@ -1430,8 +1430,8 @@ pub unsafe extern "C" fn find_antecedent_type(
             ast_get_children(
                 funtype_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_3.as_mut_ptr(),
             );
             let mut name: *const libc::c_char = ast_name(ast_child(parent));

@@ -210,7 +210,7 @@ pub unsafe extern "C" fn error_alloc() -> *mut errormsg_t {
     memset(
         e as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<errormsg_t>(),
+        ::core::mem::size_of::<errormsg_t>().try_into().unwrap(),
     );
     e
 }
@@ -229,7 +229,7 @@ pub unsafe extern "C" fn errors_alloc() -> *mut errors_t {
     memset(
         errors as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<errors_t>(),
+        ::core::mem::size_of::<errors_t>().try_into().unwrap(),
     );
     let ref mut fresh0 = (*errors).output_stream;
     *fresh0 = __stderrp;
@@ -428,7 +428,7 @@ unsafe extern "C" fn make_errorv(
         memcpy(
             buf.as_mut_ptr() as *mut libc::c_void,
             &mut *((*source).m).offset(start as isize) as *mut libc::c_char as *const libc::c_void,
-            len,
+            len.try_into().unwrap(),
         );
         buf[len as usize] = '\0' as i32 as libc::c_char;
         let ref mut fresh11 = (*e).source;

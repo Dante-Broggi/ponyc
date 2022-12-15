@@ -545,7 +545,7 @@ pub unsafe extern "C" fn pony_os_std_print(
 ) {
     fwrite(
         buffer as *const libc::c_void,
-        len,
+        len.try_into().unwrap(),
         1 as libc::c_int as libc::c_ulong,
         fp,
     );
@@ -563,7 +563,7 @@ pub unsafe extern "C" fn pony_os_std_write(
     }
     fwrite(
         buffer as *const libc::c_void,
-        len,
+        len.try_into().unwrap(),
         1 as libc::c_int as libc::c_ulong,
         fp,
     );

@@ -2251,7 +2251,7 @@ unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
         }
         ponyint_pool_free_size(
             ((*t).field_count as libc::c_ulong)
-                .wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+                .wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
             (*t).fields as *mut libc::c_void,
         );
         (*t).field_count = 0 as libc::c_int as u32;
@@ -2836,7 +2836,7 @@ unsafe extern "C" fn add_rmethod_to_subtype(
     memset(
         mangled as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<reach_method_t>(),
+        ::core::mem::size_of::<reach_method_t>().try_into().unwrap(),
     );
     let ref mut fresh7 = (*mangled).name;
     *fresh7 = (*m).name;
@@ -2863,7 +2863,7 @@ unsafe extern "C" fn add_rmethod_to_subtype(
     memcpy(
         (*mangled).params as *mut libc::c_void,
         (*m).params as *const libc::c_void,
-        ((*m).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()),
+        ((*m).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()).try_into().unwrap(),
     );
     let ref mut fresh14 = (*mangled).result;
     *fresh14 = (*m).result;
@@ -2943,7 +2943,7 @@ unsafe extern "C" fn add_rmethod(
     memset(
         m as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<reach_method_t>(),
+        ::core::mem::size_of::<reach_method_t>().try_into().unwrap(),
     );
     let ref mut fresh15 = (*m).name;
     *fresh15 = name;
@@ -3265,7 +3265,7 @@ unsafe extern "C" fn add_fields(
     }
     let ref mut fresh22 = (*t).fields;
     *fresh22 = ponyint_pool_alloc_size(
-        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
     ) as *mut reach_field_t;
     member = ast_child(members);
     let mut index: usize = 0;
@@ -3389,7 +3389,7 @@ unsafe extern "C" fn add_reach_type(
     memset(
         t as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<reach_type_t>(),
+        ::core::mem::size_of::<reach_type_t>().try_into().unwrap(),
     );
     let ref mut fresh37 = (*t).name;
     *fresh37 = genname_type(type_0);
@@ -3451,7 +3451,7 @@ unsafe extern "C" fn add_tuple(
     (*t).field_count = ast_childcount((*t).ast) as u32;
     let ref mut fresh41 = (*t).fields;
     *fresh41 = ponyint_pool_alloc_size(
-        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
     ) as *mut reach_field_t;
     add_traits_to_type(r, t, opt);
     add_internal(r, t, b"__is\0" as *const u8 as *const libc::c_char, opt);
@@ -3785,8 +3785,8 @@ unsafe extern "C" fn reachable_pattern(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             let mut r_type: *mut ast_t = deferred_reify(reify_0, type_0, opt);
@@ -3829,8 +3829,8 @@ unsafe extern "C" fn reachable_fun(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = 0 as *mut ast_t;
@@ -3842,8 +3842,8 @@ unsafe extern "C" fn reachable_fun(
             ast_get_children(
                 receiver,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_0.as_mut_ptr(),
             );
         }
@@ -3890,8 +3890,8 @@ unsafe extern "C" fn reachable_call(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     reachable_fun(r, reify_0, postfix, opt);
@@ -3931,8 +3931,8 @@ unsafe extern "C" fn reachable_ffi(
     ast_get_children(
         decl,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut reified: bool = false;
@@ -4071,8 +4071,8 @@ unsafe extern "C" fn reachable_expr(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_1.as_mut_ptr(),
             );
             let mut sub: ast_ptr_t = 0 as *mut ast_t;
@@ -4122,8 +4122,8 @@ unsafe extern "C" fn reachable_expr(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_3.as_mut_ptr(),
             );
             let mut type_5: *mut ast_t = deferred_reify(reify_0, ast_type(left_0), opt);
@@ -4709,7 +4709,7 @@ unsafe extern "C" fn reach_method_serialise(
                 PONY_TRACE_MUTABLE as libc::c_int,
             );
             param_offset = (param_offset as libc::c_ulong)
-                .wrapping_add(::core::mem::size_of::<reach_param_t>())
+                .wrapping_add(::core::mem::size_of::<reach_param_t>().try_into().unwrap())
                 as usize as usize;
             i = i.wrapping_add(1);
         }
@@ -4851,14 +4851,14 @@ unsafe extern "C" fn reach_method_name_serialise(
         ctx,
         &mut (*n).r_methods as *mut reach_methods_t as *mut libc::c_void,
         buf,
-        offset.wrapping_add(16 as libc::c_ulong),
+        offset.wrapping_add((16 as libc::c_ulong).try_into().unwrap()),
         PONY_TRACE_MUTABLE as libc::c_int,
     );
     reach_mangled_serialise(
         ctx,
         &mut (*n).r_mangled as *mut reach_mangled_t as *mut libc::c_void,
         buf,
-        offset.wrapping_add(48 as libc::c_ulong),
+        offset.wrapping_add((48 as libc::c_ulong).try_into().unwrap()),
         PONY_TRACE_MUTABLE as libc::c_int,
     );
 }
@@ -5059,10 +5059,10 @@ unsafe extern "C" fn reach_type_serialise_trace(
             ctx,
             (*t).fields as *mut libc::c_void,
             ((*t).field_count as libc::c_ulong)
-                .wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+                .wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
         );
         let mut i: usize = 0;
-        while i < (*t).field_count as libc::c_ulong {
+        while i < ((*t).field_count as libc::c_ulong).try_into().unwrap() {
             reach_field_serialise_trace(
                 ctx,
                 &mut *((*t).fields).offset(i as isize) as *mut reach_field_t as *mut libc::c_void,
@@ -5097,7 +5097,7 @@ unsafe extern "C" fn reach_type_serialise(
         ctx,
         &mut (*t).methods as *mut reach_method_names_t as *mut libc::c_void,
         buf,
-        offset.wrapping_add(40 as libc::c_ulong),
+        offset.wrapping_add((40 as libc::c_ulong).try_into().unwrap()),
         PONY_TRACE_MUTABLE as libc::c_int,
     );
     let ref mut fresh102 = (*dst).bare_method;
@@ -5107,7 +5107,7 @@ unsafe extern "C" fn reach_type_serialise(
         ctx,
         &mut (*t).subtypes as *mut reach_type_cache_t as *mut libc::c_void,
         buf,
-        offset.wrapping_add(80 as libc::c_ulong),
+        offset.wrapping_add((80 as libc::c_ulong).try_into().unwrap()),
         PONY_TRACE_MUTABLE as libc::c_int,
     );
     (*dst).type_id = (*t).type_id;
@@ -5120,7 +5120,7 @@ unsafe extern "C" fn reach_type_serialise(
     if !((*t).fields).is_null() {
         let mut field_offset: usize = (*dst).fields as usize;
         let mut i: usize = 0;
-        while i < (*t).field_count as libc::c_ulong {
+        while i < ((*t).field_count as libc::c_ulong).try_into().unwrap() {
             reach_field_serialise(
                 ctx,
                 &mut *((*t).fields).offset(i as isize) as *mut reach_field_t as *mut libc::c_void,
@@ -5129,7 +5129,7 @@ unsafe extern "C" fn reach_type_serialise(
                 PONY_TRACE_MUTABLE as libc::c_int,
             );
             field_offset = (field_offset as libc::c_ulong)
-                .wrapping_add(::core::mem::size_of::<reach_field_t>())
+                .wrapping_add(::core::mem::size_of::<reach_field_t>().try_into().unwrap())
                 as usize as usize;
             i = i.wrapping_add(1);
         }
@@ -5173,10 +5173,10 @@ unsafe extern "C" fn reach_type_deserialise(
             ctx,
             (*t).fields as libc::uintptr_t,
             ((*t).field_count as libc::c_ulong)
-                .wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+                .wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
         ) as *mut reach_field_t;
         let mut i: usize = 0;
-        while i < (*t).field_count as libc::c_ulong {
+        while i < ((*t).field_count as libc::c_ulong).try_into().unwrap() {
             reach_field_deserialise(
                 ctx,
                 &mut *((*t).fields).offset(i as isize) as *mut reach_field_t as *mut libc::c_void,
@@ -5258,7 +5258,7 @@ unsafe extern "C" fn reach_serialise(
         ctx,
         &mut (*r).types as *mut reach_types_t as *mut libc::c_void,
         buf,
-        offset.wrapping_add(0 as libc::c_ulong),
+        offset.wrapping_add((0 as libc::c_ulong).try_into().unwrap()),
         PONY_TRACE_MUTABLE as libc::c_int,
     );
     let ref mut fresh112 = (*dst).method_stack;

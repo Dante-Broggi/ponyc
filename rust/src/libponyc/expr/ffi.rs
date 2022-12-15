@@ -881,7 +881,7 @@ pub unsafe extern "C" fn void_star_param(
         return 0 as libc::c_int != 0;
     }
     let mut type_args: *mut ast_t = ast_childidx(param_type, 2 as libc::c_int as usize);
-    if ast_childcount(type_args) != 1 as libc::c_int as libc::c_ulong
+    if ast_childcount(type_args) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap()
         || !is_none(ast_child(type_args))
     {
         return 0 as libc::c_int != 0;
@@ -949,8 +949,8 @@ unsafe extern "C" fn declared_ffi(
     ast_get_children(
         call,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut decl_name: ast_ptr_t = 0 as *mut ast_t;
@@ -969,8 +969,8 @@ unsafe extern "C" fn declared_ffi(
     ast_get_children(
         decl,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children_0.as_mut_ptr(),
     );
     let mut param: *mut ast_t = ast_child(params);
@@ -1119,8 +1119,8 @@ pub unsafe extern "C" fn expr_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if !name.is_null() {

@@ -892,8 +892,8 @@ pub unsafe extern "C" fn verify_interface(mut opt: *mut pass_opt_t, mut ast: *mu
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut member: *mut ast_t = ast_child(members);
@@ -922,8 +922,8 @@ pub unsafe extern "C" fn verify_interface(mut opt: *mut pass_opt_t, mut ast: *mu
                 ast_get_children(
                     member,
                     (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                        .wrapping_sub(1),
+                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                        .wrapping_sub(1).try_into().unwrap(),
                     children_0.as_mut_ptr(),
                 );
                 let mut type_id_name: *const libc::c_char = ast_name(id_0);

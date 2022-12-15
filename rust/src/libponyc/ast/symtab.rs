@@ -411,7 +411,7 @@ unsafe extern "C" fn sym_dup(mut sym: *mut symbol_t) -> *mut symbol_t {
     memcpy(
         s as *mut libc::c_void,
         sym as *const libc::c_void,
-        ::core::mem::size_of::<symbol_t>(),
+        ::core::mem::size_of::<symbol_t>().try_into().unwrap(),
     );
     s
 }

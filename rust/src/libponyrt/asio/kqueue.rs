@@ -397,7 +397,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_init() -> *mut asio_backend_t {
     memset(
         b as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<asio_backend_t>(),
+        ::core::mem::size_of::<asio_backend_t>().try_into().unwrap(),
     );
     ponyint_messageq_init(&mut (*b).q);
     (*b).kq = kqueue();

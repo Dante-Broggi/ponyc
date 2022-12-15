@@ -134,12 +134,12 @@ pub unsafe extern "C" fn pony_os_eexist() -> libc::c_int {
 }
 #[c2rust::src_loc = "31:1"]
 unsafe extern "C" fn skip_entry(mut entry: *const libc::c_char, mut len: usize) -> bool {
-    if len == 1 as libc::c_int as libc::c_ulong
+    if len == (1 as libc::c_int as libc::c_ulong).try_into().unwrap()
         && *entry.offset(0 as libc::c_int as isize) as libc::c_int == '.' as i32
     {
         return 1 as libc::c_int != 0;
     }
-    if len == 2 as libc::c_int as libc::c_ulong
+    if len == (2 as libc::c_int as libc::c_ulong).try_into().unwrap()
         && *entry.offset(0 as libc::c_int as isize) as libc::c_int == '.' as i32
         && *entry.offset(1 as libc::c_int as isize) as libc::c_int == '.' as i32
     {
@@ -178,7 +178,7 @@ pub unsafe extern "C" fn pony_os_cwd() -> *mut libc::c_char {
     memcpy(
         cstring as *mut libc::c_void,
         cwd as *const libc::c_void,
-        len,
+        len.try_into().unwrap(),
     );
     cstring
 }
@@ -230,7 +230,7 @@ pub unsafe extern "C" fn ponyint_unix_readdir(mut dir: *mut DIR) -> *const libc:
         memcpy(
             cstring as *mut libc::c_void,
             ((*d).d_name).as_mut_ptr() as *const libc::c_void,
-            len.wrapping_add(1),
+            len.wrapping_add(1).try_into().unwrap(),
         );
         return cstring;
     }

@@ -685,8 +685,8 @@ pub unsafe extern "C" fn viewpoint_type(
             ast_get_children(
                 l_type,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             let mut r_right: *mut ast_t = viewpoint_type(right, r_type);
@@ -773,8 +773,8 @@ pub unsafe extern "C" fn viewpoint_upper(mut type_0: *mut ast_t) -> *mut ast_t {
     ast_get_children(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut r_right: *mut ast_t = right;
@@ -868,8 +868,8 @@ pub unsafe extern "C" fn viewpoint_lower(mut type_0: *mut ast_t) -> *mut ast_t {
     ast_get_children(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut r_right: *mut ast_t = right;
@@ -1023,8 +1023,8 @@ unsafe extern "C" fn replace_type(
         ast_get_children(
             ast,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children_0.as_mut_ptr(),
         );
         let mut r_type: *mut ast_t = viewpoint_type(left, right);
@@ -1236,8 +1236,8 @@ pub unsafe extern "C" fn viewpoint_reifypair(
         ast_get_children(
             test,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children.as_mut_ptr(),
         );
         match ast_id(left) as libc::c_uint {

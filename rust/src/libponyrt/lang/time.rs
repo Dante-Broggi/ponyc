@@ -168,7 +168,7 @@ unsafe extern "C" fn date_to_tm(mut date: *mut date_t, mut tm: *mut tm) {
     memset(
         tm as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<tm>(),
+        ::core::mem::size_of::<tm>().try_into().unwrap(),
     );
     (*tm).tm_sec = (*date).sec;
     (*tm).tm_min = (*date).min;

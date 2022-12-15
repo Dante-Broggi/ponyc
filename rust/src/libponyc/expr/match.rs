@@ -1108,7 +1108,7 @@ unsafe extern "C" fn case_expr_matches_type_alone(
             .as_ptr(),
         );
     };
-    if ast_childcount(eq_params) == 1 as libc::c_int as libc::c_ulong {
+    if ast_childcount(eq_params) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
     } else {
         ponyint_assert_fail(
             b"ast_childcount(eq_params) == 1\0" as *const u8 as *const libc::c_char,
@@ -1135,7 +1135,7 @@ unsafe extern "C" fn case_expr_matches_type_alone(
             .as_ptr(),
         );
     };
-    if ast_childcount(eq_body) != 1 as libc::c_int as libc::c_ulong
+    if ast_childcount(eq_body) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap()
         || ast_id(ast_child(eq_body)) as libc::c_uint != TK_IS as libc::c_int as libc::c_uint
         || ast_id(ast_child(ast_child(eq_body))) as libc::c_uint
             != TK_THIS as libc::c_int as libc::c_uint
@@ -1501,7 +1501,7 @@ unsafe extern "C" fn make_pattern_type(
             return tuple_type;
         }
         175 => {
-            if ast_childcount(pattern) == 1 as libc::c_int as libc::c_ulong {
+            if ast_childcount(pattern) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
                 return make_pattern_type(opt, ast_child(pattern));
             }
         }
@@ -1555,8 +1555,8 @@ unsafe extern "C" fn make_pattern_type(
     ast_get_children(
         r_fun,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut ok_0: bool = 1 as libc::c_int != 0;
@@ -1616,8 +1616,8 @@ unsafe extern "C" fn make_pattern_type(
         ast_get_children(
             param,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children_0.as_mut_ptr(),
         );
         pattern_type = ast_dup(param_type);
@@ -1855,8 +1855,8 @@ pub unsafe extern "C" fn expr_match_capture(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if is_name_dontcare(ast_name(id)) {

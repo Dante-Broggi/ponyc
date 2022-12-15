@@ -1023,7 +1023,7 @@ pub unsafe extern "C" fn painter_print(mut painter: *mut painter_t) {
         b"Painter typemaps are %zu bits\n\0" as *const u8 as *const libc::c_char,
         ((*painter).typemap_size)
             .wrapping_mul(::core::mem::size_of::<u64>())
-            .wrapping_mul(8 as libc::c_int as libc::c_ulong),
+            .wrapping_mul((8 as libc::c_int as libc::c_ulong).try_into().unwrap()),
     );
     printf(b"Painter names:\n\0" as *const u8 as *const libc::c_char);
     let mut i: usize = -(1 as libc::c_int) as usize;
@@ -1100,7 +1100,7 @@ unsafe extern "C" fn add_name(
     memset(
         (*n).type_map as *mut libc::c_void,
         0 as libc::c_int,
-        map_byte_count,
+        map_byte_count.try_into().unwrap(),
     );
     name_records_put(&mut (*painter).names, n);
     n
@@ -1129,7 +1129,7 @@ unsafe extern "C" fn add_colour(mut painter: *mut painter_t) -> *mut colour_reco
     memset(
         (*n).type_map as *mut libc::c_void,
         0 as libc::c_int,
-        map_byte_count,
+        map_byte_count.try_into().unwrap(),
     );
     let ref mut fresh4 = *(*painter).colour_next;
     *fresh4 = n;
@@ -1468,7 +1468,7 @@ pub unsafe extern "C" fn paint(mut types: *mut reach_types_t) {
     painter.colour_count = 0 as libc::c_int as u32;
     painter.typemap_size = type_count
         .wrapping_sub(1)
-        .wrapping_div(64 as libc::c_int as libc::c_ulong)
+        .wrapping_div((64 as libc::c_int as libc::c_ulong).try_into().unwrap())
         .wrapping_add(1);
     find_names_types_use(&mut painter, types);
     assign_colours_to_names(&mut painter);

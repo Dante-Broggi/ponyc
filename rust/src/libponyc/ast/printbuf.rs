@@ -128,7 +128,7 @@ pub unsafe extern "C" fn printbuf(
     ap = args.clone();
     let mut r: libc::c_int = vsnprintf(
         ((*buf).m).offset((*buf).offset as isize),
-        avail,
+        avail.try_into().unwrap(),
         fmt,
         ap.as_va_list(),
     );
@@ -137,7 +137,7 @@ pub unsafe extern "C" fn printbuf(
     }
     if r as usize >= avail {
         let mut new_size: usize = ((*buf).size)
-            .wrapping_add(r as libc::c_ulong)
+            .wrapping_add((r as libc::c_ulong).try_into().unwrap())
             .wrapping_add(1);
         let ref mut fresh1 = (*buf).m;
         *fresh1 = ponyint_pool_realloc_size((*buf).size, new_size, (*buf).m as *mut libc::c_void)
@@ -147,7 +147,7 @@ pub unsafe extern "C" fn printbuf(
         ap = args.clone();
         r = vsnprintf(
             ((*buf).m).offset((*buf).offset as isize),
-            avail,
+            avail.try_into().unwrap(),
             fmt,
             ap.as_va_list(),
         );
