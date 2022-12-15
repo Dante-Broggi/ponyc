@@ -740,7 +740,7 @@ pub unsafe extern "C" fn stringtab_consume(
     if string.is_null() {
         return 0 as *const libc::c_char;
     }
-    let mut len: usize = strlen(string);
+    let mut len: usize = libc::strlen(string);
     let mut key: stringtab_entry_t = {
         let mut init = stringtab_entry_t {
             str_0: string,
@@ -785,7 +785,7 @@ unsafe extern "C" fn string_serialise(
     memcpy(
         (buf as uintptr_t).wrapping_add(offset) as *mut libc::c_void,
         object,
-        (strlen(string)).wrapping_add(1 as libc::c_int as libc::c_ulong),
+        (libc::strlen(string)).wrapping_add(1 as libc::c_int as libc::c_ulong),
     );
 }
 #[thread_local]

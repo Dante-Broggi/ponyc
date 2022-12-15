@@ -1580,7 +1580,7 @@ unsafe extern "C" fn print_params(
         }
         print_type_name(c, buf, (*(*params.offset(i as isize)).type_0).ast_cap);
         let mut name: *const libc::c_char = (*params.offset(i as isize)).name;
-        let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        let mut len: usize = (libc::strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
         let mut buf_size: usize = len;
         let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
         memcpy(

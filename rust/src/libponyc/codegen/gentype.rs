@@ -2198,7 +2198,7 @@ unsafe extern "C" fn make_debug_basic(mut c: *mut compile_t, mut t: *mut reach_t
     *fresh50 = LLVMDIBuilderCreateBasicType(
         (*c).di,
         (*t).name,
-        strlen((*t).name),
+        libc::strlen((*t).name),
         (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(size),
         encoding,
         LLVMDIFlagZero,
@@ -2250,7 +2250,7 @@ unsafe extern "C" fn make_debug_info(mut c: *mut compile_t, mut t: *mut reach_ty
     *fresh54 = LLVMDIBuilderCreateFile(
         (*c).di,
         file,
-        strlen(file),
+        libc::strlen(file),
         b"\0" as *const u8 as *const libc::c_char,
         0 as libc::c_int as usize,
     );
@@ -2538,7 +2538,7 @@ unsafe extern "C" fn make_debug_field(
         (*c).di,
         (*c).di_unit,
         name,
-        strlen(name),
+        libc::strlen(name),
         (*c_t).di_file,
         ast_line(ast) as libc::c_uint,
         (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(size),
@@ -2580,7 +2580,7 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
         (*c).di,
         (*c).di_unit,
         (*t).name,
-        strlen((*t).name),
+        libc::strlen((*t).name),
         (*c_t).di_file,
         ast_line((*t).ast) as libc::c_uint,
         (8 as libc::c_int as libc::c_ulonglong).wrapping_mul(size),
@@ -2592,7 +2592,7 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
         0 as libc::c_int as libc::c_uint,
         0 as LLVMMetadataRef,
         (*t).name,
-        strlen((*t).name),
+        libc::strlen((*t).name),
     );
     if !fields.is_null() {
         ponyint_pool_free_size(fields_buf_size, fields as *mut libc::c_void);

@@ -813,7 +813,7 @@ unsafe extern "C" fn print_passes() {
     let mut p: pass_id = PASS_PARSE;
     while (p as libc::c_uint) < PASS_ALL as libc::c_int as libc::c_uint {
         let mut name: *const libc::c_char = pass_name(p);
-        let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        let mut len: usize = (libc::strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
         if cur_len.wrapping_add(len) < 80 as libc::c_int as libc::c_ulong {
             printf(b"%s,\0" as *const u8 as *const libc::c_char, name);
             cur_len = (cur_len as libc::c_ulong).wrapping_add(len) as usize as usize;
@@ -824,7 +824,7 @@ unsafe extern "C" fn print_passes() {
         p = pass_next(p);
     }
     let mut name_0: *const libc::c_char = pass_name(PASS_ALL);
-    if cur_len.wrapping_add(strlen(name_0)) < 80 as libc::c_int as libc::c_ulong {
+    if cur_len.wrapping_add(libc::strlen(name_0)) < 80 as libc::c_int as libc::c_ulong {
         printf(b"%s\n\0" as *const u8 as *const libc::c_char, name_0);
     } else {
         printf(b"\n%s\n\0" as *const u8 as *const libc::c_char, name_0);

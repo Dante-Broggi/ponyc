@@ -617,7 +617,7 @@ pub unsafe extern "C" fn symtab_put(
 }
 #[c2rust::src_loc = "38:1"]
 unsafe extern "C" fn name_without_case(mut name: *const libc::c_char) -> *const libc::c_char {
-    let mut len: usize = (strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    let mut len: usize = (libc::strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     if is_name_type(name) {
         let mut i: usize = 0;

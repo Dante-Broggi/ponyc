@@ -1295,11 +1295,11 @@ unsafe extern "C" fn doc_cat(
             (*::core::mem::transmute::<&[u8; 8], &[libc::c_char; 8]>(b"doc_cat\0")).as_ptr(),
         );
     };
-    let mut a_len: usize = strlen(a);
-    let mut b_len: usize = strlen(b);
-    let mut c_len: usize = strlen(c);
-    let mut d_len: usize = strlen(d);
-    let mut e_len: usize = strlen(e);
+    let mut a_len: usize = libc::strlen(a);
+    let mut b_len: usize = libc::strlen(b);
+    let mut c_len: usize = libc::strlen(c);
+    let mut d_len: usize = libc::strlen(d);
+    let mut e_len: usize = libc::strlen(e);
     let mut buf_len: usize = a_len
         .wrapping_add(b_len)
         .wrapping_add(c_len)
@@ -2726,8 +2726,8 @@ unsafe extern "C" fn concat(
     mut s2: *const libc::c_char,
     mut allocated_size: *mut usize,
 ) -> *mut libc::c_char {
-    let mut str_size: usize = (strlen(s1))
-        .wrapping_add(strlen(s2))
+    let mut str_size: usize = (libc::strlen(s1))
+        .wrapping_add(libc::strlen(s2))
         .wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut result: *mut libc::c_char = ponyint_pool_alloc_size(str_size) as *mut libc::c_char;
     *allocated_size = str_size;
@@ -2789,7 +2789,7 @@ unsafe extern "C" fn copy_source_to_doc_src(
     strcpy(filename_copy.as_mut_ptr(), (*source).file);
     let mut just_filename: *const libc::c_char = get_file_name(filename_copy.as_mut_ptr());
     let mut filename_alloc_size: usize =
-        (strlen(just_filename)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        (libc::strlen(just_filename)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut filename: *mut libc::c_char =
         ponyint_pool_alloc_size(filename_alloc_size) as *mut libc::c_char;
     strcpy(filename, just_filename);
@@ -2903,7 +2903,7 @@ unsafe extern "C" fn replace_path_separator(
     mut path: *const libc::c_char,
     mut name_len: *mut usize,
 ) -> *mut libc::c_char {
-    let mut str_len: usize = strlen(path);
+    let mut str_len: usize = libc::strlen(path);
     *name_len = str_len.wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(*name_len) as *mut libc::c_char;
     memcpy(

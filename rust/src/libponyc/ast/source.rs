@@ -311,7 +311,7 @@ pub unsafe extern "C" fn source_open_string(mut source_code: *const libc::c_char
     let mut source: *mut source_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut source_t;
     let ref mut fresh2 = (*source).file;
     *fresh2 = 0 as *const libc::c_char;
-    (*source).len = (strlen(source_code)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    (*source).len = (libc::strlen(source_code)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let ref mut fresh3 = (*source).m;
     *fresh3 = ponyint_pool_alloc_size((*source).len) as *mut libc::c_char;
     memcpy(

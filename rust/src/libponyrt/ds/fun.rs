@@ -274,7 +274,7 @@ pub unsafe extern "C" fn ponyint_hash_block64(mut p: *const libc::c_void, mut le
 #[no_mangle]
 #[c2rust::src_loc = "152:1"]
 pub unsafe extern "C" fn ponyint_hash_str(mut str: *const libc::c_char) -> usize {
-    return siphash24(the_key.as_ptr(), str as *const libc::c_uchar, strlen(str)) as usize;
+    return siphash24(the_key.as_ptr(), str as *const libc::c_uchar, libc::strlen(str)) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "161:1"]

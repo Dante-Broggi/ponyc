@@ -1973,7 +1973,7 @@ unsafe extern "C" fn name_param(
             (*c).di,
             (*c_m).di_method,
             name,
-            strlen(name),
+            libc::strlen(name),
             index.wrapping_add(1 as libc::c_int as libc::c_uint),
             (*c_m).di_file,
             ast_line((*(*m).fun).ast) as libc::c_uint,

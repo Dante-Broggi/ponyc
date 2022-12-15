@@ -193,7 +193,7 @@ pub unsafe extern "C" fn pony_dir_entry_next(mut dir: *mut DIR) -> *mut dirent {
 #[no_mangle]
 #[c2rust::src_loc = "116:1"]
 pub unsafe extern "C" fn pony_mkdir(mut path: *const libc::c_char) {
-    let mut path_len: usize = strlen(path);
+    let mut path_len: usize = libc::strlen(path);
     let mut buf: *mut libc::c_char =
         ponyint_pool_alloc_size(path_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
             as *mut libc::c_char;
@@ -232,7 +232,7 @@ pub unsafe extern "C" fn remove_ext(
     if path.is_null() {
         return 0 as *mut libc::c_char;
     }
-    *allocated_size = (strlen(path)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+    *allocated_size = (libc::strlen(path)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     retstr = ponyint_pool_alloc_size(*allocated_size) as *mut libc::c_char;
     strcpy(retstr, path);
     lastdot = strrchr(retstr, dot as libc::c_int);

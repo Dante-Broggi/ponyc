@@ -1073,7 +1073,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         def = ast_data(left) as *mut ast_t;
         temp_ast = left;
         len = (len as libc::c_ulong)
-            .wrapping_add((strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
+            .wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1 as libc::c_int as libc::c_ulong))
             as usize as usize;
         if !def.is_null() {
             break;
@@ -1094,7 +1094,7 @@ unsafe extern "C" fn generate_multi_dot_name(
             );
             if ast_id(left_0) as libc::c_uint == TK_THIS as libc::c_int as libc::c_uint {
                 temp_ast = right_0;
-                len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize
+                len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize
                     as usize;
             } else {
                 if 0 as libc::c_int != 0 {
@@ -1114,7 +1114,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         }
         197 | 196 | 184 | 198 => {
             temp_ast = ast_child(temp_ast);
-            len = (len as libc::c_ulong).wrapping_add(strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
@@ -1150,7 +1150,7 @@ unsafe extern "C" fn generate_multi_dot_name(
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     let mut offset: usize = 0;
     let mut name: *const libc::c_char = ast_name(temp_ast);
-    let mut slen: usize = strlen(name);
+    let mut slen: usize = libc::strlen(name);
     memcpy(
         buf.offset(offset as isize) as *mut libc::c_void,
         name as *const libc::c_void,
@@ -1164,7 +1164,7 @@ unsafe extern "C" fn generate_multi_dot_name(
             as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
-        slen = strlen(name);
+        slen = libc::strlen(name);
         memcpy(
             buf.offset(offset as isize) as *mut libc::c_void,
             name as *const libc::c_void,
@@ -1377,7 +1377,7 @@ unsafe extern "C" fn suggest_alt_name(
                 .as_ptr(),
         );
     };
-    let mut name_len: usize = strlen(name);
+    let mut name_len: usize = libc::strlen(name);
     if is_name_private(name) {
         let mut try_name: *const libc::c_char = stringtab(name.offset(1 as libc::c_int as isize));
         if !(ast_get(ast, try_name, 0 as *mut sym_status_t)).is_null() {

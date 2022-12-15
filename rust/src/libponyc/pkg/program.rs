@@ -1089,7 +1089,7 @@ unsafe extern "C" fn append_to_args(mut program: *mut program_t, mut text: *cons
                 .as_ptr(),
         );
     };
-    let mut text_len: usize = strlen(text);
+    let mut text_len: usize = libc::strlen(text);
     let mut new_len: usize = ((*program).lib_args_size)
         .wrapping_add(text_len)
         .wrapping_add(1 as libc::c_int as libc::c_ulong);
@@ -1235,7 +1235,7 @@ unsafe extern "C" fn quoted_locator(
         }
         return 0 as *const libc::c_char;
     }
-    let mut len: usize = strlen(locator);
+    let mut len: usize = libc::strlen(locator);
     let mut quoted: *mut libc::c_char =
         ponyint_pool_alloc_size(len.wrapping_add(3 as libc::c_int as libc::c_ulong))
             as *mut libc::c_char;

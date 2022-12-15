@@ -3433,9 +3433,9 @@ unsafe extern "C" fn init_module(
     let mut fileRef: LLVMMetadataRef = LLVMDIBuilderCreateFile(
         (*c).di,
         filename,
-        strlen(filename),
+        libc::strlen(filename),
         dirname,
-        strlen(dirname),
+        libc::strlen(dirname),
     );
     let ref mut fresh107 = (*c).di_unit;
     *fresh107 = LLVMDIBuilderCreateCompileUnit(
@@ -3443,7 +3443,7 @@ unsafe extern "C" fn init_module(
         LLVMDWARFSourceLanguageC_plus_plus,
         fileRef,
         version,
-        strlen(version),
+        libc::strlen(version),
         (*opt).release as LLVMBool,
         if !((*opt).all_args).is_null() {
             (*opt).all_args
@@ -3451,7 +3451,7 @@ unsafe extern "C" fn init_module(
             b"\0" as *const u8 as *const libc::c_char
         },
         if !((*opt).all_args).is_null() {
-            strlen((*opt).all_args)
+            libc::strlen((*opt).all_args)
         } else {
             0 as libc::c_int as libc::c_ulong
         },
@@ -3521,7 +3521,7 @@ unsafe extern "C" fn process_llvm_args(mut opt: *mut pass_opt_t) {
         return;
     }
     let mut raw_opt_str_size: usize =
-        (strlen((*opt).llvm_args)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        (libc::strlen((*opt).llvm_args)).wrapping_add(1 as libc::c_int as libc::c_ulong);
     let mut buffer: *mut libc::c_char = malloc(
         (::core::mem::size_of::<libc::c_char>() as libc::c_ulong).wrapping_mul(raw_opt_str_size),
     ) as *mut libc::c_char;
@@ -4324,10 +4324,10 @@ pub unsafe extern "C" fn suffix_filename(
     mut file: *const libc::c_char,
     mut extension: *const libc::c_char,
 ) -> *const libc::c_char {
-    let mut len: usize = (strlen(dir))
-        .wrapping_add(strlen(prefix))
-        .wrapping_add(strlen(file))
-        .wrapping_add(strlen(extension))
+    let mut len: usize = (libc::strlen(dir))
+        .wrapping_add(libc::strlen(prefix))
+        .wrapping_add(libc::strlen(file))
+        .wrapping_add(libc::strlen(extension))
         .wrapping_add(4 as libc::c_int as libc::c_ulong);
     let mut filename: *mut libc::c_char = ponyint_pool_alloc_size(len) as *mut libc::c_char;
     snprintf(

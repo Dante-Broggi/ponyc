@@ -1400,7 +1400,7 @@ unsafe extern "C" fn print_token(mut fp: *mut FILE, mut token: *mut token_t) {
         5 => {
             let mut escaped: *mut libc::c_char = token_print_escaped(token);
             fprintf(fp, b"\"%s\"\0" as *const u8 as *const libc::c_char, escaped);
-            ponyint_pool_free_size(strlen(escaped), escaped as *mut libc::c_void);
+            ponyint_pool_free_size(libc::strlen(escaped), escaped as *mut libc::c_void);
         }
         8 => {
             fprintf(
@@ -1426,7 +1426,7 @@ unsafe extern "C" fn length(
 ) -> usize {
     let mut len: usize = indent
         .wrapping_mul(in_len)
-        .wrapping_add(strlen(token_print((*ast).t)));
+        .wrapping_add(libc::strlen(token_print((*ast).t)));
     let mut child: *mut ast_t = (*ast).child;
     if kind as libc::c_uint != NOT_SPECIAL as libc::c_int as libc::c_uint
         || !child.is_null()
