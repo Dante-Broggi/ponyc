@@ -5,6 +5,8 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_assignments)]
 #![allow(unused_mut)]
+#![allow(improper_ctypes)]
+#![allow(unused_unsafe)]
 #![feature(asm)]
 #![feature(c_variadic)]
 #![feature(core_intrinsics)]
