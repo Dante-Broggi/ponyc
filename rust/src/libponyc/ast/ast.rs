@@ -807,15 +807,8 @@ pub mod symtab_h {
     pub const SYM_NOCASE: sym_status_t = 1;
     #[c2rust::src_loc = "14:3"]
     pub const SYM_NONE: sym_status_t = 0;
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "24:16"]
-    pub struct symbol_t {
-        pub name: *const libc::c_char,
-        pub def: *mut ast_t,
-        pub status: sym_status_t,
-        pub branch_count: usize,
-    }
+    pub use crate::libponyc::ast::symtab::symbol_t;
 
     use super::ast_t;
 
