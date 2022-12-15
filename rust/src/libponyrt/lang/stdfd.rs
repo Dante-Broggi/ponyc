@@ -269,12 +269,8 @@ pub mod stdio_h {
             _: *mut FILE,
         ) -> libc::c_ulong;
         #[c2rust::src_loc = "184:1"]
-        pub fn setvbuf(
-            _: *mut FILE,
-            _: *mut libc::c_char,
-            _: libc::c_int,
-            _: usize,
-        ) -> libc::c_int;
+        pub fn setvbuf(_: *mut FILE, _: *mut libc::c_char, _: libc::c_int, _: usize)
+            -> libc::c_int;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unistd.h:9"]

@@ -932,8 +932,8 @@ pub unsafe extern "C" fn ponyint_hashmap_optimize(mut map: *mut hashmap_t, mut c
             if elem.is_null() {
                 break;
             }
-            count = (count as libc::c_ulong).wrapping_add(optimize_item(map, cmp, i)) as usize
-                as usize;
+            count =
+                (count as libc::c_ulong).wrapping_add(optimize_item(map, cmp, i)) as usize as usize;
         }
         num_iters = num_iters.wrapping_add(1);
         if !(count > 0 as libc::c_int as libc::c_ulong) {

@@ -1327,10 +1327,7 @@ pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
     ponyint_messageq_destroy(&mut (*actor).q, 0 as libc::c_int != 0);
     ponyint_gc_destroy(&mut (*actor).gc);
     ponyint_heap_destroy(&mut (*actor).heap);
-    ponyint_pool_free_size(
-        (*(*actor).type_0).size as usize,
-        actor as *mut libc::c_void,
-    );
+    ponyint_pool_free_size((*(*actor).type_0).size as usize, actor as *mut libc::c_void);
 }
 #[no_mangle]
 #[c2rust::src_loc = "821:1"]

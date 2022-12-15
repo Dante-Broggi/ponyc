@@ -1045,8 +1045,7 @@ pub mod reach_h {
         #[c2rust::src_loc = "18:35"]
         pub type reach_method_stack_t;
         #[c2rust::src_loc = "20:59"]
-        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize)
-            -> *mut reach_method_t;
+        pub fn reach_mangled_next(map: *mut reach_mangled_t, i: *mut usize) -> *mut reach_method_t;
         #[c2rust::src_loc = "22:3"]
         pub fn reach_method_names_next(
             map: *mut reach_method_names_t,

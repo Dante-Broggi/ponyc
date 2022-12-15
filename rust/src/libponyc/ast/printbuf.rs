@@ -102,8 +102,7 @@ use self::stdio_h::vsnprintf;
 #[no_mangle]
 #[c2rust::src_loc = "7:1"]
 pub unsafe extern "C" fn printbuf_new() -> *mut printbuf_t {
-    let mut buf: *mut printbuf_t =
-        ponyint_pool_alloc(0 as libc::c_int as usize) as *mut printbuf_t;
+    let mut buf: *mut printbuf_t = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut printbuf_t;
     let ref mut fresh0 = (*buf).m;
     *fresh0 = ponyint_pool_alloc_size(32 as libc::c_int as usize) as *mut libc::c_char;
     *((*buf).m).offset(0 as libc::c_int as isize) = '\0' as i32 as libc::c_char;

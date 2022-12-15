@@ -1461,8 +1461,7 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     let mut sub_typeparam: *mut ast_t = ast_child(sub_typeparams);
     let mut super_typeparam: *mut ast_t = ast_child(super_typeparams);
     while !sub_typeparam.is_null() && !super_typeparam.is_null() {
-        let mut sub_constraint: *mut ast_t =
-            ast_childidx(sub_typeparam, 1 as libc::c_int as usize);
+        let mut sub_constraint: *mut ast_t = ast_childidx(sub_typeparam, 1 as libc::c_int as usize);
         let mut super_constraint: *mut ast_t =
             ast_childidx(super_typeparam, 1 as libc::c_int as usize);
         if !is_x_sub_x(super_constraint, sub_constraint, CHECK_CAP_EQ, errorf, opt) {
@@ -2157,8 +2156,7 @@ unsafe extern "C" fn is_nominal_sub_structural(
     let mut super_members: *mut ast_t = ast_childidx(super_def, 4 as libc::c_int as usize);
     let mut super_member: *mut ast_t = ast_child(super_members);
     while !super_member.is_null() {
-        let mut super_member_id: *mut ast_t =
-            ast_childidx(super_member, 1 as libc::c_int as usize);
+        let mut super_member_id: *mut ast_t = ast_childidx(super_member, 1 as libc::c_int as usize);
         let mut sub_member: *mut ast_t =
             ast_get(sub_def, ast_name(super_member_id), 0 as *mut sym_status_t);
         if sub_member.is_null()
