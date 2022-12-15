@@ -356,18 +356,9 @@ pub mod scheduler_h {
     #[c2rust::src_loc = "33:1"]
     pub use crate::libponyrt::sched::scheduler::trace_actor_fn;
     #[c2rust::src_loc = "30:1"]
-    pub type trace_object_fn = Option<
-        unsafe extern "C" fn(
-            *mut pony_ctx_t,
-            *mut libc::c_void,
-            *const pony_type_t,
-            libc::c_int,
-        ) -> (),
-    >;
+    pub use crate::libponyrt::sched::scheduler::trace_object_fn;
 
     use super::actor_h::pony_actor_t;
-
-    use super::pony_h::pony_type_t;
 
     #[c2rust::src_loc = "84:8"]
     pub use crate::libponyrt::sched::scheduler::scheduler_t;
