@@ -1045,11 +1045,11 @@ pub unsafe extern "C" fn ponyint_pool_used_size(mut size: usize) -> usize {
 #[no_mangle]
 #[c2rust::src_loc = "1030:1"]
 pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: usize) -> usize {
-    if size & (((1 as libc::c_int) << 10 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+    if size & (((1) << 10) - 1) as libc::c_ulong
         != 0
     {
         size = (size
-            & !(((1 as libc::c_int) << 10 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong)
+            & !(((1) << 10) - 1))
             .wrapping_add(((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong);
     }
     if size == 0 {
