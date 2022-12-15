@@ -2436,7 +2436,8 @@ unsafe extern "C" fn literal_doesnt_terminate(mut lexer: *mut lexer_t) -> *mut t
         b"Literal doesn't terminate\0" as *const u8 as *const libc::c_char,
     );
     let ref mut fresh6 = (*lexer).ptr;
-    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add((*lexer).len.try_into().unwrap()) as usize as usize;
+    *fresh6 =
+        (*fresh6 as libc::c_ulong).wrapping_add((*lexer).len.try_into().unwrap()) as usize as usize;
     (*lexer).len = 0 as libc::c_int as usize;
     return make_token(lexer, TK_LEX_ERROR);
 }
@@ -2451,7 +2452,8 @@ unsafe extern "C" fn nested_comment(mut lexer: *mut lexer_t) -> *mut token_t {
                 b"Nested comment doesn't terminate\0" as *const u8 as *const libc::c_char,
             );
             let ref mut fresh7 = (*lexer).ptr;
-            *fresh7 = (*fresh7 as libc::c_ulong).wrapping_add((*lexer).len.try_into().unwrap()) as usize as usize;
+            *fresh7 = (*fresh7 as libc::c_ulong).wrapping_add((*lexer).len.try_into().unwrap())
+                as usize as usize;
             (*lexer).len = 0 as libc::c_int as usize;
             return make_token(lexer, TK_LEX_ERROR);
         }
@@ -2562,8 +2564,11 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
         let mut compacted: *mut libc::c_char = (*lexer).buffer;
         let mut rem: usize = (*lexer).buflen;
         while rem > 0 {
-            let mut line_end: *mut libc::c_char =
-                memchr(line_start as *const libc::c_void, '\n' as i32, rem.try_into().unwrap()) as *mut libc::c_char;
+            let mut line_end: *mut libc::c_char = memchr(
+                line_start as *const libc::c_void,
+                '\n' as i32,
+                rem.try_into().unwrap(),
+            ) as *mut libc::c_char;
             let mut line_len: usize = if line_end.is_null() {
                 rem
             } else {
@@ -2587,7 +2592,8 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
                 compacted = compacted.offset(line_len as isize);
             }
             line_start = line_start.offset(line_len as isize);
-            rem = (rem as libc::c_ulong).wrapping_sub(line_len.try_into().unwrap()) as usize as usize;
+            rem =
+                (rem as libc::c_ulong).wrapping_sub(line_len.try_into().unwrap()) as usize as usize;
         }
         (*lexer).buflen = compacted.offset_from((*lexer).buffer) as libc::c_long as usize;
     }
@@ -2597,7 +2603,8 @@ unsafe extern "C" fn normalise_string(mut lexer: *mut lexer_t) {
         let mut c_0: libc::c_char = *((*lexer).buffer).offset(i_0 as isize);
         if c_0 as libc::c_int == '\n' as i32 {
             let ref mut fresh10 = (*lexer).buflen;
-            *fresh10 = (*fresh10 as libc::c_ulong).wrapping_sub(trim_0.try_into().unwrap()) as usize as usize;
+            *fresh10 = (*fresh10 as libc::c_ulong).wrapping_sub(trim_0.try_into().unwrap()) as usize
+                as usize;
             break;
         } else {
             if !(isspace(c_0 as libc::c_int) != 0) {
@@ -3205,7 +3212,11 @@ unsafe extern "C" fn newline_symbols(mut raw_token: token_id, mut newline: bool)
 unsafe extern "C" fn symbol(mut lexer: *mut lexer_t) -> *mut token_t {
     let mut sym: [libc::c_char; 3] = [0; 3];
     let mut i: usize = 0;
-    while i < (::core::mem::size_of::<[libc::c_char; 3]>() as libc::c_ulong).try_into().unwrap() {
+    while i
+        < (::core::mem::size_of::<[libc::c_char; 3]>() as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         sym[i as usize] = lookn(lexer, i.wrapping_add(1));
         i = i.wrapping_add(1);
     }

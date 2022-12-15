@@ -1804,7 +1804,8 @@ unsafe extern "C" fn collect(
         view_free(view);
     }
     let ref mut fresh14 = (*d).destroyed;
-    *fresh14 = (*fresh14 as libc::c_ulong).wrapping_add(ponyint_viewmap_size(&mut (*per).map).try_into().unwrap())
+    *fresh14 = (*fresh14 as libc::c_ulong)
+        .wrapping_add(ponyint_viewmap_size(&mut (*per).map).try_into().unwrap())
         as usize as usize;
     perceived_free(per);
     let ref mut fresh15 = (*d).collected;

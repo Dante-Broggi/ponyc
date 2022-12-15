@@ -76,8 +76,8 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
         if node.is_null() {
             return 0 as *mut chunk_t;
         }
-        let mut ix: libc::uintptr_t = addr as libc::uintptr_t >> level[i as usize].shift
-            & level[i as usize].mask as usize;
+        let mut ix: libc::uintptr_t =
+            addr as libc::uintptr_t >> level[i as usize].shift & level[i as usize].mask as usize;
         next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         node = ::core::intrinsics::atomic_load_acq(next_node);
         i = i.wrapping_add(1);
@@ -96,7 +96,11 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
         let mut node: pagemap_node_t = { ::core::intrinsics::atomic_load_relaxed(next_node) };
         if node.is_null() {
             let mut new_node: pagemap_node_t = ponyint_pool_alloc(level[i as usize].size_index);
-            memset(new_node, 0 as libc::c_int, level[i as usize].size.try_into().unwrap());
+            memset(
+                new_node,
+                0 as libc::c_int,
+                level[i as usize].size.try_into().unwrap(),
+            );
             if !({
                 let fresh0 = ::core::intrinsics::atomic_cxchg_acqrel(
                     next_node,
@@ -113,8 +117,8 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
         } else {
             f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
         }
-        let mut ix: libc::uintptr_t = addr as libc::uintptr_t >> level[i as usize].shift
-            & level[i as usize].mask as usize;
+        let mut ix: libc::uintptr_t =
+            addr as libc::uintptr_t >> level[i as usize].shift & level[i as usize].mask as usize;
         next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         i = i.wrapping_add(1);
     }
@@ -143,7 +147,11 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
             if node.is_null() {
                 let mut new_node: *mut libc::c_void =
                     ponyint_pool_alloc(level[i as usize].size_index);
-                memset(new_node, 0 as libc::c_int, level[i as usize].size.try_into().unwrap());
+                memset(
+                    new_node,
+                    0 as libc::c_int,
+                    level[i as usize].size.try_into().unwrap(),
+                );
                 if !({
                     let fresh1 = ::core::intrinsics::atomic_cxchg_acqrel(
                         next_node,

@@ -1680,7 +1680,9 @@ unsafe extern "C" fn serialise(
         let mut args: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
         let mut f_type: LLVMTypeRef = LLVMGetElementType(LLVMTypeOf((*c_t).custom_serialise_fn));
         let mut buf_size: usize = (2 as libc::c_int as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<*mut libc::c_void>() as libc::c_ulong).try_into().unwrap();
+            .wrapping_mul(::core::mem::size_of::<*mut libc::c_void>() as libc::c_ulong)
+            .try_into()
+            .unwrap();
         let mut params: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         LLVMGetParamTypes(f_type, params);
         args[0 as libc::c_int as usize] = LLVMBuildBitCast(
@@ -2153,8 +2155,14 @@ pub unsafe extern "C" fn genserialise(mut c: *mut compile_t, mut t: *mut reach_t
             ast_get_children(
                 (*t).ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             let mut package: *const libc::c_char = ast_name(pkg);
@@ -2176,8 +2184,14 @@ pub unsafe extern "C" fn genserialise(mut c: *mut compile_t, mut t: *mut reach_t
             ast_get_children(
                 (*t).ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_0.as_mut_ptr(),
             );
             let mut package_0: *const libc::c_char = ast_name(pkg_0);

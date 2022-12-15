@@ -634,8 +634,14 @@ unsafe extern "C" fn type_append(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;

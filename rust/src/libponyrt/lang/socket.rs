@@ -2033,7 +2033,8 @@ pub unsafe extern "C" fn pony_os_sockopt_option(mut option: libc::c_int) -> libc
         1007 => return (0xf as libc::c_int) << 2 as libc::c_int,
         1008 => {
             return (((0xf as libc::c_int) << 2 as libc::c_int) as libc::c_ulong)
-                .wrapping_sub(::core::mem::size_of::<tcphdr>().try_into().unwrap()) as libc::c_int;
+                .wrapping_sub(::core::mem::size_of::<tcphdr>().try_into().unwrap())
+                as libc::c_int;
         }
         1009 => return 0x2 as libc::c_int,
         1010 => return 65535 as libc::c_int,

@@ -1270,8 +1270,14 @@ unsafe extern "C" fn typeparam_current_inner(mut type_0: *mut ast_t, mut scope: 
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             typeparam_current_inner(left, scope);

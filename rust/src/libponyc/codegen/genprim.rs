@@ -2310,19 +2310,28 @@ unsafe extern "C" fn pointer_alloc(
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"noalias\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     noalias_attr = LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"align\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     align_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -2402,19 +2411,28 @@ unsafe extern "C" fn pointer_realloc(
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"noalias\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     noalias_attr = LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"align\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     align_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -3313,21 +3331,30 @@ unsafe extern "C" fn donotoptimise_apply(
     let mut nounwind_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut nounwind_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"nounwind\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     nounwind_attr =
         LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut readonly_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readonly_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     readonly_attr =
         LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -3397,14 +3424,20 @@ unsafe extern "C" fn donotoptimise_observe(
     let mut nounwind_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut nounwind_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"nounwind\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     nounwind_attr =
         LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -6925,8 +6958,14 @@ pub unsafe extern "C" fn genprim_reachable_init(mut c: *mut compile_t, mut progr
                     ast_get_children(
                         entity,
                         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                            .wrapping_sub(1).try_into().unwrap(),
+                            .wrapping_div(
+                                ::core::mem::size_of::<*mut *mut ast_t>()
+                                    .try_into()
+                                    .unwrap(),
+                            )
+                            .wrapping_sub(1)
+                            .try_into()
+                            .unwrap(),
                         children.as_mut_ptr(),
                     );
                     if ast_id(typeparams) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint

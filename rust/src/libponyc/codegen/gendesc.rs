@@ -1623,7 +1623,9 @@ unsafe extern "C" fn make_unbox_function(
     let mut f_type: LLVMTypeRef = LLVMGetElementType(LLVMTypeOf((*c_m).func));
     let mut count: libc::c_int = LLVMCountParamTypes(f_type) as libc::c_int;
     let mut buf_size: usize = ((count + 1 as libc::c_int) as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>().try_into().unwrap()).try_into().unwrap();
+        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>().try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut params: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetParamTypes(f_type, params);
     let mut ret_type: LLVMTypeRef = LLVMGetReturnType(f_type);
@@ -1716,10 +1718,16 @@ unsafe extern "C" fn trait_bitmap32(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
-    let mut bm_size: usize =
-        ((*c).trait_bitmap_size as libc::c_ulong).wrapping_mul(::core::mem::size_of::<u32>().try_into().unwrap()).try_into().unwrap();
+    let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
+        .wrapping_mul(::core::mem::size_of::<u32>().try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut bm: *mut u32 = ponyint_pool_alloc_size(bm_size) as *mut u32;
-    memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size.try_into().unwrap());
+    memset(
+        bm as *mut libc::c_void,
+        0 as libc::c_int,
+        bm_size.try_into().unwrap(),
+    );
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut provide: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
@@ -1756,10 +1764,16 @@ unsafe extern "C" fn trait_bitmap32(
     }
     let mut bitmap: *mut LLVMValueRef = ponyint_pool_alloc_size(
         ((*c).trait_bitmap_size as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap()).try_into().unwrap(),
+            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap())
+            .try_into()
+            .unwrap(),
     ) as *mut LLVMValueRef;
     i = 0 as libc::c_int as usize;
-    while i < ((*c).trait_bitmap_size as libc::c_ulong).try_into().unwrap() {
+    while i
+        < ((*c).trait_bitmap_size as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         let ref mut fresh6 = *bitmap.offset(i as isize);
         *fresh6 = LLVMConstInt(
             (*c).intptr,
@@ -1776,10 +1790,16 @@ unsafe extern "C" fn trait_bitmap64(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
-    let mut bm_size: usize =
-        ((*c).trait_bitmap_size as libc::c_ulong).wrapping_mul(::core::mem::size_of::<u64>().try_into().unwrap()).try_into().unwrap();
+    let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
+        .wrapping_mul(::core::mem::size_of::<u64>().try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut bm: *mut u64 = ponyint_pool_alloc_size(bm_size) as *mut u64;
-    memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size.try_into().unwrap());
+    memset(
+        bm as *mut libc::c_void,
+        0 as libc::c_int,
+        bm_size.try_into().unwrap(),
+    );
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut provide: *mut reach_type_t = 0 as *mut reach_type_t;
     loop {
@@ -1816,10 +1836,16 @@ unsafe extern "C" fn trait_bitmap64(
     }
     let mut bitmap: *mut LLVMValueRef = ponyint_pool_alloc_size(
         ((*c).trait_bitmap_size as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap()).try_into().unwrap(),
+            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap())
+            .try_into()
+            .unwrap(),
     ) as *mut LLVMValueRef;
     i = 0 as libc::c_int as usize;
-    while i < ((*c).trait_bitmap_size as libc::c_ulong).try_into().unwrap() {
+    while i
+        < ((*c).trait_bitmap_size as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         let ref mut fresh8 = *bitmap.offset(i as isize);
         *fresh8 = LLVMConstInt((*c).intptr, *bm.offset(i as isize), 0 as libc::c_int);
         i = i.wrapping_add(1);
@@ -1846,7 +1872,9 @@ unsafe extern "C" fn make_trait_bitmap(
         LLVMConstArray((*c).intptr, bitmap, (*c).trait_bitmap_size);
     ponyint_pool_free_size(
         ((*c).trait_bitmap_size as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap()).try_into().unwrap(),
+            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap())
+            .try_into()
+            .unwrap(),
         bitmap as *mut libc::c_void,
     );
     let mut name: *const libc::c_char = genname_traitmap((*t).name);
@@ -1911,8 +1939,10 @@ unsafe extern "C" fn make_field_list(
             0 as libc::c_int as libc::c_uint,
         ));
     }
-    let mut buf_size: usize =
-        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap()).try_into().unwrap();
+    let mut buf_size: usize = (count as libc::c_ulong)
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut list: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut i: u32 = 0 as libc::c_int as u32;
@@ -1958,10 +1988,16 @@ unsafe extern "C" fn make_vtable(mut c: *mut compile_t, mut t: *mut reach_type_t
             0 as libc::c_int as libc::c_uint,
         );
     }
-    let mut buf_size: usize =
-        ((*t).vtable_size as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap()).try_into().unwrap();
+    let mut buf_size: usize = ((*t).vtable_size as libc::c_ulong)
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut vtable: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
-    memset(vtable as *mut libc::c_void, 0 as libc::c_int, buf_size.try_into().unwrap());
+    memset(
+        vtable as *mut libc::c_void,
+        0 as libc::c_int,
+        buf_size.try_into().unwrap(),
+    );
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut n: *mut reach_method_name_t = 0 as *mut reach_method_name_t;
@@ -2164,8 +2200,10 @@ pub unsafe extern "C" fn gendesc_init(mut c: *mut compile_t, mut t: *mut reach_t
 #[c2rust::src_loc = "439:1"]
 pub unsafe extern "C" fn gendesc_table(mut c: *mut compile_t) {
     let mut len: u32 = reach_max_type_id((*c).reach);
-    let mut size: usize =
-        (len as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap()).try_into().unwrap();
+    let mut size: usize = (len as libc::c_ulong)
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>().try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut null: LLVMValueRef = LLVMConstNull((*c).descriptor_ptr);
     let mut i: usize = 0;

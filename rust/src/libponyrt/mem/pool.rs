@@ -603,8 +603,8 @@ unsafe extern "C" fn pool_block_get(mut size: usize) -> *mut libc::c_void {
                 let mut rem: usize = ((*block).size).wrapping_sub(size);
                 (*block).size = rem;
                 pool_block_header.total_size = (pool_block_header.total_size as libc::c_ulong)
-                    .wrapping_sub(size.try_into().unwrap()) as usize
-                    as usize;
+                    .wrapping_sub(size.try_into().unwrap())
+                    as usize as usize;
                 if !((*block).prev).is_null() && (*(*block).prev).size > (*block).size {
                     if ((*block).c2rust_unnamed.next).is_null() {
                         pool_block_header.largest_size = (*(*block).prev).size;
@@ -655,8 +655,9 @@ unsafe extern "C" fn pool_block_get(mut size: usize) -> *mut libc::c_void {
     let mut rem_0: usize = ((*block_0).size).wrapping_sub(size);
     (*block_0).size = rem_0;
     pool_block_insert(block_0);
-    pool_block_header.total_size =
-        (pool_block_header.total_size as libc::c_ulong).wrapping_add(rem_0.try_into().unwrap()) as usize as usize;
+    pool_block_header.total_size = (pool_block_header.total_size as libc::c_ulong)
+        .wrapping_add(rem_0.try_into().unwrap()) as usize
+        as usize;
     if pool_block_header.largest_size < rem_0 {
         pool_block_header.largest_size = rem_0;
     }
@@ -668,7 +669,11 @@ unsafe extern "C" fn pool_alloc_pages(mut size: usize) -> *mut libc::c_void {
     if !p.is_null() {
         return p;
     }
-    if size >= ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if size
+        >= ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         return ponyint_virt_alloc(size);
     }
     let mut block: *mut pool_block_t = ponyint_virt_alloc(
@@ -676,15 +681,17 @@ unsafe extern "C" fn pool_alloc_pages(mut size: usize) -> *mut libc::c_void {
     ) as *mut pool_block_t;
     let mut rem: usize = ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int)
         as libc::c_ulong)
-        .wrapping_sub(size.try_into().unwrap()).try_into().unwrap();
+        .wrapping_sub(size.try_into().unwrap())
+        .try_into()
+        .unwrap();
     (*block).size = rem;
     let ref mut fresh6 = (*block).c2rust_unnamed.next;
     *fresh6 = 0 as *mut pool_block_t;
     let ref mut fresh7 = (*block).prev;
     *fresh7 = 0 as *mut pool_block_t;
     pool_block_insert(block);
-    pool_block_header.total_size =
-        (pool_block_header.total_size as libc::c_ulong).wrapping_add(rem.try_into().unwrap()) as usize as usize;
+    pool_block_header.total_size = (pool_block_header.total_size as libc::c_ulong)
+        .wrapping_add(rem.try_into().unwrap()) as usize as usize;
     if pool_block_header.largest_size < rem {
         pool_block_header.largest_size = rem;
     }
@@ -695,7 +702,9 @@ unsafe extern "C" fn todo() {}
 #[c2rust::src_loc = "678:1"]
 unsafe extern "C" fn pool_free_pages(mut p: *mut libc::c_void, mut size: usize) {
     if pool_block_header.total_size
-        >= ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as libc::c_ulong).try_into().unwrap()
+        >= ((128 as libc::c_int * 1024 as libc::c_int * 1024 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         todo();
     }
@@ -706,8 +715,9 @@ unsafe extern "C" fn pool_free_pages(mut p: *mut libc::c_void, mut size: usize) 
     *fresh9 = 0 as *mut pool_block_t;
     (*block).size = size;
     pool_block_insert(block);
-    pool_block_header.total_size =
-        (pool_block_header.total_size as libc::c_ulong).wrapping_add(size.try_into().unwrap()) as usize as usize;
+    pool_block_header.total_size = (pool_block_header.total_size as libc::c_ulong)
+        .wrapping_add(size.try_into().unwrap()) as usize
+        as usize;
     if pool_block_header.largest_size < size {
         pool_block_header.largest_size = size;
     }
@@ -840,7 +850,11 @@ unsafe extern "C" fn pool_get(mut pool: *mut pool_local_t, mut index: usize) -> 
     if !p.is_null() {
         return p as *mut libc::c_void;
     }
-    if (*global).size < (((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if (*global).size
+        < (((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         if (*thread).start < (*thread).end {
             let mut p_0: *mut libc::c_void = (*thread).start as *mut libc::c_void;
             let ref mut fresh17 = (*thread).start;
@@ -867,7 +881,11 @@ pub unsafe extern "C" fn ponyint_pool_alloc(mut index: usize) -> *mut libc::c_vo
 #[no_mangle]
 #[c2rust::src_loc = "838:1"]
 pub unsafe extern "C" fn ponyint_pool_free(mut index: usize, mut p: *mut libc::c_void) {
-    if index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
     } else {
         ponyint_assert_fail(
             b"index < POOL_COUNT\0" as *const u8 as *const libc::c_char,
@@ -913,7 +931,11 @@ unsafe extern "C" fn pool_alloc_size(mut size: usize) -> *mut libc::c_void {
 #[c2rust::src_loc = "884:1"]
 pub unsafe extern "C" fn ponyint_pool_alloc_size(mut size: usize) -> *mut libc::c_void {
     let mut index: usize = ponyint_pool_index(size);
-    if index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         return ponyint_pool_alloc(index);
     }
     size = ponyint_pool_adjust_size(size);
@@ -928,7 +950,11 @@ unsafe extern "C" fn pool_free_size(mut size: usize, mut p: *mut libc::c_void) {
 #[c2rust::src_loc = "913:1"]
 pub unsafe extern "C" fn ponyint_pool_free_size(mut size: usize, mut p: *mut libc::c_void) {
     let mut index: usize = ponyint_pool_index(size);
-    if index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         return ponyint_pool_free(index, p);
     }
     size = ponyint_pool_adjust_size(size);
@@ -948,14 +974,22 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
     let mut new_index: usize = ponyint_pool_index(new_size);
     let mut old_adj_size: usize = 0;
     let mut new_p: *mut libc::c_void = 0 as *mut libc::c_void;
-    if new_index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if new_index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         if old_index == new_index {
             return p;
         }
         new_p = ponyint_pool_alloc(new_index);
     } else {
         let mut new_adj_size: usize = ponyint_pool_adjust_size(new_size);
-        if old_index >= ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+        if old_index
+            >= ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+                .try_into()
+                .unwrap()
+        {
             old_adj_size = ponyint_pool_adjust_size(old_size);
             if old_adj_size == new_adj_size {
                 return p;
@@ -972,7 +1006,11 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
             new_size.try_into().unwrap()
         },
     );
-    if old_index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if old_index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         ponyint_pool_free(old_index, p);
     } else {
         pool_free_size(old_adj_size, p);
@@ -983,7 +1021,11 @@ pub unsafe extern "C" fn ponyint_pool_realloc_size(
 #[c2rust::src_loc = "968:1"]
 pub unsafe extern "C" fn ponyint_pool_thread_cleanup() {
     let mut index: usize = 0;
-    while index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    while index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         let mut thread: *mut pool_local_t =
             &mut *pool_local.as_mut_ptr().offset(index as isize) as *mut pool_local_t;
         let mut global: *mut pool_global_t =
@@ -1020,10 +1062,18 @@ pub unsafe extern "C" fn ponyint_pool_thread_cleanup() {
 #[no_mangle]
 #[c2rust::src_loc = "1004:1"]
 pub unsafe extern "C" fn ponyint_pool_index(mut size: usize) -> usize {
-    if size > (((1 as libc::c_int) << 5 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if size
+        > (((1 as libc::c_int) << 5 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         return ((64 as libc::c_int - 5 as libc::c_int) as usize)
             .wrapping_sub((__pony_clzzu(size) as libc::c_ulong).try_into().unwrap())
-            .wrapping_sub(((size & size.wrapping_sub(1) == 0) as libc::c_int as libc::c_ulong).try_into().unwrap());
+            .wrapping_sub(
+                ((size & size.wrapping_sub(1) == 0) as libc::c_int as libc::c_ulong)
+                    .try_into()
+                    .unwrap(),
+            );
     }
     return 0 as libc::c_int as usize;
 }
@@ -1031,7 +1081,11 @@ pub unsafe extern "C" fn ponyint_pool_index(mut size: usize) -> usize {
 #[c2rust::src_loc = "1020:1"]
 pub unsafe extern "C" fn ponyint_pool_used_size(mut size: usize) -> usize {
     let mut index: usize = ponyint_pool_index(size);
-    if index < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong).try_into().unwrap() {
+    if index
+        < ((20 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
+    {
         return (1 as libc::c_int as usize)
             << (5 as libc::c_int as libc::c_ulong).wrapping_add(index.try_into().unwrap());
     }
@@ -1041,8 +1095,11 @@ pub unsafe extern "C" fn ponyint_pool_used_size(mut size: usize) -> usize {
 #[c2rust::src_loc = "1030:1"]
 pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: usize) -> usize {
     if size & (((1) << 10) - 1) != 0 {
-        size = (size & !(((1) << 10) - 1))
-            .wrapping_add((((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong).try_into().unwrap());
+        size = (size & !(((1) << 10) - 1)).wrapping_add(
+            (((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong)
+                .try_into()
+                .unwrap(),
+        );
     }
     if size == 0 {
         size = size.wrapping_sub(1);

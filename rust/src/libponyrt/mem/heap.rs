@@ -593,7 +593,9 @@ unsafe extern "C" fn maybe_clear_chunk(mut chunk: *mut chunk_t) {
     if (*chunk).size != 0 && (*chunk).shallow == CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint {
         if (*chunk).size
             >= ((10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
-                as libc::c_ulong).try_into().unwrap()
+                as libc::c_ulong)
+                .try_into()
+                .unwrap()
         {
             (*chunk).slots = 1 as libc::c_int as u32;
             (*chunk).shallow = 1 as libc::c_int as u32;
@@ -697,8 +699,9 @@ unsafe extern "C" fn sweep_small(
         *fresh0 &= (*chunk).shallow;
         (*chunk).shallow = CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint;
         if (*chunk).slots == 0 as libc::c_int as libc::c_uint {
-            used = (used as libc::c_ulong).wrapping_add(::core::mem::size_of::<block_t>().try_into().unwrap()) as usize
-                as usize;
+            used = (used as libc::c_ulong)
+                .wrapping_add(::core::mem::size_of::<block_t>().try_into().unwrap())
+                as usize as usize;
             let ref mut fresh1 = (*chunk).next;
             *fresh1 = *full;
             *full = chunk;
@@ -706,9 +709,15 @@ unsafe extern "C" fn sweep_small(
             destroy_small(chunk, 0 as libc::c_int as u32);
         } else {
             used = (used as libc::c_ulong).wrapping_add(
-                (::core::mem::size_of::<block_t>()).wrapping_sub(
-                    (__pony_popcount((*chunk).slots) as libc::c_ulong).wrapping_mul(size.try_into().unwrap()).try_into().unwrap(),
-                ).try_into().unwrap(),
+                (::core::mem::size_of::<block_t>())
+                    .wrapping_sub(
+                        (__pony_popcount((*chunk).slots) as libc::c_ulong)
+                            .wrapping_mul(size.try_into().unwrap())
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .try_into()
+                    .unwrap(),
             ) as usize as usize;
             final_small(chunk, FORCE_NO_FINALISERS as libc::c_int as u32);
             let ref mut fresh2 = (*chunk).next;
@@ -733,7 +742,8 @@ unsafe extern "C" fn sweep_large(mut chunk: *mut chunk_t, mut used: *mut usize) 
             let ref mut fresh4 = (*chunk).next;
             *fresh4 = list;
             list = chunk;
-            *used = (*used as libc::c_ulong).wrapping_add((*chunk).size.try_into().unwrap()) as usize as usize;
+            *used = (*used as libc::c_ulong).wrapping_add((*chunk).size.try_into().unwrap())
+                as usize as usize;
         } else {
             destroy_large(chunk, 0 as libc::c_int as u32);
         }
@@ -856,7 +866,10 @@ pub unsafe extern "C" fn ponyint_heap_alloc(
     };
     if size == 0 {
         return 0 as *mut libc::c_void;
-    } else if size <= (((1 as libc::c_int) << 10 as libc::c_int - 1 as libc::c_int) as libc::c_ulong).try_into().unwrap()
+    } else if size
+        <= (((1 as libc::c_int) << 10 as libc::c_int - 1 as libc::c_int) as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         return ponyint_heap_alloc_small(
             actor,
@@ -977,7 +990,8 @@ pub unsafe extern "C" fn ponyint_heap_alloc_large(
     let ref mut fresh17 = (*heap).large;
     *fresh17 = chunk;
     let ref mut fresh18 = (*heap).used;
-    *fresh18 = (*fresh18 as libc::c_ulong).wrapping_add((*chunk).size.try_into().unwrap()) as usize as usize;
+    *fresh18 = (*fresh18 as libc::c_ulong).wrapping_add((*chunk).size.try_into().unwrap()) as usize
+        as usize;
     return (*chunk).m as *mut libc::c_void;
 }
 #[no_mangle]
@@ -1007,13 +1021,19 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
     let mut oldsize: usize = 0;
     if (*chunk).size
         < ((10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
-            as libc::c_ulong).try_into().unwrap()
+            as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-            & !((((1) << 5) << (*chunk).size) - 1)
-                as usize) as *mut libc::c_void;
-        oldsize = ((((1) << 5) << (*chunk).size) as usize)
-            .wrapping_sub((p as libc::uintptr_t).wrapping_sub(ext as libc::uintptr_t).try_into().unwrap());
+            & !((((1) << 5) << (*chunk).size) - 1) as usize)
+            as *mut libc::c_void;
+        oldsize = ((((1) << 5) << (*chunk).size) as usize).wrapping_sub(
+            (p as libc::uintptr_t)
+                .wrapping_sub(ext as libc::uintptr_t)
+                .try_into()
+                .unwrap(),
+        );
     } else {
         oldsize = ((*chunk).size)
             .wrapping_sub((p as libc::uintptr_t).wrapping_sub((*chunk).m as libc::uintptr_t));
@@ -1087,7 +1107,9 @@ pub unsafe extern "C" fn ponyint_heap_mark(
     maybe_clear_chunk(chunk);
     if (*chunk).size
         >= ((10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
-            as libc::c_ulong).try_into().unwrap()
+            as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         marked = (*chunk).slots == 0 as libc::c_int as libc::c_uint;
         if p == (*chunk).m as *mut libc::c_void {
@@ -1097,8 +1119,8 @@ pub unsafe extern "C" fn ponyint_heap_mark(
         }
     } else {
         let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-            & !((((1) << 5) << (*chunk).size) - 1)
-                as usize) as *mut libc::c_void;
+            & !((((1) << 5) << (*chunk).size) - 1) as usize)
+            as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
                 as libc::uintptr_t
@@ -1123,13 +1145,15 @@ pub unsafe extern "C" fn ponyint_heap_mark_shallow(
     maybe_clear_chunk(chunk);
     if (*chunk).size
         >= ((10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
-            as libc::c_ulong).try_into().unwrap()
+            as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         (*chunk).shallow = 0 as libc::c_int as u32;
     } else {
         let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-            & !((((1) << 5) << (*chunk).size) - 1)
-                as usize) as *mut libc::c_void;
+            & !((((1) << 5) << (*chunk).size) - 1) as usize)
+            as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
                 as libc::uintptr_t
@@ -1143,7 +1167,9 @@ pub unsafe extern "C" fn ponyint_heap_mark_shallow(
 pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut libc::c_void) {
     if (*chunk).size
         >= ((10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
-            as libc::c_ulong).try_into().unwrap()
+            as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         if p == (*chunk).m as *mut libc::c_void {
             final_large(chunk, 0 as libc::c_int as u32);
@@ -1154,9 +1180,8 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
         }
         return;
     }
-    let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-        & !((((1) << 5) << (*chunk).size) - 1)
-            as usize) as *mut libc::c_void;
+    let mut ext: *mut libc::c_void =
+        (p as libc::uintptr_t & !((((1) << 5) << (*chunk).size) - 1) as usize) as *mut libc::c_void;
     if p == ext {
         let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
@@ -1189,10 +1214,16 @@ pub unsafe extern "C" fn ponyint_heap_endgc(mut heap: *mut heap_t) {
             &mut *((*heap).small_full).as_mut_ptr().offset(i as isize) as *mut *mut chunk_t;
         let mut size: usize = (((1 as libc::c_int) << 5 as libc::c_int) << i) as usize;
         let mut empty: u32 = sizeclass_empty[i as usize];
-        used = (used as libc::c_ulong).wrapping_add(sweep_small(list1, avail, full, empty, size).try_into().unwrap())
-            as usize as usize;
-        used = (used as libc::c_ulong).wrapping_add(sweep_small(list2, avail, full, empty, size).try_into().unwrap())
-            as usize as usize;
+        used = (used as libc::c_ulong).wrapping_add(
+            sweep_small(list1, avail, full, empty, size)
+                .try_into()
+                .unwrap(),
+        ) as usize as usize;
+        used = (used as libc::c_ulong).wrapping_add(
+            sweep_small(list2, avail, full, empty, size)
+                .try_into()
+                .unwrap(),
+        ) as usize as usize;
         i += 1;
     }
     let ref mut fresh28 = (*heap).large;
@@ -1214,7 +1245,9 @@ pub unsafe extern "C" fn ponyint_heap_owner(mut chunk: *mut chunk_t) -> *mut pon
 pub unsafe extern "C" fn ponyint_heap_size(mut chunk: *mut chunk_t) -> usize {
     if (*chunk).size
         >= ((10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
-            as libc::c_ulong).try_into().unwrap()
+            as libc::c_ulong)
+            .try_into()
+            .unwrap()
     {
         return (*chunk).size;
     }

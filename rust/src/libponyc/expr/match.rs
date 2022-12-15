@@ -1555,8 +1555,14 @@ unsafe extern "C" fn make_pattern_type(
     ast_get_children(
         r_fun,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut ok_0: bool = 1 as libc::c_int != 0;
@@ -1616,8 +1622,14 @@ unsafe extern "C" fn make_pattern_type(
         ast_get_children(
             param,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                .wrapping_sub(1).try_into().unwrap(),
+                .wrapping_div(
+                    ::core::mem::size_of::<*mut *mut ast_t>()
+                        .try_into()
+                        .unwrap(),
+                )
+                .wrapping_sub(1)
+                .try_into()
+                .unwrap(),
             children_0.as_mut_ptr(),
         );
         pattern_type = ast_dup(param_type);
@@ -1855,8 +1867,14 @@ pub unsafe extern "C" fn expr_match_capture(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if is_name_dontcare(ast_name(id)) {

@@ -1820,8 +1820,14 @@ unsafe extern "C" fn eq_param_type(mut c: *mut compile_t, mut pattern: *mut ast_
     ast_get_children(
         (*fun).ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut param: *mut ast_t = ast_child(params);

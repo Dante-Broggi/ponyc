@@ -515,7 +515,13 @@ pub unsafe extern "C" fn ponyint_systematic_testing_init(
     srand(random_seed as libc::c_int as libc::c_uint);
     total_threads = max_threads.wrapping_add(1 as libc::c_int as libc::c_uint);
     let mut mem_needed: usize = (total_threads as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<systematic_testing_thread_t>().try_into().unwrap()).try_into().unwrap();
+        .wrapping_mul(
+            ::core::mem::size_of::<systematic_testing_thread_t>()
+                .try_into()
+                .unwrap(),
+        )
+        .try_into()
+        .unwrap();
     threads_to_track = ponyint_pool_alloc_size(mem_needed) as *mut systematic_testing_thread_t;
     memset(
         threads_to_track as *mut libc::c_void,
@@ -602,7 +608,13 @@ unsafe extern "C" fn get_next_index() -> u32 {
 pub unsafe extern "C" fn ponyint_systematic_testing_yield() {
     if stopped_threads == total_threads {
         let mut mem_needed: usize = (total_threads as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<systematic_testing_thread_t>().try_into().unwrap()).try_into().unwrap();
+            .wrapping_mul(
+                ::core::mem::size_of::<systematic_testing_thread_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .try_into()
+            .unwrap();
         ponyint_pool_free_size(mem_needed, threads_to_track as *mut libc::c_void);
         active_thread = 0 as *mut systematic_testing_thread_t;
         threads_to_track = 0 as *mut systematic_testing_thread_t;

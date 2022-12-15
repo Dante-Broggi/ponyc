@@ -89,7 +89,14 @@ unsafe extern "C" fn locking_callback(
 #[c2rust::src_loc = "40:1"]
 pub unsafe extern "C" fn ponyint_ssl_multithreading(mut count: u32) -> *mut libc::c_void {
     locks = ponyint_pool_alloc_size(
-        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<pthread_mutex_t>().try_into().unwrap()).try_into().unwrap(),
+        (count as libc::c_ulong)
+            .wrapping_mul(
+                ::core::mem::size_of::<pthread_mutex_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .try_into()
+            .unwrap(),
     ) as *mut pthread_mutex_t;
     let mut i: u32 = 0 as libc::c_int as u32;
     while i < count {

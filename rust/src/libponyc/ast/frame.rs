@@ -621,7 +621,9 @@ unsafe extern "C" fn push_frame(mut t: *mut typecheck_t) -> bool {
         memcpy(
             f as *mut libc::c_void,
             (*t).frame as *const libc::c_void,
-            ::core::mem::size_of::<typecheck_frame_t>().try_into().unwrap(),
+            ::core::mem::size_of::<typecheck_frame_t>()
+                .try_into()
+                .unwrap(),
         );
         let ref mut fresh0 = (*f).prev;
         *fresh0 = (*t).frame;
@@ -629,7 +631,9 @@ unsafe extern "C" fn push_frame(mut t: *mut typecheck_t) -> bool {
         memset(
             f as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<typecheck_frame_t>().try_into().unwrap(),
+            ::core::mem::size_of::<typecheck_frame_t>()
+                .try_into()
+                .unwrap(),
         );
     }
     let ref mut fresh1 = (*t).frame;
@@ -646,7 +650,9 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
         memset(
             f as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<typecheck_frame_t>().try_into().unwrap(),
+            ::core::mem::size_of::<typecheck_frame_t>()
+                .try_into()
+                .unwrap(),
         );
         let ref mut fresh2 = (*f).prev;
         *fresh2 = (*t).frame;
@@ -850,8 +856,14 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                            .wrapping_sub(1).try_into().unwrap(),
+                            .wrapping_div(
+                                ::core::mem::size_of::<*mut *mut ast_t>()
+                                    .try_into()
+                                    .unwrap(),
+                            )
+                            .wrapping_sub(1)
+                            .try_into()
+                            .unwrap(),
                         children_2.as_mut_ptr(),
                     );
                     if type_1 == ast {
@@ -937,8 +949,14 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                            .wrapping_sub(1).try_into().unwrap(),
+                            .wrapping_div(
+                                ::core::mem::size_of::<*mut *mut ast_t>()
+                                    .try_into()
+                                    .unwrap(),
+                            )
+                            .wrapping_sub(1)
+                            .try_into()
+                            .unwrap(),
                         children_5.as_mut_ptr(),
                     );
                     if body_2 == ast {

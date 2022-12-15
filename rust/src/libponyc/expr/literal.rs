@@ -1974,7 +1974,9 @@ unsafe extern "C" fn uifset(
                     return 0 as libc::c_int;
                 }
                 let mut type_args: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
-                if ast_childcount(type_args) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
+                if ast_childcount(type_args)
+                    == (1 as libc::c_int as libc::c_ulong).try_into().unwrap()
+                {
                 } else {
                     ponyint_assert_fail(
                         b"ast_childcount(type_args) == 1\0" as *const u8 as *const libc::c_char,
@@ -2583,8 +2585,14 @@ unsafe extern "C" fn coerce_literal_to_type(
             ast_get_children(
                 literal_expr,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             let mut arg: *mut ast_t = ast_child(positional);
@@ -2782,8 +2790,14 @@ pub unsafe extern "C" fn literal_member_access(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if !unify(receiver, opt, 1 as libc::c_int != 0) {
@@ -2862,8 +2876,14 @@ pub unsafe extern "C" fn literal_call(mut ast: *mut ast_t, mut opt: *mut pass_op
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut recv_type: *mut ast_t = ast_type(receiver);
@@ -2966,8 +2986,14 @@ pub unsafe extern "C" fn literal_is(mut ast: *mut ast_t, mut opt: *mut pass_opt_
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut l_type: *mut ast_t = ast_type(left);

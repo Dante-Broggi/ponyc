@@ -1035,8 +1035,14 @@ unsafe extern "C" fn exact_nominal(
     ast_get_children(
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut b_pkg: ast_ptr_t = 0 as *mut ast_t;
@@ -1055,8 +1061,14 @@ unsafe extern "C" fn exact_nominal(
     ast_get_children(
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     let mut a_def: *mut ast_t = ast_data(a) as *mut ast_t;
@@ -1079,8 +1091,14 @@ unsafe extern "C" fn check_assume(
             ast_get_children(
                 assumption,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             if exact_nominal(sub, assume_sub, opt) as libc::c_int != 0
@@ -1354,8 +1372,14 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     ast_get_children(
         sub,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut super_cap: ast_ptr_t = 0 as *mut ast_t;
@@ -1376,8 +1400,14 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     ast_get_children(
         super_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     match ast_id(sub) as libc::c_uint {
@@ -1591,8 +1621,14 @@ unsafe extern "C" fn is_fun_sub_fun(
     ast_get_children(
         sub,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut super_cap: ast_ptr_t = 0 as *mut ast_t;
@@ -1609,8 +1645,14 @@ unsafe extern "C" fn is_fun_sub_fun(
     ast_get_children(
         super_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     if ast_name(sub_id) != ast_name(super_id) {
@@ -1708,8 +1750,14 @@ unsafe extern "C" fn is_fun_sub_fun(
             ast_get_children(
                 super_typeparam,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_1.as_mut_ptr(),
             );
             let mut typearg: *mut ast_t = 0 as *mut ast_t;
@@ -2306,8 +2354,14 @@ unsafe extern "C" fn nominal_provides_trait(
     ast_get_children(
         def,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut typeargs: *mut ast_t = ast_childidx(type_0, 2 as libc::c_int as usize);
@@ -2327,8 +2381,14 @@ unsafe extern "C" fn nominal_provides_trait(
     ast_get_children(
         trait_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     let mut tcap: token_id = ast_id(cap);

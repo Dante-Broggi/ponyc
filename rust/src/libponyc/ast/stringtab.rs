@@ -720,7 +720,11 @@ pub unsafe extern "C" fn stringtab_len(
     }
     let mut dst: *mut libc::c_char =
         ponyint_pool_alloc_size(len.wrapping_add(1)) as *mut libc::c_char;
-    memcpy(dst as *mut libc::c_void, string as *const libc::c_void, len.try_into().unwrap());
+    memcpy(
+        dst as *mut libc::c_void,
+        string as *const libc::c_void,
+        len.try_into().unwrap(),
+    );
     *dst.offset(len as isize) = '\0' as i32 as libc::c_char;
     n = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut stringtab_entry_t;
     let ref mut fresh0 = (*n).str_0;
