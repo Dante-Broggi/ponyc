@@ -91,9 +91,9 @@ pub mod pony_h {
     use super::source_h::pony_type_t;
     #[c2rust::src_loc = "30:16"]
     pub use crate::libponyrt::actor::actor::pony_actor_t;
+    #[c2rust::src_loc = "36:16"]
+    pub use crate::libponyrt::sched::scheduler::pony_ctx_t;
     extern "C" {
-        #[c2rust::src_loc = "36:16"]
-        pub type pony_ctx_t;
         #[c2rust::src_loc = "394:1"]
         pub fn pony_traceknown(
             ctx: *mut pony_ctx_t,

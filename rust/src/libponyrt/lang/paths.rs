@@ -6,10 +6,10 @@ pub mod stddef_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:2"]
 pub mod pony_h {
+    #[c2rust::src_loc = "36:16"]
+    pub use crate::libponyrt::sched::scheduler::pony_ctx_t;
 
     extern "C" {
-        #[c2rust::src_loc = "36:16"]
-        pub type pony_ctx_t;
         #[c2rust::src_loc = "183:1"]
         pub fn pony_ctx() -> *mut pony_ctx_t;
         #[c2rust::src_loc = "262:1"]
