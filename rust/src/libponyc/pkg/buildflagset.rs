@@ -1154,8 +1154,7 @@ pub unsafe extern "C" fn buildflagset_print(mut set: *mut buildflagset_t) -> *co
                 .as_ptr(),
         );
     };
-    *((*set).text_buffer)
-        .offset(size_needed.wrapping_sub(1) as isize) =
+    *((*set).text_buffer).offset(size_needed.wrapping_sub(1) as isize) =
         '\0' as i32 as libc::c_char;
     return (*set).text_buffer;
 }
@@ -1225,8 +1224,7 @@ pub unsafe extern "C" fn remove_build_flags(mut flags: *mut *const libc::c_char)
         let mut found: *mut flag_t = flagtab_remove(_user_flags, &mut f1);
         if !found.is_null() {
             flag_free(found);
-            removed = (removed as libc::c_ulong).wrapping_add(1)
-                as usize as usize;
+            removed = (removed as libc::c_ulong).wrapping_add(1) as usize as usize;
         }
         next = next.offset(1 as libc::c_int as isize);
     }

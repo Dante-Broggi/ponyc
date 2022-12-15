@@ -2524,13 +2524,12 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
     *fresh0 = LLVMMDStringInContext(
         ctx,
         str.as_ptr(),
-        (::core::mem::size_of::<[libc::c_char; 15]>() as libc::c_ulong)
-            .wrapping_sub(1) as libc::c_uint,
+        (::core::mem::size_of::<[libc::c_char; 15]>() as libc::c_ulong).wrapping_sub(1)
+            as libc::c_uint,
     );
     let mut i: usize = 0;
     while i < count as libc::c_ulong {
-        let ref mut fresh1 =
-            *params.offset(i.wrapping_add(1) as isize);
+        let ref mut fresh1 = *params.offset(i.wrapping_add(1) as isize);
         *fresh1 = LLVMConstInt(
             LLVMInt32TypeInContext(ctx),
             *weights.offset(i as isize) as libc::c_ulonglong,
@@ -2548,8 +2547,8 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
         branch,
         LLVMGetMDKindID(
             id.as_ptr(),
-            (::core::mem::size_of::<[libc::c_char; 5]>() as libc::c_ulong)
-                .wrapping_sub(1) as libc::c_uint,
+            (::core::mem::size_of::<[libc::c_char; 5]>() as libc::c_ulong).wrapping_sub(1)
+                as libc::c_uint,
         ),
         metadata,
     );

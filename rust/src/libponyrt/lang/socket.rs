@@ -1126,16 +1126,14 @@ pub unsafe extern "C" fn pony_os_nameinfo(
     }
     let mut ctx: *mut pony_ctx_t = pony_ctx();
     let mut hostlen: usize = libc::strlen(host.as_mut_ptr());
-    *rhost = pony_alloc(ctx, hostlen.wrapping_add(1))
-        as *mut libc::c_char;
+    *rhost = pony_alloc(ctx, hostlen.wrapping_add(1)) as *mut libc::c_char;
     memcpy(
         *rhost as *mut libc::c_void,
         host.as_mut_ptr() as *const libc::c_void,
         hostlen.wrapping_add(1),
     );
     let mut servlen: usize = libc::strlen(serv.as_mut_ptr());
-    *rserv = pony_alloc(ctx, servlen.wrapping_add(1))
-        as *mut libc::c_char;
+    *rserv = pony_alloc(ctx, servlen.wrapping_add(1)) as *mut libc::c_char;
     memcpy(
         *rserv as *mut libc::c_void,
         serv.as_mut_ptr() as *const libc::c_void,
@@ -1208,10 +1206,8 @@ pub unsafe extern "C" fn pony_os_ip_string(
         return 0 as *mut libc::c_char;
     }
     let mut dstlen: usize = libc::strlen(dst.as_mut_ptr());
-    let mut result: *mut libc::c_char = pony_alloc(
-        pony_ctx(),
-        dstlen.wrapping_add(1),
-    ) as *mut libc::c_char;
+    let mut result: *mut libc::c_char =
+        pony_alloc(pony_ctx(), dstlen.wrapping_add(1)) as *mut libc::c_char;
     memcpy(
         result as *mut libc::c_void,
         dst.as_mut_ptr() as *const libc::c_void,
@@ -1235,8 +1231,7 @@ pub unsafe extern "C" fn pony_os_sockname(
     mut fd: libc::c_int,
     mut ipaddr: *mut ipaddress_t,
 ) -> bool {
-    let mut len: socklen_t =
-        ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
+    let mut len: socklen_t = ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
     if getsockname(
         fd,
         &mut (*ipaddr).addr as *mut sockaddr_storage as *mut sockaddr,
@@ -1254,8 +1249,7 @@ pub unsafe extern "C" fn pony_os_peername(
     mut fd: libc::c_int,
     mut ipaddr: *mut ipaddress_t,
 ) -> bool {
-    let mut len: socklen_t =
-        ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
+    let mut len: socklen_t = ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
     if getpeername(
         fd,
         &mut (*ipaddr).addr as *mut sockaddr_storage as *mut sockaddr,
@@ -1377,8 +1371,7 @@ pub unsafe extern "C" fn pony_os_recvfrom(
     mut len: usize,
     mut ipaddr: *mut ipaddress_t,
 ) -> usize {
-    let mut addrlen: socklen_t =
-        ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
+    let mut addrlen: socklen_t = ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
     let mut recvd: ssize_t = recvfrom(
         (*ev).fd,
         buf as *mut libc::c_void,
@@ -2040,8 +2033,7 @@ pub unsafe extern "C" fn pony_os_sockopt_option(mut option: libc::c_int) -> libc
         1007 => return (0xf as libc::c_int) << 2 as libc::c_int,
         1008 => {
             return (((0xf as libc::c_int) << 2 as libc::c_int) as libc::c_ulong)
-                .wrapping_sub(::core::mem::size_of::<tcphdr>())
-                as libc::c_int;
+                .wrapping_sub(::core::mem::size_of::<tcphdr>()) as libc::c_int;
         }
         1009 => return 0x2 as libc::c_int,
         1010 => return 65535 as libc::c_int,

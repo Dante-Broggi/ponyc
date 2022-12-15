@@ -1062,8 +1062,7 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
     }
     if escapes == 0 {
         let mut copy: *mut libc::c_char =
-            ponyint_pool_alloc_size(str_len.wrapping_add(1))
-                as *mut libc::c_char;
+            ponyint_pool_alloc_size(str_len.wrapping_add(1)) as *mut libc::c_char;
         memcpy(
             copy as *mut libc::c_void,
             str as *const libc::c_void,
@@ -1074,8 +1073,7 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
     }
     let mut escaped_len: usize = str_len.wrapping_add(escapes);
     let mut escaped: *mut libc::c_char =
-        ponyint_pool_alloc_size(escaped_len.wrapping_add(1))
-            as *mut libc::c_char;
+        ponyint_pool_alloc_size(escaped_len.wrapping_add(1)) as *mut libc::c_char;
     let mut escaped_idx: usize = 0;
     let mut idx_0: usize = 0;
     while idx_0 < str_len {

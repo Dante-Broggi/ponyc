@@ -748,9 +748,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children.as_mut_ptr(),
                     );
@@ -781,9 +779,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_0.as_mut_ptr(),
                     );
@@ -818,9 +814,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_1.as_mut_ptr(),
                     );
@@ -856,9 +850,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_2.as_mut_ptr(),
                     );
@@ -881,9 +873,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_3.as_mut_ptr(),
                     );
@@ -914,9 +904,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_4.as_mut_ptr(),
                     );
@@ -949,9 +937,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_5.as_mut_ptr(),
                     );
@@ -978,9 +964,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                     ast_get_children(
                         parent,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_6.as_mut_ptr(),
                     );

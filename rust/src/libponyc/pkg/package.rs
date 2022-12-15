@@ -2556,8 +2556,8 @@ pub unsafe extern "C" fn path_cat(
         );
         *result.offset(len1 as isize) = '/' as i32 as libc::c_char;
         memcpy(
-            &mut *result.offset(len1.wrapping_add(1) as isize)
-                as *mut libc::c_char as *mut libc::c_void,
+            &mut *result.offset(len1.wrapping_add(1) as isize) as *mut libc::c_char
+                as *mut libc::c_void,
             part2 as *const libc::c_void,
             len2.wrapping_add(1),
         );
@@ -2894,9 +2894,7 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
         prefix = 1 as libc::c_int != 0;
     }
     let mut len: usize = libc::strlen(string);
-    let mut buf_size: usize = len
-        .wrapping_add(prefix as libc::c_ulong)
-        .wrapping_add(1);
+    let mut buf_size: usize = len.wrapping_add(prefix as libc::c_ulong).wrapping_add(1);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     memcpy(
         buf.offset(prefix as libc::c_int as isize) as *mut libc::c_void,
@@ -3071,7 +3069,9 @@ unsafe extern "C" fn add_relative_path(
     mut opt: *mut pass_opt_t,
 ) -> bool {
     let mut buf: [libc::c_char; 1024] = [0; 1024];
-    if (libc::strlen(path)).wrapping_add(libc::strlen(relpath)) >= 1024 as libc::c_int as libc::c_ulong {
+    if (libc::strlen(path)).wrapping_add(libc::strlen(relpath))
+        >= 1024 as libc::c_int as libc::c_ulong
+    {
         return 0 as libc::c_int != 0;
     }
     strcpy(buf.as_mut_ptr(), path);
@@ -3100,7 +3100,8 @@ unsafe extern "C" fn add_pony_installation_dir(
     } else {
         b"native\0" as *const u8 as *const libc::c_char
     };
-    let mut lib_len: usize = (8 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(link_arch));
+    let mut lib_len: usize =
+        (8 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(link_arch));
     let mut lib_path: *mut libc::c_char = ponyint_pool_alloc_size(lib_len) as *mut libc::c_char;
     snprintf(
         lib_path,
@@ -3423,9 +3424,7 @@ pub unsafe extern "C" fn package_load(
                     ) == 0 as libc::c_int
                     {
                         package_path_0 = package_path_0.offset(3 as libc::c_int as isize);
-                        relatives = (relatives as libc::c_ulong)
-                            .wrapping_add(1)
-                            as usize as usize;
+                        relatives = (relatives as libc::c_ulong).wrapping_add(1) as usize as usize;
                     } else {
                         if !(strncmp(
                             b"./\0" as *const u8 as *const libc::c_char,
@@ -3440,21 +3439,14 @@ pub unsafe extern "C" fn package_load(
                 }
                 let mut base_name: *const libc::c_char = (*parent_pkg).qualified_name;
                 let mut base_name_len: usize = libc::strlen(base_name);
-                while relatives > 0
-                    && base_name_len > 0
-                {
-                    if *base_name.offset(
-                        base_name_len.wrapping_sub(1) as isize,
-                    ) as libc::c_int
+                while relatives > 0 && base_name_len > 0 {
+                    if *base_name.offset(base_name_len.wrapping_sub(1) as isize) as libc::c_int
                         == '/' as i32
                     {
-                        relatives = (relatives as libc::c_ulong)
-                            .wrapping_sub(1)
-                            as usize as usize;
+                        relatives = (relatives as libc::c_ulong).wrapping_sub(1) as usize as usize;
                     }
-                    base_name_len = (base_name_len as libc::c_ulong)
-                        .wrapping_sub(1)
-                        as usize as usize;
+                    base_name_len =
+                        (base_name_len as libc::c_ulong).wrapping_sub(1) as usize as usize;
                 }
                 let mut package_path_len: usize = libc::strlen(package_path_0);
                 let mut len: usize = base_name_len
@@ -3475,8 +3467,7 @@ pub unsafe extern "C" fn package_load(
                     package_path_0 as *const libc::c_void,
                     package_path_len,
                 );
-                *q_name.offset(len.wrapping_sub(1) as isize) =
-                    '\0' as i32 as libc::c_char;
+                *q_name.offset(len.wrapping_sub(1) as isize) = '\0' as i32 as libc::c_char;
                 qualified_name = stringtab_consume(q_name, len);
             }
         }
@@ -4662,8 +4653,8 @@ unsafe extern "C" fn package_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
     let ref mut fresh51 = (*package).symbol;
     *fresh51 = string_deserialise_offset(ctx, (*package).symbol as libc::uintptr_t);
     let ref mut fresh52 = (*package).ast;
-    *fresh52 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*package).ast as libc::uintptr_t) as *mut ast_t;
+    *fresh52 = pony_deserialise_offset(ctx, ast_pony_type(), (*package).ast as libc::uintptr_t)
+        as *mut ast_t;
     package_set_deserialise(
         ctx,
         &mut (*package).dependencies as *mut package_set_t as *mut libc::c_void,

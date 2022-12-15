@@ -404,5 +404,6 @@ pub unsafe extern "C" fn ponyint_list_deserialise(
     let ref mut fresh8 = (*list).data;
     *fresh8 = pony_deserialise_offset(ctx, elem_type, (*list).data as libc::uintptr_t);
     let ref mut fresh9 = (*list).next;
-    *fresh9 = pony_deserialise_offset(ctx, list_type, (*list).next as libc::uintptr_t) as *mut list_t;
+    *fresh9 =
+        pony_deserialise_offset(ctx, list_type, (*list).next as libc::uintptr_t) as *mut list_t;
 }

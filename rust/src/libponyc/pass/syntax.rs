@@ -3110,13 +3110,11 @@ unsafe extern "C" fn syntax_annotation(
     while !child.is_null() {
         let mut str: *const libc::c_char = ast_name(child);
         if libc::strlen(str)
-            >= (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-                .wrapping_sub(1)
+            >= (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1)
             && strncmp(
                 str,
                 ponyint.as_ptr(),
-                (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-                    .wrapping_sub(1),
+                (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1),
             ) == 0 as libc::c_int
         {
             ast_error(

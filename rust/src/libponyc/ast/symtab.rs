@@ -1011,7 +1011,8 @@ unsafe extern "C" fn symbol_deserialise(mut ctx: *mut pony_ctx_t, mut object: *m
     let ref mut fresh3 = (*sym).name;
     *fresh3 = string_deserialise_offset(ctx, (*sym).name as libc::uintptr_t);
     let ref mut fresh4 = (*sym).def;
-    *fresh4 = pony_deserialise_offset(ctx, ast_pony_type(), (*sym).def as libc::uintptr_t) as *mut ast_t;
+    *fresh4 =
+        pony_deserialise_offset(ctx, ast_pony_type(), (*sym).def as libc::uintptr_t) as *mut ast_t;
 }
 #[c2rust::src_loc = "386:20"]
 static mut symbol_pony: pony_type_t = unsafe {

@@ -1072,8 +1072,7 @@ unsafe extern "C" fn generate_multi_dot_name(
         );
         def = ast_data(left) as *mut ast_t;
         temp_ast = left;
-        len = (len as libc::c_ulong)
-            .wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1))
+        len = (len as libc::c_ulong).wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1))
             as usize as usize;
         if !def.is_null() {
             break;
@@ -1114,12 +1113,12 @@ unsafe extern "C" fn generate_multi_dot_name(
         }
         197 | 196 | 184 | 198 => {
             temp_ast = ast_child(temp_ast);
-            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize
+                as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
-            len = (len as libc::c_ulong).wrapping_sub(1) as usize
-                as usize;
+            len = (len as libc::c_ulong).wrapping_sub(1) as usize as usize;
         }
         _ => {
             if def.is_null() {
@@ -1160,8 +1159,7 @@ unsafe extern "C" fn generate_multi_dot_name(
     temp_ast = ast_parent(temp_ast);
     while temp_ast != ast {
         *buf.offset(offset as isize) = '.' as i32 as libc::c_char;
-        offset = (offset as libc::c_ulong).wrapping_add(1) as usize
-            as usize;
+        offset = (offset as libc::c_ulong).wrapping_add(1) as usize as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
         slen = libc::strlen(name);

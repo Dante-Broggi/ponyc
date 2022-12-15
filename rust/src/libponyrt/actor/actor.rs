@@ -1319,7 +1319,9 @@ pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
     let mut head: *mut pony_msg_t = 0 as *mut pony_msg_t;
     loop {
         head = ::core::intrinsics::atomic_load_relaxed(&mut (*actor).q.head);
-        if !(head as libc::uintptr_t & 1 as libc::c_int as libc::uintptr_t != 1 as libc::c_int as libc::uintptr_t) {
+        if !(head as libc::uintptr_t & 1 as libc::c_int as libc::uintptr_t
+            != 1 as libc::c_int as libc::uintptr_t)
+        {
             break;
         }
     }

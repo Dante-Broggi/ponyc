@@ -460,8 +460,7 @@ unsafe extern "C" fn get_width() -> usize {
         if libc::ioctl(
             1 as libc::c_int,
             0x40000000 as libc::c_int as u32 as libc::c_ulong
-                | (::core::mem::size_of::<winsize>()
-                    & 0x1fff as libc::c_int as libc::c_ulong)
+                | (::core::mem::size_of::<winsize>() & 0x1fff as libc::c_int as libc::c_ulong)
                     << 16 as libc::c_int
                 | (('t' as i32) << 8 as libc::c_int) as libc::c_ulong
                 | 104 as libc::c_int as libc::c_ulong,
@@ -556,15 +555,13 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
     let mut args_size: usize = 1 as libc::c_int as usize;
     let mut i: libc::c_int = 1 as libc::c_int;
     while i < argc {
-        args_size = (args_size as libc::c_ulong).wrapping_add(
-            (libc::strlen(*argv.offset(i as isize))).wrapping_add(1),
-        ) as usize as usize;
+        args_size = (args_size as libc::c_ulong)
+            .wrapping_add((libc::strlen(*argv.offset(i as isize))).wrapping_add(1))
+            as usize as usize;
         i += 1;
     }
-    opt.all_args = libc::calloc(
-        args_size,
-        ::core::mem::size_of::<libc::c_char>(),
-    ) as *const libc::c_char;
+    opt.all_args =
+        libc::calloc(args_size, ::core::mem::size_of::<libc::c_char>()) as *const libc::c_char;
     let mut size_left: usize = args_size;
     let mut i_0: libc::c_int = 1 as libc::c_int;
     while i_0 < argc {
@@ -578,9 +575,9 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
             b" \0" as *const u8 as *const libc::c_char,
             1 as libc::c_int as libc::c_ulong,
         );
-        size_left = (size_left as libc::c_ulong).wrapping_sub(
-            (libc::strlen(*argv.offset(i_0 as isize))).wrapping_add(1),
-        ) as usize as usize;
+        size_left = (size_left as libc::c_ulong)
+            .wrapping_sub((libc::strlen(*argv.offset(i_0 as isize))).wrapping_add(1))
+            as usize as usize;
         i_0 += 1;
     }
     let mut exit_code: ponyc_opt_process_t = EXIT_0;

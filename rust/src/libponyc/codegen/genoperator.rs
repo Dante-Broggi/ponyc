@@ -1952,19 +1952,11 @@ unsafe extern "C" fn make_divrem(
             && sign as libc::c_int != 0
         {
             let mut width: u64 = LLVMGetIntTypeWidth(r_type) as u64;
-            let mut v_min: LLVMValueRef = LLVMConstInt(
-                r_type,
-                0,
-                0 as libc::c_int,
-            );
+            let mut v_min: LLVMValueRef = LLVMConstInt(r_type, 0, 0 as libc::c_int);
             v_min = LLVMConstNot(v_min);
             v_min = LLVMConstShl(
                 v_min,
-                LLVMConstInt(
-                    r_type,
-                    width.wrapping_sub(1),
-                    0 as libc::c_int,
-                ),
+                LLVMConstInt(r_type, width.wrapping_sub(1), 0 as libc::c_int),
             );
             let mut min: libc::c_longlong = LLVMConstIntGetSExtValue(v_min);
             if LLVMConstIntGetSExtValue(l_value) == min {
@@ -2007,11 +1999,7 @@ unsafe extern "C" fn make_divrem(
                 codegen_block(c, b"div_no_overflow\0" as *const u8 as *const libc::c_char);
         }
         post_block = codegen_block(c, b"div_post\0" as *const u8 as *const libc::c_char);
-        zero = LLVMConstInt(
-            r_type,
-            0,
-            0 as libc::c_int,
-        );
+        zero = LLVMConstInt(r_type, 0, 0 as libc::c_int);
         let mut cmp: LLVMValueRef = LLVMBuildICmp(
             (*c).builder,
             LLVMIntNE,
@@ -2023,11 +2011,7 @@ unsafe extern "C" fn make_divrem(
         LLVMPositionBuilderAtEnd((*c).builder, nonzero_block);
         if sign {
             let mut width_0: u64 = LLVMGetIntTypeWidth(r_type) as u64;
-            let mut v_min_0: LLVMValueRef = LLVMConstInt(
-                r_type,
-                0,
-                0 as libc::c_int,
-            );
+            let mut v_min_0: LLVMValueRef = LLVMConstInt(r_type, 0, 0 as libc::c_int);
             v_min_0 = LLVMConstNot(v_min_0);
             let mut denom_good: LLVMValueRef = LLVMBuildICmp(
                 (*c).builder,
@@ -2038,11 +2022,7 @@ unsafe extern "C" fn make_divrem(
             );
             v_min_0 = LLVMConstShl(
                 v_min_0,
-                LLVMConstInt(
-                    r_type,
-                    width_0.wrapping_sub(1),
-                    0 as libc::c_int,
-                ),
+                LLVMConstInt(r_type, width_0.wrapping_sub(1), 0 as libc::c_int),
             );
             let mut numer_good: LLVMValueRef = LLVMBuildICmp(
                 (*c).builder,
@@ -3233,27 +3213,15 @@ pub unsafe extern "C" fn gen_not(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
     if bool_type {
         if !(LLVMIsAConstantInt(value)).is_null() {
             if is_always_true(value) {
-                return LLVMConstInt(
-                    (*c).i1,
-                    0,
-                    0 as libc::c_int,
-                );
+                return LLVMConstInt((*c).i1, 0, 0 as libc::c_int);
             }
-            return LLVMConstInt(
-                (*c).i1,
-                1,
-                0 as libc::c_int,
-            );
+            return LLVMConstInt((*c).i1, 1, 0 as libc::c_int);
         }
         return LLVMBuildICmp(
             (*c).builder,
             LLVMIntEQ,
             value,
-            LLVMConstInt(
-                (*c).i1,
-                0,
-                0 as libc::c_int,
-            ),
+            LLVMConstInt((*c).i1, 0, 0 as libc::c_int),
             b"\0" as *const u8 as *const libc::c_char,
         );
     }

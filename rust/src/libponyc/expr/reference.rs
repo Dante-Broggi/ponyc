@@ -1237,9 +1237,7 @@ unsafe extern "C" fn is_legal_dontcare_read(mut ast: *mut ast_t) -> bool {
                     ast_get_children(
                         grandparent,
                         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_1.as_mut_ptr(),
                     );
@@ -1256,9 +1254,7 @@ unsafe extern "C" fn is_legal_dontcare_read(mut ast: *mut ast_t) -> bool {
                     ast_get_children(
                         grandparent,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_2.as_mut_ptr(),
                     );

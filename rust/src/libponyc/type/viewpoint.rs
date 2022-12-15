@@ -976,9 +976,7 @@ unsafe extern "C" fn replace_type(
                     ast_get_children(
                         ast,
                         ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children.as_mut_ptr(),
                     );

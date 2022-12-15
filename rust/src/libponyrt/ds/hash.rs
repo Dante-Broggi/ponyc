@@ -311,10 +311,7 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
     let mut mem_alloc: *mut libc::c_void = ponyint_pool_alloc_size(
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-            .wrapping_add(
-                ((*map).size)
-                    .wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-            ),
+            .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())),
     );
     memset(
         mem_alloc,
@@ -324,9 +321,9 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
     let ref mut fresh0 = (*map).item_bitmap;
     *fresh0 = mem_alloc as *mut bitmap_t;
     let ref mut fresh1 = (*map).buckets;
-    *fresh1 = (mem_alloc as *mut libc::c_char).offset(
-        bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()) as isize,
-    ) as *mut hashmap_entry_t;
+    *fresh1 = (mem_alloc as *mut libc::c_char)
+        .offset(bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()) as isize)
+        as *mut hashmap_entry_t;
     let mut i: usize = -(1 as libc::c_int) as usize;
     loop {
         curr = ponyint_hashmap_next(&mut i, c, old_item_bitmap, s, b);
@@ -348,9 +345,7 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
         ponyint_pool_free_size(
             old_bitmap_size
                 .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-                .wrapping_add(
-                    s.wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-                ),
+                .wrapping_add(s.wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())),
             old_item_bitmap as *mut libc::c_void,
         );
     }
@@ -434,9 +429,7 @@ pub unsafe extern "C" fn ponyint_hashmap_init(mut map: *mut hashmap_t, mut size:
     let mut mem_alloc: *mut libc::c_void = ponyint_pool_alloc_size(
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-            .wrapping_add(
-                size.wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-            ),
+            .wrapping_add(size.wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())),
     );
     memset(
         mem_alloc,
@@ -446,9 +439,9 @@ pub unsafe extern "C" fn ponyint_hashmap_init(mut map: *mut hashmap_t, mut size:
     let ref mut fresh2 = (*map).item_bitmap;
     *fresh2 = mem_alloc as *mut bitmap_t;
     let ref mut fresh3 = (*map).buckets;
-    *fresh3 = (mem_alloc as *mut libc::c_char).offset(
-        bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()) as isize,
-    ) as *mut hashmap_entry_t;
+    *fresh3 = (mem_alloc as *mut libc::c_char)
+        .offset(bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()) as isize)
+        as *mut hashmap_entry_t;
 }
 #[no_mangle]
 #[c2rust::src_loc = "204:1"]
@@ -485,8 +478,7 @@ pub unsafe extern "C" fn ponyint_hashmap_destroy(mut map: *mut hashmap_t, mut fr
             bitmap_size
                 .wrapping_mul(::core::mem::size_of::<bitmap_t>())
                 .wrapping_add(
-                    ((*map).size)
-                        .wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
+                    ((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
                 ),
             (*map).item_bitmap as *mut libc::c_void,
         );
@@ -544,9 +536,7 @@ unsafe extern "C" fn shift_put(
     let mut ib_index: usize = pos >> 6 as libc::c_int;
     let mut ib_offset: usize =
         pos & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
-    if probe_length > oi_probe_length
-        || probe_length == oi_probe_length && probe_length == 0
-    {
+    if probe_length > oi_probe_length || probe_length == oi_probe_length && probe_length == 0 {
     } else {
         ponyint_assert_fail(
             b"probe_length > oi_probe_length || (probe_length == oi_probe_length && probe_length == 0)\0"
@@ -829,9 +819,8 @@ pub unsafe extern "C" fn ponyint_hashmap_next(
             ib_offset = 0 as libc::c_int as usize;
             ib = *item_bitmap.offset(ib_index as isize);
         } else {
-            index = (index as libc::c_ulong)
-                .wrapping_add(ffs_offset.wrapping_sub(1))
-                as usize as usize;
+            index =
+                (index as libc::c_ulong).wrapping_add(ffs_offset.wrapping_sub(1)) as usize as usize;
             if !((*buckets.offset(index as isize)).ptr).is_null() {
             } else {
                 ponyint_assert_fail(
@@ -877,9 +866,7 @@ pub unsafe extern "C" fn ponyint_hashmap_mem_size(mut map: *mut hashmap_t) -> us
     );
     return bitmap_size
         .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-        .wrapping_add(
-            ((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-        );
+        .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()));
 }
 #[no_mangle]
 #[c2rust::src_loc = "522:1"]
@@ -964,10 +951,7 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise_trace(
         (*map).item_bitmap as *mut libc::c_void,
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-            .wrapping_add(
-                ((*map).size)
-                    .wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-            ),
+            .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())),
     );
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut elem: *mut libc::c_void = 0 as *mut libc::c_void;
@@ -1018,10 +1002,7 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise(
         (*map).item_bitmap as *const libc::c_void,
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-            .wrapping_add(
-                ((*map).size)
-                    .wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-            ),
+            .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())),
     );
     let mut dst_buckets: *mut hashmap_entry_t = (buf as libc::uintptr_t)
         .wrapping_add(bitmap_offset)
@@ -1069,15 +1050,12 @@ pub unsafe extern "C" fn ponyint_hashmap_deserialise(
         (*map).item_bitmap as libc::uintptr_t,
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-            .wrapping_add(
-                ((*map).size)
-                    .wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()),
-            ),
+            .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())),
     ) as *mut bitmap_t;
     let ref mut fresh24 = (*map).buckets;
-    *fresh24 = ((*map).item_bitmap as *mut libc::c_char).offset(
-        bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()) as isize,
-    ) as *mut hashmap_entry_t;
+    *fresh24 = ((*map).item_bitmap as *mut libc::c_char)
+        .offset(bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()) as isize)
+        as *mut hashmap_entry_t;
     let mut i: usize = -(1 as libc::c_int) as usize;
     let mut elem: *mut libc::c_void = 0 as *mut libc::c_void;
     loop {

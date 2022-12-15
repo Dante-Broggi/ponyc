@@ -68,7 +68,10 @@ pub mod lsda_h {
     use super::unwind_h::_Unwind_Context;
     extern "C" {
         #[c2rust::src_loc = "21:1"]
-        pub fn ponyint_lsda_scan(context: *mut exception_context_t, lp: *mut libc::uintptr_t) -> bool;
+        pub fn ponyint_lsda_scan(
+            context: *mut exception_context_t,
+            lp: *mut libc::uintptr_t,
+        ) -> bool;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h:1"]

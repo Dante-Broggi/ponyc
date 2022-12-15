@@ -517,8 +517,7 @@ pub unsafe extern "C" fn ponyint_cpu_affinity(mut cpu: u32) {
         4 as libc::c_int as thread_policy_flavor_t,
         &mut policy as *mut thread_affinity_policy_data_t as thread_policy_t,
         (::core::mem::size_of::<thread_affinity_policy_data_t>())
-            .wrapping_div(::core::mem::size_of::<integer_t>())
-            as mach_msg_type_number_t,
+            .wrapping_div(::core::mem::size_of::<integer_t>()) as mach_msg_type_number_t,
     );
 }
 #[no_mangle]

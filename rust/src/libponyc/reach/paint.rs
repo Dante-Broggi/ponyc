@@ -1185,9 +1185,7 @@ unsafe extern "C" fn is_name_compatible(
     };
     let mut i: usize = 0;
     while i < (*name).typemap_size {
-        if *((*colour).type_map).offset(i as isize) & *((*name).type_map).offset(i as isize)
-            != 0
-        {
+        if *((*colour).type_map).offset(i as isize) & *((*name).type_map).offset(i as isize) != 0 {
             return 0 as libc::c_int != 0;
         }
         i = i.wrapping_add(1);
@@ -1367,9 +1365,7 @@ unsafe extern "C" fn distribute_info(mut painter: *mut painter_t, mut types: *mu
         if t.is_null() {
             break;
         }
-        if reach_method_names_size(&mut (*t).methods) == 0
-            || !((*t).bare_method).is_null()
-        {
+        if reach_method_names_size(&mut (*t).methods) == 0 || !((*t).bare_method).is_null() {
             continue;
         }
         let mut j: usize = -(1 as libc::c_int) as usize;

@@ -779,8 +779,7 @@ unsafe extern "C" fn send_release(mut ctx: *mut pony_ctx_t, mut aref: *mut actor
         return;
     }
     if ponyint_actor_pendingdestroy((*aref).actor) as libc::c_int != 0
-        || (*aref).rc == 0
-            && ponyint_objectmap_size(&mut (*aref).map) == 0
+        || (*aref).rc == 0 && ponyint_objectmap_size(&mut (*aref).map) == 0
     {
         ponyint_actorref_free(aref);
         return;

@@ -2050,15 +2050,11 @@ unsafe extern "C" fn make_signature(
         count = count.wrapping_add(1);
         offset = offset.wrapping_add(1);
     }
-    let mut tparam_size: usize =
-        count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+    let mut tparam_size: usize = count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     if message_type {
-        tparam_size = (tparam_size as libc::c_ulong).wrapping_add(
-            tparam_size.wrapping_add(
-                (2 as libc::c_int as libc::c_ulong)
-                    .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>()),
-            ),
-        ) as usize as usize;
+        tparam_size = (tparam_size as libc::c_ulong).wrapping_add(tparam_size.wrapping_add(
+            (2 as libc::c_int as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>()),
+        )) as usize as usize;
     }
     let mut tparams: *mut LLVMTypeRef = ponyint_pool_alloc_size(tparam_size) as *mut LLVMTypeRef;
     let mut mparams: *mut LLVMTypeRef = 0 as *mut LLVMTypeRef;
@@ -2249,8 +2245,7 @@ unsafe extern "C" fn make_prototype(
         make_function_debug(c, t, m, (*c_m).func);
     } else {
         let mut count: usize = LLVMCountParamTypes((*c_m).func_type) as usize;
-        let mut buf_size: usize =
-            count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+        let mut buf_size: usize = count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
         let mut tparams: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         LLVMGetParamTypes((*c_m).func_type, tparams);
         let mut sender_name: *const libc::c_char = genname_be((*m).full_name);
@@ -2360,13 +2355,11 @@ unsafe extern "C" fn add_dispatch_case(
         b"\0" as *const u8 as *const libc::c_char,
     );
     let mut count: usize = LLVMCountParamTypes(fun_type) as usize;
-    let mut params_buf_size: usize =
-        count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+    let mut params_buf_size: usize = count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     let mut param_types: *mut LLVMTypeRef =
         ponyint_pool_alloc_size(params_buf_size) as *mut LLVMTypeRef;
     LLVMGetParamTypes(fun_type, param_types);
-    let mut args_buf_size: usize =
-        count.wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
+    let mut args_buf_size: usize = count.wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(args_buf_size) as *mut LLVMValueRef;
     let ref mut fresh22 = *args.offset(0 as libc::c_int as isize);
     *fresh22 = LLVMBuildBitCast(
@@ -2923,23 +2916,20 @@ unsafe extern "C" fn genfun_allocator(mut c: *mut compile_t, mut t: *mut reach_t
         let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
         let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
             b"noalias\0" as *const u8 as *const libc::c_char,
-            (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-                .wrapping_sub(1),
+            (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1),
         );
         noalias_attr =
             LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
         let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
         let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
             b"dereferenceable\0" as *const u8 as *const libc::c_char,
-            (::core::mem::size_of::<[libc::c_char; 16]>() as libc::c_ulong)
-                .wrapping_sub(1),
+            (::core::mem::size_of::<[libc::c_char; 16]>() as libc::c_ulong).wrapping_sub(1),
         );
         deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
         let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
         let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
             b"align\0" as *const u8 as *const libc::c_char,
-            (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong)
-                .wrapping_sub(1),
+            (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong).wrapping_sub(1),
         );
         align_attr = LLVMCreateEnumAttribute(
             (*c).context,
@@ -3051,8 +3041,8 @@ unsafe extern "C" fn genfun_forward(
         (*m).cap as libc::c_uint == TK_AT as libc::c_int as libc::c_uint,
     );
     let mut count: libc::c_int = LLVMCountParams((*c_m).func) as libc::c_int;
-    let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
+    let mut buf_size: usize =
+        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let ref mut fresh30 = *args.offset(0 as libc::c_int as isize);
     *fresh30 = LLVMGetParam((*c_m).func, 0 as libc::c_int as libc::c_uint);
@@ -3159,15 +3149,13 @@ pub unsafe extern "C" fn genfun_param_attrs(
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"noalias\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1),
     );
     noalias_attr = LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut readonly_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readonly_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1),
     );
     readonly_attr =
         LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as u64);

@@ -2022,8 +2022,7 @@ pub struct call_tuple_indices_t {
 unsafe extern "C" fn tuple_indices_init(mut ti: *mut call_tuple_indices_t) {
     let ref mut fresh0 = (*ti).data;
     *fresh0 = ponyint_pool_alloc_size(
-        (4 as libc::c_int as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<usize>()),
+        (4 as libc::c_int as libc::c_ulong).wrapping_mul(::core::mem::size_of::<usize>()),
     ) as *mut usize;
     (*ti).count = 0 as libc::c_int as usize;
     (*ti).alloc = 4 as libc::c_int as usize;
@@ -2042,8 +2041,7 @@ unsafe extern "C" fn tuple_indices_destroy(mut ti: *mut call_tuple_indices_t) {
 #[c2rust::src_loc = "42:1"]
 unsafe extern "C" fn tuple_indices_push(mut ti: *mut call_tuple_indices_t, mut idx: usize) {
     if (*ti).count == (*ti).alloc {
-        let mut old_alloc: usize =
-            ((*ti).alloc).wrapping_mul(::core::mem::size_of::<usize>());
+        let mut old_alloc: usize = ((*ti).alloc).wrapping_mul(::core::mem::size_of::<usize>());
         let ref mut fresh2 = (*ti).data;
         *fresh2 = ponyint_pool_realloc_size(
             old_alloc,
@@ -2842,8 +2840,7 @@ pub unsafe extern "C" fn gen_send_message(
     while i < (*m).param_count {
         let ref mut fresh7 = *arg_types.offset(i as isize);
         *fresh7 = deferred_reify(reify, ast_type(arg_ast), (*c).opt);
-        let ref mut fresh8 =
-            *cast_args.offset(i.wrapping_add(1) as isize);
+        let ref mut fresh8 = *cast_args.offset(i.wrapping_add(1) as isize);
         *fresh8 = gen_assign_cast(
             c,
             *param_types.offset(i.wrapping_add(3 as libc::c_int as libc::c_ulong) as isize),
@@ -2964,11 +2961,7 @@ pub unsafe extern "C" fn gen_send_message(
     );
     msg_args[2 as libc::c_int as usize] = msg;
     msg_args[3 as libc::c_int as usize] = msg;
-    msg_args[4 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i1,
-        1,
-        0 as libc::c_int,
-    );
+    msg_args[4 as libc::c_int as usize] = LLVMConstInt((*c).i1, 1, 0 as libc::c_int);
     let mut send: LLVMValueRef = 0 as *mut LLVMOpaqueValue;
     if ast_id((*(*m).fun).ast) as libc::c_uint == TK_NEW as libc::c_int as libc::c_uint {
         send = gencall_runtime(
@@ -3461,8 +3454,8 @@ unsafe extern "C" fn ffi_return_type(
             );
         };
         let mut count: libc::c_uint = LLVMCountStructElementTypes((*c_t).use_type);
-        let mut buf_size: usize = (count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+        let mut buf_size: usize =
+            (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
         let mut e_types: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         LLVMGetStructElementTypes((*c_t).use_type, e_types);
         let mut child: *mut ast_t = ast_child((*t).ast);
@@ -3505,8 +3498,8 @@ unsafe extern "C" fn declare_ffi(
     let mut buf_size: usize = 0;
     let mut f_params: *mut LLVMTypeRef = 0 as *mut LLVMTypeRef;
     if param_count != 0 as libc::c_int {
-        buf_size = (param_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+        buf_size =
+            (param_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
         f_params = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         param_count = 0 as libc::c_int;
         let mut arg: *mut ast_t = ast_child(args);
@@ -3815,8 +3808,8 @@ pub unsafe extern "C" fn gen_ffi(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
         };
     }
     let mut count: libc::c_int = ast_childcount(args) as libc::c_int;
-    let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
+    let mut buf_size: usize =
+        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut f_args: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let mut f_type: LLVMTypeRef = LLVMGetElementType(LLVMTypeOf(func));
     let mut f_params: *mut LLVMTypeRef = 0 as *mut LLVMTypeRef;
@@ -4100,11 +4093,7 @@ pub unsafe extern "C" fn gencall_memcpy(
     args[0 as libc::c_int as usize] = dst;
     args[1 as libc::c_int as usize] = src;
     args[2 as libc::c_int as usize] = n;
-    args[3 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i1,
-        0,
-        0 as libc::c_int,
-    );
+    args[3 as libc::c_int as usize] = LLVMConstInt((*c).i1, 0, 0 as libc::c_int);
     LLVMBuildCall_P(
         (*c).builder,
         func,
@@ -4126,11 +4115,7 @@ pub unsafe extern "C" fn gencall_memmove(
     args[0 as libc::c_int as usize] = dst;
     args[1 as libc::c_int as usize] = src;
     args[2 as libc::c_int as usize] = n;
-    args[3 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i1,
-        0,
-        0 as libc::c_int,
-    );
+    args[3 as libc::c_int as usize] = LLVMConstInt((*c).i1, 0, 0 as libc::c_int);
     LLVMBuildCall_P(
         (*c).builder,
         func,

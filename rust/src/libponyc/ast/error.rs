@@ -423,8 +423,7 @@ unsafe extern "C" fn make_errorv(
         }
         let mut len: usize = tpos.wrapping_sub(start);
         if len >= ::core::mem::size_of::<[libc::c_char; 1024]>() {
-            len = (::core::mem::size_of::<[libc::c_char; 1024]>())
-                .wrapping_sub(1);
+            len = (::core::mem::size_of::<[libc::c_char; 1024]>()).wrapping_sub(1);
         }
         memcpy(
             buf.as_mut_ptr() as *mut libc::c_void,

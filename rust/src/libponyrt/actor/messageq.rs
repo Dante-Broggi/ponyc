@@ -101,8 +101,7 @@ unsafe extern "C" fn messageq_push(
     f__atomic_thread_fence(b"memory_order_release\0" as *const u8 as *const libc::c_char);
     let mut prev: *mut pony_msg_t =
         { ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, last) };
-    let mut was_empty: bool =
-        prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
+    let mut was_empty: bool = prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
     prev = (prev as libc::uintptr_t & !(1 as libc::c_int as libc::uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, first);
@@ -125,8 +124,7 @@ unsafe extern "C" fn messageq_push_single(
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, last);
         // compile_error!("Builtin is not supposed to be used")
     });
-    let mut was_empty: bool =
-        prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
+    let mut was_empty: bool = prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
     prev = (prev as libc::uintptr_t & !(1 as libc::c_int as libc::uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, first);

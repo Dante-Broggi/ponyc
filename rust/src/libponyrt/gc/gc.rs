@@ -743,8 +743,7 @@ unsafe extern "C" fn acq_or_rel_remote_actor(
     let mut aref: *mut actorref_t =
         ponyint_actormap_getorput(&mut (*ctx).acquire, actor, 0 as libc::c_int as u32);
     let ref mut fresh15 = (*aref).rc;
-    *fresh15 = (*fresh15 as libc::c_ulong).wrapping_add(1) as usize
-        as usize;
+    *fresh15 = (*fresh15 as libc::c_ulong).wrapping_add(1) as usize as usize;
 }
 #[c2rust::src_loc = "139:1"]
 unsafe extern "C" fn send_local_object(
@@ -927,10 +926,7 @@ unsafe extern "C" fn send_remote_object(
     }
     send_remote_actor(ctx, gc, aref);
     (*obj).mark = (*gc).mark;
-    if mutability == PONY_TRACE_IMMUTABLE as libc::c_int
-        && !(*obj).immutable
-        && (*obj).rc > 0
-    {
+    if mutability == PONY_TRACE_IMMUTABLE as libc::c_int && !(*obj).immutable && (*obj).rc > 0 {
         let ref mut fresh20 = (*obj).rc;
         *fresh20 = (*fresh20 as libc::c_ulong)
             .wrapping_add((256 as libc::c_int - 1 as libc::c_int) as libc::c_ulong)
@@ -1027,10 +1023,7 @@ unsafe extern "C" fn mark_remote_object(
     }
     mark_remote_actor(ctx, gc, aref);
     (*obj).mark = (*gc).mark;
-    if mutability == PONY_TRACE_IMMUTABLE as libc::c_int
-        && !(*obj).immutable
-        && (*obj).rc > 0
-    {
+    if mutability == PONY_TRACE_IMMUTABLE as libc::c_int && !(*obj).immutable && (*obj).rc > 0 {
         let ref mut fresh24 = (*obj).rc;
         *fresh24 = (*fresh24 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong)
             as usize as usize;

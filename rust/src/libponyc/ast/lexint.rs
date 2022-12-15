@@ -96,8 +96,7 @@ pub unsafe extern "C" fn lexint_shr(mut dst: *mut lexint_t, mut a: *mut lexint_t
 #[c2rust::src_loc = "91:1"]
 pub unsafe extern "C" fn lexint_testbit(mut a: *mut lexint_t, mut b: u8) -> u64 {
     if b as libc::c_int >= 64 as libc::c_int {
-        return (*a).high >> b as libc::c_int - 64 as libc::c_int
-            & 1;
+        return (*a).high >> b as libc::c_int - 64 as libc::c_int & 1;
     }
     return (*a).low >> b as libc::c_int & 1;
 }
@@ -224,9 +223,7 @@ unsafe extern "C" fn count_leading_zeros(mut n: u64) -> libc::c_int {
 #[no_mangle]
 #[c2rust::src_loc = "255:1"]
 pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
-    if (*i).low == 0
-        && (*i).high == 0
-    {
+    if (*i).low == 0 && (*i).high == 0 {
         return 0 as libc::c_int as libc::c_double;
     }
     let mut sig_bit_count: libc::c_int = 128 as libc::c_int - count_leading_zeros((*i).high);
@@ -249,22 +246,16 @@ pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
                 mantissa |= 1;
             }
         }
-        if mantissa & 4 != 0
-        {
+        if mantissa & 4 != 0 {
             mantissa |= 1;
         }
         mantissa = mantissa.wrapping_add(1) >> 2 as libc::c_int;
-        if mantissa & (1 as libc::c_ulonglong) << 53 as libc::c_int
-            != 0
-        {
+        if mantissa & (1 as libc::c_ulonglong) << 53 as libc::c_int != 0 {
             mantissa >>= 1 as libc::c_int;
-            exponent = (exponent as libc::c_ulonglong)
-                .wrapping_add(1) as u64
-                as u64;
+            exponent = (exponent as libc::c_ulonglong).wrapping_add(1) as u64 as u64;
         }
     }
-    let mut raw_bits: u64 = exponent.wrapping_add(1023)
-        << 52 as libc::c_int
+    let mut raw_bits: u64 = exponent.wrapping_add(1023) << 52 as libc::c_int
         | mantissa & 0xfffffffffffff as libc::c_long as libc::c_ulonglong;
     let mut fp_bits: *mut libc::c_double = &mut raw_bits as *mut u64 as *mut libc::c_double;
     *fp_bits

@@ -1999,11 +1999,7 @@ unsafe extern "C" fn deserialise_bare_interface(mut c: *mut compile_t, mut ptr: 
     let mut type_id: LLVMValueRef =
         LLVMBuildLoad_P((*c).builder, ptr, b"\0" as *const u8 as *const libc::c_char);
     let mut args: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
-    args[0 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i32_0,
-        0,
-        0 as libc::c_int,
-    );
+    args[0 as libc::c_int as usize] = LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
     args[1 as libc::c_int as usize] = LLVMBuildPtrToInt(
         (*c).builder,
         type_id,
