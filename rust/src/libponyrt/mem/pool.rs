@@ -31,11 +31,10 @@ pub mod platform_h {
     pub unsafe extern "C" fn __pony_clzzu(mut x: usize) -> u32 {
         __pony_clzll(x as u64)
     }
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/alloc.h:4"]
 pub mod alloc_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "7:1"]
         pub fn ponyint_virt_alloc(bytes: usize) -> *mut libc::c_void;
@@ -57,7 +56,7 @@ pub mod cpu_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:7"]
 pub mod ponyassert_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(

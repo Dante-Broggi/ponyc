@@ -109,7 +109,6 @@ pub mod pthread_h {
     use super::_pthread_mutex_t_h::pthread_mutex_t;
     use super::_pthread_t_h::pthread_t;
 
-    use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "229:1"]
         pub fn pthread_attr_destroy(_: *mut pthread_attr_t) -> libc::c_int;

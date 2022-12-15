@@ -10,7 +10,6 @@ pub mod _types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
 pub mod error_h {
@@ -528,7 +527,7 @@ pub mod ast_h {
     pub const AST_FLAG_PASS_MASK: C2RustUnnamed = 31;
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -622,7 +621,7 @@ pub mod frame_h {
         pub stats: typecheck_stats_t,
         pub errors: *mut errors_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
 }
@@ -732,7 +731,7 @@ pub mod pass_h {
     #[c2rust::src_loc = "402:1"]
     pub type ast_visit_t =
         Option<unsafe extern "C" fn(*mut *mut ast_t, *mut pass_opt_t) -> ast_result_t>;
-    use super::_size_t_h::size_t;
+
     use super::ast_h::ast_result_t;
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
@@ -792,7 +791,7 @@ pub mod platformfuns_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:9"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
@@ -802,7 +801,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:10"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -868,7 +867,7 @@ pub use self::pass_h::{
 use self::platformfuns_h::os_is_target;
 use self::ponyassert_h::ponyint_assert_fail;
 use self::pool_h::{ponyint_pool_alloc_size, ponyint_pool_free_size};
-use self::string_h::{strcmp, strlen, strncmp};
+use self::string_h::{strcmp, strncmp};
 use self::stringtab_h::stringtab;
 use self::symtab_h::ast_t;
 pub use self::token_h::{

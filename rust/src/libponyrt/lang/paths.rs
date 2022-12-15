@@ -6,7 +6,7 @@ pub mod stddef_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:2"]
 pub mod pony_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "36:16"]
         pub type pony_ctx_t;
@@ -39,7 +39,7 @@ pub mod string_h {
 use self::pony_h::{pony_alloc, pony_ctx};
 pub use self::stddef_h::size_t;
 use self::stdlib_h::realpath;
-use self::string_h::{memcpy, strlen};
+use self::string_h::memcpy;
 #[no_mangle]
 #[c2rust::src_loc = "7:1"]
 pub unsafe extern "C" fn pony_os_realpath(mut path: *const libc::c_char) -> *mut libc::c_char {

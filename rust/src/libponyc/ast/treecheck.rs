@@ -15,7 +15,6 @@ pub mod sys__types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/treecheck.h:1"]
 pub mod treecheck_h {
@@ -127,7 +126,7 @@ pub mod pass_h {
     pub const PASS_SYNTAX: pass_id = 1;
     #[c2rust::src_loc = "218:3"]
     pub const PASS_PARSE: pass_id = 0;
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
     extern "C" {
@@ -187,7 +186,7 @@ pub mod frame_h {
         pub iftype_body: *mut ast_t,
         pub prev: *mut typecheck_frame_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::treecheck_h::ast_t;
 }
@@ -704,7 +703,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/ast.h:2"]
 pub mod ast_h {
-    use super::_size_t_h::size_t;
+
     use super::_stdio_h::FILE;
     use super::error_h::errors_t;
     use super::token_h::token_id;
@@ -734,7 +733,7 @@ pub mod ast_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:4"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -7136,7 +7135,7 @@ pub mod treecheckdef_h {
         state.child = ast_child(ast);
         return check_extras(ast, &mut state, errors, print_width);
     }
-    use super::_size_t_h::size_t;
+
     use super::ast_h::{ast_child, ast_childidx, ast_id};
     use super::error_h::errors_t;
     use super::token_h::{

@@ -15,7 +15,6 @@ pub mod sys__types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
 pub mod Types_h {
@@ -829,7 +828,6 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/symtab.h:1"]
 pub mod symtab_h {
@@ -915,7 +913,7 @@ pub mod frame_h {
         pub stats: typecheck_stats_t,
         pub errors: *mut errors_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
 }
@@ -1022,7 +1020,7 @@ pub mod pass_h {
         pub plugins: *mut plugins_t,
         pub data: *mut libc::c_void,
     }
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
     extern "C" {
@@ -1148,7 +1146,7 @@ pub mod reach_h {
         pub total_type_count: u32,
         pub trait_type_count: u32,
     }
-    use super::_size_t_h::size_t;
+
     use super::hash_h::hashmap_t;
     use super::pass_h::pass_opt_t;
     use super::reify_h::deferred_reification_t;
@@ -1354,7 +1352,7 @@ pub mod codegen_h {
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "296:1"]
         pub fn suffix_filename(
@@ -1444,7 +1442,7 @@ pub mod gentype_h {
         pub di_type: LLVMMetadataRef,
         pub di_type_embed: LLVMMetadataRef,
     }
-    use super::_size_t_h::size_t;
+
     use super::codegen_h::compile_t;
     use super::reach_h::compile_opaque_free_fn;
     use super::Types_h::{LLVMMetadataRef, LLVMTypeRef, LLVMValueRef};
@@ -1625,7 +1623,7 @@ pub mod lookup_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:14"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
@@ -1683,7 +1681,7 @@ pub use self::reach_h::{
 pub use self::reify_h::{deferred_reification_t, deferred_reify_free};
 use self::stdio_h::{__stderrp, fprintf, snprintf};
 use self::stdlib_h::system;
-use self::string_h::{strchr, strlen};
+use self::string_h::strchr;
 use self::unistd_h::unlink;
 pub use self::Core_h::{
     LLVMAMDGPUCSCallConv, LLVMAMDGPUESCallConv, LLVMAMDGPUGSCallConv, LLVMAMDGPUHSCallConv,

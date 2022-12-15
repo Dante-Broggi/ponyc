@@ -70,7 +70,7 @@ pub mod _stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
 pub mod error_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "36:16"]
         pub type errors_t;
@@ -147,7 +147,7 @@ pub mod frame_h {
         pub errors: *mut errors_t,
     }
     use super::error_h::errors_t;
-    use super::stddef_h::size_t;
+
     use super::symtab_h::ast_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/pass/pass.h:1"]
@@ -254,7 +254,7 @@ pub mod pass_h {
         pub data: *mut libc::c_void,
     }
     use super::frame_h::typecheck_t;
-    use super::stddef_h::size_t;
+
     use super::stringtab_h::strlist_t;
     use super::symtab_h::ast_t;
     extern "C" {
@@ -371,7 +371,7 @@ pub mod stdio_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/ast.h:1"]
 pub mod ast_h {
     use super::_stdio_h::FILE;
-    use super::stddef_h::size_t;
+
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "112:1"]
@@ -418,13 +418,13 @@ pub mod unistd_h {
         pub fn isatty(_: libc::c_int) -> libc::c_int;
     }
 }
-use self::_malloc_h::calloc;
+
 pub use self::_stdio_h::{__sFILE, __sFILEX, __sbuf, fpos_t, FILE};
 pub use self::_types_h::{__int64_t, __uint32_t};
 use self::ast_h::{ast_child, ast_fprint, ast_free};
 use self::error_h::{errors_get_count, errors_print, errors_t};
 pub use self::frame_h::{typecheck_frame_t, typecheck_stats_t, typecheck_t};
-use self::ioctl_h::ioctl;
+
 pub use self::options_h::{opt_arg_t, opt_state_t, ponyint_opt_init};
 pub use self::options_options_h::{
     ponyc_opt_process, ponyc_opt_process_t, ponyc_opt_std_args, CONTINUE, EXIT_0, EXIT_255,
@@ -441,12 +441,12 @@ pub use self::pass_h::{
 use self::ponyc_h::{ponyc_init, ponyc_shutdown};
 pub use self::stddef_h::size_t;
 use self::stdio_h::{__stderrp, printf};
-use self::string_h::{strlen, strncat};
+use self::string_h::strncat;
 use self::stringtab_h::{stringtab_init, strlist_t};
 use self::symtab_h::ast_t;
 pub use self::sys__types_h::__darwin_off_t;
 pub use self::ttycom_h::winsize;
-use self::unistd_h::isatty;
+
 #[c2rust::src_loc = "22:1"]
 unsafe extern "C" fn get_width() -> usize {
     let mut width: usize = 80 as libc::c_int as usize;

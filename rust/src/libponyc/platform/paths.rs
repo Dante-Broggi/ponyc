@@ -31,7 +31,6 @@ pub mod _pthread_types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/dirent.h:1"]
 pub mod dirent_h {
@@ -107,7 +106,7 @@ pub mod errno_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:2"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
@@ -152,7 +151,7 @@ use self::libgen_h::basename;
 use self::pool_h::{ponyint_pool_alloc_size, ponyint_pool_free_size};
 use self::stat_h::mkdir;
 use self::stdlib_h::realpath;
-use self::string_h::{strcpy, strlen, strrchr};
+use self::string_h::{strcpy, strrchr};
 pub use self::sys__types_h::__darwin_mode_t;
 #[no_mangle]
 #[c2rust::src_loc = "23:1"]

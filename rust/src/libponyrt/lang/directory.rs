@@ -67,7 +67,7 @@ pub mod include_dirent_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:4"]
 pub mod pony_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "36:16"]
         pub type pony_ctx_t;
@@ -108,7 +108,7 @@ pub mod string_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unistd.h:13"]
 pub mod unistd_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "449:1"]
         pub fn getcwd(_: *mut libc::c_char, _: usize) -> *mut libc::c_char;
@@ -122,7 +122,7 @@ pub use self::dirent_h::dirent;
 pub use self::include_dirent_h::{_telldir, readdir, DIR};
 use self::pony_h::{pony_alloc, pony_ctx};
 pub use self::stddef_h::size_t;
-use self::string_h::{memcpy, strdup, strlen};
+use self::string_h::{memcpy, strdup};
 use self::unistd_h::getcwd;
 #[no_mangle]
 #[c2rust::src_loc = "24:26"]

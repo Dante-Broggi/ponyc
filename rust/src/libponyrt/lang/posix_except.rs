@@ -50,7 +50,7 @@ pub mod unwind_h {
         pub private_1: libc::uintptr_t,
         pub private_2: libc::uintptr_t,
     }
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "56:16"]
         pub type _Unwind_Context;
@@ -64,7 +64,7 @@ pub mod unwind_h {
 pub mod lsda_h {
     #[c2rust::src_loc = "16:1"]
     pub type exception_context_t = _Unwind_Context;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::unwind_h::_Unwind_Context;
     extern "C" {
         #[c2rust::src_loc = "21:1"]
@@ -83,7 +83,7 @@ pub mod stdlib_h {
 }
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::lsda_h::{exception_context_t, ponyint_lsda_scan};
-use self::stdlib_h::abort;
+
 pub use self::unwind_h::{
     _Unwind_Action, _Unwind_Context, _Unwind_Exception, _Unwind_RaiseException,
     _Unwind_Reason_Code, _UA_CLEANUP_PHASE, _UA_END_OF_STACK, _UA_FORCE_UNWIND, _UA_HANDLER_FRAME,

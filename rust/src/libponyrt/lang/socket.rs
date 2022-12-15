@@ -127,7 +127,6 @@ pub mod _iovec_t_h {
         pub iov_base: *mut libc::c_void,
         pub iov_len: usize,
     }
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:6"]
 pub mod pony_h {
@@ -186,8 +185,7 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
-    use super::_uintptr_t_h::uintptr_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
@@ -283,7 +281,6 @@ pub mod socket_h {
     use super::_socklen_t_h::socklen_t;
     use super::_ssize_t_h::ssize_t;
 
-    use super::stddef_h::size_t;
     extern "C" {
         #[c2rust::src_loc = "724:1"]
         pub fn accept(_: libc::c_int, _: *mut sockaddr, _: *mut socklen_t) -> libc::c_int;
@@ -599,7 +596,7 @@ pub use self::socket_h::{
     sendto, setsockopt, shutdown, sockaddr, sockaddr_storage, socket,
 };
 pub use self::stddef_h::size_t;
-use self::string_h::{memcmp, memcpy, memset, strlen};
+use self::string_h::{memcmp, memcpy, memset};
 pub use self::sys__types_h::{__darwin_pid_t, __darwin_sigset_t, __darwin_uid_t};
 pub use self::tcp_h::{tcp_seq, tcphdr};
 use self::uio_h::writev;

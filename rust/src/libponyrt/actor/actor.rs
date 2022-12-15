@@ -95,7 +95,6 @@ pub mod actor_h {
     use super::heap_h::heap_t;
     use super::messageq_h::messageq_t;
     use super::pony_h::pony_type_t;
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.h:3"]
 pub mod gc_h {
@@ -115,7 +114,7 @@ pub mod gc_h {
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
     use super::scheduler_h::pony_ctx_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "28:32"]
         pub type gcstack_t;
@@ -163,7 +162,6 @@ pub mod hash_h {
     }
     #[c2rust::src_loc = "16:1"]
     pub type bitmap_t = usize;
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:3"]
 pub mod actormap_h {
@@ -185,7 +183,6 @@ pub mod actormap_h {
     use super::actor_h::pony_actor_t;
     use super::hash_h::hashmap_t;
     use super::objectmap_h::objectmap_t;
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/objectmap.h:3"]
 pub mod objectmap_h {
@@ -216,7 +213,7 @@ pub mod heap_h {
     #[c2rust::src_loc = "30:1"]
     pub type C2RustUnnamed_0 = libc::c_uint;
     use super::actor_h::pony_actor_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "18:16"]
         pub type chunk_t;
@@ -368,10 +365,10 @@ pub mod pony_h {
         pub p: *mut libc::c_void,
     }
     use super::_intptr_t_h::intptr_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::actor_h::pony_actor_t;
     use super::scheduler_h::pony_ctx_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "183:1"]
         pub fn pony_ctx() -> *mut pony_ctx_t;
@@ -439,7 +436,7 @@ pub mod scheduler_h {
     use super::mutemap_h::mutemap_t;
     use super::pony_h::pony_type_t;
     use super::serialise_h::{ponyint_serialise_t, serialise_alloc_fn, serialise_throw_fn};
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "123:1"]
         pub fn ponyint_sched_add(ctx: *mut pony_ctx_t, actor: *mut pony_actor_t);
@@ -468,7 +465,6 @@ pub mod serialise_h {
     }
     use super::hash_h::hashmap_t;
     use super::scheduler_h::pony_ctx_t;
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/mpmcq.h:3"]
 pub mod mpmcq_h {
@@ -493,7 +489,7 @@ pub mod mpmcq_h {
         pub object: *mut mpmcq_node_t,
         pub counter: libc::uintptr_t,
     }
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -530,7 +526,7 @@ pub mod atomics_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:3"]
 pub mod pool_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
@@ -546,7 +542,7 @@ pub mod pool_h {
 pub mod cycle_h {
     use super::actor_h::pony_actor_t;
     use super::gc_h::gc_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "18:1"]
         pub fn ponyint_cycle_block(actor: *mut pony_actor_t, gc: *mut gc_t);
@@ -570,7 +566,7 @@ pub mod trace_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:9"]
 pub mod ponyassert_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(

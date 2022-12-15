@@ -95,8 +95,7 @@ pub mod pony_h {
     pub const PONY_TRACE_IMMUTABLE: C2RustUnnamed = 1;
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
-    use super::_uintptr_t_h::uintptr_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
@@ -123,9 +122,9 @@ pub mod list_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:2"]
 pub mod serialise_h {
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::{pony_ctx_t, pony_type_t};
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -139,7 +138,7 @@ pub mod serialise_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:2"]
 pub mod pool_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "25:1"]
         pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);

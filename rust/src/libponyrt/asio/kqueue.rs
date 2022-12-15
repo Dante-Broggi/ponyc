@@ -207,7 +207,7 @@ pub mod event_h {
     }
     use super::_intptr_t_h::intptr_t;
     use super::_timespec_h::timespec;
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "380:1"]
         pub fn kqueue() -> libc::c_int;
@@ -263,7 +263,7 @@ pub mod include_signal_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:5"]
 pub mod pool_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "25:1"]
         pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
@@ -291,7 +291,7 @@ pub mod cpu_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:10"]
 pub mod ponyassert_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -312,7 +312,7 @@ pub mod string_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unistd.h:15"]
 pub mod unistd_h {
     use super::_ssize_t_h::ssize_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "437:1"]
         pub fn close(_: libc::c_int) -> libc::c_int;

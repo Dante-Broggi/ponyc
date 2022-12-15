@@ -37,7 +37,7 @@ pub mod mpmcq_h {
         pub head: *mut mpmcq_node_t,
         pub tail: aba_protected_mpmcq_node_t,
     }
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::mpmcq_node_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/pony/detail/atomics.h:3"]
@@ -49,7 +49,7 @@ pub mod atomics_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:4"]
 pub mod pool_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;

@@ -92,7 +92,6 @@ pub mod _uintptr_t_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:1"]
 pub mod _timespec_h {
@@ -257,7 +256,7 @@ pub mod fun_h {
         Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> *mut libc::c_void>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "28:1"]
         pub fn ponyint_hash_str(str: *const libc::c_char) -> usize;
@@ -328,8 +327,7 @@ pub mod pony_h {
     pub const PONY_TRACE_IMMUTABLE: C2RustUnnamed_0 = 1;
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed_0 = 0;
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::scheduler_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "30:16"]
@@ -397,7 +395,7 @@ pub mod scheduler_h {
     }
     use super::_pthread_cond_t_h::pthread_cond_t;
     use super::_pthread_t_h::pthread_t;
-    use super::_size_t_h::size_t;
+
     use super::actormap_h::actormap_t;
     use super::gc_h::gcstack_t;
     use super::messageq_h::messageq_t;
@@ -428,8 +426,7 @@ pub mod serialise_h {
         pub alloc: usize,
         pub ptr: *mut libc::c_char,
     }
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::hash_h::hashmap_t;
     use super::pony_h::pony_type_t;
     use super::scheduler_h::pony_ctx_t;
@@ -481,7 +478,7 @@ pub mod hash_h {
     }
     #[c2rust::src_loc = "16:1"]
     pub type bitmap_t = usize;
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     use super::pony_h::pony_type_t;
     use super::scheduler_h::pony_ctx_t;
@@ -605,7 +602,7 @@ pub mod mpmcq_h {
         pub object: *mut mpmcq_node_t,
         pub counter: libc::uintptr_t,
     }
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -630,7 +627,7 @@ pub mod list_h {
         pub data: *mut libc::c_void,
         pub next: *mut list_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::_ssize_t_h::ssize_t;
     use super::fun_h::{cmp_fn, free_fn, map_fn};
     use super::pony_h::pony_type_t;
@@ -874,7 +871,7 @@ pub mod pass_h {
     pub const PASS_SYNTAX: pass_id = 1;
     #[c2rust::src_loc = "218:3"]
     pub const PASS_PARSE: pass_id = 0;
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::magic_package_t;
     use super::package_h::ast_t;
@@ -949,7 +946,7 @@ pub mod frame_h {
         pub iftype_body: *mut ast_t,
         pub prev: *mut typecheck_frame_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::package_h::ast_t;
 }
@@ -976,8 +973,7 @@ pub mod error_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:2"]
 pub mod stringtab_h {
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::scheduler_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "9:23"]
@@ -1583,7 +1579,7 @@ pub mod source_h {
         pub m: *mut libc::c_char,
         pub len: usize,
     }
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "22:1"]
         pub fn source_open(
@@ -1638,7 +1634,7 @@ pub mod paths_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h:1"]
 pub mod stdlib_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "147:1"]
         pub fn getenv(_: *const libc::c_char) -> *mut libc::c_char;
@@ -1690,7 +1686,7 @@ pub mod program_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:10"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;
@@ -1710,7 +1706,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:13"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -1723,7 +1719,7 @@ pub mod ponyassert_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/blake2/blake2.h:14"]
 pub mod blake2_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "82:3"]
         pub fn blake2b(
@@ -1863,7 +1859,7 @@ pub use self::stack_h::{ponyint_stack_pop, ponyint_stack_push, Stack};
 pub use self::stat_h::stat;
 use self::stdio_h::{__stderrp, __stdoutp, fprintf, fputs, printf, putchar, puts, snprintf};
 use self::stdlib_h::{getenv, qsort};
-use self::string_h::{memcpy, memset, strcat, strchr, strcmp, strcpy, strlen, strncmp, strrchr};
+use self::string_h::{memcpy, memset, strcat, strchr, strcmp, strcpy, strncmp, strrchr};
 use self::stringtab_h::{
     string_deserialise_offset, string_trace, stringtab, stringtab_consume, strlist_append,
     strlist_data, strlist_find, strlist_free, strlist_next, strlist_pop, strlist_push, strlist_t,

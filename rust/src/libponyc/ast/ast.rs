@@ -39,7 +39,6 @@ pub mod _uintptr_t_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h:1"]
 pub mod _va_list_h {
@@ -168,8 +167,7 @@ pub mod pony_h {
     pub const PONY_TRACE_IMMUTABLE: C2RustUnnamed = 1;
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::source_h::pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "30:16"]
@@ -197,7 +195,7 @@ pub mod source_h {
         pub m: *mut libc::c_char,
         pub len: usize,
     }
-    use super::_size_t_h::size_t;
+
     use super::pony_h::_pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "35:1"]
@@ -222,7 +220,6 @@ pub mod error_h {
     }
     #[c2rust::src_loc = "49:1"]
     pub type errorframe_t = *mut errormsg_t;
-    use super::_size_t_h::size_t;
 
     use super::source_h::source_t;
     extern "C" {
@@ -701,7 +698,7 @@ pub mod token_h {
     pub const TK_LEX_ERROR: token_id = 1;
     #[c2rust::src_loc = "22:3"]
     pub const TK_EOF: token_id = 0;
-    use super::_size_t_h::size_t;
+
     use super::lexint_h::lexint_t;
     use super::source_h::{pony_type_t, source_t};
     extern "C" {
@@ -787,7 +784,6 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/symtab.h:1"]
 pub mod symtab_h {
@@ -824,7 +820,7 @@ pub mod symtab_h {
         pub status: sym_status_t,
         pub branch_count: usize,
     }
-    use super::_size_t_h::size_t;
+
     use super::ast_t;
     use super::hash_h::hashmap_t;
     use super::source_h::pony_type_t;
@@ -883,7 +879,7 @@ pub mod list_h {
         pub data: *mut libc::c_void,
         pub next: *mut list_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::_ssize_t_h::ssize_t;
     use super::fun_h::{cmp_fn, free_fn, map_fn};
     extern "C" {
@@ -1022,7 +1018,7 @@ pub mod printbuf_h {
         pub size: usize,
         pub offset: usize,
     }
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn printbuf_new() -> *mut printbuf_t;
@@ -1046,7 +1042,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:1"]
 pub mod stringtab_h {
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "14:1"]
@@ -1072,8 +1068,7 @@ pub mod literal_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:11"]
 pub mod serialise_h {
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::pony_ctx_t;
     use super::source_h::pony_type_t;
     extern "C" {
@@ -1089,7 +1084,7 @@ pub mod serialise_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:11"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "28:1"]
         pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
@@ -1101,7 +1096,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:13"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -1161,7 +1156,7 @@ use self::program_h::{program_create, program_free, program_pony_type, program_t
 use self::serialise_h::{pony_deserialise_offset, pony_serialise_offset};
 pub use self::source_h::{pony_type_t, source_close, source_pony_type, source_t};
 use self::stdio_h::{__stdoutp, fprintf, fputc};
-use self::string_h::{memset, strlen};
+use self::string_h::memset;
 use self::stringtab_h::{string_deserialise_offset, string_trace, stringtab};
 pub use self::symtab_h::{
     sym_status_t, symbol_t, symtab_add, symtab_can_merge_public, symtab_dup, symtab_find,

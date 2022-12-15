@@ -15,7 +15,6 @@ pub mod _uintptr_t_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/fun.h:1"]
 pub mod fun_h {
@@ -23,7 +22,7 @@ pub mod fun_h {
     pub type cmp_fn = Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> bool>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
@@ -94,8 +93,7 @@ pub mod pony_h {
     pub const PONY_TRACE_IMMUTABLE: C2RustUnnamed = 1;
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
@@ -130,7 +128,7 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     use super::pony_h::{pony_ctx_t, pony_type_t};
     extern "C" {
@@ -246,7 +244,7 @@ pub mod symtab_h {
     pub struct symtab_t {
         pub contents: hashmap_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::hash_h::hashmap_t;
     extern "C" {
         #[c2rust::src_loc = "9:16"]
@@ -257,8 +255,7 @@ pub mod symtab_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:2"]
 pub mod stringtab_h {
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "20:1"]
@@ -304,7 +301,7 @@ pub mod id_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:5"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "25:1"]
         pub fn ponyint_pool_free(index: usize, p: *mut libc::c_void);
@@ -316,8 +313,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:5"]
 pub mod serialise_h {
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::{pony_ctx_t, pony_type_t};
     extern "C" {
         #[c2rust::src_loc = "44:1"]
@@ -386,7 +382,7 @@ pub use self::pony_h::{
 use self::pool_h::{ponyint_pool_alloc, ponyint_pool_alloc_size, ponyint_pool_free};
 use self::serialise_h::{pony_deserialise_offset, pony_serialise_offset};
 use self::stdio_h::printf;
-use self::string_h::{memcpy, strcmp, strlen};
+use self::string_h::{memcpy, strcmp};
 use self::stringtab_h::{string_deserialise_offset, string_trace, stringtab_consume};
 pub use self::symtab_h::{
     ast_t, errors_t, sym_status_t, symbol_t, symtab_t, SYM_CONSUMED, SYM_CONSUMED_SAME_EXPR,

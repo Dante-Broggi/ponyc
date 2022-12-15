@@ -22,7 +22,6 @@ pub mod _uintptr_t_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
 pub mod _ssize_t_h {
@@ -85,8 +84,7 @@ pub mod pony_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
@@ -106,7 +104,7 @@ pub mod source_h {
         pub m: *mut libc::c_char,
         pub len: usize,
     }
-    use super::_size_t_h::size_t;
+
     use super::pony_h::_pony_type_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h:2"]
@@ -184,7 +182,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:3"]
 pub mod stringtab_h {
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "24:1"]
@@ -200,7 +198,7 @@ pub mod stringtab_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:4"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
@@ -214,8 +212,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:4"]
 pub mod serialise_h {
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::pony_ctx_t;
     extern "C" {
         #[c2rust::src_loc = "36:1"]
@@ -259,7 +256,7 @@ use self::pool_h::{
 use self::serialise_h::{pony_deserialise_block, pony_serialise_offset, pony_serialise_reserve};
 pub use self::source_h::{pony_type_t, source_t};
 use self::stdio_h::{fclose, fopen, fread, fseek, ftell};
-use self::string_h::{memcpy, strlen};
+use self::string_h::memcpy;
 use self::stringtab_h::{string_deserialise_offset, string_trace, stringtab};
 pub use self::sys__types_h::__darwin_off_t;
 #[no_mangle]

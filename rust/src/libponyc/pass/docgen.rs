@@ -33,7 +33,6 @@ pub mod _pthread_types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/dirent.h:1"]
 pub mod sys_dirent_h {
@@ -134,7 +133,6 @@ pub mod source_h {
         pub m: *mut libc::c_char,
         pub len: usize,
     }
-    use super::_size_t_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
 pub mod error_h {
@@ -603,7 +601,7 @@ pub mod stringtab_h {
 pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
-    use super::_size_t_h::size_t;
+
     use super::source_h::source_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -692,7 +690,7 @@ pub mod frame_h {
         pub stats: typecheck_stats_t,
         pub errors: *mut errors_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
 }
@@ -799,7 +797,7 @@ pub mod pass_h {
         pub plugins: *mut plugins_t,
         pub data: *mut libc::c_void,
     }
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
     extern "C" {
@@ -819,7 +817,7 @@ pub mod printbuf_h {
         pub size: usize,
         pub offset: usize,
     }
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn printbuf_new() -> *mut printbuf_t;
@@ -856,7 +854,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/paths.h:1"]
 pub mod paths_h {
-    use super::_size_t_h::size_t;
+
     use super::dirent_h::DIR;
     use super::sys_dirent_h::dirent;
     extern "C" {
@@ -908,7 +906,7 @@ pub mod package_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:5"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
@@ -922,7 +920,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:6"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -983,7 +981,7 @@ use self::pool_h::{
 pub use self::printbuf_h::{printbuf, printbuf_free, printbuf_new, printbuf_t};
 pub use self::source_h::source_t;
 use self::stdio_h::{__stderrp, fclose, fopen, fprintf, fwrite, printf, remove};
-use self::string_h::{memcpy, strcat, strcmp, strcpy, strlen};
+use self::string_h::{memcpy, strcat, strcmp, strcpy};
 
 use self::symtab_h::ast_t;
 pub use self::sys__types_h::__darwin_off_t;

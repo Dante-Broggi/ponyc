@@ -32,7 +32,7 @@ pub mod stddef_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:3"]
 pub mod ponyassert_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -73,7 +73,7 @@ pub use self::options_h::{opt_arg_t, opt_state_t};
 use self::ponyassert_h::ponyint_assert_fail;
 pub use self::stddef_h::size_t;
 use self::stdio_h::printf;
-use self::string_h::{memmove, strlen, strncmp};
+use self::string_h::{memmove, strncmp};
 #[c2rust::src_loc = "13:1"]
 unsafe extern "C" fn end_reached(mut arg: *const opt_arg_t) -> bool {
     return ((*arg).long_opt).is_null()
