@@ -104,7 +104,7 @@ unsafe extern "C" fn siphash24(
         in_0 = in_0.offset(8 as libc::c_int as isize);
     }
     let mut current_block_42: u64;
-    match len & 7 as libc::c_int as libc::c_ulong {
+    match len & 7 {
         7 => {
             b |= (*in_0.offset(6 as libc::c_int as isize) as u64) << 48 as libc::c_int;
             current_block_42 = 12975228715441869902;

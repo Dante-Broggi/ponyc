@@ -1010,9 +1010,9 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
             as libc::c_ulong).try_into().unwrap()
     {
         let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-            & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
-                as libc::c_ulong) as *mut libc::c_void;
-        oldsize = ((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) as libc::c_ulong)
+            & !((((1) << 5) << (*chunk).size) - 1)
+                as usize) as *mut libc::c_void;
+        oldsize = ((((1) << 5) << (*chunk).size) as usize)
             .wrapping_sub((p as libc::uintptr_t).wrapping_sub(ext as libc::uintptr_t).try_into().unwrap());
     } else {
         oldsize = ((*chunk).size)
@@ -1097,8 +1097,8 @@ pub unsafe extern "C" fn ponyint_heap_mark(
         }
     } else {
         let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-            & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
-                as libc::c_ulong) as *mut libc::c_void;
+            & !((((1) << 5) << (*chunk).size) - 1)
+                as usize) as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
                 as libc::uintptr_t
@@ -1128,8 +1128,8 @@ pub unsafe extern "C" fn ponyint_heap_mark_shallow(
         (*chunk).shallow = 0 as libc::c_int as u32;
     } else {
         let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-            & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
-                as libc::c_ulong) as *mut libc::c_void;
+            & !((((1) << 5) << (*chunk).size) - 1)
+                as usize) as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
                 as libc::uintptr_t
@@ -1155,8 +1155,8 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
         return;
     }
     let mut ext: *mut libc::c_void = (p as libc::uintptr_t
-        & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
-            as libc::c_ulong) as *mut libc::c_void;
+        & !((((1) << 5) << (*chunk).size) - 1)
+            as usize) as *mut libc::c_void;
     if p == ext {
         let mut slot: u32 = ((1 as libc::c_int)
             << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long

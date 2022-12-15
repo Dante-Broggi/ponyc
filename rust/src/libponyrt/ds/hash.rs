@@ -252,7 +252,7 @@ unsafe extern "C" fn search(
     while i <= mask {
         ib_index = index >> 6 as libc::c_int;
         ib_offset =
-            index & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+            index & (((1) << 6) - 1);
         if *((*map).item_bitmap).offset(ib_index as isize)
             & (1 as libc::c_int as bitmap_t) << ib_offset
             == 0
@@ -300,7 +300,7 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
     };
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
         ((if (*map).size
-            & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+            & (((1) << 6) - 1)
             == 0
         {
             0 as libc::c_int
@@ -334,7 +334,7 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
     }
     if !b.is_null() {
         let mut old_bitmap_size: usize = (s >> 6 as libc::c_int).wrapping_add(
-            ((if s & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+            ((if s & (((1) << 6) - 1)
                 == 0
             {
                 0 as libc::c_int
@@ -379,7 +379,7 @@ unsafe extern "C" fn optimize_item(
         }
         ib_index = index >> 6 as libc::c_int;
         ib_offset =
-            index & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+            index & (((1) << 6) - 1);
         if *((*map).item_bitmap).offset(ib_index as isize)
             & (1 as libc::c_int as bitmap_t) << ib_offset
             == 0
@@ -418,7 +418,7 @@ pub unsafe extern "C" fn ponyint_hashmap_init(mut map: *mut hashmap_t, mut size:
     (*map).count = 0 as libc::c_int as usize;
     (*map).size = size;
     let mut bitmap_size: usize = (size >> 6 as libc::c_int).wrapping_add(
-        ((if size & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+        ((if size & (((1) << 6) - 1)
             == 0
         {
             0 as libc::c_int
@@ -466,7 +466,7 @@ pub unsafe extern "C" fn ponyint_hashmap_destroy(mut map: *mut hashmap_t, mut fr
     if (*map).size > 0 {
         let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
             ((if (*map).size
-                & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+                & (((1) << 6) - 1)
                 == 0
             {
                 0 as libc::c_int
@@ -535,7 +535,7 @@ unsafe extern "C" fn shift_put(
     let mut oi_probe_length: usize = oi_pl;
     let mut ib_index: usize = pos >> 6 as libc::c_int;
     let mut ib_offset: usize =
-        pos & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        pos & (((1) << 6) - 1);
     if probe_length > oi_probe_length || probe_length == oi_probe_length && probe_length == 0 {
     } else {
         ponyint_assert_fail(
@@ -584,7 +584,7 @@ unsafe extern "C" fn shift_put(
             );
             ib_index = pos >> 6 as libc::c_int;
             ib_offset = pos
-                & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+                & (((1) << 6) - 1);
         } else {
             let ref mut fresh7 = (*((*map).buckets).offset(pos as isize)).ptr;
             *fresh7 = ci_entry;
@@ -668,7 +668,7 @@ pub unsafe extern "C" fn ponyint_hashmap_putindex(
     };
     let mut ib_index: usize = pos >> 6 as libc::c_int;
     let mut ib_offset: usize =
-        pos & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        pos & (((1) << 6) - 1);
     if *((*map).item_bitmap).offset(ib_index as isize) & (1 as libc::c_int as bitmap_t) << ib_offset
         == 0
     {
@@ -721,7 +721,7 @@ unsafe extern "C" fn shift_delete(mut map: *mut hashmap_t, mut index: usize) {
     let mut ni_hash: usize = (*((*map).buckets).offset(next_pos as isize)).hash;
     let mut ni_ib_index: usize = next_pos >> 6 as libc::c_int;
     let mut ni_ib_offset: usize =
-        next_pos & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        next_pos & (((1) << 6) - 1);
     while *((*map).item_bitmap).offset(ni_ib_index as isize)
         & (1 as libc::c_int as bitmap_t) << ni_ib_offset
         != 0
@@ -736,7 +736,7 @@ unsafe extern "C" fn shift_delete(mut map: *mut hashmap_t, mut index: usize) {
         ni_hash = (*((*map).buckets).offset(next_pos as isize)).hash;
         ni_ib_index = next_pos >> 6 as libc::c_int;
         ni_ib_offset = next_pos
-            & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+            & (((1) << 6) - 1);
     }
     let ref mut fresh14 = (*((*map).buckets).offset(pos as isize)).ptr;
     *fresh14 = 0 as *mut libc::c_void;
@@ -744,7 +744,7 @@ unsafe extern "C" fn shift_delete(mut map: *mut hashmap_t, mut index: usize) {
     *fresh15 = (*fresh15).wrapping_sub(1);
     let mut ib_index: usize = pos >> 6 as libc::c_int;
     let mut ib_offset: usize =
-        pos & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        pos & (((1) << 6) - 1);
     let ref mut fresh16 = *((*map).item_bitmap).offset(ib_index as isize);
     *fresh16 &= !((1 as libc::c_int as bitmap_t) << ib_offset);
 }
@@ -784,7 +784,7 @@ pub unsafe extern "C" fn ponyint_hashmap_removeindex(mut map: *mut hashmap_t, mu
     }
     let mut ib_index: usize = index >> 6 as libc::c_int;
     let mut ib_offset: usize =
-        index & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        index & (((1) << 6) - 1);
     if *((*map).item_bitmap).offset(ib_index as isize) & (1 as libc::c_int as bitmap_t) << ib_offset
         != 0
     {
@@ -806,7 +806,7 @@ pub unsafe extern "C" fn ponyint_hashmap_next(
     let mut index: usize = (*i).wrapping_add(1);
     let mut ib_index: usize = index >> 6 as libc::c_int;
     let mut ib_offset: usize =
-        index & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        index & (((1) << 6) - 1);
     let mut ffs_offset: usize = 0;
     let mut ib: bitmap_t = *item_bitmap.offset(ib_index as isize) >> ib_offset;
     while index < size {
@@ -856,7 +856,7 @@ pub unsafe extern "C" fn ponyint_hashmap_fill_ratio(mut map: *mut hashmap_t) -> 
 pub unsafe extern "C" fn ponyint_hashmap_mem_size(mut map: *mut hashmap_t) -> usize {
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
         ((if (*map).size
-            & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+            & (((1) << 6) - 1)
             == 0
         {
             0 as libc::c_int
@@ -885,7 +885,7 @@ pub unsafe extern "C" fn ponyint_hashmap_clearindex(mut map: *mut hashmap_t, mut
     }
     let mut ib_index: usize = index >> 6 as libc::c_int;
     let mut ib_offset: usize =
-        index & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong;
+        index & (((1) << 6) - 1);
     if *((*map).item_bitmap).offset(ib_index as isize) & (1 as libc::c_int as bitmap_t) << ib_offset
         == 0
     {
@@ -938,7 +938,7 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise_trace(
     let mut map: *mut hashmap_t = object as *mut hashmap_t;
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
         ((if (*map).size
-            & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+            & (((1) << 6) - 1)
             == 0
         {
             0 as libc::c_int
@@ -989,7 +989,7 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise(
     *fresh21 = 0 as *mut hashmap_entry_t;
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
         ((if (*map).size
-            & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+            & (((1) << 6) - 1)
             == 0
         {
             0 as libc::c_int
@@ -1036,7 +1036,7 @@ pub unsafe extern "C" fn ponyint_hashmap_deserialise(
     let mut map: *mut hashmap_t = object as *mut hashmap_t;
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
         ((if (*map).size
-            & (((1 as libc::c_int) << 6 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
+            & (((1) << 6) - 1)
             == 0
         {
             0 as libc::c_int

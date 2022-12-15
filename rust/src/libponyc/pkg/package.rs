@@ -3114,7 +3114,7 @@ unsafe extern "C" fn add_pony_installation_dir(
     if !success {
         return 0 as libc::c_int != 0;
     }
-    lib_len = (5 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(link_arch).try_into().unwrap());
+    lib_len = (5 as usize).wrapping_add(libc::strlen(link_arch));
     lib_path = ponyint_pool_alloc_size(lib_len) as *mut libc::c_char;
     snprintf(
         lib_path,

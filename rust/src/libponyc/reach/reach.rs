@@ -2250,8 +2250,8 @@ unsafe extern "C" fn reach_type_free(mut t: *mut reach_type_t) {
             i = i.wrapping_add(1);
         }
         ponyint_pool_free_size(
-            ((*t).field_count as libc::c_ulong)
-                .wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
+            ((*t).field_count as usize)
+                .wrapping_mul(::core::mem::size_of::<reach_field_t>()),
             (*t).fields as *mut libc::c_void,
         );
         (*t).field_count = 0 as libc::c_int as u32;
@@ -3265,7 +3265,7 @@ unsafe extern "C" fn add_fields(
     }
     let ref mut fresh22 = (*t).fields;
     *fresh22 = ponyint_pool_alloc_size(
-        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>().try_into().unwrap()).try_into().unwrap(),
+        ((*t).field_count as usize).wrapping_mul(::core::mem::size_of::<reach_field_t>()),
     ) as *mut reach_field_t;
     member = ast_child(members);
     let mut index: usize = 0;

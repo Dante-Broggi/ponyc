@@ -2553,8 +2553,8 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
     let mut fields: *mut LLVMMetadataRef = 0 as *mut LLVMMetadataRef;
     let mut fields_buf_size: usize = 0;
     if (*t).field_count > 0 as libc::c_int as libc::c_uint {
-        fields_buf_size = ((*t).field_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMMetadataRef>().try_into().unwrap());
+        fields_buf_size = ((*t).field_count as usize)
+            .wrapping_mul(::core::mem::size_of::<LLVMMetadataRef>());
         fields = ponyint_pool_alloc_size(fields_buf_size) as *mut LLVMMetadataRef;
         let mut i: u32 = 0 as libc::c_int as u32;
         while i < (*t).field_count {
