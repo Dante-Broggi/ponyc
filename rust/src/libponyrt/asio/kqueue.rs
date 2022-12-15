@@ -428,8 +428,7 @@ unsafe extern "C" fn macro__EV_SET(
     (*__kevp__).flags = flags;
     (*__kevp__).fflags = fflags;
     (*__kevp__).data = data;
-    let ref mut fresh0 = (*__kevp__).udata;
-    *fresh0 = udata;
+    (*__kevp__).udata = udata;
 }
 #[no_mangle]
 #[c2rust::src_loc = "50:1"]
