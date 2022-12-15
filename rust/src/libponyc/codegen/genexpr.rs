@@ -1691,18 +1691,10 @@ pub unsafe extern "C" fn gen_expr(mut c: *mut compile_t, mut ast: *mut ast_t) ->
             ret = gen_this(c, ast);
         }
         3 => {
-            ret = LLVMConstInt(
-                (*c).i1,
-                1,
-                0 as libc::c_int,
-            );
+            ret = LLVMConstInt((*c).i1, 1, 0 as libc::c_int);
         }
         4 => {
-            ret = LLVMConstInt(
-                (*c).i1,
-                0,
-                0 as libc::c_int,
-            );
+            ret = LLVMConstInt((*c).i1, 0, 0 as libc::c_int);
         }
         6 => {
             ret = gen_int(c, ast);
@@ -1782,8 +1774,8 @@ unsafe extern "C" fn assign_to_tuple(
         );
     };
     let mut count: libc::c_int = LLVMCountStructElementTypes(l_type) as libc::c_int;
-    let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+    let mut buf_size: usize =
+        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     let mut elements: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetStructElementTypes(l_type, elements);
     let mut result: LLVMValueRef = LLVMGetUndef(l_type);

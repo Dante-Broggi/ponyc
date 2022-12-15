@@ -951,17 +951,15 @@ pub unsafe extern "C" fn pony_deserialise_offset(
         return (*s).value as *mut libc::c_void;
     }
     if t.is_null() {
-        if offset.wrapping_add(::core::mem::size_of::<uintptr_t>())
-            > (*ctx).serialise_size
-        {
+        if offset.wrapping_add(::core::mem::size_of::<uintptr_t>()) > (*ctx).serialise_size {
             serialise_cleanup(ctx);
             ::core::mem::transmute::<_, fn()>(
                 ((*ctx).serialise_throw).expect("non-null function pointer"),
             )();
             libc::abort();
         }
-        let mut id: libc::uintptr_t =
-            *(((*ctx).serialise_buffer as libc::uintptr_t).wrapping_add(offset) as *mut libc::uintptr_t);
+        let mut id: libc::uintptr_t = *(((*ctx).serialise_buffer as libc::uintptr_t)
+            .wrapping_add(offset) as *mut libc::uintptr_t);
         t = *desc_table.offset(id as isize);
     }
     if !((*t).instance).is_null() {

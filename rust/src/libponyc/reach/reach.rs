@@ -1766,8 +1766,7 @@ unsafe extern "C" fn reach_mangled_cmp(
 unsafe extern "C" fn reach_mangled_free(mut m: *mut reach_method_t) {
     if (*m).param_count > 0 {
         ponyint_pool_free_size(
-            ((*m).param_count)
-                .wrapping_mul(::core::mem::size_of::<reach_param_t>()),
+            ((*m).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()),
             (*m).params as *mut libc::c_void,
         );
     }
@@ -2741,8 +2740,7 @@ unsafe extern "C" fn set_method_types(
     if (*m).param_count > 0 {
         let ref mut fresh2 = (*m).params;
         *fresh2 = ponyint_pool_alloc_size(
-            ((*m).param_count)
-                .wrapping_mul(::core::mem::size_of::<reach_param_t>()),
+            ((*m).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()),
         ) as *mut reach_param_t;
         let mut param: *mut ast_t = ast_child(params);
         let mut i: usize = 0;
@@ -2860,8 +2858,7 @@ unsafe extern "C" fn add_rmethod_to_subtype(
     (*mangled).param_count = (*m).param_count;
     let ref mut fresh13 = (*mangled).params;
     *fresh13 = ponyint_pool_alloc_size(
-        ((*mangled).param_count)
-            .wrapping_mul(::core::mem::size_of::<reach_param_t>()),
+        ((*mangled).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()),
     ) as *mut reach_param_t;
     memcpy(
         (*mangled).params as *mut libc::c_void,
@@ -3268,8 +3265,7 @@ unsafe extern "C" fn add_fields(
     }
     let ref mut fresh22 = (*t).fields;
     *fresh22 = ponyint_pool_alloc_size(
-        ((*t).field_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>()),
     ) as *mut reach_field_t;
     member = ast_child(members);
     let mut index: usize = 0;
@@ -3455,8 +3451,7 @@ unsafe extern "C" fn add_tuple(
     (*t).field_count = ast_childcount((*t).ast) as u32;
     let ref mut fresh41 = (*t).fields;
     *fresh41 = ponyint_pool_alloc_size(
-        ((*t).field_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<reach_field_t>()),
+        ((*t).field_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<reach_field_t>()),
     ) as *mut reach_field_t;
     add_traits_to_type(r, t, opt);
     add_internal(r, t, b"__is\0" as *const u8 as *const libc::c_char, opt);
@@ -4534,7 +4529,8 @@ unsafe extern "C" fn reach_param_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut p: *mut reach_param_t = object as *mut reach_param_t;
-    let mut dst: *mut reach_param_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_param_t;
+    let mut dst: *mut reach_param_t =
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_param_t;
     let ref mut fresh68 = (*dst).name;
     *fresh68 = pony_serialise_offset(ctx, (*p).name as *mut libc::c_char as *mut libc::c_void)
         as *const libc::c_char;
@@ -4556,7 +4552,8 @@ unsafe extern "C" fn reach_param_deserialise(
     *fresh72 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*p).type_0 as libc::uintptr_t)
         as *mut reach_type_t;
     let ref mut fresh73 = (*p).ast;
-    *fresh73 = pony_deserialise_offset(ctx, ast_pony_type(), (*p).ast as libc::uintptr_t) as *mut ast_t;
+    *fresh73 =
+        pony_deserialise_offset(ctx, ast_pony_type(), (*p).ast as libc::uintptr_t) as *mut ast_t;
 }
 #[c2rust::src_loc = "1568:20"]
 static mut reach_param_pony: pony_type_t = unsafe {
@@ -4640,8 +4637,7 @@ unsafe extern "C" fn reach_method_serialise_trace(
         pony_serialise_reserve(
             ctx,
             (*m).params as *mut libc::c_void,
-            ((*m).param_count)
-                .wrapping_mul(::core::mem::size_of::<reach_param_t>()),
+            ((*m).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()),
         );
         let mut i: usize = 0;
         while i < (*m).param_count {
@@ -4736,21 +4732,26 @@ unsafe extern "C" fn reach_method_deserialise(
     let ref mut fresh85 = (*m).full_name;
     *fresh85 = string_deserialise_offset(ctx, (*m).full_name as libc::uintptr_t);
     let ref mut fresh86 = (*m).fun;
-    *fresh86 = pony_deserialise_offset(ctx, deferred_reification_pony_type(), (*m).fun as libc::uintptr_t)
-        as *mut deferred_reification_t;
+    *fresh86 = pony_deserialise_offset(
+        ctx,
+        deferred_reification_pony_type(),
+        (*m).fun as libc::uintptr_t,
+    ) as *mut deferred_reification_t;
     let ref mut fresh87 = (*m).typeargs;
-    *fresh87 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*m).typeargs as libc::uintptr_t) as *mut ast_t;
+    *fresh87 = pony_deserialise_offset(ctx, ast_pony_type(), (*m).typeargs as libc::uintptr_t)
+        as *mut ast_t;
     let ref mut fresh88 = (*m).subordinate;
-    *fresh88 = pony_deserialise_offset(ctx, reach_method_pony_type(), (*m).subordinate as libc::uintptr_t)
-        as *mut reach_method_t;
+    *fresh88 = pony_deserialise_offset(
+        ctx,
+        reach_method_pony_type(),
+        (*m).subordinate as libc::uintptr_t,
+    ) as *mut reach_method_t;
     if (*m).param_count > 0 {
         let ref mut fresh89 = (*m).params;
         *fresh89 = pony_deserialise_block(
             ctx,
             (*m).params as libc::uintptr_t,
-            ((*m).param_count)
-                .wrapping_mul(::core::mem::size_of::<reach_param_t>()),
+            ((*m).param_count).wrapping_mul(::core::mem::size_of::<reach_param_t>()),
         ) as *mut reach_param_t;
         let mut i: usize = 0;
         while i < (*m).param_count {
@@ -4951,7 +4952,8 @@ unsafe extern "C" fn reach_field_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut f: *mut reach_field_t = object as *mut reach_field_t;
-    let mut dst: *mut reach_field_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_field_t;
+    let mut dst: *mut reach_field_t =
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_field_t;
     let ref mut fresh94 = (*dst).ast;
     *fresh94 = pony_serialise_offset(ctx, (*f).ast as *mut libc::c_void) as *mut ast_t;
     let ref mut fresh95 = (*dst).type_0;
@@ -4965,7 +4967,8 @@ unsafe extern "C" fn reach_field_deserialise(
 ) {
     let mut f: *mut reach_field_t = object as *mut reach_field_t;
     let ref mut fresh96 = (*f).ast;
-    *fresh96 = pony_deserialise_offset(ctx, ast_pony_type(), (*f).ast as libc::uintptr_t) as *mut ast_t;
+    *fresh96 =
+        pony_deserialise_offset(ctx, ast_pony_type(), (*f).ast as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh97 = (*f).type_0;
     *fresh97 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*f).type_0 as libc::uintptr_t)
         as *mut reach_type_t;
@@ -5077,7 +5080,8 @@ unsafe extern "C" fn reach_type_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut t: *mut reach_type_t = object as *mut reach_type_t;
-    let mut dst: *mut reach_type_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_type_t;
+    let mut dst: *mut reach_type_t =
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_type_t;
     let ref mut fresh98 = (*dst).name;
     *fresh98 = pony_serialise_offset(ctx, (*t).name as *mut libc::c_char as *mut libc::c_void)
         as *const libc::c_char;
@@ -5144,18 +5148,21 @@ unsafe extern "C" fn reach_type_deserialise(
     let ref mut fresh106 = (*t).mangle;
     *fresh106 = string_deserialise_offset(ctx, (*t).mangle as libc::uintptr_t);
     let ref mut fresh107 = (*t).ast;
-    *fresh107 = pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast as libc::uintptr_t) as *mut ast_t;
+    *fresh107 =
+        pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh108 = (*t).ast_cap;
-    *fresh108 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast_cap as libc::uintptr_t) as *mut ast_t;
+    *fresh108 = pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast_cap as libc::uintptr_t)
+        as *mut ast_t;
     reach_method_names_deserialise(
         ctx,
         &mut (*t).methods as *mut reach_method_names_t as *mut libc::c_void,
     );
     let ref mut fresh109 = (*t).bare_method;
-    *fresh109 =
-        pony_deserialise_offset(ctx, reach_method_pony_type(), (*t).bare_method as libc::uintptr_t)
-            as *mut reach_method_t;
+    *fresh109 = pony_deserialise_offset(
+        ctx,
+        reach_method_pony_type(),
+        (*t).bare_method as libc::uintptr_t,
+    ) as *mut reach_method_t;
     reach_type_cache_deserialise(
         ctx,
         &mut (*t).subtypes as *mut reach_type_cache_t as *mut libc::c_void,

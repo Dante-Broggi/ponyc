@@ -1716,8 +1716,8 @@ unsafe extern "C" fn trait_bitmap32(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
-    let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<u32>());
+    let mut bm_size: usize =
+        ((*c).trait_bitmap_size as libc::c_ulong).wrapping_mul(::core::mem::size_of::<u32>());
     let mut bm: *mut u32 = ponyint_pool_alloc_size(bm_size) as *mut u32;
     memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size);
     let mut i: usize = -(1 as libc::c_int) as usize;
@@ -1776,8 +1776,8 @@ unsafe extern "C" fn trait_bitmap64(
     mut c: *mut compile_t,
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
-    let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<u64>());
+    let mut bm_size: usize =
+        ((*c).trait_bitmap_size as libc::c_ulong).wrapping_mul(::core::mem::size_of::<u64>());
     let mut bm: *mut u64 = ponyint_pool_alloc_size(bm_size) as *mut u64;
     memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size);
     let mut i: usize = -(1 as libc::c_int) as usize;
@@ -1863,11 +1863,7 @@ unsafe extern "C" fn make_field_count(
     mut t: *mut reach_type_t,
 ) -> LLVMValueRef {
     if (*t).underlying as libc::c_uint != TK_TUPLETYPE as libc::c_int as libc::c_uint {
-        return LLVMConstInt(
-            (*c).i32_0,
-            0,
-            0 as libc::c_int,
-        );
+        return LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
     }
     return LLVMConstInt(
         (*c).i32_0,
@@ -1881,11 +1877,7 @@ unsafe extern "C" fn make_field_offset(
     mut t: *mut reach_type_t,
 ) -> LLVMValueRef {
     if (*t).field_count == 0 as libc::c_int as libc::c_uint {
-        return LLVMConstInt(
-            (*c).i32_0,
-            0,
-            0 as libc::c_int,
-        );
+        return LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
     }
     let mut index: libc::c_int = 0 as libc::c_int;
     if (*t).underlying as libc::c_uint != TK_STRUCT as libc::c_int as libc::c_uint {
@@ -1919,8 +1911,8 @@ unsafe extern "C" fn make_field_list(
             0 as libc::c_int as libc::c_uint,
         ));
     }
-    let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
+    let mut buf_size: usize =
+        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut list: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut i: u32 = 0 as libc::c_int as u32;
@@ -1966,8 +1958,8 @@ unsafe extern "C" fn make_vtable(mut c: *mut compile_t, mut t: *mut reach_type_t
             0 as libc::c_int as libc::c_uint,
         );
     }
-    let mut buf_size: usize = ((*t).vtable_size as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
+    let mut buf_size: usize =
+        ((*t).vtable_size as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut vtable: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     memset(vtable as *mut libc::c_void, 0 as libc::c_int, buf_size);
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
@@ -2172,8 +2164,8 @@ pub unsafe extern "C" fn gendesc_init(mut c: *mut compile_t, mut t: *mut reach_t
 #[c2rust::src_loc = "439:1"]
 pub unsafe extern "C" fn gendesc_table(mut c: *mut compile_t) {
     let mut len: u32 = reach_max_type_id((*c).reach);
-    let mut size: usize = (len as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
+    let mut size: usize =
+        (len as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut null: LLVMValueRef = LLVMConstNull((*c).descriptor_ptr);
     let mut i: usize = 0;
@@ -2301,11 +2293,7 @@ pub unsafe extern "C" fn gendesc_vtable(
         b"\0" as *const u8 as *const libc::c_char,
     );
     let mut gep: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
-    gep[0 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i32_0,
-        0,
-        0 as libc::c_int,
-    );
+    gep[0 as libc::c_int as usize] = LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
     gep[1 as libc::c_int as usize] =
         LLVMConstInt((*c).i32_0, colour as libc::c_ulonglong, 0 as libc::c_int);
     let mut func_ptr: LLVMValueRef = LLVMBuildInBoundsGEP_P(
@@ -2367,11 +2355,7 @@ pub unsafe extern "C" fn gendesc_fieldinfo(
 ) -> LLVMValueRef {
     let mut fields: LLVMValueRef = desc_field(c, desc, 15 as libc::c_int);
     let mut gep: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
-    gep[0 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i32_0,
-        0,
-        0 as libc::c_int,
-    );
+    gep[0 as libc::c_int as usize] = LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
     gep[1 as libc::c_int as usize] =
         LLVMConstInt((*c).i32_0, index as libc::c_ulonglong, 0 as libc::c_int);
     let mut field_desc: LLVMValueRef = LLVMBuildInBoundsGEP_P(
@@ -2458,11 +2442,7 @@ pub unsafe extern "C" fn gendesc_isnominal(
     let mut def: *mut ast_t = ast_data(type_0) as *mut ast_t;
     match ast_id(def) as libc::c_uint {
         75 => {
-            return LLVMConstInt(
-                (*c).i1,
-                1,
-                0 as libc::c_int,
-            );
+            return LLVMConstInt((*c).i1, 1, 0 as libc::c_int);
         }
         72 | 73 => return gendesc_istrait(c, desc, type_0),
         74 | 76 | 77 => return gendesc_isentity(c, desc, type_0),
@@ -2508,45 +2488,18 @@ pub unsafe extern "C" fn gendesc_istrait(
     let mut shift: LLVMValueRef = 0 as *mut LLVMOpaqueValue;
     let mut mask: LLVMValueRef = 0 as *mut LLVMOpaqueValue;
     if target_is_ilp32((*(*c).opt).triple) {
-        shift = LLVMConstInt(
-            (*c).intptr,
-            5,
-            0 as libc::c_int,
-        );
-        mask = LLVMConstInt(
-            (*c).intptr,
-            31,
-            0 as libc::c_int,
-        );
+        shift = LLVMConstInt((*c).intptr, 5, 0 as libc::c_int);
+        mask = LLVMConstInt((*c).intptr, 31, 0 as libc::c_int);
     } else {
-        shift = LLVMConstInt(
-            (*c).intptr,
-            6,
-            0 as libc::c_int,
-        );
-        mask = LLVMConstInt(
-            (*c).intptr,
-            63,
-            0 as libc::c_int,
-        );
+        shift = LLVMConstInt((*c).intptr, 6, 0 as libc::c_int);
+        mask = LLVMConstInt((*c).intptr, 63, 0 as libc::c_int);
     }
     shift = LLVMConstLShr(trait_id, shift);
     mask = LLVMConstAnd(trait_id, mask);
-    mask = LLVMConstShl(
-        LLVMConstInt(
-            (*c).intptr,
-            1,
-            0 as libc::c_int,
-        ),
-        mask,
-    );
+    mask = LLVMConstShl(LLVMConstInt((*c).intptr, 1, 0 as libc::c_int), mask);
     let mut bitmap: LLVMValueRef = desc_field(c, desc, 14 as libc::c_int);
     let mut args: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
-    args[0 as libc::c_int as usize] = LLVMConstInt(
-        (*c).intptr,
-        0,
-        0 as libc::c_int,
-    );
+    args[0 as libc::c_int as usize] = LLVMConstInt((*c).intptr, 0, 0 as libc::c_int);
     args[1 as libc::c_int as usize] = shift;
     let mut index: LLVMValueRef = LLVMBuildInBoundsGEP_P(
         (*c).builder,
@@ -2570,11 +2523,7 @@ pub unsafe extern "C" fn gendesc_istrait(
         (*c).builder,
         LLVMIntNE,
         has_trait,
-        LLVMConstInt(
-            (*c).intptr,
-            0,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt((*c).intptr, 0, 0 as libc::c_int),
         b"\0" as *const u8 as *const libc::c_char,
     );
     return has_trait;

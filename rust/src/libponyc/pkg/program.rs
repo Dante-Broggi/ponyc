@@ -1245,8 +1245,7 @@ unsafe extern "C" fn quoted_locator(
         locator as *const libc::c_void,
         len,
     );
-    *quoted.offset(len.wrapping_add(1) as isize) =
-        '"' as i32 as libc::c_char;
+    *quoted.offset(len.wrapping_add(1) as isize) = '"' as i32 as libc::c_char;
     *quoted.offset(len.wrapping_add(2 as libc::c_int as libc::c_ulong) as isize) =
         '\0' as i32 as libc::c_char;
     return stringtab_consume(quoted, len.wrapping_add(3 as libc::c_int as libc::c_ulong));
@@ -1795,8 +1794,7 @@ unsafe extern "C" fn program_serialise(
     let ref mut fresh16 = (*dst).libs;
     *fresh16 = pony_serialise_offset(ctx, (*program).libs as *mut libc::c_void) as *mut strlist_t;
     (*dst).lib_args_size = (*program).lib_args_size;
-    (*dst).lib_args_alloced =
-        ((*program).lib_args_size).wrapping_add(1);
+    (*dst).lib_args_alloced = ((*program).lib_args_size).wrapping_add(1);
     ptr_offset = pony_serialise_offset(ctx, (*program).lib_args as *mut libc::c_void);
     let ref mut fresh17 = (*dst).lib_args;
     *fresh17 = ptr_offset as *mut libc::c_char;
@@ -1826,8 +1824,11 @@ unsafe extern "C" fn program_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
         64 as libc::c_int as usize,
     ) as *mut libc::c_char;
     let ref mut fresh20 = (*program).libpaths;
-    *fresh20 = pony_deserialise_offset(ctx, strlist_pony_type(), (*program).libpaths as libc::uintptr_t)
-        as *mut strlist_t;
+    *fresh20 = pony_deserialise_offset(
+        ctx,
+        strlist_pony_type(),
+        (*program).libpaths as libc::uintptr_t,
+    ) as *mut strlist_t;
     let ref mut fresh21 = (*program).libs;
     *fresh21 = pony_deserialise_offset(ctx, strlist_pony_type(), (*program).libs as libc::uintptr_t)
         as *mut strlist_t;

@@ -590,9 +590,7 @@ unsafe extern "C" fn clear_chunk(mut chunk: *mut chunk_t, mut mark: u32) {
 }
 #[c2rust::src_loc = "142:1"]
 unsafe extern "C" fn maybe_clear_chunk(mut chunk: *mut chunk_t) {
-    if (*chunk).size != 0
-        && (*chunk).shallow == CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint
-    {
+    if (*chunk).size != 0 && (*chunk).shallow == CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint {
         if (*chunk).size
             >= (10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
                 as libc::c_ulong
@@ -699,9 +697,8 @@ unsafe extern "C" fn sweep_small(
         *fresh0 &= (*chunk).shallow;
         (*chunk).shallow = CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint;
         if (*chunk).slots == 0 as libc::c_int as libc::c_uint {
-            used = (used as libc::c_ulong)
-                .wrapping_add(::core::mem::size_of::<block_t>())
-                as usize as usize;
+            used = (used as libc::c_ulong).wrapping_add(::core::mem::size_of::<block_t>()) as usize
+                as usize;
             let ref mut fresh1 = (*chunk).next;
             *fresh1 = *full;
             *full = chunk;
@@ -756,9 +753,7 @@ unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut 
 #[no_mangle]
 #[c2rust::src_loc = "382:1"]
 pub unsafe extern "C" fn ponyint_heap_index(mut size: usize) -> u32 {
-    return sizeclass_table
-        [(size.wrapping_sub(1) >> 5 as libc::c_int) as usize]
-        as u32;
+    return sizeclass_table[(size.wrapping_sub(1) >> 5 as libc::c_int) as usize] as u32;
 }
 #[no_mangle]
 #[c2rust::src_loc = "389:1"]
@@ -1020,8 +1015,8 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
         oldsize = ((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) as libc::c_ulong)
             .wrapping_sub((p as libc::uintptr_t).wrapping_sub(ext as libc::uintptr_t));
     } else {
-        oldsize =
-            ((*chunk).size).wrapping_sub((p as libc::uintptr_t).wrapping_sub((*chunk).m as libc::uintptr_t));
+        oldsize = ((*chunk).size)
+            .wrapping_sub((p as libc::uintptr_t).wrapping_sub((*chunk).m as libc::uintptr_t));
     }
     if copy <= size {
     } else {
@@ -1105,7 +1100,8 @@ pub unsafe extern "C" fn ponyint_heap_mark(
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
-            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as libc::uintptr_t
+            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
+                as libc::uintptr_t
                 >> 5 as libc::c_int)) as u32;
         marked = (*chunk).slots & slot == 0 as libc::c_int as libc::c_uint;
         if p == ext {
@@ -1135,7 +1131,8 @@ pub unsafe extern "C" fn ponyint_heap_mark_shallow(
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
-            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as libc::uintptr_t
+            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
+                as libc::uintptr_t
                 >> 5 as libc::c_int)) as u32;
         let ref mut fresh22 = (*chunk).shallow;
         *fresh22 &= !slot;
@@ -1162,7 +1159,8 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
             as libc::c_ulong) as *mut libc::c_void;
     if p == ext {
         let mut slot: u32 = ((1 as libc::c_int)
-            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as libc::uintptr_t
+            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long
+                as libc::uintptr_t
                 >> 5 as libc::c_int)) as u32;
         if (*chunk).finalisers & slot != 0 as libc::c_int as libc::c_uint {
             ((**(p as *mut *const pony_type_t)).final_0).expect("non-null function pointer")(p);

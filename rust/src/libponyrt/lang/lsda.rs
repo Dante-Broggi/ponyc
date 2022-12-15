@@ -142,7 +142,10 @@ unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> libc::uintptr_t {
     result
 }
 #[c2rust::src_loc = "84:1"]
-unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8) -> libc::uintptr_t {
+unsafe extern "C" fn read_encoded_ptr(
+    mut data: *mut *const u8,
+    mut encoding: u8,
+) -> libc::uintptr_t {
     let mut p: *const u8 = *data;
     if encoding as libc::c_int == DW_EH_PE_omit as libc::c_int {
         return 0 as libc::c_int as libc::uintptr_t;
@@ -191,7 +194,10 @@ unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8
     result
 }
 #[c2rust::src_loc = "148:1"]
-unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: libc::uintptr_t) -> libc::uintptr_t {
+unsafe extern "C" fn read_with_encoding(
+    mut data: *mut *const u8,
+    mut def: libc::uintptr_t,
+) -> libc::uintptr_t {
     let mut start: libc::uintptr_t = *data as libc::uintptr_t;
     let mut p: *const u8 = *data;
     let fresh2 = p;
@@ -205,7 +211,8 @@ unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: libc:
     match encoding as libc::c_int & 0x70 as libc::c_int {
         0 => {}
         16 => {
-            result = (result as libc::c_ulong).wrapping_add(start) as libc::uintptr_t as libc::uintptr_t;
+            result =
+                (result as libc::c_ulong).wrapping_add(start) as libc::uintptr_t as libc::uintptr_t;
         }
         32 | 48 | 64 | 80 | _ => {
             libc::abort();

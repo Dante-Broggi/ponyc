@@ -173,9 +173,7 @@ pub unsafe extern "C" fn ponyint_thread_create(
     let mut attr_p: *mut pthread_attr_t = &mut attr;
     pthread_attr_init(attr_p);
     if getrlimit(3 as libc::c_int, &mut limit) == 0 as libc::c_int
-        && limit.rlim_cur
-            != ((1 as libc::c_int as u64) << 63 as libc::c_int)
-                .wrapping_sub(1)
+        && limit.rlim_cur != ((1 as libc::c_int as u64) << 63 as libc::c_int).wrapping_sub(1)
         && limit.rlim_cur >= 8192 as libc::c_int as rlim_t
     {
         if !setstack_called {

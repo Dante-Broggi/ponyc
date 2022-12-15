@@ -2428,8 +2428,8 @@ pub unsafe extern "C" fn gen_tuple(mut c: *mut compile_t, mut ast: *mut ast_t) -
     let mut t: *mut reach_type_t = reach_type((*c).reach, type_0);
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut count: libc::c_int = LLVMCountStructElementTypes((*c_t).primitive) as libc::c_int;
-    let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+    let mut buf_size: usize =
+        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     let mut elements: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetStructElementTypes((*c_t).primitive, elements);
     let mut tuple: LLVMValueRef = LLVMGetUndef((*c_t).primitive);
@@ -2603,22 +2603,14 @@ unsafe extern "C" fn gen_digestof_box(
         nonbox_block = codegen_block(c, b"digestof_nonbox\0" as *const u8 as *const libc::c_char);
         post_block = codegen_block(c, b"digestof_post\0" as *const u8 as *const libc::c_char);
         let mut type_id: LLVMValueRef = gendesc_typeid(c, desc);
-        let mut boxed_mask: LLVMValueRef = LLVMConstInt(
-            (*c).i32_0,
-            1,
-            0 as libc::c_int,
-        );
+        let mut boxed_mask: LLVMValueRef = LLVMConstInt((*c).i32_0, 1, 0 as libc::c_int);
         let mut is_boxed: LLVMValueRef = LLVMBuildAnd(
             (*c).builder,
             type_id,
             boxed_mask,
             b"\0" as *const u8 as *const libc::c_char,
         );
-        let mut zero: LLVMValueRef = LLVMConstInt(
-            (*c).i32_0,
-            0,
-            0 as libc::c_int,
-        );
+        let mut zero: LLVMValueRef = LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
         is_boxed = LLVMBuildICmp(
             (*c).builder,
             LLVMIntEQ,
@@ -2716,11 +2708,7 @@ unsafe extern "C" fn gen_digestof_int64(
         );
     };
     if target_is_ilp32((*(*c).opt).triple) {
-        let mut shift: LLVMValueRef = LLVMConstInt(
-            (*c).i64_0,
-            32,
-            0 as libc::c_int,
-        );
+        let mut shift: LLVMValueRef = LLVMConstInt((*c).i64_0, 32, 0 as libc::c_int);
         let mut high: LLVMValueRef = LLVMBuildLShr(
             (*c).builder,
             value,
@@ -2793,11 +2781,8 @@ unsafe extern "C" fn gen_digestof_value(
                     return gen_digestof_int64(c, value);
                 } else {
                     if width == 128 as libc::c_int as libc::c_uint {
-                        let mut shift: LLVMValueRef = LLVMConstInt(
-                            (*c).i128_0,
-                            64,
-                            0 as libc::c_int,
-                        );
+                        let mut shift: LLVMValueRef =
+                            LLVMConstInt((*c).i128_0, 64, 0 as libc::c_int);
                         let mut high: LLVMValueRef = LLVMBuildLShr(
                             (*c).builder,
                             value,
@@ -2830,11 +2815,7 @@ unsafe extern "C" fn gen_digestof_value(
         }
         10 => {
             let mut count: u32 = LLVMCountStructElementTypes(impl_type);
-            let mut result: LLVMValueRef = LLVMConstInt(
-                (*c).intptr,
-                0,
-                0 as libc::c_int,
-            );
+            let mut result: LLVMValueRef = LLVMConstInt((*c).intptr, 0, 0 as libc::c_int);
             let mut child: *mut ast_t = ast_child(type_0);
             let mut i: u32 = 0 as libc::c_int as u32;
             while i < count {
@@ -2967,11 +2948,7 @@ pub unsafe extern "C" fn gen_int(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
     let mut value: *mut lexint_t = ast_int(ast);
     let mut vlow: LLVMValueRef = LLVMConstInt((*c).i128_0, (*value).low, 0 as libc::c_int);
     let mut vhigh: LLVMValueRef = LLVMConstInt((*c).i128_0, (*value).high, 0 as libc::c_int);
-    let mut shift: LLVMValueRef = LLVMConstInt(
-        (*c).i128_0,
-        64,
-        0 as libc::c_int,
-    );
+    let mut shift: LLVMValueRef = LLVMConstInt((*c).i128_0, 64, 0 as libc::c_int);
     vhigh = LLVMConstShl(vhigh, shift);
     vhigh = LLVMConstAdd(vhigh, vlow);
     if (*c_t).primitive == (*c).i128_0 {

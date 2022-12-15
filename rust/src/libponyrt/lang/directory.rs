@@ -225,10 +225,8 @@ pub unsafe extern "C" fn ponyint_unix_readdir(mut dir: *mut DIR) -> *const libc:
         if skip_entry(((*d).d_name).as_mut_ptr(), len) {
             continue;
         }
-        let mut cstring: *mut libc::c_char = pony_alloc(
-            pony_ctx(),
-            len.wrapping_add(1),
-        ) as *mut libc::c_char;
+        let mut cstring: *mut libc::c_char =
+            pony_alloc(pony_ctx(), len.wrapping_add(1)) as *mut libc::c_char;
         memcpy(
             cstring as *mut libc::c_void,
             ((*d).d_name).as_mut_ptr() as *const libc::c_void,

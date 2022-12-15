@@ -1294,8 +1294,7 @@ unsafe extern "C" fn steal(mut sched: *mut scheduler_t) -> *mut pony_actor_t {
             if steal_attempts < current_active_scheduler_count {
                 steal_attempts = steal_attempts.wrapping_add(1);
             } else if clocks_elapsed > 1000000
-                && ponyint_mutemap_size(&mut (*sched).mute_mapping)
-                    == 0
+                && ponyint_mutemap_size(&mut (*sched).mute_mapping) == 0
             {
                 if clocks_elapsed > scheduler_suspend_threshold {
                     current_active_scheduler_count = get_active_scheduler_count();
@@ -1543,8 +1542,7 @@ unsafe extern "C" fn ponyint_sched_shutdown() {
         i_0 = i_0.wrapping_add(1);
     }
     ponyint_pool_free_size(
-        (scheduler_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<scheduler_t>()),
+        (scheduler_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<scheduler_t>()),
         scheduler as *mut libc::c_void,
     );
     scheduler = 0 as *mut scheduler_t;
@@ -1582,14 +1580,12 @@ pub unsafe extern "C" fn ponyint_sched_init(
     active_scheduler_count.store(scheduler_count, Relaxed);
     active_scheduler_count_check.store(scheduler_count, Relaxed);
     scheduler = ponyint_pool_alloc_size(
-        (scheduler_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<scheduler_t>()),
+        (scheduler_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<scheduler_t>()),
     ) as *mut scheduler_t;
     memset(
         scheduler as *mut libc::c_void,
         0 as libc::c_int,
-        (scheduler_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<scheduler_t>()),
+        (scheduler_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<scheduler_t>()),
     );
     let mut asio_cpu: u32 = ponyint_cpu_assign(scheduler_count, scheduler, pin, pinasio);
     pthread_once(

@@ -1294,8 +1294,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         );
         def = ast_data(left) as *mut ast_t;
         temp_ast = left;
-        len = (len as libc::c_ulong)
-            .wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1))
+        len = (len as libc::c_ulong).wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1))
             as usize as usize;
     }
     match ast_id(temp_ast) as libc::c_uint {
@@ -1333,16 +1332,17 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         }
         193 | 192 | 194 | 184 => {
             temp_ast = ast_sibling(ast_child(temp_ast));
-            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize
+                as usize;
         }
         198 | 197 | 196 => {
             temp_ast = ast_child(temp_ast);
-            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize as usize;
+            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast))) as usize
+                as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
-            len = (len as libc::c_ulong).wrapping_sub(1) as usize
-                as usize;
+            len = (len as libc::c_ulong).wrapping_sub(1) as usize as usize;
         }
         _ => {
             if 0 as libc::c_int != 0 {
@@ -1374,8 +1374,7 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
     temp_ast = ast_parent(temp_ast);
     while temp_ast != ast {
         *buf.offset(offset as isize) = '.' as i32 as libc::c_char;
-        offset = (offset as libc::c_ulong).wrapping_add(1) as usize
-            as usize;
+        offset = (offset as libc::c_ulong).wrapping_add(1) as usize as usize;
         temp_ast = ast_sibling(temp_ast);
         name = ast_name(temp_ast);
         slen = libc::strlen(name);

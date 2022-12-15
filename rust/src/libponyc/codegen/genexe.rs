@@ -1774,11 +1774,7 @@ unsafe extern "C" fn create_main(
         (*((*t).c_type as *mut compile_type_t)).desc,
         (*c).descriptor_ptr,
     );
-    args[2 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i1,
-        0,
-        0 as libc::c_int,
-    );
+    args[2 as libc::c_int as usize] = LLVMConstInt((*c).i1, 0, 0 as libc::c_int);
     let mut actor: LLVMValueRef = gencall_runtime(
         c,
         b"pony_create\0" as *const u8 as *const libc::c_char,
@@ -1845,11 +1841,7 @@ unsafe extern "C" fn make_lang_features_init(mut c: *mut compile_t) -> LLVMValue
     );
     LLVMBuildStore(
         (*c).builder,
-        LLVMConstInt(
-            boolean,
-            1,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt(boolean, 1, 0 as libc::c_int),
         field,
     );
     field = LLVMBuildStructGEP_P(
@@ -1860,11 +1852,7 @@ unsafe extern "C" fn make_lang_features_init(mut c: *mut compile_t) -> LLVMValue
     );
     LLVMBuildStore(
         (*c).builder,
-        LLVMConstInt(
-            boolean,
-            1,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt(boolean, 1, 0 as libc::c_int),
         field,
     );
     field = LLVMBuildStructGEP_P(
@@ -2097,11 +2085,7 @@ pub unsafe extern "C" fn gen_main(
     args[1 as libc::c_int as usize] = main_actor;
     args[2 as libc::c_int as usize] = msg;
     args[3 as libc::c_int as usize] = msg;
-    args[4 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i1,
-        1,
-        0 as libc::c_int,
-    );
+    args[4 as libc::c_int as usize] = LLVMConstInt((*c).i1, 1, 0 as libc::c_int);
     gencall_runtime(
         c,
         b"pony_sendv_single\0" as *const u8 as *const libc::c_char,
@@ -2109,11 +2093,7 @@ pub unsafe extern "C" fn gen_main(
         5 as libc::c_int,
         b"\0" as *const u8 as *const libc::c_char,
     );
-    args[0 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i1,
-        0,
-        0 as libc::c_int,
-    );
+    args[0 as libc::c_int as usize] = LLVMConstInt((*c).i1, 0, 0 as libc::c_int);
     args[1 as libc::c_int as usize] = LLVMConstNull(LLVMPointerType(
         (*c).i32_0,
         0 as libc::c_int as libc::c_uint,
@@ -2134,8 +2114,7 @@ pub unsafe extern "C" fn gen_main(
     args[0 as libc::c_int as usize] = codegen_string(
         c,
         error_msg_str.as_ptr(),
-        (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong).wrapping_sub(1),
     );
     gencall_runtime(
         c,
@@ -2328,9 +2307,7 @@ pub unsafe extern "C" fn genexe(mut c: *mut compile_t, mut program: *mut ast_t) 
     let mut main_actor: *const libc::c_char = (*c).str_Main;
     let mut env_class: *const libc::c_char = (*c).str_Env;
     let mut package_name: *const libc::c_char = (*c).filename;
-    if !((*(*c).opt).bin_name).is_null()
-        && libc::strlen((*(*c).opt).bin_name) > 0
-    {
+    if !((*(*c).opt).bin_name).is_null() && libc::strlen((*(*c).opt).bin_name) > 0 {
         let ref mut fresh0 = (*c).filename;
         *fresh0 = (*(*c).opt).bin_name;
     }

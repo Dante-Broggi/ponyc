@@ -719,8 +719,7 @@ pub unsafe extern "C" fn stringtab_len(
         return (*n).str_0;
     }
     let mut dst: *mut libc::c_char =
-        ponyint_pool_alloc_size(len.wrapping_add(1))
-            as *mut libc::c_char;
+        ponyint_pool_alloc_size(len.wrapping_add(1)) as *mut libc::c_char;
     memcpy(dst as *mut libc::c_void, string as *const libc::c_void, len);
     *dst.offset(len as isize) = '\0' as i32 as libc::c_char;
     n = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut stringtab_entry_t;
@@ -859,10 +858,7 @@ unsafe extern "C" fn string_deserialise(
             break;
         }
     }
-    return stringtab_len(
-        buf as *const libc::c_char,
-        len.wrapping_sub(1),
-    ) as *mut libc::c_void;
+    return stringtab_len(buf as *const libc::c_char, len.wrapping_sub(1)) as *mut libc::c_void;
 }
 #[no_mangle]
 #[c2rust::src_loc = "176:1"]
@@ -916,11 +912,14 @@ unsafe extern "C" fn strlist_serialise(
 unsafe extern "C" fn strlist_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut libc::c_void) {
     let mut list: *mut strlist_t = object as *mut strlist_t;
     let ref mut fresh5 = (*list).contents.data;
-    *fresh5 =
-        string_deserialise_offset(ctx, (*list).contents.data as libc::uintptr_t) as *mut libc::c_void;
+    *fresh5 = string_deserialise_offset(ctx, (*list).contents.data as libc::uintptr_t)
+        as *mut libc::c_void;
     let ref mut fresh6 = (*list).contents.next;
-    *fresh6 = pony_deserialise_offset(ctx, strlist_pony_type(), (*list).contents.next as libc::uintptr_t)
-        as *mut list_t;
+    *fresh6 = pony_deserialise_offset(
+        ctx,
+        strlist_pony_type(),
+        (*list).contents.next as libc::uintptr_t,
+    ) as *mut list_t;
 }
 #[c2rust::src_loc = "216:20"]
 static mut strlist_pony: pony_type_t = unsafe {

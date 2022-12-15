@@ -1061,9 +1061,7 @@ unsafe extern "C" fn lookup_nominal(
                     ast_get_children(
                         find,
                         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_0.as_mut_ptr(),
                     );
@@ -1077,9 +1075,7 @@ unsafe extern "C" fn lookup_nominal(
                         ast_get_children(
                             param,
                             ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
-                                .wrapping_div(
-                                    ::core::mem::size_of::<*mut *mut ast_t>()
-                                )
+                                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                                 .wrapping_sub(1),
                             children_1.as_mut_ptr(),
                         );

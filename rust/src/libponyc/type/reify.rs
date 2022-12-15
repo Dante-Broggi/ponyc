@@ -1871,22 +1871,32 @@ unsafe extern "C" fn deferred_reification_deserialise(
 ) {
     let mut d: *mut deferred_reification_t = object as *mut deferred_reification_t;
     let ref mut fresh20 = (*d).ast;
-    *fresh20 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).ast as libc::uintptr_t) as *mut ast_t;
+    *fresh20 =
+        pony_deserialise_offset(ctx, ast_pony_type(), (*d).ast as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh21 = (*d).type_typeparams;
-    *fresh21 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).type_typeparams as libc::uintptr_t)
-        as *mut ast_t;
+    *fresh21 = pony_deserialise_offset(
+        ctx,
+        ast_pony_type(),
+        (*d).type_typeparams as libc::uintptr_t,
+    ) as *mut ast_t;
     let ref mut fresh22 = (*d).type_typeargs;
     *fresh22 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).type_typeargs as libc::uintptr_t)
         as *mut ast_t;
     let ref mut fresh23 = (*d).method_typeparams;
-    *fresh23 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).method_typeparams as libc::uintptr_t)
-        as *mut ast_t;
+    *fresh23 = pony_deserialise_offset(
+        ctx,
+        ast_pony_type(),
+        (*d).method_typeparams as libc::uintptr_t,
+    ) as *mut ast_t;
     let ref mut fresh24 = (*d).method_typeargs;
-    *fresh24 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).method_typeargs as libc::uintptr_t)
-        as *mut ast_t;
+    *fresh24 = pony_deserialise_offset(
+        ctx,
+        ast_pony_type(),
+        (*d).method_typeargs as libc::uintptr_t,
+    ) as *mut ast_t;
     let ref mut fresh25 = (*d).thistype;
-    *fresh25 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*d).thistype as libc::uintptr_t) as *mut ast_t;
+    *fresh25 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).thistype as libc::uintptr_t)
+        as *mut ast_t;
 }
 #[c2rust::src_loc = "558:20"]
 static mut deferred_reification_pony: pony_type_t = unsafe {

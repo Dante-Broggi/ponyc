@@ -748,8 +748,7 @@ unsafe extern "C" fn pool_push(mut thread: *mut pool_local_t, mut global: *mut p
     xchg.c2rust_unnamed.object = p;
     loop {
         top = cmp.c2rust_unnamed.object;
-        xchg.c2rust_unnamed.counter =
-            (cmp.c2rust_unnamed.counter).wrapping_add(1);
+        xchg.c2rust_unnamed.counter = (cmp.c2rust_unnamed.counter).wrapping_add(1);
         let ref mut fresh11 = (*p).central;
         *fresh11 = top;
         if {
@@ -794,8 +793,7 @@ unsafe extern "C" fn pool_pull(
         f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
         next = (*top).central;
         xchg.c2rust_unnamed.object = next;
-        xchg.c2rust_unnamed.counter =
-            (cmp.c2rust_unnamed.counter).wrapping_add(1);
+        xchg.c2rust_unnamed.counter = (cmp.c2rust_unnamed.counter).wrapping_add(1);
         if {
             let fresh13 = ::core::intrinsics::atomic_cxchg_acqrel(
                 &mut (*global).central.raw as *mut i128,
@@ -1025,10 +1023,7 @@ pub unsafe extern "C" fn ponyint_pool_index(mut size: usize) -> usize {
     if size > ((1 as libc::c_int) << 5 as libc::c_int) as libc::c_ulong {
         return ((64 as libc::c_int - 5 as libc::c_int) as usize)
             .wrapping_sub(__pony_clzzu(size) as libc::c_ulong)
-            .wrapping_sub(
-                (size & size.wrapping_sub(1) == 0) as libc::c_int
-                    as libc::c_ulong,
-            );
+            .wrapping_sub((size & size.wrapping_sub(1) == 0) as libc::c_int as libc::c_ulong);
     }
     return 0 as libc::c_int as usize;
 }
@@ -1045,11 +1040,8 @@ pub unsafe extern "C" fn ponyint_pool_used_size(mut size: usize) -> usize {
 #[no_mangle]
 #[c2rust::src_loc = "1030:1"]
 pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: usize) -> usize {
-    if size & (((1) << 10) - 1) as libc::c_ulong
-        != 0
-    {
-        size = (size
-            & !(((1) << 10) - 1))
+    if size & (((1) << 10) - 1) as libc::c_ulong != 0 {
+        size = (size & !(((1) << 10) - 1))
             .wrapping_add(((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong);
     }
     if size == 0 {

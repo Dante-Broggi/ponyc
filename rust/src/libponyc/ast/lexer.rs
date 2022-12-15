@@ -747,9 +747,7 @@ pub use self::_ctype_h::{
     __isctype, __istype, __maskrune, isalnum, isalpha, isascii, isdigit, isspace,
 };
 pub use self::_size_t_h::size_t;
-pub use self::_types_h::{
-    __darwin_ct_rune_t, __darwin_rune_t, __darwin_wchar_t, __uint32_t,
-};
+pub use self::_types_h::{__darwin_ct_rune_t, __darwin_rune_t, __darwin_wchar_t, __uint32_t};
 use self::error_h::{errors_t, errorv};
 pub use self::internal::{__builtin_va_list, __va_list_tag};
 pub use self::lexint_h::{lexint_accum, lexint_char, lexint_double, lexint_t, lexint_zero};
@@ -2428,11 +2426,8 @@ unsafe extern "C" fn lookn(mut lexer: *mut lexer_t, mut chars: usize) -> libc::c
     if (*lexer).len < chars {
         return '\0' as i32 as libc::c_char;
     }
-    return *((*(*lexer).source).m).offset(
-        ((*lexer).ptr)
-            .wrapping_add(chars)
-            .wrapping_sub(1) as isize,
-    );
+    return *((*(*lexer).source).m)
+        .offset(((*lexer).ptr).wrapping_add(chars).wrapping_sub(1) as isize);
 }
 #[c2rust::src_loc = "429:1"]
 unsafe extern "C" fn literal_doesnt_terminate(mut lexer: *mut lexer_t) -> *mut token_t {

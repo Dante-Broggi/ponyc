@@ -1727,9 +1727,7 @@ unsafe extern "C" fn sugar_entity(
                     ast_get_children(
                         member,
                         (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children_1.as_mut_ptr(),
                     );
@@ -3657,8 +3655,7 @@ unsafe extern "C" fn sugar_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         name as *const libc::c_void,
         len,
     );
-    *new_name.offset(len.wrapping_add(1) as isize) =
-        '\0' as i32 as libc::c_char;
+    *new_name.offset(len.wrapping_add(1) as isize) = '\0' as i32 as libc::c_char;
     let mut new_id: *mut ast_t = ast_from_string(
         id,
         stringtab_consume(

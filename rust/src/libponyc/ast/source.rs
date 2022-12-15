@@ -368,8 +368,8 @@ unsafe extern "C" fn source_deserialise(mut ctx: *mut pony_ctx_t, mut object: *m
     let ref mut fresh6 = (*source).file;
     *fresh6 = string_deserialise_offset(ctx, (*source).file as libc::uintptr_t);
     let ref mut fresh7 = (*source).m;
-    *fresh7 =
-        pony_deserialise_block(ctx, (*source).m as libc::uintptr_t, (*source).len) as *mut libc::c_char;
+    *fresh7 = pony_deserialise_block(ctx, (*source).m as libc::uintptr_t, (*source).len)
+        as *mut libc::c_char;
 }
 #[c2rust::src_loc = "111:20"]
 static mut source_pony: pony_type_t = unsafe {

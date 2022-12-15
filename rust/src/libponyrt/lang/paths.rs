@@ -47,8 +47,7 @@ pub unsafe extern "C" fn pony_os_realpath(mut path: *const libc::c_char) -> *mut
     if (realpath(path, resolved.as_mut_ptr())).is_null() {
         return 0 as *mut libc::c_char;
     }
-    let mut len: usize =
-        (libc::strlen(resolved.as_mut_ptr())).wrapping_add(1);
+    let mut len: usize = (libc::strlen(resolved.as_mut_ptr())).wrapping_add(1);
     let mut cstring: *mut libc::c_char = pony_alloc(pony_ctx(), len) as *mut libc::c_char;
     memcpy(
         cstring as *mut libc::c_void,

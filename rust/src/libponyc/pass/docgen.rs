@@ -2733,8 +2733,7 @@ unsafe extern "C" fn concat(
     *allocated_size = str_size;
     strcpy(result, s1);
     strcat(result, s2);
-    *result.offset(str_size.wrapping_sub(1) as isize) =
-        '\0' as i32 as libc::c_char;
+    *result.offset(str_size.wrapping_sub(1) as isize) = '\0' as i32 as libc::c_char;
     return result;
 }
 #[c2rust::src_loc = "795:1"]
@@ -2783,13 +2782,11 @@ unsafe extern "C" fn copy_source_to_doc_src(
         );
     };
     let mut result: *mut doc_sources_t =
-        ponyint_pool_alloc_size(::core::mem::size_of::<doc_sources_t>())
-            as *mut doc_sources_t;
+        ponyint_pool_alloc_size(::core::mem::size_of::<doc_sources_t>()) as *mut doc_sources_t;
     let mut filename_copy: [libc::c_char; 1024] = [0; 1024];
     strcpy(filename_copy.as_mut_ptr(), (*source).file);
     let mut just_filename: *const libc::c_char = get_file_name(filename_copy.as_mut_ptr());
-    let mut filename_alloc_size: usize =
-        (libc::strlen(just_filename)).wrapping_add(1);
+    let mut filename_alloc_size: usize = (libc::strlen(just_filename)).wrapping_add(1);
     let mut filename: *mut libc::c_char =
         ponyint_pool_alloc_size(filename_alloc_size) as *mut libc::c_char;
     strcpy(filename, just_filename);
@@ -3762,9 +3759,7 @@ unsafe extern "C" fn doc_package(
             (*(*docgen).public_types).m,
         );
     }
-    if (*docgen_opt).include_private as libc::c_int != 0
-        && (*(*docgen).private_types).offset > 0
-    {
+    if (*docgen_opt).include_private as libc::c_int != 0 && (*(*docgen).private_types).offset > 0 {
         fprintf(
             (*docgen).package_file,
             b"\n\n## Private Types\n\n\0" as *const u8 as *const libc::c_char,

@@ -1452,28 +1452,26 @@ unsafe extern "C" fn length(
             as usize;
     }
     while !child.is_null() {
-        len = len.wrapping_add(
-            (1 as usize).wrapping_add(length(
-                child,
-                0 as libc::c_int as usize,
-                NOT_SPECIAL,
-            )),
-        ) as usize as usize;
+        len = len.wrapping_add((1 as usize).wrapping_add(length(
+            child,
+            0 as libc::c_int as usize,
+            NOT_SPECIAL,
+        ))) as usize as usize;
         child = (*child).sibling;
     }
     if !(ast_type(ast)).is_null() {
-        len = len.wrapping_add((1 as usize).wrapping_add(
-            length(ast_type(ast), 0 as libc::c_int as usize, SPECIAL_TYPE),
-        )) as usize as usize;
+        len = len.wrapping_add((1 as usize).wrapping_add(length(
+            ast_type(ast),
+            0 as libc::c_int as usize,
+            SPECIAL_TYPE,
+        ))) as usize as usize;
     }
     if !(ast_annotation(ast)).is_null() {
-        len = len.wrapping_add((1 as usize).wrapping_add(
-            length(
-                ast_annotation(ast),
-                0 as libc::c_int as usize,
-                SPECIAL_ANNOTATION,
-            ),
-        )) as usize as usize;
+        len = len.wrapping_add((1 as usize).wrapping_add(length(
+            ast_annotation(ast),
+            0 as libc::c_int as usize,
+            SPECIAL_ANNOTATION,
+        ))) as usize as usize;
     }
     len
 }
@@ -1575,13 +1573,7 @@ unsafe extern "C" fn print_extended(
         );
     }
     while !child.is_null() {
-        print(
-            fp,
-            child,
-            indent.wrapping_add(1),
-            NOT_SPECIAL,
-            width,
-        );
+        print(fp, child, indent.wrapping_add(1), NOT_SPECIAL, width);
         child = (*child).sibling;
     }
     if !(ast_type(ast)).is_null() {
@@ -1676,21 +1668,11 @@ unsafe extern "C" fn print_verbose(
         );
     }
     while !child.is_null() {
-        print_verbose(
-            fp,
-            child,
-            indent.wrapping_add(1),
-            NOT_SPECIAL,
-        );
+        print_verbose(fp, child, indent.wrapping_add(1), NOT_SPECIAL);
         child = (*child).sibling;
     }
     if !(ast_type(ast)).is_null() {
-        print_verbose(
-            fp,
-            ast_type(ast),
-            indent.wrapping_add(1),
-            SPECIAL_TYPE,
-        );
+        print_verbose(fp, ast_type(ast), indent.wrapping_add(1), SPECIAL_TYPE);
     }
     if parens {
         let mut i_1: usize = 0;
@@ -5395,7 +5377,8 @@ unsafe extern "C" fn ast_deserialise_data(mut ctx: *mut pony_ctx_t, mut ast: *mu
         70 | 151 | 88 | 90 | 89 | 163 | 187 | 184 | 185 | 186 | 198 | 196 | 197 | 192 | 193
         | 194 | 188 | 189 | 190 | 191 | 200 | 201 | 202 | 203 | 204 | 19 | 143 | 160 => {
             let ref mut fresh59 = (*ast).data;
-            *fresh59 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).data as libc::uintptr_t);
+            *fresh59 =
+                pony_deserialise_offset(ctx, ast_pony_type(), (*ast).data as libc::uintptr_t);
         }
         8 | 78 => {
             let ref mut fresh60 = (*ast).data;
@@ -5404,15 +5387,18 @@ unsafe extern "C" fn ast_deserialise_data(mut ctx: *mut pony_ctx_t, mut ast: *mu
         }
         136 => {
             let ref mut fresh61 = (*ast).data;
-            *fresh61 = pony_deserialise_offset(ctx, program_pony_type(), (*ast).data as libc::uintptr_t);
+            *fresh61 =
+                pony_deserialise_offset(ctx, program_pony_type(), (*ast).data as libc::uintptr_t);
         }
         137 => {
             let ref mut fresh62 = (*ast).data;
-            *fresh62 = pony_deserialise_offset(ctx, package_pony_type(), (*ast).data as libc::uintptr_t);
+            *fresh62 =
+                pony_deserialise_offset(ctx, package_pony_type(), (*ast).data as libc::uintptr_t);
         }
         138 => {
             let ref mut fresh63 = (*ast).data;
-            *fresh63 = pony_deserialise_offset(ctx, source_pony_type(), (*ast).data as libc::uintptr_t);
+            *fresh63 =
+                pony_deserialise_offset(ctx, source_pony_type(), (*ast).data as libc::uintptr_t);
         }
         161 => {
             operatorliteral_deserialise_data(ast);
@@ -5502,24 +5488,27 @@ unsafe extern "C" fn ast_serialise(
 unsafe extern "C" fn ast_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut libc::c_void) {
     let mut ast: *mut ast_t = object as *mut ast_t;
     let ref mut fresh70 = (*ast).t;
-    *fresh70 =
-        pony_deserialise_offset(ctx, token_pony_type(), (*ast).t as libc::uintptr_t) as *mut token_t;
+    *fresh70 = pony_deserialise_offset(ctx, token_pony_type(), (*ast).t as libc::uintptr_t)
+        as *mut token_t;
     ast_deserialise_data(ctx, ast);
     let ref mut fresh71 = (*ast).symtab;
     *fresh71 = pony_deserialise_offset(ctx, symtab_pony_type(), (*ast).symtab as libc::uintptr_t)
         as *mut symtab_t;
     let ref mut fresh72 = (*ast).parent;
-    *fresh72 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).parent as libc::uintptr_t) as *mut ast_t;
-    let ref mut fresh73 = (*ast).child;
-    *fresh73 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).child as libc::uintptr_t) as *mut ast_t;
-    let ref mut fresh74 = (*ast).sibling;
-    *fresh74 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).sibling as libc::uintptr_t) as *mut ast_t;
-    let ref mut fresh75 = (*ast).annotation_type;
-    *fresh75 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).annotation_type as libc::uintptr_t)
+    *fresh72 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).parent as libc::uintptr_t)
         as *mut ast_t;
+    let ref mut fresh73 = (*ast).child;
+    *fresh73 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).child as libc::uintptr_t)
+        as *mut ast_t;
+    let ref mut fresh74 = (*ast).sibling;
+    *fresh74 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).sibling as libc::uintptr_t)
+        as *mut ast_t;
+    let ref mut fresh75 = (*ast).annotation_type;
+    *fresh75 = pony_deserialise_offset(
+        ctx,
+        ast_pony_type(),
+        (*ast).annotation_type as libc::uintptr_t,
+    ) as *mut ast_t;
 }
 #[c2rust::src_loc = "2350:20"]
 static mut ast_pony: pony_type_t = unsafe {

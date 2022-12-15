@@ -2230,9 +2230,7 @@ unsafe extern "C" fn uif_type_from_chain(
         && (*chain_head).cached_uif_index >= 0 as libc::c_int
     {
         let mut i: libc::c_int = (*chain_head).cached_uif_index;
-        if _str_uif_types[i as usize].limit.low != 0
-            || _str_uif_types[i as usize].limit.high != 0
-        {
+        if _str_uif_types[i as usize].limit.low != 0 || _str_uif_types[i as usize].limit.high != 0 {
             let mut neg_plus_one: bool = 0 as libc::c_int != 0;
             if _str_uif_types[i as usize].neg_plus_one {
                 let mut parent: *mut ast_t = ast_parent(literal);

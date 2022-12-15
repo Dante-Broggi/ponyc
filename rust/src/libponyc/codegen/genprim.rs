@@ -2310,22 +2310,19 @@ unsafe extern "C" fn pointer_alloc(
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"noalias\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1),
     );
     noalias_attr = LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong).wrapping_sub(1),
     );
     deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"align\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong).wrapping_sub(1),
     );
     align_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -2405,22 +2402,19 @@ unsafe extern "C" fn pointer_realloc(
     let mut noalias_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut noalias_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"noalias\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong).wrapping_sub(1),
     );
     noalias_attr = LLVMCreateEnumAttribute((*c).context, noalias_attr_id, 0 as libc::c_int as u64);
     let mut deref_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut deref_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"dereferenceable_or_null\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 24]>() as libc::c_ulong).wrapping_sub(1),
     );
     deref_attr = LLVMCreateEnumAttribute((*c).context, deref_attr_id, size as u64);
     let mut align_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut align_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"align\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 6]>() as libc::c_ulong).wrapping_sub(1),
     );
     align_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -3319,24 +3313,21 @@ unsafe extern "C" fn donotoptimise_apply(
     let mut nounwind_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut nounwind_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"nounwind\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1),
     );
     nounwind_attr =
         LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut readonly_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut readonly_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"readonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1),
     );
     readonly_attr =
         LLVMCreateEnumAttribute((*c).context, readonly_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong).wrapping_sub(1),
     );
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -3406,16 +3397,14 @@ unsafe extern "C" fn donotoptimise_observe(
     let mut nounwind_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut nounwind_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"nounwind\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 9]>() as libc::c_ulong).wrapping_sub(1),
     );
     nounwind_attr =
         LLVMCreateEnumAttribute((*c).context, nounwind_attr_id, 0 as libc::c_int as u64);
     let mut inacc_or_arg_mem_attr: LLVMAttributeRef = 0 as *mut LLVMOpaqueAttributeRef;
     let mut inacc_or_arg_mem_attr_id: libc::c_uint = LLVMGetEnumAttributeKindForName(
         b"inaccessiblemem_or_argmemonly\0" as *const u8 as *const libc::c_char,
-        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong)
-            .wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 30]>() as libc::c_ulong).wrapping_sub(1),
     );
     inacc_or_arg_mem_attr = LLVMCreateEnumAttribute(
         (*c).context,
@@ -3502,11 +3491,7 @@ unsafe extern "C" fn trace_array_elements(
         (*c).intptr,
         b"\0" as *const u8 as *const libc::c_char,
     );
-    let mut zero: LLVMValueRef = LLVMConstInt(
-        (*c).intptr,
-        0,
-        0 as libc::c_int,
-    );
+    let mut zero: LLVMValueRef = LLVMConstInt((*c).intptr, 0, 0 as libc::c_int);
     LLVMAddIncoming(
         phi,
         &mut zero,
@@ -3536,11 +3521,7 @@ unsafe extern "C" fn trace_array_elements(
     );
     elem = gen_assign_cast(c, (*c_t_elem).use_type, elem, typearg);
     gentrace(c, ctx, elem, elem, typearg, typearg);
-    let mut one: LLVMValueRef = LLVMConstInt(
-        (*c).intptr,
-        1,
-        0 as libc::c_int,
-    );
+    let mut one: LLVMValueRef = LLVMConstInt((*c).intptr, 1, 0 as libc::c_int);
     let mut inc: LLVMValueRef = LLVMBuildAdd(
         (*c).builder,
         phi,
@@ -3644,11 +3625,7 @@ pub unsafe extern "C" fn genprim_array_serialise_trace(
         (*c).builder,
         LLVMIntNE,
         size,
-        LLVMConstInt(
-            (*c).intptr,
-            0,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt((*c).intptr, 0, 0 as libc::c_int),
         b"\0" as *const u8 as *const libc::c_char,
     );
     LLVMBuildCondBr((*c).builder, cond, trace_block, post_block);
@@ -3833,11 +3810,7 @@ pub unsafe extern "C" fn genprim_array_serialise(mut c: *mut compile_t, mut t: *
             (*c).intptr,
             b"\0" as *const u8 as *const libc::c_char,
         );
-        let mut zero: LLVMValueRef = LLVMConstInt(
-            (*c).intptr,
-            0,
-            0 as libc::c_int,
-        );
+        let mut zero: LLVMValueRef = LLVMConstInt((*c).intptr, 0, 0 as libc::c_int);
         LLVMAddIncoming(
             phi,
             &mut zero,
@@ -3881,11 +3854,7 @@ pub unsafe extern "C" fn genprim_array_serialise(mut c: *mut compile_t, mut t: *
             b"\0" as *const u8 as *const libc::c_char,
         );
         LLVMBuildStore((*c).builder, ptr_offset_addr, offset_var);
-        let mut one: LLVMValueRef = LLVMConstInt(
-            (*c).intptr,
-            1,
-            0 as libc::c_int,
-        );
+        let mut one: LLVMValueRef = LLVMConstInt((*c).intptr, 1, 0 as libc::c_int);
         let mut inc: LLVMValueRef = LLVMBuildAdd(
             (*c).builder,
             phi,
@@ -4009,11 +3978,7 @@ pub unsafe extern "C" fn genprim_array_deserialise(
             (*c).intptr,
             b"\0" as *const u8 as *const libc::c_char,
         );
-        let mut zero: LLVMValueRef = LLVMConstInt(
-            (*c).intptr,
-            0,
-            0 as libc::c_int,
-        );
+        let mut zero: LLVMValueRef = LLVMConstInt((*c).intptr, 0, 0 as libc::c_int);
         LLVMAddIncoming(
             phi,
             &mut zero,
@@ -4037,11 +4002,7 @@ pub unsafe extern "C" fn genprim_array_deserialise(
             b"\0" as *const u8 as *const libc::c_char,
         );
         gendeserialise_element(c, t_elem, 0 as libc::c_int != 0, ctx, elem_ptr);
-        let mut one: LLVMValueRef = LLVMConstInt(
-            (*c).intptr,
-            1,
-            0 as libc::c_int,
-        );
+        let mut one: LLVMValueRef = LLVMConstInt((*c).intptr, 1, 0 as libc::c_int);
         let mut inc: LLVMValueRef = LLVMBuildAdd(
             (*c).builder,
             phi,
@@ -4103,11 +4064,7 @@ pub unsafe extern "C" fn genprim_string_serialise_trace(
     let mut alloc: LLVMValueRef = LLVMBuildAdd(
         (*c).builder,
         size,
-        LLVMConstInt(
-            (*c).intptr,
-            1,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt((*c).intptr, 1, 0 as libc::c_int),
         b"\0" as *const u8 as *const libc::c_char,
     );
     let mut ptr: LLVMValueRef = field_value(c, object, 3 as libc::c_int);
@@ -4200,11 +4157,7 @@ pub unsafe extern "C" fn genprim_string_serialise(mut c: *mut compile_t, mut t: 
     let mut alloc: LLVMValueRef = LLVMBuildAdd(
         (*c).builder,
         size,
-        LLVMConstInt(
-            (*c).intptr,
-            1,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt((*c).intptr, 1, 0 as libc::c_int),
         b"\0" as *const u8 as *const libc::c_char,
     );
     let mut alloc_loc: LLVMValueRef = field_loc(
@@ -5233,11 +5186,7 @@ unsafe extern "C" fn f32_to_si_saturation(
     to_max = LLVMBuildLShr(
         (*c).builder,
         to_min,
-        LLVMConstInt(
-            (*to).type_0,
-            1,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt((*to).type_0, 1, 0 as libc::c_int),
         b"\0" as *const u8 as *const libc::c_char,
     );
     to_min = LLVMBuildXor(
@@ -5280,11 +5229,7 @@ unsafe extern "C" fn f64_to_si_saturation(
     to_max = LLVMBuildLShr(
         (*c).builder,
         to_min,
-        LLVMConstInt(
-            (*to).type_0,
-            1,
-            0 as libc::c_int,
-        ),
+        LLVMConstInt((*to).type_0, 1, 0 as libc::c_int),
         b"\0" as *const u8 as *const libc::c_char,
     );
     to_min = LLVMBuildXor(
@@ -6870,24 +6815,12 @@ unsafe extern "C" fn make_signature_array(
     LLVMSetInitializer(g_sig, sig);
     LLVMSetGlobalConstant(g_sig, 1 as libc::c_int);
     LLVMSetUnnamedAddr(g_sig, 1 as libc::c_int);
-    args[0 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i32_0,
-        0,
-        0 as libc::c_int,
-    );
-    args[1 as libc::c_int as usize] = LLVMConstInt(
-        (*c).i32_0,
-        0,
-        0 as libc::c_int,
-    );
+    args[0 as libc::c_int as usize] = LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
+    args[1 as libc::c_int as usize] = LLVMConstInt((*c).i32_0, 0, 0 as libc::c_int);
     let mut ptr: LLVMValueRef =
         LLVMConstInBoundsGEP_P(g_sig, args.as_mut_ptr(), 2 as libc::c_int as libc::c_uint);
     args[0 as libc::c_int as usize] = (*c_t).desc;
-    args[1 as libc::c_int as usize] = LLVMConstInt(
-        (*c).intptr,
-        64,
-        0 as libc::c_int,
-    );
+    args[1 as libc::c_int as usize] = LLVMConstInt((*c).intptr, 64, 0 as libc::c_int);
     args[2 as libc::c_int as usize] = args[1 as libc::c_int as usize];
     args[3 as libc::c_int as usize] = ptr;
     let mut inst: LLVMValueRef = LLVMConstNamedStruct(
@@ -6992,9 +6925,7 @@ pub unsafe extern "C" fn genprim_reachable_init(mut c: *mut compile_t, mut progr
                     ast_get_children(
                         entity,
                         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                            .wrapping_div(
-                                ::core::mem::size_of::<*mut *mut ast_t>(),
-                            )
+                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                             .wrapping_sub(1),
                         children.as_mut_ptr(),
                     );
