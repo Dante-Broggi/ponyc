@@ -1452,8 +1452,8 @@ unsafe extern "C" fn length(
             as usize;
     }
     while !child.is_null() {
-        len = (len as libc::c_ulong).wrapping_add(
-            (1 as libc::c_int as libc::c_ulong).wrapping_add(length(
+        len = len.wrapping_add(
+            (1 as usize).wrapping_add(length(
                 child,
                 0 as libc::c_int as usize,
                 NOT_SPECIAL,
@@ -1462,12 +1462,12 @@ unsafe extern "C" fn length(
         child = (*child).sibling;
     }
     if !(ast_type(ast)).is_null() {
-        len = (len as libc::c_ulong).wrapping_add((1 as libc::c_int as libc::c_ulong).wrapping_add(
+        len = len.wrapping_add((1 as usize).wrapping_add(
             length(ast_type(ast), 0 as libc::c_int as usize, SPECIAL_TYPE),
         )) as usize as usize;
     }
     if !(ast_annotation(ast)).is_null() {
-        len = (len as libc::c_ulong).wrapping_add((1 as libc::c_int as libc::c_ulong).wrapping_add(
+        len = len.wrapping_add((1 as usize).wrapping_add(
             length(
                 ast_annotation(ast),
                 0 as libc::c_int as usize,

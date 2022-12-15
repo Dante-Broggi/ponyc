@@ -202,8 +202,8 @@ unsafe extern "C" fn run_static_initializers() {
                     << (48 as libc::c_int - 10 as libc::c_int) / 3 as libc::c_int
                         + ((48 as libc::c_int - 10 as libc::c_int) % 3 as libc::c_int
                             > 0 as libc::c_int) as libc::c_int)
-                    as libc::c_ulong)
-                    .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as libc::c_ulong),
+                    as usize)
+                    .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as usize),
                 size_index: 11 as libc::c_int as usize,
             };
             init
@@ -221,8 +221,8 @@ unsafe extern "C" fn run_static_initializers() {
                     << (48 as libc::c_int - 10 as libc::c_int) / 3 as libc::c_int
                         + ((48 as libc::c_int - 10 as libc::c_int) % 3 as libc::c_int
                             > 1 as libc::c_int) as libc::c_int)
-                    as libc::c_ulong)
-                    .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as libc::c_ulong),
+                    as usize)
+                    .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as usize),
                 size_index: 11 as libc::c_int as usize,
             };
             init
@@ -235,8 +235,8 @@ unsafe extern "C" fn run_static_initializers() {
                     - 1 as libc::c_int,
                 size: (((1 as libc::c_int)
                     << (48 as libc::c_int - 10 as libc::c_int) / 3 as libc::c_int)
-                    as libc::c_ulong)
-                    .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as libc::c_ulong),
+                    as usize)
+                    .wrapping_mul(::core::mem::size_of::<pagemap_node_t>() as usize),
                 size_index: 10 as libc::c_int as usize,
             };
             init
