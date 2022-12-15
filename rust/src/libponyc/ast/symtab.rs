@@ -677,7 +677,7 @@ pub unsafe extern "C" fn symtab_add(
         let mut s1: symbol_t = {
             let mut init = symbol_t {
                 name: no_case,
-                def: def,
+                def,
                 status: SYM_NOCASE,
                 branch_count: 0 as libc::c_int as usize,
             };
@@ -692,9 +692,9 @@ pub unsafe extern "C" fn symtab_add(
     }
     let mut s1_0: symbol_t = {
         let mut init = symbol_t {
-            name: name,
-            def: def,
-            status: status,
+            name,
+            def,
+            status,
             branch_count: 0 as libc::c_int as usize,
         };
         init
@@ -716,7 +716,7 @@ pub unsafe extern "C" fn symtab_find(
 ) -> *mut ast_t {
     let mut s1: symbol_t = {
         let mut init = symbol_t {
-            name: name,
+            name,
             def: 0 as *mut ast_t,
             status: SYM_NONE,
             branch_count: 0 as libc::c_int as usize,
@@ -748,7 +748,7 @@ pub unsafe extern "C" fn symtab_find_case(
 ) -> *mut ast_t {
     let mut s1: symbol_t = {
         let mut init = symbol_t {
-            name: name,
+            name,
             def: 0 as *mut ast_t,
             status: SYM_NONE,
             branch_count: 0 as libc::c_int as usize,
@@ -781,9 +781,9 @@ pub unsafe extern "C" fn symtab_set_status(
 ) {
     let mut s1: symbol_t = {
         let mut init = symbol_t {
-            name: name,
+            name,
             def: 0 as *mut ast_t,
-            status: status,
+            status,
             branch_count: 0 as libc::c_int as usize,
         };
         init
