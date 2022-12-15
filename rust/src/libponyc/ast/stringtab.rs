@@ -15,7 +15,6 @@ pub mod _uintptr_t_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h:1"]
 pub mod _ssize_t_h {
@@ -32,7 +31,7 @@ pub mod fun_h {
         Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> *mut libc::c_void>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:1"]
         pub fn ponyint_hash_block(p: *const libc::c_void, len: usize) -> usize;
@@ -103,8 +102,7 @@ pub mod pony_h {
     pub const PONY_TRACE_IMMUTABLE: C2RustUnnamed = 1;
     #[c2rust::src_loc = "373:3"]
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed = 0;
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
@@ -128,7 +126,7 @@ pub mod list_h {
         pub data: *mut libc::c_void,
         pub next: *mut list_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::_ssize_t_h::ssize_t;
     use super::fun_h::{cmp_fn, free_fn, map_fn};
     extern "C" {
@@ -205,7 +203,7 @@ pub mod hash_h {
     }
     #[c2rust::src_loc = "16:1"]
     pub type bitmap_t = usize;
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
@@ -271,8 +269,7 @@ pub mod serialise_h {
     #[c2rust::src_loc = "20:1"]
     pub type deserialise_raw_fn =
         Option<unsafe extern "C" fn(*mut libc::c_void, usize) -> *mut libc::c_void>;
-    use super::_size_t_h::size_t;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::pony_h::{pony_ctx_t, pony_type_t};
     extern "C" {
         #[c2rust::src_loc = "46:1"]
@@ -293,7 +290,7 @@ pub mod serialise_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:3"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;

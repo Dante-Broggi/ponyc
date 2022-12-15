@@ -55,7 +55,7 @@ pub mod pthread_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:2"]
 pub mod pool_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "27:22"]
         pub fn ponyint_pool_alloc_size(size: usize) -> *mut libc::c_void;

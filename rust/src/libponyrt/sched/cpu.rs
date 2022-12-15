@@ -152,7 +152,7 @@ pub mod mpmcq_h {
         pub head: *mut mpmcq_node_t,
         pub tail: aba_protected_mpmcq_node_t,
     }
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "13:16"]
         pub type mpmcq_node_t;
@@ -219,7 +219,6 @@ pub mod scheduler_h {
     use super::mutemap_h::mutemap_t;
     use super::pony_h::{pony_actor_t, pony_type_t};
     use super::serialise_h::{ponyint_serialise_t, serialise_alloc_fn, serialise_throw_fn};
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.h:26"]
 pub use crate::libponyrt::actor::messageq::messageq_h;
@@ -280,9 +279,9 @@ pub mod pony_h {
             libc::c_int,
         ) -> (),
     >;
-    use super::_uintptr_t_h::uintptr_t;
+
     use super::scheduler_h::pony_ctx_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;
@@ -318,7 +317,6 @@ pub mod hash_h {
     }
     #[c2rust::src_loc = "16:1"]
     pub type bitmap_t = usize;
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/serialise.h:26"]
 pub mod serialise_h {
@@ -335,7 +333,6 @@ pub mod serialise_h {
     }
     use super::hash_h::hashmap_t;
     use super::scheduler_h::pony_ctx_t;
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:26"]
 pub mod actormap_h {
@@ -396,7 +393,7 @@ pub mod mach_init_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/sysctl.h:38"]
 pub mod sysctl_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "794:1"]
         pub fn sysctlbyname(

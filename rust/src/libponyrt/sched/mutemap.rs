@@ -8,7 +8,6 @@ pub mod _types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:2"]
 pub mod pony_h {
@@ -23,7 +22,7 @@ pub mod fun_h {
     pub type cmp_fn = Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> bool>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
@@ -49,7 +48,7 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
@@ -143,7 +142,7 @@ pub mod string_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:4"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;

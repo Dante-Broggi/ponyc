@@ -8,7 +8,6 @@ pub mod _types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/token.h:1"]
 pub mod token_h {
@@ -451,7 +450,7 @@ pub mod fun_h {
     pub type cmp_fn = Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> bool>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "28:1"]
         pub fn ponyint_hash_str(str: *const libc::c_char) -> usize;
@@ -477,7 +476,7 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
@@ -668,7 +667,7 @@ pub mod reach_h {
     pub struct reach_types_t {
         pub contents: hashmap_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
@@ -698,7 +697,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:3"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
@@ -712,7 +711,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:4"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(

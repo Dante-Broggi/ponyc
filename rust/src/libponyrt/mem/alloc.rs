@@ -37,7 +37,7 @@ pub mod stdio_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/mman.h:9"]
 pub mod mman_h {
     use super::_off_t_h::off_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "238:1"]
         pub fn mmap(
@@ -56,7 +56,7 @@ pub use self::_off_t_h::off_t;
 use self::mman_h::{mmap, munmap};
 pub use self::stddef_h::size_t;
 use self::stdio_h::perror;
-use self::stdlib_h::abort;
+
 pub use self::sys__types_h::__darwin_off_t;
 #[no_mangle]
 #[c2rust::src_loc = "16:1"]

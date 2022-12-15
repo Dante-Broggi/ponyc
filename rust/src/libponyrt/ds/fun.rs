@@ -21,7 +21,6 @@ pub mod platform_h {
     pub unsafe extern "C" fn __pony_clzzu(mut x: usize) -> u32 {
         __pony_clzll(x as u64)
     }
-    use super::stddef_h::size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h:2"]
 pub mod string_h {
@@ -33,7 +32,7 @@ pub mod string_h {
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::platform_h::{__pony_clzll, __pony_clzzu};
 pub use self::stddef_h::size_t;
-use self::string_h::strlen;
+
 #[c2rust::src_loc = "6:28"]
 static mut the_key: [libc::c_uchar; 16] = [
     0xfe as libc::c_int as libc::c_uchar,

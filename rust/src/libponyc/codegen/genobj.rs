@@ -15,7 +15,6 @@ pub mod sys__types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
 pub mod Types_h {
@@ -311,7 +310,6 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/symtab.h:1"]
 pub mod symtab_h {
@@ -377,7 +375,7 @@ pub mod frame_h {
         pub stats: typecheck_stats_t,
         pub errors: *mut errors_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
 }
@@ -484,7 +482,7 @@ pub mod pass_h {
         pub plugins: *mut plugins_t,
         pub data: *mut libc::c_void,
     }
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
     extern "C" {

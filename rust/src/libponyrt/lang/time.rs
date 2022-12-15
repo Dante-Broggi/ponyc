@@ -41,7 +41,7 @@ pub mod time_h {
         pub tm_zone: *mut libc::c_char,
     }
     use super::_time_t_h::time_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "116:1"]
         pub fn strftime(
@@ -113,8 +113,7 @@ pub mod pony_h {
     }
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
-    use super::_uintptr_t_h::uintptr_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:16"]
         pub type pony_actor_t;

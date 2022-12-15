@@ -15,7 +15,6 @@ pub mod sys__types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
 pub mod source_h {
@@ -27,7 +26,7 @@ pub mod source_h {
         pub m: *mut libc::c_char,
         pub len: usize,
     }
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "35:1"]
         pub fn source_close(source: *mut source_t);
@@ -467,7 +466,7 @@ pub mod token_h {
     pub const TK_LEX_ERROR: token_id = 1;
     #[c2rust::src_loc = "22:3"]
     pub const TK_EOF: token_id = 0;
-    use super::_size_t_h::size_t;
+
     use super::source_h::source_t;
     extern "C" {
         #[c2rust::src_loc = "16:16"]
@@ -599,14 +598,14 @@ pub mod parserapi_h {
     pub type rule_t = Option<
         unsafe extern "C" fn(*mut parser_t, *mut builder_fn_t, *const libc::c_char) -> *mut ast_t,
     >;
-    use super::_size_t_h::size_t;
+
     use super::parser_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:1"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -665,7 +664,7 @@ pub mod stdio_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
 pub mod error_h {
-    use super::_size_t_h::size_t;
+
     use super::lexer_h::errors_t;
     use super::source_h::source_t;
     extern "C" {
@@ -693,7 +692,7 @@ pub mod error_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:2"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;

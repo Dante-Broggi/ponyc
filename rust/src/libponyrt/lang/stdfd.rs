@@ -251,7 +251,7 @@ pub mod stdlib_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h:2"]
 pub mod stdio_h {
     use super::_stdio_h::FILE;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "68:14"]
         pub static mut __stdoutp: *mut FILE;
@@ -276,7 +276,7 @@ pub mod stdio_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unistd.h:9"]
 pub mod unistd_h {
     use super::_ssize_t_h::ssize_t;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "463:1"]
         pub fn isatty(_: libc::c_int) -> libc::c_int;
@@ -308,7 +308,7 @@ pub use self::sys__types_h::{
     __darwin_mode_t, __darwin_off_t, __darwin_uid_t,
 };
 pub use self::termios_h::{cc_t, speed_t, tcflag_t, tcgetattr, tcsetattr, termios};
-use self::unistd_h::{isatty, read};
+use self::unistd_h::read;
 #[c2rust::src_loc = "270:9"]
 pub type fd_type_t = libc::c_uint;
 #[c2rust::src_loc = "276:3"]

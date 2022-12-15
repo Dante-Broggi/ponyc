@@ -114,7 +114,7 @@ pub use self::_timespec_h::timespec;
 pub use self::_types_h::{__darwin_time_t, __int64_t};
 pub use self::stddef_h::size_t;
 use self::stdio_h::{__stderrp, fflush, fprintf, fputs};
-use self::stdlib_h::abort;
+
 pub use self::sys__types_h::__darwin_off_t;
 use self::time_h::nanosleep;
 #[c2rust::src_loc = "19:31"]

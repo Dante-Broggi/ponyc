@@ -39,7 +39,6 @@ pub mod sys__types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h:1"]
 pub mod _timespec_h {
@@ -378,7 +377,7 @@ pub mod Core_h {
         LLVMAttributeRef, LLVMBasicBlockRef, LLVMBool, LLVMBuilderRef, LLVMContextRef,
         LLVMMetadataRef, LLVMModuleRef, LLVMPassRegistryRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "469:1"]
         pub fn LLVMInitializeCore(R: LLVMPassRegistryRef);
@@ -811,7 +810,7 @@ pub mod DebugInfo_h {
     #[c2rust::src_loc = "129:5"]
     pub const LLVMDWARFEmissionNone: LLVMDWARFEmissionKind = 0;
     use super::Types_h::{LLVMBool, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef};
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "275:1"]
         pub fn LLVMDIBuilderCreateCompileUnit(
@@ -881,7 +880,7 @@ pub mod hash_h {
     }
     #[c2rust::src_loc = "16:1"]
     pub type bitmap_t = usize;
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
@@ -962,7 +961,7 @@ pub mod fun_h {
     pub type cmp_fn = Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> bool>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
@@ -995,7 +994,7 @@ pub mod symtab_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:1"]
 pub mod stringtab_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "9:23"]
         pub type strlist_t;
@@ -1062,7 +1061,7 @@ pub mod frame_h {
         pub stats: typecheck_stats_t,
         pub errors: *mut errors_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
 }
@@ -1169,7 +1168,7 @@ pub mod pass_h {
         pub plugins: *mut plugins_t,
         pub data: *mut libc::c_void,
     }
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
     extern "C" {
@@ -1410,7 +1409,7 @@ pub mod codegen_h {
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "237:1"]
         pub fn codegen_machine(target: LLVMTargetRef, opt: *mut pass_opt_t)
@@ -1560,7 +1559,7 @@ pub mod gendebug_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/ast.h:1"]
 pub mod ast_h {
-    use super::_size_t_h::size_t;
+
     use super::symtab_h::{ast_t, sym_status_t};
     extern "C" {
         #[c2rust::src_loc = "74:1"]
@@ -1703,7 +1702,7 @@ pub mod lookup_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:13"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "28:1"]
         pub fn ponyint_pool_free_size(size: usize, p: *mut libc::c_void);
@@ -1813,7 +1812,7 @@ use self::pool_h::{
 };
 pub use self::stat_h::stat;
 use self::stdio_h::{__stderrp, fprintf, printf, snprintf};
-use self::string_h::{memset, strlen, strncpy, strtok};
+use self::string_h::{memset, strncpy, strtok};
 pub use self::sys__types_h::{
     __darwin_blkcnt_t, __darwin_blksize_t, __darwin_dev_t, __darwin_gid_t, __darwin_ino64_t,
     __darwin_mode_t, __darwin_off_t, __darwin_uid_t,

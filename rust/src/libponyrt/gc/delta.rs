@@ -10,7 +10,7 @@ pub mod fun_h {
     pub type cmp_fn = Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> bool>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
@@ -44,7 +44,7 @@ pub mod hash_h {
         pub buckets: *mut hashmap_entry_t,
     }
     use super::fun_h::{cmp_fn, free_fn};
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "121:1"]
         pub fn ponyint_hashmap_next(
@@ -116,7 +116,7 @@ pub mod delta_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:2"]
 pub mod pool_h {
-    use super::stddef_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;

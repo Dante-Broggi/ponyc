@@ -30,7 +30,6 @@ pub mod _types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/source.h:1"]
 pub mod source_h {
@@ -42,7 +41,6 @@ pub mod source_h {
         pub m: *mut libc::c_char,
         pub len: usize,
     }
-    use super::_size_t_h::size_t;
 }
 #[c2rust::header_src = "/usr/local/Cellar/llvm@13/13.0.1_2/lib/clang/13.0.1/include/stdarg.h:1"]
 pub mod stdarg_h {
@@ -52,7 +50,6 @@ pub mod stdarg_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/error.h:1"]
 pub mod error_h {
-    use super::_size_t_h::size_t;
 
     use super::source_h::source_t;
     extern "C" {
@@ -523,7 +520,7 @@ pub mod token_h {
     pub const TK_LEX_ERROR: token_id = 1;
     #[c2rust::src_loc = "22:3"]
     pub const TK_EOF: token_id = 0;
-    use super::_size_t_h::size_t;
+
     use super::lexint_h::lexint_t;
     use super::source_h::source_t;
     extern "C" {
@@ -599,7 +596,7 @@ pub mod runetype_h {
         pub __map: __darwin_rune_t,
         pub __types: *mut u32,
     }
-    use super::_types_h::{__darwin_rune_t, __darwin_size_t};
+    use super::_types_h::__darwin_rune_t;
     extern "C" {
         #[c2rust::src_loc = "111:20"]
         pub static mut _DefaultRuneLocale: _RuneLocale;
@@ -607,7 +604,7 @@ pub mod runetype_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:5"]
 pub mod stringtab_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "14:1"]
         pub fn stringtab(string_0: *const libc::c_char) -> *const libc::c_char;
@@ -617,7 +614,7 @@ pub mod stringtab_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:6"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
@@ -635,7 +632,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:7"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(

@@ -8,7 +8,6 @@ pub mod _types_h {
 pub mod _size_t_h {
     #[c2rust::src_loc = "31:1"]
     pub type size_t = usize;
-    use super::_types_h::__darwin_size_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/build/libs/include/llvm-c/Types.h:1"]
 pub mod Types_h {
@@ -511,7 +510,7 @@ pub mod DebugInfo_h {
     #[c2rust::src_loc = "35:3"]
     pub const LLVMDIFlagZero: LLVMDIFlags = 0;
     use super::Types_h::{LLVMBool, LLVMDIBuilderRef, LLVMMetadataRef};
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "1104:1"]
         pub fn LLVMDIBuilderCreateExpression(
@@ -992,7 +991,7 @@ pub mod fun_h {
     pub type cmp_fn = Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> bool>;
     #[c2rust::src_loc = "19:1"]
     pub type free_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "30:1"]
         pub fn ponyint_hash_ptr(p: *const libc::c_void) -> usize;
@@ -1018,7 +1017,7 @@ pub mod hash_h {
         pub item_bitmap: *mut bitmap_t,
         pub buckets: *mut hashmap_entry_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::fun_h::{cmp_fn, free_fn};
     extern "C" {
         #[c2rust::src_loc = "51:1"]
@@ -1099,7 +1098,7 @@ pub mod stringtab_h {
 pub mod ast_h {
     #[c2rust::src_loc = "187:1"]
     pub type ast_ptr_t = *mut ast_t;
-    use super::_size_t_h::size_t;
+
     use super::lexint_h::lexint_t;
     use super::symtab_h::ast_t;
     use super::token_h::token_id;
@@ -1188,7 +1187,7 @@ pub mod frame_h {
         pub stats: typecheck_stats_t,
         pub errors: *mut errors_t,
     }
-    use super::_size_t_h::size_t;
+
     use super::error_h::errors_t;
     use super::symtab_h::ast_t;
 }
@@ -1295,7 +1294,7 @@ pub mod pass_h {
         pub plugins: *mut plugins_t,
         pub data: *mut libc::c_void,
     }
-    use super::_size_t_h::size_t;
+
     use super::frame_h::typecheck_t;
     use super::stringtab_h::strlist_t;
     extern "C" {
@@ -1426,7 +1425,7 @@ pub mod reach_h {
         pub total_type_count: u32,
         pub trait_type_count: u32,
     }
-    use super::_size_t_h::size_t;
+
     use super::hash_h::hashmap_t;
     use super::reify_h::deferred_reification_t;
     use super::symtab_h::ast_t;
@@ -1617,7 +1616,7 @@ pub mod codegen_h {
         LLVMBasicBlockRef, LLVMBuilderRef, LLVMContextRef, LLVMDIBuilderRef, LLVMMetadataRef,
         LLVMModuleRef, LLVMTypeRef, LLVMValueRef,
     };
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "294:1"]
         pub fn codegen_string(
@@ -1710,7 +1709,7 @@ pub mod gentype_h {
     }
     use super::reach_h::compile_opaque_free_fn;
     use super::Types_h::{LLVMMetadataRef, LLVMTypeRef, LLVMValueRef};
-    use super::_size_t_h::size_t;
+
     use super::symtab_h::ast_t;
     extern "C" {
         #[c2rust::src_loc = "9:1"]
@@ -1807,7 +1806,7 @@ pub mod gencall_h {
 pub mod gendesc_h {
     use super::codegen_h::compile_t;
     use super::Types_h::LLVMValueRef;
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "17:1"]
         pub fn gendesc_fetch(c: *mut compile_t, object: LLVMValueRef) -> LLVMValueRef;
@@ -1856,7 +1855,7 @@ pub mod type_subtype_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/mem/pool.h:15"]
 pub mod pool_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "24:22"]
         pub fn ponyint_pool_alloc(index: usize) -> *mut libc::c_void;
@@ -1870,7 +1869,7 @@ pub mod pool_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/ponyassert.h:16"]
 pub mod ponyassert_h {
-    use super::_size_t_h::size_t;
+
     extern "C" {
         #[c2rust::src_loc = "20:1"]
         pub fn ponyint_assert_fail(
@@ -1934,7 +1933,7 @@ pub use self::reach_h::{
     reach_type_t, reach_types_t,
 };
 pub use self::reify_h::{deferred_reification_t, deferred_reify};
-use self::string_h::strlen;
+
 use self::stringtab_h::stringtab;
 pub use self::subtype_h::{
     subtype_kind, subtype_kind_t, SUBTYPE_KIND_ALL, SUBTYPE_KIND_BOXED, SUBTYPE_KIND_NONE,

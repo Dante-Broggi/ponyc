@@ -17,7 +17,7 @@ pub mod _intptr_t_h {
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unwind.h:1"]
 pub mod unwind_h {
-    use super::_uintptr_t_h::uintptr_t;
+
     extern "C" {
         #[c2rust::src_loc = "56:16"]
         pub type _Unwind_Context;
@@ -46,7 +46,7 @@ pub use self::_intptr_t_h::intptr_t;
 pub use self::_types_h::__darwin_intptr_t;
 pub use self::_uintptr_t_h::uintptr_t;
 pub use self::lsda_h::exception_context_t;
-use self::stdlib_h::abort;
+
 use self::unwind_h::{_Unwind_GetIP, _Unwind_GetLanguageSpecificData, _Unwind_GetRegionStart};
 #[derive(Copy, Clone)]
 #[repr(C)]
