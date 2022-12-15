@@ -7,7 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -35,7 +35,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -931,7 +931,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -1849,7 +1849,7 @@ unsafe extern "C" fn deferred_reification_serialise(
 ) {
     let mut d: *mut deferred_reification_t = object as *mut deferred_reification_t;
     let mut dst: *mut deferred_reification_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut deferred_reification_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut deferred_reification_t;
     let ref mut fresh14 = (*dst).ast;
     *fresh14 = pony_serialise_offset(ctx, (*d).ast as *mut libc::c_void) as *mut ast_t;
     let ref mut fresh15 = (*dst).type_typeparams;
@@ -1871,22 +1871,22 @@ unsafe extern "C" fn deferred_reification_deserialise(
 ) {
     let mut d: *mut deferred_reification_t = object as *mut deferred_reification_t;
     let ref mut fresh20 = (*d).ast;
-    *fresh20 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).ast as uintptr_t) as *mut ast_t;
+    *fresh20 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).ast as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh21 = (*d).type_typeparams;
-    *fresh21 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).type_typeparams as uintptr_t)
+    *fresh21 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).type_typeparams as libc::uintptr_t)
         as *mut ast_t;
     let ref mut fresh22 = (*d).type_typeargs;
-    *fresh22 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).type_typeargs as uintptr_t)
+    *fresh22 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).type_typeargs as libc::uintptr_t)
         as *mut ast_t;
     let ref mut fresh23 = (*d).method_typeparams;
-    *fresh23 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).method_typeparams as uintptr_t)
+    *fresh23 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).method_typeparams as libc::uintptr_t)
         as *mut ast_t;
     let ref mut fresh24 = (*d).method_typeargs;
-    *fresh24 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).method_typeargs as uintptr_t)
+    *fresh24 = pony_deserialise_offset(ctx, ast_pony_type(), (*d).method_typeargs as libc::uintptr_t)
         as *mut ast_t;
     let ref mut fresh25 = (*d).thistype;
     *fresh25 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*d).thistype as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*d).thistype as libc::uintptr_t) as *mut ast_t;
 }
 #[c2rust::src_loc = "558:20"]
 static mut deferred_reification_pony: pony_type_t = unsafe {
@@ -1921,7 +1921,7 @@ static mut deferred_reification_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

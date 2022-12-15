@@ -7,7 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -35,7 +35,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -720,7 +720,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *const libc::c_char;
     }
 }
@@ -1345,14 +1345,14 @@ pub mod serialise_h {
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
             size: usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
     }
 }
@@ -1619,7 +1619,7 @@ static mut reach_methods_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -1852,7 +1852,7 @@ static mut reach_mangled_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -2152,7 +2152,7 @@ static mut reach_method_names_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -2403,7 +2403,7 @@ static mut reach_types_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -2541,7 +2541,7 @@ static mut reach_type_cache_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4534,7 +4534,7 @@ unsafe extern "C" fn reach_param_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut p: *mut reach_param_t = object as *mut reach_param_t;
-    let mut dst: *mut reach_param_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_param_t;
+    let mut dst: *mut reach_param_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_param_t;
     let ref mut fresh68 = (*dst).name;
     *fresh68 = pony_serialise_offset(ctx, (*p).name as *mut libc::c_char as *mut libc::c_void)
         as *const libc::c_char;
@@ -4551,12 +4551,12 @@ unsafe extern "C" fn reach_param_deserialise(
 ) {
     let mut p: *mut reach_param_t = object as *mut reach_param_t;
     let ref mut fresh71 = (*p).name;
-    *fresh71 = string_deserialise_offset(ctx, (*p).name as uintptr_t);
+    *fresh71 = string_deserialise_offset(ctx, (*p).name as libc::uintptr_t);
     let ref mut fresh72 = (*p).type_0;
-    *fresh72 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*p).type_0 as uintptr_t)
+    *fresh72 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*p).type_0 as libc::uintptr_t)
         as *mut reach_type_t;
     let ref mut fresh73 = (*p).ast;
-    *fresh73 = pony_deserialise_offset(ctx, ast_pony_type(), (*p).ast as uintptr_t) as *mut ast_t;
+    *fresh73 = pony_deserialise_offset(ctx, ast_pony_type(), (*p).ast as libc::uintptr_t) as *mut ast_t;
 }
 #[c2rust::src_loc = "1568:20"]
 static mut reach_param_pony: pony_type_t = unsafe {
@@ -4591,7 +4591,7 @@ static mut reach_param_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4671,7 +4671,7 @@ unsafe extern "C" fn reach_method_serialise(
 ) {
     let mut m: *mut reach_method_t = object as *mut reach_method_t;
     let mut dst: *mut reach_method_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut reach_method_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_method_t;
     let ref mut fresh74 = (*dst).name;
     *fresh74 = pony_serialise_offset(ctx, (*m).name as *mut libc::c_char as *mut libc::c_void)
         as *const libc::c_char;
@@ -4730,25 +4730,25 @@ unsafe extern "C" fn reach_method_deserialise(
 ) {
     let mut m: *mut reach_method_t = object as *mut reach_method_t;
     let ref mut fresh83 = (*m).name;
-    *fresh83 = string_deserialise_offset(ctx, (*m).name as uintptr_t);
+    *fresh83 = string_deserialise_offset(ctx, (*m).name as libc::uintptr_t);
     let ref mut fresh84 = (*m).mangled_name;
-    *fresh84 = string_deserialise_offset(ctx, (*m).mangled_name as uintptr_t);
+    *fresh84 = string_deserialise_offset(ctx, (*m).mangled_name as libc::uintptr_t);
     let ref mut fresh85 = (*m).full_name;
-    *fresh85 = string_deserialise_offset(ctx, (*m).full_name as uintptr_t);
+    *fresh85 = string_deserialise_offset(ctx, (*m).full_name as libc::uintptr_t);
     let ref mut fresh86 = (*m).fun;
-    *fresh86 = pony_deserialise_offset(ctx, deferred_reification_pony_type(), (*m).fun as uintptr_t)
+    *fresh86 = pony_deserialise_offset(ctx, deferred_reification_pony_type(), (*m).fun as libc::uintptr_t)
         as *mut deferred_reification_t;
     let ref mut fresh87 = (*m).typeargs;
     *fresh87 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*m).typeargs as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*m).typeargs as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh88 = (*m).subordinate;
-    *fresh88 = pony_deserialise_offset(ctx, reach_method_pony_type(), (*m).subordinate as uintptr_t)
+    *fresh88 = pony_deserialise_offset(ctx, reach_method_pony_type(), (*m).subordinate as libc::uintptr_t)
         as *mut reach_method_t;
     if (*m).param_count > 0 {
         let ref mut fresh89 = (*m).params;
         *fresh89 = pony_deserialise_block(
             ctx,
-            (*m).params as uintptr_t,
+            (*m).params as libc::uintptr_t,
             ((*m).param_count)
                 .wrapping_mul(::core::mem::size_of::<reach_param_t>() as libc::c_ulong),
         ) as *mut reach_param_t;
@@ -4765,7 +4765,7 @@ unsafe extern "C" fn reach_method_deserialise(
         *fresh90 = 0 as *mut reach_param_t;
     }
     let ref mut fresh91 = (*m).result;
-    *fresh91 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*m).result as uintptr_t)
+    *fresh91 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*m).result as libc::uintptr_t)
         as *mut reach_type_t;
 }
 #[c2rust::src_loc = "1702:20"]
@@ -4801,7 +4801,7 @@ static mut reach_method_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4839,7 +4839,7 @@ unsafe extern "C" fn reach_method_name_serialise(
 ) {
     let mut n: *mut reach_method_name_t = object as *mut reach_method_name_t;
     let mut dst: *mut reach_method_name_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut reach_method_name_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_method_name_t;
     (*dst).id = (*n).id;
     (*dst).cap = (*n).cap;
     let ref mut fresh92 = (*dst).name;
@@ -4868,7 +4868,7 @@ unsafe extern "C" fn reach_method_name_deserialise(
 ) {
     let mut n: *mut reach_method_name_t = object as *mut reach_method_name_t;
     let ref mut fresh93 = (*n).name;
-    *fresh93 = string_deserialise_offset(ctx, (*n).name as uintptr_t);
+    *fresh93 = string_deserialise_offset(ctx, (*n).name as libc::uintptr_t);
     reach_methods_deserialise(
         ctx,
         &mut (*n).r_methods as *mut reach_methods_t as *mut libc::c_void,
@@ -4911,7 +4911,7 @@ static mut reach_method_name_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4951,7 +4951,7 @@ unsafe extern "C" fn reach_field_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut f: *mut reach_field_t = object as *mut reach_field_t;
-    let mut dst: *mut reach_field_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_field_t;
+    let mut dst: *mut reach_field_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_field_t;
     let ref mut fresh94 = (*dst).ast;
     *fresh94 = pony_serialise_offset(ctx, (*f).ast as *mut libc::c_void) as *mut ast_t;
     let ref mut fresh95 = (*dst).type_0;
@@ -4965,9 +4965,9 @@ unsafe extern "C" fn reach_field_deserialise(
 ) {
     let mut f: *mut reach_field_t = object as *mut reach_field_t;
     let ref mut fresh96 = (*f).ast;
-    *fresh96 = pony_deserialise_offset(ctx, ast_pony_type(), (*f).ast as uintptr_t) as *mut ast_t;
+    *fresh96 = pony_deserialise_offset(ctx, ast_pony_type(), (*f).ast as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh97 = (*f).type_0;
-    *fresh97 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*f).type_0 as uintptr_t)
+    *fresh97 = pony_deserialise_offset(ctx, reach_type_pony_type(), (*f).type_0 as libc::uintptr_t)
         as *mut reach_type_t;
 }
 #[c2rust::src_loc = "1821:20"]
@@ -5003,7 +5003,7 @@ static mut reach_field_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -5077,7 +5077,7 @@ unsafe extern "C" fn reach_type_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut t: *mut reach_type_t = object as *mut reach_type_t;
-    let mut dst: *mut reach_type_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_type_t;
+    let mut dst: *mut reach_type_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_type_t;
     let ref mut fresh98 = (*dst).name;
     *fresh98 = pony_serialise_offset(ctx, (*t).name as *mut libc::c_char as *mut libc::c_void)
         as *const libc::c_char;
@@ -5140,21 +5140,21 @@ unsafe extern "C" fn reach_type_deserialise(
 ) {
     let mut t: *mut reach_type_t = object as *mut reach_type_t;
     let ref mut fresh105 = (*t).name;
-    *fresh105 = string_deserialise_offset(ctx, (*t).name as uintptr_t);
+    *fresh105 = string_deserialise_offset(ctx, (*t).name as libc::uintptr_t);
     let ref mut fresh106 = (*t).mangle;
-    *fresh106 = string_deserialise_offset(ctx, (*t).mangle as uintptr_t);
+    *fresh106 = string_deserialise_offset(ctx, (*t).mangle as libc::uintptr_t);
     let ref mut fresh107 = (*t).ast;
-    *fresh107 = pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast as uintptr_t) as *mut ast_t;
+    *fresh107 = pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh108 = (*t).ast_cap;
     *fresh108 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast_cap as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*t).ast_cap as libc::uintptr_t) as *mut ast_t;
     reach_method_names_deserialise(
         ctx,
         &mut (*t).methods as *mut reach_method_names_t as *mut libc::c_void,
     );
     let ref mut fresh109 = (*t).bare_method;
     *fresh109 =
-        pony_deserialise_offset(ctx, reach_method_pony_type(), (*t).bare_method as uintptr_t)
+        pony_deserialise_offset(ctx, reach_method_pony_type(), (*t).bare_method as libc::uintptr_t)
             as *mut reach_method_t;
     reach_type_cache_deserialise(
         ctx,
@@ -5164,7 +5164,7 @@ unsafe extern "C" fn reach_type_deserialise(
         let ref mut fresh110 = (*t).fields;
         *fresh110 = pony_deserialise_block(
             ctx,
-            (*t).fields as uintptr_t,
+            (*t).fields as libc::uintptr_t,
             ((*t).field_count as libc::c_ulong)
                 .wrapping_mul(::core::mem::size_of::<reach_field_t>() as libc::c_ulong),
         ) as *mut reach_field_t;
@@ -5214,7 +5214,7 @@ static mut reach_type_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -5246,7 +5246,7 @@ unsafe extern "C" fn reach_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut r: *mut reach_t = object as *mut reach_t;
-    let mut dst: *mut reach_t = (buf as uintptr_t).wrapping_add(offset) as *mut reach_t;
+    let mut dst: *mut reach_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut reach_t;
     reach_types_serialise(
         ctx,
         &mut (*r).types as *mut reach_types_t as *mut libc::c_void,
@@ -5302,7 +5302,7 @@ static mut reach_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

@@ -16,7 +16,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -50,7 +50,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -192,7 +192,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *const libc::c_char;
         #[c2rust::src_loc = "14:1"]
         pub fn stringtab(string: *const libc::c_char) -> *const libc::c_char;
@@ -223,7 +223,7 @@ pub mod serialise_h {
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
             size: usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "37:1"]
@@ -352,7 +352,7 @@ unsafe extern "C" fn source_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut source: *mut source_t = object as *mut source_t;
-    let mut dst: *mut source_t = (buf as uintptr_t).wrapping_add(offset) as *mut source_t;
+    let mut dst: *mut source_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut source_t;
     let ref mut fresh4 = (*dst).file;
     *fresh4 = pony_serialise_offset(
         ctx,
@@ -366,10 +366,10 @@ unsafe extern "C" fn source_serialise(
 unsafe extern "C" fn source_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut libc::c_void) {
     let mut source: *mut source_t = object as *mut source_t;
     let ref mut fresh6 = (*source).file;
-    *fresh6 = string_deserialise_offset(ctx, (*source).file as uintptr_t);
+    *fresh6 = string_deserialise_offset(ctx, (*source).file as libc::uintptr_t);
     let ref mut fresh7 = (*source).m;
     *fresh7 =
-        pony_deserialise_block(ctx, (*source).m as uintptr_t, (*source).len) as *mut libc::c_char;
+        pony_deserialise_block(ctx, (*source).m as libc::uintptr_t, (*source).len) as *mut libc::c_char;
 }
 #[c2rust::src_loc = "111:20"]
 static mut source_pony: pony_type_t = unsafe {
@@ -404,7 +404,7 @@ static mut source_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

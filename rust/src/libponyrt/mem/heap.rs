@@ -42,7 +42,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h:1"]
 pub mod _pthread_cond_t_h {
@@ -204,7 +204,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -338,7 +338,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub struct C2RustUnnamed {
         pub object: *mut mpmcq_node_t,
-        pub counter: uintptr_t,
+        pub counter: libc::uintptr_t,
     }
     use super::_uintptr_t_h::uintptr_t;
     extern "C" {
@@ -1014,14 +1014,14 @@ pub unsafe extern "C" fn ponyint_heap_realloc(
         < (10 as libc::c_int - 1 as libc::c_int - 5 as libc::c_int + 1 as libc::c_int)
             as libc::c_ulong
     {
-        let mut ext: *mut libc::c_void = (p as uintptr_t
+        let mut ext: *mut libc::c_void = (p as libc::uintptr_t
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
         oldsize = ((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) as libc::c_ulong)
-            .wrapping_sub((p as uintptr_t).wrapping_sub(ext as uintptr_t));
+            .wrapping_sub((p as libc::uintptr_t).wrapping_sub(ext as libc::uintptr_t));
     } else {
         oldsize =
-            ((*chunk).size).wrapping_sub((p as uintptr_t).wrapping_sub((*chunk).m as uintptr_t));
+            ((*chunk).size).wrapping_sub((p as libc::uintptr_t).wrapping_sub((*chunk).m as libc::uintptr_t));
     }
     if copy <= size {
     } else {
@@ -1101,11 +1101,11 @@ pub unsafe extern "C" fn ponyint_heap_mark(
             (*chunk).shallow = 0 as libc::c_int as u32;
         }
     } else {
-        let mut ext: *mut libc::c_void = (p as uintptr_t
+        let mut ext: *mut libc::c_void = (p as libc::uintptr_t
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
-            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as uintptr_t
+            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as libc::uintptr_t
                 >> 5 as libc::c_int)) as u32;
         marked = (*chunk).slots & slot == 0 as libc::c_int as libc::c_uint;
         if p == ext {
@@ -1131,11 +1131,11 @@ pub unsafe extern "C" fn ponyint_heap_mark_shallow(
     {
         (*chunk).shallow = 0 as libc::c_int as u32;
     } else {
-        let mut ext: *mut libc::c_void = (p as uintptr_t
+        let mut ext: *mut libc::c_void = (p as libc::uintptr_t
             & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
                 as libc::c_ulong) as *mut libc::c_void;
         let mut slot: u32 = ((1 as libc::c_int)
-            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as uintptr_t
+            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as libc::uintptr_t
                 >> 5 as libc::c_int)) as u32;
         let ref mut fresh22 = (*chunk).shallow;
         *fresh22 &= !slot;
@@ -1157,12 +1157,12 @@ pub unsafe extern "C" fn ponyint_heap_free(mut chunk: *mut chunk_t, mut p: *mut 
         }
         return;
     }
-    let mut ext: *mut libc::c_void = (p as uintptr_t
+    let mut ext: *mut libc::c_void = (p as libc::uintptr_t
         & !((((1 as libc::c_int) << 5 as libc::c_int) << (*chunk).size) - 1 as libc::c_int)
             as libc::c_ulong) as *mut libc::c_void;
     if p == ext {
         let mut slot: u32 = ((1 as libc::c_int)
-            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as uintptr_t
+            << ((ext as *mut libc::c_char).offset_from((*chunk).m) as libc::c_long as libc::uintptr_t
                 >> 5 as libc::c_int)) as u32;
         if (*chunk).finalisers & slot != 0 as libc::c_int as libc::c_uint {
             ((**(p as *mut *const pony_type_t)).final_0).expect("non-null function pointer")(p);

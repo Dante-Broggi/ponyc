@@ -9,7 +9,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -80,7 +80,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -271,7 +271,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *const libc::c_char;
     }
 }
@@ -324,7 +324,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -468,7 +468,7 @@ static mut symtab_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -996,7 +996,7 @@ unsafe extern "C" fn symbol_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut sym: *mut symbol_t = object as *mut symbol_t;
-    let mut dst: *mut symbol_t = (buf as uintptr_t).wrapping_add(offset) as *mut symbol_t;
+    let mut dst: *mut symbol_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut symbol_t;
     let ref mut fresh1 = (*dst).name;
     *fresh1 = pony_serialise_offset(ctx, (*sym).name as *mut libc::c_char as *mut libc::c_void)
         as *const libc::c_char;
@@ -1009,9 +1009,9 @@ unsafe extern "C" fn symbol_serialise(
 unsafe extern "C" fn symbol_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut libc::c_void) {
     let mut sym: *mut symbol_t = object as *mut symbol_t;
     let ref mut fresh3 = (*sym).name;
-    *fresh3 = string_deserialise_offset(ctx, (*sym).name as uintptr_t);
+    *fresh3 = string_deserialise_offset(ctx, (*sym).name as libc::uintptr_t);
     let ref mut fresh4 = (*sym).def;
-    *fresh4 = pony_deserialise_offset(ctx, ast_pony_type(), (*sym).def as uintptr_t) as *mut ast_t;
+    *fresh4 = pony_deserialise_offset(ctx, ast_pony_type(), (*sym).def as libc::uintptr_t) as *mut ast_t;
 }
 #[c2rust::src_loc = "386:20"]
 static mut symbol_pony: pony_type_t = unsafe {
@@ -1046,7 +1046,7 @@ static mut symbol_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

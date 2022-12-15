@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
@@ -72,7 +72,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -168,12 +168,12 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
             size: usize,
         ) -> *mut libc::c_void;
     }
@@ -994,8 +994,8 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise(
     mut offset: usize,
 ) {
     let mut map: *mut hashmap_t = object as *mut hashmap_t;
-    let mut dst: *mut hashmap_t = (buf as uintptr_t).wrapping_add(offset) as *mut hashmap_t;
-    let mut bitmap_offset: uintptr_t =
+    let mut dst: *mut hashmap_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut hashmap_t;
+    let mut bitmap_offset: libc::uintptr_t =
         pony_serialise_offset(ctx, (*map).item_bitmap as *mut libc::c_void);
     (*dst).count = (*map).count;
     (*dst).size = (*map).size;
@@ -1014,7 +1014,7 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise(
         }) as libc::c_ulong,
     );
     memcpy(
-        (buf as uintptr_t).wrapping_add(bitmap_offset) as *mut libc::c_void,
+        (buf as libc::uintptr_t).wrapping_add(bitmap_offset) as *mut libc::c_void,
         (*map).item_bitmap as *const libc::c_void,
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>() as libc::c_ulong)
@@ -1023,7 +1023,7 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise(
                     .wrapping_mul(::core::mem::size_of::<hashmap_entry_t>() as libc::c_ulong),
             ),
     );
-    let mut dst_buckets: *mut hashmap_entry_t = (buf as uintptr_t)
+    let mut dst_buckets: *mut hashmap_entry_t = (buf as libc::uintptr_t)
         .wrapping_add(bitmap_offset)
         .wrapping_add(bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>() as libc::c_ulong))
         as *mut hashmap_entry_t;
@@ -1066,7 +1066,7 @@ pub unsafe extern "C" fn ponyint_hashmap_deserialise(
     let ref mut fresh23 = (*map).item_bitmap;
     *fresh23 = pony_deserialise_block(
         ctx,
-        (*map).item_bitmap as uintptr_t,
+        (*map).item_bitmap as libc::uintptr_t,
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>() as libc::c_ulong)
             .wrapping_add(
@@ -1092,6 +1092,6 @@ pub unsafe extern "C" fn ponyint_hashmap_deserialise(
             break;
         }
         let ref mut fresh25 = (*((*map).buckets).offset(i as isize)).ptr;
-        *fresh25 = pony_deserialise_offset(ctx, elem_type, elem as uintptr_t);
+        *fresh25 = pony_deserialise_offset(ctx, elem_type, elem as libc::uintptr_t);
     }
 }

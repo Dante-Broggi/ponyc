@@ -7,7 +7,7 @@ pub mod stddef_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:3"]
 pub mod pony_h {
@@ -102,8 +102,8 @@ unsafe extern "C" fn messageq_push(
     let mut prev: *mut pony_msg_t =
         { ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, last) };
     let mut was_empty: bool =
-        prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
-    prev = (prev as uintptr_t & !(1 as libc::c_int as uintptr_t)) as *mut pony_msg_t;
+        prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
+    prev = (prev as libc::uintptr_t & !(1 as libc::c_int as libc::uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, first);
         // compile_error!("Builtin is not supposed to be used")
@@ -126,8 +126,8 @@ unsafe extern "C" fn messageq_push_single(
         // compile_error!("Builtin is not supposed to be used")
     });
     let mut was_empty: bool =
-        prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
-    prev = (prev as uintptr_t & !(1 as libc::c_int as uintptr_t)) as *mut pony_msg_t;
+        prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
+    prev = (prev as libc::uintptr_t & !(1 as libc::c_int as libc::uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, first);
         // compile_error!("Builtin is not supposed to be used")
@@ -147,7 +147,7 @@ pub unsafe extern "C" fn ponyint_messageq_init(mut q: *mut messageq_t) {
     ({
         ::core::intrinsics::atomic_store_relaxed(
             &mut (*q).head,
-            (stub as uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t,
+            (stub as libc::uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t,
         );
         // compile_error!("Builtin is not supposed to be used")
     });
@@ -164,9 +164,9 @@ pub unsafe extern "C" fn ponyint_messageq_destroy(
     let mut tail: *mut pony_msg_t = (*q).tail;
     if maybe_non_empty as libc::c_int != 0
         || ({ ::core::intrinsics::atomic_load_acq(&mut (*q).head as *mut *mut pony_msg_t) })
-            as uintptr_t
-            & !(1 as libc::c_int as uintptr_t)
-            == tail as uintptr_t
+            as libc::uintptr_t
+            & !(1 as libc::c_int as libc::uintptr_t)
+            == tail as libc::uintptr_t
     {
     } else {
         ponyint_assert_fail(
@@ -270,13 +270,13 @@ pub unsafe extern "C" fn ponyint_thread_messageq_pop(mut q: *mut messageq_t) -> 
 pub unsafe extern "C" fn ponyint_messageq_markempty(mut q: *mut messageq_t) -> bool {
     let mut tail: *mut pony_msg_t = (*q).tail;
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*q).head) };
-    if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
+    if head as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
         return 1 as libc::c_int != 0;
     }
     if head != tail {
         return 0 as libc::c_int != 0;
     }
-    head = (head as uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t;
+    head = (head as libc::uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t;
     return {
         let fresh4 = ::core::intrinsics::atomic_cxchg_acqrel(&mut (*q).head, *&mut tail, head);
         *&mut tail = fresh4.0;
@@ -288,7 +288,7 @@ pub unsafe extern "C" fn ponyint_messageq_markempty(mut q: *mut messageq_t) -> b
 pub unsafe extern "C" fn ponyint_messageq_isempty(mut q: *mut messageq_t) -> bool {
     let mut tail: *mut pony_msg_t = (*q).tail;
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*q).head) };
-    if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
+    if head as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
         return 1 as libc::c_int != 0;
     }
     head == tail

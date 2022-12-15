@@ -7,7 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
@@ -81,7 +81,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -133,7 +133,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
     }
 }
@@ -386,7 +386,7 @@ pub unsafe extern "C" fn ponyint_list_serialise(
     mut offset: usize,
 ) {
     let mut list: *mut list_t = object as *mut list_t;
-    let mut dst: *mut list_t = (buf as uintptr_t).wrapping_add(offset) as *mut list_t;
+    let mut dst: *mut list_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut list_t;
     let ref mut fresh6 = (*dst).data;
     *fresh6 = pony_serialise_offset(ctx, (*list).data) as *mut libc::c_void;
     let ref mut fresh7 = (*dst).next;
@@ -402,7 +402,7 @@ pub unsafe extern "C" fn ponyint_list_deserialise(
 ) {
     let mut list: *mut list_t = object as *mut list_t;
     let ref mut fresh8 = (*list).data;
-    *fresh8 = pony_deserialise_offset(ctx, elem_type, (*list).data as uintptr_t);
+    *fresh8 = pony_deserialise_offset(ctx, elem_type, (*list).data as libc::uintptr_t);
     let ref mut fresh9 = (*list).next;
-    *fresh9 = pony_deserialise_offset(ctx, list_type, (*list).next as uintptr_t) as *mut list_t;
+    *fresh9 = pony_deserialise_offset(ctx, list_type, (*list).next as libc::uintptr_t) as *mut list_t;
 }

@@ -7,7 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h:1"]
 pub mod _intptr_t_h {
@@ -22,11 +22,11 @@ pub mod unwind_h {
         #[c2rust::src_loc = "56:16"]
         pub type _Unwind_Context;
         #[c2rust::src_loc = "265:1"]
-        pub fn _Unwind_GetLanguageSpecificData(context: *mut _Unwind_Context) -> uintptr_t;
+        pub fn _Unwind_GetLanguageSpecificData(context: *mut _Unwind_Context) -> libc::uintptr_t;
         #[c2rust::src_loc = "264:1"]
-        pub fn _Unwind_GetRegionStart(context: *mut _Unwind_Context) -> uintptr_t;
+        pub fn _Unwind_GetRegionStart(context: *mut _Unwind_Context) -> libc::uintptr_t;
         #[c2rust::src_loc = "220:1"]
-        pub fn _Unwind_GetIP(context: *mut _Unwind_Context) -> uintptr_t;
+        pub fn _Unwind_GetIP(context: *mut _Unwind_Context) -> libc::uintptr_t;
     }
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/lang/lsda.h:1"]
@@ -52,10 +52,10 @@ use self::unwind_h::{_Unwind_GetIP, _Unwind_GetLanguageSpecificData, _Unwind_Get
 #[repr(C)]
 #[c2rust::src_loc = "10:16"]
 pub struct lsda_t {
-    pub region_start: uintptr_t,
-    pub ip: uintptr_t,
-    pub ip_offset: uintptr_t,
-    pub landing_pads: uintptr_t,
+    pub region_start: libc::uintptr_t,
+    pub ip: libc::uintptr_t,
+    pub ip_offset: libc::uintptr_t,
+    pub landing_pads: libc::uintptr_t,
     pub type_table: *const u8,
     pub call_site_table: *const u8,
     pub action_table: *const u8,
@@ -98,8 +98,8 @@ pub const DW_EH_PE_pcrel: C2RustUnnamed = 16;
 pub type C2RustUnnamed = libc::c_uint;
 #[c2rust::src_loc = "45:1"]
 unsafe extern "C" fn read_sleb128(mut data: *mut *const u8) -> intptr_t {
-    let mut result: uintptr_t = 0 as libc::c_int as uintptr_t;
-    let mut shift: uintptr_t = 0 as libc::c_int as uintptr_t;
+    let mut result: libc::uintptr_t = 0 as libc::c_int as libc::uintptr_t;
+    let mut shift: libc::uintptr_t = 0 as libc::c_int as libc::uintptr_t;
     let mut byte: libc::c_uchar = 0;
     let mut p: *const u8 = *data;
     loop {
@@ -108,23 +108,23 @@ unsafe extern "C" fn read_sleb128(mut data: *mut *const u8) -> intptr_t {
         byte = *fresh0;
         result |= ((byte as libc::c_int & 0x7f as libc::c_int) << shift) as libc::c_ulong;
         shift = (shift as libc::c_ulong).wrapping_add(7 as libc::c_int as libc::c_ulong)
-            as uintptr_t as uintptr_t;
+            as libc::uintptr_t as libc::uintptr_t;
         if !(byte as libc::c_int & 0x80 as libc::c_int != 0) {
             break;
         }
     }
     if byte as libc::c_int & 0x40 as libc::c_int != 0
-        && shift < (::core::mem::size_of::<uintptr_t>() as libc::c_ulong) << 3 as libc::c_int
+        && shift < (::core::mem::size_of::<libc::uintptr_t>() as libc::c_ulong) << 3 as libc::c_int
     {
-        result |= !(0 as libc::c_int as uintptr_t) << shift;
+        result |= !(0 as libc::c_int as libc::uintptr_t) << shift;
     }
     *data = p;
     result as intptr_t
 }
 #[c2rust::src_loc = "66:1"]
-unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> uintptr_t {
-    let mut result: uintptr_t = 0 as libc::c_int as uintptr_t;
-    let mut shift: uintptr_t = 0 as libc::c_int as uintptr_t;
+unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> libc::uintptr_t {
+    let mut result: libc::uintptr_t = 0 as libc::c_int as libc::uintptr_t;
+    let mut shift: libc::uintptr_t = 0 as libc::c_int as libc::uintptr_t;
     let mut byte: libc::c_uchar = 0;
     let mut p: *const u8 = *data;
     loop {
@@ -133,7 +133,7 @@ unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> uintptr_t {
         byte = *fresh1;
         result |= ((byte as libc::c_int & 0x7f as libc::c_int) << shift) as libc::c_ulong;
         shift = (shift as libc::c_ulong).wrapping_add(7 as libc::c_int as libc::c_ulong)
-            as uintptr_t as uintptr_t;
+            as libc::uintptr_t as libc::uintptr_t;
         if !(byte as libc::c_int & 0x80 as libc::c_int != 0) {
             break;
         }
@@ -142,43 +142,43 @@ unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> uintptr_t {
     result
 }
 #[c2rust::src_loc = "84:1"]
-unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8) -> uintptr_t {
+unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8) -> libc::uintptr_t {
     let mut p: *const u8 = *data;
     if encoding as libc::c_int == DW_EH_PE_omit as libc::c_int {
-        return 0 as libc::c_int as uintptr_t;
+        return 0 as libc::c_int as libc::uintptr_t;
     }
-    let mut result: uintptr_t = 0;
+    let mut result: libc::uintptr_t = 0;
     match encoding as libc::c_int & 0xf as libc::c_int {
         0 => {
-            result = *(p as *mut uintptr_t);
-            p = p.offset(::core::mem::size_of::<uintptr_t>() as libc::c_ulong as isize);
+            result = *(p as *mut libc::uintptr_t);
+            p = p.offset(::core::mem::size_of::<libc::uintptr_t>() as libc::c_ulong as isize);
         }
         2 => {
-            result = *(p as *mut u16) as uintptr_t;
+            result = *(p as *mut u16) as libc::uintptr_t;
             p = p.offset(::core::mem::size_of::<u16>() as libc::c_ulong as isize);
         }
         3 => {
-            result = *(p as *mut u32) as uintptr_t;
+            result = *(p as *mut u32) as libc::uintptr_t;
             p = p.offset(::core::mem::size_of::<u32>() as libc::c_ulong as isize);
         }
         4 => {
-            result = *(p as *mut u64) as uintptr_t;
+            result = *(p as *mut u64) as libc::uintptr_t;
             p = p.offset(::core::mem::size_of::<u64>() as libc::c_ulong as isize);
         }
         10 => {
-            result = *(p as *mut i16) as uintptr_t;
+            result = *(p as *mut i16) as libc::uintptr_t;
             p = p.offset(::core::mem::size_of::<i16>() as libc::c_ulong as isize);
         }
         11 => {
-            result = *(p as *mut i32) as uintptr_t;
+            result = *(p as *mut i32) as libc::uintptr_t;
             p = p.offset(::core::mem::size_of::<i32>() as libc::c_ulong as isize);
         }
         12 => {
-            result = *(p as *mut i64) as uintptr_t;
+            result = *(p as *mut i64) as libc::uintptr_t;
             p = p.offset(::core::mem::size_of::<i64>() as libc::c_ulong as isize);
         }
         9 => {
-            result = read_sleb128(&mut p) as uintptr_t;
+            result = read_sleb128(&mut p) as libc::uintptr_t;
         }
         1 => {
             result = read_uleb128(&mut p);
@@ -191,8 +191,8 @@ unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8
     result
 }
 #[c2rust::src_loc = "148:1"]
-unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: uintptr_t) -> uintptr_t {
-    let mut start: uintptr_t = *data as uintptr_t;
+unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: libc::uintptr_t) -> libc::uintptr_t {
+    let mut start: libc::uintptr_t = *data as libc::uintptr_t;
     let mut p: *const u8 = *data;
     let fresh2 = p;
     p = p.offset(1);
@@ -201,18 +201,18 @@ unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: uintp
     if encoding as libc::c_int == DW_EH_PE_omit as libc::c_int {
         return def;
     }
-    let mut result: uintptr_t = read_encoded_ptr(data, encoding);
+    let mut result: libc::uintptr_t = read_encoded_ptr(data, encoding);
     match encoding as libc::c_int & 0x70 as libc::c_int {
         0 => {}
         16 => {
-            result = (result as libc::c_ulong).wrapping_add(start) as uintptr_t as uintptr_t;
+            result = (result as libc::c_ulong).wrapping_add(start) as libc::uintptr_t as libc::uintptr_t;
         }
         32 | 48 | 64 | 80 | _ => {
             abort();
         }
     }
     if encoding as libc::c_int & DW_EH_PE_indirect as libc::c_int != 0 {
-        result = *(result as *mut uintptr_t);
+        result = *(result as *mut libc::uintptr_t);
     }
     result
 }
@@ -236,7 +236,7 @@ unsafe extern "C" fn lsda_init(
         let ref mut fresh4 = (*lsda).type_table;
         *fresh4 = read_uleb128(&mut data) as *const u8;
         let ref mut fresh5 = (*lsda).type_table;
-        *fresh5 = (*fresh5).offset(data as uintptr_t as isize);
+        *fresh5 = (*fresh5).offset(data as libc::uintptr_t as isize);
     } else {
         let ref mut fresh6 = (*lsda).type_table;
         *fresh6 = 0 as *const u8;
@@ -244,7 +244,7 @@ unsafe extern "C" fn lsda_init(
     let fresh7 = data;
     data = data.offset(1);
     (*lsda).call_site_encoding = *fresh7;
-    let mut length: uintptr_t = read_uleb128(&mut data);
+    let mut length: libc::uintptr_t = read_uleb128(&mut data);
     let ref mut fresh8 = (*lsda).call_site_table;
     *fresh8 = data;
     let ref mut fresh9 = (*lsda).action_table;
@@ -255,7 +255,7 @@ unsafe extern "C" fn lsda_init(
 #[c2rust::src_loc = "219:1"]
 pub unsafe extern "C" fn ponyint_lsda_scan(
     mut context: *mut exception_context_t,
-    mut lp: *mut uintptr_t,
+    mut lp: *mut libc::uintptr_t,
 ) -> bool {
     let mut lsda: lsda_t = lsda_t {
         region_start: 0,
@@ -273,9 +273,9 @@ pub unsafe extern "C" fn ponyint_lsda_scan(
     }
     let mut p: *const u8 = lsda.call_site_table;
     while p < lsda.action_table {
-        let mut start: uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
-        let mut length: uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
-        let mut landing_pad: uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
+        let mut start: libc::uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
+        let mut length: libc::uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
+        let mut landing_pad: libc::uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
         read_uleb128(&mut p);
         if start <= lsda.ip_offset && lsda.ip_offset < start.wrapping_add(length) {
             if landing_pad == 0 {

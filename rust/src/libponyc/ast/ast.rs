@@ -33,7 +33,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -125,7 +125,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -1056,7 +1056,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *const libc::c_char;
     }
 }
@@ -1081,7 +1081,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -5089,7 +5089,7 @@ unsafe extern "C" fn ast_signature_serialise(
 ) {
     let mut ast: *mut ast_t = object as *mut ast_t;
     let mut dst: *mut ast_signature_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut ast_signature_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut ast_signature_t;
     let ref mut fresh48 = (*dst).t;
     *fresh48 = pony_serialise_offset(ctx, (*ast).t as *mut libc::c_void) as *mut token_signature_t;
     let ref mut fresh49 = (*dst).child;
@@ -5137,7 +5137,7 @@ static mut ast_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -5238,7 +5238,7 @@ unsafe extern "C" fn ast_nominal_pkg_id_signature_serialise(
 ) {
     let mut ast: *mut ast_t = object as *mut ast_t;
     let mut dst: *mut ast_signature_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut ast_signature_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut ast_signature_t;
     let mut def: *mut ast_t = ast_data(ast_parent(ast)) as *mut ast_t;
     if !def.is_null() {
     } else {
@@ -5310,7 +5310,7 @@ static mut ast_nominal_pkg_id_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -5395,24 +5395,24 @@ unsafe extern "C" fn ast_deserialise_data(mut ctx: *mut pony_ctx_t, mut ast: *mu
         70 | 151 | 88 | 90 | 89 | 163 | 187 | 184 | 185 | 186 | 198 | 196 | 197 | 192 | 193
         | 194 | 188 | 189 | 190 | 191 | 200 | 201 | 202 | 203 | 204 | 19 | 143 | 160 => {
             let ref mut fresh59 = (*ast).data;
-            *fresh59 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).data as uintptr_t);
+            *fresh59 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).data as libc::uintptr_t);
         }
         8 | 78 => {
             let ref mut fresh60 = (*ast).data;
             *fresh60 =
-                string_deserialise_offset(ctx, (*ast).data as uintptr_t) as *mut libc::c_void;
+                string_deserialise_offset(ctx, (*ast).data as libc::uintptr_t) as *mut libc::c_void;
         }
         136 => {
             let ref mut fresh61 = (*ast).data;
-            *fresh61 = pony_deserialise_offset(ctx, program_pony_type(), (*ast).data as uintptr_t);
+            *fresh61 = pony_deserialise_offset(ctx, program_pony_type(), (*ast).data as libc::uintptr_t);
         }
         137 => {
             let ref mut fresh62 = (*ast).data;
-            *fresh62 = pony_deserialise_offset(ctx, package_pony_type(), (*ast).data as uintptr_t);
+            *fresh62 = pony_deserialise_offset(ctx, package_pony_type(), (*ast).data as libc::uintptr_t);
         }
         138 => {
             let ref mut fresh63 = (*ast).data;
-            *fresh63 = pony_deserialise_offset(ctx, source_pony_type(), (*ast).data as uintptr_t);
+            *fresh63 = pony_deserialise_offset(ctx, source_pony_type(), (*ast).data as libc::uintptr_t);
         }
         161 => {
             operatorliteral_deserialise_data(ast);
@@ -5480,7 +5480,7 @@ unsafe extern "C" fn ast_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut ast: *mut ast_t = object as *mut ast_t;
-    let mut dst: *mut ast_t = (buf as uintptr_t).wrapping_add(offset) as *mut ast_t;
+    let mut dst: *mut ast_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut ast_t;
     let ref mut fresh64 = (*dst).t;
     *fresh64 = pony_serialise_offset(ctx, (*ast).t as *mut libc::c_void) as *mut token_t;
     ast_serialise_data(ctx, ast, dst);
@@ -5503,22 +5503,22 @@ unsafe extern "C" fn ast_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut 
     let mut ast: *mut ast_t = object as *mut ast_t;
     let ref mut fresh70 = (*ast).t;
     *fresh70 =
-        pony_deserialise_offset(ctx, token_pony_type(), (*ast).t as uintptr_t) as *mut token_t;
+        pony_deserialise_offset(ctx, token_pony_type(), (*ast).t as libc::uintptr_t) as *mut token_t;
     ast_deserialise_data(ctx, ast);
     let ref mut fresh71 = (*ast).symtab;
-    *fresh71 = pony_deserialise_offset(ctx, symtab_pony_type(), (*ast).symtab as uintptr_t)
+    *fresh71 = pony_deserialise_offset(ctx, symtab_pony_type(), (*ast).symtab as libc::uintptr_t)
         as *mut symtab_t;
     let ref mut fresh72 = (*ast).parent;
     *fresh72 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).parent as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).parent as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh73 = (*ast).child;
     *fresh73 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).child as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).child as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh74 = (*ast).sibling;
     *fresh74 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).sibling as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*ast).sibling as libc::uintptr_t) as *mut ast_t;
     let ref mut fresh75 = (*ast).annotation_type;
-    *fresh75 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).annotation_type as uintptr_t)
+    *fresh75 = pony_deserialise_offset(ctx, ast_pony_type(), (*ast).annotation_type as libc::uintptr_t)
         as *mut ast_t;
 }
 #[c2rust::src_loc = "2350:20"]
@@ -5553,7 +5553,7 @@ static mut ast_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

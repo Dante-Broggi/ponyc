@@ -29,7 +29,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h:1"]
 pub mod _intptr_t_h {
@@ -198,7 +198,7 @@ pub mod event_h {
     #[repr(C, packed(4))]
     #[c2rust::src_loc = "86:8"]
     pub struct kevent {
-        pub ident: uintptr_t,
+        pub ident: libc::uintptr_t,
         pub filter: i16,
         pub flags: u16,
         pub fflags: u32,
@@ -374,7 +374,7 @@ pub type kevent_flag_t = u32;
 #[c2rust::src_loc = "27:1"]
 unsafe extern "C" fn macro__EV_SET(
     mut kevp: *mut kevent,
-    mut ident: uintptr_t,
+    mut ident: libc::uintptr_t,
     mut filter: i16,
     mut flags: u16,
     mut fflags: u32,
@@ -416,7 +416,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_init() -> *mut asio_backend_t {
     };
     macro__EV_SET(
         &mut new_event,
-        (*b).wakeup[0 as libc::c_int as usize] as uintptr_t,
+        (*b).wakeup[0 as libc::c_int as usize] as libc::uintptr_t,
         -(1 as libc::c_int) as i16,
         0x1 as libc::c_int as u16,
         0 as libc::c_int as u32,
@@ -528,7 +528,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_read(mut ev: *mut asio_even
     if (*ev).flags & ASIO_READ as libc::c_int as libc::c_uint != 0 && !(*ev).readable {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).fd as uintptr_t,
+            (*ev).fd as libc::uintptr_t,
             -(1 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as u16,
             0 as libc::c_int as u32,
@@ -605,7 +605,7 @@ pub unsafe extern "C" fn pony_asio_event_resubscribe_write(mut ev: *mut asio_eve
     if (*ev).flags & ASIO_WRITE as libc::c_int as libc::c_uint != 0 && !(*ev).writeable {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).fd as uintptr_t,
+            (*ev).fd as libc::uintptr_t,
             -(2 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | kqueue_flags) as u16,
             0 as libc::c_int as u32,
@@ -670,7 +670,7 @@ pub unsafe extern "C" fn ponyint_asio_backend_dispatch(
         let mut i: libc::c_int = 0 as libc::c_int;
         while i < count {
             let mut ep: *mut kevent = &mut *fired.as_mut_ptr().offset(i as isize) as *mut kevent;
-            if (*ep).ident == (*b).wakeup[0 as libc::c_int as usize] as uintptr_t
+            if (*ep).ident == (*b).wakeup[0 as libc::c_int as usize] as libc::uintptr_t
                 && (*ep).filter as libc::c_int == -(1 as libc::c_int)
             {
                 let mut terminate: libc::c_char = 0;
@@ -815,7 +815,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
     if (*ev).flags & ASIO_READ as libc::c_int as libc::c_uint != 0 {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).fd as uintptr_t,
+            (*ev).fd as libc::uintptr_t,
             -(1 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | flags) as u16,
             0 as libc::c_int as u32,
@@ -827,7 +827,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
     if (*ev).flags & ASIO_WRITE as libc::c_int as libc::c_uint != 0 {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).fd as uintptr_t,
+            (*ev).fd as libc::uintptr_t,
             -(2 as libc::c_int) as i16,
             (0x1 as libc::c_int as libc::c_uint | flags) as u16,
             0 as libc::c_int as u32,
@@ -839,7 +839,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
     if (*ev).flags & ASIO_TIMER as libc::c_int as libc::c_uint != 0 {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            ev as uintptr_t,
+            ev as libc::uintptr_t,
             -(7 as libc::c_int) as i16,
             (0x1 as libc::c_int | 0x10 as libc::c_int) as u16,
             0x4 as libc::c_int as u32,
@@ -867,7 +867,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
         );
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).nsec as uintptr_t,
+            (*ev).nsec as libc::uintptr_t,
             -(6 as libc::c_int) as i16,
             (0x1 as libc::c_int | 0x20 as libc::c_int) as u16,
             0 as libc::c_int as u32,
@@ -938,7 +938,7 @@ pub unsafe extern "C" fn pony_asio_event_setnsec(mut ev: *mut asio_event_t, mut 
         (*ev).nsec = nsec;
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            ev as uintptr_t,
+            ev as libc::uintptr_t,
             -(7 as libc::c_int) as i16,
             (0x1 as libc::c_int | 0x10 as libc::c_int) as u16,
             0x4 as libc::c_int as u32,
@@ -1013,7 +1013,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
     if (*ev).flags & ASIO_READ as libc::c_int as libc::c_uint != 0 {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).fd as uintptr_t,
+            (*ev).fd as libc::uintptr_t,
             -(1 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
@@ -1025,7 +1025,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
     if (*ev).flags & ASIO_WRITE as libc::c_int as libc::c_uint != 0 {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).fd as uintptr_t,
+            (*ev).fd as libc::uintptr_t,
             -(2 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
@@ -1037,7 +1037,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
     if (*ev).flags & ASIO_TIMER as libc::c_int as libc::c_uint != 0 {
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            ev as uintptr_t,
+            ev as libc::uintptr_t,
             -(7 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,
@@ -1062,7 +1062,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
         );
         macro__EV_SET(
             &mut *event.as_mut_ptr().offset(i as isize),
-            (*ev).nsec as uintptr_t,
+            (*ev).nsec as libc::uintptr_t,
             -(6 as libc::c_int) as i16,
             0x2 as libc::c_int as u16,
             0 as libc::c_int as u32,

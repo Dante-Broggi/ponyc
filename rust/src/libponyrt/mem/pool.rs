@@ -17,7 +17,7 @@ pub mod stddef_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/common/platform.h:3"]
 pub mod platform_h {
@@ -122,14 +122,14 @@ pub union aba_protected_pool_central_t {
 #[c2rust::src_loc = "61:1"]
 pub struct C2RustUnnamed {
     pub object: *mut pool_central_t,
-    pub counter: uintptr_t,
+    pub counter: libc::uintptr_t,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[c2rust::src_loc = "54:16"]
 pub struct pool_central_t {
     pub next: *mut pool_item_t,
-    pub length: uintptr_t,
+    pub length: libc::uintptr_t,
     pub central: *mut pool_central_t,
 }
 #[repr(C)]
@@ -166,7 +166,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -184,7 +184,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -202,7 +202,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -220,7 +220,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -238,7 +238,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -256,7 +256,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0_i32 as uintptr_t,
+                        counter: 0_i32 as libc::uintptr_t,
                     };
                     init
                 },
@@ -274,7 +274,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -292,7 +292,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -310,7 +310,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -328,7 +328,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -346,7 +346,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -364,7 +364,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -382,7 +382,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -400,7 +400,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -418,7 +418,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
@@ -436,7 +436,7 @@ static mut pool_global: [pool_global_t; 16] = [
                 c2rust_unnamed: {
                     let mut init = C2RustUnnamed {
                         object: 0 as *const pool_central_t as *mut pool_central_t,
-                        counter: 0 as libc::c_int as uintptr_t,
+                        counter: 0 as libc::c_int as libc::uintptr_t,
                     };
                     init
                 },
