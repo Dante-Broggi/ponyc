@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:1"]
 pub mod stddef_h {
@@ -279,7 +279,7 @@ pub unsafe extern "C" fn ponyint_hash_str(mut str: *const libc::c_char) -> usize
 #[no_mangle]
 #[c2rust::src_loc = "161:1"]
 pub unsafe extern "C" fn ponyint_hash_ptr(mut p: *const libc::c_void) -> usize {
-    return ponyint_hash_int64(p as uintptr_t as u64) as usize;
+    return ponyint_hash_int64(p as libc::uintptr_t as u64) as usize;
 }
 #[no_mangle]
 #[c2rust::src_loc = "170:1"]

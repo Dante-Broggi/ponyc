@@ -7,7 +7,7 @@ pub mod internal {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
@@ -28,7 +28,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub struct C2RustUnnamed {
         pub object: *mut mpmcq_node_t,
-        pub counter: uintptr_t,
+        pub counter: libc::uintptr_t,
     }
     #[derive(Copy, Clone)]
     #[repr(C)]
@@ -119,7 +119,7 @@ pub unsafe extern "C" fn ponyint_mpmcq_init(mut q: *mut mpmcq_t) {
     });
     let ref mut fresh0 = (*q).tail.c2rust_unnamed.object;
     *fresh0 = node;
-    (*q).tail.c2rust_unnamed.counter = 0 as libc::c_int as uintptr_t;
+    (*q).tail.c2rust_unnamed.counter = 0 as libc::c_int as libc::uintptr_t;
     mpmcq_size_debug(q);
 }
 #[no_mangle]

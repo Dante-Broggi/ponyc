@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/unwind.h:5"]
 pub mod unwind_h {
@@ -47,8 +47,8 @@ pub mod unwind_h {
         pub exception_class: u64,
         pub exception_cleanup:
             Option<unsafe extern "C" fn(_Unwind_Reason_Code, *mut _Unwind_Exception) -> ()>,
-        pub private_1: uintptr_t,
-        pub private_2: uintptr_t,
+        pub private_1: libc::uintptr_t,
+        pub private_2: libc::uintptr_t,
     }
     use super::_uintptr_t_h::uintptr_t;
     extern "C" {
@@ -68,7 +68,7 @@ pub mod lsda_h {
     use super::unwind_h::_Unwind_Context;
     extern "C" {
         #[c2rust::src_loc = "21:1"]
-        pub fn ponyint_lsda_scan(context: *mut exception_context_t, lp: *mut uintptr_t) -> bool;
+        pub fn ponyint_lsda_scan(context: *mut exception_context_t, lp: *mut libc::uintptr_t) -> bool;
     }
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h:1"]
@@ -98,7 +98,7 @@ static mut exception: _Unwind_Exception = _Unwind_Exception {
 };
 #[thread_local]
 #[c2rust::src_loc = "20:38"]
-static mut landing_pad: uintptr_t = 0;
+static mut landing_pad: libc::uintptr_t = 0;
 #[c2rust::src_loc = "22:1"]
 unsafe extern "C" fn exception_cleanup(
     mut _reason: _Unwind_Reason_Code,

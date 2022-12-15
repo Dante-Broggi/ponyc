@@ -14,7 +14,7 @@ pub mod sys__types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -94,7 +94,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -932,14 +932,14 @@ pub mod serialise_h {
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
             size: usize,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -1771,17 +1771,17 @@ unsafe extern "C" fn program_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut program: *mut program_t = object as *mut program_t;
-    let mut dst: *mut program_t = (buf as uintptr_t).wrapping_add(offset) as *mut program_t;
+    let mut dst: *mut program_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut program_t;
     let ref mut fresh13 = (*dst).package_groups;
     *fresh13 = pony_serialise_offset(ctx, (*program).package_groups as *mut libc::c_void)
         as *mut package_group_list_t;
-    let mut ptr_offset: uintptr_t =
+    let mut ptr_offset: libc::uintptr_t =
         pony_serialise_offset(ctx, (*program).signature as *mut libc::c_void);
     let ref mut fresh14 = (*dst).signature;
     *fresh14 = ptr_offset as *mut libc::c_char;
     if !((*program).signature).is_null() {
         let mut dst_sig: *mut libc::c_char =
-            (buf as uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
+            (buf as libc::uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
         memcpy(
             dst_sig as *mut libc::c_void,
             (*program).signature as *const libc::c_void,
@@ -1802,7 +1802,7 @@ unsafe extern "C" fn program_serialise(
     *fresh17 = ptr_offset as *mut libc::c_char;
     if !((*dst).lib_args).is_null() {
         let mut dst_lib: *mut libc::c_char =
-            (buf as uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
+            (buf as libc::uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
         memcpy(
             dst_lib as *mut libc::c_void,
             (*program).lib_args as *const libc::c_void,
@@ -1817,19 +1817,19 @@ unsafe extern "C" fn program_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
     *fresh18 = pony_deserialise_offset(
         ctx,
         package_group_list_pony_type(),
-        (*program).package_groups as uintptr_t,
+        (*program).package_groups as libc::uintptr_t,
     ) as *mut package_group_list_t;
     let ref mut fresh19 = (*program).signature;
     *fresh19 = pony_deserialise_block(
         ctx,
-        (*program).signature as uintptr_t,
+        (*program).signature as libc::uintptr_t,
         64 as libc::c_int as usize,
     ) as *mut libc::c_char;
     let ref mut fresh20 = (*program).libpaths;
-    *fresh20 = pony_deserialise_offset(ctx, strlist_pony_type(), (*program).libpaths as uintptr_t)
+    *fresh20 = pony_deserialise_offset(ctx, strlist_pony_type(), (*program).libpaths as libc::uintptr_t)
         as *mut strlist_t;
     let ref mut fresh21 = (*program).libs;
-    *fresh21 = pony_deserialise_offset(ctx, strlist_pony_type(), (*program).libs as uintptr_t)
+    *fresh21 = pony_deserialise_offset(ctx, strlist_pony_type(), (*program).libs as libc::uintptr_t)
         as *mut strlist_t;
     let ref mut fresh22 = (*program).lib_args;
     *fresh22 = pony_deserialise_block(
@@ -1871,7 +1871,7 @@ static mut program_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

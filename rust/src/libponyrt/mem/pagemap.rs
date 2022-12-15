@@ -2,7 +2,7 @@ use ::libc;
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/lib/llvm/src/clang/lib/Headers/stddef.h:3"]
 pub mod stddef_h {
@@ -76,8 +76,8 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
         if node.is_null() {
             return 0 as *mut chunk_t;
         }
-        let mut ix: uintptr_t =
-            addr as uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
+        let mut ix: libc::uintptr_t =
+            addr as libc::uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
         next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         node = ::core::intrinsics::atomic_load_acq(next_node);
         i = i.wrapping_add(1);
@@ -113,8 +113,8 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
         } else {
             f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
         }
-        let mut ix: uintptr_t =
-            addr as uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
+        let mut ix: libc::uintptr_t =
+            addr as libc::uintptr_t >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
         next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         i = i.wrapping_add(1);
     }
@@ -132,9 +132,9 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
 ) {
     let mut next_node: *mut pagemap_node_t = 0 as *mut pagemap_node_t;
     let mut node: pagemap_node_t = 0 as *mut libc::c_void;
-    let mut ix: uintptr_t = 0 as libc::c_int as uintptr_t;
-    let mut addr_ptr: uintptr_t = addr as uintptr_t;
-    let mut addr_end: uintptr_t = (addr as uintptr_t).wrapping_add(size);
+    let mut ix: libc::uintptr_t = 0 as libc::c_int as libc::uintptr_t;
+    let mut addr_ptr: libc::uintptr_t = addr as libc::uintptr_t;
+    let mut addr_end: libc::uintptr_t = (addr as libc::uintptr_t).wrapping_add(size);
     while addr_ptr < addr_end {
         next_node = &mut root;
         let mut i: usize = 0;
@@ -173,11 +173,11 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
             });
             addr_ptr = (addr_ptr as libc::c_ulong)
                 .wrapping_add(((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong)
-                as uintptr_t as uintptr_t;
+                as libc::uintptr_t as libc::uintptr_t;
             ix = ix.wrapping_add(1);
             next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
             if !(addr_ptr < addr_end
-                && ix <= level[(3 as libc::c_int - 1 as libc::c_int) as usize].mask as uintptr_t)
+                && ix <= level[(3 as libc::c_int - 1 as libc::c_int) as usize].mask as libc::uintptr_t)
             {
                 break;
             }

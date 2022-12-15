@@ -47,7 +47,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:3"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h:3"]
 pub mod _intptr_t_h {
@@ -326,7 +326,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -491,7 +491,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub struct C2RustUnnamed {
         pub object: *mut mpmcq_node_t,
-        pub counter: uintptr_t,
+        pub counter: libc::uintptr_t,
     }
     use super::_uintptr_t_h::uintptr_t;
     extern "C" {
@@ -1319,7 +1319,7 @@ pub unsafe extern "C" fn ponyint_actor_destroy(mut actor: *mut pony_actor_t) {
     let mut head: *mut pony_msg_t = 0 as *mut pony_msg_t;
     loop {
         head = ::core::intrinsics::atomic_load_relaxed(&mut (*actor).q.head);
-        if !(head as uintptr_t & 1 as libc::c_int as uintptr_t != 1 as libc::c_int as uintptr_t) {
+        if !(head as libc::uintptr_t & 1 as libc::c_int as libc::uintptr_t != 1 as libc::c_int as libc::uintptr_t) {
             break;
         }
     }

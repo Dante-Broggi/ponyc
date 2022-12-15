@@ -9,7 +9,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -89,7 +89,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -278,14 +278,14 @@ pub mod serialise_h {
         #[c2rust::src_loc = "46:1"]
         pub fn pony_deserialise_raw(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
             ds_fn: deserialise_raw_fn,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "44:1"]
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -783,7 +783,7 @@ unsafe extern "C" fn string_serialise(
 ) {
     let mut string: *const libc::c_char = object as *const libc::c_char;
     memcpy(
-        (buf as uintptr_t).wrapping_add(offset) as *mut libc::c_void,
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut libc::c_void,
         object,
         (libc::strlen(string)).wrapping_add(1),
     );
@@ -816,7 +816,7 @@ static mut string_pony: _pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -868,7 +868,7 @@ unsafe extern "C" fn string_deserialise(
 #[c2rust::src_loc = "176:1"]
 pub unsafe extern "C" fn string_deserialise_offset(
     mut ctx: *mut pony_ctx_t,
-    mut offset: uintptr_t,
+    mut offset: libc::uintptr_t,
 ) -> *const libc::c_char {
     return pony_deserialise_raw(
         ctx,
@@ -906,7 +906,7 @@ unsafe extern "C" fn strlist_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut list: *mut strlist_t = object as *mut strlist_t;
-    let mut dst: *mut strlist_t = (buf as uintptr_t).wrapping_add(offset) as *mut strlist_t;
+    let mut dst: *mut strlist_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut strlist_t;
     let ref mut fresh3 = (*dst).contents.data;
     *fresh3 = pony_serialise_offset(ctx, (*list).contents.data) as *mut libc::c_void;
     let ref mut fresh4 = (*dst).contents.next;
@@ -917,9 +917,9 @@ unsafe extern "C" fn strlist_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
     let mut list: *mut strlist_t = object as *mut strlist_t;
     let ref mut fresh5 = (*list).contents.data;
     *fresh5 =
-        string_deserialise_offset(ctx, (*list).contents.data as uintptr_t) as *mut libc::c_void;
+        string_deserialise_offset(ctx, (*list).contents.data as libc::uintptr_t) as *mut libc::c_void;
     let ref mut fresh6 = (*list).contents.next;
-    *fresh6 = pony_deserialise_offset(ctx, strlist_pony_type(), (*list).contents.next as uintptr_t)
+    *fresh6 = pony_deserialise_offset(ctx, strlist_pony_type(), (*list).contents.next as libc::uintptr_t)
         as *mut list_t;
 }
 #[c2rust::src_loc = "216:20"]
@@ -955,7 +955,7 @@ static mut strlist_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

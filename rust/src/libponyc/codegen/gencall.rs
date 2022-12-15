@@ -7,7 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -3314,9 +3314,9 @@ pub unsafe extern "C" fn gen_call(mut c: *mut compile_t, mut ast: *mut ast_t) ->
             arg = ast_sibling(arg);
             i += 1;
         }
-        let mut arg_offset: uintptr_t = 0 as libc::c_int as uintptr_t;
+        let mut arg_offset: libc::uintptr_t = 0 as libc::c_int as libc::uintptr_t;
         if bare {
-            arg_offset = 1 as libc::c_int as uintptr_t;
+            arg_offset = 1 as libc::c_int as libc::uintptr_t;
             i -= 1;
         }
         if !func.is_null() {

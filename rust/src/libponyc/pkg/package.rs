@@ -86,7 +86,7 @@ pub mod _pthread_types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -285,7 +285,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -440,7 +440,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
         #[c2rust::src_loc = "36:1"]
         pub fn pony_serialise_offset(ctx: *mut pony_ctx_t, p: *mut libc::c_void) -> usize;
@@ -456,7 +456,7 @@ pub mod serialise_h {
         #[c2rust::src_loc = "42:1"]
         pub fn pony_deserialise_block(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
             size: usize,
         ) -> *mut libc::c_void;
     }
@@ -603,7 +603,7 @@ pub mod mpmcq_h {
     #[c2rust::src_loc = "15:1"]
     pub struct C2RustUnnamed {
         pub object: *mut mpmcq_node_t,
-        pub counter: uintptr_t,
+        pub counter: libc::uintptr_t,
     }
     use super::_uintptr_t_h::uintptr_t;
     extern "C" {
@@ -985,7 +985,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *const libc::c_char;
         #[c2rust::src_loc = "24:1"]
         pub fn string_trace(ctx: *mut pony_ctx_t, string: *const libc::c_char);
@@ -2037,7 +2037,7 @@ static mut package_group_list_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -2257,7 +2257,7 @@ static mut package_set_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4181,7 +4181,7 @@ unsafe extern "C" fn package_signature_serialise(
 ) {
     let mut package: *mut package_t = object as *mut package_t;
     let mut dst: *mut package_signature_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut package_signature_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut package_signature_t;
     let ref mut fresh33 = (*dst).filename;
     *fresh33 = pony_serialise_offset(
         ctx,
@@ -4222,7 +4222,7 @@ static mut package_dep_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4264,7 +4264,7 @@ static mut package_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4345,12 +4345,12 @@ unsafe extern "C" fn package_group_signature_serialise(
 ) {
     let mut group: *mut package_group_t = object as *mut package_group_t;
     let mut dst: *mut package_group_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut package_group_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut package_group_t;
     if !((*group).signature).is_null() {
-        let mut ptr_offset: uintptr_t =
+        let mut ptr_offset: libc::uintptr_t =
             pony_serialise_offset(ctx, (*group).signature as *mut libc::c_void);
         let mut dst_sig: *mut libc::c_char =
-            (buf as uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
+            (buf as libc::uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
         memcpy(
             dst_sig as *mut libc::c_void,
             (*group).signature as *const libc::c_void,
@@ -4393,7 +4393,7 @@ static mut package_group_dep_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4435,7 +4435,7 @@ static mut package_group_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4606,7 +4606,7 @@ unsafe extern "C" fn package_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut package: *mut package_t = object as *mut package_t;
-    let mut dst: *mut package_t = (buf as uintptr_t).wrapping_add(offset) as *mut package_t;
+    let mut dst: *mut package_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut package_t;
     let ref mut fresh40 = (*dst).path;
     *fresh40 = pony_serialise_offset(
         ctx,
@@ -4652,18 +4652,18 @@ unsafe extern "C" fn package_serialise(
 unsafe extern "C" fn package_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut libc::c_void) {
     let mut package: *mut package_t = object as *mut package_t;
     let ref mut fresh47 = (*package).path;
-    *fresh47 = string_deserialise_offset(ctx, (*package).path as uintptr_t);
+    *fresh47 = string_deserialise_offset(ctx, (*package).path as libc::uintptr_t);
     let ref mut fresh48 = (*package).qualified_name;
-    *fresh48 = string_deserialise_offset(ctx, (*package).qualified_name as uintptr_t);
+    *fresh48 = string_deserialise_offset(ctx, (*package).qualified_name as libc::uintptr_t);
     let ref mut fresh49 = (*package).id;
-    *fresh49 = string_deserialise_offset(ctx, (*package).id as uintptr_t);
+    *fresh49 = string_deserialise_offset(ctx, (*package).id as libc::uintptr_t);
     let ref mut fresh50 = (*package).filename;
-    *fresh50 = string_deserialise_offset(ctx, (*package).filename as uintptr_t);
+    *fresh50 = string_deserialise_offset(ctx, (*package).filename as libc::uintptr_t);
     let ref mut fresh51 = (*package).symbol;
-    *fresh51 = string_deserialise_offset(ctx, (*package).symbol as uintptr_t);
+    *fresh51 = string_deserialise_offset(ctx, (*package).symbol as libc::uintptr_t);
     let ref mut fresh52 = (*package).ast;
     *fresh52 =
-        pony_deserialise_offset(ctx, ast_pony_type(), (*package).ast as uintptr_t) as *mut ast_t;
+        pony_deserialise_offset(ctx, ast_pony_type(), (*package).ast as libc::uintptr_t) as *mut ast_t;
     package_set_deserialise(
         ctx,
         &mut (*package).dependencies as *mut package_set_t as *mut libc::c_void,
@@ -4672,7 +4672,7 @@ unsafe extern "C" fn package_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
     *fresh53 = pony_deserialise_offset(
         ctx,
         package_group_pony_type(),
-        (*package).group as uintptr_t,
+        (*package).group as libc::uintptr_t,
     ) as *mut package_group_t;
 }
 #[c2rust::src_loc = "1708:20"]
@@ -4708,7 +4708,7 @@ static mut package_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -4748,14 +4748,14 @@ unsafe extern "C" fn package_group_serialise(
 ) {
     let mut group: *mut package_group_t = object as *mut package_group_t;
     let mut dst: *mut package_group_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut package_group_t;
-    let mut ptr_offset: uintptr_t =
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut package_group_t;
+    let mut ptr_offset: libc::uintptr_t =
         pony_serialise_offset(ctx, (*group).signature as *mut libc::c_void);
     let ref mut fresh54 = (*dst).signature;
     *fresh54 = ptr_offset as *mut libc::c_char;
     if !((*group).signature).is_null() {
         let mut dst_sig: *mut libc::c_char =
-            (buf as uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
+            (buf as libc::uintptr_t).wrapping_add(ptr_offset) as *mut libc::c_char;
         memcpy(
             dst_sig as *mut libc::c_void,
             (*group).signature as *const libc::c_void,
@@ -4779,7 +4779,7 @@ unsafe extern "C" fn package_group_deserialise(
     let ref mut fresh55 = (*group).signature;
     *fresh55 = pony_deserialise_block(
         ctx,
-        (*group).signature as uintptr_t,
+        (*group).signature as libc::uintptr_t,
         64 as libc::c_int as usize,
     ) as *mut libc::c_char;
     package_set_deserialise(
@@ -4820,7 +4820,7 @@ static mut package_group_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };

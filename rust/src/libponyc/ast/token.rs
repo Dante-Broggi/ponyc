@@ -7,7 +7,7 @@ pub mod _types_h {
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h:1"]
 pub mod _uintptr_t_h {
     #[c2rust::src_loc = "34:1"]
-    pub type uintptr_t = libc::c_ulong;
+    pub type uintptr_t = libc::uintptr_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h:1"]
 pub mod _size_t_h {
@@ -45,7 +45,7 @@ pub mod pony_h {
         pub dispatch: pony_dispatch_fn,
         pub final_0: pony_final_fn,
         pub event_notify: u32,
-        pub traits: *mut *mut uintptr_t,
+        pub traits: *mut *mut libc::uintptr_t,
         pub fields: *mut libc::c_void,
         pub vtable: *mut libc::c_void,
     }
@@ -580,7 +580,7 @@ pub mod stringtab_h {
         #[c2rust::src_loc = "27:1"]
         pub fn string_deserialise_offset(
             ctx: *mut pony_ctx_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *const libc::c_char;
     }
 }
@@ -611,7 +611,7 @@ pub mod serialise_h {
         pub fn pony_deserialise_offset(
             ctx: *mut pony_ctx_t,
             t: *const pony_type_t,
-            offset: uintptr_t,
+            offset: libc::uintptr_t,
         ) -> *mut libc::c_void;
     }
 }
@@ -1396,7 +1396,7 @@ unsafe extern "C" fn token_signature_serialise(
 ) {
     let mut token: *mut token_t = object as *mut token_t;
     let mut dst: *mut token_signature_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut token_signature_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut token_signature_t;
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
@@ -1453,7 +1453,7 @@ static mut token_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -1494,7 +1494,7 @@ unsafe extern "C" fn token_docstring_signature_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut dst: *mut token_signature_t =
-        (buf as uintptr_t).wrapping_add(offset) as *mut token_signature_t;
+        (buf as libc::uintptr_t).wrapping_add(offset) as *mut token_signature_t;
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
@@ -1532,7 +1532,7 @@ static mut token_docstring_signature_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
@@ -1577,7 +1577,7 @@ unsafe extern "C" fn token_serialise(
     mut _mutability: libc::c_int,
 ) {
     let mut token: *mut token_t = object as *mut token_t;
-    let mut dst: *mut token_t = (buf as uintptr_t).wrapping_add(offset) as *mut token_t;
+    let mut dst: *mut token_t = (buf as libc::uintptr_t).wrapping_add(offset) as *mut token_t;
     (*dst).id = (*token).id;
     let ref mut fresh13 = (*dst).source;
     *fresh13 = pony_serialise_offset(ctx, (*token).source as *mut libc::c_void) as *mut source_t;
@@ -1610,7 +1610,7 @@ unsafe extern "C" fn token_serialise(
 unsafe extern "C" fn token_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mut libc::c_void) {
     let mut token: *mut token_t = object as *mut token_t;
     let ref mut fresh16 = (*token).source;
-    *fresh16 = pony_deserialise_offset(ctx, source_pony_type(), (*token).source as uintptr_t)
+    *fresh16 = pony_deserialise_offset(ctx, source_pony_type(), (*token).source as libc::uintptr_t)
         as *mut source_t;
     if (*token).id as libc::c_uint == TK_STRING as libc::c_int as libc::c_uint
         || (*token).id as libc::c_uint == TK_ID as libc::c_int as libc::c_uint
@@ -1618,7 +1618,7 @@ unsafe extern "C" fn token_deserialise(mut ctx: *mut pony_ctx_t, mut object: *mu
         let ref mut fresh17 = (*token).c2rust_unnamed.c2rust_unnamed.string;
         *fresh17 = string_deserialise_offset(
             ctx,
-            (*token).c2rust_unnamed.c2rust_unnamed.string as uintptr_t,
+            (*token).c2rust_unnamed.c2rust_unnamed.string as libc::uintptr_t,
         );
     }
 }
@@ -1654,7 +1654,7 @@ static mut token_pony: pony_type_t = unsafe {
             dispatch: None,
             final_0: None,
             event_notify: 0 as libc::c_int as u32,
-            traits: 0 as *const *mut uintptr_t as *mut *mut uintptr_t,
+            traits: 0 as *const *mut libc::uintptr_t as *mut *mut libc::uintptr_t,
             fields: 0 as *const libc::c_void as *mut libc::c_void,
             vtable: 0 as *const libc::c_void as *mut libc::c_void,
         };
