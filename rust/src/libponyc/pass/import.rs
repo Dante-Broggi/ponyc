@@ -501,14 +501,10 @@ pub mod symtab_h {
         pub status: sym_status_t,
         pub branch_count: usize,
     }
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "32:35"]
-    pub struct symtab_t {
-        pub contents: hashmap_t,
-    }
+    pub use crate::libponyc::ast::symtab::symtab_t;
 
-    use super::hash_h::hashmap_t;
+    
     extern "C" {
         #[c2rust::src_loc = "9:16"]
         pub type ast_t;

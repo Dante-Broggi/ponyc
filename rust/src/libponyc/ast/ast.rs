@@ -787,12 +787,8 @@ pub mod hash_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/symtab.h:1"]
 pub mod symtab_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "32:35"]
-    pub struct symtab_t {
-        pub contents: hashmap_t,
-    }
+    pub use crate::libponyc::ast::symtab::symtab_t;
     #[c2rust::src_loc = "12:9"]
     pub type sym_status_t = libc::c_uint;
     #[c2rust::src_loc = "21:3"]
@@ -822,7 +818,7 @@ pub mod symtab_h {
     }
 
     use super::ast_t;
-    use super::hash_h::hashmap_t;
+    
     use super::source_h::pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "32:45"]
