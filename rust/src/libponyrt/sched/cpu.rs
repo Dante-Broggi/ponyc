@@ -165,8 +165,7 @@ pub mod scheduler_h {
     #[c2rust::src_loc = "84:8"]
     pub use crate::libponyrt::sched::scheduler::scheduler_t;
     #[c2rust::src_loc = "33:1"]
-    pub type trace_actor_fn =
-        Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t) -> ()>;
+    pub use crate::libponyrt::sched::scheduler::trace_actor_fn;
     #[c2rust::src_loc = "30:1"]
     pub type trace_object_fn = Option<
         unsafe extern "C" fn(
@@ -177,7 +176,7 @@ pub mod scheduler_h {
         ) -> (),
     >;
 
-    use super::pony_h::{pony_actor_t, pony_type_t};
+    use super::pony_h::pony_type_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/messageq.h:26"]
 pub use crate::libponyrt::actor::messageq::messageq_h;
