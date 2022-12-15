@@ -6,7 +6,7 @@ name = "rust"
 authors = ["C2Rust"]
 version = "0.0.0"
 publish = false
-edition = "2018"
+edition = "2021"
 autobins = false
 
 [lib]
