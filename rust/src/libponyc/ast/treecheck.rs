@@ -777,7 +777,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -818,7 +818,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -874,7 +874,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -947,7 +947,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1023,7 +1023,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1137,7 +1137,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1276,7 +1276,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1315,7 +1315,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1369,7 +1369,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1458,7 +1458,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1615,7 +1615,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1656,7 +1656,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1728,7 +1728,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1767,7 +1767,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1821,7 +1821,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1893,7 +1893,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1944,7 +1944,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -1994,7 +1994,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2045,7 +2045,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2088,7 +2088,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2129,7 +2129,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2266,7 +2266,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2323,7 +2323,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2412,7 +2412,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2484,7 +2484,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2540,7 +2540,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2596,7 +2596,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2652,7 +2652,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2693,7 +2693,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2751,7 +2751,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2815,7 +2815,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2856,7 +2856,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2924,7 +2924,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -2980,7 +2980,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3036,7 +3036,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3092,7 +3092,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3186,7 +3186,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3300,7 +3300,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3342,7 +3342,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3383,7 +3383,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3437,7 +3437,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3553,7 +3553,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3611,7 +3611,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3652,7 +3652,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3691,7 +3691,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3752,7 +3752,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3843,7 +3843,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3917,7 +3917,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -3990,7 +3990,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4063,7 +4063,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4150,7 +4150,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4206,7 +4206,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4262,7 +4262,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4336,7 +4336,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4380,7 +4380,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4458,7 +4458,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4485,7 +4485,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4558,7 +4558,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4736,7 +4736,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4778,7 +4778,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4851,7 +4851,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4893,7 +4893,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -4964,7 +4964,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5131,7 +5131,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5187,7 +5187,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5259,7 +5259,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5300,7 +5300,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5348,7 +5348,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5408,7 +5408,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5488,7 +5488,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5545,7 +5545,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5604,7 +5604,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5661,7 +5661,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5763,7 +5763,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5802,7 +5802,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5841,7 +5841,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5895,7 +5895,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -5986,7 +5986,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6147,7 +6147,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6302,7 +6302,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6341,7 +6341,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6467,7 +6467,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6543,7 +6543,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6567,7 +6567,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6593,7 +6593,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6617,7 +6617,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6641,7 +6641,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6675,7 +6675,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6699,7 +6699,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6723,7 +6723,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6747,7 +6747,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6771,7 +6771,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6795,7 +6795,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6819,7 +6819,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6852,7 +6852,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6876,7 +6876,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6903,7 +6903,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6929,7 +6929,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6953,7 +6953,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -6979,7 +6979,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -7003,7 +7003,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -7028,7 +7028,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -7052,7 +7052,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -7076,7 +7076,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -7102,7 +7102,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };
@@ -7128,7 +7128,7 @@ pub mod treecheckdef_h {
                 type_0: None,
                 child: 0 as *mut ast_t,
                 child_index: 0 as libc::c_int as usize,
-                errors: errors,
+                errors,
             };
             init
         };

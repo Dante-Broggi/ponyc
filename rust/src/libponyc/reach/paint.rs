@@ -1145,7 +1145,7 @@ unsafe extern "C" fn find_name(
 ) -> *mut name_record_t {
     let mut n: name_record_t = {
         let mut init = name_record_t {
-            name: name,
+            name,
             colour: 0 as libc::c_int as u32,
             typemap_size: 0 as libc::c_int as usize,
             type_map: 0 as *mut u64,

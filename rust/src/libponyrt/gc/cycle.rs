@@ -1402,7 +1402,7 @@ unsafe extern "C" fn mark_grey(
 unsafe extern "C" fn scan_grey(mut d: *mut detector_t, mut view: *mut view_t, mut rc: usize) {
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
     let mut head: viewref_t = {
-        let mut init = viewref_t { view: view, rc: rc };
+        let mut init = viewref_t { view, rc };
         init
     };
     let mut stack: *mut viewrefstack_t =
@@ -1458,7 +1458,7 @@ unsafe extern "C" fn scan_black(mut view: *mut view_t, mut rc: usize) -> libc::c
     let mut count: libc::c_int = 0 as libc::c_int;
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
     let mut head: viewref_t = {
-        let mut init = viewref_t { view: view, rc: rc };
+        let mut init = viewref_t { view, rc };
         init
     };
     let mut stack: *mut viewrefstack_t =
@@ -1518,7 +1518,7 @@ unsafe extern "C" fn scan_white(mut view: *mut view_t) -> libc::c_int {
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
     let mut head: viewref_t = {
         let mut init = viewref_t {
-            view: view,
+            view,
             rc: 0 as libc::c_int as usize,
         };
         init
@@ -1586,7 +1586,7 @@ unsafe extern "C" fn collect_white(
     let mut count: libc::c_int = 0 as libc::c_int;
     let mut ref_0: *mut viewref_t = 0 as *mut viewref_t;
     let mut head: viewref_t = {
-        let mut init = viewref_t { view: view, rc: rc };
+        let mut init = viewref_t { view, rc };
         init
     };
     let mut stack: *mut viewrefstack_t =

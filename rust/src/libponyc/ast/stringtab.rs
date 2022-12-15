@@ -705,7 +705,7 @@ pub unsafe extern "C" fn stringtab_len(
     let mut key: stringtab_entry_t = {
         let mut init = stringtab_entry_t {
             str_0: string,
-            len: len,
+            len,
             buf_size: 0 as libc::c_int as usize,
         };
         init
@@ -744,7 +744,7 @@ pub unsafe extern "C" fn stringtab_consume(
     let mut key: stringtab_entry_t = {
         let mut init = stringtab_entry_t {
             str_0: string,
-            len: len,
+            len,
             buf_size: 0 as libc::c_int as usize,
         };
         init
