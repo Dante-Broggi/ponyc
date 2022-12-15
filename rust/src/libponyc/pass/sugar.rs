@@ -1564,8 +1564,14 @@ unsafe extern "C" fn sugar_docstring(mut ast: *mut ast_t) {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(docstring) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -1602,8 +1608,14 @@ unsafe extern "C" fn sugar_entity(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_name(id) == stringtab(b"Main\0" as *const u8 as *const libc::c_char) {
@@ -1767,8 +1779,14 @@ unsafe extern "C" fn sugar_typeparam(mut ast: *mut ast_t) -> ast_result_t {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(constraint) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -1919,8 +1937,14 @@ unsafe extern "C" fn sugar_new(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(result) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -2017,8 +2041,14 @@ pub unsafe extern "C" fn fun_defaults(mut ast: *mut ast_t) {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(cap) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -2199,8 +2229,14 @@ unsafe extern "C" fn sugar_for(
     ast_extract_children(
         *astp,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut annotation: *mut ast_t = ast_consumeannotation(*astp);
@@ -2776,8 +2812,14 @@ unsafe extern "C" fn sugar_with(
     ast_extract_children(
         *astp,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut main_annotation: *mut ast_t = ast_consumeannotation(*astp);
@@ -2852,8 +2894,14 @@ unsafe extern "C" fn sugar_with(
     ast_get_children(
         dblock,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     let mut p: *mut ast_t = ast_child(withexpr);
@@ -2875,8 +2923,14 @@ unsafe extern "C" fn sugar_with(
         ast_get_children(
             p,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                .wrapping_sub(1).try_into().unwrap(),
+                .wrapping_div(
+                    ::core::mem::size_of::<*mut *mut ast_t>()
+                        .try_into()
+                        .unwrap(),
+                )
+                .wrapping_sub(1)
+                .try_into()
+                .unwrap(),
             children_1.as_mut_ptr(),
         );
         let mut init_name: *const libc::c_char = package_hygienic_id(&mut (*opt).check);
@@ -3009,8 +3063,14 @@ unsafe extern "C" fn sugar_match_capture(
             ast_get_children(
                 pattern,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             if ast_id(capture_type) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -3126,8 +3186,14 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(call) as libc::c_uint != TK_CALL as libc::c_int as libc::c_uint {
@@ -3147,8 +3213,14 @@ unsafe extern "C" fn sugar_update(mut astp: *mut *mut ast_t) -> ast_result_t {
     ast_extract_children(
         call,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     ast_setid(named, TK_NAMEDARGS);
@@ -3297,8 +3369,14 @@ unsafe extern "C" fn sugar_as(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(type_0) as libc::c_uint == TK_TUPLETYPE as libc::c_int as libc::c_uint {
@@ -3545,8 +3623,14 @@ unsafe extern "C" fn sugar_unop(
     ast_get_children(
         *astp,
         (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut basis_ast: *mut ast_t = *astp;
@@ -3631,13 +3715,25 @@ unsafe extern "C" fn sugar_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut name: *const libc::c_char = ast_name(id);
     let mut len: usize = ast_name_len(id);
-    if !(memchr(name as *const libc::c_void, '\0' as i32, len.try_into().unwrap())).is_null() {
+    if !(memchr(
+        name as *const libc::c_void,
+        '\0' as i32,
+        len.try_into().unwrap(),
+    ))
+    .is_null()
+    {
         ast_error(
             (*opt).check.errors,
             ast,
@@ -3646,9 +3742,9 @@ unsafe extern "C" fn sugar_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         );
         return AST_ERROR;
     }
-    let mut new_name: *mut libc::c_char =
-        ponyint_pool_alloc_size(len.wrapping_add((2 as libc::c_int as libc::c_ulong).try_into().unwrap()))
-            as *mut libc::c_char;
+    let mut new_name: *mut libc::c_char = ponyint_pool_alloc_size(
+        len.wrapping_add((2 as libc::c_int as libc::c_ulong).try_into().unwrap()),
+    ) as *mut libc::c_char;
     *new_name.offset(0 as libc::c_int as isize) = '@' as i32 as libc::c_char;
     memcpy(
         new_name.offset(1 as libc::c_int as isize) as *mut libc::c_void,
@@ -3702,8 +3798,14 @@ unsafe extern "C" fn sugar_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut parent_ifdef_cond: *mut ast_t = (*(*opt).check.frame).ifdef_cond;
@@ -3967,8 +4069,14 @@ unsafe extern "C" fn sugar_lambdatype(
     ast_extract_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut bare: bool =
@@ -4381,8 +4489,14 @@ unsafe extern "C" fn sugar_barelambda(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 10]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     ast_setid(receiver_cap, TK_AT);

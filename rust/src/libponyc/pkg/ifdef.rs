@@ -1002,8 +1002,14 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_1.as_mut_ptr(),
             );
             cond_normalise(&mut child);
@@ -1232,8 +1238,14 @@ unsafe extern "C" fn cond_eval(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             return cond_eval(left, config, release, opt) as libc::c_int != 0
@@ -1247,8 +1259,14 @@ unsafe extern "C" fn cond_eval(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_0.as_mut_ptr(),
             );
             return cond_eval(left_0, config, release, opt) as libc::c_int != 0
@@ -1315,8 +1333,14 @@ unsafe extern "C" fn find_flags_in_cond(mut ast: *mut ast_t, mut config: *mut bu
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             find_flags_in_cond(left, config);

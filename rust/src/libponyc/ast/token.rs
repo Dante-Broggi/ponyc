@@ -1398,7 +1398,9 @@ unsafe extern "C" fn token_signature_serialise(
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_signature_t>().try_into().unwrap(),
+        ::core::mem::size_of::<token_signature_t>()
+            .try_into()
+            .unwrap(),
     );
     (*dst).id = (*token).id;
     match (*token).id as libc::c_uint {
@@ -1496,7 +1498,9 @@ unsafe extern "C" fn token_docstring_signature_serialise(
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_signature_t>().try_into().unwrap(),
+        ::core::mem::size_of::<token_signature_t>()
+            .try_into()
+            .unwrap(),
     );
     (*dst).id = TK_NONE;
 }

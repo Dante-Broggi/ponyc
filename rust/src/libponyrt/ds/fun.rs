@@ -66,9 +66,9 @@ unsafe extern "C" fn siphash24(
     let mut v1: u64 = k1 ^ 0x646f72616e646f6d as libc::c_ulonglong;
     let mut v2: u64 = k0 ^ 0x6c7967656e657261 as libc::c_ulonglong;
     let mut v3: u64 = k1 ^ 0x7465646279746573 as libc::c_ulonglong;
-    let mut end: *const libc::c_uchar = in_0
-        .offset(len as isize)
-        .offset(-(len.wrapping_rem((8 as libc::c_int as libc::c_ulong).try_into().unwrap()) as isize));
+    let mut end: *const libc::c_uchar = in_0.offset(len as isize).offset(
+        -(len.wrapping_rem((8 as libc::c_int as libc::c_ulong).try_into().unwrap()) as isize),
+    );
     while in_0 != end {
         let mut m: u64 = *(in_0 as *mut u64);
         v3 ^= m;

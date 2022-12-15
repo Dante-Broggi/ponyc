@@ -578,8 +578,14 @@ unsafe extern "C" fn is_nominal_compat_nominal(mut a: *mut ast_t, mut b: *mut as
     ast_get_children(
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut b_pkg: ast_ptr_t = 0 as *mut ast_t;
@@ -598,8 +604,14 @@ unsafe extern "C" fn is_nominal_compat_nominal(mut a: *mut ast_t, mut b: *mut as
     ast_get_children(
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children_0.as_mut_ptr(),
     );
     is_cap_compat_cap(ast_id(a_cap), ast_id(a_eph), ast_id(b_cap), ast_id(b_eph))
@@ -622,8 +634,14 @@ unsafe extern "C" fn is_nominal_compat_typeparam(mut a: *mut ast_t, mut b: *mut 
     ast_get_children(
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut b_id: ast_ptr_t = 0 as *mut ast_t;

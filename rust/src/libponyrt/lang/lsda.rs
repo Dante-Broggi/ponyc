@@ -211,8 +211,8 @@ unsafe extern "C" fn read_with_encoding(
     match encoding as libc::c_int & 0x70 as libc::c_int {
         0 => {}
         16 => {
-            result =
-                (result as libc::c_ulong).wrapping_add(start.try_into().unwrap()) as libc::uintptr_t as libc::uintptr_t;
+            result = (result as libc::c_ulong).wrapping_add(start.try_into().unwrap())
+                as libc::uintptr_t as libc::uintptr_t;
         }
         32 | 48 | 64 | 80 | _ => {
             libc::abort();

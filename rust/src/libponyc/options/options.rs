@@ -816,7 +816,8 @@ unsafe extern "C" fn print_passes() {
         let mut len: usize = (libc::strlen(name)).wrapping_add(1);
         if cur_len.wrapping_add(len) < (80 as libc::c_int as libc::c_ulong).try_into().unwrap() {
             printf(b"%s,\0" as *const u8 as *const libc::c_char, name);
-            cur_len = (cur_len as libc::c_ulong).wrapping_add(len.try_into().unwrap()) as usize as usize;
+            cur_len =
+                (cur_len as libc::c_ulong).wrapping_add(len.try_into().unwrap()) as usize as usize;
         } else {
             printf(b"\n  %s,\0" as *const u8 as *const libc::c_char, name);
             cur_len = len.wrapping_add((2 as libc::c_int as libc::c_ulong).try_into().unwrap());
@@ -824,7 +825,9 @@ unsafe extern "C" fn print_passes() {
         p = pass_next(p);
     }
     let mut name_0: *const libc::c_char = pass_name(PASS_ALL);
-    if cur_len.wrapping_add(libc::strlen(name_0)) < (80 as libc::c_int as libc::c_ulong).try_into().unwrap() {
+    if cur_len.wrapping_add(libc::strlen(name_0))
+        < (80 as libc::c_int as libc::c_ulong).try_into().unwrap()
+    {
         printf(b"%s\n\0" as *const u8 as *const libc::c_char, name_0);
     } else {
         printf(b"\n%s\n\0" as *const u8 as *const libc::c_char, name_0);

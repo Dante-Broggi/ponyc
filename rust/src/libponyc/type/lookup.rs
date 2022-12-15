@@ -961,8 +961,14 @@ unsafe extern "C" fn downcast_iso_trn_receiver_to_ref(mut receiver: *mut ast_t) 
             ast_get_children(
                 receiver,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             let mut downcasted_right: *mut ast_t = downcast_iso_trn_receiver_to_ref(right);
@@ -1019,8 +1025,14 @@ unsafe extern "C" fn lookup_nominal(
     ast_get_children(
         def,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut type_name: *const libc::c_char = ast_name(type_id);
@@ -1061,8 +1073,14 @@ unsafe extern "C" fn lookup_nominal(
                     ast_get_children(
                         find,
                         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                            .wrapping_sub(1).try_into().unwrap(),
+                            .wrapping_div(
+                                ::core::mem::size_of::<*mut *mut ast_t>()
+                                    .try_into()
+                                    .unwrap(),
+                            )
+                            .wrapping_sub(1)
+                            .try_into()
+                            .unwrap(),
                         children_0.as_mut_ptr(),
                     );
                     let mut param: *mut ast_t = ast_child(params);
@@ -1327,8 +1345,14 @@ unsafe extern "C" fn param_names_match(
             ast_get_children(
                 prev_fun,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_0.as_mut_ptr(),
             );
             let mut cur_cap: ast_ptr_t = 0 as *mut ast_t;
@@ -1345,8 +1369,14 @@ unsafe extern "C" fn param_names_match(
             ast_get_children(
                 cur_fun,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_1.as_mut_ptr(),
             );
             let mut prev_param: *mut ast_t = ast_child(prev_params);
@@ -1357,8 +1387,14 @@ unsafe extern "C" fn param_names_match(
                 ast_get_children(
                     prev_param,
                     (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                        .wrapping_sub(1).try_into().unwrap(),
+                        .wrapping_div(
+                            ::core::mem::size_of::<*mut *mut ast_t>()
+                                .try_into()
+                                .unwrap(),
+                        )
+                        .wrapping_sub(1)
+                        .try_into()
+                        .unwrap(),
                     children_2.as_mut_ptr(),
                 );
                 let mut cur_id: ast_ptr_t = 0 as *mut ast_t;
@@ -1366,8 +1402,14 @@ unsafe extern "C" fn param_names_match(
                 ast_get_children(
                     cur_param,
                     (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                        .wrapping_sub(1).try_into().unwrap(),
+                        .wrapping_div(
+                            ::core::mem::size_of::<*mut *mut ast_t>()
+                                .try_into()
+                                .unwrap(),
+                        )
+                        .wrapping_sub(1)
+                        .try_into()
+                        .unwrap(),
                     children_3.as_mut_ptr(),
                 );
                 if ast_name(prev_id) != ast_name(cur_id) {

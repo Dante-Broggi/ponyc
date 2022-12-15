@@ -251,8 +251,7 @@ unsafe extern "C" fn search(
     let mut i: usize = 0;
     while i <= mask {
         ib_index = index >> 6 as libc::c_int;
-        ib_offset =
-            index & (((1) << 6) - 1);
+        ib_offset = index & (((1) << 6) - 1);
         if *((*map).item_bitmap).offset(ib_index as isize)
             & (1 as libc::c_int as bitmap_t) << ib_offset
             == 0
@@ -299,14 +298,13 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
         s << 3 as libc::c_int
     };
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
-        ((if (*map).size
-            & (((1) << 6) - 1)
-            == 0
-        {
+        ((if (*map).size & (((1) << 6) - 1) == 0 {
             0 as libc::c_int
         } else {
             1 as libc::c_int
-        }) as libc::c_ulong).try_into().unwrap(),
+        }) as libc::c_ulong)
+            .try_into()
+            .unwrap(),
     );
     let mut mem_alloc: *mut libc::c_void = ponyint_pool_alloc_size(
         bitmap_size
@@ -316,7 +314,10 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
     memset(
         mem_alloc,
         0 as libc::c_int,
-        bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()).try_into().unwrap(),
+        bitmap_size
+            .wrapping_mul(::core::mem::size_of::<bitmap_t>())
+            .try_into()
+            .unwrap(),
     );
     let ref mut fresh0 = (*map).item_bitmap;
     *fresh0 = mem_alloc as *mut bitmap_t;
@@ -334,13 +335,13 @@ unsafe extern "C" fn resize(mut map: *mut hashmap_t, mut cmp: cmp_fn) {
     }
     if !b.is_null() {
         let mut old_bitmap_size: usize = (s >> 6 as libc::c_int).wrapping_add(
-            ((if s & (((1) << 6) - 1)
-                == 0
-            {
+            ((if s & (((1) << 6) - 1) == 0 {
                 0 as libc::c_int
             } else {
                 1 as libc::c_int
-            }) as libc::c_ulong).try_into().unwrap(),
+            }) as libc::c_ulong)
+                .try_into()
+                .unwrap(),
         );
         ponyint_pool_free_size(
             old_bitmap_size
@@ -378,8 +379,7 @@ unsafe extern "C" fn optimize_item(
             break;
         }
         ib_index = index >> 6 as libc::c_int;
-        ib_offset =
-            index & (((1) << 6) - 1);
+        ib_offset = index & (((1) << 6) - 1);
         if *((*map).item_bitmap).offset(ib_index as isize)
             & (1 as libc::c_int as bitmap_t) << ib_offset
             == 0
@@ -418,13 +418,13 @@ pub unsafe extern "C" fn ponyint_hashmap_init(mut map: *mut hashmap_t, mut size:
     (*map).count = 0 as libc::c_int as usize;
     (*map).size = size;
     let mut bitmap_size: usize = (size >> 6 as libc::c_int).wrapping_add(
-        ((if size & (((1) << 6) - 1)
-            == 0
-        {
+        ((if size & (((1) << 6) - 1) == 0 {
             0 as libc::c_int
         } else {
             1 as libc::c_int
-        }) as libc::c_ulong).try_into().unwrap(),
+        }) as libc::c_ulong)
+            .try_into()
+            .unwrap(),
     );
     let mut mem_alloc: *mut libc::c_void = ponyint_pool_alloc_size(
         bitmap_size
@@ -434,7 +434,10 @@ pub unsafe extern "C" fn ponyint_hashmap_init(mut map: *mut hashmap_t, mut size:
     memset(
         mem_alloc,
         0 as libc::c_int,
-        bitmap_size.wrapping_mul(::core::mem::size_of::<bitmap_t>()).try_into().unwrap(),
+        bitmap_size
+            .wrapping_mul(::core::mem::size_of::<bitmap_t>())
+            .try_into()
+            .unwrap(),
     );
     let ref mut fresh2 = (*map).item_bitmap;
     *fresh2 = mem_alloc as *mut bitmap_t;
@@ -465,14 +468,13 @@ pub unsafe extern "C" fn ponyint_hashmap_destroy(mut map: *mut hashmap_t, mut fr
     }
     if (*map).size > 0 {
         let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
-            ((if (*map).size
-                & (((1) << 6) - 1)
-                == 0
-            {
+            ((if (*map).size & (((1) << 6) - 1) == 0 {
                 0 as libc::c_int
             } else {
                 1 as libc::c_int
-            }) as libc::c_ulong).try_into().unwrap(),
+            }) as libc::c_ulong)
+                .try_into()
+                .unwrap(),
         );
         ponyint_pool_free_size(
             bitmap_size
@@ -534,8 +536,7 @@ unsafe extern "C" fn shift_put(
     let mut probe_length: usize = pl;
     let mut oi_probe_length: usize = oi_pl;
     let mut ib_index: usize = pos >> 6 as libc::c_int;
-    let mut ib_offset: usize =
-        pos & (((1) << 6) - 1);
+    let mut ib_offset: usize = pos & (((1) << 6) - 1);
     if probe_length > oi_probe_length || probe_length == oi_probe_length && probe_length == 0 {
     } else {
         ponyint_assert_fail(
@@ -583,8 +584,7 @@ unsafe extern "C" fn shift_put(
                 &mut oi_probe_length,
             );
             ib_index = pos >> 6 as libc::c_int;
-            ib_offset = pos
-                & (((1) << 6) - 1);
+            ib_offset = pos & (((1) << 6) - 1);
         } else {
             let ref mut fresh7 = (*((*map).buckets).offset(pos as isize)).ptr;
             *fresh7 = ci_entry;
@@ -667,8 +667,7 @@ pub unsafe extern "C" fn ponyint_hashmap_putindex(
         );
     };
     let mut ib_index: usize = pos >> 6 as libc::c_int;
-    let mut ib_offset: usize =
-        pos & (((1) << 6) - 1);
+    let mut ib_offset: usize = pos & (((1) << 6) - 1);
     if *((*map).item_bitmap).offset(ib_index as isize) & (1 as libc::c_int as bitmap_t) << ib_offset
         == 0
     {
@@ -720,8 +719,7 @@ unsafe extern "C" fn shift_delete(mut map: *mut hashmap_t, mut index: usize) {
     let mut next_pos: usize = pos.wrapping_add(1) & mask;
     let mut ni_hash: usize = (*((*map).buckets).offset(next_pos as isize)).hash;
     let mut ni_ib_index: usize = next_pos >> 6 as libc::c_int;
-    let mut ni_ib_offset: usize =
-        next_pos & (((1) << 6) - 1);
+    let mut ni_ib_offset: usize = next_pos & (((1) << 6) - 1);
     while *((*map).item_bitmap).offset(ni_ib_index as isize)
         & (1 as libc::c_int as bitmap_t) << ni_ib_offset
         != 0
@@ -735,16 +733,14 @@ unsafe extern "C" fn shift_delete(mut map: *mut hashmap_t, mut index: usize) {
         next_pos = pos.wrapping_add(1) & mask;
         ni_hash = (*((*map).buckets).offset(next_pos as isize)).hash;
         ni_ib_index = next_pos >> 6 as libc::c_int;
-        ni_ib_offset = next_pos
-            & (((1) << 6) - 1);
+        ni_ib_offset = next_pos & (((1) << 6) - 1);
     }
     let ref mut fresh14 = (*((*map).buckets).offset(pos as isize)).ptr;
     *fresh14 = 0 as *mut libc::c_void;
     let ref mut fresh15 = (*map).count;
     *fresh15 = (*fresh15).wrapping_sub(1);
     let mut ib_index: usize = pos >> 6 as libc::c_int;
-    let mut ib_offset: usize =
-        pos & (((1) << 6) - 1);
+    let mut ib_offset: usize = pos & (((1) << 6) - 1);
     let ref mut fresh16 = *((*map).item_bitmap).offset(ib_index as isize);
     *fresh16 &= !((1 as libc::c_int as bitmap_t) << ib_offset);
 }
@@ -783,8 +779,7 @@ pub unsafe extern "C" fn ponyint_hashmap_removeindex(mut map: *mut hashmap_t, mu
         return;
     }
     let mut ib_index: usize = index >> 6 as libc::c_int;
-    let mut ib_offset: usize =
-        index & (((1) << 6) - 1);
+    let mut ib_offset: usize = index & (((1) << 6) - 1);
     if *((*map).item_bitmap).offset(ib_index as isize) & (1 as libc::c_int as bitmap_t) << ib_offset
         != 0
     {
@@ -805,22 +800,23 @@ pub unsafe extern "C" fn ponyint_hashmap_next(
     }
     let mut index: usize = (*i).wrapping_add(1);
     let mut ib_index: usize = index >> 6 as libc::c_int;
-    let mut ib_offset: usize =
-        index & (((1) << 6) - 1);
+    let mut ib_offset: usize = index & (((1) << 6) - 1);
     let mut ffs_offset: usize = 0;
     let mut ib: bitmap_t = *item_bitmap.offset(ib_index as isize) >> ib_offset;
     while index < size {
         ffs_offset = __pony_ffszu(ib) as usize;
         if ffs_offset == 0 {
             index = (index as libc::c_ulong).wrapping_add(
-                (((1 as libc::c_int) << 6 as libc::c_int) as libc::c_ulong).wrapping_sub(ib_offset.try_into().unwrap()),
+                (((1 as libc::c_int) << 6 as libc::c_int) as libc::c_ulong)
+                    .wrapping_sub(ib_offset.try_into().unwrap()),
             ) as usize as usize;
             ib_index = ib_index.wrapping_add(1);
             ib_offset = 0 as libc::c_int as usize;
             ib = *item_bitmap.offset(ib_index as isize);
         } else {
-            index =
-                (index as libc::c_ulong).wrapping_add(ffs_offset.wrapping_sub(1).try_into().unwrap()) as usize as usize;
+            index = (index as libc::c_ulong)
+                .wrapping_add(ffs_offset.wrapping_sub(1).try_into().unwrap())
+                as usize as usize;
             if !((*buckets.offset(index as isize)).ptr).is_null() {
             } else {
                 ponyint_assert_fail(
@@ -855,14 +851,13 @@ pub unsafe extern "C" fn ponyint_hashmap_fill_ratio(mut map: *mut hashmap_t) -> 
 #[c2rust::src_loc = "513:1"]
 pub unsafe extern "C" fn ponyint_hashmap_mem_size(mut map: *mut hashmap_t) -> usize {
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
-        ((if (*map).size
-            & (((1) << 6) - 1)
-            == 0
-        {
+        ((if (*map).size & (((1) << 6) - 1) == 0 {
             0 as libc::c_int
         } else {
             1 as libc::c_int
-        }) as libc::c_ulong).try_into().unwrap(),
+        }) as libc::c_ulong)
+            .try_into()
+            .unwrap(),
     );
     return bitmap_size
         .wrapping_mul(::core::mem::size_of::<bitmap_t>())
@@ -884,8 +879,7 @@ pub unsafe extern "C" fn ponyint_hashmap_clearindex(mut map: *mut hashmap_t, mut
         return;
     }
     let mut ib_index: usize = index >> 6 as libc::c_int;
-    let mut ib_offset: usize =
-        index & (((1) << 6) - 1);
+    let mut ib_offset: usize = index & (((1) << 6) - 1);
     if *((*map).item_bitmap).offset(ib_index as isize) & (1 as libc::c_int as bitmap_t) << ib_offset
         == 0
     {
@@ -919,8 +913,9 @@ pub unsafe extern "C" fn ponyint_hashmap_optimize(mut map: *mut hashmap_t, mut c
             if elem.is_null() {
                 break;
             }
-            count =
-                (count as libc::c_ulong).wrapping_add(optimize_item(map, cmp, i).try_into().unwrap()) as usize as usize;
+            count = (count as libc::c_ulong)
+                .wrapping_add(optimize_item(map, cmp, i).try_into().unwrap())
+                as usize as usize;
         }
         num_iters = num_iters.wrapping_add(1);
         if !(count > 0) {
@@ -937,14 +932,13 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise_trace(
 ) {
     let mut map: *mut hashmap_t = object as *mut hashmap_t;
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
-        ((if (*map).size
-            & (((1) << 6) - 1)
-            == 0
-        {
+        ((if (*map).size & (((1) << 6) - 1) == 0 {
             0 as libc::c_int
         } else {
             1 as libc::c_int
-        }) as libc::c_ulong).try_into().unwrap(),
+        }) as libc::c_ulong)
+            .try_into()
+            .unwrap(),
     );
     pony_serialise_reserve(
         ctx,
@@ -988,21 +982,22 @@ pub unsafe extern "C" fn ponyint_hashmap_serialise(
     let ref mut fresh21 = (*dst).buckets;
     *fresh21 = 0 as *mut hashmap_entry_t;
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
-        ((if (*map).size
-            & (((1) << 6) - 1)
-            == 0
-        {
+        ((if (*map).size & (((1) << 6) - 1) == 0 {
             0 as libc::c_int
         } else {
             1 as libc::c_int
-        }) as libc::c_ulong).try_into().unwrap(),
+        }) as libc::c_ulong)
+            .try_into()
+            .unwrap(),
     );
     memcpy(
         (buf as libc::uintptr_t).wrapping_add(bitmap_offset) as *mut libc::c_void,
         (*map).item_bitmap as *const libc::c_void,
         bitmap_size
             .wrapping_mul(::core::mem::size_of::<bitmap_t>())
-            .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>())).try_into().unwrap(),
+            .wrapping_add(((*map).size).wrapping_mul(::core::mem::size_of::<hashmap_entry_t>()))
+            .try_into()
+            .unwrap(),
     );
     let mut dst_buckets: *mut hashmap_entry_t = (buf as libc::uintptr_t)
         .wrapping_add(bitmap_offset)
@@ -1035,14 +1030,13 @@ pub unsafe extern "C" fn ponyint_hashmap_deserialise(
 ) {
     let mut map: *mut hashmap_t = object as *mut hashmap_t;
     let mut bitmap_size: usize = ((*map).size >> 6 as libc::c_int).wrapping_add(
-        ((if (*map).size
-            & (((1) << 6) - 1)
-            == 0
-        {
+        ((if (*map).size & (((1) << 6) - 1) == 0 {
             0 as libc::c_int
         } else {
             1 as libc::c_int
-        }) as libc::c_ulong).try_into().unwrap(),
+        }) as libc::c_ulong)
+            .try_into()
+            .unwrap(),
     );
     let ref mut fresh23 = (*map).item_bitmap;
     *fresh23 = pony_deserialise_block(

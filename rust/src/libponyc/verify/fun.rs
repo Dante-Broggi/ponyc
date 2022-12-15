@@ -1042,8 +1042,14 @@ unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = ast_parent(ast_parent(ast));
@@ -1130,8 +1136,14 @@ unsafe extern "C" fn verify_primitive_init(mut opt: *mut pass_opt_t, mut ast: *m
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if strcmp(ast_name(id), b"_init\0" as *const u8 as *const libc::c_char) != 0 {

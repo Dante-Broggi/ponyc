@@ -746,9 +746,11 @@ pub unsafe extern "C" fn ponyint_serialise_object(
             (*fresh3 as libc::c_ulong).wrapping_add((*t).size as libc::c_ulong) as usize as usize;
         if ((*t).custom_serialise_space).is_some() {
             let ref mut fresh4 = (*ctx).serialise_size;
-            *fresh4 = (*fresh4 as libc::c_ulong)
-                .wrapping_add(((*t).custom_serialise_space).expect("non-null function pointer")(p).try_into().unwrap())
-                as usize as usize;
+            *fresh4 = (*fresh4 as libc::c_ulong).wrapping_add(
+                ((*t).custom_serialise_space).expect("non-null function pointer")(p)
+                    .try_into()
+                    .unwrap(),
+            ) as usize as usize;
         }
     }
     (*s).mutability = mutability;
@@ -965,7 +967,8 @@ pub unsafe extern "C" fn pony_deserialise_offset(
     if !((*t).instance).is_null() {
         return (*t).instance;
     }
-    if offset.wrapping_add(((*t).size as libc::c_ulong).try_into().unwrap()) > (*ctx).serialise_size {
+    if offset.wrapping_add(((*t).size as libc::c_ulong).try_into().unwrap()) > (*ctx).serialise_size
+    {
         serialise_cleanup(ctx);
         ::core::mem::transmute::<_, fn()>(
             ((*ctx).serialise_throw).expect("non-null function pointer"),

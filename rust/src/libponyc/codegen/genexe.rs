@@ -2114,7 +2114,10 @@ pub unsafe extern "C" fn gen_main(
     args[0 as libc::c_int as usize] = codegen_string(
         c,
         error_msg_str.as_ptr(),
-        (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
+        (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong)
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
     );
     gencall_runtime(
         c,
@@ -2237,7 +2240,9 @@ unsafe extern "C" fn link_exe(
         .wrapping_add(libc::strlen(file_exe).try_into().unwrap())
         .wrapping_add(libc::strlen(file_o).try_into().unwrap())
         .wrapping_add(libc::strlen(lib_args).try_into().unwrap())
-        .wrapping_add(libc::strlen(sanitizer_arg).try_into().unwrap()).try_into().unwrap();
+        .wrapping_add(libc::strlen(sanitizer_arg).try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut ld_cmd: *mut libc::c_char = ponyint_pool_alloc_size(ld_len) as *mut libc::c_char;
     snprintf(
         ld_cmd,
@@ -2272,8 +2277,10 @@ unsafe extern "C" fn link_exe(
     }
     ponyint_pool_free_size(ld_len, ld_cmd as *mut libc::c_void);
     if !(*(*c).opt).strip_debug {
-        let mut dsym_len: usize =
-            (16 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(file_exe).try_into().unwrap()).try_into().unwrap();
+        let mut dsym_len: usize = (16 as libc::c_int as libc::c_ulong)
+            .wrapping_add(libc::strlen(file_exe).try_into().unwrap())
+            .try_into()
+            .unwrap();
         let mut dsym_cmd: *mut libc::c_char =
             ponyint_pool_alloc_size(dsym_len) as *mut libc::c_char;
         snprintf(

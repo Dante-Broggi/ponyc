@@ -2544,7 +2544,9 @@ pub unsafe extern "C" fn path_cat(
         lensep = 1 as libc::c_int as usize;
     }
     let mut len2: usize = libc::strlen(part2);
-    if len1.wrapping_add(lensep).wrapping_add(len2) >= (1024 as libc::c_int as libc::c_ulong).try_into().unwrap() {
+    if len1.wrapping_add(lensep).wrapping_add(len2)
+        >= (1024 as libc::c_int as libc::c_ulong).try_into().unwrap()
+    {
         *result.offset(0 as libc::c_int as isize) = '\0' as i32 as libc::c_char;
         return;
     }
@@ -2623,7 +2625,9 @@ unsafe extern "C" fn parse_files_in_dir(
     }
     let mut count: usize = 0;
     let mut buf_size: usize = (4 as libc::c_int as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong).try_into().unwrap();
+        .wrapping_mul(::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong)
+        .try_into()
+        .unwrap();
     let mut entries: *mut *const libc::c_char =
         ponyint_pool_alloc_size(buf_size) as *mut *const libc::c_char;
     let mut d: *mut dirent = 0 as *mut dirent;
@@ -2640,8 +2644,11 @@ unsafe extern "C" fn parse_files_in_dir(
         if !p.is_null()
             && strcmp(p, b".pony\0" as *const u8 as *const libc::c_char) == 0 as libc::c_int
         {
-            if count.wrapping_mul((::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong).try_into().unwrap())
-                == buf_size
+            if count.wrapping_mul(
+                (::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong)
+                    .try_into()
+                    .unwrap(),
+            ) == buf_size
             {
                 let mut new_buf_size: usize =
                     buf_size.wrapping_mul((2 as libc::c_int as libc::c_ulong).try_into().unwrap());
@@ -2660,7 +2667,9 @@ unsafe extern "C" fn parse_files_in_dir(
     qsort(
         entries as *mut libc::c_void,
         count,
-        (::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong).try_into().unwrap(),
+        (::core::mem::size_of::<*const libc::c_char>() as libc::c_ulong)
+            .try_into()
+            .unwrap(),
         Some(
             string_compare
                 as unsafe extern "C" fn(*const libc::c_void, *const libc::c_void) -> libc::c_int,
@@ -2857,7 +2866,8 @@ unsafe extern "C" fn id_to_string(
         prefix = b"\0" as *const u8 as *const libc::c_char;
     }
     let mut len: usize = libc::strlen(prefix);
-    let mut buf_size: usize = len.wrapping_add((32 as libc::c_int as libc::c_ulong).try_into().unwrap());
+    let mut buf_size: usize =
+        len.wrapping_add((32 as libc::c_int as libc::c_ulong).try_into().unwrap());
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     snprintf(
         buffer,
@@ -2894,7 +2904,9 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
         prefix = 1 as libc::c_int != 0;
     }
     let mut len: usize = libc::strlen(string);
-    let mut buf_size: usize = len.wrapping_add((prefix as libc::c_ulong).try_into().unwrap()).wrapping_add(1);
+    let mut buf_size: usize = len
+        .wrapping_add((prefix as libc::c_ulong).try_into().unwrap())
+        .wrapping_add(1);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     memcpy(
         buf.offset(prefix as libc::c_int as isize) as *mut libc::c_void,
@@ -2931,7 +2943,8 @@ unsafe extern "C" fn symbol_suffix(
     mut suffix: usize,
 ) -> *const libc::c_char {
     let mut len: usize = libc::strlen(symbol);
-    let mut buf_size: usize = len.wrapping_add((32 as libc::c_int as libc::c_ulong).try_into().unwrap());
+    let mut buf_size: usize =
+        len.wrapping_add((32 as libc::c_int as libc::c_ulong).try_into().unwrap());
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     snprintf(
         buf,
@@ -3100,8 +3113,10 @@ unsafe extern "C" fn add_pony_installation_dir(
     } else {
         b"native\0" as *const u8 as *const libc::c_char
     };
-    let mut lib_len: usize =
-        (8 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(link_arch).try_into().unwrap()).try_into().unwrap();
+    let mut lib_len: usize = (8 as libc::c_int as libc::c_ulong)
+        .wrapping_add(libc::strlen(link_arch).try_into().unwrap())
+        .try_into()
+        .unwrap();
     let mut lib_path: *mut libc::c_char = ponyint_pool_alloc_size(lib_len) as *mut libc::c_char;
     snprintf(
         lib_path,
@@ -4503,7 +4518,9 @@ pub unsafe extern "C" fn package_group_signature(
         memset(
             &mut array as *mut ponyint_array_t as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<ponyint_array_t>().try_into().unwrap(),
+            ::core::mem::size_of::<ponyint_array_t>()
+                .try_into()
+                .unwrap(),
         );
         let mut buf: *mut libc::c_char =
             ponyint_pool_alloc_size(64 as libc::c_int as usize) as *mut libc::c_char;

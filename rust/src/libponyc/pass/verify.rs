@@ -1051,8 +1051,14 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children.as_mut_ptr(),
             );
             if ast_id(left) as libc::c_uint != TK_THIS as libc::c_int as libc::c_uint {
@@ -1080,8 +1086,14 @@ unsafe extern "C" fn verify_assign_lvalue(mut opt: *mut pass_opt_t, mut ast: *mu
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_0.as_mut_ptr(),
             );
             if ast_id(left_0) as libc::c_uint != TK_THIS as libc::c_int as libc::c_uint {
@@ -1288,14 +1300,24 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         ast_get_children(
             temp_ast,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                .wrapping_sub(1).try_into().unwrap(),
+                .wrapping_div(
+                    ::core::mem::size_of::<*mut *mut ast_t>()
+                        .try_into()
+                        .unwrap(),
+                )
+                .wrapping_sub(1)
+                .try_into()
+                .unwrap(),
             children.as_mut_ptr(),
         );
         def = ast_data(left) as *mut ast_t;
         temp_ast = left;
-        len = (len as libc::c_ulong).wrapping_add((libc::strlen(ast_name(right))).wrapping_add(1).try_into().unwrap())
-            as usize as usize;
+        len = (len as libc::c_ulong).wrapping_add(
+            (libc::strlen(ast_name(right)))
+                .wrapping_add(1)
+                .try_into()
+                .unwrap(),
+        ) as usize as usize;
     }
     match ast_id(temp_ast) as libc::c_uint {
         19 => {
@@ -1306,14 +1328,21 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
             ast_get_children(
                 temp_ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                    .wrapping_sub(1).try_into().unwrap(),
+                    .wrapping_div(
+                        ::core::mem::size_of::<*mut *mut ast_t>()
+                            .try_into()
+                            .unwrap(),
+                    )
+                    .wrapping_sub(1)
+                    .try_into()
+                    .unwrap(),
                 children_0.as_mut_ptr(),
             );
             if ast_id(left_0) as libc::c_uint == TK_THIS as libc::c_int as libc::c_uint {
                 temp_ast = right_0;
-                len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast)).try_into().unwrap()) as usize
-                    as usize;
+                len = (len as libc::c_ulong)
+                    .wrapping_add(libc::strlen(ast_name(temp_ast)).try_into().unwrap())
+                    as usize as usize;
             } else {
                 if 0 as libc::c_int != 0 {
                 } else {
@@ -1332,13 +1361,15 @@ unsafe extern "C" fn get_multi_ref_name(mut ast: *mut ast_t) -> *const libc::c_c
         }
         193 | 192 | 194 | 184 => {
             temp_ast = ast_sibling(ast_child(temp_ast));
-            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast)).try_into().unwrap()) as usize
-                as usize;
+            len = (len as libc::c_ulong)
+                .wrapping_add(libc::strlen(ast_name(temp_ast)).try_into().unwrap())
+                as usize as usize;
         }
         198 | 197 | 196 => {
             temp_ast = ast_child(temp_ast);
-            len = (len as libc::c_ulong).wrapping_add(libc::strlen(ast_name(temp_ast)).try_into().unwrap()) as usize
-                as usize;
+            len = (len as libc::c_ulong)
+                .wrapping_add(libc::strlen(ast_name(temp_ast)).try_into().unwrap())
+                as usize as usize;
         }
         102 => {
             temp_ast = ast_sibling(temp_ast);
@@ -1423,8 +1454,14 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(receiver) as libc::c_uint == ast_id(ast) as libc::c_uint {
@@ -1433,8 +1470,14 @@ unsafe extern "C" fn get_fun_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         ast_get_children(
             receiver,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-                .wrapping_sub(1).try_into().unwrap(),
+                .wrapping_div(
+                    ::core::mem::size_of::<*mut *mut ast_t>()
+                        .try_into()
+                        .unwrap(),
+                )
+                .wrapping_sub(1)
+                .try_into()
+                .unwrap(),
             children_0.as_mut_ptr(),
         );
     }
@@ -1761,8 +1804,14 @@ unsafe extern "C" fn verify_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     if !verify_assign_lvalue(opt, left) {
@@ -1875,8 +1924,14 @@ unsafe extern "C" fn verify_is(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
-            .wrapping_sub(1).try_into().unwrap(),
+            .wrapping_div(
+                ::core::mem::size_of::<*mut *mut ast_t>()
+                    .try_into()
+                    .unwrap(),
+            )
+            .wrapping_sub(1)
+            .try_into()
+            .unwrap(),
         children.as_mut_ptr(),
     );
     ast_inheritflags(ast);
