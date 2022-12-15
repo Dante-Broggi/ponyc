@@ -101,7 +101,7 @@ unsafe extern "C" fn messageq_push(
     f__atomic_thread_fence(b"memory_order_release\0" as *const u8 as *const libc::c_char);
     let mut prev: *mut pony_msg_t =
         { ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, last) };
-    let mut was_empty: bool = prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
+    let mut was_empty: bool = prev as libc::uintptr_t & 1 != 0;
     prev = (prev as libc::uintptr_t & !(1 as libc::c_int as libc::uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, first);
@@ -124,7 +124,7 @@ unsafe extern "C" fn messageq_push_single(
         ::core::intrinsics::atomic_store_relaxed(&mut (*q).head, last);
         // compile_error!("Builtin is not supposed to be used")
     });
-    let mut was_empty: bool = prev as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
+    let mut was_empty: bool = prev as libc::uintptr_t & 1 != 0;
     prev = (prev as libc::uintptr_t & !(1 as libc::c_int as libc::uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, first);
@@ -145,7 +145,7 @@ pub unsafe extern "C" fn ponyint_messageq_init(mut q: *mut messageq_t) {
     ({
         ::core::intrinsics::atomic_store_relaxed(
             &mut (*q).head,
-            (stub as libc::uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t,
+            (stub as libc::uintptr_t | 1) as *mut pony_msg_t,
         );
         // compile_error!("Builtin is not supposed to be used")
     });
@@ -268,13 +268,13 @@ pub unsafe extern "C" fn ponyint_thread_messageq_pop(mut q: *mut messageq_t) -> 
 pub unsafe extern "C" fn ponyint_messageq_markempty(mut q: *mut messageq_t) -> bool {
     let mut tail: *mut pony_msg_t = (*q).tail;
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*q).head) };
-    if head as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
+    if head as libc::uintptr_t & 1 != 0 {
         return 1 as libc::c_int != 0;
     }
     if head != tail {
         return 0 as libc::c_int != 0;
     }
-    head = (head as libc::uintptr_t | 1 as libc::c_int as libc::c_ulong) as *mut pony_msg_t;
+    head = (head as libc::uintptr_t | 1) as *mut pony_msg_t;
     return {
         let fresh4 = ::core::intrinsics::atomic_cxchg_acqrel(&mut (*q).head, *&mut tail, head);
         *&mut tail = fresh4.0;
@@ -286,7 +286,7 @@ pub unsafe extern "C" fn ponyint_messageq_markempty(mut q: *mut messageq_t) -> b
 pub unsafe extern "C" fn ponyint_messageq_isempty(mut q: *mut messageq_t) -> bool {
     let mut tail: *mut pony_msg_t = (*q).tail;
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*q).head) };
-    if head as libc::uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
+    if head as libc::uintptr_t & 1 != 0 {
         return 1 as libc::c_int != 0;
     }
     head == tail

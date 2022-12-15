@@ -106,7 +106,7 @@ unsafe extern "C" fn read_sleb128(mut data: *mut *const u8) -> intptr_t {
         let fresh0 = p;
         p = p.offset(1);
         byte = *fresh0;
-        result |= ((byte as libc::c_int & 0x7f as libc::c_int) << shift) as libc::c_ulong;
+        result |= ((byte & 0x7f) << shift) as usize;
         shift = (shift as libc::c_ulong).wrapping_add(7 as libc::c_int as libc::c_ulong)
             as libc::uintptr_t as libc::uintptr_t;
         if !(byte as libc::c_int & 0x80 as libc::c_int != 0) {
@@ -131,7 +131,7 @@ unsafe extern "C" fn read_uleb128(mut data: *mut *const u8) -> libc::uintptr_t {
         let fresh1 = p;
         p = p.offset(1);
         byte = *fresh1;
-        result |= ((byte as libc::c_int & 0x7f as libc::c_int) << shift) as libc::c_ulong;
+        result |= ((byte & 0x7f) << shift) as usize;
         shift = (shift as libc::c_ulong).wrapping_add(7 as libc::c_int as libc::c_ulong)
             as libc::uintptr_t as libc::uintptr_t;
         if !(byte as libc::c_int & 0x80 as libc::c_int != 0) {

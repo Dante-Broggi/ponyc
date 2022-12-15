@@ -77,7 +77,7 @@ pub unsafe extern "C" fn ponyint_pagemap_get(mut addr: *const libc::c_void) -> *
             return 0 as *mut chunk_t;
         }
         let mut ix: libc::uintptr_t = addr as libc::uintptr_t >> level[i as usize].shift
-            & level[i as usize].mask as libc::c_ulong;
+            & level[i as usize].mask as usize;
         next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         node = ::core::intrinsics::atomic_load_acq(next_node);
         i = i.wrapping_add(1);
@@ -114,7 +114,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set(
             f__atomic_thread_fence(b"memory_order_acquire\0" as *const u8 as *const libc::c_char);
         }
         let mut ix: libc::uintptr_t = addr as libc::uintptr_t >> level[i as usize].shift
-            & level[i as usize].mask as libc::c_ulong;
+            & level[i as usize].mask as usize;
         next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
         i = i.wrapping_add(1);
     }
@@ -162,7 +162,7 @@ pub unsafe extern "C" fn ponyint_pagemap_set_bulk(
                     b"memory_order_acquire\0" as *const u8 as *const libc::c_char,
                 );
             }
-            ix = addr_ptr >> level[i as usize].shift & level[i as usize].mask as libc::c_ulong;
+            ix = addr_ptr >> level[i as usize].shift & level[i as usize].mask as usize;
             next_node = (node as *mut pagemap_node_t).offset(ix as isize) as *mut pagemap_node_t;
             i = i.wrapping_add(1);
         }

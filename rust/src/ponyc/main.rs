@@ -460,8 +460,8 @@ unsafe extern "C" fn get_width() -> usize {
         if libc::ioctl(
             1 as libc::c_int,
             0x40000000 as libc::c_int as u32 as libc::c_ulong
-                | (::core::mem::size_of::<winsize>() & 0x1fff as libc::c_int as libc::c_ulong)
-                    << 16 as libc::c_int
+                | ((::core::mem::size_of::<winsize>() & 0x1fff)
+                    << 16 as libc::c_int) as libc::c_ulong
                 | (('t' as i32) << 8 as libc::c_int) as libc::c_ulong
                 | 104 as libc::c_int as libc::c_ulong,
             &mut ws as *mut winsize,

@@ -3499,7 +3499,7 @@ unsafe extern "C" fn declare_ffi(
     let mut f_params: *mut LLVMTypeRef = 0 as *mut LLVMTypeRef;
     if param_count != 0 as libc::c_int {
         buf_size =
-            (param_count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>().try_into().unwrap());
+            (param_count as usize).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
         f_params = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         param_count = 0 as libc::c_int;
         let mut arg: *mut ast_t = ast_child(args);
