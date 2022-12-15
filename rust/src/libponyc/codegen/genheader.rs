@@ -1460,47 +1460,24 @@ unsafe extern "C" fn c_type_name(
                                 } else {
                                     if name == (*c).str_U8 {
                                         return b"char\0" as *const u8 as *const libc::c_char;
-                                    } else {
-                                        if name == (*c).str_U16 {
-                                            return b"uint16_t\0" as *const u8
-                                                as *const libc::c_char;
-                                        } else {
-                                            if name == (*c).str_U32 {
-                                                return b"uint32_t\0" as *const u8
-                                                    as *const libc::c_char;
-                                            } else {
-                                                if name == (*c).str_U64 {
-                                                    return b"uint64_t\0" as *const u8
-                                                        as *const libc::c_char;
-                                                } else {
-                                                    if name == (*c).str_U128 {
-                                                        return b"__uint128_t\0" as *const u8
-                                                            as *const libc::c_char;
-                                                    } else {
-                                                        if name == (*c).str_ULong {
-                                                            return b"unsigned long\0" as *const u8
-                                                                as *const libc::c_char;
-                                                        } else {
-                                                            if name == (*c).str_USize {
-                                                                return b"size_t\0" as *const u8
-                                                                    as *const libc::c_char;
-                                                            } else {
-                                                                if name == (*c).str_F32 {
-                                                                    return b"float\0" as *const u8
-                                                                        as *const libc::c_char;
-                                                                } else {
-                                                                    if name == (*c).str_F64 {
-                                                                        return b"double\0"
-                                                                            as *const u8
-                                                                            as *const libc::c_char;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
+                                    } else if name == (*c).str_U16 {
+                                        return b"uint16_t\0" as *const u8 as *const libc::c_char;
+                                    } else if name == (*c).str_U32 {
+                                        return b"uint32_t\0" as *const u8 as *const libc::c_char;
+                                    } else if name == (*c).str_U64 {
+                                        return b"uint64_t\0" as *const u8 as *const libc::c_char;
+                                    } else if name == (*c).str_U128 {
+                                        return b"__uint128_t\0" as *const u8
+                                            as *const libc::c_char;
+                                    } else if name == (*c).str_ULong {
+                                        return b"unsigned long\0" as *const u8
+                                            as *const libc::c_char;
+                                    } else if name == (*c).str_USize {
+                                        return b"size_t\0" as *const u8 as *const libc::c_char;
+                                    } else if name == (*c).str_F32 {
+                                        return b"float\0" as *const u8 as *const libc::c_char;
+                                    } else if name == (*c).str_F64 {
+                                        return b"double\0" as *const u8 as *const libc::c_char;
                                     }
                                 }
                             }
