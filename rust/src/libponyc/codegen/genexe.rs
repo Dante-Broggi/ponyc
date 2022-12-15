@@ -2114,7 +2114,7 @@ pub unsafe extern "C" fn gen_main(
     args[0 as libc::c_int as usize] = codegen_string(
         c,
         error_msg_str.as_ptr(),
-        (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong).wrapping_sub(1),
+        (::core::mem::size_of::<[libc::c_char; 31]>() as libc::c_ulong).wrapping_sub(1).try_into().unwrap(),
     );
     gencall_runtime(
         c,
@@ -2232,16 +2232,16 @@ unsafe extern "C" fn link_exe(
     };
     let mut sanitizer_arg: *const libc::c_char = b"\0" as *const u8 as *const libc::c_char;
     let mut ld_len: usize = (256 as libc::c_int as libc::c_ulong)
-        .wrapping_add(arch_len)
-        .wrapping_add(libc::strlen(linker))
-        .wrapping_add(libc::strlen(file_exe))
-        .wrapping_add(libc::strlen(file_o))
-        .wrapping_add(libc::strlen(lib_args))
-        .wrapping_add(libc::strlen(sanitizer_arg));
+        .wrapping_add(arch_len.try_into().unwrap())
+        .wrapping_add(libc::strlen(linker).try_into().unwrap())
+        .wrapping_add(libc::strlen(file_exe).try_into().unwrap())
+        .wrapping_add(libc::strlen(file_o).try_into().unwrap())
+        .wrapping_add(libc::strlen(lib_args).try_into().unwrap())
+        .wrapping_add(libc::strlen(sanitizer_arg).try_into().unwrap()).try_into().unwrap();
     let mut ld_cmd: *mut libc::c_char = ponyint_pool_alloc_size(ld_len) as *mut libc::c_char;
     snprintf(
         ld_cmd,
-        ld_len,
+        ld_len.try_into().unwrap(),
         b"%s -execute -no_pie -arch %.*s -o %s %s %s %s -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem %s\0"
             as *const u8 as *const libc::c_char,
         linker,
@@ -2273,19 +2273,19 @@ unsafe extern "C" fn link_exe(
     ponyint_pool_free_size(ld_len, ld_cmd as *mut libc::c_void);
     if !(*(*c).opt).strip_debug {
         let mut dsym_len: usize =
-            (16 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(file_exe));
+            (16 as libc::c_int as libc::c_ulong).wrapping_add(libc::strlen(file_exe).try_into().unwrap()).try_into().unwrap();
         let mut dsym_cmd: *mut libc::c_char =
             ponyint_pool_alloc_size(dsym_len) as *mut libc::c_char;
         snprintf(
             dsym_cmd,
-            dsym_len,
+            dsym_len.try_into().unwrap(),
             b"rm -rf %s.dSYM\0" as *const u8 as *const libc::c_char,
             file_exe,
         );
         system(dsym_cmd);
         snprintf(
             dsym_cmd,
-            dsym_len,
+            dsym_len.try_into().unwrap(),
             b"dsymutil %s\0" as *const u8 as *const libc::c_char,
             file_exe,
         );

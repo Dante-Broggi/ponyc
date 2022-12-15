@@ -1387,7 +1387,7 @@ unsafe extern "C" fn find_possible_fun_defs(
                     .as_ptr(),
                 );
             };
-            if ast_childcount(members) != 1 as libc::c_int as libc::c_ulong {
+            if ast_childcount(members) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
                 return;
             }
             let mut fun_def: *mut ast_t = ast_child(members);
@@ -1490,8 +1490,8 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 10]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut annotation: *mut ast_t = ast_consumeannotation(ast);
@@ -1506,7 +1506,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
             &mut possible_obj_caps,
         );
     }
-    if astlist_length(possible_fun_defs) > 1 as libc::c_int as libc::c_ulong {
+    if astlist_length(possible_fun_defs) > (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let mut new_fun_defs: *mut astlist_t = 0 as *mut astlist_t;
         let mut new_obj_caps: *mut astlist_t = 0 as *mut astlist_t;
         let mut fun_def_cursor: *mut astlist_t = possible_fun_defs;
@@ -1533,8 +1533,8 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
                 ast_get_children(
                     fun_def,
                     (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                        .wrapping_sub(1),
+                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                        .wrapping_sub(1).try_into().unwrap(),
                     children_0.as_mut_ptr(),
                 );
                 if !(ast_childcount(params) != ast_childcount(def_params)) {
@@ -1572,7 +1572,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
         possible_fun_defs = new_fun_defs;
         possible_obj_caps = new_obj_caps;
     }
-    if astlist_length(possible_fun_defs) == 1 as libc::c_int as libc::c_ulong {
+    if astlist_length(possible_fun_defs) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let mut fun_def_0: *mut ast_t = astlist_data(possible_fun_defs);
         let mut def_obj_cap_0: *mut ast_t = astlist_data(possible_obj_caps);
         if !is_typecheck_error(fun_def_0) {
@@ -1626,7 +1626,7 @@ pub unsafe extern "C" fn expr_lambda(mut opt: *mut pass_opt_t, mut astp: *mut *m
                 b"a lambda parameter must specify a type or be inferable from context\0"
                     as *const u8 as *const libc::c_char,
             );
-            if astlist_length(possible_fun_defs) > 1 as libc::c_int as libc::c_ulong {
+            if astlist_length(possible_fun_defs) > (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
                 let mut fun_def_cursor_0: *mut astlist_t = possible_fun_defs;
                 while !fun_def_cursor_0.is_null() {
                     ast_error_continue(
@@ -1946,8 +1946,8 @@ unsafe extern "C" fn capture_from_reference(
         ast_get_children(
             p,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children.as_mut_ptr(),
         );
         if name == ast_name(c_name) {

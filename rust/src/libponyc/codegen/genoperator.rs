@@ -2372,7 +2372,7 @@ unsafe extern "C" fn assign_rvalue(
     match ast_id(left) as libc::c_uint {
         175 => {
             while ast_id(left) as libc::c_uint == TK_SEQ as libc::c_int as libc::c_uint {
-                if ast_childcount(left) == 1 as libc::c_int as libc::c_ulong {
+                if ast_childcount(left) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
                 } else {
                     ponyint_assert_fail(
                         b"ast_childcount(left) == 1\0" as *const u8
@@ -3326,8 +3326,8 @@ pub unsafe extern "C" fn gen_assign(mut c: *mut compile_t, mut ast: *mut ast_t) 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut r_value: LLVMValueRef = gen_expr(c, right);

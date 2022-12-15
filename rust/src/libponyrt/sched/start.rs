@@ -1031,7 +1031,7 @@ pub unsafe extern "C" fn pony_init(
     memset(
         &mut opt as *mut options_t as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<options_t>(),
+        ::core::mem::size_of::<options_t>().try_into().unwrap(),
     );
     opt.min_threads = 0 as libc::c_int as u32;
     opt.cd_detect_interval = 100 as libc::c_int as u32;
@@ -1135,7 +1135,7 @@ pub unsafe extern "C" fn pony_start(
         memcpy(
             &mut language_init as *mut pony_language_features_init_t as *mut libc::c_void,
             language_features as *const libc::c_void,
-            ::core::mem::size_of::<pony_language_features_init_t>(),
+            ::core::mem::size_of::<pony_language_features_init_t>().try_into().unwrap(),
         );
         if language_init.init_network as libc::c_int != 0 && !ponyint_os_sockets_init() {
             running.store(NOT_RUNNING, Relaxed);
@@ -1154,7 +1154,7 @@ pub unsafe extern "C" fn pony_start(
         memset(
             &mut language_init as *mut pony_language_features_init_t as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<pony_language_features_init_t>(),
+            ::core::mem::size_of::<pony_language_features_init_t>().try_into().unwrap(),
         );
     }
     if !ponyint_sched_start(library) {

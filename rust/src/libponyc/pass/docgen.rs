@@ -1309,23 +1309,23 @@ unsafe extern "C" fn doc_cat(
     let mut buffer: *mut libc::c_char = ponyint_pool_alloc_size(buf_len) as *mut libc::c_char;
     let mut p: *mut libc::c_char = buffer;
     if a_len > 0 {
-        memcpy(p as *mut libc::c_void, a as *const libc::c_void, a_len);
+        memcpy(p as *mut libc::c_void, a as *const libc::c_void, a_len.try_into().unwrap());
         p = p.offset(a_len as isize);
     }
     if b_len > 0 {
-        memcpy(p as *mut libc::c_void, b as *const libc::c_void, b_len);
+        memcpy(p as *mut libc::c_void, b as *const libc::c_void, b_len.try_into().unwrap());
         p = p.offset(b_len as isize);
     }
     if c_len > 0 {
-        memcpy(p as *mut libc::c_void, c as *const libc::c_void, c_len);
+        memcpy(p as *mut libc::c_void, c as *const libc::c_void, c_len.try_into().unwrap());
         p = p.offset(c_len as isize);
     }
     if d_len > 0 {
-        memcpy(p as *mut libc::c_void, d as *const libc::c_void, d_len);
+        memcpy(p as *mut libc::c_void, d as *const libc::c_void, d_len.try_into().unwrap());
         p = p.offset(d_len as isize);
     }
     if e_len > 0 {
-        memcpy(p as *mut libc::c_void, e as *const libc::c_void, e_len);
+        memcpy(p as *mut libc::c_void, e as *const libc::c_void, e_len.try_into().unwrap());
         p = p.offset(e_len as isize);
     }
     let fresh6 = p;
@@ -1590,8 +1590,8 @@ unsafe extern "C" fn doc_type(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             let mut type_id_name: *const libc::c_char = ast_name(id);
@@ -1739,8 +1739,8 @@ unsafe extern "C" fn doc_type(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_1.as_mut_ptr(),
             );
             doc_type(docgen, docgen_opt, left, generate_links, break_lines);
@@ -2020,8 +2020,8 @@ unsafe extern "C" fn doc_fields(
         ast_get_children(
             field,
             (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children.as_mut_ptr(),
         );
         let mut name: *const libc::c_char = ast_name(id);
@@ -2526,8 +2526,8 @@ unsafe extern "C" fn doc_method(
     ast_get_children(
         method,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut name: *const libc::c_char = ast_name(id);
@@ -2906,7 +2906,7 @@ unsafe extern "C" fn replace_path_separator(
     memcpy(
         buffer as *mut libc::c_void,
         path as *const libc::c_void,
-        str_len,
+        str_len.try_into().unwrap(),
     );
     let mut p: *mut libc::c_char = buffer;
     while *p as libc::c_int != '\0' as i32 {
@@ -19800,7 +19800,7 @@ pub unsafe extern "C" fn generate_docs(mut program: *mut ast_t, mut options: *mu
         ];
         fwrite(
             logo.as_ptr() as *const libc::c_void,
-            ::core::mem::size_of::<libc::c_uchar>(),
+            ::core::mem::size_of::<libc::c_uchar>().try_into().unwrap(),
             15558 as libc::c_int as libc::c_ulong,
             logo_file,
         );

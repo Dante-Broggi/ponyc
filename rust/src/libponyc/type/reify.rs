@@ -1123,8 +1123,8 @@ unsafe extern "C" fn reify_arrow(mut astp: *mut *mut ast_t) {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut r_left: *mut ast_t = left;
@@ -1137,8 +1137,8 @@ unsafe extern "C" fn reify_arrow(mut astp: *mut *mut ast_t) {
         ast_get_children(
             left,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children_0.as_mut_ptr(),
         );
         r_left = l_left;

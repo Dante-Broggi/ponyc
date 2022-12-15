@@ -827,8 +827,8 @@ unsafe extern "C" fn check_partial_function_call(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(receiver) as libc::c_uint == ast_id(ast) as libc::c_uint {
@@ -837,8 +837,8 @@ unsafe extern "C" fn check_partial_function_call(
         ast_get_children(
             receiver,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children_0.as_mut_ptr(),
         );
     }
@@ -990,8 +990,8 @@ unsafe extern "C" fn check_partial_ffi_call(mut opt: *mut pass_opt_t, mut ast: *
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut decl: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1029,8 +1029,8 @@ unsafe extern "C" fn check_partial_ffi_call(mut opt: *mut pass_opt_t, mut ast: *
         ast_get_children(
             decl,
             (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children_0.as_mut_ptr(),
         );
         if ast_id(decl_error) as libc::c_uint == TK_QUESTION as libc::c_int as libc::c_uint {

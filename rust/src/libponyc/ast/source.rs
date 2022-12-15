@@ -290,7 +290,7 @@ pub unsafe extern "C" fn source_open(
     (*source).len = (size + 1 as libc::c_int as libc::c_long) as usize;
     let mut read: ssize_t = fread(
         (*source).m as *mut libc::c_void,
-        ::core::mem::size_of::<libc::c_char>(),
+        ::core::mem::size_of::<libc::c_char>().try_into().unwrap(),
         size as libc::c_ulong,
         fp,
     ) as ssize_t;
@@ -317,7 +317,7 @@ pub unsafe extern "C" fn source_open_string(mut source_code: *const libc::c_char
     memcpy(
         (*source).m as *mut libc::c_void,
         source_code as *const libc::c_void,
-        (*source).len,
+        (*source).len.try_into().unwrap(),
     );
     return source;
 }

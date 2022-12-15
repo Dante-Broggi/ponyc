@@ -1869,7 +1869,7 @@ unsafe extern "C" fn nominal(
         static mut order: [usize; 2] = [1 as libc::c_int as usize, 0 as libc::c_int as usize];
         if ast_childcount(state.ast)
             == (::core::mem::size_of::<[usize; 2]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<usize>())
+                .wrapping_div(::core::mem::size_of::<usize>().try_into().unwrap()).try_into().unwrap()
         {
         } else {
             ponyint_assert_fail(
@@ -8501,7 +8501,7 @@ unsafe extern "C" fn elseifdef(
     ];
     if ast_childcount(state.ast)
         == (::core::mem::size_of::<[usize; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<usize>())
+            .wrapping_div(::core::mem::size_of::<usize>().try_into().unwrap()).try_into().unwrap()
     {
     } else {
         ponyint_assert_fail(
@@ -8735,7 +8735,7 @@ unsafe extern "C" fn ifdef(
     ];
     if ast_childcount(state.ast)
         == (::core::mem::size_of::<[usize; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<usize>())
+            .wrapping_div(::core::mem::size_of::<usize>().try_into().unwrap()).try_into().unwrap()
     {
     } else {
         ponyint_assert_fail(
@@ -11865,7 +11865,7 @@ unsafe extern "C" fn binop(
     static mut order: [usize; 2] = [1 as libc::c_int as usize, 0 as libc::c_int as usize];
     if ast_childcount(state.ast)
         == (::core::mem::size_of::<[usize; 2]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<usize>())
+            .wrapping_div(::core::mem::size_of::<usize>().try_into().unwrap()).try_into().unwrap()
     {
     } else {
         ponyint_assert_fail(
@@ -13428,7 +13428,7 @@ unsafe extern "C" fn method(
     ];
     if ast_childcount(state.ast)
         == (::core::mem::size_of::<[usize; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<usize>())
+            .wrapping_div(::core::mem::size_of::<usize>().try_into().unwrap()).try_into().unwrap()
     {
     } else {
         ponyint_assert_fail(
@@ -13925,7 +13925,7 @@ unsafe extern "C" fn class_def(
     ];
     if ast_childcount(state.ast)
         == (::core::mem::size_of::<[usize; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<usize>())
+            .wrapping_div(::core::mem::size_of::<usize>().try_into().unwrap()).try_into().unwrap()
     {
     } else {
         ponyint_assert_fail(

@@ -842,7 +842,7 @@ unsafe extern "C" fn flatten_typeexpr_element(
 }
 #[c2rust::src_loc = "30:1"]
 unsafe extern "C" fn flatten_union(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
-    if ast_childcount(ast) > 2 as libc::c_int as libc::c_ulong {
+    if ast_childcount(ast) > (2 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         return AST_OK;
     }
     let mut left: ast_ptr_t = 0 as *mut ast_t;
@@ -851,8 +851,8 @@ unsafe extern "C" fn flatten_union(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
     ast_extract_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     flatten_typeexpr_element(ast, left, TK_UNIONTYPE);
@@ -861,7 +861,7 @@ unsafe extern "C" fn flatten_union(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
 }
 #[c2rust::src_loc = "47:1"]
 unsafe extern "C" fn flatten_isect(mut _opt: *mut pass_opt_t, mut ast: *mut ast_t) -> ast_result_t {
-    if ast_childcount(ast) > 2 as libc::c_int as libc::c_ulong {
+    if ast_childcount(ast) > (2 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         return AST_OK;
     }
     let mut left: ast_ptr_t = 0 as *mut ast_t;
@@ -870,8 +870,8 @@ unsafe extern "C" fn flatten_isect(mut _opt: *mut pass_opt_t, mut ast: *mut ast_
     ast_extract_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     flatten_typeexpr_element(ast, left, TK_ISECTTYPE);
@@ -1026,8 +1026,8 @@ unsafe extern "C" fn flatten_constructor(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     match ast_id(cap) as libc::c_uint {
@@ -1060,8 +1060,8 @@ unsafe extern "C" fn flatten_async(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     return flatten_sendable_params(opt, params);
@@ -1077,8 +1077,8 @@ unsafe extern "C" fn flatten_arrow(
     ast_get_children(
         *astp,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     match ast_id(left) as libc::c_uint {

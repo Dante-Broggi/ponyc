@@ -1094,13 +1094,13 @@ unsafe extern "C" fn append_to_args(mut program: *mut program_t, mut text: *cons
         .wrapping_add(text_len)
         .wrapping_add(1);
     if new_len > (*program).lib_args_alloced {
-        let mut new_alloc: usize = (2 as libc::c_int as libc::c_ulong).wrapping_mul(new_len);
+        let mut new_alloc: usize = (2 as libc::c_int as libc::c_ulong).wrapping_mul(new_len.try_into().unwrap()).try_into().unwrap();
         let mut new_args: *mut libc::c_char =
             ponyint_pool_alloc_size(new_alloc) as *mut libc::c_char;
         memcpy(
             new_args as *mut libc::c_void,
             (*program).lib_args as *const libc::c_void,
-            ((*program).lib_args_size).wrapping_add(1),
+            ((*program).lib_args_size).wrapping_add(1).try_into().unwrap(),
         );
         ponyint_pool_free_size(
             (*program).lib_args_alloced,
@@ -1237,18 +1237,18 @@ unsafe extern "C" fn quoted_locator(
     }
     let mut len: usize = libc::strlen(locator);
     let mut quoted: *mut libc::c_char =
-        ponyint_pool_alloc_size(len.wrapping_add(3 as libc::c_int as libc::c_ulong))
+        ponyint_pool_alloc_size(len.wrapping_add((3 as libc::c_int as libc::c_ulong).try_into().unwrap()))
             as *mut libc::c_char;
     *quoted.offset(0 as libc::c_int as isize) = '"' as i32 as libc::c_char;
     memcpy(
         quoted.offset(1 as libc::c_int as isize) as *mut libc::c_void,
         locator as *const libc::c_void,
-        len,
+        len.try_into().unwrap(),
     );
     *quoted.offset(len.wrapping_add(1) as isize) = '"' as i32 as libc::c_char;
-    *quoted.offset(len.wrapping_add(2 as libc::c_int as libc::c_ulong) as isize) =
+    *quoted.offset(len.wrapping_add((2 as libc::c_int as libc::c_ulong).try_into().unwrap()) as isize) =
         '\0' as i32 as libc::c_char;
-    return stringtab_consume(quoted, len.wrapping_add(3 as libc::c_int as libc::c_ulong));
+    return stringtab_consume(quoted, len.wrapping_add((3 as libc::c_int as libc::c_ulong).try_into().unwrap()));
 }
 #[no_mangle]
 #[c2rust::src_loc = "124:1"]
@@ -1656,7 +1656,7 @@ pub unsafe extern "C" fn program_signature(mut program: *mut ast_t) -> *const li
 #[c2rust::src_loc = "311:1"]
 unsafe extern "C" fn print_signature(mut sig: *const libc::c_char) {
     let mut i: usize = 0;
-    while i < 64 as libc::c_int as libc::c_ulong {
+    while i < (64 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         printf(
             b"%02hhX\0" as *const u8 as *const libc::c_char,
             *sig.offset(i as isize) as libc::c_int,
@@ -1804,7 +1804,7 @@ unsafe extern "C" fn program_serialise(
         memcpy(
             dst_lib as *mut libc::c_void,
             (*program).lib_args as *const libc::c_void,
-            ((*program).lib_args_size).wrapping_add(1),
+            ((*program).lib_args_size).wrapping_add(1).try_into().unwrap(),
         );
     }
 }
@@ -1836,7 +1836,7 @@ unsafe extern "C" fn program_deserialise(mut ctx: *mut pony_ctx_t, mut object: *
     *fresh22 = pony_deserialise_block(
         ctx,
         (*program).lib_args as libc::uintptr_t,
-        ((*program).lib_args_size).wrapping_add(1 as libc::c_int as libc::c_ulong),
+        ((*program).lib_args_size).wrapping_add((1 as libc::c_int as libc::c_ulong).try_into().unwrap()),
     ) as *mut libc::c_char;
 }
 #[c2rust::src_loc = "422:20"]

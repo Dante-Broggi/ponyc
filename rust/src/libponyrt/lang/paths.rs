@@ -52,7 +52,7 @@ pub unsafe extern "C" fn pony_os_realpath(mut path: *const libc::c_char) -> *mut
     memcpy(
         cstring as *mut libc::c_void,
         resolved.as_mut_ptr() as *const libc::c_void,
-        len,
+        len.try_into().unwrap(),
     );
     cstring
 }

@@ -1586,7 +1586,7 @@ unsafe extern "C" fn print_params(
         memcpy(
             buffer as *mut libc::c_void,
             name as *const libc::c_void,
-            len,
+            len.try_into().unwrap(),
         );
         len = len.wrapping_sub(1);
         loop {
@@ -1784,7 +1784,7 @@ pub unsafe extern "C" fn genheader(mut c: *mut compile_t) -> bool {
     fwrite(
         (*buf).m as *const libc::c_void,
         1 as libc::c_int as libc::c_ulong,
-        (*buf).offset,
+        (*buf).offset.try_into().unwrap(),
         fp,
     );
     printbuf_free(buf);

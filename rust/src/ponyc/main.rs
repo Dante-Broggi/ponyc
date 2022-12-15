@@ -467,7 +467,7 @@ unsafe extern "C" fn get_width() -> usize {
             &mut ws as *mut winsize,
         ) == 0 as libc::c_int
         {
-            if ws.ws_col as libc::c_ulong > width {
+            if ws.ws_col as libc::c_ulong > width.try_into().unwrap() {
                 width = ws.ws_col as usize;
             }
         }
@@ -556,7 +556,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
     let mut i: libc::c_int = 1 as libc::c_int;
     while i < argc {
         args_size = (args_size as libc::c_ulong)
-            .wrapping_add((libc::strlen(*argv.offset(i as isize))).wrapping_add(1))
+            .wrapping_add((libc::strlen(*argv.offset(i as isize))).wrapping_add(1).try_into().unwrap())
             as usize as usize;
         i += 1;
     }
@@ -568,7 +568,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
         strncat(
             opt.all_args as *mut libc::c_char,
             *argv.offset(i_0 as isize),
-            size_left,
+            size_left.try_into().unwrap(),
         );
         strncat(
             opt.all_args as *mut libc::c_char,
@@ -576,7 +576,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
             1 as libc::c_int as libc::c_ulong,
         );
         size_left = (size_left as libc::c_ulong)
-            .wrapping_sub((libc::strlen(*argv.offset(i_0 as isize))).wrapping_add(1))
+            .wrapping_sub((libc::strlen(*argv.offset(i_0 as isize))).wrapping_add(1).try_into().unwrap())
             as usize as usize;
         i_0 += 1;
     }

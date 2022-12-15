@@ -1184,13 +1184,13 @@ unsafe extern "C" fn detect_apply_element_type(
     ast_get_children(
         apply,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(receiver_cap) as libc::c_uint != TK_BOX as libc::c_int as libc::c_uint
         || ast_id(type_params) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
-        || ast_childcount(params) != 1 as libc::c_int as libc::c_ulong
+        || ast_childcount(params) != (1 as libc::c_int as libc::c_ulong).try_into().unwrap()
         || ast_id(question) as libc::c_uint != TK_QUESTION as libc::c_int as libc::c_uint
     {
         return 0 as *mut ast_t;
@@ -1242,8 +1242,8 @@ unsafe extern "C" fn detect_values_element_type(
     ast_get_children(
         values,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(receiver_cap) as libc::c_uint != TK_BOX as libc::c_int as libc::c_uint
@@ -1257,7 +1257,7 @@ unsafe extern "C" fn detect_values_element_type(
         || ast_name(ast_childidx(ret_type, 1 as libc::c_int as usize))
             != stringtab(b"Iterator\0" as *const u8 as *const libc::c_char)
         || ast_childcount(ast_childidx(ret_type, 2 as libc::c_int as usize))
-            != 1 as libc::c_int as libc::c_ulong
+            != (1 as libc::c_int as libc::c_ulong).try_into().unwrap()
     {
         return 0 as *mut ast_t;
     }
@@ -1299,8 +1299,8 @@ unsafe extern "C" fn find_possible_element_types(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             if stringtab(b"Array\0" as *const u8 as *const libc::c_char) == ast_name(name) {
@@ -1383,8 +1383,8 @@ unsafe extern "C" fn find_possible_iterator_element_types(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             if stringtab(b"Iterator\0" as *const u8 as *const libc::c_char) == ast_name(name) {
@@ -1448,7 +1448,7 @@ unsafe extern "C" fn infer_element_type(
             find_possible_iterator_element_types(opt, antecedent_type, &mut possible_element_types);
         }
     }
-    if astlist_length(possible_element_types) > 1 as libc::c_int as libc::c_ulong {
+    if astlist_length(possible_element_types) > (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let mut new_list: *mut astlist_t = 0 as *mut astlist_t;
         let mut left_cursor: *mut astlist_t = possible_element_types;
         while !left_cursor.is_null() {
@@ -1472,7 +1472,7 @@ unsafe extern "C" fn infer_element_type(
         astlist_free(possible_element_types);
         possible_element_types = new_list;
     }
-    if astlist_length(possible_element_types) > 1 as libc::c_int as libc::c_ulong {
+    if astlist_length(possible_element_types) > (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let mut new_list_0: *mut astlist_t = 0 as *mut astlist_t;
         let mut super_cursor: *mut astlist_t = possible_element_types;
         while !super_cursor.is_null() {
@@ -1500,7 +1500,7 @@ unsafe extern "C" fn infer_element_type(
         astlist_free(possible_element_types);
         possible_element_types = new_list_0;
     }
-    if astlist_length(possible_element_types) > 1 as libc::c_int as libc::c_ulong {
+    if astlist_length(possible_element_types) > (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         let mut new_list_1: *mut astlist_t = 0 as *mut astlist_t;
         let mut cursor: *mut astlist_t = possible_element_types;
         while !cursor.is_null() {
@@ -1555,7 +1555,7 @@ unsafe extern "C" fn infer_element_type(
         astlist_free(possible_element_types);
         possible_element_types = new_list_1;
     }
-    if astlist_length(possible_element_types) == 1 as libc::c_int as libc::c_ulong {
+    if astlist_length(possible_element_types) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
         ast_replace(type_spec_p, astlist_data(possible_element_types));
     }
     return 1 as libc::c_int != 0;
@@ -1584,8 +1584,8 @@ pub unsafe extern "C" fn expr_pre_array(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut is_recovered: bool = 0 as libc::c_int != 0;
@@ -1701,8 +1701,8 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut size: usize = ast_childcount(elements);

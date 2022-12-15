@@ -964,7 +964,7 @@ unsafe extern "C" fn find_handler(
     let mut i: libc::c_int = 0 as libc::c_int;
     while !(handlers[i as usize].scheme).is_null() {
         if handlers[i as usize].scheme_len == scheme_len
-            && strncmp(handlers[i as usize].scheme, text, scheme_len) == 0 as libc::c_int
+            && strncmp(handlers[i as usize].scheme, text, scheme_len.try_into().unwrap()) == 0 as libc::c_int
         {
             if (handlers[i as usize].handler).is_none() {
                 break;

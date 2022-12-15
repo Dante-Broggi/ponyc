@@ -340,7 +340,7 @@ unsafe extern "C" fn flag_dup(mut flag: *mut flag_t) -> *mut flag_t {
     memcpy(
         f as *mut libc::c_void,
         flag as *const libc::c_void,
-        ::core::mem::size_of::<flag_t>(),
+        ::core::mem::size_of::<flag_t>().try_into().unwrap(),
     );
     f
 }
@@ -1015,7 +1015,7 @@ unsafe extern "C" fn print_str(
     if (*pointer).offset(len as isize) < ((*set).text_buffer).offset((*set).buffer_size as isize) {
         snprintf(
             *pointer,
-            len.wrapping_add(1),
+            len.wrapping_add(1).try_into().unwrap(),
             b"%s\0" as *const u8 as *const libc::c_char,
             s,
         );

@@ -524,7 +524,7 @@ unsafe extern "C" fn stringtab_cmp(
         && memcmp(
             (*a).str_0 as *const libc::c_void,
             (*b).str_0 as *const libc::c_void,
-            (*a).len,
+            (*a).len.try_into().unwrap(),
         ) == 0 as libc::c_int;
 }
 #[c2rust::src_loc = "35:1"]
@@ -694,7 +694,7 @@ pub unsafe extern "C" fn stringtab(mut string: *const libc::c_char) -> *const li
     if string.is_null() {
         return 0 as *const libc::c_char;
     }
-    stringtab_len(string, strlen(string))
+    stringtab_len(string, strlen(string).try_into().unwrap())
 }
 #[no_mangle]
 #[c2rust::src_loc = "60:1"]
@@ -720,7 +720,7 @@ pub unsafe extern "C" fn stringtab_len(
     }
     let mut dst: *mut libc::c_char =
         ponyint_pool_alloc_size(len.wrapping_add(1)) as *mut libc::c_char;
-    memcpy(dst as *mut libc::c_void, string as *const libc::c_void, len);
+    memcpy(dst as *mut libc::c_void, string as *const libc::c_void, len.try_into().unwrap());
     *dst.offset(len as isize) = '\0' as i32 as libc::c_char;
     n = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut stringtab_entry_t;
     let ref mut fresh0 = (*n).str_0;
@@ -769,7 +769,7 @@ pub unsafe extern "C" fn stringtab_done() {
     memset(
         &mut table as *mut strtable_t as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<strtable_t>(),
+        ::core::mem::size_of::<strtable_t>().try_into().unwrap(),
     );
 }
 #[c2rust::src_loc = "120:1"]
@@ -784,7 +784,7 @@ unsafe extern "C" fn string_serialise(
     memcpy(
         (buf as libc::uintptr_t).wrapping_add(offset) as *mut libc::c_void,
         object,
-        (libc::strlen(string)).wrapping_add(1),
+        (libc::strlen(string)).wrapping_add(1).try_into().unwrap(),
     );
 }
 #[thread_local]
@@ -825,7 +825,7 @@ static mut string_pony: _pony_type_t = unsafe {
 #[no_mangle]
 #[c2rust::src_loc = "152:1"]
 pub unsafe extern "C" fn string_trace(mut ctx: *mut pony_ctx_t, mut string: *const libc::c_char) {
-    string_trace_len(ctx, string, strlen(string));
+    string_trace_len(ctx, string, strlen(string).try_into().unwrap());
 }
 #[no_mangle]
 #[c2rust::src_loc = "157:1"]

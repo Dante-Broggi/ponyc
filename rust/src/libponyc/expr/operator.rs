@@ -1161,7 +1161,7 @@ unsafe extern "C" fn infer_local_inner(
     let mut ret_val: infer_ret_t = INFER_NOP;
     match ast_id(left) as libc::c_uint {
         175 => {
-            if ast_childcount(left) == 1 as libc::c_int as libc::c_ulong {
+            if ast_childcount(left) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
             } else {
                 ponyint_assert_fail(
                     b"ast_childcount(left) == 1\0" as *const u8 as *const libc::c_char,
@@ -1497,8 +1497,8 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut l_type: *mut ast_t = ast_type(left);
@@ -1548,8 +1548,8 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
             ast_get_children(
                 left,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children_0.as_mut_ptr(),
             );
             fl_type = ast_type(field);
@@ -1807,7 +1807,7 @@ unsafe extern "C" fn add_as_type(
                 }
                 p = ast_sibling(p);
             }
-            if ast_childcount(body_child) == 1 as libc::c_int as libc::c_ulong {
+            if ast_childcount(body_child) == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
                 let mut t: *mut ast_t = ast_pop(body_child);
                 ast_free(tuple_body);
                 tuple_body = t;
@@ -2071,8 +2071,8 @@ pub unsafe extern "C" fn expr_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut a
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut expr_type: *mut ast_t = ast_type(expr);
@@ -2286,8 +2286,8 @@ pub unsafe extern "C" fn expr_consume(mut opt: *mut pass_opt_t, mut ast: *mut as
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     if ast_id(term) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint

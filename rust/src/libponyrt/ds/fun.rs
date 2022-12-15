@@ -68,7 +68,7 @@ unsafe extern "C" fn siphash24(
     let mut v3: u64 = k1 ^ 0x7465646279746573 as libc::c_ulonglong;
     let mut end: *const libc::c_uchar = in_0
         .offset(len as isize)
-        .offset(-(len.wrapping_rem(8 as libc::c_int as libc::c_ulong) as isize));
+        .offset(-(len.wrapping_rem((8 as libc::c_int as libc::c_ulong).try_into().unwrap()) as isize));
     while in_0 != end {
         let mut m: u64 = *(in_0 as *mut u64);
         v3 ^= m;
@@ -332,6 +332,6 @@ pub unsafe extern "C" fn ponyint_next_pow2(mut i: usize) -> usize {
         << (if i == 0 {
             0
         } else {
-            (64 as libc::c_int as libc::c_ulong).wrapping_sub(i)
+            (64 as libc::c_int as libc::c_ulong).wrapping_sub(i.try_into().unwrap())
         });
 }

@@ -126,7 +126,7 @@ unsafe extern "C" fn find_match(mut s: *mut opt_state_t) -> *const opt_arg_t {
             match_name = &(*p).short_opt;
             match_length = 1 as libc::c_int as usize;
         }
-        if strncmp(match_name, (*s).opt_start, match_length) == 0 {
+        if strncmp(match_name, (*s).opt_start, match_length.try_into().unwrap()) == 0 {
             if (*s).match_type == 2 as libc::c_int || match_length == libc::strlen(match_name) {
                 if !match_0.is_null() && (*match_0).id != (*p).id {
                     return 1 as libc::c_int as *mut opt_arg_t;
@@ -238,7 +238,7 @@ unsafe extern "C" fn parse_short_opt(mut s: *mut opt_state_t) {
     memmove(
         (*s).opt_start as *mut libc::c_void,
         ((*s).opt_start).offset(1 as libc::c_int as isize) as *const libc::c_void,
-        libc::strlen((*s).opt_start),
+        libc::strlen((*s).opt_start).try_into().unwrap(),
     );
     if *(*s).opt_start != 0 {
         let ref mut fresh16 = (*s).opt_start;

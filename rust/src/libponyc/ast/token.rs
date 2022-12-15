@@ -764,7 +764,7 @@ pub unsafe extern "C" fn token_new(mut id: token_id) -> *mut token_t {
     memset(
         t as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_t>(),
+        ::core::mem::size_of::<token_t>().try_into().unwrap(),
     );
     (*t).id = id;
     return t;
@@ -786,7 +786,7 @@ pub unsafe extern "C" fn token_dup(mut token: *mut token_t) -> *mut token_t {
     memcpy(
         t as *mut libc::c_void,
         token as *const libc::c_void,
-        ::core::mem::size_of::<token_t>(),
+        ::core::mem::size_of::<token_t>().try_into().unwrap(),
     );
     let ref mut fresh0 = (*t).printed;
     *fresh0 = 0 as *mut libc::c_char;
@@ -996,7 +996,7 @@ pub unsafe extern "C" fn token_print(mut token: *mut token_t) -> *const libc::c_
             if strcspn(
                 (*token).printed,
                 b".e\0" as *const u8 as *const libc::c_char,
-            ) == r as usize
+            ) == (r as usize).try_into().unwrap()
             {
                 snprintf(
                     ((*token).printed).offset(r as isize),
@@ -1066,7 +1066,7 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         memcpy(
             copy as *mut libc::c_void,
             str as *const libc::c_void,
-            str_len,
+            str_len.try_into().unwrap(),
         );
         *copy.offset(str_len as isize) = 0 as libc::c_int as libc::c_char;
         return copy;
@@ -1398,7 +1398,7 @@ unsafe extern "C" fn token_signature_serialise(
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_signature_t>(),
+        ::core::mem::size_of::<token_signature_t>().try_into().unwrap(),
     );
     (*dst).id = (*token).id;
     match (*token).id as libc::c_uint {
@@ -1496,7 +1496,7 @@ unsafe extern "C" fn token_docstring_signature_serialise(
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_signature_t>(),
+        ::core::mem::size_of::<token_signature_t>().try_into().unwrap(),
     );
     (*dst).id = TK_NONE;
 }

@@ -7414,7 +7414,7 @@ unsafe extern "C" fn check_children(
             __stderrp,
             b"found %zu child%s, expected more\n\0" as *const u8 as *const libc::c_char,
             (*state).child_index,
-            if (*state).child_index == 1 as libc::c_int as libc::c_ulong {
+            if (*state).child_index == (1 as libc::c_int as libc::c_ulong).try_into().unwrap() {
                 b"\0" as *const u8 as *const libc::c_char
             } else {
                 b"ren\0" as *const u8 as *const libc::c_char

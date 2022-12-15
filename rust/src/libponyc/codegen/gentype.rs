@@ -1975,7 +1975,7 @@ unsafe extern "C" fn allocate_compile_types(mut c: *mut compile_t) {
         memset(
             c_t as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<compile_type_t>(),
+            ::core::mem::size_of::<compile_type_t>().try_into().unwrap(),
         );
         let ref mut fresh0 = (*c_t).free_fn;
         *fresh0 = Some(compile_type_free as unsafe extern "C" fn(*mut libc::c_void) -> ());
@@ -2005,8 +2005,8 @@ unsafe extern "C" fn make_opaque_struct(mut c: *mut compile_t, mut t: *mut reach
             ast_get_children(
                 (*t).ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                    .wrapping_sub(1),
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                    .wrapping_sub(1).try_into().unwrap(),
                 children.as_mut_ptr(),
             );
             let mut package: *const libc::c_char = ast_name(pkg);
@@ -2435,7 +2435,7 @@ unsafe extern "C" fn make_struct(mut c: *mut compile_t, mut t: *mut reach_type_t
     }
     let mut buf_size: usize = (((*t).field_count).wrapping_add(extra as libc::c_uint)
         as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>().try_into().unwrap()).try_into().unwrap();
     let mut elements: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     if extra > 0 as libc::c_int {
         let ref mut fresh60 = *elements.offset(0 as libc::c_int as isize);
@@ -2554,7 +2554,7 @@ unsafe extern "C" fn make_debug_fields(mut c: *mut compile_t, mut t: *mut reach_
     let mut fields_buf_size: usize = 0;
     if (*t).field_count > 0 as libc::c_int as libc::c_uint {
         fields_buf_size = ((*t).field_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMMetadataRef>());
+            .wrapping_mul(::core::mem::size_of::<LLVMMetadataRef>().try_into().unwrap());
         fields = ponyint_pool_alloc_size(fields_buf_size) as *mut LLVMMetadataRef;
         let mut i: u32 = 0 as libc::c_int as u32;
         while i < (*t).field_count {
@@ -2652,8 +2652,8 @@ unsafe extern "C" fn make_intrinsic_methods(mut c: *mut compile_t, mut t: *mut r
     ast_get_children(
         (*t).ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-            .wrapping_sub(1),
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+            .wrapping_sub(1).try_into().unwrap(),
         children.as_mut_ptr(),
     );
     let mut package: *const libc::c_char = ast_name(pkg);
@@ -2683,8 +2683,8 @@ unsafe extern "C" fn make_trace(mut c: *mut compile_t, mut t: *mut reach_type_t)
         ast_get_children(
             (*t).ast,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
-                .wrapping_sub(1),
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>().try_into().unwrap())
+                .wrapping_sub(1).try_into().unwrap(),
             children.as_mut_ptr(),
         );
         let mut package: *const libc::c_char = ast_name(pkg);

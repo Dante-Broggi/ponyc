@@ -1775,7 +1775,7 @@ unsafe extern "C" fn assign_to_tuple(
     };
     let mut count: libc::c_int = LLVMCountStructElementTypes(l_type) as libc::c_int;
     let mut buf_size: usize =
-        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
+        (count as libc::c_ulong).wrapping_mul(::core::mem::size_of::<LLVMTypeRef>().try_into().unwrap()).try_into().unwrap();
     let mut elements: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetStructElementTypes(l_type, elements);
     let mut result: LLVMValueRef = LLVMGetUndef(l_type);

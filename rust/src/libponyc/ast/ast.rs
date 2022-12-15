@@ -1855,7 +1855,7 @@ pub unsafe extern "C" fn ast_token(mut t: *mut token_t) -> *mut ast_t {
     memset(
         ast as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<ast_t>(),
+        ::core::mem::size_of::<ast_t>().try_into().unwrap(),
     );
     let ref mut fresh6 = (*ast).t;
     *fresh6 = t;

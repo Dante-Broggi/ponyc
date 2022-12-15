@@ -1307,7 +1307,7 @@ unsafe extern "C" fn get_view(
         memset(
             view as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<view_t>(),
+            ::core::mem::size_of::<view_t>().try_into().unwrap(),
         );
         let ref mut fresh1 = (*view).actor;
         *fresh1 = actor;
@@ -1382,7 +1382,7 @@ unsafe extern "C" fn mark_grey(
         (*view).deferred = 0 as libc::c_int != 0;
     }
     let ref mut fresh5 = (*view).rc;
-    *fresh5 = (*fresh5 as libc::c_ulong).wrapping_sub(rc) as usize as usize;
+    *fresh5 = (*fresh5 as libc::c_ulong).wrapping_sub(rc.try_into().unwrap()) as usize as usize;
     if (*view).color as libc::c_int == COLOR_GREY as libc::c_int {
         return 0 as libc::c_int != 0;
     }
@@ -1444,7 +1444,7 @@ unsafe extern "C" fn mark_black(
         return 0 as libc::c_int != 0;
     }
     let ref mut fresh6 = (*view).rc;
-    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(rc) as usize as usize;
+    *fresh6 = (*fresh6 as libc::c_ulong).wrapping_add(rc.try_into().unwrap()) as usize as usize;
     if (*view).color as libc::c_int == COLOR_BLACK as libc::c_int {
         return 0 as libc::c_int != 0;
     }
@@ -1804,7 +1804,7 @@ unsafe extern "C" fn collect(
         view_free(view);
     }
     let ref mut fresh14 = (*d).destroyed;
-    *fresh14 = (*fresh14 as libc::c_ulong).wrapping_add(ponyint_viewmap_size(&mut (*per).map))
+    *fresh14 = (*fresh14 as libc::c_ulong).wrapping_add(ponyint_viewmap_size(&mut (*per).map).try_into().unwrap())
         as usize as usize;
     perceived_free(per);
     let ref mut fresh15 = (*d).collected;
@@ -1834,12 +1834,12 @@ unsafe extern "C" fn check_blocked(mut ctx: *mut pony_ctx_t, mut d: *mut detecto
             }
         }
         n = n.wrapping_add(1);
-        if n > (if total.wrapping_div(10 as libc::c_int as libc::c_ulong)
-            > 1000 as libc::c_int as libc::c_ulong
+        if n > (if total.wrapping_div((10 as libc::c_int as libc::c_ulong).try_into().unwrap())
+            > (1000 as libc::c_int as libc::c_ulong).try_into().unwrap()
         {
-            total.wrapping_div(10 as libc::c_int as libc::c_ulong)
+            total.wrapping_div((10 as libc::c_int as libc::c_ulong).try_into().unwrap())
         } else {
-            1000 as libc::c_int as libc::c_ulong
+            (1000 as libc::c_int as libc::c_ulong).try_into().unwrap()
         }) {
             break;
         }
