@@ -450,14 +450,14 @@ use self::unistd_h::isatty;
 #[c2rust::src_loc = "22:1"]
 unsafe extern "C" fn get_width() -> usize {
     let mut width: usize = 80 as libc::c_int as usize;
-    if isatty(1 as libc::c_int) != 0 {
+    if libc::isatty(1 as libc::c_int) != 0 {
         let mut ws: winsize = winsize {
             ws_row: 0,
             ws_col: 0,
             ws_xpixel: 0,
             ws_ypixel: 0,
         };
-        if ioctl(
+        if libc::ioctl(
             1 as libc::c_int,
             0x40000000 as libc::c_int as u32 as libc::c_ulong
                 | (::core::mem::size_of::<winsize>()
@@ -561,7 +561,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
         ) as usize as usize;
         i += 1;
     }
-    opt.all_args = calloc(
+    opt.all_args = libc::calloc(
         args_size,
         ::core::mem::size_of::<libc::c_char>(),
     ) as *const libc::c_char;

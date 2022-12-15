@@ -114,14 +114,14 @@ pub unsafe extern "C" fn pony_error() {
             as unsafe extern "C" fn(_Unwind_Reason_Code, *mut _Unwind_Exception) -> (),
     );
     _Unwind_RaiseException(&mut exception);
-    abort();
+    libc::abort();
 }
 #[c2rust::src_loc = "42:1"]
 unsafe extern "C" fn set_registers(
     mut _exception_0: *mut _Unwind_Exception,
     mut _context: *mut _Unwind_Context,
 ) {
-    abort();
+    libc::abort();
 }
 #[no_mangle]
 #[c2rust::src_loc = "129:1"]

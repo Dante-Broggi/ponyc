@@ -769,7 +769,7 @@ pub unsafe extern "C" fn ponyint_serialise_actor(
     serialise_cleanup(ctx);
     ::core::mem::transmute::<_, fn()>(((*ctx).serialise_throw).expect("non-null function pointer"))(
     );
-    abort();
+    libc::abort();
 }
 #[no_mangle]
 #[c2rust::src_loc = "148:1"]
@@ -958,7 +958,7 @@ pub unsafe extern "C" fn pony_deserialise_offset(
             ::core::mem::transmute::<_, fn()>(
                 ((*ctx).serialise_throw).expect("non-null function pointer"),
             )();
-            abort();
+            libc::abort();
         }
         let mut id: libc::uintptr_t =
             *(((*ctx).serialise_buffer as libc::uintptr_t).wrapping_add(offset) as *mut libc::uintptr_t);
@@ -972,7 +972,7 @@ pub unsafe extern "C" fn pony_deserialise_offset(
         ::core::mem::transmute::<_, fn()>(
             ((*ctx).serialise_throw).expect("non-null function pointer"),
         )();
-        abort();
+        libc::abort();
     }
     let mut object: *mut libc::c_void = 0 as *mut libc::c_void;
     if ((*t).final_0).is_none() {
@@ -1017,7 +1017,7 @@ pub unsafe extern "C" fn pony_deserialise_block(
         ::core::mem::transmute::<_, fn()>(
             ((*ctx).serialise_throw).expect("non-null function pointer"),
         )();
-        abort();
+        libc::abort();
     }
     let mut block: *mut libc::c_void =
         ((*ctx).serialise_alloc).expect("non-null function pointer")(ctx, size);
@@ -1060,7 +1060,7 @@ pub unsafe extern "C" fn pony_deserialise_raw(
         ::core::mem::transmute::<_, fn()>(
             ((*ctx).serialise_throw).expect("non-null function pointer"),
         )();
-        abort();
+        libc::abort();
     }
     s = ponyint_pool_alloc(0 as libc::c_int as usize) as *mut serialise_t;
     (*s).key = offset;
