@@ -1653,7 +1653,7 @@ pub unsafe extern "C" fn gen_if(mut c: *mut compile_t, mut ast: *mut ast_t) -> L
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut c_value: LLVMValueRef = gen_expr(c, cond);
@@ -1781,7 +1781,7 @@ pub unsafe extern "C" fn gen_iftype(mut c: *mut compile_t, mut ast: *mut ast_t) 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut subtype: ast_ptr_t = 0 as *mut ast_t;
@@ -1797,7 +1797,7 @@ pub unsafe extern "C" fn gen_iftype(mut c: *mut compile_t, mut ast: *mut ast_t) 
         left,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -1824,7 +1824,7 @@ pub unsafe extern "C" fn gen_while(mut c: *mut compile_t, mut ast: *mut ast_t) -
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -1940,7 +1940,7 @@ pub unsafe extern "C" fn gen_repeat(mut c: *mut compile_t, mut ast: *mut ast_t) 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -2189,7 +2189,7 @@ pub unsafe extern "C" fn gen_try(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -2303,7 +2303,7 @@ pub unsafe extern "C" fn gen_disposing_block_can_error(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -2403,7 +2403,7 @@ pub unsafe extern "C" fn gen_disposing_block_cant_error(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut reify: *mut deferred_reification_t = (*(*c).frame).reify;
@@ -2489,7 +2489,7 @@ pub unsafe extern "C" fn gen_error(mut c: *mut compile_t, mut ast: *mut ast_t) -
                 }
             }
             206 => {
-                if !error_handler_expr.is_null() && clause == 0 as libc::c_int as libc::c_ulong {
+                if !error_handler_expr.is_null() && clause == 0 {
                     gen_expr(
                         c,
                         ast_childidx(error_handler_expr, 1 as libc::c_int as usize),
@@ -2525,12 +2525,12 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
         ctx,
         str.as_ptr(),
         (::core::mem::size_of::<[libc::c_char; 15]>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong) as libc::c_uint,
+            .wrapping_sub(1) as libc::c_uint,
     );
     let mut i: usize = 0;
     while i < count as libc::c_ulong {
         let ref mut fresh1 =
-            *params.offset(i.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize);
+            *params.offset(i.wrapping_add(1) as isize);
         *fresh1 = LLVMConstInt(
             LLVMInt32TypeInContext(ctx),
             *weights.offset(i as isize) as libc::c_ulonglong,
@@ -2549,7 +2549,7 @@ pub unsafe extern "C" fn attach_branchweights_metadata(
         LLVMGetMDKindID(
             id.as_ptr(),
             (::core::mem::size_of::<[libc::c_char; 5]>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong) as libc::c_uint,
+                .wrapping_sub(1) as libc::c_uint,
         ),
         metadata,
     );

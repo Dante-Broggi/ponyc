@@ -1167,7 +1167,7 @@ unsafe extern "C" fn check_provides_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if ast_id(cap) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
@@ -1360,7 +1360,7 @@ unsafe extern "C" fn check_method(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(cap) as libc::c_uint == TK_AT as libc::c_int as libc::c_uint {
@@ -1593,7 +1593,7 @@ unsafe extern "C" fn syntax_entity(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_name(id) == stringtab(b"Main\0" as *const u8 as *const libc::c_char) {
@@ -1760,7 +1760,7 @@ unsafe extern "C" fn syntax_arrow(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !((*(*opt).check.frame).constraint).is_null()
@@ -1841,7 +1841,7 @@ unsafe extern "C" fn syntax_nominal(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !is_name_dontcare(ast_name(name)) {
@@ -1965,7 +1965,7 @@ unsafe extern "C" fn syntax_ffi(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if (ast_child(typeargs)).is_null() && is_declaration as libc::c_int != 0
@@ -2156,7 +2156,7 @@ unsafe extern "C" fn syntax_infix_expr(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut op: token_id = ast_id(ast);
@@ -2210,7 +2210,7 @@ unsafe extern "C" fn syntax_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     match ast_id(term) as libc::c_uint {
@@ -2224,7 +2224,7 @@ unsafe extern "C" fn syntax_consume(mut opt: *mut pass_opt_t, mut ast: *mut ast_
                 term,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if ast_id(left) as libc::c_uint != TK_CALL as libc::c_int as libc::c_uint
@@ -2307,7 +2307,7 @@ unsafe extern "C" fn syntax_return(
             );
             return AST_ERROR;
         }
-        if value_count > 0 as libc::c_int as libc::c_ulong {
+        if value_count > 0 {
             if ast_id((*(*opt).check.frame).method) as libc::c_uint
                 == TK_BE as libc::c_int as libc::c_uint
                 || ast_id((*(*opt).check.frame).method) as libc::c_uint
@@ -2445,7 +2445,7 @@ unsafe extern "C" fn syntax_ifdef_cond(
         2 => {}
         5 => {
             let mut name: *const libc::c_char = ast_name(ast);
-            let mut len: usize = (libc::strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+            let mut len: usize = (libc::strlen(name)).wrapping_add(1);
             let mut lower_case: *mut libc::c_char =
                 ponyint_pool_alloc_size(len) as *mut libc::c_char;
             let mut i: usize = 0;
@@ -2563,7 +2563,7 @@ unsafe extern "C" fn syntax_use(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(id) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
@@ -2596,7 +2596,7 @@ unsafe extern "C" fn syntax_lambda_capture(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(type_0) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
@@ -2640,7 +2640,7 @@ unsafe extern "C" fn syntax_barelambdatype(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(fun_cap) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint {
@@ -2816,7 +2816,7 @@ unsafe extern "C" fn syntax_lambda(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 10]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut r: bool = 1 as libc::c_int != 0;
@@ -2917,7 +2917,7 @@ unsafe extern "C" fn syntax_object(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !check_members(opt, members, 0 as libc::c_int) {
@@ -2967,7 +2967,7 @@ unsafe extern "C" fn syntax_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     match ast_id(type_0) as libc::c_uint {
@@ -3111,12 +3111,12 @@ unsafe extern "C" fn syntax_annotation(
         let mut str: *const libc::c_char = ast_name(child);
         if libc::strlen(str)
             >= (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong)
+                .wrapping_sub(1)
             && strncmp(
                 str,
                 ponyint.as_ptr(),
                 (::core::mem::size_of::<[libc::c_char; 8]>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
             ) == 0 as libc::c_int
         {
             ast_error(
@@ -3151,7 +3151,7 @@ unsafe extern "C" fn syntax_as(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) ->
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     match ast_id(expr) as libc::c_uint {

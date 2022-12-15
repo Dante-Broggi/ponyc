@@ -925,7 +925,7 @@ unsafe extern "C" fn verify_main_runtime_override_defaults(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = ast_parent(ast_parent(ast));
@@ -1043,7 +1043,7 @@ unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = ast_parent(ast_parent(ast));
@@ -1131,7 +1131,7 @@ unsafe extern "C" fn verify_primitive_init(mut opt: *mut pass_opt_t, mut ast: *m
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if strcmp(ast_name(id), b"_init\0" as *const u8 as *const libc::c_char) != 0 {
@@ -1178,7 +1178,7 @@ unsafe extern "C" fn verify_primitive_init(mut opt: *mut pass_opt_t, mut ast: *m
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 0 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != 0 {
         ast_error(
             (*opt).check.errors,
             params,
@@ -1229,7 +1229,7 @@ unsafe extern "C" fn verify_any_final(mut opt: *mut pass_opt_t, mut ast: *mut as
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if strcmp(
@@ -1290,7 +1290,7 @@ unsafe extern "C" fn verify_any_final(mut opt: *mut pass_opt_t, mut ast: *mut as
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 0 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != 0 {
         ast_error(
             (*opt).check.errors,
             params,
@@ -1339,7 +1339,7 @@ unsafe extern "C" fn verify_serialise_space(mut opt: *mut pass_opt_t, mut ast: *
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if strcmp(
@@ -1374,7 +1374,7 @@ unsafe extern "C" fn verify_serialise_space(mut opt: *mut pass_opt_t, mut ast: *
         );
         ok = 0 as libc::c_int != 0;
     }
-    if ast_childcount(params) != 0 as libc::c_int as libc::c_ulong {
+    if ast_childcount(params) != 0 {
         ast_error(
             (*opt).check.errors,
             params,
@@ -1415,7 +1415,7 @@ unsafe extern "C" fn verify_serialiser(mut opt: *mut pass_opt_t, mut ast: *mut a
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if strcmp(
@@ -1491,7 +1491,7 @@ unsafe extern "C" fn verify_deserialiser(mut opt: *mut pass_opt_t, mut ast: *mut
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if strcmp(
@@ -1674,7 +1674,7 @@ pub unsafe extern "C" fn verify_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if !verify_main_create(opt, ast)

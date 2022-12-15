@@ -590,7 +590,7 @@ unsafe extern "C" fn clear_chunk(mut chunk: *mut chunk_t, mut mark: u32) {
 }
 #[c2rust::src_loc = "142:1"]
 unsafe extern "C" fn maybe_clear_chunk(mut chunk: *mut chunk_t) {
-    if (*chunk).size != 0 as libc::c_int as libc::c_ulong
+    if (*chunk).size != 0
         && (*chunk).shallow == CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint
     {
         if (*chunk).size
@@ -757,7 +757,7 @@ unsafe extern "C" fn chunk_list(mut f: chunk_fn, mut current: *mut chunk_t, mut 
 #[c2rust::src_loc = "382:1"]
 pub unsafe extern "C" fn ponyint_heap_index(mut size: usize) -> u32 {
     return sizeclass_table
-        [(size.wrapping_sub(1 as libc::c_int as libc::c_ulong) >> 5 as libc::c_int) as usize]
+        [(size.wrapping_sub(1) >> 5 as libc::c_int) as usize]
         as u32;
 }
 #[no_mangle]
@@ -859,7 +859,7 @@ pub unsafe extern "C" fn ponyint_heap_alloc(
                 .as_ptr(),
         );
     };
-    if size == 0 as libc::c_int as libc::c_ulong {
+    if size == 0 {
         return 0 as *mut libc::c_void;
     } else if size <= ((1 as libc::c_int) << 10 as libc::c_int - 1 as libc::c_int) as libc::c_ulong
     {

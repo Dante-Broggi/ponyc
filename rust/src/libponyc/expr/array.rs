@@ -1185,7 +1185,7 @@ unsafe extern "C" fn detect_apply_element_type(
         apply,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(receiver_cap) as libc::c_uint != TK_BOX as libc::c_int as libc::c_uint
@@ -1243,12 +1243,12 @@ unsafe extern "C" fn detect_values_element_type(
         values,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(receiver_cap) as libc::c_uint != TK_BOX as libc::c_int as libc::c_uint
         || ast_id(type_params) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
-        || ast_childcount(params) != 0 as libc::c_int as libc::c_ulong
+        || ast_childcount(params) != 0
         || ast_id(question) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
     {
         return 0 as *mut ast_t;
@@ -1300,7 +1300,7 @@ unsafe extern "C" fn find_possible_element_types(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if stringtab(b"Array\0" as *const u8 as *const libc::c_char) == ast_name(name) {
@@ -1384,7 +1384,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if stringtab(b"Iterator\0" as *const u8 as *const libc::c_char) == ast_name(name) {
@@ -1585,7 +1585,7 @@ pub unsafe extern "C" fn expr_pre_array(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut is_recovered: bool = 0 as libc::c_int != 0;
@@ -1702,7 +1702,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut size: usize = ast_childcount(elements);
@@ -1710,7 +1710,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
         type_0 = type_spec;
         told_type = 1 as libc::c_int != 0;
     }
-    if !told_type && size == 0 as libc::c_int as libc::c_ulong {
+    if !told_type && size == 0 {
         ast_error(
             (*opt).check.errors,
             ast,

@@ -751,7 +751,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children.as_mut_ptr(),
                     );
                     if constraint == ast {
@@ -784,7 +784,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_0.as_mut_ptr(),
                     );
                     if params == ast {
@@ -821,7 +821,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_1.as_mut_ptr(),
                     );
                     if type_0 == ast {
@@ -859,7 +859,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_2.as_mut_ptr(),
                     );
                     if type_1 == ast {
@@ -884,7 +884,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_3.as_mut_ptr(),
                     );
                     if cond == ast {
@@ -917,7 +917,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_4.as_mut_ptr(),
                     );
                     if body_1 == ast {
@@ -952,7 +952,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_5.as_mut_ptr(),
                     );
                     if body_2 == ast {
@@ -981,7 +981,7 @@ pub unsafe extern "C" fn frame_push(mut t: *mut typecheck_t, mut ast: *mut ast_t
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_6.as_mut_ptr(),
                     );
                     pop = push_frame(t);

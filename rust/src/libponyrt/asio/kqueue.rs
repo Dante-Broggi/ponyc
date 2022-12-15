@@ -793,7 +793,7 @@ pub unsafe extern "C" fn pony_asio_event_subscribe(mut ev: *mut asio_event_t) {
     };
     if (*ev).noisy {
         let mut old_count: u64 = ponyint_asio_noisy_add();
-        if old_count == 0 as libc::c_int as libc::c_ulonglong {
+        if old_count == 0 {
             ponyint_sched_noisy_asio(-(10 as libc::c_int));
         }
     }
@@ -995,7 +995,7 @@ pub unsafe extern "C" fn pony_asio_event_unsubscribe(mut ev: *mut asio_event_t) 
     };
     if (*ev).noisy {
         let mut old_count: u64 = ponyint_asio_noisy_remove();
-        if old_count == 1 as libc::c_int as libc::c_ulonglong {
+        if old_count == 1 {
             ponyint_sched_unnoisy_asio(-(10 as libc::c_int));
             ponyint_sched_maybe_wakeup_if_all_asleep(-(1 as libc::c_int));
         }

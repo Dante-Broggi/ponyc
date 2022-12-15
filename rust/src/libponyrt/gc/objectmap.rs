@@ -446,7 +446,7 @@ pub unsafe extern "C" fn ponyint_objectmap_sweep(mut map: *mut objectmap_t) {
             break;
         }
         let mut p: *mut libc::c_void = (*obj).address;
-        if (*obj).rc > 0 as libc::c_int as libc::c_ulong {
+        if (*obj).rc > 0 {
             let mut chunk: *mut chunk_t = ponyint_pagemap_get(p);
             ponyint_heap_mark_shallow(chunk, p);
         } else {

@@ -138,7 +138,7 @@ pub unsafe extern "C" fn printbuf(
     if r as usize >= avail {
         let mut new_size: usize = ((*buf).size)
             .wrapping_add(r as libc::c_ulong)
-            .wrapping_add(1 as libc::c_int as libc::c_ulong);
+            .wrapping_add(1);
         let ref mut fresh1 = (*buf).m;
         *fresh1 = ponyint_pool_realloc_size((*buf).size, new_size, (*buf).m as *mut libc::c_void)
             as *mut libc::c_char;

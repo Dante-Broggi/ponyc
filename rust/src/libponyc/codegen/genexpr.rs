@@ -1693,14 +1693,14 @@ pub unsafe extern "C" fn gen_expr(mut c: *mut compile_t, mut ast: *mut ast_t) ->
         3 => {
             ret = LLVMConstInt(
                 (*c).i1,
-                1 as libc::c_int as libc::c_ulonglong,
+                1,
                 0 as libc::c_int,
             );
         }
         4 => {
             ret = LLVMConstInt(
                 (*c).i1,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
         }

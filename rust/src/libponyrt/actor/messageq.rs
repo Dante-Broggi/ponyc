@@ -102,7 +102,7 @@ unsafe extern "C" fn messageq_push(
     let mut prev: *mut pony_msg_t =
         { ::core::intrinsics::atomic_xchg_relaxed(&mut (*q).head, last) };
     let mut was_empty: bool =
-        prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 as libc::c_int as libc::c_ulong;
+        prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
     prev = (prev as uintptr_t & !(1 as libc::c_int as uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_relaxed(&mut (*prev).next, first);
@@ -126,7 +126,7 @@ unsafe extern "C" fn messageq_push_single(
         // compile_error!("Builtin is not supposed to be used")
     });
     let mut was_empty: bool =
-        prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 as libc::c_int as libc::c_ulong;
+        prev as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0;
     prev = (prev as uintptr_t & !(1 as libc::c_int as uintptr_t)) as *mut pony_msg_t;
     ({
         ::core::intrinsics::atomic_store_rel(&mut (*prev).next, first);
@@ -270,7 +270,7 @@ pub unsafe extern "C" fn ponyint_thread_messageq_pop(mut q: *mut messageq_t) -> 
 pub unsafe extern "C" fn ponyint_messageq_markempty(mut q: *mut messageq_t) -> bool {
     let mut tail: *mut pony_msg_t = (*q).tail;
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*q).head) };
-    if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 as libc::c_int as libc::c_ulong {
+    if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
         return 1 as libc::c_int != 0;
     }
     if head != tail {
@@ -288,7 +288,7 @@ pub unsafe extern "C" fn ponyint_messageq_markempty(mut q: *mut messageq_t) -> b
 pub unsafe extern "C" fn ponyint_messageq_isempty(mut q: *mut messageq_t) -> bool {
     let mut tail: *mut pony_msg_t = (*q).tail;
     let mut head: *mut pony_msg_t = { ::core::intrinsics::atomic_load_acq(&mut (*q).head) };
-    if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 as libc::c_int as libc::c_ulong {
+    if head as uintptr_t & 1 as libc::c_int as libc::c_ulong != 0 {
         return 1 as libc::c_int != 0;
     }
     head == tail

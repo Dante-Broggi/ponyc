@@ -626,7 +626,7 @@ unsafe extern "C" fn send_local_actor(mut gc: *mut gc_t) {
 unsafe extern "C" fn recv_local_actor(mut gc: *mut gc_t) {
     if (*gc).rc_mark != (*gc).mark {
         (*gc).rc_mark = (*gc).mark;
-        if (*gc).rc > 0 as libc::c_int as libc::c_ulong {
+        if (*gc).rc > 0 {
         } else {
             ponyint_assert_fail(
                 b"gc->rc > 0\0" as *const u8 as *const libc::c_char,
@@ -648,7 +648,7 @@ unsafe extern "C" fn acquire_local_actor(mut gc: *mut gc_t) {
 }
 #[c2rust::src_loc = "65:1"]
 unsafe extern "C" fn release_local_actor(mut gc: *mut gc_t) {
-    if (*gc).rc > 0 as libc::c_int as libc::c_ulong {
+    if (*gc).rc > 0 {
     } else {
         ponyint_assert_fail(
             b"gc->rc > 0\0" as *const u8 as *const libc::c_char,
@@ -696,7 +696,7 @@ unsafe extern "C" fn recv_remote_actor(
     if (*aref).mark == (*gc).mark {
         return;
     }
-    if (*aref).rc == 0 as libc::c_int as libc::c_ulong {
+    if (*aref).rc == 0 {
         ponyint_heap_used(
             ponyint_actor_heap((*ctx).current),
             1024 as libc::c_int as usize,
@@ -724,7 +724,7 @@ unsafe extern "C" fn mark_remote_actor(
         1024 as libc::c_int as usize,
     );
     (*aref).mark = (*gc).mark;
-    if (*aref).rc == 0 as libc::c_int as libc::c_ulong {
+    if (*aref).rc == 0 {
         let ref mut fresh13 = (*aref).rc;
         *fresh13 = (*fresh13 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong)
             as usize as usize;
@@ -743,7 +743,7 @@ unsafe extern "C" fn acq_or_rel_remote_actor(
     let mut aref: *mut actorref_t =
         ponyint_actormap_getorput(&mut (*ctx).acquire, actor, 0 as libc::c_int as u32);
     let ref mut fresh15 = (*aref).rc;
-    *fresh15 = (*fresh15 as libc::c_ulong).wrapping_add(1 as libc::c_int as libc::c_ulong) as usize
+    *fresh15 = (*fresh15 as libc::c_ulong).wrapping_add(1) as usize
         as usize;
 }
 #[c2rust::src_loc = "139:1"]
@@ -929,7 +929,7 @@ unsafe extern "C" fn send_remote_object(
     (*obj).mark = (*gc).mark;
     if mutability == PONY_TRACE_IMMUTABLE as libc::c_int
         && !(*obj).immutable
-        && (*obj).rc > 0 as libc::c_int as libc::c_ulong
+        && (*obj).rc > 0
     {
         let ref mut fresh20 = (*obj).rc;
         *fresh20 = (*fresh20 as libc::c_ulong)
@@ -976,7 +976,7 @@ unsafe extern "C" fn recv_remote_object(
         return;
     }
     recv_remote_actor(ctx, gc, aref);
-    if (*obj).rc == 0 as libc::c_int as libc::c_ulong {
+    if (*obj).rc == 0 {
         ponyint_heap_used(ponyint_actor_heap((*ctx).current), ponyint_heap_size(chunk));
         if mutability == PONY_TRACE_IMMUTABLE as libc::c_int {
             ponyint_heap_used(
@@ -1029,7 +1029,7 @@ unsafe extern "C" fn mark_remote_object(
     (*obj).mark = (*gc).mark;
     if mutability == PONY_TRACE_IMMUTABLE as libc::c_int
         && !(*obj).immutable
-        && (*obj).rc > 0 as libc::c_int as libc::c_ulong
+        && (*obj).rc > 0
     {
         let ref mut fresh24 = (*obj).rc;
         *fresh24 = (*fresh24 as libc::c_ulong).wrapping_add(256 as libc::c_int as libc::c_ulong)
@@ -1037,7 +1037,7 @@ unsafe extern "C" fn mark_remote_object(
         (*obj).immutable = 1 as libc::c_int != 0;
         acquire_object(ctx, actor, p, 1 as libc::c_int != 0);
         mutability = PONY_TRACE_MUTABLE as libc::c_int;
-    } else if (*obj).rc == 0 as libc::c_int as libc::c_ulong {
+    } else if (*obj).rc == 0 {
         if mutability == PONY_TRACE_IMMUTABLE as libc::c_int {
             (*obj).immutable = 1 as libc::c_int != 0;
         }
@@ -1312,7 +1312,7 @@ pub unsafe extern "C" fn ponyint_gc_markimmutable(mut ctx: *mut pony_ctx_t, mut 
         if obj.is_null() {
             break;
         }
-        if (*obj).immutable as libc::c_int != 0 && (*obj).rc > 0 as libc::c_int as libc::c_ulong {
+        if (*obj).immutable as libc::c_int != 0 && (*obj).rc > 0 {
             let mut p: *mut libc::c_void = (*obj).address;
             let mut chunk: *mut chunk_t = ponyint_pagemap_get(p);
             mark_local_object(
@@ -1392,7 +1392,7 @@ pub unsafe extern "C" fn ponyint_gc_acquire(mut gc: *mut gc_t, mut aref: *mut ac
         }
     }
     ponyint_actorref_free(aref);
-    return rc > 0 as libc::c_int as libc::c_ulong;
+    return rc > 0;
 }
 #[no_mangle]
 #[c2rust::src_loc = "744:1"]
@@ -1440,7 +1440,7 @@ pub unsafe extern "C" fn ponyint_gc_release(mut gc: *mut gc_t, mut aref: *mut ac
         *fresh36 = (*fresh36 as libc::c_ulong).wrapping_sub((*obj).rc) as usize as usize;
     }
     ponyint_actorref_free(aref);
-    return rc > 0 as libc::c_int as libc::c_ulong;
+    return rc > 0;
 }
 #[no_mangle]
 #[c2rust::src_loc = "768:1"]
@@ -1473,7 +1473,7 @@ pub unsafe extern "C" fn ponyint_gc_sendacquire(mut ctx: *mut pony_ctx_t) {
             aref as *mut libc::c_void,
         );
     }
-    if ponyint_actormap_size(&mut (*ctx).acquire) == 0 as libc::c_int as libc::c_ulong {
+    if ponyint_actormap_size(&mut (*ctx).acquire) == 0 {
     } else {
         ponyint_assert_fail(
             b"ponyint_actormap_size(&ctx->acquire) == 0\0" as *const u8 as *const libc::c_char,
@@ -1517,7 +1517,7 @@ pub unsafe extern "C" fn ponyint_gc_sendrelease_manual(mut ctx: *mut pony_ctx_t)
             aref as *mut libc::c_void,
         );
     }
-    if ponyint_actormap_size(&mut (*ctx).acquire) == 0 as libc::c_int as libc::c_ulong {
+    if ponyint_actormap_size(&mut (*ctx).acquire) == 0 {
     } else {
         ponyint_assert_fail(
             b"ponyint_actormap_size(&ctx->acquire) == 0\0" as *const u8 as *const libc::c_char,

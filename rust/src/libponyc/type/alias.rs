@@ -840,7 +840,7 @@ pub unsafe extern "C" fn alias(mut type_0: *mut ast_t) -> *mut ast_t {
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut r_type_0: *mut ast_t = 0 as *mut ast_t;
@@ -934,7 +934,7 @@ pub unsafe extern "C" fn consume_type(
                     type_0,
                     (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children.as_mut_ptr(),
                 );
                 let mut r_right_1: *mut ast_t = consume_type(right, cap, keep_double_ephemeral);
@@ -1064,7 +1064,7 @@ unsafe extern "C" fn recover_type_inner(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut r_right: *mut ast_t = recover_type_inner(right, cap, tuple_elem_recover);
@@ -1208,7 +1208,7 @@ pub unsafe extern "C" fn chain_type(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut c_right: *mut ast_t = chain_type(right, fun_cap, recovered_call);
@@ -1273,7 +1273,7 @@ pub unsafe extern "C" fn sendable(mut type_0: *mut ast_t) -> bool {
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             return cap_sendable(ast_id(cap));
@@ -1288,7 +1288,7 @@ pub unsafe extern "C" fn sendable(mut type_0: *mut ast_t) -> bool {
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             return cap_sendable(ast_id(cap_0));
@@ -1349,7 +1349,7 @@ pub unsafe extern "C" fn immutable_or_opaque(mut type_0: *mut ast_t) -> bool {
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             return cap_immutable_or_opaque(ast_id(cap));
@@ -1364,7 +1364,7 @@ pub unsafe extern "C" fn immutable_or_opaque(mut type_0: *mut ast_t) -> bool {
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             return cap_immutable_or_opaque(ast_id(cap_0));

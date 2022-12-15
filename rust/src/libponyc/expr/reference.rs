@@ -1197,7 +1197,7 @@ unsafe extern "C" fn is_legal_dontcare_read(mut ast: *mut ast_t) -> bool {
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if ast == left {
@@ -1212,7 +1212,7 @@ unsafe extern "C" fn is_legal_dontcare_read(mut ast: *mut ast_t) -> bool {
                 parent,
                 (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             if case_pattern == ast {
@@ -1240,7 +1240,7 @@ unsafe extern "C" fn is_legal_dontcare_read(mut ast: *mut ast_t) -> bool {
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_1.as_mut_ptr(),
                     );
                     if parent == left_0 {
@@ -1259,7 +1259,7 @@ unsafe extern "C" fn is_legal_dontcare_read(mut ast: *mut ast_t) -> bool {
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_2.as_mut_ptr(),
                     );
                     if parent == pattern {
@@ -1291,7 +1291,7 @@ pub unsafe extern "C" fn expr_provides(mut opt: *mut pass_opt_t, mut ast: *mut a
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut def: *mut ast_t = (*(*opt).check.frame).type_0;
@@ -1323,7 +1323,7 @@ pub unsafe extern "C" fn expr_param(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     ast_settype(ast, type_0);
@@ -1387,7 +1387,7 @@ pub unsafe extern "C" fn expr_field(mut _opt: *mut pass_opt_t, mut ast: *mut ast
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     ast_settype(ast, type_0);
@@ -1461,7 +1461,7 @@ pub unsafe extern "C" fn expr_fieldref(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_type: *mut ast_t = ast_type(left);
@@ -1477,7 +1477,7 @@ pub unsafe extern "C" fn expr_fieldref(
         find,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     f_type = typeparam_current(opt, f_type, ast);
@@ -1561,7 +1561,7 @@ pub unsafe extern "C" fn expr_typeref(mut opt: *mut pass_opt_t, mut astp: *mut *
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = ast_type(ast);
@@ -1639,7 +1639,7 @@ pub unsafe extern "C" fn expr_typeref(mut opt: *mut pass_opt_t, mut astp: *mut *
                     type_0,
                     (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children_0.as_mut_ptr(),
                 );
                 if ast_id(params) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {
@@ -1973,7 +1973,7 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
                 expr,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             if ast_id(receiver) as libc::c_uint == ast_id(expr) as libc::c_uint {
@@ -1983,7 +1983,7 @@ pub unsafe extern "C" fn expr_addressof(mut opt: *mut pass_opt_t, mut ast: *mut 
                     receiver,
                     (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children_0.as_mut_ptr(),
                 );
             }
@@ -2447,7 +2447,7 @@ unsafe extern "C" fn check_return_type(mut opt: *mut pass_opt_t, mut ast: *mut a
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_checkflag(body, AST_FLAG_JUMPS_AWAY as libc::c_int as u32) != 0 {
@@ -2512,7 +2512,7 @@ pub unsafe extern "C" fn expr_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(body) as libc::c_uint == TK_NONE as libc::c_int as libc::c_uint {

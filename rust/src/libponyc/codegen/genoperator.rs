@@ -1861,14 +1861,14 @@ unsafe extern "C" fn is_always_true(mut val: LLVMValueRef) -> bool {
     if (LLVMIsAConstantInt(val)).is_null() {
         return 0 as libc::c_int != 0;
     }
-    return LLVMConstIntGetZExtValue(val) == 1 as libc::c_int as libc::c_ulonglong;
+    return LLVMConstIntGetZExtValue(val) == 1;
 }
 #[c2rust::src_loc = "27:1"]
 unsafe extern "C" fn is_always_false(mut val: LLVMValueRef) -> bool {
     if (LLVMIsAConstantInt(val)).is_null() {
         return 0 as libc::c_int != 0;
     }
-    return LLVMConstIntGetZExtValue(val) == 0 as libc::c_int as libc::c_ulonglong;
+    return LLVMConstIntGetZExtValue(val) == 0;
 }
 #[c2rust::src_loc = "35:1"]
 unsafe extern "C" fn is_fp(mut val: LLVMValueRef) -> bool {
@@ -1954,7 +1954,7 @@ unsafe extern "C" fn make_divrem(
             let mut width: u64 = LLVMGetIntTypeWidth(r_type) as u64;
             let mut v_min: LLVMValueRef = LLVMConstInt(
                 r_type,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
             v_min = LLVMConstNot(v_min);
@@ -1962,7 +1962,7 @@ unsafe extern "C" fn make_divrem(
                 v_min,
                 LLVMConstInt(
                     r_type,
-                    width.wrapping_sub(1 as libc::c_int as libc::c_ulonglong),
+                    width.wrapping_sub(1),
                     0 as libc::c_int,
                 ),
             );
@@ -2009,7 +2009,7 @@ unsafe extern "C" fn make_divrem(
         post_block = codegen_block(c, b"div_post\0" as *const u8 as *const libc::c_char);
         zero = LLVMConstInt(
             r_type,
-            0 as libc::c_int as libc::c_ulonglong,
+            0,
             0 as libc::c_int,
         );
         let mut cmp: LLVMValueRef = LLVMBuildICmp(
@@ -2025,7 +2025,7 @@ unsafe extern "C" fn make_divrem(
             let mut width_0: u64 = LLVMGetIntTypeWidth(r_type) as u64;
             let mut v_min_0: LLVMValueRef = LLVMConstInt(
                 r_type,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
             v_min_0 = LLVMConstNot(v_min_0);
@@ -2040,7 +2040,7 @@ unsafe extern "C" fn make_divrem(
                 v_min_0,
                 LLVMConstInt(
                     r_type,
-                    width_0.wrapping_sub(1 as libc::c_int as libc::c_ulonglong),
+                    width_0.wrapping_sub(1),
                     0 as libc::c_int,
                 ),
             );
@@ -3235,13 +3235,13 @@ pub unsafe extern "C" fn gen_not(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
             if is_always_true(value) {
                 return LLVMConstInt(
                     (*c).i1,
-                    0 as libc::c_int as libc::c_ulonglong,
+                    0,
                     0 as libc::c_int,
                 );
             }
             return LLVMConstInt(
                 (*c).i1,
-                1 as libc::c_int as libc::c_ulonglong,
+                1,
                 0 as libc::c_int,
             );
         }
@@ -3251,7 +3251,7 @@ pub unsafe extern "C" fn gen_not(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
             value,
             LLVMConstInt(
                 (*c).i1,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             ),
             b"\0" as *const u8 as *const libc::c_char,
@@ -3359,7 +3359,7 @@ pub unsafe extern "C" fn gen_assign(mut c: *mut compile_t, mut ast: *mut ast_t) 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut r_value: LLVMValueRef = gen_expr(c, right);

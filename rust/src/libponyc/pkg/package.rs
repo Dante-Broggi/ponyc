@@ -2556,16 +2556,16 @@ pub unsafe extern "C" fn path_cat(
         );
         *result.offset(len1 as isize) = '/' as i32 as libc::c_char;
         memcpy(
-            &mut *result.offset(len1.wrapping_add(1 as libc::c_int as libc::c_ulong) as isize)
+            &mut *result.offset(len1.wrapping_add(1) as isize)
                 as *mut libc::c_char as *mut libc::c_void,
             part2 as *const libc::c_void,
-            len2.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            len2.wrapping_add(1),
         );
     } else {
         memcpy(
             result as *mut libc::c_void,
             part2 as *const libc::c_void,
-            len2.wrapping_add(1 as libc::c_int as libc::c_ulong),
+            len2.wrapping_add(1),
         );
     };
 }
@@ -2896,12 +2896,12 @@ unsafe extern "C" fn string_to_symbol(mut string: *const libc::c_char) -> *const
     let mut len: usize = libc::strlen(string);
     let mut buf_size: usize = len
         .wrapping_add(prefix as libc::c_ulong)
-        .wrapping_add(1 as libc::c_int as libc::c_ulong);
+        .wrapping_add(1);
     let mut buf: *mut libc::c_char = ponyint_pool_alloc_size(buf_size) as *mut libc::c_char;
     memcpy(
         buf.offset(prefix as libc::c_int as isize) as *mut libc::c_void,
         string as *const libc::c_void,
-        len.wrapping_add(1 as libc::c_int as libc::c_ulong),
+        len.wrapping_add(1),
     );
     if prefix {
         *buf.offset(0 as libc::c_int as isize) = '_' as i32 as libc::c_char;
@@ -3424,7 +3424,7 @@ pub unsafe extern "C" fn package_load(
                     {
                         package_path_0 = package_path_0.offset(3 as libc::c_int as isize);
                         relatives = (relatives as libc::c_ulong)
-                            .wrapping_add(1 as libc::c_int as libc::c_ulong)
+                            .wrapping_add(1)
                             as usize as usize;
                     } else {
                         if !(strncmp(
@@ -3440,20 +3440,20 @@ pub unsafe extern "C" fn package_load(
                 }
                 let mut base_name: *const libc::c_char = (*parent_pkg).qualified_name;
                 let mut base_name_len: usize = libc::strlen(base_name);
-                while relatives > 0 as libc::c_int as libc::c_ulong
-                    && base_name_len > 0 as libc::c_int as libc::c_ulong
+                while relatives > 0
+                    && base_name_len > 0
                 {
                     if *base_name.offset(
-                        base_name_len.wrapping_sub(1 as libc::c_int as libc::c_ulong) as isize,
+                        base_name_len.wrapping_sub(1) as isize,
                     ) as libc::c_int
                         == '/' as i32
                     {
                         relatives = (relatives as libc::c_ulong)
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong)
+                            .wrapping_sub(1)
                             as usize as usize;
                     }
                     base_name_len = (base_name_len as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong)
+                        .wrapping_sub(1)
                         as usize as usize;
                 }
                 let mut package_path_len: usize = libc::strlen(package_path_0);
@@ -3475,7 +3475,7 @@ pub unsafe extern "C" fn package_load(
                     package_path_0 as *const libc::c_void,
                     package_path_len,
                 );
-                *q_name.offset(len.wrapping_sub(1 as libc::c_int as libc::c_ulong) as isize) =
+                *q_name.offset(len.wrapping_sub(1) as isize) =
                     '\0' as i32 as libc::c_char;
                 qualified_name = stringtab_consume(q_name, len);
             }

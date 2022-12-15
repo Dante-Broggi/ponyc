@@ -226,7 +226,7 @@ unsafe extern "C" fn lsda_init(
         return 0 as libc::c_int != 0;
     }
     (*lsda).region_start = _Unwind_GetRegionStart(context);
-    (*lsda).ip = (_Unwind_GetIP(context)).wrapping_sub(1 as libc::c_int as libc::c_ulong);
+    (*lsda).ip = (_Unwind_GetIP(context)).wrapping_sub(1);
     (*lsda).ip_offset = ((*lsda).ip).wrapping_sub((*lsda).region_start);
     (*lsda).landing_pads = read_with_encoding(&mut data, (*lsda).region_start);
     let fresh3 = data;
@@ -278,7 +278,7 @@ pub unsafe extern "C" fn ponyint_lsda_scan(
         let mut landing_pad: uintptr_t = read_encoded_ptr(&mut p, lsda.call_site_encoding);
         read_uleb128(&mut p);
         if start <= lsda.ip_offset && lsda.ip_offset < start.wrapping_add(length) {
-            if landing_pad == 0 as libc::c_int as libc::c_ulong {
+            if landing_pad == 0 {
                 return 0 as libc::c_int != 0;
             }
             *lp = (lsda.landing_pads).wrapping_add(landing_pad);

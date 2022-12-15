@@ -41,7 +41,7 @@ pub unsafe extern "C" fn lexint_cmp(mut a: *const lexint_t, mut b: *const lexint
 #[no_mangle]
 #[c2rust::src_loc = "37:1"]
 pub unsafe extern "C" fn lexint_cmp64(mut a: *mut lexint_t, mut b: u64) -> libc::c_int {
-    if (*a).high > 0 as libc::c_int as libc::c_ulonglong {
+    if (*a).high > 0 {
         return 1 as libc::c_int;
     }
     if (*a).low > b {
@@ -55,15 +55,15 @@ pub unsafe extern "C" fn lexint_cmp64(mut a: *mut lexint_t, mut b: u64) -> libc:
 #[no_mangle]
 #[c2rust::src_loc = "51:1"]
 pub unsafe extern "C" fn lexint_shl(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u64) {
-    if b >= 128 as libc::c_int as libc::c_ulonglong {
+    if b >= 128 {
         lexint_zero(dst);
-    } else if b > 64 as libc::c_int as libc::c_ulonglong {
-        (*dst).high = (*a).low << b.wrapping_sub(64 as libc::c_int as libc::c_ulonglong);
+    } else if b > 64 {
+        (*dst).high = (*a).low << b.wrapping_sub(64);
         (*dst).low = 0 as libc::c_int as u64;
-    } else if b == 64 as libc::c_int as libc::c_ulonglong {
+    } else if b == 64 {
         (*dst).high = (*a).low;
         (*dst).low = 0 as libc::c_int as u64;
-    } else if b > 0 as libc::c_int as libc::c_ulonglong {
+    } else if b > 0 {
         (*dst).high = ((*a).high << b)
             .wrapping_add((*a).low >> (64 as libc::c_int as libc::c_ulonglong).wrapping_sub(b));
         (*dst).low = (*a).low << b;
@@ -75,15 +75,15 @@ pub unsafe extern "C" fn lexint_shl(mut dst: *mut lexint_t, mut a: *mut lexint_t
 #[no_mangle]
 #[c2rust::src_loc = "71:1"]
 pub unsafe extern "C" fn lexint_shr(mut dst: *mut lexint_t, mut a: *mut lexint_t, mut b: u64) {
-    if b >= 128 as libc::c_int as libc::c_ulonglong {
+    if b >= 128 {
         lexint_zero(dst);
-    } else if b > 64 as libc::c_int as libc::c_ulonglong {
-        (*dst).low = (*a).high >> b.wrapping_sub(64 as libc::c_int as libc::c_ulonglong);
+    } else if b > 64 {
+        (*dst).low = (*a).high >> b.wrapping_sub(64);
         (*dst).high = 0 as libc::c_int as u64;
-    } else if b == 64 as libc::c_int as libc::c_ulonglong {
+    } else if b == 64 {
         (*dst).low = (*a).high;
         (*dst).high = 0 as libc::c_int as u64;
-    } else if b > 0 as libc::c_int as libc::c_ulonglong {
+    } else if b > 0 {
         (*dst).low = ((*a).high << (64 as libc::c_int as libc::c_ulonglong).wrapping_sub(b))
             .wrapping_add((*a).low >> b);
         (*dst).high = (*a).high >> b;
@@ -97,9 +97,9 @@ pub unsafe extern "C" fn lexint_shr(mut dst: *mut lexint_t, mut a: *mut lexint_t
 pub unsafe extern "C" fn lexint_testbit(mut a: *mut lexint_t, mut b: u8) -> u64 {
     if b as libc::c_int >= 64 as libc::c_int {
         return (*a).high >> b as libc::c_int - 64 as libc::c_int
-            & 1 as libc::c_int as libc::c_ulonglong;
+            & 1;
     }
-    return (*a).low >> b as libc::c_int & 1 as libc::c_int as libc::c_ulonglong;
+    return (*a).low >> b as libc::c_int & 1;
 }
 #[no_mangle]
 #[c2rust::src_loc = "99:1"]
@@ -191,31 +191,31 @@ pub unsafe extern "C" fn lexint_accum(mut i: *mut lexint_t, mut digit: u64, mut 
 }
 #[c2rust::src_loc = "238:1"]
 unsafe extern "C" fn count_leading_zeros(mut n: u64) -> libc::c_int {
-    if n == 0 as libc::c_int as libc::c_ulonglong {
+    if n == 0 {
         return 64 as libc::c_int;
     }
     let mut count: libc::c_int = 0 as libc::c_int;
-    if n >> 32 as libc::c_int == 0 as libc::c_int as libc::c_ulonglong {
+    if n >> 32 as libc::c_int == 0 {
         count += 32 as libc::c_int;
         n <<= 32 as libc::c_int;
     }
-    if n >> 48 as libc::c_int == 0 as libc::c_int as libc::c_ulonglong {
+    if n >> 48 as libc::c_int == 0 {
         count += 16 as libc::c_int;
         n <<= 16 as libc::c_int;
     }
-    if n >> 56 as libc::c_int == 0 as libc::c_int as libc::c_ulonglong {
+    if n >> 56 as libc::c_int == 0 {
         count += 8 as libc::c_int;
         n <<= 8 as libc::c_int;
     }
-    if n >> 60 as libc::c_int == 0 as libc::c_int as libc::c_ulonglong {
+    if n >> 60 as libc::c_int == 0 {
         count += 4 as libc::c_int;
         n <<= 4 as libc::c_int;
     }
-    if n >> 62 as libc::c_int == 0 as libc::c_int as libc::c_ulonglong {
+    if n >> 62 as libc::c_int == 0 {
         count += 2 as libc::c_int;
         n <<= 2 as libc::c_int;
     }
-    if n >> 63 as libc::c_int == 0 as libc::c_int as libc::c_ulonglong {
+    if n >> 63 as libc::c_int == 0 {
         count += 1 as libc::c_int;
         n <<= 1 as libc::c_int;
     }
@@ -224,13 +224,13 @@ unsafe extern "C" fn count_leading_zeros(mut n: u64) -> libc::c_int {
 #[no_mangle]
 #[c2rust::src_loc = "255:1"]
 pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
-    if (*i).low == 0 as libc::c_int as libc::c_ulonglong
-        && (*i).high == 0 as libc::c_int as libc::c_ulonglong
+    if (*i).low == 0
+        && (*i).high == 0
     {
         return 0 as libc::c_int as libc::c_double;
     }
     let mut sig_bit_count: libc::c_int = 128 as libc::c_int - count_leading_zeros((*i).high);
-    if (*i).high == 0 as libc::c_int as libc::c_ulonglong {
+    if (*i).high == 0 {
         sig_bit_count = 64 as libc::c_int - count_leading_zeros((*i).low);
     }
     let mut exponent: u64 = (sig_bit_count - 1 as libc::c_int) as u64;
@@ -246,24 +246,24 @@ pub unsafe extern "C" fn lexint_double(mut i: *mut lexint_t) -> libc::c_double {
             mantissa = t.low;
             lexint_shl(&mut t, &mut t, (sig_bit_count - 55 as libc::c_int) as u64);
             if lexint_cmp(&mut t, i) != 0 as libc::c_int {
-                mantissa |= 1 as libc::c_int as libc::c_ulonglong;
+                mantissa |= 1;
             }
         }
-        if mantissa & 4 as libc::c_int as libc::c_ulonglong != 0 as libc::c_int as libc::c_ulonglong
+        if mantissa & 4 != 0
         {
-            mantissa |= 1 as libc::c_int as libc::c_ulonglong;
+            mantissa |= 1;
         }
-        mantissa = mantissa.wrapping_add(1 as libc::c_int as libc::c_ulonglong) >> 2 as libc::c_int;
+        mantissa = mantissa.wrapping_add(1) >> 2 as libc::c_int;
         if mantissa & (1 as libc::c_ulonglong) << 53 as libc::c_int
-            != 0 as libc::c_int as libc::c_ulonglong
+            != 0
         {
             mantissa >>= 1 as libc::c_int;
             exponent = (exponent as libc::c_ulonglong)
-                .wrapping_add(1 as libc::c_int as libc::c_ulonglong) as u64
+                .wrapping_add(1) as u64
                 as u64;
         }
     }
-    let mut raw_bits: u64 = exponent.wrapping_add(1023 as libc::c_int as libc::c_ulonglong)
+    let mut raw_bits: u64 = exponent.wrapping_add(1023)
         << 52 as libc::c_int
         | mantissa & 0xfffffffffffff as libc::c_long as libc::c_ulonglong;
     let mut fp_bits: *mut libc::c_double = &mut raw_bits as *mut u64 as *mut libc::c_double;

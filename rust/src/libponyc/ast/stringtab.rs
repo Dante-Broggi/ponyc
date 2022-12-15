@@ -719,7 +719,7 @@ pub unsafe extern "C" fn stringtab_len(
         return (*n).str_0;
     }
     let mut dst: *mut libc::c_char =
-        ponyint_pool_alloc_size(len.wrapping_add(1 as libc::c_int as libc::c_ulong))
+        ponyint_pool_alloc_size(len.wrapping_add(1))
             as *mut libc::c_char;
     memcpy(dst as *mut libc::c_void, string as *const libc::c_void, len);
     *dst.offset(len as isize) = '\0' as i32 as libc::c_char;
@@ -727,7 +727,7 @@ pub unsafe extern "C" fn stringtab_len(
     let ref mut fresh0 = (*n).str_0;
     *fresh0 = dst;
     (*n).len = len;
-    (*n).buf_size = len.wrapping_add(1 as libc::c_int as libc::c_ulong);
+    (*n).buf_size = len.wrapping_add(1);
     strtable_putindex(&mut table, n, index);
     (*n).str_0
 }
@@ -785,7 +785,7 @@ unsafe extern "C" fn string_serialise(
     memcpy(
         (buf as uintptr_t).wrapping_add(offset) as *mut libc::c_void,
         object,
-        (libc::strlen(string)).wrapping_add(1 as libc::c_int as libc::c_ulong),
+        (libc::strlen(string)).wrapping_add(1),
     );
 }
 #[thread_local]
@@ -835,7 +835,7 @@ pub unsafe extern "C" fn string_trace_len(
     mut string: *const libc::c_char,
     mut len: usize,
 ) {
-    string_pony.size = len.wrapping_add(1 as libc::c_int as libc::c_ulong) as u32;
+    string_pony.size = len.wrapping_add(1) as u32;
     pony_traceknown(
         ctx,
         string as *mut libc::c_char as *mut libc::c_void,
@@ -861,7 +861,7 @@ unsafe extern "C" fn string_deserialise(
     }
     return stringtab_len(
         buf as *const libc::c_char,
-        len.wrapping_sub(1 as libc::c_int as libc::c_ulong),
+        len.wrapping_sub(1),
     ) as *mut libc::c_void;
 }
 #[no_mangle]

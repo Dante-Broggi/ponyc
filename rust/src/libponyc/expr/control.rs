@@ -1002,7 +1002,7 @@ unsafe extern "C" fn resolve_ifdef(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut then_value: bool = ifdef_cond_eval(cond, opt);
@@ -1071,7 +1071,7 @@ pub unsafe extern "C" fn expr_if(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(ast) as libc::c_uint == TK_IF as libc::c_int as libc::c_uint {
@@ -1140,7 +1140,7 @@ pub unsafe extern "C" fn expr_iftype(mut opt: *mut pass_opt_t, mut ast: *mut ast
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut sub: ast_ptr_t = 0 as *mut ast_t;
@@ -1152,7 +1152,7 @@ pub unsafe extern "C" fn expr_iftype(mut opt: *mut pass_opt_t, mut ast: *mut ast
         left_control,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
@@ -1206,7 +1206,7 @@ pub unsafe extern "C" fn expr_while(mut opt: *mut pass_opt_t, mut ast: *mut ast_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut cond_type: *mut ast_t = ast_type(cond);
@@ -1260,7 +1260,7 @@ pub unsafe extern "C" fn expr_repeat(mut opt: *mut pass_opt_t, mut ast: *mut ast
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut cond_type: *mut ast_t = ast_type(cond);
@@ -1321,7 +1321,7 @@ pub unsafe extern "C" fn expr_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
@@ -1385,7 +1385,7 @@ pub unsafe extern "C" fn expr_disposing_block(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = 0 as *mut ast_t;
@@ -1439,7 +1439,7 @@ pub unsafe extern "C" fn expr_recover(mut opt: *mut pass_opt_t, mut ast: *mut as
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_0: *mut ast_t = ast_type(expr);

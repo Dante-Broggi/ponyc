@@ -813,7 +813,7 @@ unsafe extern "C" fn print_passes() {
     let mut p: pass_id = PASS_PARSE;
     while (p as libc::c_uint) < PASS_ALL as libc::c_int as libc::c_uint {
         let mut name: *const libc::c_char = pass_name(p);
-        let mut len: usize = (libc::strlen(name)).wrapping_add(1 as libc::c_int as libc::c_ulong);
+        let mut len: usize = (libc::strlen(name)).wrapping_add(1);
         if cur_len.wrapping_add(len) < 80 as libc::c_int as libc::c_ulong {
             printf(b"%s,\0" as *const u8 as *const libc::c_char, name);
             cur_len = (cur_len as libc::c_ulong).wrapping_add(len) as usize as usize;

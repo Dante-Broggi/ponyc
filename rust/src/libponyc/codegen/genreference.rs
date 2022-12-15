@@ -2281,7 +2281,7 @@ pub unsafe extern "C" fn gen_fieldptr(mut c: *mut compile_t, mut ast: *mut ast_t
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_value: LLVMValueRef = gen_expr(c, left);
@@ -2303,7 +2303,7 @@ pub unsafe extern "C" fn gen_fieldload(mut c: *mut compile_t, mut ast: *mut ast_
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut field: LLVMValueRef = gen_fieldptr(c, ast);
@@ -2384,7 +2384,7 @@ pub unsafe extern "C" fn gen_tupleelemptr(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_value: LLVMValueRef = gen_expr(c, left);
@@ -2605,7 +2605,7 @@ unsafe extern "C" fn gen_digestof_box(
         let mut type_id: LLVMValueRef = gendesc_typeid(c, desc);
         let mut boxed_mask: LLVMValueRef = LLVMConstInt(
             (*c).i32_0,
-            1 as libc::c_int as libc::c_ulonglong,
+            1,
             0 as libc::c_int,
         );
         let mut is_boxed: LLVMValueRef = LLVMBuildAnd(
@@ -2616,7 +2616,7 @@ unsafe extern "C" fn gen_digestof_box(
         );
         let mut zero: LLVMValueRef = LLVMConstInt(
             (*c).i32_0,
-            0 as libc::c_int as libc::c_ulonglong,
+            0,
             0 as libc::c_int,
         );
         is_boxed = LLVMBuildICmp(
@@ -2718,7 +2718,7 @@ unsafe extern "C" fn gen_digestof_int64(
     if target_is_ilp32((*(*c).opt).triple) {
         let mut shift: LLVMValueRef = LLVMConstInt(
             (*c).i64_0,
-            32 as libc::c_int as libc::c_ulonglong,
+            32,
             0 as libc::c_int,
         );
         let mut high: LLVMValueRef = LLVMBuildLShr(
@@ -2795,7 +2795,7 @@ unsafe extern "C" fn gen_digestof_value(
                     if width == 128 as libc::c_int as libc::c_uint {
                         let mut shift: LLVMValueRef = LLVMConstInt(
                             (*c).i128_0,
-                            64 as libc::c_int as libc::c_ulonglong,
+                            64,
                             0 as libc::c_int,
                         );
                         let mut high: LLVMValueRef = LLVMBuildLShr(
@@ -2832,7 +2832,7 @@ unsafe extern "C" fn gen_digestof_value(
             let mut count: u32 = LLVMCountStructElementTypes(impl_type);
             let mut result: LLVMValueRef = LLVMConstInt(
                 (*c).intptr,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
             let mut child: *mut ast_t = ast_child(type_0);
@@ -2969,7 +2969,7 @@ pub unsafe extern "C" fn gen_int(mut c: *mut compile_t, mut ast: *mut ast_t) -> 
     let mut vhigh: LLVMValueRef = LLVMConstInt((*c).i128_0, (*value).high, 0 as libc::c_int);
     let mut shift: LLVMValueRef = LLVMConstInt(
         (*c).i128_0,
-        64 as libc::c_int as libc::c_ulonglong,
+        64,
         0 as libc::c_int,
     );
     vhigh = LLVMConstShl(vhigh, shift);
@@ -3026,7 +3026,7 @@ pub unsafe extern "C" fn gen_string(mut c: *mut compile_t, mut ast: *mut ast_t) 
         LLVMConstInt((*c).intptr, len as libc::c_ulonglong, 0 as libc::c_int);
     args[2 as libc::c_int as usize] = LLVMConstInt(
         (*c).intptr,
-        len.wrapping_add(1 as libc::c_int as libc::c_ulong) as libc::c_ulonglong,
+        len.wrapping_add(1) as libc::c_ulonglong,
         0 as libc::c_int,
     );
     args[3 as libc::c_int as usize] = codegen_string(c, name, len);

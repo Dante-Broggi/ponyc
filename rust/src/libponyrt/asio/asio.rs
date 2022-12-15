@@ -139,7 +139,7 @@ pub unsafe extern "C" fn ponyint_asio_stop() -> bool {
 #[c2rust::src_loc = "160:1"]
 pub unsafe extern "C" fn ponyint_asio_stoppable() -> bool {
     return ({ ::core::intrinsics::atomic_load_acq(&mut running_base.noisy_count as *mut u64) })
-        == 0 as libc::c_int as libc::c_ulonglong;
+        == 0;
 }
 #[no_mangle]
 #[c2rust::src_loc = "166:1"]

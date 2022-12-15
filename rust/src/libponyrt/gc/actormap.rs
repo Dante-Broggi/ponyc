@@ -745,7 +745,7 @@ unsafe extern "C" fn move_unmarked_objects(
     mut mark: u32,
 ) -> *mut actorref_t {
     let mut size: usize = ponyint_objectmap_size(&mut (*from).map);
-    if size == 0 as libc::c_int as libc::c_ulong {
+    if size == 0 {
         return 0 as *mut actorref_t;
     }
     let mut to: *mut actorref_t = 0 as *mut actorref_t;
@@ -779,8 +779,8 @@ unsafe extern "C" fn send_release(mut ctx: *mut pony_ctx_t, mut aref: *mut actor
         return;
     }
     if ponyint_actor_pendingdestroy((*aref).actor) as libc::c_int != 0
-        || (*aref).rc == 0 as libc::c_int as libc::c_ulong
-            && ponyint_objectmap_size(&mut (*aref).map) == 0 as libc::c_int as libc::c_ulong
+        || (*aref).rc == 0
+            && ponyint_objectmap_size(&mut (*aref).map) == 0
     {
         ponyint_actorref_free(aref);
         return;

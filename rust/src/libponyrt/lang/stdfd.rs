@@ -459,7 +459,7 @@ pub unsafe extern "C" fn ansi_parse(
         }
         n = n.wrapping_add(1);
     }
-    *pos = n.wrapping_add(1 as libc::c_int as libc::c_ulong);
+    *pos = n.wrapping_add(1);
     *argc = arg + 1 as libc::c_int;
     return code;
 }
@@ -558,7 +558,7 @@ pub unsafe extern "C" fn pony_os_std_write(
     mut buffer: *mut libc::c_char,
     mut len: usize,
 ) {
-    if len == 0 as libc::c_int as libc::c_ulong {
+    if len == 0 {
         return;
     }
     fwrite(

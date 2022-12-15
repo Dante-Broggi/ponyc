@@ -1865,7 +1865,7 @@ unsafe extern "C" fn make_field_count(
     if (*t).underlying as libc::c_uint != TK_TUPLETYPE as libc::c_int as libc::c_uint {
         return LLVMConstInt(
             (*c).i32_0,
-            0 as libc::c_int as libc::c_ulonglong,
+            0,
             0 as libc::c_int,
         );
     }
@@ -1883,7 +1883,7 @@ unsafe extern "C" fn make_field_offset(
     if (*t).field_count == 0 as libc::c_int as libc::c_uint {
         return LLVMConstInt(
             (*c).i32_0,
-            0 as libc::c_int as libc::c_ulonglong,
+            0,
             0 as libc::c_int,
         );
     }
@@ -2303,7 +2303,7 @@ pub unsafe extern "C" fn gendesc_vtable(
     let mut gep: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
     gep[0 as libc::c_int as usize] = LLVMConstInt(
         (*c).i32_0,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     gep[1 as libc::c_int as usize] =
@@ -2369,7 +2369,7 @@ pub unsafe extern "C" fn gendesc_fieldinfo(
     let mut gep: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
     gep[0 as libc::c_int as usize] = LLVMConstInt(
         (*c).i32_0,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     gep[1 as libc::c_int as usize] =
@@ -2460,7 +2460,7 @@ pub unsafe extern "C" fn gendesc_isnominal(
         75 => {
             return LLVMConstInt(
                 (*c).i1,
-                1 as libc::c_int as libc::c_ulonglong,
+                1,
                 0 as libc::c_int,
             );
         }
@@ -2510,23 +2510,23 @@ pub unsafe extern "C" fn gendesc_istrait(
     if target_is_ilp32((*(*c).opt).triple) {
         shift = LLVMConstInt(
             (*c).intptr,
-            5 as libc::c_int as libc::c_ulonglong,
+            5,
             0 as libc::c_int,
         );
         mask = LLVMConstInt(
             (*c).intptr,
-            31 as libc::c_int as libc::c_ulonglong,
+            31,
             0 as libc::c_int,
         );
     } else {
         shift = LLVMConstInt(
             (*c).intptr,
-            6 as libc::c_int as libc::c_ulonglong,
+            6,
             0 as libc::c_int,
         );
         mask = LLVMConstInt(
             (*c).intptr,
-            63 as libc::c_int as libc::c_ulonglong,
+            63,
             0 as libc::c_int,
         );
     }
@@ -2535,7 +2535,7 @@ pub unsafe extern "C" fn gendesc_istrait(
     mask = LLVMConstShl(
         LLVMConstInt(
             (*c).intptr,
-            1 as libc::c_int as libc::c_ulonglong,
+            1,
             0 as libc::c_int,
         ),
         mask,
@@ -2544,7 +2544,7 @@ pub unsafe extern "C" fn gendesc_istrait(
     let mut args: [LLVMValueRef; 2] = [0 as *mut LLVMOpaqueValue; 2];
     args[0 as libc::c_int as usize] = LLVMConstInt(
         (*c).intptr,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     args[1 as libc::c_int as usize] = shift;
@@ -2572,7 +2572,7 @@ pub unsafe extern "C" fn gendesc_istrait(
         has_trait,
         LLVMConstInt(
             (*c).intptr,
-            0 as libc::c_int as libc::c_ulonglong,
+            0,
             0 as libc::c_int,
         ),
         b"\0" as *const u8 as *const libc::c_char,

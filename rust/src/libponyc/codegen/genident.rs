@@ -1918,7 +1918,7 @@ unsafe extern "C" fn tuple_is(
     LLVMPositionBuilderAtEnd((*c).builder, post_block);
     let mut one: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        1 as libc::c_int as libc::c_ulonglong,
+        1,
         0 as libc::c_int,
     );
     LLVMAddIncoming(
@@ -1981,7 +1981,7 @@ unsafe extern "C" fn raw_is_box(
     );
     let mut zero: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     LLVMAddIncoming(
@@ -2009,7 +2009,7 @@ unsafe extern "C" fn tuple_element_is_box_unboxed_element(
 ) -> LLVMValueRef {
     let mut zero: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     let mut num_block: LLVMBasicBlockRef =
@@ -2026,7 +2026,7 @@ unsafe extern "C" fn tuple_element_is_box_unboxed_element(
         codegen_block(c, b"is_tuple_post\0" as *const u8 as *const libc::c_char);
     let mut boxed_mask: LLVMValueRef = LLVMConstInt(
         (*c).i32_0,
-        3 as libc::c_int as libc::c_ulonglong,
+        3,
         0 as libc::c_int,
     );
     let mut r_field_typeid: LLVMValueRef = gendesc_typeid(c, r_field_desc);
@@ -2046,7 +2046,7 @@ unsafe extern "C" fn tuple_element_is_box_unboxed_element(
         box_switch,
         LLVMConstInt(
             (*c).i32_0,
-            0 as libc::c_int as libc::c_ulonglong,
+            0,
             0 as libc::c_int,
         ),
         num_block,
@@ -2055,7 +2055,7 @@ unsafe extern "C" fn tuple_element_is_box_unboxed_element(
         box_switch,
         LLVMConstInt(
             (*c).i32_0,
-            2 as libc::c_int as libc::c_ulonglong,
+            2,
             0 as libc::c_int,
         ),
         tuple_block,
@@ -2381,12 +2381,12 @@ unsafe extern "C" fn tuple_is_box(
     }
     let mut zero: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     let mut one: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        1 as libc::c_int as libc::c_ulonglong,
+        1,
         0 as libc::c_int,
     );
     let mut this_block: LLVMBasicBlockRef = LLVMGetInsertBlock((*c).builder);
@@ -2594,7 +2594,7 @@ unsafe extern "C" fn box_is_box(
                 box_switch,
                 LLVMConstInt(
                     (*c).i32_0,
-                    0 as libc::c_int as libc::c_ulonglong,
+                    0,
                     0 as libc::c_int,
                 ),
                 num_block,
@@ -2605,7 +2605,7 @@ unsafe extern "C" fn box_is_box(
                 box_switch,
                 LLVMConstInt(
                     (*c).i32_0,
-                    2 as libc::c_int as libc::c_ulonglong,
+                    2,
                     0 as libc::c_int,
                 ),
                 tuple_block,
@@ -2665,7 +2665,7 @@ unsafe extern "C" fn box_is_box(
         LLVMSetAlignment(size, 4 as libc::c_int as libc::c_uint);
         let mut one: LLVMValueRef = LLVMConstInt(
             (*c).i32_0,
-            1 as libc::c_int as libc::c_ulonglong,
+            1,
             0 as libc::c_int,
         );
         args[0 as libc::c_int as usize] = LLVMBuildInBoundsGEP_P(
@@ -2713,7 +2713,7 @@ unsafe extern "C" fn box_is_box(
             is_num,
             LLVMConstInt(
                 (*c).i32_0,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             ),
             b"\0" as *const u8 as *const libc::c_char,
@@ -2794,12 +2794,12 @@ unsafe extern "C" fn box_is_box(
     );
     let mut one_0: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        1 as libc::c_int as libc::c_ulonglong,
+        1,
         0 as libc::c_int,
     );
     let mut zero: LLVMValueRef = LLVMConstInt(
         (*c).i1,
-        0 as libc::c_int as libc::c_ulonglong,
+        0,
         0 as libc::c_int,
     );
     LLVMAddIncoming(
@@ -2891,7 +2891,7 @@ unsafe extern "C" fn gen_is_value(
             }
             return LLVMConstInt(
                 (*c).i1,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
         }
@@ -2914,7 +2914,7 @@ unsafe extern "C" fn gen_is_value(
             }
             return LLVMConstInt(
                 (*c).i1,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
         }
@@ -2940,7 +2940,7 @@ unsafe extern "C" fn gen_is_value(
             }
             return LLVMConstInt(
                 (*c).i1,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
         }
@@ -3019,7 +3019,7 @@ unsafe extern "C" fn gen_is_value(
             }
             return LLVMConstInt(
                 (*c).i1,
-                0 as libc::c_int as libc::c_ulonglong,
+                0,
                 0 as libc::c_int,
             );
         }
@@ -3047,7 +3047,7 @@ pub unsafe extern "C" fn gen_is(mut c: *mut compile_t, mut ast: *mut ast_t) -> L
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_value: LLVMValueRef = gen_expr(c, left);
@@ -3075,7 +3075,7 @@ pub unsafe extern "C" fn gen_isnt(mut c: *mut compile_t, mut ast: *mut ast_t) ->
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut l_value: LLVMValueRef = gen_expr(c, left);

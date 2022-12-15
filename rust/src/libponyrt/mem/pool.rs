@@ -619,7 +619,7 @@ unsafe extern "C" fn pool_block_get(mut size: usize) -> *mut libc::c_void {
                 if (*block).size == size {
                     if ((*block).c2rust_unnamed.next).is_null() {
                         pool_block_header.largest_size = if ((*block).prev).is_null() {
-                            0 as libc::c_int as libc::c_ulong
+                            0
                         } else {
                             (*(*block).prev).size
                         };
@@ -719,7 +719,7 @@ unsafe extern "C" fn pool_push(mut thread: *mut pool_local_t, mut global: *mut p
     let ref mut fresh10 = (*thread).pool;
     *fresh10 = 0 as *mut pool_item_t;
     (*thread).length = 0 as libc::c_int as usize;
-    if (*p).length > 0 as libc::c_int as libc::c_ulong && (*p).length <= (*global).count {
+    if (*p).length > 0 && (*p).length <= (*global).count {
     } else {
         ponyint_assert_fail(
             b"(p->length > 0) && (p->length <= global->count)\0" as *const u8
@@ -749,7 +749,7 @@ unsafe extern "C" fn pool_push(mut thread: *mut pool_local_t, mut global: *mut p
     loop {
         top = cmp.c2rust_unnamed.object;
         xchg.c2rust_unnamed.counter =
-            (cmp.c2rust_unnamed.counter).wrapping_add(1 as libc::c_int as libc::c_ulong);
+            (cmp.c2rust_unnamed.counter).wrapping_add(1);
         let ref mut fresh11 = (*p).central;
         *fresh11 = top;
         if {
@@ -795,7 +795,7 @@ unsafe extern "C" fn pool_pull(
         next = (*top).central;
         xchg.c2rust_unnamed.object = next;
         xchg.c2rust_unnamed.counter =
-            (cmp.c2rust_unnamed.counter).wrapping_add(1 as libc::c_int as libc::c_ulong);
+            (cmp.c2rust_unnamed.counter).wrapping_add(1);
         if {
             let fresh13 = ::core::intrinsics::atomic_cxchg_acqrel(
                 &mut (*global).central.raw as *mut i128,
@@ -809,7 +809,7 @@ unsafe extern "C" fn pool_pull(
         }
     }
     let mut p: *mut pool_item_t = top as *mut pool_item_t;
-    if (*top).length > 0 as libc::c_int as libc::c_ulong && (*top).length <= (*global).count {
+    if (*top).length > 0 && (*top).length <= (*global).count {
     } else {
         ponyint_assert_fail(
             b"(top->length > 0) && (top->length <= global->count)\0" as *const u8
@@ -822,7 +822,7 @@ unsafe extern "C" fn pool_pull(
     };
     let ref mut fresh14 = (*thread).pool;
     *fresh14 = (*p).next;
-    (*thread).length = ((*top).length).wrapping_sub(1 as libc::c_int as libc::c_ulong);
+    (*thread).length = ((*top).length).wrapping_sub(1);
     return p;
 }
 #[c2rust::src_loc = "773:1"]
@@ -1004,7 +1004,7 @@ pub unsafe extern "C" fn ponyint_pool_thread_cleanup() {
             let ref mut fresh26 = (*thread).length;
             *fresh26 = (*fresh26).wrapping_add(1);
         }
-        if (*thread).length > 0 as libc::c_int as libc::c_ulong {
+        if (*thread).length > 0 {
             pool_push(thread, global);
         }
         index = index.wrapping_add(1);
@@ -1026,7 +1026,7 @@ pub unsafe extern "C" fn ponyint_pool_index(mut size: usize) -> usize {
         return ((64 as libc::c_int - 5 as libc::c_int) as usize)
             .wrapping_sub(__pony_clzzu(size) as libc::c_ulong)
             .wrapping_sub(
-                (size & size.wrapping_sub(1 as libc::c_int as libc::c_ulong) == 0) as libc::c_int
+                (size & size.wrapping_sub(1) == 0) as libc::c_int
                     as libc::c_ulong,
             );
     }
@@ -1046,14 +1046,14 @@ pub unsafe extern "C" fn ponyint_pool_used_size(mut size: usize) -> usize {
 #[c2rust::src_loc = "1030:1"]
 pub unsafe extern "C" fn ponyint_pool_adjust_size(mut size: usize) -> usize {
     if size & (((1 as libc::c_int) << 10 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong
-        != 0 as libc::c_int as libc::c_ulong
+        != 0
     {
         size = (size
             & !(((1 as libc::c_int) << 10 as libc::c_int) - 1 as libc::c_int) as libc::c_ulong)
             .wrapping_add(((1 as libc::c_int) << 10 as libc::c_int) as libc::c_ulong);
     }
-    if size == 0 as libc::c_int as libc::c_ulong {
-        size = size.wrapping_sub(1 as libc::c_int as libc::c_ulong);
+    if size == 0 {
+        size = size.wrapping_sub(1);
     }
     size
 }

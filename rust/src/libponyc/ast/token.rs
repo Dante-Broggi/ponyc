@@ -1060,9 +1060,9 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
         }
         idx = idx.wrapping_add(1);
     }
-    if escapes == 0 as libc::c_int as libc::c_ulong {
+    if escapes == 0 {
         let mut copy: *mut libc::c_char =
-            ponyint_pool_alloc_size(str_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
+            ponyint_pool_alloc_size(str_len.wrapping_add(1))
                 as *mut libc::c_char;
         memcpy(
             copy as *mut libc::c_void,
@@ -1074,7 +1074,7 @@ pub unsafe extern "C" fn token_print_escaped(mut token: *mut token_t) -> *mut li
     }
     let mut escaped_len: usize = str_len.wrapping_add(escapes);
     let mut escaped: *mut libc::c_char =
-        ponyint_pool_alloc_size(escaped_len.wrapping_add(1 as libc::c_int as libc::c_ulong))
+        ponyint_pool_alloc_size(escaped_len.wrapping_add(1))
             as *mut libc::c_char;
     let mut escaped_idx: usize = 0;
     let mut idx_0: usize = 0;
@@ -1250,7 +1250,7 @@ pub unsafe extern "C" fn token_set_string(
                 .as_ptr(),
         );
     };
-    if length == 0 as libc::c_int as libc::c_ulong {
+    if length == 0 {
         length = libc::strlen(value);
     }
     let ref mut fresh10 = (*token).c2rust_unnamed.c2rust_unnamed.string;

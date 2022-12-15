@@ -828,7 +828,7 @@ unsafe extern "C" fn check_partial_function_call(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     if ast_id(receiver) as libc::c_uint == ast_id(ast) as libc::c_uint {
@@ -838,7 +838,7 @@ unsafe extern "C" fn check_partial_function_call(
             receiver,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
     }
@@ -991,7 +991,7 @@ unsafe extern "C" fn check_partial_ffi_call(mut opt: *mut pass_opt_t, mut ast: *
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut decl: *mut ast_t = ast_data(ast) as *mut ast_t;
@@ -1030,7 +1030,7 @@ unsafe extern "C" fn check_partial_ffi_call(mut opt: *mut pass_opt_t, mut ast: *
             decl,
             (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
         if ast_id(decl_error) as libc::c_uint == TK_QUESTION as libc::c_int as libc::c_uint {

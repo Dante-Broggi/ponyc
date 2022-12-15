@@ -962,7 +962,7 @@ unsafe extern "C" fn downcast_iso_trn_receiver_to_ref(mut receiver: *mut ast_t) 
                 receiver,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
             let mut downcasted_right: *mut ast_t = downcast_iso_trn_receiver_to_ref(right);
@@ -1020,7 +1020,7 @@ unsafe extern "C" fn lookup_nominal(
         def,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
             .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+            .wrapping_sub(1),
         children.as_mut_ptr(),
     );
     let mut type_name: *const libc::c_char = ast_name(type_id);
@@ -1064,7 +1064,7 @@ unsafe extern "C" fn lookup_nominal(
                             .wrapping_div(
                                 ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong,
                             )
-                            .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                            .wrapping_sub(1),
                         children_0.as_mut_ptr(),
                     );
                     let mut param: *mut ast_t = ast_child(params);
@@ -1080,7 +1080,7 @@ unsafe extern "C" fn lookup_nominal(
                                 .wrapping_div(
                                     ::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong
                                 )
-                                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                                .wrapping_sub(1),
                             children_1.as_mut_ptr(),
                         );
                         if ast_id(def_arg) as libc::c_uint != TK_NONE as libc::c_int as libc::c_uint
@@ -1311,7 +1311,7 @@ unsafe extern "C" fn param_names_match(
             parent,
             (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
                 .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                .wrapping_sub(1),
             children.as_mut_ptr(),
         );
         if !namedargs.is_null()
@@ -1332,7 +1332,7 @@ unsafe extern "C" fn param_names_match(
                 prev_fun,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
             let mut cur_cap: ast_ptr_t = 0 as *mut ast_t;
@@ -1350,7 +1350,7 @@ unsafe extern "C" fn param_names_match(
                 cur_fun,
                 (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
                     .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                    .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                    .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
             let mut prev_param: *mut ast_t = ast_child(prev_params);
@@ -1362,7 +1362,7 @@ unsafe extern "C" fn param_names_match(
                     prev_param,
                     (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children_2.as_mut_ptr(),
                 );
                 let mut cur_id: ast_ptr_t = 0 as *mut ast_t;
@@ -1371,7 +1371,7 @@ unsafe extern "C" fn param_names_match(
                     cur_param,
                     (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
                         .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
-                        .wrapping_sub(1 as libc::c_int as libc::c_ulong),
+                        .wrapping_sub(1),
                     children_3.as_mut_ptr(),
                 );
                 if ast_name(prev_id) != ast_name(cur_id) {

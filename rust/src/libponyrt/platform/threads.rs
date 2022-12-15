@@ -175,7 +175,7 @@ pub unsafe extern "C" fn ponyint_thread_create(
     if getrlimit(3 as libc::c_int, &mut limit) == 0 as libc::c_int
         && limit.rlim_cur
             != ((1 as libc::c_int as u64) << 63 as libc::c_int)
-                .wrapping_sub(1 as libc::c_int as libc::c_ulonglong)
+                .wrapping_sub(1)
         && limit.rlim_cur >= 8192 as libc::c_int as rlim_t
     {
         if !setstack_called {
