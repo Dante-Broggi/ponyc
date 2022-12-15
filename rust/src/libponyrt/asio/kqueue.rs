@@ -47,9 +47,9 @@ pub mod pony_h {
         pub id: u32,
         pub next: *mut pony_msg_t,
     }
+    #[c2rust::src_loc = "30:16"]
+    pub use crate::libponyrt::actor::actor::pony_actor_t;
     extern "C" {
-        #[c2rust::src_loc = "30:16"]
-        pub type pony_actor_t;
         #[c2rust::src_loc = "196:1"]
         pub fn pony_alloc_msg(index: u32, id: u32) -> *mut pony_msg_t;
         #[c2rust::src_loc = "449:1"]

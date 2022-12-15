@@ -11,10 +11,8 @@ pub mod _size_t_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:2"]
 pub mod pony_h {
-    extern "C" {
-        #[c2rust::src_loc = "30:16"]
-        pub type pony_actor_t;
-    }
+    #[c2rust::src_loc = "30:16"]
+    pub use crate::libponyrt::actor::actor::pony_actor_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/ds/fun.h:2"]
 pub mod fun_h {

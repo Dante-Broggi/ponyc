@@ -114,9 +114,10 @@ pub mod pony_h {
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
 
+    #[c2rust::src_loc = "30:16"]
+    pub use crate::libponyrt::actor::actor::pony_actor_t;
+
     extern "C" {
-        #[c2rust::src_loc = "30:16"]
-        pub type pony_actor_t;
         #[c2rust::src_loc = "36:16"]
         pub type pony_ctx_t;
         #[c2rust::src_loc = "183:1"]

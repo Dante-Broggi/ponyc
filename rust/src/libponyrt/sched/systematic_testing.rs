@@ -183,10 +183,8 @@ pub mod pony_h {
 
     use super::scheduler_h::pony_ctx_t;
 
-    extern "C" {
-        #[c2rust::src_loc = "30:16"]
-        pub type pony_actor_t;
-    }
+    #[c2rust::src_loc = "30:16"]
+    pub use crate::libponyrt::actor::actor::pony_actor_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/mutemap.h:3"]
 pub mod mutemap_h {

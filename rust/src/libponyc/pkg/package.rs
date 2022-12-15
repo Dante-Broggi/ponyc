@@ -329,9 +329,9 @@ pub mod pony_h {
     pub const PONY_TRACE_MUTABLE: C2RustUnnamed_0 = 0;
 
     use super::scheduler_h::pony_ctx_t;
+    #[c2rust::src_loc = "30:16"]
+    pub use crate::libponyrt::actor::actor::pony_actor_t;
     extern "C" {
-        #[c2rust::src_loc = "30:16"]
-        pub type pony_actor_t;
         #[c2rust::src_loc = "394:1"]
         pub fn pony_traceknown(
             ctx: *mut pony_ctx_t,
