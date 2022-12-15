@@ -150,7 +150,7 @@ pub unsafe extern "C" fn ponyint_assert_fail(
         __stderrp,
     );
     fflush(__stderrp);
-    abort();
+    libc::abort();
 }
 #[no_mangle]
 #[c2rust::src_loc = "155:1"]

@@ -386,7 +386,7 @@ unsafe extern "C" fn fd_type(mut fd: libc::c_int) -> fd_type_t {
                 type_0 = FD_TYPE_PIPE;
             }
             8192 => {
-                if isatty(fd) != 0 {
+                if libc::isatty(fd) != 0 {
                     type_0 = FD_TYPE_TTY;
                 } else {
                     type_0 = FD_TYPE_DEVICE;

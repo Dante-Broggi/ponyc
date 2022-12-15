@@ -76,7 +76,7 @@ pub unsafe extern "C" fn ponyint_virt_alloc(mut bytes: usize) -> *mut libc::c_vo
     }
     if !ok {
         perror(b"out of memory: \0" as *const u8 as *const libc::c_char);
-        abort();
+        libc::abort();
     }
     p
 }

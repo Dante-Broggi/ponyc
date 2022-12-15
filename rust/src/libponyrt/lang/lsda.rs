@@ -184,7 +184,7 @@ unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8
             result = read_uleb128(&mut p);
         }
         _ => {
-            abort();
+            libc::abort();
         }
     }
     *data = p;
@@ -208,7 +208,7 @@ unsafe extern "C" fn read_with_encoding(mut data: *mut *const u8, mut def: libc:
             result = (result as libc::c_ulong).wrapping_add(start) as libc::uintptr_t as libc::uintptr_t;
         }
         32 | 48 | 64 | 80 | _ => {
-            abort();
+            libc::abort();
         }
     }
     if encoding as libc::c_int & DW_EH_PE_indirect as libc::c_int != 0 {
