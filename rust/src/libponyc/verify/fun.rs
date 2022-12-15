@@ -923,8 +923,8 @@ unsafe extern "C" fn verify_main_runtime_override_defaults(
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1042,7 +1042,7 @@ unsafe extern "C" fn verify_main_create(mut opt: *mut pass_opt_t, mut ast: *mut 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1130,7 +1130,7 @@ unsafe extern "C" fn verify_primitive_init(mut opt: *mut pass_opt_t, mut ast: *m
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1227,8 +1227,8 @@ unsafe extern "C" fn verify_any_final(mut opt: *mut pass_opt_t, mut ast: *mut as
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1337,8 +1337,8 @@ unsafe extern "C" fn verify_serialise_space(mut opt: *mut pass_opt_t, mut ast: *
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1413,8 +1413,8 @@ unsafe extern "C" fn verify_serialiser(mut opt: *mut pass_opt_t, mut ast: *mut a
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1489,8 +1489,8 @@ unsafe extern "C" fn verify_deserialiser(mut opt: *mut pass_opt_t, mut ast: *mut
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1672,8 +1672,8 @@ pub unsafe extern "C" fn verify_fun(mut opt: *mut pass_opt_t, mut ast: *mut ast_
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

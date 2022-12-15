@@ -1873,7 +1873,7 @@ pub unsafe extern "C" fn ast_token(mut t: *mut token_t) -> *mut ast_t {
     memset(
         ast as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<ast_t>() as libc::c_ulong,
+        ::core::mem::size_of::<ast_t>(),
     );
     let ref mut fresh6 = (*ast).t;
     *fresh6 = t;
@@ -4570,8 +4570,8 @@ unsafe extern "C" fn print_type(
             ];
             ast_get_children(
                 type_0,
-                (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 6]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -4659,8 +4659,8 @@ unsafe extern "C" fn print_type(
             ];
             ast_get_children(
                 type_0,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                (::core::mem::size_of::<[*mut *mut ast_t; 4]>())
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -4693,8 +4693,8 @@ unsafe extern "C" fn print_type(
                 [&mut left, &mut right, 0 as *mut *mut ast_t];
             ast_get_children(
                 type_0,
-                (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                (::core::mem::size_of::<[*mut *mut ast_t; 3]>())
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
@@ -5112,7 +5112,7 @@ static mut ast_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<ast_signature_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<ast_signature_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -5285,7 +5285,7 @@ static mut ast_nominal_pkg_id_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<ast_signature_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<ast_signature_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -5526,7 +5526,7 @@ static mut ast_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<ast_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<ast_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,

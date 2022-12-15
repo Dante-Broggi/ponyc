@@ -1497,7 +1497,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1548,7 +1548,7 @@ pub unsafe extern "C" fn expr_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast
             ast_get_children(
                 left,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -2071,7 +2071,7 @@ pub unsafe extern "C" fn expr_as(mut opt: *mut pass_opt_t, mut astp: *mut *mut a
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2286,7 +2286,7 @@ pub unsafe extern "C" fn expr_consume(mut opt: *mut pass_opt_t, mut ast: *mut as
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

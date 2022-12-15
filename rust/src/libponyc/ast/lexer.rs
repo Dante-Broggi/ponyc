@@ -3258,7 +3258,7 @@ pub unsafe extern "C" fn lexer_open(
     memset(
         lexer as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<lexer_t>() as libc::c_ulong,
+        ::core::mem::size_of::<lexer_t>(),
     );
     let ref mut fresh12 = (*lexer).source;
     *fresh12 = source;

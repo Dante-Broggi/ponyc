@@ -460,7 +460,7 @@ unsafe extern "C" fn get_width() -> usize {
         if ioctl(
             1 as libc::c_int,
             0x40000000 as libc::c_int as u32 as libc::c_ulong
-                | (::core::mem::size_of::<winsize>() as libc::c_ulong
+                | (::core::mem::size_of::<winsize>()
                     & 0x1fff as libc::c_int as libc::c_ulong)
                     << 16 as libc::c_int
                 | (('t' as i32) << 8 as libc::c_int) as libc::c_ulong
@@ -563,7 +563,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
     }
     opt.all_args = calloc(
         args_size,
-        ::core::mem::size_of::<libc::c_char>() as libc::c_ulong,
+        ::core::mem::size_of::<libc::c_char>(),
     ) as *const libc::c_char;
     let mut size_left: usize = args_size;
     let mut i_0: libc::c_int = 1 as libc::c_int;

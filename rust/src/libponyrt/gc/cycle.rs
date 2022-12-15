@@ -1307,7 +1307,7 @@ unsafe extern "C" fn get_view(
         memset(
             view as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<view_t>() as libc::c_ulong,
+            ::core::mem::size_of::<view_t>(),
         );
         let ref mut fresh1 = (*view).actor;
         *fresh1 = actor;
@@ -2206,7 +2206,7 @@ static mut cycle_type: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<detector_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<detector_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,

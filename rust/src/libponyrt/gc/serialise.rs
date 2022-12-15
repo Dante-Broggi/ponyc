@@ -832,7 +832,7 @@ pub unsafe extern "C" fn pony_serialise_offset(
     let mut t: *const pony_type_t = *(p as *mut *const pony_type_t);
     return (*t).id as usize
         | (1 as libc::c_int as usize)
-            << (::core::mem::size_of::<usize>() as libc::c_ulong)
+            << (::core::mem::size_of::<usize>())
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
                 .wrapping_sub(1);
 }
@@ -922,13 +922,13 @@ pub unsafe extern "C" fn pony_deserialise_offset(
     }
     if offset
         & (1 as libc::c_int as usize)
-            << (::core::mem::size_of::<usize>() as libc::c_ulong)
+            << (::core::mem::size_of::<usize>())
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
                 .wrapping_sub(1)
         != 0
     {
         offset &= !((1 as libc::c_int as usize)
-            << (::core::mem::size_of::<usize>() as libc::c_ulong)
+            << (::core::mem::size_of::<usize>())
                 .wrapping_mul(8 as libc::c_int as libc::c_ulong)
                 .wrapping_sub(1));
         if offset > desc_table_size {
@@ -951,7 +951,7 @@ pub unsafe extern "C" fn pony_deserialise_offset(
         return (*s).value as *mut libc::c_void;
     }
     if t.is_null() {
-        if offset.wrapping_add(::core::mem::size_of::<uintptr_t>() as libc::c_ulong)
+        if offset.wrapping_add(::core::mem::size_of::<uintptr_t>())
             > (*ctx).serialise_size
         {
             serialise_cleanup(ctx);

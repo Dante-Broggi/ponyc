@@ -1184,7 +1184,7 @@ unsafe extern "C" fn detect_apply_element_type(
     ast_get_children(
         apply,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1242,7 +1242,7 @@ unsafe extern "C" fn detect_values_element_type(
     ast_get_children(
         values,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1299,7 +1299,7 @@ unsafe extern "C" fn find_possible_element_types(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1383,7 +1383,7 @@ unsafe extern "C" fn find_possible_iterator_element_types(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1584,7 +1584,7 @@ pub unsafe extern "C" fn expr_pre_array(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1701,7 +1701,7 @@ pub unsafe extern "C" fn expr_array(mut opt: *mut pass_opt_t, mut astp: *mut *mu
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

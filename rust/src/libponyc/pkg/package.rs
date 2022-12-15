@@ -2009,7 +2009,7 @@ static mut package_group_list_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<package_group_list_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<package_group_list_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -2229,7 +2229,7 @@ static mut package_set_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<package_set_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<package_set_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4197,7 +4197,7 @@ static mut package_dep_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<package_signature_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<package_signature_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4239,7 +4239,7 @@ static mut package_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<package_signature_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<package_signature_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4501,7 +4501,7 @@ pub unsafe extern "C" fn package_group_signature(
         memset(
             &mut ctx as *mut pony_ctx_t as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<pony_ctx_t>() as libc::c_ulong,
+            ::core::mem::size_of::<pony_ctx_t>(),
         );
         let mut array: ponyint_array_t = ponyint_array_t {
             t: 0 as *const pony_type_t,
@@ -4512,7 +4512,7 @@ pub unsafe extern "C" fn package_group_signature(
         memset(
             &mut array as *mut ponyint_array_t as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<ponyint_array_t>() as libc::c_ulong,
+            ::core::mem::size_of::<ponyint_array_t>(),
         );
         let mut buf: *mut libc::c_char =
             ponyint_pool_alloc_size(64 as libc::c_int as usize) as *mut libc::c_char;
@@ -4680,7 +4680,7 @@ static mut package_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<package_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<package_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -4792,7 +4792,7 @@ static mut package_group_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<package_group_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<package_group_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,

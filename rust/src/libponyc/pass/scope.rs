@@ -1062,7 +1062,7 @@ unsafe extern "C" fn scope_entity(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1260,7 +1260,7 @@ unsafe extern "C" fn scope_iftype(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1389,7 +1389,7 @@ unsafe extern "C" fn scope_call(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) -
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1418,7 +1418,7 @@ unsafe extern "C" fn scope_assign(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

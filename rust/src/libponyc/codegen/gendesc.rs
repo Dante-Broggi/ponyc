@@ -1623,7 +1623,7 @@ unsafe extern "C" fn make_unbox_function(
     let mut f_type: LLVMTypeRef = LLVMGetElementType(LLVMTypeOf((*c_m).func));
     let mut count: libc::c_int = LLVMCountParamTypes(f_type) as libc::c_int;
     let mut buf_size: usize = ((count + 1 as libc::c_int) as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     let mut params: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetParamTypes(f_type, params);
     let mut ret_type: LLVMTypeRef = LLVMGetReturnType(f_type);
@@ -1717,7 +1717,7 @@ unsafe extern "C" fn trait_bitmap32(
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
     let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<u32>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<u32>());
     let mut bm: *mut u32 = ponyint_pool_alloc_size(bm_size) as *mut u32;
     memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size);
     let mut i: usize = -(1 as libc::c_int) as usize;
@@ -1756,7 +1756,7 @@ unsafe extern "C" fn trait_bitmap32(
     }
     let mut bitmap: *mut LLVMValueRef = ponyint_pool_alloc_size(
         ((*c).trait_bitmap_size as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>()),
     ) as *mut LLVMValueRef;
     i = 0 as libc::c_int as usize;
     while i < (*c).trait_bitmap_size as libc::c_ulong {
@@ -1777,7 +1777,7 @@ unsafe extern "C" fn trait_bitmap64(
     mut t: *mut reach_type_t,
 ) -> *mut LLVMValueRef {
     let mut bm_size: usize = ((*c).trait_bitmap_size as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<u64>());
     let mut bm: *mut u64 = ponyint_pool_alloc_size(bm_size) as *mut u64;
     memset(bm as *mut libc::c_void, 0 as libc::c_int, bm_size);
     let mut i: usize = -(1 as libc::c_int) as usize;
@@ -1816,7 +1816,7 @@ unsafe extern "C" fn trait_bitmap64(
     }
     let mut bitmap: *mut LLVMValueRef = ponyint_pool_alloc_size(
         ((*c).trait_bitmap_size as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>()),
     ) as *mut LLVMValueRef;
     i = 0 as libc::c_int as usize;
     while i < (*c).trait_bitmap_size as libc::c_ulong {
@@ -1846,7 +1846,7 @@ unsafe extern "C" fn make_trait_bitmap(
         LLVMConstArray((*c).intptr, bitmap, (*c).trait_bitmap_size);
     ponyint_pool_free_size(
         ((*c).trait_bitmap_size as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<LLVMValueRef>()),
         bitmap as *mut libc::c_void,
     );
     let mut name: *const libc::c_char = genname_traitmap((*t).name);
@@ -1920,7 +1920,7 @@ unsafe extern "C" fn make_field_list(
         ));
     }
     let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut list: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut i: u32 = 0 as libc::c_int as u32;
@@ -1967,7 +1967,7 @@ unsafe extern "C" fn make_vtable(mut c: *mut compile_t, mut t: *mut reach_type_t
         );
     }
     let mut buf_size: usize = ((*t).vtable_size as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut vtable: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     memset(vtable as *mut libc::c_void, 0 as libc::c_int, buf_size);
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
@@ -2173,7 +2173,7 @@ pub unsafe extern "C" fn gendesc_init(mut c: *mut compile_t, mut t: *mut reach_t
 pub unsafe extern "C" fn gendesc_table(mut c: *mut compile_t) {
     let mut len: u32 = reach_max_type_id((*c).reach);
     let mut size: usize = (len as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut null: LLVMValueRef = LLVMConstNull((*c).descriptor_ptr);
     let mut i: usize = 0;

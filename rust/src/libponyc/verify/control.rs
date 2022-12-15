@@ -755,8 +755,8 @@ pub unsafe extern "C" fn verify_try(mut opt: *mut pass_opt_t, mut ast: *mut ast_
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -811,7 +811,7 @@ pub unsafe extern "C" fn verify_disposing_block(mut ast: *mut ast_t) -> bool {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

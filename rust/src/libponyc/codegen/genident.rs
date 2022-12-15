@@ -3046,7 +3046,7 @@ pub unsafe extern "C" fn gen_is(mut c: *mut compile_t, mut ast: *mut ast_t) -> L
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -3074,7 +3074,7 @@ pub unsafe extern "C" fn gen_isnt(mut c: *mut compile_t, mut ast: *mut ast_t) ->
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -3168,7 +3168,7 @@ pub unsafe extern "C" fn gen_numeric_size_table(mut c: *mut compile_t) -> LLVMVa
         return 0 as LLVMValueRef;
     }
     let mut size: usize = (len as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(size) as *mut LLVMValueRef;
     let mut count: u32 = 0 as libc::c_int as u32;
     let mut t: *mut reach_type_t = 0 as *mut reach_type_t;

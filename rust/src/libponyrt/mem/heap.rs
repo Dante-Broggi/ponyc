@@ -700,7 +700,7 @@ unsafe extern "C" fn sweep_small(
         (*chunk).shallow = CHUNK_NEEDS_TO_BE_CLEARED as libc::c_uint;
         if (*chunk).slots == 0 as libc::c_int as libc::c_uint {
             used = (used as libc::c_ulong)
-                .wrapping_add(::core::mem::size_of::<block_t>() as libc::c_ulong)
+                .wrapping_add(::core::mem::size_of::<block_t>())
                 as usize as usize;
             let ref mut fresh1 = (*chunk).next;
             *fresh1 = *full;
@@ -709,7 +709,7 @@ unsafe extern "C" fn sweep_small(
             destroy_small(chunk, 0 as libc::c_int as u32);
         } else {
             used = (used as libc::c_ulong).wrapping_add(
-                (::core::mem::size_of::<block_t>() as libc::c_ulong).wrapping_sub(
+                (::core::mem::size_of::<block_t>()).wrapping_sub(
                     (__pony_popcount((*chunk).slots) as libc::c_ulong).wrapping_mul(size),
                 ),
             ) as usize as usize;
@@ -784,7 +784,7 @@ pub unsafe extern "C" fn ponyint_heap_init(mut heap: *mut heap_t) {
     memset(
         heap as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<heap_t>() as libc::c_ulong,
+        ::core::mem::size_of::<heap_t>(),
     );
     (*heap).next_gc = heap_initialgc;
 }

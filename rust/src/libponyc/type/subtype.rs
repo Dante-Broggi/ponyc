@@ -1035,7 +1035,7 @@ unsafe extern "C" fn exact_nominal(
     ast_get_children(
         a,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1055,7 +1055,7 @@ unsafe extern "C" fn exact_nominal(
     ast_get_children(
         b,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1079,7 +1079,7 @@ unsafe extern "C" fn check_assume(
             ast_get_children(
                 assumption,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1354,7 +1354,7 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     ast_get_children(
         sub,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1376,7 +1376,7 @@ unsafe extern "C" fn is_reified_fun_sub_fun(
     ast_get_children(
         super_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 7]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1591,7 +1591,7 @@ unsafe extern "C" fn is_fun_sub_fun(
     ast_get_children(
         sub,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1609,7 +1609,7 @@ unsafe extern "C" fn is_fun_sub_fun(
     ast_get_children(
         super_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1708,7 +1708,7 @@ unsafe extern "C" fn is_fun_sub_fun(
             ast_get_children(
                 super_typeparam,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
@@ -2306,7 +2306,7 @@ unsafe extern "C" fn nominal_provides_trait(
     ast_get_children(
         def,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2327,7 +2327,7 @@ unsafe extern "C" fn nominal_provides_trait(
     ast_get_children(
         trait_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );

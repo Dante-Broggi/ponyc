@@ -448,7 +448,7 @@ use core::arch::asm;
 #[c2rust::src_loc = "40:1"]
 unsafe extern "C" fn property(mut key: *const libc::c_char) -> u32 {
     let mut value: libc::c_int = 0 as libc::c_int;
-    let mut len: usize = ::core::mem::size_of::<libc::c_int>() as libc::c_ulong;
+    let mut len: usize = ::core::mem::size_of::<libc::c_int>();
     let mut err: libc::c_int = sysctlbyname(
         key,
         &mut value as *mut libc::c_int as *mut libc::c_void,
@@ -516,8 +516,8 @@ pub unsafe extern "C" fn ponyint_cpu_affinity(mut cpu: u32) {
         mach_thread_self(),
         4 as libc::c_int as thread_policy_flavor_t,
         &mut policy as *mut thread_affinity_policy_data_t as thread_policy_t,
-        (::core::mem::size_of::<thread_affinity_policy_data_t>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<integer_t>() as libc::c_ulong)
+        (::core::mem::size_of::<thread_affinity_policy_data_t>())
+            .wrapping_div(::core::mem::size_of::<integer_t>())
             as mach_msg_type_number_t,
     );
 }

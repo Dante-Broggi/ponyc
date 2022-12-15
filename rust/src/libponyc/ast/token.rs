@@ -764,7 +764,7 @@ pub unsafe extern "C" fn token_new(mut id: token_id) -> *mut token_t {
     memset(
         t as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_t>() as libc::c_ulong,
+        ::core::mem::size_of::<token_t>(),
     );
     (*t).id = id;
     return t;
@@ -786,7 +786,7 @@ pub unsafe extern "C" fn token_dup(mut token: *mut token_t) -> *mut token_t {
     memcpy(
         t as *mut libc::c_void,
         token as *const libc::c_void,
-        ::core::mem::size_of::<token_t>() as libc::c_ulong,
+        ::core::mem::size_of::<token_t>(),
     );
     let ref mut fresh0 = (*t).printed;
     *fresh0 = 0 as *mut libc::c_char;
@@ -1400,7 +1400,7 @@ unsafe extern "C" fn token_signature_serialise(
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_signature_t>() as libc::c_ulong,
+        ::core::mem::size_of::<token_signature_t>(),
     );
     (*dst).id = (*token).id;
     match (*token).id as libc::c_uint {
@@ -1428,7 +1428,7 @@ static mut token_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<token_signature_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<token_signature_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -1498,7 +1498,7 @@ unsafe extern "C" fn token_docstring_signature_serialise(
     memset(
         dst as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<token_signature_t>() as libc::c_ulong,
+        ::core::mem::size_of::<token_signature_t>(),
     );
     (*dst).id = TK_NONE;
 }
@@ -1507,7 +1507,7 @@ static mut token_docstring_signature_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<token_signature_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<token_signature_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -1627,7 +1627,7 @@ static mut token_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<token_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<token_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,

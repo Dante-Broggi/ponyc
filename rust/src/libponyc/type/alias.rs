@@ -839,7 +839,7 @@ pub unsafe extern "C" fn alias(mut type_0: *mut ast_t) -> *mut ast_t {
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -933,7 +933,7 @@ pub unsafe extern "C" fn consume_type(
                 ast_get_children(
                     type_0,
                     (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                         .wrapping_sub(1),
                     children.as_mut_ptr(),
                 );
@@ -1063,7 +1063,7 @@ unsafe extern "C" fn recover_type_inner(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1207,7 +1207,7 @@ pub unsafe extern "C" fn chain_type(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1272,7 +1272,7 @@ pub unsafe extern "C" fn sendable(mut type_0: *mut ast_t) -> bool {
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1286,8 +1286,8 @@ pub unsafe extern "C" fn sendable(mut type_0: *mut ast_t) -> bool {
                 [&mut id_0, &mut cap_0, &mut eph_0, 0 as *mut *mut ast_t];
             ast_get_children(
                 type_0,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -1348,7 +1348,7 @@ pub unsafe extern "C" fn immutable_or_opaque(mut type_0: *mut ast_t) -> bool {
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1362,8 +1362,8 @@ pub unsafe extern "C" fn immutable_or_opaque(mut type_0: *mut ast_t) -> bool {
                 [&mut id_0, &mut cap_0, &mut eph_0, 0 as *mut *mut ast_t];
             ast_get_children(
                 type_0,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );

@@ -617,8 +617,8 @@ pub struct ipaddress_t {
 #[c2rust::src_loc = "99:1"]
 pub unsafe extern "C" fn ponyint_address_length(mut ipaddr: *mut ipaddress_t) -> socklen_t {
     match (*ipaddr).addr.ss_family as libc::c_int {
-        2 => return ::core::mem::size_of::<sockaddr_in>() as libc::c_ulong as socklen_t,
-        30 => return ::core::mem::size_of::<sockaddr_in6>() as libc::c_ulong as socklen_t,
+        2 => return ::core::mem::size_of::<sockaddr_in>() as socklen_t,
+        30 => return ::core::mem::size_of::<sockaddr_in6>() as socklen_t,
         _ => {}
     }
     return -(1 as libc::c_int) as socklen_t;
@@ -649,13 +649,13 @@ unsafe extern "C" fn map_any_to_loopback(mut addr: *mut sockaddr) -> bool {
             if memcmp(
                 &mut (*in_1).sin6_addr as *mut in6_addr as *const libc::c_void,
                 &in6addr_any as *const in6_addr as *const libc::c_void,
-                ::core::mem::size_of::<in6_addr>() as libc::c_ulong,
+                ::core::mem::size_of::<in6_addr>(),
             ) == 0 as libc::c_int
             {
                 memcpy(
                     &mut (*in_1).sin6_addr as *mut in6_addr as *mut libc::c_void,
                     &in6addr_loopback as *const in6_addr as *const libc::c_void,
-                    ::core::mem::size_of::<in6_addr>() as libc::c_ulong,
+                    ::core::mem::size_of::<in6_addr>(),
                 );
                 return 1 as libc::c_int != 0;
             }
@@ -686,7 +686,7 @@ unsafe extern "C" fn os_addrinfo_intern(
     memset(
         &mut hints as *mut addrinfo as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<addrinfo>() as libc::c_ulong,
+        ::core::mem::size_of::<addrinfo>(),
     );
     hints.ai_flags = 0x400 as libc::c_int;
     hints.ai_family = family;
@@ -723,7 +723,7 @@ unsafe extern "C" fn socket_from_addrinfo(mut p: *mut addrinfo, mut reuse: bool)
             0xffff as libc::c_int,
             0x4 as libc::c_int,
             &mut reuseaddr as *mut libc::c_int as *const libc::c_char as *const libc::c_void,
-            ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+            ::core::mem::size_of::<libc::c_int>() as socklen_t,
         );
     }
     r |= set_nonblocking(fd);
@@ -1068,7 +1068,7 @@ pub unsafe extern "C" fn pony_os_accept(mut ev: *mut asio_event_t) -> libc::c_in
 #[c2rust::src_loc = "767:1"]
 pub unsafe extern "C" fn pony_os_connected(mut fd: libc::c_int) -> bool {
     let mut val: libc::c_int = 0 as libc::c_int;
-    let mut len: socklen_t = ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t;
+    let mut len: socklen_t = ::core::mem::size_of::<libc::c_int>() as socklen_t;
     if getsockopt(
         fd,
         0xffff as libc::c_int,
@@ -1236,7 +1236,7 @@ pub unsafe extern "C" fn pony_os_sockname(
     mut ipaddr: *mut ipaddress_t,
 ) -> bool {
     let mut len: socklen_t =
-        ::core::mem::size_of::<sockaddr_storage>() as libc::c_ulong as socklen_t;
+        ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
     if getsockname(
         fd,
         &mut (*ipaddr).addr as *mut sockaddr_storage as *mut sockaddr,
@@ -1255,7 +1255,7 @@ pub unsafe extern "C" fn pony_os_peername(
     mut ipaddr: *mut ipaddress_t,
 ) -> bool {
     let mut len: socklen_t =
-        ::core::mem::size_of::<sockaddr_storage>() as libc::c_ulong as socklen_t;
+        ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
     if getpeername(
         fd,
         &mut (*ipaddr).addr as *mut sockaddr_storage as *mut sockaddr,
@@ -1378,7 +1378,7 @@ pub unsafe extern "C" fn pony_os_recvfrom(
     mut ipaddr: *mut ipaddress_t,
 ) -> usize {
     let mut addrlen: socklen_t =
-        ::core::mem::size_of::<sockaddr_storage>() as libc::c_ulong as socklen_t;
+        ::core::mem::size_of::<sockaddr_storage>() as socklen_t;
     let mut recvd: ssize_t = recvfrom(
         (*ev).fd,
         buf as *mut libc::c_void,
@@ -1411,7 +1411,7 @@ pub unsafe extern "C" fn pony_os_keepalive(mut fd: libc::c_int, mut secs: libc::
         0xffff as libc::c_int,
         0x8 as libc::c_int,
         &mut on as *mut libc::c_int as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<libc::c_int>() as socklen_t,
     );
     if on == 0 as libc::c_int {
         return;
@@ -1422,7 +1422,7 @@ pub unsafe extern "C" fn pony_os_keepalive(mut fd: libc::c_int, mut secs: libc::
         6 as libc::c_int,
         0x102 as libc::c_int,
         &mut probes as *mut libc::c_int as *const libc::c_void,
-        ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<libc::c_int>() as socklen_t,
     );
     let mut idle: libc::c_int = secs / 2 as libc::c_int;
     setsockopt(
@@ -1430,7 +1430,7 @@ pub unsafe extern "C" fn pony_os_keepalive(mut fd: libc::c_int, mut secs: libc::
         6 as libc::c_int,
         0x10 as libc::c_int,
         &mut idle as *mut libc::c_int as *const libc::c_void,
-        ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<libc::c_int>() as socklen_t,
     );
     let mut intvl: libc::c_int = 1 as libc::c_int;
     setsockopt(
@@ -1438,7 +1438,7 @@ pub unsafe extern "C" fn pony_os_keepalive(mut fd: libc::c_int, mut secs: libc::
         6 as libc::c_int,
         0x101 as libc::c_int,
         &mut intvl as *mut libc::c_int as *const libc::c_void,
-        ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<libc::c_int>() as socklen_t,
     );
 }
 #[no_mangle]
@@ -1450,7 +1450,7 @@ pub unsafe extern "C" fn pony_os_nodelay(mut fd: libc::c_int, mut state: bool) {
         6 as libc::c_int,
         0x1 as libc::c_int,
         &mut val as *mut libc::c_int as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<libc::c_int>() as socklen_t,
     );
 }
 #[no_mangle]
@@ -1498,7 +1498,7 @@ pub unsafe extern "C" fn pony_os_broadcast(mut fd: libc::c_int, mut state: bool)
         0xffff as libc::c_int,
         0x20 as libc::c_int,
         &mut broadcast as *mut libc::c_int as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<libc::c_int>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<libc::c_int>() as socklen_t,
     );
 }
 #[no_mangle]
@@ -1539,7 +1539,7 @@ pub unsafe extern "C" fn pony_os_multicast_loopback(mut fd: libc::c_int, mut loo
         0 as libc::c_int,
         11 as libc::c_int,
         &mut loop_0 as *mut u8 as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<u8>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<u8>() as socklen_t,
     );
 }
 #[no_mangle]
@@ -1550,7 +1550,7 @@ pub unsafe extern "C" fn pony_os_multicast_ttl(mut fd: libc::c_int, mut ttl: u8)
         0 as libc::c_int,
         10 as libc::c_int,
         &mut ttl as *mut u8 as *const libc::c_char as *const libc::c_void,
-        ::core::mem::size_of::<u8>() as libc::c_ulong as socklen_t,
+        ::core::mem::size_of::<u8>() as socklen_t,
     );
 }
 #[c2rust::src_loc = "1256:1"]
@@ -1619,7 +1619,7 @@ unsafe extern "C" fn multicast_change(
                     0 as libc::c_int,
                     12 as libc::c_int,
                     &mut req as *mut ip_mreq as *const libc::c_char as *const libc::c_void,
-                    ::core::mem::size_of::<ip_mreq>() as libc::c_ulong as socklen_t,
+                    ::core::mem::size_of::<ip_mreq>() as socklen_t,
                 );
             } else {
                 setsockopt(
@@ -1627,7 +1627,7 @@ unsafe extern "C" fn multicast_change(
                     0 as libc::c_int,
                     13 as libc::c_int,
                     &mut req as *mut ip_mreq as *const libc::c_char as *const libc::c_void,
-                    ::core::mem::size_of::<ip_mreq>() as libc::c_ulong as socklen_t,
+                    ::core::mem::size_of::<ip_mreq>() as socklen_t,
                 );
             }
         }
@@ -1644,7 +1644,7 @@ unsafe extern "C" fn multicast_change(
                 &mut req_0.ipv6mr_multiaddr as *mut in6_addr as *mut libc::c_void,
                 &mut (*((*rg).ai_addr as *mut sockaddr_in6)).sin6_addr as *mut in6_addr
                     as *const libc::c_void,
-                ::core::mem::size_of::<in6_addr>() as libc::c_ulong,
+                ::core::mem::size_of::<in6_addr>(),
             );
             req_0.ipv6mr_interface = interface;
             if join {
@@ -1653,7 +1653,7 @@ unsafe extern "C" fn multicast_change(
                     41 as libc::c_int,
                     12 as libc::c_int,
                     &mut req_0 as *mut ipv6_mreq as *const libc::c_char as *const libc::c_void,
-                    ::core::mem::size_of::<ipv6_mreq>() as libc::c_ulong as socklen_t,
+                    ::core::mem::size_of::<ipv6_mreq>() as socklen_t,
                 );
             } else {
                 setsockopt(
@@ -1661,7 +1661,7 @@ unsafe extern "C" fn multicast_change(
                     41 as libc::c_int,
                     13 as libc::c_int,
                     &mut req_0 as *mut ipv6_mreq as *const libc::c_char as *const libc::c_void,
-                    ::core::mem::size_of::<ipv6_mreq>() as libc::c_ulong as socklen_t,
+                    ::core::mem::size_of::<ipv6_mreq>() as socklen_t,
                 );
             }
         }
@@ -2040,7 +2040,7 @@ pub unsafe extern "C" fn pony_os_sockopt_option(mut option: libc::c_int) -> libc
         1007 => return (0xf as libc::c_int) << 2 as libc::c_int,
         1008 => {
             return (((0xf as libc::c_int) << 2 as libc::c_int) as libc::c_ulong)
-                .wrapping_sub(::core::mem::size_of::<tcphdr>() as libc::c_ulong)
+                .wrapping_sub(::core::mem::size_of::<tcphdr>())
                 as libc::c_int;
         }
         1009 => return 0x2 as libc::c_int,

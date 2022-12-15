@@ -2051,12 +2051,12 @@ unsafe extern "C" fn make_signature(
         offset = offset.wrapping_add(1);
     }
     let mut tparam_size: usize =
-        count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong);
+        count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     if message_type {
         tparam_size = (tparam_size as libc::c_ulong).wrapping_add(
             tparam_size.wrapping_add(
                 (2 as libc::c_int as libc::c_ulong)
-                    .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong),
+                    .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>()),
             ),
         ) as usize as usize;
     }
@@ -2250,7 +2250,7 @@ unsafe extern "C" fn make_prototype(
     } else {
         let mut count: usize = LLVMCountParamTypes((*c_m).func_type) as usize;
         let mut buf_size: usize =
-            count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong);
+            count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
         let mut tparams: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
         LLVMGetParamTypes((*c_m).func_type, tparams);
         let mut sender_name: *const libc::c_char = genname_be((*m).full_name);
@@ -2361,12 +2361,12 @@ unsafe extern "C" fn add_dispatch_case(
     );
     let mut count: usize = LLVMCountParamTypes(fun_type) as usize;
     let mut params_buf_size: usize =
-        count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong);
+        count.wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     let mut param_types: *mut LLVMTypeRef =
         ponyint_pool_alloc_size(params_buf_size) as *mut LLVMTypeRef;
     LLVMGetParamTypes(fun_type, param_types);
     let mut args_buf_size: usize =
-        count.wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        count.wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(args_buf_size) as *mut LLVMValueRef;
     let ref mut fresh22 = *args.offset(0 as libc::c_int as isize);
     *fresh22 = LLVMBuildBitCast(
@@ -2525,8 +2525,8 @@ unsafe extern "C" fn genfun_fun(
     ];
     ast_get_children(
         (*(*m).fun).ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2622,8 +2622,8 @@ unsafe extern "C" fn genfun_be(
     ];
     ast_get_children(
         (*(*m).fun).ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2655,7 +2655,7 @@ unsafe extern "C" fn genfun_be(
     );
     let mut buf_size: usize = ((*m).param_count)
         .wrapping_add(1)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut param_vals: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     LLVMGetParams((*c_m).func, param_vals);
     gen_send_message(c, m, param_vals, params);
@@ -2712,8 +2712,8 @@ unsafe extern "C" fn genfun_new(
     ];
     ast_get_children(
         (*(*m).fun).ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2790,8 +2790,8 @@ unsafe extern "C" fn genfun_newbe(
     ];
     ast_get_children(
         (*(*m).fun).ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2821,7 +2821,7 @@ unsafe extern "C" fn genfun_newbe(
     );
     let mut buf_size: usize = ((*m).param_count)
         .wrapping_add(1)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut param_vals: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     LLVMGetParams((*c_m).func, param_vals);
     gen_send_message(c, m, param_vals, params);
@@ -3052,7 +3052,7 @@ unsafe extern "C" fn genfun_forward(
     );
     let mut count: libc::c_int = LLVMCountParams((*c_m).func) as libc::c_int;
     let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMValueRef>());
     let mut args: *mut LLVMValueRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMValueRef;
     let ref mut fresh30 = *args.offset(0 as libc::c_int as isize);
     *fresh30 = LLVMGetParam((*c_m).func, 0 as libc::c_int as libc::c_uint);
@@ -3260,7 +3260,7 @@ pub unsafe extern "C" fn genfun_allocate_compile_methods(
             memset(
                 c_m as *mut libc::c_void,
                 0 as libc::c_int,
-                ::core::mem::size_of::<compile_method_t>() as libc::c_ulong,
+                ::core::mem::size_of::<compile_method_t>(),
             );
             let ref mut fresh32 = (*c_m).free_fn;
             *fresh32 = Some(compile_method_free as unsafe extern "C" fn(*mut libc::c_void) -> ());

@@ -834,7 +834,7 @@ unsafe extern "C" fn name_record_cmp(mut a: *mut name_record_t, mut b: *mut name
 #[c2rust::src_loc = "97:1"]
 unsafe extern "C" fn name_record_free(mut p: *mut name_record_t) {
     ponyint_pool_free_size(
-        ((*p).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong),
+        ((*p).typemap_size).wrapping_mul(::core::mem::size_of::<u64>()),
         (*p).type_map as *mut libc::c_void,
     );
     ponyint_pool_free(0 as libc::c_int as usize, p as *mut libc::c_void);
@@ -1022,7 +1022,7 @@ pub unsafe extern "C" fn painter_print(mut painter: *mut painter_t) {
     printf(
         b"Painter typemaps are %zu bits\n\0" as *const u8 as *const libc::c_char,
         ((*painter).typemap_size)
-            .wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong)
+            .wrapping_mul(::core::mem::size_of::<u64>())
             .wrapping_mul(8 as libc::c_int as libc::c_ulong),
     );
     printf(b"Painter names:\n\0" as *const u8 as *const libc::c_char);
@@ -1088,7 +1088,7 @@ unsafe extern "C" fn add_name(
         );
     };
     let mut map_byte_count: usize =
-        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
+        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>());
     let mut n: *mut name_record_t =
         ponyint_pool_alloc(0 as libc::c_int as usize) as *mut name_record_t;
     let ref mut fresh0 = (*n).name;
@@ -1118,7 +1118,7 @@ unsafe extern "C" fn add_colour(mut painter: *mut painter_t) -> *mut colour_reco
         );
     };
     let mut map_byte_count: usize =
-        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
+        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>());
     let mut n: *mut colour_record_t =
         ponyint_pool_alloc(0 as libc::c_int as usize) as *mut colour_record_t;
     (*n).colour = (*painter).colour_count;
@@ -1425,7 +1425,7 @@ unsafe extern "C" fn painter_tidy(mut painter: *mut painter_t) {
         );
     };
     let mut map_byte_count: usize =
-        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>() as libc::c_ulong);
+        ((*painter).typemap_size).wrapping_mul(::core::mem::size_of::<u64>());
     name_records_destroy(&mut (*painter).names);
     let mut c: *mut colour_record_t = (*painter).colours;
     while !c.is_null() {

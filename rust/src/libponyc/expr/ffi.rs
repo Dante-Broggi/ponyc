@@ -949,7 +949,7 @@ unsafe extern "C" fn declared_ffi(
     ast_get_children(
         call,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -969,7 +969,7 @@ unsafe extern "C" fn declared_ffi(
     ast_get_children(
         decl,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1119,7 +1119,7 @@ pub unsafe extern "C" fn expr_ffi(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

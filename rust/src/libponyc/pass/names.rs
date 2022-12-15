@@ -962,8 +962,8 @@ unsafe extern "C" fn names_applycap(
                 [&mut id, &mut tcap, &mut teph, 0 as *mut *mut ast_t];
             ast_get_children(
                 ast,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -998,7 +998,7 @@ unsafe extern "C" fn names_applycap(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -1139,7 +1139,7 @@ unsafe extern "C" fn names_typealias(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1157,7 +1157,7 @@ unsafe extern "C" fn names_typealias(
     ast_get_children(
         def,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1214,7 +1214,7 @@ unsafe extern "C" fn names_typeparam(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1317,7 +1317,7 @@ unsafe extern "C" fn names_type(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1332,8 +1332,8 @@ unsafe extern "C" fn names_type(
     ];
     ast_get_children(
         def,
-        (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1425,7 +1425,7 @@ pub unsafe extern "C" fn names_def(mut opt: *mut pass_opt_t, mut ast: *mut ast_t
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1460,7 +1460,7 @@ pub unsafe extern "C" fn names_nominal(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

@@ -265,7 +265,7 @@ pub unsafe extern "C" fn get_compiler_exe_path(
         success as libc::c_int
     } != 0;
     let mut exec_path: [libc::c_char; 1024] = [0; 1024];
-    let mut size: u32 = ::core::mem::size_of::<[libc::c_char; 1024]>() as libc::c_ulong as u32;
+    let mut size: u32 = ::core::mem::size_of::<[libc::c_char; 1024]>() as u32;
     let mut r: libc::c_int = _NSGetExecutablePath(exec_path.as_mut_ptr(), &mut size);
     success = r == 0 as libc::c_int;
     if success {

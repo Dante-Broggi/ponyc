@@ -340,7 +340,7 @@ unsafe extern "C" fn flag_dup(mut flag: *mut flag_t) -> *mut flag_t {
     memcpy(
         f as *mut libc::c_void,
         flag as *const libc::c_void,
-        ::core::mem::size_of::<flag_t>() as libc::c_ulong,
+        ::core::mem::size_of::<flag_t>(),
     );
     f
 }
