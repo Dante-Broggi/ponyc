@@ -492,10 +492,8 @@ pub mod symtab_h {
     pub const SYM_NOCASE: sym_status_t = 1;
     #[c2rust::src_loc = "14:3"]
     pub const SYM_NONE: sym_status_t = 0;
-    extern "C" {
-        #[c2rust::src_loc = "9:16"]
-        pub type ast_t;
-    }
+    #[c2rust::src_loc = "9:16"]
+    pub use crate::libponyc::ast::ast::ast_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyc/ast/stringtab.h:1"]
 pub mod stringtab_h {

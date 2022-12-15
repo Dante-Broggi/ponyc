@@ -818,7 +818,7 @@ pub mod symtab_h {
     }
 
     use super::ast_t;
-    
+
     use super::source_h::pony_type_t;
     extern "C" {
         #[c2rust::src_loc = "32:45"]
@@ -1202,15 +1202,15 @@ pub use self::token_h::{
 #[repr(C)]
 #[c2rust::src_loc = "69:8"]
 pub struct ast_t {
-    pub t: *mut token_t,
-    pub symtab: *mut symtab_t,
-    pub data: *mut libc::c_void,
-    pub parent: *mut ast_t,
-    pub child: *mut ast_t,
-    pub sibling: *mut ast_t,
-    pub annotation_type: *mut ast_t,
-    pub flags: u32,
-    pub frozen: bool,
+    t: *mut token_t,
+    symtab: *mut symtab_t,
+    data: *mut libc::c_void,
+    parent: *mut ast_t,
+    child: *mut ast_t,
+    sibling: *mut ast_t,
+    annotation_type: *mut ast_t,
+    flags: u32,
+    frozen: bool,
 }
 #[derive(Copy, Clone)]
 #[repr(C)]

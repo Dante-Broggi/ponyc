@@ -246,9 +246,9 @@ pub mod symtab_h {
     }
 
     use super::hash_h::hashmap_t;
+    #[c2rust::src_loc = "9:16"]
+    pub use crate::libponyc::ast::ast::ast_t;
     extern "C" {
-        #[c2rust::src_loc = "9:16"]
-        pub type ast_t;
         #[c2rust::src_loc = "10:16"]
         pub type errors_t;
     }
