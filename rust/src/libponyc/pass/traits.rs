@@ -1250,7 +1250,7 @@ unsafe extern "C" fn reify_provides_type(
     ast_get_children(
         reified,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1469,7 +1469,7 @@ unsafe extern "C" fn add_method(
     ast_get_children(
         basis_method,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1646,8 +1646,8 @@ unsafe extern "C" fn add_method_from_trait(
     ];
     ast_get_children(
         method,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2061,7 +2061,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
     ast_get_children(
         entity,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2075,7 +2075,7 @@ unsafe extern "C" fn embed_fields(mut entity: *mut ast_t, mut opt: *mut pass_opt
             ast_get_children(
                 member,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -2119,7 +2119,7 @@ unsafe extern "C" fn local_types(mut ast: *mut ast_t) {
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2172,7 +2172,7 @@ unsafe extern "C" fn add_comparable(mut ast: *mut ast_t, mut options: *mut pass_
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

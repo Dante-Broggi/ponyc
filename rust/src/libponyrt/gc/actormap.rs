@@ -578,7 +578,7 @@ unsafe extern "C" fn actorref_alloc(
     memset(
         aref as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<actorref_t>() as libc::c_ulong,
+        ::core::mem::size_of::<actorref_t>(),
     );
     let ref mut fresh0 = (*aref).actor;
     *fresh0 = actor;

@@ -411,7 +411,7 @@ unsafe extern "C" fn sym_dup(mut sym: *mut symbol_t) -> *mut symbol_t {
     memcpy(
         s as *mut libc::c_void,
         sym as *const libc::c_void,
-        ::core::mem::size_of::<symbol_t>() as libc::c_ulong,
+        ::core::mem::size_of::<symbol_t>(),
     );
     s
 }
@@ -440,7 +440,7 @@ static mut symtab_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<symtab_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<symtab_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,
@@ -1018,7 +1018,7 @@ static mut symbol_pony: pony_type_t = unsafe {
     {
         let mut init = _pony_type_t {
             id: 0 as libc::c_int as u32,
-            size: ::core::mem::size_of::<symbol_t>() as libc::c_ulong as u32,
+            size: ::core::mem::size_of::<symbol_t>() as u32,
             field_count: 0 as libc::c_int as u32,
             field_offset: 0 as libc::c_int as u32,
             instance: 0 as *const libc::c_void as *mut libc::c_void,

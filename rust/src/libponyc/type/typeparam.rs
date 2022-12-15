@@ -1114,8 +1114,8 @@ unsafe extern "C" fn constraint_cap(mut typeparamref: *mut ast_t) -> *mut ast_t 
     let mut children: [*mut *mut ast_t; 4] = [&mut id, &mut cap, &mut eph, 0 as *mut *mut ast_t];
     ast_get_children(
         typeparamref,
-        (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1214,8 +1214,8 @@ pub unsafe extern "C" fn typeparam_set_cap(mut typeparamref: *mut ast_t) {
     let mut children: [*mut *mut ast_t; 4] = [&mut id, &mut cap, &mut eph, 0 as *mut *mut ast_t];
     ast_get_children(
         typeparamref,
-        (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1270,7 +1270,7 @@ unsafe extern "C" fn typeparam_current_inner(mut type_0: *mut ast_t, mut scope: 
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );

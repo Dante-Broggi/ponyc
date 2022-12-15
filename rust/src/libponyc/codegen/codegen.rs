@@ -2131,7 +2131,7 @@ unsafe extern "C" fn push_frame(mut c: *mut compile_t) -> *mut compile_frame_t {
     memset(
         frame as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<compile_frame_t>() as libc::c_ulong,
+        ::core::mem::size_of::<compile_frame_t>(),
     );
     compile_locals_init(&mut (*frame).locals, 0 as libc::c_int as usize);
     if !((*c).frame).is_null() {
@@ -3523,7 +3523,7 @@ unsafe extern "C" fn process_llvm_args(mut opt: *mut pass_opt_t) {
     let mut raw_opt_str_size: usize =
         (libc::strlen((*opt).llvm_args)).wrapping_add(1);
     let mut buffer: *mut libc::c_char = malloc(
-        (::core::mem::size_of::<libc::c_char>() as libc::c_ulong).wrapping_mul(raw_opt_str_size),
+        (::core::mem::size_of::<libc::c_char>()).wrapping_mul(raw_opt_str_size),
     ) as *mut libc::c_char;
     strncpy(buffer, (*opt).llvm_args, raw_opt_str_size);
     let mut argv_buf_size: usize = 4 as libc::c_int as usize;
@@ -3800,7 +3800,7 @@ pub unsafe extern "C" fn codegen(mut program: *mut ast_t, mut opt: *mut pass_opt
     memset(
         &mut c as *mut compile_t as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<compile_t>() as libc::c_ulong,
+        ::core::mem::size_of::<compile_t>(),
     );
     genned_strings_init(&mut c.strings, 64 as libc::c_int as usize);
     ffi_decls_init(&mut c.ffi_decls, 64 as libc::c_int as usize);
@@ -3825,7 +3825,7 @@ pub unsafe extern "C" fn codegen_gen_test(
         memset(
             c as *mut libc::c_void,
             0 as libc::c_int,
-            ::core::mem::size_of::<compile_t>() as libc::c_ulong,
+            ::core::mem::size_of::<compile_t>(),
         );
         genned_strings_init(&mut (*c).strings, 64 as libc::c_int as usize);
         ffi_decls_init(&mut (*c).ffi_decls, 64 as libc::c_int as usize);

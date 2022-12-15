@@ -2280,7 +2280,7 @@ pub unsafe extern "C" fn gen_fieldptr(mut c: *mut compile_t, mut ast: *mut ast_t
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2302,7 +2302,7 @@ pub unsafe extern "C" fn gen_fieldload(mut c: *mut compile_t, mut ast: *mut ast_
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2383,7 +2383,7 @@ pub unsafe extern "C" fn gen_tupleelemptr(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2429,7 +2429,7 @@ pub unsafe extern "C" fn gen_tuple(mut c: *mut compile_t, mut ast: *mut ast_t) -
     let mut c_t: *mut compile_type_t = (*t).c_type as *mut compile_type_t;
     let mut count: libc::c_int = LLVMCountStructElementTypes((*c_t).primitive) as libc::c_int;
     let mut buf_size: usize = (count as libc::c_ulong)
-        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>() as libc::c_ulong);
+        .wrapping_mul(::core::mem::size_of::<LLVMTypeRef>());
     let mut elements: *mut LLVMTypeRef = ponyint_pool_alloc_size(buf_size) as *mut LLVMTypeRef;
     LLVMGetStructElementTypes((*c_t).primitive, elements);
     let mut tuple: LLVMValueRef = LLVMGetUndef((*c_t).primitive);

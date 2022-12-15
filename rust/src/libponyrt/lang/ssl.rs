@@ -90,7 +90,7 @@ unsafe extern "C" fn locking_callback(
 pub unsafe extern "C" fn ponyint_ssl_multithreading(mut count: u32) -> *mut libc::c_void {
     locks = ponyint_pool_alloc_size(
         (count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<pthread_mutex_t>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<pthread_mutex_t>()),
     ) as *mut pthread_mutex_t;
     let mut i: u32 = 0 as libc::c_int as u32;
     while i < count {

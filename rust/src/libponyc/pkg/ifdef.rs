@@ -938,8 +938,8 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
                 [&mut left, &mut right, &mut question, 0 as *mut *mut ast_t];
             ast_get_children(
                 ast,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -973,8 +973,8 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
             ];
             ast_get_children(
                 ast,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -1002,7 +1002,7 @@ unsafe extern "C" fn cond_normalise(mut astp: *mut *mut ast_t) {
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
@@ -1232,7 +1232,7 @@ unsafe extern "C" fn cond_eval(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1247,7 +1247,7 @@ unsafe extern "C" fn cond_eval(
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -1315,7 +1315,7 @@ unsafe extern "C" fn find_flags_in_cond(mut ast: *mut ast_t, mut config: *mut bu
             ast_get_children(
                 ast,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1398,8 +1398,8 @@ unsafe extern "C" fn find_decl_flags(
                     [&mut alias, &mut decl, &mut guard, 0 as *mut *mut ast_t];
                 ast_get_children(
                     use_0,
-                    (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                         .wrapping_sub(1),
                     children.as_mut_ptr(),
                 );
@@ -1495,8 +1495,8 @@ unsafe extern "C" fn find_decl_for_config(
                     [&mut alias, &mut decl, &mut guard, 0 as *mut *mut ast_t];
                 ast_get_children(
                     use_0,
-                    (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                        .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                         .wrapping_sub(1),
                     children.as_mut_ptr(),
                 );

@@ -1129,7 +1129,7 @@ unsafe extern "C" fn insert_apply(mut opt: *mut pass_opt_t, mut astp: *mut *mut 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1279,7 +1279,7 @@ unsafe extern "C" fn apply_named_args(
         ast_get_children(
             namedarg,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children.as_mut_ptr(),
         );
@@ -1291,7 +1291,7 @@ unsafe extern "C" fn apply_named_args(
             ast_get_children(
                 param,
                 (::core::mem::size_of::<[*mut *mut ast_t; 2]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -1353,8 +1353,8 @@ unsafe extern "C" fn apply_default_arg(
         [&mut id, &mut type_0, &mut def_arg, 0 as *mut *mut ast_t];
     ast_get_children(
         param,
-        (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1424,8 +1424,8 @@ pub unsafe extern "C" fn check_auto_recover_newref(
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1657,7 +1657,7 @@ unsafe extern "C" fn check_receiver_cap(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -1679,7 +1679,7 @@ unsafe extern "C" fn check_receiver_cap(
     ast_get_children(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -1890,7 +1890,7 @@ unsafe extern "C" fn check_nonsendable_recover(
         ast_get_children(
             ast,
             (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children.as_mut_ptr(),
         );
@@ -1909,7 +1909,7 @@ unsafe extern "C" fn check_nonsendable_recover(
         ast_get_children(
             type_0,
             (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children_0.as_mut_ptr(),
         );
@@ -1975,7 +1975,7 @@ unsafe extern "C" fn method_application(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2000,7 +2000,7 @@ unsafe extern "C" fn method_application(
     ast_get_children(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -2069,7 +2069,7 @@ unsafe extern "C" fn method_call(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2091,7 +2091,7 @@ unsafe extern "C" fn method_call(mut opt: *mut pass_opt_t, mut ast: *mut ast_t) 
     ast_get_children(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -2119,7 +2119,7 @@ unsafe extern "C" fn partial_application_cap(
     ast_get_children(
         ftype,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2175,7 +2175,7 @@ unsafe extern "C" fn partial_application(
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2200,7 +2200,7 @@ unsafe extern "C" fn partial_application(
     ast_get_children(
         lhs,
         (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_0.as_mut_ptr(),
     );
@@ -2212,7 +2212,7 @@ unsafe extern "C" fn partial_application(
         ast_get_children(
             receiver,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children_1.as_mut_ptr(),
         );
@@ -2268,7 +2268,7 @@ unsafe extern "C" fn partial_application(
     ast_get_children(
         type_0,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children_2.as_mut_ptr(),
     );
@@ -2309,7 +2309,7 @@ unsafe extern "C" fn partial_application(
         ast_get_children(
             receiver_type,
             (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children_3.as_mut_ptr(),
         );
@@ -2564,8 +2564,8 @@ unsafe extern "C" fn partial_application(
                 [&mut p_id, &mut p_type, &mut p_default, 0 as *mut *mut ast_t];
             ast_get_children(
                 target_param,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_4.as_mut_ptr(),
             );
@@ -2985,7 +2985,7 @@ unsafe extern "C" fn method_chain(mut opt: *mut pass_opt_t, mut ast: *mut ast_t)
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -3043,7 +3043,7 @@ pub unsafe extern "C" fn expr_call(mut opt: *mut pass_opt_t, mut astp: *mut *mut
     ast_get_children(
         ast,
         (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );

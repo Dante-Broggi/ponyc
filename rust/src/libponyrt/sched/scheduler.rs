@@ -1544,7 +1544,7 @@ unsafe extern "C" fn ponyint_sched_shutdown() {
     }
     ponyint_pool_free_size(
         (scheduler_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<scheduler_t>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<scheduler_t>()),
         scheduler as *mut libc::c_void,
     );
     scheduler = 0 as *mut scheduler_t;
@@ -1583,13 +1583,13 @@ pub unsafe extern "C" fn ponyint_sched_init(
     active_scheduler_count_check.store(scheduler_count, Relaxed);
     scheduler = ponyint_pool_alloc_size(
         (scheduler_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<scheduler_t>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<scheduler_t>()),
     ) as *mut scheduler_t;
     memset(
         scheduler as *mut libc::c_void,
         0 as libc::c_int,
         (scheduler_count as libc::c_ulong)
-            .wrapping_mul(::core::mem::size_of::<scheduler_t>() as libc::c_ulong),
+            .wrapping_mul(::core::mem::size_of::<scheduler_t>()),
     );
     let mut asio_cpu: u32 = ponyint_cpu_assign(scheduler_count, scheduler, pin, pinasio);
     pthread_once(
@@ -1722,7 +1722,7 @@ pub unsafe extern "C" fn pony_register_thread() {
     memset(
         this_scheduler as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<scheduler_t>() as libc::c_ulong,
+        ::core::mem::size_of::<scheduler_t>(),
     );
     let ref mut fresh15 = (*this_scheduler).tid;
     *fresh15 = ponyint_thread_self();

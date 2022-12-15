@@ -326,7 +326,7 @@ pub unsafe extern "C" fn ponyint_muteref_alloc(mut key: *mut pony_actor_t) -> *m
     memset(
         mref as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<muteref_t>() as libc::c_ulong,
+        ::core::mem::size_of::<muteref_t>(),
     );
     let ref mut fresh0 = (*mref).key;
     *fresh0 = key;

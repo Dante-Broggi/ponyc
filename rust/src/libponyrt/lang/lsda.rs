@@ -114,7 +114,7 @@ unsafe extern "C" fn read_sleb128(mut data: *mut *const u8) -> intptr_t {
         }
     }
     if byte as libc::c_int & 0x40 as libc::c_int != 0
-        && shift < (::core::mem::size_of::<libc::uintptr_t>() as libc::c_ulong) << 3 as libc::c_int
+        && shift < (::core::mem::size_of::<libc::uintptr_t>()) << 3 as libc::c_int
     {
         result |= !(0 as libc::c_int as libc::uintptr_t) << shift;
     }
@@ -151,31 +151,31 @@ unsafe extern "C" fn read_encoded_ptr(mut data: *mut *const u8, mut encoding: u8
     match encoding as libc::c_int & 0xf as libc::c_int {
         0 => {
             result = *(p as *mut libc::uintptr_t);
-            p = p.offset(::core::mem::size_of::<libc::uintptr_t>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<libc::uintptr_t>() as isize);
         }
         2 => {
             result = *(p as *mut u16) as libc::uintptr_t;
-            p = p.offset(::core::mem::size_of::<u16>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<u16>() as isize);
         }
         3 => {
             result = *(p as *mut u32) as libc::uintptr_t;
-            p = p.offset(::core::mem::size_of::<u32>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<u32>() as isize);
         }
         4 => {
             result = *(p as *mut u64) as libc::uintptr_t;
-            p = p.offset(::core::mem::size_of::<u64>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<u64>() as isize);
         }
         10 => {
             result = *(p as *mut i16) as libc::uintptr_t;
-            p = p.offset(::core::mem::size_of::<i16>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<i16>() as isize);
         }
         11 => {
             result = *(p as *mut i32) as libc::uintptr_t;
-            p = p.offset(::core::mem::size_of::<i32>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<i32>() as isize);
         }
         12 => {
             result = *(p as *mut i64) as libc::uintptr_t;
-            p = p.offset(::core::mem::size_of::<i64>() as libc::c_ulong as isize);
+            p = p.offset(::core::mem::size_of::<i64>() as isize);
         }
         9 => {
             result = read_sleb128(&mut p) as libc::uintptr_t;

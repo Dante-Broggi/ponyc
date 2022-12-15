@@ -1174,7 +1174,7 @@ pub unsafe extern "C" fn pass_opt_init(mut options: *mut pass_opt_t) {
     memset(
         options as *mut libc::c_void,
         0 as libc::c_int,
-        ::core::mem::size_of::<pass_opt_t>() as libc::c_ulong,
+        ::core::mem::size_of::<pass_opt_t>(),
     );
     (*options).limit = PASS_ALL;
     (*options).verbosity = VERBOSITY_INFO;

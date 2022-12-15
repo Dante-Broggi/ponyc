@@ -1590,7 +1590,7 @@ unsafe extern "C" fn doc_type(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 6]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children.as_mut_ptr(),
             );
@@ -1713,8 +1713,8 @@ unsafe extern "C" fn doc_type(
             ];
             ast_get_children(
                 type_0,
-                (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_0.as_mut_ptr(),
             );
@@ -1739,7 +1739,7 @@ unsafe extern "C" fn doc_type(
             ast_get_children(
                 type_0,
                 (::core::mem::size_of::<[*mut *mut ast_t; 3]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                    .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                     .wrapping_sub(1),
                 children_1.as_mut_ptr(),
             );
@@ -2020,7 +2020,7 @@ unsafe extern "C" fn doc_fields(
         ast_get_children(
             field,
             (::core::mem::size_of::<[*mut *mut ast_t; 5]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children.as_mut_ptr(),
         );
@@ -2181,8 +2181,8 @@ unsafe extern "C" fn doc_type_params(
         ];
         ast_get_children(
             t_param,
-            (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children.as_mut_ptr(),
         );
@@ -2295,8 +2295,8 @@ unsafe extern "C" fn code_block_doc_params(
             [&mut id, &mut type_0, &mut def_val, 0 as *mut *mut ast_t];
         ast_get_children(
             param,
-            (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children.as_mut_ptr(),
         );
@@ -2410,8 +2410,8 @@ unsafe extern "C" fn list_doc_params(
             [&mut id, &mut type_0, &mut def_val, 0 as *mut *mut ast_t];
         ast_get_children(
             param,
-            (::core::mem::size_of::<[*mut *mut ast_t; 4]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            ::core::mem::size_of::<[*mut *mut ast_t; 4]>()
+                .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
                 .wrapping_sub(1),
             children.as_mut_ptr(),
         );
@@ -2526,7 +2526,7 @@ unsafe extern "C" fn doc_method(
     ast_get_children(
         method,
         (::core::mem::size_of::<[*mut *mut ast_t; 9]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -2783,7 +2783,7 @@ unsafe extern "C" fn copy_source_to_doc_src(
         );
     };
     let mut result: *mut doc_sources_t =
-        ponyint_pool_alloc_size(::core::mem::size_of::<doc_sources_t>() as libc::c_ulong)
+        ponyint_pool_alloc_size(::core::mem::size_of::<doc_sources_t>())
             as *mut doc_sources_t;
     let mut filename_copy: [libc::c_char; 1024] = [0; 1024];
     strcpy(filename_copy.as_mut_ptr(), (*source).file);
@@ -3151,8 +3151,8 @@ unsafe extern "C" fn doc_entity(
     ];
     ast_get_children(
         ast,
-        (::core::mem::size_of::<[*mut *mut ast_t; 8]>() as libc::c_ulong)
-            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>() as libc::c_ulong)
+        (::core::mem::size_of::<[*mut *mut ast_t; 8]>())
+            .wrapping_div(::core::mem::size_of::<*mut *mut ast_t>())
             .wrapping_sub(1),
         children.as_mut_ptr(),
     );
@@ -4211,7 +4211,7 @@ pub unsafe extern "C" fn generate_docs(mut program: *mut ast_t, mut options: *mu
             let mut current_source_ptr_copy: *mut doc_sources_t = current_source;
             current_source = (*current_source).next;
             ponyint_pool_free_size(
-                ::core::mem::size_of::<doc_sources_t>() as libc::c_ulong,
+                ::core::mem::size_of::<doc_sources_t>(),
                 current_source_ptr_copy as *mut libc::c_void,
             );
         }
@@ -19805,7 +19805,7 @@ pub unsafe extern "C" fn generate_docs(mut program: *mut ast_t, mut options: *mu
         ];
         fwrite(
             logo.as_ptr() as *const libc::c_void,
-            ::core::mem::size_of::<libc::c_uchar>() as libc::c_ulong,
+            ::core::mem::size_of::<libc::c_uchar>(),
             15558 as libc::c_int as libc::c_ulong,
             logo_file,
         );
