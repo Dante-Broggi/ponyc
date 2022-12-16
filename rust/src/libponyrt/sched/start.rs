@@ -258,23 +258,9 @@ pub mod gc_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/actor/actor.h:6"]
 pub mod actor_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
+
     #[c2rust::src_loc = "53:16"]
-    pub struct pony_actor_t {
-        pub type_0: *const pony_type_t,
-        pub q: messageq_t,
-        pub sync_flags: u8,
-        pub cycle_detector_critical: u8,
-        pub heap: heap_t,
-        pub muted: usize,
-        pub internal_flags: u8,
-        pub gc: gc_t,
-    }
-    use super::gc_h::gc_t;
-    use super::heap_h::heap_t;
-    use super::messageq_h::messageq_t;
-    use super::pony_h::pony_type_t;
+    pub use crate::libponyrt::actor::actor::pony_actor_t;
 
     extern "C" {
         #[c2rust::src_loc = "131:1"]
