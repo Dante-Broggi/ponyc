@@ -265,12 +265,8 @@ pub mod hash_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:5"]
 pub mod actormap_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "27:35"]
-    pub struct actormap_t {
-        pub contents: hashmap_t,
-    }
+    pub use crate::libponyrt::gc::actormap::actormap_t;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "12:16"]
@@ -281,7 +277,7 @@ pub mod actormap_h {
         pub map: objectmap_t,
     }
     use super::actor_h::pony_actor_t;
-    use super::hash_h::hashmap_t;
+
     use super::objectmap_h::objectmap_t;
 
     extern "C" {

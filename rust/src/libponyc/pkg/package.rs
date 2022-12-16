@@ -529,13 +529,8 @@ pub mod hash_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/actormap.h:10"]
 pub mod actormap_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "27:35"]
-    pub struct actormap_t {
-        pub contents: hashmap_t,
-    }
-    use super::hash_h::hashmap_t;
+    pub use crate::libponyrt::gc::actormap::actormap_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.h:10"]
 pub mod gc_h {
@@ -4442,11 +4437,11 @@ pub unsafe extern "C" fn package_group_signature(
             trace_actor: None,
             stack: 0 as *mut gcstack_t,
             acquire: actormap_t {
-                contents: hashmap_t {
+                contents: crate::libponyrt::gc::actormap::hashmap_t {
                     count: 0,
                     size: 0,
-                    item_bitmap: 0 as *mut bitmap_t,
-                    buckets: 0 as *mut hashmap_entry_t,
+                    item_bitmap: 0 as *mut crate::libponyrt::gc::actormap::bitmap_t,
+                    buckets: 0 as *mut crate::libponyrt::gc::actormap::hashmap_entry_t,
                 },
             },
             serialise_buffer: 0 as *mut libc::c_void,
