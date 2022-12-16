@@ -383,12 +383,8 @@ pub mod serialise_h {
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "24:36"]
-    pub struct ponyint_serialise_t {
-        pub contents: hashmap_t,
-    }
+    pub use crate::libponyrt::gc::serialise::ponyint_serialise_t;
     #[derive(Copy, Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "8:9"]
@@ -399,7 +395,6 @@ pub mod serialise_h {
         pub ptr: *mut libc::c_char,
     }
 
-    use super::hash_h::hashmap_t;
     use super::pony_h::pony_type_t;
     use super::scheduler_h::pony_ctx_t;
     extern "C" {
@@ -4457,11 +4452,11 @@ pub unsafe extern "C" fn package_group_signature(
             serialise_buffer: 0 as *mut libc::c_void,
             serialise_size: 0,
             serialise: ponyint_serialise_t {
-                contents: hashmap_t {
+                contents: crate::libponyrt::gc::serialise::hash_h::hashmap_t {
                     count: 0,
                     size: 0,
-                    item_bitmap: 0 as *mut bitmap_t,
-                    buckets: 0 as *mut hashmap_entry_t,
+                    item_bitmap: 0 as *mut crate::libponyrt::gc::serialise::hash_h::bitmap_t,
+                    buckets: 0 as *mut crate::libponyrt::gc::serialise::hash_h::hashmap_entry_t,
                 },
             },
             serialise_alloc: None,

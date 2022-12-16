@@ -272,14 +272,10 @@ pub mod serialise_h {
     #[c2rust::src_loc = "16:1"]
     pub type serialise_alloc_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, usize) -> *mut libc::c_void>;
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    #[c2rust::src_loc = "24:36"]
-    pub struct ponyint_serialise_t {
-        pub contents: hashmap_t,
-    }
-    use super::hash_h::hashmap_t;
+
     use super::scheduler_h::pony_ctx_t;
+    #[c2rust::src_loc = "24:36"]
+    pub use crate::libponyrt::gc::serialise::ponyint_serialise_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/sched/mpmcq.h:4"]
 pub mod mpmcq_h {
