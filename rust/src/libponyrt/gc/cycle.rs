@@ -149,9 +149,9 @@ pub mod gc_h {
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
 
+    #[c2rust::src_loc = "28:32"]
+    pub use crate::libponyrt::gc::gc::gcstack_t;
     extern "C" {
-        #[c2rust::src_loc = "28:32"]
-        pub type gcstack_t;
         #[c2rust::src_loc = "77:1"]
         pub fn ponyint_gc_delta(gc: *mut gc_t) -> *mut deltamap_t;
         #[c2rust::src_loc = "75:1"]

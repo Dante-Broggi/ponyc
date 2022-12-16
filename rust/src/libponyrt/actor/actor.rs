@@ -115,9 +115,9 @@ pub mod gc_h {
     use super::objectmap_h::objectmap_t;
     use super::scheduler_h::pony_ctx_t;
 
+    #[c2rust::src_loc = "28:32"]
+    pub use crate::libponyrt::gc::gc::gcstack_t;
     extern "C" {
-        #[c2rust::src_loc = "28:32"]
-        pub type gcstack_t;
         #[c2rust::src_loc = "55:1"]
         pub fn ponyint_gc_createactor(current: *mut pony_actor_t, actor: *mut pony_actor_t);
         #[c2rust::src_loc = "79:1"]

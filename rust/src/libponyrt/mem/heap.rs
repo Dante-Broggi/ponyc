@@ -93,10 +93,8 @@ pub mod gc_h {
     use super::delta_h::deltamap_t;
     use super::objectmap_h::objectmap_t;
 
-    extern "C" {
-        #[c2rust::src_loc = "28:32"]
-        pub type gcstack_t;
-    }
+    #[c2rust::src_loc = "28:32"]
+    pub use crate::libponyrt::gc::gc::gcstack_t;
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/delta.h:4"]
 pub mod delta_h {

@@ -308,9 +308,9 @@ pub mod actormap_h {
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.h:5"]
 pub mod gc_h {
     use super::scheduler_h::pony_ctx_t;
+    #[c2rust::src_loc = "28:32"]
+    pub use crate::libponyrt::gc::gc::gcstack_t;
     extern "C" {
-        #[c2rust::src_loc = "28:32"]
-        pub type gcstack_t;
         #[c2rust::src_loc = "28:32"]
         pub fn ponyint_gcstack_push(
             stack: *mut gcstack_t,

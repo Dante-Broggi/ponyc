@@ -39,10 +39,10 @@ pub mod _intptr_t_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
 pub mod pony_h {
-    #[c2rust::src_loc = "46:8"]
-    pub use crate::libponyrt::pony_msg_t;
     #[c2rust::src_loc = "30:16"]
     pub use crate::libponyrt::actor::actor::pony_actor_t;
+    #[c2rust::src_loc = "46:8"]
+    pub use crate::libponyrt::pony_msg_t;
     extern "C" {
         #[c2rust::src_loc = "196:1"]
         pub fn pony_alloc_msg(index: u32, id: u32) -> *mut pony_msg_t;

@@ -316,10 +316,8 @@ pub mod actormap_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.h:26"]
 pub mod gc_h {
-    extern "C" {
-        #[c2rust::src_loc = "28:32"]
-        pub type gcstack_t;
-    }
+    #[c2rust::src_loc = "28:32"]
+    pub use crate::libponyrt::gc::gc::gcstack_t;
 }
 #[c2rust::header_src = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/time.h:4"]
 pub mod time_h {
