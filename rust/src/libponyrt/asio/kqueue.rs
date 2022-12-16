@@ -39,14 +39,8 @@ pub mod _intptr_t_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
 pub mod pony_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "46:8"]
-    pub struct pony_msg_t {
-        pub index: u32,
-        pub id: u32,
-        pub next: *mut pony_msg_t,
-    }
+    pub use crate::libponyrt::pony_msg_t;
     #[c2rust::src_loc = "30:16"]
     pub use crate::libponyrt::actor::actor::pony_actor_t;
     extern "C" {
@@ -238,7 +232,7 @@ pub mod asio_event_h {
         pub writeable: bool,
         pub nsec: u64,
     }
-    #[derive(Copy, Clone)]
+    #[derive(Clone)]
     #[repr(C)]
     #[c2rust::src_loc = "33:16"]
     pub struct asio_msg_t {

@@ -23,14 +23,8 @@ pub mod fun_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
 pub mod pony_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "46:8"]
-    pub struct pony_msg_t {
-        pub index: u32,
-        pub id: u32,
-        pub next: *mut pony_msg_t,
-    }
+    pub use crate::libponyrt::pony_msg_t;
     #[c2rust::src_loc = "74:1"]
     pub type pony_trace_fn = Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut libc::c_void) -> ()>;
     #[c2rust::src_loc = "84:1"]

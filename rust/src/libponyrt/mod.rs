@@ -61,3 +61,18 @@ pub mod sched {
     pub mod start;
     pub mod systematic_testing;
 } // mod sched
+
+// -- Top level contents
+
+#[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:1"]
+mod pony_h {
+    #[derive(Clone)]
+    #[repr(C)]
+    #[c2rust::src_loc = "46:8"]
+    pub struct pony_msg_t {
+        pub index: u32,
+        pub id: u32,
+        pub next: *mut pony_msg_t,
+    }
+}
+pub use pony_h::*;

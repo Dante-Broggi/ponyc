@@ -202,14 +202,8 @@ pub mod scheduler_h {
 pub use crate::libponyrt::actor::messageq::messageq_h;
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/pony.h:26"]
 pub mod pony_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "46:8"]
-    pub struct pony_msg_t {
-        pub index: u32,
-        pub id: u32,
-        pub next: *mut pony_msg_t,
-    }
+    pub use crate::libponyrt::pony_msg_t;
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
     #[derive(Copy, Clone)]

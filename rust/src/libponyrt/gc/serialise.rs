@@ -99,14 +99,8 @@ pub mod pony_h {
     #[c2rust::src_loc = "114:1"]
     pub type pony_dispatch_fn =
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "46:8"]
-    pub struct pony_msg_t {
-        pub index: u32,
-        pub id: u32,
-        pub next: *mut pony_msg_t,
-    }
+    pub use crate::libponyrt::pony_msg_t;
     #[c2rust::src_loc = "105:1"]
     pub type pony_custom_deserialise_fn =
         Option<unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_void) -> usize>;
