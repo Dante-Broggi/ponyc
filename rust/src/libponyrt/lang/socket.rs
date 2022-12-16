@@ -155,28 +155,8 @@ pub mod pony_h {
         Option<unsafe extern "C" fn(*mut pony_ctx_t, *mut pony_actor_t, *mut pony_msg_t) -> ()>;
     #[c2rust::src_loc = "124:1"]
     pub type pony_final_fn = Option<unsafe extern "C" fn(*mut libc::c_void) -> ()>;
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "133:22"]
-    pub struct _pony_type_t {
-        pub id: u32,
-        pub size: u32,
-        pub field_count: u32,
-        pub field_offset: u32,
-        pub instance: *mut libc::c_void,
-        pub trace: pony_trace_fn,
-        pub serialise_trace: pony_trace_fn,
-        pub serialise: pony_serialise_fn,
-        pub deserialise: pony_trace_fn,
-        pub custom_serialise_space: pony_custom_serialise_space_fn,
-        pub custom_deserialise: pony_custom_deserialise_fn,
-        pub dispatch: pony_dispatch_fn,
-        pub final_0: pony_final_fn,
-        pub event_notify: u32,
-        pub traits: *mut *mut libc::uintptr_t,
-        pub fields: *mut libc::c_void,
-        pub vtable: *mut libc::c_void,
-    }
+    pub use crate::libponyrt::_pony_type_t;
     #[c2rust::src_loc = "133:1"]
     pub type pony_type_t = _pony_type_t;
 
