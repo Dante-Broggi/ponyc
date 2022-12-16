@@ -95,20 +95,8 @@ pub mod actor_h {
 }
 #[c2rust::header_src = "/Users/dantebroggi/Documents/GitHub/ponyc/src/libponyrt/gc/gc.h:3"]
 pub mod gc_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
     #[c2rust::src_loc = "16:16"]
-    pub struct gc_t {
-        pub mark: u32,
-        pub rc_mark: u32,
-        pub rc: usize,
-        pub local: objectmap_t,
-        pub foreign: actormap_t,
-        pub delta: *mut deltamap_t,
-    }
-    use super::actormap_h::actormap_t;
-    use super::delta_h::deltamap_t;
-    use super::objectmap_h::objectmap_t;
+    pub use crate::libponyrt::gc::gc::gc_t;
 
     #[c2rust::src_loc = "28:32"]
     pub use crate::libponyrt::gc::gc::gcstack_t;
