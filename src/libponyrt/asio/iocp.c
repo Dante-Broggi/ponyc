@@ -32,7 +32,7 @@ struct asio_backend_t
 };
 
 
-enum // Event requests
+enum event_request_t // Event requests
 {
   ASIO_STDIN_NOTIFY = 5,
   ASIO_STDIN_RESUME = 6,

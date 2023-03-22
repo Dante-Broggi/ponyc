@@ -53,7 +53,7 @@
  */
 
 // The private bits of the flags values
-enum
+enum ast_private_flags_t
 {
   AST_ORPHAN = 0x20,
   AST_INHERIT_FLAGS = (AST_FLAG_CAN_ERROR | AST_FLAG_CAN_SEND |

@@ -120,7 +120,7 @@ void ponyint_assert_fail(const char* expr, const char* file, size_t line,
     if(addr == 0)
       break;
 
-    union
+    union sym_buf_t
     {
       SYMBOL_INFO sym;
       BYTE buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME];

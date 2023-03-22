@@ -7,7 +7,7 @@
 
 PONY_EXTERN_C_BEGIN
 
-enum
+enum dwarf_type_encoding_t
 {
   DW_ATE_boolean = 0x02,
   DW_ATE_float = 0x04,
@@ -15,7 +15,7 @@ enum
   DW_ATE_unsigned = 0x07,
 };
 
-enum
+enum dwarf_flag_t
 {
   DW_FLAG_Private           = 1,
   DW_FLAG_Protected         = 2,

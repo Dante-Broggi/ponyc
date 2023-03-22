@@ -5,7 +5,7 @@
 #include "../ast/astbuild.h"
 #include "ponyassert.h"
 
-enum
+enum view_upper_t
 {
   VIEW_UPPER_NO,
   VIEW_UPPER_YES,

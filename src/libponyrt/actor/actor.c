@@ -28,7 +28,7 @@ pony_static_assert((offsetof(pony_actor_t, gc) + sizeof(gc_t)) ==
 
 static bool actor_noblock = false;
 
-enum
+enum actor_flag_t
 {
   FLAG_BLOCKED = 1 << 0,
   FLAG_BLOCKED_SENT = 1 << 1,
@@ -38,7 +38,7 @@ enum
   FLAG_RC_OVER_ZERO_SEEN = 1 << 5,
 };
 
-enum
+enum sync_flag_t
 {
   SYNC_FLAG_PENDINGDESTROY = 1 << 0,
   SYNC_FLAG_OVERLOADED = 1 << 1,

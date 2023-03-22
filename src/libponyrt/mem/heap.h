@@ -29,7 +29,7 @@ typedef struct heap_t
   size_t next_gc;
 } heap_t;
 
-enum
+enum track_finaliser_sentinel_t
 {
   TRACK_NO_FINALISERS = 0,
   TRACK_ALL_FINALISERS = 0xFFFFFFFF,

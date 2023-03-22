@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 
-enum
+enum finaliser_flag_t
 {
   FINAL_NO_SEND = 0,
   FINAL_MAY_SEND = (1 << 0),

@@ -21,7 +21,7 @@
 
 PONY_EXTERN_C_BEGIN
 
-enum
+enum asio_flag_t
 {
   ASIO_DISPOSABLE = 0,
   ASIO_READ  = 1 << 0,
