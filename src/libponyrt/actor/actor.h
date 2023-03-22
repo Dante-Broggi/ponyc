@@ -27,7 +27,7 @@ PONY_EXTERN_C_BEGIN
 #define ACTORMSG_CONF (UINT32_MAX - 2)
 #define ACTORMSG_ACK (UINT32_MAX - 1)
 
-enum
+enum actor_flag_t
 {
   ACTOR_FLAG_BLOCKED = 1 << 0,
   ACTOR_FLAG_BLOCKED_SENT = 1 << 1,
@@ -41,7 +41,7 @@ enum
 #endif
 };
 
-enum
+enum sync_flag_t
 {
   ACTOR_SYNC_FLAG_PENDINGDESTROY = 1 << 0,
   ACTOR_SYNC_FLAG_OVERLOADED = 1 << 1,

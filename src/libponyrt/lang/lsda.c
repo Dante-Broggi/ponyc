@@ -22,7 +22,7 @@ typedef struct lsda_t
   uint8_t call_site_encoding;
 } lsda_t;
 
-enum
+enum dwarf_exception_pointer_encoding_t
 {
   DW_EH_PE_absptr = 0x00,
   DW_EH_PE_uleb128 = 0x01,

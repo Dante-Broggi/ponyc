@@ -24,7 +24,7 @@ typedef enum
   AST_FATAL
 } ast_result_t;
 
-enum
+enum ast_flag_t
 {
   AST_FLAG_PASS_MASK    = 0x1F,
   AST_FLAG_CAN_ERROR    = 0x40,

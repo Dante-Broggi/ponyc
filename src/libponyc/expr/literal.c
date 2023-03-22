@@ -19,7 +19,7 @@
 #define UIF_CONSTRAINED 0x10000
 #define UIF_COUNT       16
 
-static struct
+static struct uif_type
 {
   const char* name;
   lexint_t limit;

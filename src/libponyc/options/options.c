@@ -20,7 +20,7 @@
 
 #define MAYBE_UNUSED(x) (void)x
 
-enum
+enum opt_arg_id_t
 {
   OPT_VERSION,
   OPT_HELP,
