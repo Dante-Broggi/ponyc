@@ -54,7 +54,16 @@ void ponyint_list_deserialise(pony_ctx_t* ctx, void* object,
 
 #define DECLARE_LIST(name, name_t, elem) \
   typedef struct name_t name_t; \
-  typedef bool (*name##_cmp_fn)(elem* a, elem* b); \
+  /* The following disables the duplicate-decl-specifier warning for\
+  clang and gcc. The duplicate-decl-specifier warning warns on code like\
+  `const char const*x;` which duplicates const, because the code\
+  `const char*const x` is generally what is meant.\
+  Here we do intend the first meaning, when `elem` is `const char`,\
+  so we disable the warning for the affected line */\
+  _Pragma("GCC diagnostic push") \
+  _Pragma("GCC diagnostic ignored \"-Wduplicate-decl-specifier\"") \
+  typedef bool (*name##_cmp_fn)(elem const* a, elem const* b); \
+  _Pragma("GCC diagnostic pop")\
   typedef elem* (*name##_map_fn)(elem* a, void* arg); \
   typedef void (*name##_free_fn)(elem* a); \
   name_t* name##_pop(name_t* list, elem** data); \

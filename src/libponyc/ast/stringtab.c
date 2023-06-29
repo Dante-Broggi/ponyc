@@ -27,7 +27,7 @@ static size_t stringtab_hash(stringtab_entry_t* a)
   return ponyint_hash_block(a->str, a->len);
 }
 
-static bool stringtab_cmp(stringtab_entry_t* a, stringtab_entry_t* b)
+static bool stringtab_cmp(stringtab_entry_t const* a, stringtab_entry_t const* b)
 {
   return (a->len == b->len) && (memcmp(a->str, b->str, a->len) == 0);
 }

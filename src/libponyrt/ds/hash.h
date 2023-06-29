@@ -157,7 +157,7 @@ void ponyint_hashmap_deserialise(pony_ctx_t* ctx, void* object,
 
 #define DEFINE_HASHMAP(name, name_t, type, hash, cmp, free_elem) \
   typedef struct name_t name_t; \
-  typedef bool (*name##_cmp_fn)(type* a, type* b); \
+  typedef bool (*name##_cmp_fn)(type const* a, type const* b); \
   typedef void (*name##_free_fn)(type* a); \
   \
   void name##_init(name_t* map, size_t size) \

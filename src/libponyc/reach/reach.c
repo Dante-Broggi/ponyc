@@ -32,7 +32,7 @@ static size_t reach_method_hash(reach_method_t* m)
   return ponyint_hash_str(m->name);
 }
 
-static bool reach_method_cmp(reach_method_t* a, reach_method_t* b)
+static bool reach_method_cmp(reach_method_t const* a, reach_method_t const* b)
 {
   return a->name == b->name;
 }
@@ -45,7 +45,7 @@ static size_t reach_mangled_hash(reach_method_t* m)
   return ponyint_hash_str(m->mangled_name);
 }
 
-static bool reach_mangled_cmp(reach_method_t* a, reach_method_t* b)
+static bool reach_mangled_cmp(reach_method_t const* a, reach_method_t const* b)
 {
   return a->mangled_name == b->mangled_name;
 }
@@ -76,8 +76,8 @@ static size_t reach_method_name_hash(reach_method_name_t* n)
   return ponyint_hash_str(n->name);
 }
 
-static bool reach_method_name_cmp(reach_method_name_t* a,
-  reach_method_name_t* b)
+static bool reach_method_name_cmp(reach_method_name_t const* a,
+  reach_method_name_t const* b)
 {
   return a->name == b->name;
 }
@@ -98,7 +98,7 @@ static size_t reach_type_hash(reach_type_t* t)
   return ponyint_hash_str(t->name);
 }
 
-static bool reach_type_cmp(reach_type_t* a, reach_type_t* b)
+static bool reach_type_cmp(reach_type_t const* a, reach_type_t const* b)
 {
   return a->name == b->name;
 }

@@ -32,12 +32,12 @@ struct serialise_t
   bool block;
 };
 
-static size_t serialise_hash(serialise_t* p)
+static size_t serialise_hash(serialise_t const* p)
 {
   return ponyint_hash_size(p->key);
 }
 
-static bool serialise_cmp(serialise_t* a, serialise_t* b)
+static bool serialise_cmp(serialise_t const* a, serialise_t const* b)
 {
   return a->key == b->key;
 }

@@ -72,7 +72,7 @@ static size_t ffi_decl_hash(ffi_decl_t* d)
   return ponyint_hash_ptr(d->func);
 }
 
-static bool ffi_decl_cmp(ffi_decl_t* a, ffi_decl_t* b)
+static bool ffi_decl_cmp(ffi_decl_t const* a, ffi_decl_t const* b)
 {
   return a->func == b->func;
 }

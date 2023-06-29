@@ -102,7 +102,7 @@ static size_t funref_hash(ast_t* key)
   return ponyint_hash_ptr(key);
 }
 
-static bool funref_cmp(ast_t* a, ast_t* b)
+static bool funref_cmp(ast_t const* a, ast_t const* b)
 {
   return a == b;
 }

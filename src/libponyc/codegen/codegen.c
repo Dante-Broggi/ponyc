@@ -37,7 +37,7 @@ static size_t compile_local_hash(compile_local_t* p)
   return ponyint_hash_ptr(p->name);
 }
 
-static bool compile_local_cmp(compile_local_t* a, compile_local_t* b)
+static bool compile_local_cmp(compile_local_t const* a, compile_local_t const* b)
 {
   return a->name == b->name;
 }

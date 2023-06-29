@@ -6,12 +6,12 @@
 #include "../mem/pagemap.h"
 #include "ponyassert.h"
 
-static size_t object_hash(object_t* obj)
+static size_t object_hash(object_t const* obj)
 {
   return ponyint_hash_ptr(obj->address);
 }
 
-static bool object_cmp(object_t* a, object_t* b)
+static bool object_cmp(object_t const* a, object_t const* b)
 {
   return a->address == b->address;
 }

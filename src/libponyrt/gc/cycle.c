@@ -157,12 +157,12 @@ typedef struct viewref_t
   size_t rc;
 } viewref_t;
 
-static size_t viewref_hash(viewref_t* vref)
+static size_t viewref_hash(viewref_t const* vref)
 {
   return ponyint_hash_ptr(vref->view);
 }
 
-static bool viewref_cmp(viewref_t* a, viewref_t* b)
+static bool viewref_cmp(viewref_t const* a, viewref_t const* b)
 {
   return a->view == b->view;
 }
@@ -212,12 +212,12 @@ struct view_t
   perceived_t* perceived;
 };
 
-static size_t view_hash(view_t* view)
+static size_t view_hash(view_t const* view)
 {
   return ponyint_hash_ptr(view->actor);
 }
 
-static bool view_cmp(view_t* a, view_t* b)
+static bool view_cmp(view_t const* a, view_t const* b)
 {
   return a->actor == b->actor;
 }
@@ -252,12 +252,12 @@ struct perceived_t
   viewmap_t map;
 };
 
-static size_t perceived_hash(perceived_t* per)
+static size_t perceived_hash(perceived_t const* per)
 {
   return ponyint_hash_size(per->token);
 }
 
-static bool perceived_cmp(perceived_t* a, perceived_t* b)
+static bool perceived_cmp(perceived_t const* a, perceived_t const* b)
 {
   return a->token == b->token;
 }

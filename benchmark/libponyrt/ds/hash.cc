@@ -29,8 +29,8 @@ class HashMapBench: public ::benchmark::Fixture
     void delete_elements(size_t del_count, size_t count);
 
   public:
-    static size_t hash_tst(hash_elem_t* p);
-    static bool cmp_tst(hash_elem_t* a, hash_elem_t* b);
+    static size_t hash_tst(hash_elem_t const* p);
+    static bool cmp_tst(hash_elem_t const* a, hash_elem_t const* b);
     static void free_elem(hash_elem_t* p);
     static void free_buckets(size_t size, void* p);
 };
@@ -98,12 +98,12 @@ hash_elem_t* HashMapBench::get_element()
   return POOL_ALLOC(hash_elem_t);
 }
 
-size_t HashMapBench::hash_tst(hash_elem_t* p)
+size_t HashMapBench::hash_tst(hash_elem_t const* p)
 {
   return ponyint_hash_size(p->key);
 }
 
-bool HashMapBench::cmp_tst(hash_elem_t* a, hash_elem_t* b)
+bool HashMapBench::cmp_tst(hash_elem_t const* a, hash_elem_t const* b)
 {
   return a->key == b->key;
 }

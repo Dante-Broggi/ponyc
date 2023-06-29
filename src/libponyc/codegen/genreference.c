@@ -27,7 +27,7 @@ static size_t genned_string_hash(genned_string_t* s)
   return ponyint_hash_ptr(s->string);
 }
 
-static bool genned_string_cmp(genned_string_t* a, genned_string_t* b)
+static bool genned_string_cmp(genned_string_t const* a, genned_string_t const* b)
 {
   return a->string == b->string;
 }

@@ -102,7 +102,7 @@ static size_t package_hash(package_t* pkg)
 }
 
 
-static bool package_cmp(package_t* a, package_t* b)
+static bool package_cmp(package_t const* a, package_t const* b)
 {
   return a->qualified_name == b->qualified_name;
 }

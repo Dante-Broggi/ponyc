@@ -90,7 +90,7 @@ typedef struct ast_signature_t
   struct ast_signature_t* annotation_type;
 } ast_signature_t;
 
-static bool ast_cmp(ast_t* a, ast_t* b)
+static bool ast_cmp(ast_t const* a, ast_t const* b)
 {
   return a == b;
 }

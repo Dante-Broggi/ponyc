@@ -8,12 +8,12 @@
 #include "ponyassert.h"
 #include <string.h>
 
-static size_t actorref_hash(actorref_t* aref)
+static size_t actorref_hash(actorref_t const* aref)
 {
   return ponyint_hash_ptr(aref->actor);
 }
 
-static bool actorref_cmp(actorref_t* a, actorref_t* b)
+static bool actorref_cmp(actorref_t const* a, actorref_t const* b)
 {
   return a->actor == b->actor;
 }
