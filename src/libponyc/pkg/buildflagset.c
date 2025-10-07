@@ -83,13 +83,13 @@ typedef struct flag_t
 
 
 // Functions required for our hash table type.
-static size_t flag_hash(flag_t* flag)
+static size_t flag_hash(flag_t const* flag)
 {
   pony_assert(flag != NULL);
   return ponyint_hash_ptr(flag->name);
 }
 
-static bool flag_cmp(flag_t* a, flag_t* b)
+static bool flag_cmp(flag_t const* a, flag_t const* b)
 {
   pony_assert(a != NULL);
   pony_assert(b != NULL);

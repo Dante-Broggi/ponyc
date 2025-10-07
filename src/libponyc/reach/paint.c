@@ -84,12 +84,12 @@ typedef struct name_record_t
 
 
 // We keep our name records in a hash map
-static size_t name_record_hash(name_record_t* p)
+static size_t name_record_hash(name_record_t const* p)
 {
   return ponyint_hash_str(p->name);
 }
 
-static bool name_record_cmp(name_record_t* a, name_record_t* b)
+static bool name_record_cmp(name_record_t const* a, name_record_t const* b)
 {
   return a->name == b->name;
 }

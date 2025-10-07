@@ -97,12 +97,12 @@ static bool verify_assign_lvalue(pass_opt_t* opt, ast_t* ast)
   return true;
 }
 
-static size_t funref_hash(ast_t* key)
+static size_t funref_hash(ast_t const* key)
 {
   return ponyint_hash_ptr(key);
 }
 
-static bool funref_cmp(ast_t* a, ast_t* b)
+static bool funref_cmp(ast_t const* a, ast_t const* b)
 {
   return a == b;
 }

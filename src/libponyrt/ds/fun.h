@@ -10,7 +10,7 @@ PONY_EXTERN_C_BEGIN
 
 typedef size_t (*hash_fn)(void* arg);
 
-typedef bool (*cmp_fn)(void* a, void* b);
+typedef bool (*cmp_fn)(void const* a, void const* b);
 
 typedef void* (*map_fn)(void* a, void* arg);
 

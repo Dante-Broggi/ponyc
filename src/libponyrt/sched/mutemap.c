@@ -4,12 +4,12 @@
 #include "mem/pool.h"
 #include "ponyassert.h"
 
-static size_t muteset_hash(pony_actor_t* actor)
+static size_t muteset_hash(pony_actor_t const* actor)
 {
   return ponyint_hash_ptr(actor);
 }
 
-static bool muteset_cmp(pony_actor_t* a, pony_actor_t* b)
+static bool muteset_cmp(pony_actor_t const* a, pony_actor_t const* b)
 {
   return a == b;
 }
@@ -17,12 +17,12 @@ static bool muteset_cmp(pony_actor_t* a, pony_actor_t* b)
 DEFINE_HASHMAP(ponyint_muteset, muteset_t, pony_actor_t, muteset_hash,
   muteset_cmp, NULL);
 
-static size_t muteref_hash(muteref_t* mref)
+static size_t muteref_hash(muteref_t const* mref)
 {
   return ponyint_hash_ptr(mref->key);
 }
 
-static bool muteref_cmp(muteref_t* a, muteref_t* b)
+static bool muteref_cmp(muteref_t const* a, muteref_t const* b)
 {
   return a->key == b->key;
 }

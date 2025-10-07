@@ -10,12 +10,12 @@
 #include <string.h>
 #include <ctype.h>
 
-static size_t sym_hash(symbol_t* sym)
+static size_t sym_hash(symbol_t const* sym)
 {
   return ponyint_hash_ptr(sym->name);
 }
 
-static bool sym_cmp(symbol_t* a, symbol_t* b)
+static bool sym_cmp(symbol_t const* a, symbol_t const* b)
 {
   return a->name == b->name;
 }

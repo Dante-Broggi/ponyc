@@ -62,11 +62,11 @@ void* ponyint_list_data(list_t* list)
   return list->data;
 }
 
-void* ponyint_list_find(list_t* list, cmp_fn f, void* data)
+void* ponyint_list_find(list_t* list, cmp_fn f, void const* data)
 {
   while(list != NULL)
   {
-    if(f((void*)data, list->data))
+    if(f(data, list->data))
       return list->data;
 
     list = list->next;
@@ -75,13 +75,13 @@ void* ponyint_list_find(list_t* list, cmp_fn f, void* data)
   return NULL;
 }
 
-ssize_t ponyint_list_findindex(list_t* list, cmp_fn f, void* data)
+ssize_t ponyint_list_findindex(list_t* list, cmp_fn f, void const* data)
 {
   size_t index = 0;
 
   while(list != NULL)
   {
-    if(f((void*)data, list->data))
+    if(f(data, list->data))
       return index;
 
     list = list->next;

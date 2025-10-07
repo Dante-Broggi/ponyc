@@ -13,7 +13,7 @@ static size_t get_probe_length(hashmap_t* map, size_t hash, size_t current,
   return (current + map->size - (hash & mask)) & mask;
 }
 
-static void* search(hashmap_t* map, size_t* pos, void* key, size_t hash,
+static void* search(hashmap_t* map, size_t* pos, void const* key, size_t hash,
   cmp_fn cmp, size_t* probe_length, size_t* oi_probe_length)
 {
   size_t mask = map->size - 1;
@@ -230,7 +230,7 @@ void ponyint_hashmap_destroy(hashmap_t* map, free_fn free_elem)
   map->item_bitmap = NULL;
 }
 
-void* ponyint_hashmap_get(hashmap_t* map, void* key, size_t hash, cmp_fn cmp,
+void* ponyint_hashmap_get(hashmap_t* map, void const* key, size_t hash, cmp_fn cmp,
   size_t* pos)
 {
   if(map->count == 0)

@@ -7,12 +7,12 @@ typedef struct delta_t
   size_t rc;
 } delta_t;
 
-static size_t delta_hash(delta_t* delta)
+static size_t delta_hash(delta_t const* delta)
 {
   return ponyint_hash_ptr(delta->actor);
 }
 
-static bool delta_cmp(delta_t* a, delta_t* b)
+static bool delta_cmp(delta_t const* a, delta_t const* b)
 {
   return a->actor == b->actor;
 }

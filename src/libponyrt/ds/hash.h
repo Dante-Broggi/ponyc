@@ -63,7 +63,7 @@ void ponyint_hashmap_optimize(hashmap_t* map, cmp_fn cmp);
  *
  *  Returns a pointer to the element, or NULL.
  */
-void* ponyint_hashmap_get(hashmap_t* map, void* key, size_t hash, cmp_fn cmp, size_t* index);
+void* ponyint_hashmap_get(hashmap_t* map, void const* key, size_t hash, cmp_fn cmp, size_t* index);
 
 /** Put a new element in a hash map.
  *
@@ -157,7 +157,7 @@ void ponyint_hashmap_deserialise(pony_ctx_t* ctx, void* object,
 
 #define DEFINE_HASHMAP(name, name_t, type, hash, cmp, free_elem) \
   typedef struct name_t name_t; \
-  typedef bool (*name##_cmp_fn)(type* a, type* b); \
+  typedef bool (*name##_cmp_fn)(type const* a, type const* b); \
   typedef void (*name##_free_fn)(type* a); \
   \
   static void name##_freef(void* data) \
@@ -165,7 +165,7 @@ void ponyint_hashmap_deserialise(pony_ctx_t* ctx, void* object,
     name##_free_fn freef = free_elem; \
     freef((type*)data); \
   } \
-  static bool name##_cmpf(void* a, void* b) \
+  static bool name##_cmpf(void const* a, void const* b) \
   { \
     name##_cmp_fn cmpf = cmp; \
     return cmpf((type*)a, (type*)b); \

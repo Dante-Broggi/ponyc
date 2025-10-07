@@ -13,7 +13,7 @@ class ListTest: public testing::Test
 {
   public:
     static elem_t* times2(elem_t* e, void* arg);
-    static bool compare(elem_t* a, elem_t* b);
+    static bool compare(elem_t const* a, elem_t const* b);
 };
 
 DEFINE_LIST(testlist, testlist_t, elem_t, ListTest::compare, NULL);
@@ -23,7 +23,7 @@ struct elem_t
   uint32_t val; /* only needed for map_fn test */
 };
 
-bool ListTest::compare(elem_t* a, elem_t* b)
+bool ListTest::compare(elem_t const* a, elem_t const* b)
 {
   return a == b;
 }

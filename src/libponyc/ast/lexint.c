@@ -34,7 +34,7 @@ int lexint_cmp(lexint_t const* a, lexint_t const* b)
   return 0;
 }
 
-int lexint_cmp64(lexint_t* a, uint64_t b)
+int lexint_cmp64(lexint_t const* a, uint64_t b)
 {
   if(a->high > 0)
     return 1;

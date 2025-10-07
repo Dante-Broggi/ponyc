@@ -93,7 +93,7 @@ DEFINE_LIST_SERIALISE(package_group_list, package_group_list_t, package_group_t,
   NULL, package_group_free, package_group_pony_type())
 
 
-static size_t package_hash(package_t* pkg)
+static size_t package_hash(package_t const* pkg)
 {
   // Hash the full string instead of the stringtab pointer. We want a
   // deterministic hash in order to enable deterministic hashmap iteration,
@@ -102,7 +102,7 @@ static size_t package_hash(package_t* pkg)
 }
 
 
-static bool package_cmp(package_t* a, package_t* b)
+static bool package_cmp(package_t const* a, package_t const* b)
 {
   return a->qualified_name == b->qualified_name;
 }

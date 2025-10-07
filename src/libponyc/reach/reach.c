@@ -28,12 +28,12 @@ static void reachable_method(reach_t* r, deferred_reification_t* reify,
 static void reachable_expr(reach_t* r, deferred_reification_t* reify,
   ast_t* ast, pass_opt_t* opt);
 
-static size_t reach_method_hash(reach_method_t* m)
+static size_t reach_method_hash(reach_method_t const* m)
 {
   return ponyint_hash_str(m->name);
 }
 
-static bool reach_method_cmp(reach_method_t* a, reach_method_t* b)
+static bool reach_method_cmp(reach_method_t const* a, reach_method_t const* b)
 {
   return a->name == b->name;
 }
@@ -41,12 +41,12 @@ static bool reach_method_cmp(reach_method_t* a, reach_method_t* b)
 DEFINE_HASHMAP_SERIALISE(reach_methods, reach_methods_t, reach_method_t,
   reach_method_hash, reach_method_cmp, NULL, reach_method_pony_type());
 
-static size_t reach_mangled_hash(reach_method_t* m)
+static size_t reach_mangled_hash(reach_method_t const* m)
 {
   return ponyint_hash_str(m->mangled_name);
 }
 
-static bool reach_mangled_cmp(reach_method_t* a, reach_method_t* b)
+static bool reach_mangled_cmp(reach_method_t const* a, reach_method_t const* b)
 {
   return a->mangled_name == b->mangled_name;
 }
@@ -72,13 +72,13 @@ DEFINE_HASHMAP_SERIALISE(reach_mangled, reach_mangled_t, reach_method_t,
   reach_mangled_hash, reach_mangled_cmp, reach_mangled_free,
   reach_method_pony_type());
 
-static size_t reach_method_name_hash(reach_method_name_t* n)
+static size_t reach_method_name_hash(reach_method_name_t const* n)
 {
   return ponyint_hash_str(n->name);
 }
 
-static bool reach_method_name_cmp(reach_method_name_t* a,
-  reach_method_name_t* b)
+static bool reach_method_name_cmp(reach_method_name_t const* a,
+  reach_method_name_t const* b)
 {
   return a->name == b->name;
 }
@@ -94,12 +94,12 @@ DEFINE_HASHMAP_SERIALISE(reach_method_names, reach_method_names_t,
   reach_method_name_t, reach_method_name_hash, reach_method_name_cmp,
   reach_method_name_free, reach_method_name_pony_type());
 
-static size_t reach_type_hash(reach_type_t* t)
+static size_t reach_type_hash(reach_type_t const* t)
 {
   return ponyint_hash_str(t->name);
 }
 
-static bool reach_type_cmp(reach_type_t* a, reach_type_t* b)
+static bool reach_type_cmp(reach_type_t const* a, reach_type_t const* b)
 {
   return a->name == b->name;
 }
